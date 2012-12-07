@@ -1,5 +1,5 @@
 define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas', 'model/physics', 'model/Property'], function ( EnergySkateParkModel, _, EnergySkateParkCanvas, Physics, Property ) {
-    function Tab( $tab, Easel, Strings, analytics, tabChangeListener, activeTabName ) {
+    function Tab( $tab, Easel, Strings, analytics, tabID, activeTab ) {
         var self = this;
         self.dt = new Property( 0.02 );
         var $canvas = $tab.find( 'canvas' );
@@ -24,11 +24,11 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
             }
             energySkateParkCanvas.render();
         } );
-        $tab.find( '.' + activeTabName ).toggleClass( "active" );
+        $tab.find( '.' + tabID + "Button" ).toggleClass( "active" );
 
-        $tab.find( '.introductionTabButton' ).click( function () {tabChangeListener( "tab1" );} );
-        $tab.find( '.frictionTabButton' ).click( function () {tabChangeListener( "tab2" );} );
-        $tab.find( '.trackPlaygroundTabButton' ).click( function () {tabChangeListener( "tab3" );} );
+        $tab.find( '.introductionTabButton' ).click( function () {activeTab.set( "introductionTab" );} );
+        $tab.find( '.frictionTabButton' ).click( function () {activeTab.set( "frictionTab" );} );
+        $tab.find( '.trackPlaygroundTabButton' ).click( function () {activeTab.set( "trackPlaygroundTab" );} );
 
 //        new MBP.fastButton( $tab.find( '.introductionTabButton' )[0], function ( e ) {tabChangeListener( "tab1" );} );
 //        new MBP.fastButton( $tab.find( '.frictionTabButton' )[0], function ( e ) {tabChangeListener( "tab2" );} );
