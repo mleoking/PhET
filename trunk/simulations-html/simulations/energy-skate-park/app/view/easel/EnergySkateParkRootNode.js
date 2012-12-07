@@ -6,7 +6,7 @@ define( ['easel',
             'spline',
             'model/physics',
             'view/easel-util',
-            'view/pie-chart',
+            'view/easel/PieChart',
             'view/easel/Grid',
             'view/easel/BarChart',
             'view/speedometer'

@@ -1,4 +1,4 @@
-define( ['easel', ], function ( createjs ) {
+define( ['easel' ], function ( createjs ) {
     var PieChart = function ( skater ) {
         this.initialize( skater );
     };
