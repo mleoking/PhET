@@ -11,7 +11,8 @@
     <canvas class="play-area"></canvas>
 
     <div class="control-panel">
-        <div data-toggle="buttons-checkbox" class="btn-group btn-group-vertical">
+        <!--We wanted to use data-toggle="buttons-checkbox"  but it didn't seem to work, so we just added our own CSS overrides for js-active-button instead.-->
+        <div class="btn-group btn-group-vertical">
             <button class="btn barGraphButton"><%= barGraph %><img src="resources/images/barChartIcon.png"></button>
             <button class="btn pieChartButton"><%= pieChart %><img src="resources/images/pieChartIcon.png"></button>
             <button class="btn gridButton"><%= grid %><img src="resources/images/gridIcon.png"></button>
