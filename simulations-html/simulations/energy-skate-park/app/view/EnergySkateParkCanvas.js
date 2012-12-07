@@ -16,8 +16,11 @@ define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function 
 
         //TODO: Rewrite this to use CSS
         function handleResize() {
-            var width = window.innerWidth;
-            var height = window.innerHeight;
+
+            //Gets rid of scroll bars
+            var width = $(window ).width();
+            var height = $(window ).height();
+
             var scale = Math.min( width / 1024, height / 768 );
             var canvasW = scale * 1024;
             var canvasH = scale * 768;
@@ -31,13 +34,16 @@ define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function 
             self.root.scaleX = self.root.scaleY = scale;
             self.root.x = left;
             self.root.y = top;
+
+            self.stage.update();
         }
 
         $( window ).resize( handleResize );
+        handleResize();
+
         var moduleActive = true;
         var paused = false;
         Easel.Ticker.setFPS( 60 );
-        handleResize();
 
         //Enable touch and prevent default
         Easel.Touch.enable( this.stage, false, false );
