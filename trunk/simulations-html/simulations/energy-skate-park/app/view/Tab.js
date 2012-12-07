@@ -26,6 +26,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         } );
 
         //Wire up the buttons
+        //Use fastButton to make sure they are highlighted and dispatched immediately (otherwise it takes a long time on ipad)
         new MBP.fastButton( $tab.find( '.barGraphButton' )[0], function ( e ) {
             model.barChartVisible.toggle();
             $tab.find( '.barGraphButton' ).toggleClass( "js-active-button" );
