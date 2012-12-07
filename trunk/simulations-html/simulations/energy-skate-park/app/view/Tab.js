@@ -13,7 +13,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         var paused = false;
 
         Easel.Ticker.addListener( function () {
-            if ( !paused ) {
+            if ( !paused && activeTab.get() == tabID ) {
                 var subdivisions = 1;
                 for ( var i = 0; i < subdivisions; i++ ) {
                     Physics.updatePhysics( model.skater, groundHeight, energySkateParkCanvas.root.splineLayer, self.dt.get() / subdivisions );
