@@ -25,6 +25,10 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
             energySkateParkCanvas.render();
         } );
 
+        $tab.find( '.frictionTabButton' ).click( function () {
+            console.log( "hello" );
+        } );
+
         //Wire up the buttons
         //Use fastButton to make sure they are highlighted and dispatched immediately (otherwise it takes a long time on ipad)
         new MBP.fastButton( $tab.find( '.barGraphButton' )[0], function ( e ) {
