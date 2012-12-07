@@ -94,6 +94,17 @@ textarea {
     display: block; /* To remove the scrollbars */
 }
 
+.reset-controls {
+
+}
+
+.reset-controls button {
+    float: left;
+    clear: both;
+    margin-top: 10px;
+    width: 100%;
+}
+
 .tab {
     position: absolute;
     top: 0;
