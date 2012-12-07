@@ -9,7 +9,7 @@ define( ['easel',
             'view/easel/PieChart',
             'view/easel/Grid',
             'view/easel/BarChart',
-            'view/speedometer'
+            'view/easel/Speedometer'
         ], function ( Easel, SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
