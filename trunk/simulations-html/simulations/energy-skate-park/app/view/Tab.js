@@ -1,4 +1,4 @@
-define( ['model/Skater', 'underscore', 'view/EnergySkateParkCanvas', 'model/physics', 'Property'], function ( Skater, _, EnergySkateParkCanvas, Physics, Property ) {
+define( ['model/Skater', 'underscore', 'view/EnergySkateParkCanvas', 'model/physics', 'model/Property'], function ( Skater, _, EnergySkateParkCanvas, Physics, Property ) {
     function Tab( $tab, Easel, Strings, analytics ) {
         var self = this;
         self.dt = new Property( 0.02 );
