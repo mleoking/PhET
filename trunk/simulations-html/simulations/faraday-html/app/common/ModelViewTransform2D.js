@@ -5,7 +5,9 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Point2D' ],
+define( [
+            'common/Point2D'
+        ],
         function ( Point2D ) {
 
             /**
