@@ -1,6 +1,7 @@
 TODO list for faraday
 
 HIGH:
+- startup error: Empty string passed to getElementById
 - move stuff to simulations-html/common
 - handle window resize (see ESP:tab.onResize or concentration:main.onResize), scale vs world-bounds
 - improve tablet performance
