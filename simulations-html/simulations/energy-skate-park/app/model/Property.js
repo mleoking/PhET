@@ -68,6 +68,7 @@ define( [], function () {
         if ( this._observers.indexOf( observer ) === -1 ) {
             this._observers.push( observer );
         }
+        observer( this.get(), this.get() );
     };
 
     /**
