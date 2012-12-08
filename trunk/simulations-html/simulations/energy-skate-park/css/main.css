@@ -2,6 +2,11 @@
    Author's custom styles
    ========================================================================== */
 
+/*Show tests in front of the canvas*/
+#qunit {
+    z-index: 1000;
+}
+
 .play-area {
 
     /*Fill the entire width, but do not create scroll bars*/
@@ -74,7 +79,7 @@ canvas {
 /*Copied this css from the bootstrap css for an active button, used to show a button as pressed (for radio/checkbox behavior)*/
 .js-active-button {
     background-color: #e6e6e6;
-    background-color: #d9d9d9     \9;
+    background-color: #d9d9d9        \9;
     background-image: none;
     outline: 0;
     -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
