@@ -41,8 +41,6 @@ define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function 
         $( window ).resize( handleResize );
         handleResize();
 
-        var moduleActive = true;
-        var paused = false;
         Easel.Ticker.setFPS( 60 );
 
         //Enable touch and prevent default
