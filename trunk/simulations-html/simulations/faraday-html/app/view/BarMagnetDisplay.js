@@ -47,26 +47,14 @@ define( [
 
                 // Register for synchronization with model.
                 var that = this;
-
-                // @param {Point2D} location
-                function updateLocation( location ) {
+                barMagnet.location.addObserver( function updateLocation( /* Point2D */ location ) {
                     var point = mvt.modelToView( location );
                     that.x = point.x;
                     that.y = point.y;
-                }
-
-                barMagnet.location.addObserver( updateLocation );
-
-                // @param {Number} orientation in radians
-                function updateOrientation( orientation ) {
+                } );
+                barMagnet.orientation.addObserver( function updateOrientation( orientation /* radians */ ) {
                     that.rotation = MathUtil.toDegrees( orientation );
-                }
-
-                barMagnet.orientation.addObserver( updateOrientation );
-
-                // sync now
-                updateLocation( barMagnet.location.get() );
-                updateOrientation( barMagnet.orientation.get() );
+                } );
             }
 
             // prototype chaining

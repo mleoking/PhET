@@ -73,31 +73,17 @@ define( [
 
                 // Register for synchronization with model.
                 var that = this;
-
-                // @param {Point2D} location
-                function updateLocation( location ) {
+                compass.location.addObserver( function updateLocation( /* Point2D */ location ) {
                     var point = mvt.modelToView( location );
                     that.x = point.x;
                     that.y = point.y;
-                }
-                compass.location.addObserver( updateLocation );
-
-                // @param {Number} orientation
-                function updateOrientation( orientation ) {
+                } );
+                compass.orientation.addObserver( function updateOrientation( orientation /* radians */ ) {
                     needle.rotation = MathUtil.toDegrees( compass.orientation.get() );
-                }
-                compass.orientation.addObserver( updateOrientation );
-
-                // @param {Boolean} visible
-                function updateVisibility( visible ) {
+                } );
+                compass.visible.addObserver( function updateVisibility( visible ) {
                     that.visible = visible;
-                }
-                compass.visible.addObserver( updateVisibility );
-
-                // sync now
-                updateLocation( compass.location.get() );
-                updateOrientation( compass.orientation.get() );
-                updateVisibility( compass.visible.get() );
+                } );
             }
 
             // prototype chaining
