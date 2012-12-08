@@ -1,6 +1,7 @@
 TODO list for faraday
 
 HIGH:
+- move stuff to simulations-html/common
 - handle window resize (see ESP:tab.onResize or concentration:main.onResize), scale vs world-bounds
 - improve tablet performance
 
@@ -11,7 +12,6 @@ MEDIUM:
 LOW:
 - center title at top of Options panel (see css)
 - compass/magnet collision detection (bounds computations)
-- move stuff to simulations-html/common
 - "not well-formed" errors for optionsButton.html template
 - cache needles at various angles (and alphas?) to improve performance
 - use css instead of <br> to add vertical space
