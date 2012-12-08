@@ -43,7 +43,7 @@ define( [], function () {
 
         // TODO: this should be refactored to use jQuery custom events.
     Property.prototype.set = function ( value ) {
-        if ( value !== _value ) {
+        if ( value !== this._value ) {
             var oldValue = this._value;
             this._value = value;
             var observersCopy = this._observers.slice(); // make a copy, in case notification results in removeObserver
