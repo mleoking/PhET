@@ -1,3 +1,4 @@
+12/8/12 rename faraday-hmtl to faraday
 12/8/12 standardize format of requirejs "imports"
 12/8/12 oldValue=null on initial notification of Property
 12/8/12 add notification-on-registration to Property, modify use sites
