@@ -1,11 +1,11 @@
 define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function ( Easel, _, EnergySkateParkRootNode ) {
-    function EnergySkateParkCanvas( $canvas, Strings, analytics, model, groundHeight, groundY ) {
+    function EnergySkateParkCanvas( $canvas, Strings, analytics, model ) {
         var self = this;
         $canvas[0].onselectstart = function () { return false; }; // IE
         $canvas[0].onmousedown = function () { return false; }; // Mozilla
         console.log( $canvas );
 
-        this.root = EnergySkateParkRootNode( model, groundHeight, groundY, analytics );
+        this.root = EnergySkateParkRootNode( model, analytics );
 
         this.stage = new Easel.Stage( $canvas[0] );
         this.stage.mouseMoveOutside = true;
@@ -18,8 +18,8 @@ define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function 
         function handleResize() {
 
             //Gets rid of scroll bars
-            var width = $(window ).width();
-            var height = $(window ).height();
+            var width = $( window ).width();
+            var height = $( window ).height();
 
             var scale = Math.min( width / 1024, height / 768 );
             var canvasW = scale * 1024;

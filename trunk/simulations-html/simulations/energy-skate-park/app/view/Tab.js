@@ -5,10 +5,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         var $canvas = $tab.find( 'canvas' );
 
         var model = new EnergySkateParkModel();
-        var groundHeight = 116;
-        var groundY = 768 - groundHeight;
-
-        var energySkateParkCanvas = new EnergySkateParkCanvas( $canvas, Strings, analytics, model, groundHeight, groundY );
+        var energySkateParkCanvas = new EnergySkateParkCanvas( $canvas, Strings, analytics, model );
 
         var paused = false;
 
@@ -16,7 +13,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
             if ( !paused && activeTab.get() == tabID ) {
                 var subdivisions = 1;
                 for ( var i = 0; i < subdivisions; i++ ) {
-                    Physics.updatePhysics( model.skater, groundHeight, energySkateParkCanvas.root.splineLayer, self.dt.get() / subdivisions );
+                    Physics.updatePhysics( model.skater, model.groundHeight, energySkateParkCanvas.root.splineLayer, self.dt.get() / subdivisions );
                 }
 
 //                updateFrameRate();
