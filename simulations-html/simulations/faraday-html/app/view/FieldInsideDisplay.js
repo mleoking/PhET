@@ -50,32 +50,19 @@ define( [
                     }
                 }
 
+                // sync with model
                 var that = this;
-
-                // @param {Number} strength
-                var updateStrength = function( strength ) {
+                barMagnet.strength.addObserver( function ( strength ) {
                     that.alpha = strength / barMagnet.strengthRange.max;
-                }
-                barMagnet.strength.addObserver( updateStrength );
-
-                // @param {Point2D} location
-                var updateLocation = function( location ) {
+                } );
+                barMagnet.location.addObserver( function ( /* Point2D */ location ) {
                     var p = mvt.modelToView( location );
                     that.x = p.x;
                     that.y = p.y;
-                };
-                barMagnet.location.addObserver( updateLocation );
-
-                // @param {Number} orientation in radians
-                var updateOrientation = function ( orientation ) {
+                } );
+                barMagnet.orientation.addObserver( function ( orientation /* radians */ ) {
                     that.rotation = MathUtil.toDegrees( orientation );
-                };
-                barMagnet.orientation.addObserver( updateOrientation );
-
-                // update now
-                updateStrength( barMagnet.strength.get() );
-                updateLocation( barMagnet.location.get() );
-                updateOrientation( barMagnet.orientation.get() );
+                } );
             }
 
             // prototype chaining

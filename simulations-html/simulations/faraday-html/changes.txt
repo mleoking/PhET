@@ -1,3 +1,4 @@
+12/8/12 add notification-on-registration to Property, modify use sites
 12/6/12 make Options button larger
 12/6/12 hide the "Options" button when pressed, show when popup closes
 12/4/12 fix bug in alpha computation for b-field visualization

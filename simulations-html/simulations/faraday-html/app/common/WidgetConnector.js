@@ -34,15 +34,9 @@ define( [],
                 } );
 
                 // sync check box with model
-                var setChecked = function ( checked ) {
-                    checkBox.attr( "checked", checked ).checkboxradio( "refresh" );
-                };
                 booleanProperty.addObserver( function ( checked ) {
-                    setChecked( checked );
+                    checkBox.attr( "checked", checked ).checkboxradio( "refresh" );
                 } );
-
-                // initial state
-                setChecked( booleanProperty.get() );
             };
 
             /**
@@ -59,15 +53,9 @@ define( [],
                 } );
 
                 // sync check box with model
-                var setValue = function ( value ) {
-                    slider.attr( "value", value ).slider( "refresh" );
-                };
                 numberProperty.addObserver( function ( value ) {
-                    setValue( value );
+                    slider.attr( "value", value ).slider( "refresh" );
                 } );
-
-                // initial state
-                setValue( numberProperty.get() );
             };
 
             return WidgetConnector;

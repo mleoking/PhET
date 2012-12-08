@@ -26,7 +26,6 @@ define( [ 'common/Logger', 'common/Property' ],
                 magnet.location.addObserver( updateValue );
                 magnet.strength.addObserver( updateValue );
                 magnet.orientation.addObserver( updateValue );
-                updateValue();
 
                 //DEBUG
                 if ( false ) {

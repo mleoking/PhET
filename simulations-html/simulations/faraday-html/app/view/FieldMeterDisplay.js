@@ -68,39 +68,21 @@ define( [
 
                 // Register for synchronization with model.
                 var that = this;
-
-                // @param {Point2D} location
-                function updateLocation( location ) {
+                fieldMeter.location.addObserver( function ( /* Point2D */ location ) {
                     var point = mvt.modelToView( location );
                     that.x = point.x;
                     that.y = point.y;
-                }
-
-                fieldMeter.location.addObserver( updateLocation );
-
-                // @param {Boolean} location
-                function updateVisibility( visible ) {
+                } );
+                fieldMeter.visible.addObserver( function ( visible ) {
                     that.visible = visible;
-                }
-
-                fieldMeter.visible.addObserver( updateVisibility );
-
-                // @param {Vector2D} vector
-                function updateValues( vector ) {
+                } );
+                fieldMeter.value.addObserver( function ( /* Vector2D */ vector ) {
                     var NUMBER_OF_DECIMALS = 2;
                     magnitudeText.text = vector.getMagnitude().toFixed( NUMBER_OF_DECIMALS );
                     xText.text = vector.x.toFixed( NUMBER_OF_DECIMALS );
                     yText.text = vector.y.toFixed( NUMBER_OF_DECIMALS );
                     angleText.text = MathUtil.toDegrees( vector.getAngle() ).toFixed( NUMBER_OF_DECIMALS );
-                }
-
-                fieldMeter.value.addObserver( updateValues );
-
-
-                // sync now
-                updateLocation( fieldMeter.location.get() );
-                updateVisibility( fieldMeter.visible.get() );
-                updateValues( fieldMeter.value.get() );
+                } );
             }
 
             // prototype chaining

@@ -2,6 +2,7 @@ TODO list for faraday
 
 HIGH:
 - handle window resize (see ESP:tab.onResize or concentration:main.onResize), scale vs world-bounds
+- improve tablet performance
 
 MEDIUM:
 - investigate non-modal popups

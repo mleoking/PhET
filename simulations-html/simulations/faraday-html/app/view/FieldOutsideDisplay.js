@@ -67,9 +67,6 @@ define( [
                 barMagnet.location.addObserver( this.updateField );
                 barMagnet.strength.addObserver( this.updateField );
                 barMagnet.orientation.addObserver( this.updateField );
-
-                // sync now
-                this.updateField();
             }
 
             // prototype chaining
