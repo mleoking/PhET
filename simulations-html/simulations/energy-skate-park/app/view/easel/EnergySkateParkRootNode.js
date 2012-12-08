@@ -13,7 +13,9 @@ define( ['easel',
         ], function ( Easel, Skater, SkaterView, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
-    return function ( model, groundHeight, groundY, analytics ) {
+    return function ( model, analytics ) {
+        var groundHeight = model.groundHeight,
+                groundY = model.groundY;
         var root = new createjs.Container();
 
         var skater = SkaterView.createSkater( model.skater, groundHeight, groundY, analytics );

@@ -7,6 +7,10 @@ define( ['model/vector2d', 'model/Skater', 'model/Property', 'model/BooleanPrope
         this.pieChartVisible = new BooleanProperty( false );
         this.gridVisible = new BooleanProperty( false );
         this.speedometerVisible = new BooleanProperty( false );
+
+        //Pixels
+        this.groundHeight = 116;
+        this.groundY = 768 - this.groundHeight;
     }
 
     return EnergySkateParkModel;
