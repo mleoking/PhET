@@ -5,7 +5,10 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Inheritance' ],
+define( [
+            'easel',
+            'common/Inheritance'
+        ],
         function( Easel, Inheritance ) {
 
             function FrameRateDisplay() {

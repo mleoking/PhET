@@ -5,7 +5,11 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Dimension2D', 'common/Inheritance' ],
+define( [
+            'easel',
+            'common/Dimension2D',
+            'common/Inheritance'
+        ],
         function ( Easel, Dimension2D, Inheritance ) {
 
             /**

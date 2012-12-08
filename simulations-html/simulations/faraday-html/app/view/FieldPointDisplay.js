@@ -6,7 +6,10 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Inheritance', 'view/CompassNeedleDisplay'],
+define( [
+            'common/Inheritance',
+            'view/CompassNeedleDisplay'
+        ],
         function ( Inheritance, CompassNeedleDisplay ) {
 
             /**

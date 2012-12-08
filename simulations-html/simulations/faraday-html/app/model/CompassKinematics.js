@@ -7,7 +7,11 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
+define( [
+            'common/MathUtil',
+            'model/Compass',
+            'model/BarMagnet'
+        ],
         function ( MathUtil, Compass, BarMagnet ) {
 
             function CompassKinematics( compass, barMagnet ) {

@@ -5,7 +5,12 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Logger', 'common/Property', 'model/CompassKinematics' ],
+define( [
+            'easel',
+            'common/Logger',
+            'common/Property',
+            'model/CompassKinematics'
+        ],
         function ( Easel, Logger, Property, CompassKinematics ) {
 
             /**
