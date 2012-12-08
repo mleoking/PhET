@@ -68,7 +68,7 @@ define( [],
                 this.addObserver = function ( observer ) {
                     if ( _observers.indexOf( observer ) === -1 ) {
                         _observers.push( observer );
-                        observer( _value, null );
+                        observer( _value, null ); // null should be used when an object is expected but unavailable
                     }
                 };
 
