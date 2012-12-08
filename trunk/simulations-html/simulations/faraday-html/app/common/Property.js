@@ -61,14 +61,14 @@ define( [],
                 /**
                  * Adds an observer and notifies it immediately.
                  * If observer is already registered, this is a no-op.
-                 * The initial notification provides the current value for newValue and undefined for oldValue.
+                 * The initial notification provides the current value for newValue and null for oldValue.
                  *
                  * @param observer a function of the form observer(newValue,oldValue)
                  */
                 this.addObserver = function ( observer ) {
                     if ( _observers.indexOf( observer ) === -1 ) {
                         _observers.push( observer );
-                        observer( _value, undefined );
+                        observer( _value, null );
                     }
                 };
 
