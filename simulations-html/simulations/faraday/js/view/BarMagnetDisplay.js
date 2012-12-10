@@ -14,7 +14,7 @@
  */
 define( [
             'easel',
-            'easel-phet/events/DragHandler',
+            'common/DragHandler',
             'common/Inheritance',
             'common/MathUtil',
             'image!images/barMagnet.png'
