@@ -8,7 +8,7 @@
 define( [
             'easel',
             'common/Dimension2D',
-            'common/DragHandler',
+            'easel-phet/events/DragHandler',
             'common/Inheritance',
             'common/MathUtil',
             'common/Vector2D',

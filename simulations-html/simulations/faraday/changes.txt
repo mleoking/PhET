@@ -1,3 +1,4 @@
+12/10/12 move DragHandler to easel-phet
 12/10/12 rename templates/ -> html/
 12/10/12 rename app/ -> js/
 12/10/12 rename faraday.html -> index.html
