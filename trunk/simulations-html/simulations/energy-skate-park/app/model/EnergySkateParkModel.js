@@ -1,5 +1,5 @@
 //Complete model for Energy Skate Park
-define( ['model/vector2d', 'model/Skater', 'model/Property', 'model/BooleanProperty'], function ( Vector2D, Skater, Property, BooleanProperty ) {
+define( ['underscore', 'model/vector2d', 'model/Skater', 'model/Property', 'model/BooleanProperty'], function ( _, Vector2D, Skater, Property, BooleanProperty ) {
 
     function EnergySkateParkModel() {
         this.skater = new Skater();
@@ -16,13 +16,11 @@ define( ['model/vector2d', 'model/Skater', 'model/Property', 'model/BooleanPrope
     }
 
     EnergySkateParkModel.prototype.resetAll = function () {
-//        this.skater.reset();
-        this.barChartVisible.reset();
-        this.pieChartVisible.reset();
-        this.gridVisible.reset();
-        this.speedometerVisible.reset();
-        this.playing.reset();
-        this.slowMotion.reset();
+        //Find all resettable fields
+        var resettable = _.filter( this, function ( element ) {return element.reset && typeof element.reset == 'function'} );
+
+        //Call reset on them
+        _.each( resettable, function ( element ) {element.reset()} );
     };
 
     return EnergySkateParkModel;
