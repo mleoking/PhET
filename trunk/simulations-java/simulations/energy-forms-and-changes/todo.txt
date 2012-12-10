@@ -1,42 +1,26 @@
 
-Boiling and freezing of the water.
-No limits on heat and cool.
-
-
-Make the rate of heating for the beaker on 2nd tab roughly match that heating rate on the first.
-Make it get closer to the boiling point.
-Make energy chunks spread out on light build filament a little better.  Min speed probably.
-No thermal E's on the fluorescent light bulb.
-Make the straight segment a bit shorter, move energy users to the left.
-Add Reset All just under the legend
-
-
-Change the thermal E's
-
-Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
-
-Fluorescent same algorithm, but different params, so less thermals.
-E's should build up in heat coil before going into beaker.
-
-Figure out how to make E's not cluster in the wires leading from solar panel.
-Figure out how to make E's not cluster in the output (spout) of the tea pot.
-
-Profile, have Chris test on Mac
-
-Integrate Sam's way of making slider work
-
-Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
-
+Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
+No limits on heat and cool on both tab 1 & 2.
+Make the rate of heating for the beaker on 2nd tab roughly match that heating rate on the first.
 Have some delay for lights and burner lighting up when energy starts to flow to it.
-
-Internationalize E's
+Implement boiling and freezing of the water.
+Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
+Make E's not cluster in the wires leading from solar panel.
+Make E's not cluster in the output (spout) of the tea pot.
+Profile, have Chris test on Mac
+Integrate Sam's way of making slider work
 Fix flicker when E's are transferred between energy systems
-
-
 Fix: 1st tab, weird interaction between beaker and thermometer control panel.
+Fix: Jittery E's in beaker.
+Internationalize E's
 i18n
 
+DONE: E's should build up in heat coil before going into beaker.
+DONE: No thermal E's on the fluorescent light bulb.
+DONE: Add Reset All just under the legend
+DONE: Make the straight segment a bit shorter, move energy users to the left.
+DONE: Make energy chunks spread out on light build filament a little better.  Min speed probably.
 DONE: Make thermal E's use black lettering.
 DONE: Energy chunks should get opaque when emitted from beaker.
 DONE: Energy chunks non-occluded when at top ellipse of beaker.
