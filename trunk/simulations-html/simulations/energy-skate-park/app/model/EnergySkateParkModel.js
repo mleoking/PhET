@@ -15,5 +15,15 @@ define( ['model/vector2d', 'model/Skater', 'model/Property', 'model/BooleanPrope
         this.groundY = 768 - this.groundHeight;
     }
 
+    EnergySkateParkModel.prototype.resetAll = function () {
+//        this.skater.reset();
+        this.barChartVisible.reset();
+        this.pieChartVisible.reset();
+        this.gridVisible.reset();
+        this.speedometerVisible.reset();
+        this.playing.reset();
+        this.slowMotion.reset();
+    };
+
     return EnergySkateParkModel;
 } );
