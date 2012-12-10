@@ -24,36 +24,29 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         $tab.find( '.frictionTabButton' ).click( function () {activeTab.set( "frictionTab" );} );
         $tab.find( '.trackPlaygroundTabButton' ).click( function () {activeTab.set( "trackPlaygroundTab" );} );
 
-//        new MBP.fastButton( $tab.find( '.introductionTabButton' )[0], function ( e ) {tabChangeListener( "tab1" );} );
-//        new MBP.fastButton( $tab.find( '.frictionTabButton' )[0], function ( e ) {tabChangeListener( "tab2" );} );
-//        new MBP.fastButton( $tab.find( '.trackPlaygroundTabButton' )[0], function ( e ) {tabChangeListener( "tab3" );} );
-
         //Wire up the buttons
         //Use fastButton to make sure they are highlighted and dispatched immediately (otherwise it takes a long time on ipad)
-        new MBP.fastButton( $tab.find( '.barGraphButton' )[0], function ( e ) {
-            model.barChartVisible.toggle();
-            $tab.find( '.barGraphButton' ).toggleClass( "js-active-button" );
-        } );
-        new MBP.fastButton( $tab.find( '.pieChartButton' )[0], function ( e ) {
-            model.pieChartVisible.toggle();
-            $tab.find( '.pieChartButton' ).toggleClass( "js-active-button" );
-        } );
-        new MBP.fastButton( $tab.find( '.gridButton' )[0], function ( e ) {
-            model.gridVisible.toggle();
-            $tab.find( '.gridButton' ).toggleClass( "js-active-button" );
-        } );
-        new MBP.fastButton( $tab.find( '.speedometerButton' )[0], function ( e ) {
-            model.speedometerVisible.toggle();
-            $tab.find( '.speedometerButton' ).toggleClass( "js-active-button" );
-        } );
+        function connectBoolean( $component, property ) {
+            new MBP.fastButton( $component[0], function ( e ) {property.toggle();} );
+            property.addObserver( function ( selected ) {
+                if ( selected && !$component.hasClass( "js-active-button" ) ||
+                     !selected && $component.hasClass( "js-active-button" ) ) {
+                    $component.toggleClass( "js-active-button" );
+                }
+            } );
+        }
+
+        connectBoolean( $tab.find( '.barGraphButton' ), model.barChartVisible );
+        connectBoolean( $tab.find( '.pieChartButton' ), model.pieChartVisible );
+        connectBoolean( $tab.find( '.gridButton' ), model.gridVisible );
+        connectBoolean( $tab.find( '.speedometerButton' ), model.speedometerVisible );
+
         new MBP.fastButton( $tab.find( '.play-pause-button' )[0], function ( e ) {
             model.playing.toggle();
             $tab.find( '.play-pause-button' ).html( !model.playing.get() ? "&#9654;" : "&#10074;&#10074;" );
         } );
 
-        new MBP.fastButton( $tab.find( '.reset-all-button' )[0], function ( e ) {
-            model.resetAll();
-        } );
+        new MBP.fastButton( $tab.find( '.reset-all-button' )[0], function ( e ) {model.resetAll();} );
 
         //TODO: I'd like to rewrite this using model.slowMotion.setTrue but can't get the "this" assigned properly.
         new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], function ( e ) {model.slowMotion.set( true );} );
