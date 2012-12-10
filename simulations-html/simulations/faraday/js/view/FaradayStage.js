@@ -10,7 +10,7 @@ define( [
             'phetcommon/math/Dimension2D',
             'common/Inheritance',
             'common/ModelViewTransform2D',
-            'common/Point2D',
+            'phetcommon/math/Point2D',
             'common/Property',
             'view/BarMagnetDisplay',
             'view/CompassDisplay',

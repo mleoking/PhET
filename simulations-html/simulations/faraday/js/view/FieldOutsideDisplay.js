@@ -10,7 +10,7 @@ define( [
             'easel',
             'phetcommon/math/Dimension2D',
             'common/Inheritance',
-            'common/Point2D',
+            'phetcommon/math/Point2D',
             'phetcommon/math/MathUtil',
             'view/FieldPointDisplay'
         ],
