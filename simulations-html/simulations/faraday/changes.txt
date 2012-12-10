@@ -1,3 +1,6 @@
+12/10/12 rename faraday.html -> index.html
+12/10/12 rename faraday-config.js -> config.js
+12/10/12 rename faraday-main.js -> main.js
 12/8/12 rename faraday-html to faraday
 12/8/12 standardize format of requirejs "imports"
 12/8/12 oldValue=null on initial notification of Property
