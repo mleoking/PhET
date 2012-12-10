@@ -17,7 +17,7 @@ define( ['underscore', 'model/vector2d', 'model/Skater', 'model/Property', 'mode
 
     EnergySkateParkModel.prototype.resetAll = function () {
         //Find all resettable fields
-        var resettable = _.filter( this, function ( element ) {return element.reset && typeof element.reset == 'function'} );
+        var resettable = _.filter( this, function ( element ) {return typeof element.reset == 'function'} );
 
         //Call reset on them
         _.each( resettable, function ( element ) {element.reset()} );
