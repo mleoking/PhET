@@ -1,4 +1,4 @@
-define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas', 'model/physics', 'model/Property'], function ( EnergySkateParkModel, _, EnergySkateParkCanvas, Physics, Property ) {
+define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas', 'model/Physics', 'model/Property'], function ( EnergySkateParkModel, _, EnergySkateParkCanvas, Physics, Property ) {
     function Tab( $tab, Easel, Strings, analytics, tabID, activeTab ) {
         var self = this;
         var $canvas = $tab.find( 'canvas' );
