@@ -8,8 +8,8 @@
 define( [
             'common/WidgetConnector',
             'i18n!../../nls/faraday-strings',
-            'tpl!../../templates/optionsButton.html',
-            'tpl!../../templates/optionsPanel.html'
+            'tpl!../../html/optionsButton.html',
+            'tpl!../../html/optionsPanel.html'
         ],
         function ( WidgetConnector, strings, optionsButtonTemplate, optionsPanelTemplate ) {
 
