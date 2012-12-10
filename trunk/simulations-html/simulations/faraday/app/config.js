@@ -8,7 +8,7 @@
  */
 require.config( {
 
-    deps: ["faraday-main"],
+    deps: ["main"],
 
     paths: {
         easel:"../../../contrib/easel-0.5.0",
