@@ -8,7 +8,7 @@
 require( [
              'easel',
              'common/CanvasQuirks',
-             'common/Logger',
+             'phetcommon/util/Logger',
              'common/ModelViewTransform2D',
              'model/FaradayModel',
              'view/OptionsPanel',

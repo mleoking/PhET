@@ -8,10 +8,10 @@
  */
 define( [
             'easel',
-            'common/Dimension2D',
+            'phetcommon/math/Dimension2D',
             'common/Inheritance',
             'common/Point2D',
-            'common/MathUtil',
+            'phetcommon/math/MathUtil',
             'view/FieldPointDisplay'
         ],
         function ( Easel, Dimension2D, Inheritance, Point2D, MathUtil, FieldPointDisplay ) {

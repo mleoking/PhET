@@ -8,7 +8,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
-            'common/MathUtil',
+            'phetcommon/math/MathUtil',
             'model/Compass',
             'model/BarMagnet'
         ],

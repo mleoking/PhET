@@ -9,7 +9,7 @@ define( [
             'easel',
             'common/DragHandler',
             'common/Inheritance',
-            'common/MathUtil',
+            'phetcommon/math/MathUtil',
             'image!images/fieldMeter.png'
         ],
         function ( Easel, DragHandler, Inheritance, MathUtil, fieldMeterImage ) {

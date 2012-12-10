@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
-            'common/Logger',
+            'phetcommon/util/Logger',
             'common/Property'
         ],
         function ( Logger, Property ) {
