@@ -7,9 +7,9 @@
  */
 define( [
             'easel',
-            'common/Dimension2D',
+            'phetcommon/math/Dimension2D',
             'common/Point2D',
-            'common/Range',
+            'phetcommon/math/Range',
             'model/BarMagnet',
             'model/Compass',
             'model/FieldMeter'

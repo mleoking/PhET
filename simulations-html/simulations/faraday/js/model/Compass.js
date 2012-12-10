@@ -7,7 +7,7 @@
  */
 define( [
             'easel',
-            'common/Logger',
+            'phetcommon/util/Logger',
             'common/Property',
             'model/CompassKinematics'
         ],

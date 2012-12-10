@@ -7,7 +7,7 @@
  */
 define( [
             'easel',
-            'common/Dimension2D',
+            'phetcommon/math/Dimension2D',
             'common/Inheritance',
             'common/ModelViewTransform2D',
             'common/Point2D',
