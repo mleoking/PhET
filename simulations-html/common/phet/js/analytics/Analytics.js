@@ -25,16 +25,16 @@ define( [], function () {
 
     Analytics.prototype.messageToString = function ( component, componentType, action, parameters, messageType, time ) {
         var array = [time, messageType, component, componentType, action];
-        if( parameters ){
+        if ( parameters ) {
 
-          for ( var i = 0; i < parameters.length; i++ ) {
-              var obj = parameters[i];
+            for ( var i = 0; i < parameters.length; i++ ) {
+                var obj = parameters[i];
 
-              //See http://stackoverflow.com/questions/1078118/how-to-iterate-over-a-json-structure
-              for ( var key in obj ) {
-                  array.push( key + " = " + obj[key] );
-              }
-          }
+                //See http://stackoverflow.com/questions/1078118/how-to-iterate-over-a-json-structure
+                for ( var key in obj ) {
+                    array.push( key + " = " + obj[key] );
+                }
+            }
 
         }
         return array.join( "\t" );
