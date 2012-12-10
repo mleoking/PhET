@@ -1,5 +1,5 @@
 require( ['util/WebsocketRefresh',
-             '../../../common/phet/js/analytics/Analytics',
+             '../../../common/phetcommon/js/analytics/Analytics',
              'i18n!../nls/energy-skate-park-strings',
              'view/Tab',
              'easel',
