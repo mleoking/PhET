@@ -1,5 +1,16 @@
 define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas', 'model/Physics', 'model/Property'], function ( EnergySkateParkModel, _, EnergySkateParkCanvas, Physics, Property ) {
     function Tab( $tab, Easel, Strings, analytics, tabID, activeTab ) {
+
+        //Show stats
+        var stats = new Stats();
+        stats.setMode( 0 ); // 0: fps, 1: ms
+
+        // Align top-left
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.right = '0px';
+        stats.domElement.style.top = '0px';
+
+        document.body.appendChild( stats.domElement );
         var self = this;
         var $canvas = $tab.find( 'canvas' );
 
@@ -7,16 +18,17 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         var energySkateParkCanvas = new EnergySkateParkCanvas( $canvas, Strings, analytics, model );
 
         Easel.Ticker.addListener( function () {
+            stats.begin();
             if ( model.playing.get() && activeTab.get() == tabID ) {
                 var subdivisions = 1;
                 for ( var i = 0; i < subdivisions; i++ ) {
                     Physics.updatePhysics( model.skater, model.groundHeight, energySkateParkCanvas.root.splineLayer, model.slowMotion.get() ? 0.01 : 0.02 / subdivisions );
                 }
 
-//                updateFrameRate();
                 energySkateParkCanvas.root.tick();
             }
             energySkateParkCanvas.render();
+            stats.end();
         } );
         $tab.find( '.' + tabID + "Button" ).toggleClass( "active" );
 
@@ -61,6 +73,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
                 $tab.find( '.normal-button' ).addClass( "js-active-button" );
             }
         } );
+
     }
 
     Tab.prototype.$ = function ( selector ) {
