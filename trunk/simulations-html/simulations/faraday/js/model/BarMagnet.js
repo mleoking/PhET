@@ -12,7 +12,7 @@
  */
 define( [
             'phetcommon/util/Logger',
-            'common/Point2D',
+            'phetcommon/math/Point2D',
             'common/Property',
             'phetcommon/math/Vector2D'
         ],
