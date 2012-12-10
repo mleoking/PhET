@@ -51,6 +51,10 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
             $tab.find( '.play-pause-button' ).html( !model.playing.get() ? "&#9654;" : "&#10074;&#10074;" );
         } );
 
+        new MBP.fastButton( $tab.find( '.reset-all-button' )[0], function ( e ) {
+            model.resetAll();
+        } );
+
         //TODO: I'd like to rewrite this using model.slowMotion.setTrue but can't get the "this" assigned properly.
         new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], function ( e ) {model.slowMotion.set( true );} );
         new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
