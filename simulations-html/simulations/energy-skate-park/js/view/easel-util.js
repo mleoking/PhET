@@ -1,6 +1,7 @@
 define( ['easel' ], function ( createjs ) {
 
     var theRelativeDragHandler = function ( e ) {
+        e.nativeEvent.preventDefault();
         //Make dragging relative to touch point
         var relativePressPoint = null;
         e.onMouseMove = function ( event ) {

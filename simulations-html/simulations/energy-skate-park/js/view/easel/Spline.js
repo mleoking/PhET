@@ -17,7 +17,7 @@ define( ['easel', 'numeric' ], function ( createjs, numeric ) {
         var line = null;
 
         function controlPointPressHandler( e ) {
-
+            e.nativeEvent.preventDefault();
             //Make dragging relative to touch point
             var relativePressPoint = null;
             e.onMouseMove = function ( event ) {
@@ -105,6 +105,7 @@ define( ['easel', 'numeric' ], function ( createjs, numeric ) {
 
             //Allow dragging the entire line
             function pressHandler( e ) {
+                e.nativeEvent.preventDefault();
                 line.dragging = true;
                 //Make dragging relative to touch point
                 var previousPoint = null;
