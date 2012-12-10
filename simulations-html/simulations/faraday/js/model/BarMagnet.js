@@ -118,7 +118,7 @@ define( [
                 var magnetStrength = this.strength.get();
                 if ( magnitude > magnetStrength ) {
                     vector = Vector2D.createPolar( magnetStrength, vector.getAngle() );
-                    this.logger.warn( "B-field magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) );
+//                    this.logger.warn( "B-field magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); //TODO this is happening a lot
                 }
 
                 return vector;
