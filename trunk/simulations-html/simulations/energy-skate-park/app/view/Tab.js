@@ -48,7 +48,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
 
         new MBP.fastButton( $tab.find( '.reset-all-button' )[0], function ( e ) {model.resetAll();} );
 
-        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], model.slowMotion.setTrueBound() );
+        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], model.slowMotion._setValue( true ) );
         new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
 
         model.slowMotion.addObserver( function ( slowMotion ) {
