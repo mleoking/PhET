@@ -7,7 +7,7 @@
  */
 define( [
             'phetcommon/util/Logger',
-            'common/Property'
+            'phetcommon/model/property/Property'
         ],
         function ( Logger, Property ) {
 

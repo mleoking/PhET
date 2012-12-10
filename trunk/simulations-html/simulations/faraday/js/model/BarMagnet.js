@@ -13,7 +13,7 @@
 define( [
             'phetcommon/util/Logger',
             'phetcommon/math/Point2D',
-            'common/Property',
+            'phetcommon/model/property/Property',
             'phetcommon/math/Vector2D'
         ],
         function ( Logger, Point2D, Property, Vector2D ) {

@@ -8,7 +8,7 @@
 define( [
             'easel',
             'phetcommon/util/Logger',
-            'common/Property',
+            'phetcommon/model/property/Property',
             'model/CompassKinematics'
         ],
         function ( Easel, Logger, Property, CompassKinematics ) {
