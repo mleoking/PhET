@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     lint: {
       files: [
         'grunt.js',
-        'app-easel/*.js'
+        'js/*.js'
       ]
     },
 

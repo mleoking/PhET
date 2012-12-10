@@ -219,7 +219,7 @@ textarea {
   position: relative;
   width: 102px;
   height: 110px;
-  background: url(../resources/images/atom_builder_scale.png) no-repeat bottom left;
+  background: url(../images/atom_builder_scale.png) no-repeat bottom left;
 }
 
 #mass-number-container .mass-number {
@@ -236,7 +236,7 @@ textarea {
 #mass-number-container .orbital-view {
   width: 62px;
   height: 62px;
-  background: url(../resources/images/small_electron_rings.png) no-repeat;
+  background: url(../images/small_electron_rings.png) no-repeat;
   position: absolute;
   top: 0px;
   left: 20px;
@@ -247,7 +247,7 @@ textarea {
 #net-charge-container {
   width: 94px;
   height: 88px;
-  background: url(../resources/images/atom_builder_charge_meter_no_window.png) no-repeat;
+  background: url(../images/atom_builder_charge_meter_no_window.png) no-repeat;
   position: relative;
 }
 
