@@ -1,7 +1,6 @@
 define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas', 'model/physics', 'model/Property'], function ( EnergySkateParkModel, _, EnergySkateParkCanvas, Physics, Property ) {
     function Tab( $tab, Easel, Strings, analytics, tabID, activeTab ) {
         var self = this;
-        self.dt = new Property( 0.02 );
         var $canvas = $tab.find( 'canvas' );
 
         var model = new EnergySkateParkModel();
@@ -11,7 +10,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
             if ( model.playing.get() && activeTab.get() == tabID ) {
                 var subdivisions = 1;
                 for ( var i = 0; i < subdivisions; i++ ) {
-                    Physics.updatePhysics( model.skater, model.groundHeight, energySkateParkCanvas.root.splineLayer, self.dt.get() / subdivisions );
+                    Physics.updatePhysics( model.skater, model.groundHeight, energySkateParkCanvas.root.splineLayer, model.slowMotion.get() ? 0.01 : 0.02 / subdivisions );
                 }
 
 //                updateFrameRate();
@@ -50,6 +49,20 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         new MBP.fastButton( $tab.find( '.play-pause-button' )[0], function ( e ) {
             model.playing.toggle();
             $tab.find( '.play-pause-button' ).html( !model.playing.get() ? "&#9654;" : "&#10074;&#10074;" );
+        } );
+
+        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], function ( e ) {model.slowMotion.set( true );} );
+        new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
+
+        model.slowMotion.addObserver( function ( slowMotion ) {
+            $tab.find( '.slow-motion-button' ).removeClass( "js-active-button" );
+            $tab.find( '.normal-button' ).removeClass( "js-active-button" );
+            if ( slowMotion ) {
+                $tab.find( '.slow-motion-button' ).addClass( "js-active-button" );
+            }
+            else {
+                $tab.find( '.normal-button' ).addClass( "js-active-button" );
+            }
         } );
     }
 
