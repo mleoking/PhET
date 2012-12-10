@@ -6,6 +6,7 @@ define( ["model/vector2d"], function ( Vector2D ) {
         this.velocity = new Vector2D( 0, 0 );
         this.thermalEnergy = 0.0;
         this.angle = 0;
+        this.attached = false;
         var self = this;
 
         //TODO: move to prototype
@@ -20,6 +21,7 @@ define( ["model/vector2d"], function ( Vector2D ) {
         this.position = new Vector2D( 0, 0 );
         this.velocity = new Vector2D( 0, 0 );
         this.angle = 0.0;
+        this.attached = false;
     };
 
     SkaterModel.prototype.reset = function () {
