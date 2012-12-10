@@ -26,7 +26,7 @@ define( ['easel',
         model.gridVisible.observe( function ( value ) {grid.visible = value;} );
         root.addChild( grid );
         root.addChild( splineLayer );
-        var barChart = BarChart.createBarChart( skater );
+        var barChart = BarChart.createBarChart( model.skater );
         barChart.x = 50;
         barChart.y = 50;
         model.barChartVisible.observe( function ( value ) {barChart.visible = value;} );
