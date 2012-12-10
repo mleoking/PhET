@@ -49,7 +49,7 @@ define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function 
         Easel.Ticker.setFPS( 60 );
 
         //Enable touch and prevent default
-        Easel.Touch.enable( this.stage, false, false );
+        Easel.Touch.enable( this.stage, false, true );
 
         //Necessary to enable MouseOver events
         this.stage.enableMouseOver();

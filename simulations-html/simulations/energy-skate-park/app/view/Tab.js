@@ -48,8 +48,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
 
         new MBP.fastButton( $tab.find( '.reset-all-button' )[0], function ( e ) {model.resetAll();} );
 
-        //TODO: I'd like to rewrite this using model.slowMotion.setTrue but can't get the "this" assigned properly.
-        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], function ( e ) {model.slowMotion.set( true );} );
+        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], model.slowMotion.setTrueBound() );
         new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
 
         model.slowMotion.addObserver( function ( slowMotion ) {
