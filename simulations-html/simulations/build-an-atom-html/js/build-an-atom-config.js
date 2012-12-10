@@ -5,9 +5,9 @@ require.config( {
                     deps:["build-an-atom-main"],
 
                     paths:{
-                        underscore:"../../../../contrib/underscore-1.4.2",
-                        easel: "../../../../contrib/easel-0.5.0",
-                        tpl:"../../../../contrib/tpl-0.2"
+                        underscore:"../../../contrib/underscore-1.4.2",
+                        easel: "../../../contrib/easel-0.5.0",
+                        tpl:"../../../contrib/tpl-0.2"
                     },
 
                     shim:{
