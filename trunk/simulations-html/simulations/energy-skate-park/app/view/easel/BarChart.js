@@ -28,10 +28,10 @@ define( ['easel', "view/easel-util",
         EaselUtil.makeDraggable( that );
 
         var fields = [
-            {name: Strings["energy.kinetic"], color: 'green', getter: skater.getKineticEnergy},
-            {name: Strings["energy.potential"], color: 'blue', getter: skater.getPotentialEnergy},
-            {name: Strings["energy.thermal"], color: 'red', getter: skater.getThermalEnergy},
-            {name: Strings["energy.total"], color: 'yellow', getter: skater.getTotalEnergy}
+            {name: Strings["energy.kinetic"], color: 'green', getter: skater.getKineticEnergy.bind( skater )},
+            {name: Strings["energy.potential"], color: 'blue', getter: skater.getPotentialEnergy.bind( skater )},
+            {name: Strings["energy.thermal"], color: 'red', getter: skater.getThermalEnergy.bind( skater )},
+            {name: Strings["energy.total"], color: 'yellow', getter: skater.getTotalEnergy.bind( skater )}
         ];
 
         for ( var i = 0; i < fields.length; i++ ) {

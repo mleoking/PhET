@@ -25,6 +25,7 @@ define( ['easel', "model/vector2d", 'view/easel/SkaterImageBase64' ], function (
         skater.scaleY = scaleFactor;
 
         function pressHandler( e ) {
+            e.nativeEvent.preventDefault();
             skaterModel.dragging = true;
             skaterModel.attached = false;
             //Make dragging relative to touch point

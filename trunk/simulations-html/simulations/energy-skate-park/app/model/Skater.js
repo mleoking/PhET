@@ -7,15 +7,13 @@ define( ["model/vector2d"], function ( Vector2D ) {
         this.thermalEnergy = 0.0;
         this.angle = 0;
         this.attached = false;
-        var self = this;
-
-        //TODO: move to prototype
-        this.getKineticEnergy = function () { return 0.5 * self.mass * self.velocity.magnitudeSquared(); };
-        this.getPotentialEnergy = function () {return self.mass * 9.8 * self.position.y;};
-        this.getThermalEnergy = function () { return self.thermalEnergy; };
-        this.getTotalEnergy = function () { return self.getKineticEnergy() + self.getPotentialEnergy() + self.getThermalEnergy(); };
-        this.getMechanicalEnergy = function () { return self.getKineticEnergy() + self.getPotentialEnergy() };
     }
+
+    SkaterModel.prototype.getKineticEnergy = function () {return 0.5 * this.mass * this.velocity.magnitudeSquared();};
+    SkaterModel.prototype.getPotentialEnergy = function () {return this.mass * 9.8 * this.position.y;};
+    SkaterModel.prototype.getThermalEnergy = function () { return this.thermalEnergy; };
+    SkaterModel.prototype.getTotalEnergy = function () { return this.getKineticEnergy() + this.getPotentialEnergy() + this.getThermalEnergy(); };
+    SkaterModel.prototype.getMechanicalEnergy = function () { return this.getKineticEnergy() + this.getPotentialEnergy() };
 
     SkaterModel.prototype.returnSkater = function () {
         this.position = new Vector2D( 0, 0 );
