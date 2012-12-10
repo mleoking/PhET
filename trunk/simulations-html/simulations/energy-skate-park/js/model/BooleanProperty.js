@@ -9,8 +9,5 @@ define( ['model/Property', 'util/Inheritance'], function ( Property, Inheritance
 
     BooleanProperty.prototype.toggle = function () {this.set( !this.get() );};
 
-    BooleanProperty.prototype._setValue = function ( value ) { return this.set.bind( this, value );};
-
     return BooleanProperty;
 } );
-

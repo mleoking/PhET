@@ -23,23 +23,23 @@ define( ['easel',
         var splineLayer = Spline.createSplineLayer( groundHeight );
         root.addChild( Background.createBackground( groundHeight ) );
         var grid = new Grid( groundY );
-        model.gridVisible.observe( function ( value ) {grid.visible = value;} );
+        model.gridVisible.addObserver( function ( value ) {grid.visible = value;} );
         root.addChild( grid );
         root.addChild( splineLayer );
         var barChart = BarChart.createBarChart( model.skater );
         barChart.x = 50;
         barChart.y = 50;
-        model.barChartVisible.observe( function ( value ) {barChart.visible = value;} );
+        model.barChartVisible.addObserver( function ( value ) {barChart.visible = value;} );
         root.addChild( barChart );
 
         root.addChild( skaterView );
         var pieChart = new PieChart( model.skater, skaterView );
-        model.pieChartVisible.observe( function ( value ) {pieChart.visible = value;} );
+        model.pieChartVisible.addObserver( function ( value ) {pieChart.visible = value;} );
 
         root.addChild( pieChart );
 
         var speedometer = Speedometer.createSpeedometer( skaterView );
-        model.speedometerVisible.observe( function ( value ) {speedometer.visible = value;} );
+        model.speedometerVisible.addObserver( function ( value ) {speedometer.visible = value;} );
         root.addChild( speedometer );
 
         root.tick = function () {
