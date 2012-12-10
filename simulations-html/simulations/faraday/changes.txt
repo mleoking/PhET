@@ -1,3 +1,4 @@
+12/10/12 migrate Property to common
 12/10/12 migrate Point2D to common before migrating things that have it as a dependency
 12/10/12 migrate types to common that have no dependencies
 12/10/12 revert move of DragHandler, things are screwed up

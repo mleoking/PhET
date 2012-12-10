@@ -11,7 +11,7 @@ define( [
             'common/Inheritance',
             'common/ModelViewTransform2D',
             'phetcommon/math/Point2D',
-            'common/Property',
+            'phetcommon/model/property/Property',
             'view/BarMagnetDisplay',
             'view/CompassDisplay',
             'view/FieldInsideDisplay',
