@@ -34,11 +34,6 @@ define( ['easel',
 
         root.addChild( skater );
 
-        var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
-        fpsText.x = 4;
-        fpsText.y = 50;
-        root.addChild( fpsText );
-        root.fpsText = fpsText;
         var pieChart = new PieChart( skater );
         model.pieChartVisible.observe( function ( value ) {pieChart.visible = value;} );
 
