@@ -7,7 +7,7 @@
  */
 define( [
             'easel',
-            'common/DragHandler',
+            'easel-phet/events/DragHandler',
             'common/Inheritance',
             'common/MathUtil',
             'image!images/fieldMeter.png'

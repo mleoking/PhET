@@ -18,7 +18,7 @@ require.config( {
         tpl: "../../../contrib/tpl-0.2",
 
         // common
-        phetcommon:"../../../common/phet/js",
+        phetcommon:"../../../common/phetcommon/js",
         'easel-phet':"../../../common/easel-phet/js"
     },
 
