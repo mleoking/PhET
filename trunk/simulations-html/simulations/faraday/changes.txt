@@ -1,3 +1,4 @@
+12/10/12 revert move of DragHandler, things are screwed up
 12/10/12 move DragHandler to easel-phet
 12/10/12 rename templates/ -> html/
 12/10/12 rename app/ -> js/
