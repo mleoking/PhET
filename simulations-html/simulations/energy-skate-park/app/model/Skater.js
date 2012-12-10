@@ -2,7 +2,7 @@
 define( ["model/vector2d"], function ( Vector2D ) {
     function SkaterModel() {
         this.mass = 60;
-        this.position = new Vector2D( 0, 0 );
+        this.position = new Vector2D( 5, 0 );
         this.velocity = new Vector2D( 0, 0 );
         this.thermalEnergy = 0.0;
         this.angle = 0;
