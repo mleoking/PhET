@@ -36,6 +36,10 @@ define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function 
             self.root.y = top;
 
             self.stage.update();
+
+            var $footer = $( ".footer" );
+            $footer.css( "top", canvasH + top - 100 * scale + 'px' ).
+                    css( "left", width / 2 - $footer.width() / 2 );
         }
 
         $( window ).resize( handleResize );
