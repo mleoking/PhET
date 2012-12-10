@@ -11,10 +11,15 @@ require.config( {
     deps: ["main"],
 
     paths: {
+        // contrib
         easel:"../../../contrib/easel-0.5.0",
         i18n:"../../../contrib/i18n-2.0.1-phet",
         image:"../../../contrib/image-0.2.1",
-        tpl: "../../../contrib/tpl-0.2"
+        tpl: "../../../contrib/tpl-0.2",
+
+        // common
+        phetcommon:"../../../common/phet/js",
+        'easel-phet':"../../../common/easel-phet/js"
     },
 
     shim: {
