@@ -1,3 +1,4 @@
+Tweaked scaling to get first tick to line up with 10 m/s/s in accelerometer
 # 1.00.04 (71004) Dec 5, 2012
 # 1.00.03 (70999) Dec 5, 2012
 # 1.00.02 (70997) Dec 5, 2012
