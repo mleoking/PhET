@@ -8,6 +8,7 @@ define( ['model/vector2d', 'model/Skater', 'model/Property', 'model/BooleanPrope
         this.gridVisible = new BooleanProperty( false );
         this.speedometerVisible = new BooleanProperty( false );
         this.playing = new BooleanProperty( true );
+        this.slowMotion = new BooleanProperty( false );
 
         //Pixels
         this.groundHeight = 116;
