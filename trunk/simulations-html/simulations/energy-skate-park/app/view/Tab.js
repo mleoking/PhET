@@ -7,10 +7,8 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         var model = new EnergySkateParkModel();
         var energySkateParkCanvas = new EnergySkateParkCanvas( $canvas, Strings, analytics, model );
 
-        var paused = false;
-
         Easel.Ticker.addListener( function () {
-            if ( !paused && activeTab.get() == tabID ) {
+            if ( model.playing.get() && activeTab.get() == tabID ) {
                 var subdivisions = 1;
                 for ( var i = 0; i < subdivisions; i++ ) {
                     Physics.updatePhysics( model.skater, model.groundHeight, energySkateParkCanvas.root.splineLayer, self.dt.get() / subdivisions );
@@ -48,6 +46,10 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         new MBP.fastButton( $tab.find( '.speedometerButton' )[0], function ( e ) {
             model.speedometerVisible.toggle();
             $tab.find( '.speedometerButton' ).toggleClass( "js-active-button" );
+        } );
+        new MBP.fastButton( $tab.find( '.play-pause-button' )[0], function ( e ) {
+            model.playing.toggle();
+            $tab.find( '.play-pause-button' ).html( !model.playing.get() ? "&#9654;" : "&#10074;&#10074;" );
         } );
     }
 
