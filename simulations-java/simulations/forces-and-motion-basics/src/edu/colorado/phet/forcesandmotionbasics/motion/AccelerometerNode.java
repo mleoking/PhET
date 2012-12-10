@@ -26,13 +26,17 @@ public class AccelerometerNode extends PNode {
         final PhetPPath background = new PhetPPath( new RoundRectangle2D.Double( 0 - barSideInset, 0, barWidth + barSideInset * 2, height, 10, 10 ), new GradientPaint( 0, 4, Color.white, 0, (float) height, new Color( 207, 208, 210 ), true ) );
         addChild( background );
 
+        //Tweaked to get 10m/s/s to line up with 1st tick
+        final double scale = 4.22;
+
         final boolean showBar = true;
         if ( showBar ) {
             addChild( new PhetPPath( new Rectangle2D.Double( barWidth / 2, 0, 25, height ), new GradientPaint( 0, 5, new Color( 248, 194, 216 ), 0, (float) height, new Color( 154, 105, 127 ), true ) ) {{
                 acceleration.addObserver( new VoidFunction1<Option<java.lang.Double>>() {
                     public void apply( final Option<java.lang.Double> doubles ) {
                         double value = doubles.getOrElse( 0.0 );
-                        final double scaled = value * 4;
+                        System.out.println( "value = " + value );
+                        final double scaled = value * scale;
                         if ( value > 0 ) {
                             final double scaledValue = scaled;
                             setPathTo( new Rectangle2D.Double( barWidth / 2, 0, scaledValue, height ) );
@@ -52,7 +56,7 @@ public class AccelerometerNode extends PNode {
                 acceleration.addObserver( new VoidFunction1<Option<java.lang.Double>>() {
                     public void apply( final Option<java.lang.Double> doubles ) {
                         double value = doubles.getOrElse( 0.0 );
-                        final double scaled = value * 4;
+                        final double scaled = value * scale;
                         final double scaledValue = scaled;
                         setPathTo( new Rectangle2D.Double( barWidth / 2 + scaledValue - knobThickness / 2, 0, knobThickness, height ) );
                     }
