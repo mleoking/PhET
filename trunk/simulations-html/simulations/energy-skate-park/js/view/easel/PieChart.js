@@ -1,14 +1,15 @@
 define( ['easel' ], function ( createjs ) {
-    var PieChart = function ( skater ) {
-        this.initialize( skater );
+    var PieChart = function ( skater, skaterView ) {
+        this.initialize( skater, skaterView );
     };
     var p = PieChart.prototype = new createjs.Container(); // inherit from Container
 
     p.Container_initialize = p.initialize;
 
-    p.initialize = function ( skater ) {
+    p.initialize = function ( skater, skaterView ) {
         this.Container_initialize();
         this.skater = skater;
+        this.skaterView = skaterView;
         var shape = new createjs.Shape();
         shape.graphics.beginStroke( "orange" ).setStrokeStyle( 5 ).moveTo( -10, -10 ).lineTo( 10, 10 ).moveTo( -10, 10 ).lineTo( 10, -10 ).endStroke();
         this.shape = shape;
@@ -16,10 +17,10 @@ define( ['easel' ], function ( createjs ) {
     };
 
     p.tick = function () {
-        this.x = this.skater.x;
+        this.x = this.skaterView.x;
 
         var delta = 250;
-        this.y = this.skater.y - delta;
+        this.y = this.skaterView.y - delta;
 
         var kineticEnergy = this.skater.getKineticEnergy();
         var potentialEnergy = this.skater.getPotentialEnergy();

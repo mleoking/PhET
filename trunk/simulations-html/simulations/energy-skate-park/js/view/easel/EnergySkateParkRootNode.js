@@ -18,7 +18,7 @@ define( ['easel',
                 groundY = model.groundY;
         var root = new createjs.Container();
 
-        var skater = SkaterView.createSkater( model.skater, groundHeight, groundY, analytics );
+        var skaterView = SkaterView.createSkater( model.skater, groundHeight, groundY, analytics );
 
         var splineLayer = Spline.createSplineLayer( groundHeight );
         root.addChild( Background.createBackground( groundHeight ) );
@@ -32,19 +32,18 @@ define( ['easel',
         model.barChartVisible.observe( function ( value ) {barChart.visible = value;} );
         root.addChild( barChart );
 
-        root.addChild( skater );
-
-        var pieChart = new PieChart( skater );
+        root.addChild( skaterView );
+        var pieChart = new PieChart( model.skater, skaterView );
         model.pieChartVisible.observe( function ( value ) {pieChart.visible = value;} );
 
         root.addChild( pieChart );
 
-        var speedometer = Speedometer.createSpeedometer( skater );
+        var speedometer = Speedometer.createSpeedometer( skaterView );
         model.speedometerVisible.observe( function ( value ) {speedometer.visible = value;} );
         root.addChild( speedometer );
 
         root.tick = function () {
-            skater.updateFromModel();
+            skaterView.updateFromModel();
             if ( barChart.visible ) {
                 barChart.tick();
             }
