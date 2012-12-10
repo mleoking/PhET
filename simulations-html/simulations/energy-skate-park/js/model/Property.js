@@ -72,16 +72,6 @@ define( [], function () {
     };
 
     /**
-     * Adds an observer and sends a notification message with the current value.
-     * TODO: Discuss with team whether this should be merged into addObserver
-     * @param observer
-     */
-    Property.prototype.observe = function ( observer ) {
-        this.addObserver( observer );
-        observer( this.get(), this.get() );
-    };
-
-    /**
      * Removes an observer.
      * If observer is not registered, this is a no-op.
      *
@@ -93,6 +83,17 @@ define( [], function () {
             this._observers.splice( index, index + 1 );
         }
     };
+
+    /**
+     * This function returns a bound function that sets the specified value.  For use in creating closures e.g. with gui classes.
+     * For instance, to have a button that sets a property to true, instead of using
+     * button.click(function(){property.set(true);});
+     * you could use
+     * button.click(property._set(true));
+     * @param value the value to use when the setter is called.
+     * @return a function that can be used to set the specified value.
+     */
+    Property.prototype._set = function ( value ) { return this.set.bind( this, value );};
 
     return Property;
 } );
