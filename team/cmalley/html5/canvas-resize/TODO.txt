@@ -1,7 +1,5 @@
 Things to investigate:
 
-- get rid of the margin above and to left of canvas
-- get rid of scroll bars
 - make the canvas update while the window is being resized
 - scale the scenegraph
 - adjust the model bounds
