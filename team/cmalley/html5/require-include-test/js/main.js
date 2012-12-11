@@ -5,6 +5,6 @@ require( [ "model/Contact", "../js/model/Person" ],
                  console.log( contact.person.name );
              }
              else {
-                 console.log( "ERROR: contact.person has wrong type: " + typeof( contact.person ) );
+                 throw new Error( "contact.person has wrong type: " + typeof( contact.person ) );
              }
          } );
