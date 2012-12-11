@@ -3,9 +3,7 @@ define( ['phetcommon/model/property/Property', 'util/Inheritance'], function ( P
 
     Inheritance.inheritPrototype( BooleanProperty, Property );
 
-    function BooleanProperty( value ) {
-        Property.call( this, value );
-    }
+    function BooleanProperty( value ) {Property.call( this, value );}
 
     BooleanProperty.prototype.toggle = function () {this.set( !this.get() );};
 
