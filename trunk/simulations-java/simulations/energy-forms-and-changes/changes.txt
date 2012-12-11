@@ -1,3 +1,4 @@
+2nd tab: Added occasional emission of thermal energy from bicycle wheel.
 # 0.00.27 (70285) Nov 13, 2012
 11/13/12 Deploying for review by design team.
 2nd tab: Made Reset All turn off energy chunks.
