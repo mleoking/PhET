@@ -5,10 +5,10 @@ define( [
         ],
         function ( Person ) {
 
-            function Model( firstName, lastName ) {
+            function Contact( firstName, lastName ) {
                 this.person = new Person( firstName, lastName );
-                console.log( "Do we have a Person in Model? : " + ( this.person instanceof Person ) );
+                console.log( "Do we have a Person in Contact? : " + ( this.person instanceof Person ) );
             }
 
-            return Model;
+            return Contact;
         } );
