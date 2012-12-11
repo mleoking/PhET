@@ -1,13 +1,8 @@
-// Copyright 2002-2012, University of Colorado
-
-define( [
-            "./Person"
-        ],
+define( [ "./Person" ],
         function ( Person ) {
 
-            function Contact( firstName, lastName ) {
-                this.person = new Person( firstName, lastName );
-                console.log( "Do we have a Person in Contact? : " + ( this.person instanceof Person ) );
+            function Contact( name ) {
+                this.person = new Person( name );
             }
 
             return Contact;
