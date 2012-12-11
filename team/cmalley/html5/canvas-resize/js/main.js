@@ -43,13 +43,13 @@ require( [
              var handleResize = function () {
 
                  // get the window width
-                 var width = $( window ).width();
-                 var height = $( window ).height();
-                 console.log( "window width=" + width + " height=" + height );
+                 var width = window.innerWidth;
+                 var height = window.innerHeight;
+                 console.log( "window size = " + width + " x " + height );
 
                  // make the canvas fill the window
-                 $( "#canvas" ).attr( 'width', width );
-                 $( "#canvas" ).attr( 'height', height );
+                 canvas.width = width;
+                 canvas.height = height;
 
                  // expand the background to fill the canvas
                  background.graphics
