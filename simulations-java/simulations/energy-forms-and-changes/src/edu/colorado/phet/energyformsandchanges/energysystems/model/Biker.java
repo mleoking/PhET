@@ -117,6 +117,7 @@ public class Biker extends EnergySource {
     private static final Vector2D BIKER_BUTTOCKS_OFFSET = new Vector2D( 0.02, 0.04 );
     private static final Vector2D TOP_TUBE_ABOVE_CRANK_OFFSET = new Vector2D( 0.007, 0.015 );
     private static final Vector2D BIKE_CRANK_OFFSET = new Vector2D( 0.0052, -0.006 );
+    private static final Vector2D CENTER_OF_BACK_WHEEL_OFFSET = new Vector2D( 0.03, -0.01 );
     private static final Vector2D BOTTOM_OF_BACK_WHEEL_OFFSET = new Vector2D( 0.03, -0.03 );
     private static final Vector2D NEXT_ENERGY_SYSTEM_OFFSET = new Vector2D( 0.13, -0.01 );
 
@@ -216,21 +217,40 @@ public class Biker extends EnergySource {
             for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
-                    if ( energyChunkMover.energyChunk.energyType.get() == EnergyType.CHEMICAL ) {
+                    EnergyChunk energyChunk = energyChunkMover.energyChunk;
+                    if ( energyChunk.energyType.get() == EnergyType.CHEMICAL ) {
 
                         // Turn this into mechanical energy.
-                        energyChunkMover.energyChunk.energyType.set( EnergyType.MECHANICAL );
+                        energyChunk.energyType.set( EnergyType.MECHANICAL );
                         energyChunkMovers.remove( energyChunkMover );
 
                         // Add new mover for the mechanical energy chunk.
-                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
-                                                                         createMechanicalEnergyChunkPath( getPosition() ),
+//                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+//                                                                         createMechanicalEnergyChunkPath( getPosition() ),
+//                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                         createMechanicalToThermalEnergyChunkPath( getPosition() ),
                                                                          EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
-                    else {
-                        // Must be mechanical.  Pass this on to the next energy
-                        // system.
-                        outgoingEnergyChunks.add( energyChunkMover.energyChunk );
+                    else if ( energyChunk.energyType.get() == EnergyType.MECHANICAL && energyChunk.position.get().distance( getPosition().plus( CENTER_OF_BACK_WHEEL_OFFSET ) ) < 1E-6  ) {
+                        // This is a mechanical energy chunk that has traveled
+                        // to the hub and should now become thermal energy.
+                        energyChunkMovers.remove( energyChunkMover );
+                        energyChunk.energyType.set( EnergyType.THERMAL );
+                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                         createThermalEnergyChunkPath( getPosition() ),
+                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                    }
+                    else if ( energyChunk.energyType.get() == EnergyType.THERMAL ){
+                        // This is a radiating thermal energy chunk that has
+                        // reached the end of its route.  Delete it.
+                        energyChunkMovers.remove( energyChunkMover );
+                        energyChunkList.remove( energyChunk );
+                    }
+                    else{
+                        // Must be mechanical energy that is being passed to
+                        // the next energy system.
+                        outgoingEnergyChunks.add( energyChunk );
                         energyChunkMovers.remove( energyChunkMover );
                     }
                 }
@@ -302,18 +322,46 @@ public class Biker extends EnergySource {
         return (int) ( Math.floor( ( angle % ( 2 * Math.PI ) ) / ( Math.PI * 2 / NUM_LEG_IMAGES ) ) );
     }
 
-    private static List<Vector2D> createChemicalEnergyChunkPath( final Vector2D panelPosition ) {
+    private static List<Vector2D> createChemicalEnergyChunkPath( final Vector2D centerPosition ) {
         return new ArrayList<Vector2D>() {{
-            add( panelPosition.plus( BIKER_BUTTOCKS_OFFSET ) );
-            add( panelPosition.plus( TOP_TUBE_ABOVE_CRANK_OFFSET ) );
+            add( centerPosition.plus( BIKER_BUTTOCKS_OFFSET ) );
+            add( centerPosition.plus( TOP_TUBE_ABOVE_CRANK_OFFSET ) );
         }};
     }
 
-    private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
+    private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D centerPosition ) {
         return new ArrayList<Vector2D>() {{
-            add( panelPosition.plus( BIKE_CRANK_OFFSET ) );
-            add( panelPosition.plus( BOTTOM_OF_BACK_WHEEL_OFFSET ) );
-            add( panelPosition.plus( NEXT_ENERGY_SYSTEM_OFFSET ) );
+            add( centerPosition.plus( BIKE_CRANK_OFFSET ) );
+            add( centerPosition.plus( BOTTOM_OF_BACK_WHEEL_OFFSET ) );
+            add( centerPosition.plus( NEXT_ENERGY_SYSTEM_OFFSET ) );
+        }};
+    }
+
+    // Create a path for an energy chunk that will travel to the hub and then become thermal.
+    private static List<Vector2D> createMechanicalToThermalEnergyChunkPath( final Vector2D centerPosition ) {
+        return new ArrayList<Vector2D>() {{
+            add( centerPosition.plus( BIKE_CRANK_OFFSET ) );
+            add( centerPosition.plus( CENTER_OF_BACK_WHEEL_OFFSET ) );
+        }};
+    }
+
+    private static List<Vector2D> createThermalEnergyChunkPath( final Vector2D centerPosition ) {
+        final double segmentLength = 0.05;
+        final double maxAngle = Math.PI / 8;
+        final int numSegments = 3;
+        return new ArrayList<Vector2D>() {{
+            Vector2D offset = centerPosition.plus( CENTER_OF_BACK_WHEEL_OFFSET );
+            add( new Vector2D( offset ) );
+
+            // The chuck needs to move up and to the right to avoid overlapping with the biker.
+            offset = offset.plus( new Vector2D( segmentLength, 0 ).getRotatedInstance( Math.PI * 0.4 ) );
+
+            // Add a set of path segments that make the chunk move up in a somewhat random path.
+            add( new Vector2D( offset ) );
+            for ( int i = 0; i < numSegments; i++ ){
+                offset = offset.plus( new Vector2D( 0, segmentLength ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * maxAngle ) );
+                add( new Vector2D( offset ) );
+            }
         }};
     }
 
