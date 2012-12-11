@@ -4,7 +4,7 @@ require( ['util/WebsocketRefresh',
              'view/Tab',
              'easel',
              'tpl!../tab.html',
-             'model/Property',
+             'phetcommon/model/property/Property',
              'phetcommon/view/PrototypeDialog'
          ], function ( WebsocketRefresh, Analytics, Strings, Tab, Easel, tabTemplate, Property, PrototypeDialog ) {
 

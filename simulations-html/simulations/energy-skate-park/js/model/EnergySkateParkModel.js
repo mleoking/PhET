@@ -1,5 +1,5 @@
 //Complete model for Energy Skate Park
-define( ['underscore', 'model/vector2d', 'model/Skater', 'model/Property', 'model/BooleanProperty'], function ( _, Vector2D, Skater, Property, BooleanProperty ) {
+define( ['underscore', 'model/vector2d', 'model/Skater', 'phetcommon/model/property/Property', 'model/BooleanProperty'], function ( _, Vector2D, Skater, Property, BooleanProperty ) {
 
     function EnergySkateParkModel() {
         this.skater = new Skater();
