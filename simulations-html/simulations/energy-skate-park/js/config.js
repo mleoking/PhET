@@ -4,6 +4,7 @@ require.config( {
                     paths: {
                         common: '../common',
                         phetcommon: '../../../common/phetcommon/js',
+                        phetcommon_html: '../../../common/phetcommon/html',
 
                         easel: '../../../contrib/easel-0.5.0',
                         image: '../../../contrib/image-0.2.1',
