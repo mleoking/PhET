@@ -180,7 +180,9 @@ public class Biker extends EnergySource {
                         else {
                             // Make sure that this energy chunk turns to thermal energy.
                             energyChunkMovers.remove( energyChunkMover );
-                            energyChunkMovers.add( new EnergyChunkPathMover( ec, createThermalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                            energyChunkMovers.add( new EnergyChunkPathMover( ec,
+                                                                             createMechanicalToThermalEnergyChunkPath( getPosition(), ec.position.get() ),
+                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                         }
                     }
                 }
@@ -259,7 +261,7 @@ public class Biker extends EnergySource {
                             // Make this chunk travel to the rear hub, where it
                             // will become a chunk of thermal energy.
                             energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
-                                                                             createMechanicalToThermalEnergyChunkPath( getPosition() ),
+                                                                             createMechanicalToThermalEnergyChunkPath( getPosition(), energyChunk.position.get() ),
                                                                              EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                             mechanicalChunksSinceLastThermal = 0;
                         }
@@ -377,9 +379,14 @@ public class Biker extends EnergySource {
     }
 
     // Create a path for an energy chunk that will travel to the hub and then become thermal.
-    private static List<Vector2D> createMechanicalToThermalEnergyChunkPath( final Vector2D centerPosition ) {
+    private static List<Vector2D> createMechanicalToThermalEnergyChunkPath( final Vector2D centerPosition, final Vector2D currentPosition ) {
         return new ArrayList<Vector2D>() {{
-            add( centerPosition.plus( BIKE_CRANK_OFFSET ) );
+            Vector2D crankPosition = centerPosition.plus( BIKE_CRANK_OFFSET );
+            if ( currentPosition.getY() > crankPosition.getY() ){
+                // Only add the crank position if the current position
+                // indicates that the chunk hasn't reached the crank yet.
+                add( centerPosition.plus( BIKE_CRANK_OFFSET ) );
+            }
             add( centerPosition.plus( CENTER_OF_BACK_WHEEL_OFFSET ) );
         }};
     }
