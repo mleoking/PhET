@@ -1,0 +1,63 @@
+.prototype-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(100, 100, 100, 0.5);
+}
+
+.popup {
+    /*display: none;*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.33);
+}
+
+.popup .popup-content {
+    background: white;
+    border: 2px solid #445;
+    border-radius: 1em;
+    margin: 6% 12%;
+    max-height: 75%;
+    overflow: auto;
+    box-shadow: 0 1em 2em rgba(0, 0, 0, 0.5);
+    padding-bottom: 1.2em;
+    -webkit-overflow-scrolling: touch;
+}
+
+.popup h3 {
+    margin: 0 0 0.5em 0;
+    padding: 0.4em 0.6em;
+    text-align: center;
+    background: #eee;
+    border-bottom: 1px solid #444;
+}
+
+.popup .credits {
+    margin: 1ex 1.6em;
+    padding-bottom: 1ex;
+}
+
+.popup .credits .logo {
+    float: left;
+    margin-right: 1em;
+}
+
+.popup .credits .text {
+    overflow: hidden; /* prevents float at left from creating ragged edge */
+}
+
+.popup .version {
+    margin: 1em 1.6em;
+}
+
+.popup .credits button {
+    display: table;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.popup .version p {
+}
