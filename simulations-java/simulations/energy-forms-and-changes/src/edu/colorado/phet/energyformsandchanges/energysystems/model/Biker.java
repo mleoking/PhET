@@ -39,6 +39,7 @@ public class Biker extends EnergySource {
     private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
     private static final Random RAND = new Random();
     public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 10; // In joules, but empirically determined.
+    public static final int MECHANICAL_TO_THERMAL_CHUNK_RATIO = 5;
 
     // Offset of the bike frame center.  Most other image offsets are relative
     // to this one.
@@ -132,6 +133,7 @@ public class Biker extends EnergySource {
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     public ObservableList<EnergyChunk> movingEnergyChunks = new ObservableList<EnergyChunk>();
     private double energyProducedSinceLastChunkEmitted = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT * 0.9;
+    private int mechanicalChunksSinceLastThermal = 0;
 
     // Property through which the target pedaling rate is set.
     public Property<Double> targetCrankAngularVelocity = new Property<Double>( 0.0 ); // In radians/sec
@@ -225,12 +227,22 @@ public class Biker extends EnergySource {
                         energyChunkMovers.remove( energyChunkMover );
 
                         // Add new mover for the mechanical energy chunk.
-//                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
-//                                                                         createMechanicalEnergyChunkPath( getPosition() ),
-//                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
-                                                                         createMechanicalToThermalEnergyChunkPath( getPosition() ),
-                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        if ( mechanicalChunksSinceLastThermal < MECHANICAL_TO_THERMAL_CHUNK_RATIO ){
+                            // Send this chunk to the next energy system.
+                            energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                             createMechanicalEnergyChunkPath( getPosition() ),
+                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                            mechanicalChunksSinceLastThermal++;
+
+                        }
+                        else {
+                            // Make this chunk travel to the rear hub, where it
+                            // will become a chunk of thermal energy.
+                            energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                             createMechanicalToThermalEnergyChunkPath( getPosition() ),
+                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                            mechanicalChunksSinceLastThermal = 0;
+                        }
                     }
                     else if ( energyChunk.energyType.get() == EnergyType.MECHANICAL && energyChunk.position.get().distance( getPosition().plus( CENTER_OF_BACK_WHEEL_OFFSET ) ) < 1E-6  ) {
                         // This is a mechanical energy chunk that has traveled
