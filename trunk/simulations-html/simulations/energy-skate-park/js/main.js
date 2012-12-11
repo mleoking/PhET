@@ -4,8 +4,9 @@ require( ['util/WebsocketRefresh',
              'view/Tab',
              'easel',
              'tpl!../tab.html',
-             'model/Property'
-         ], function ( WebsocketRefresh, Analytics, Strings, Tab, Easel, tabTemplate, Property ) {
+             'model/Property',
+             'phetcommon/view/PrototypeDialog'
+         ], function ( WebsocketRefresh, Analytics, Strings, Tab, Easel, tabTemplate, Property, PrototypeDialog ) {
 
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
@@ -35,4 +36,6 @@ require( ['util/WebsocketRefresh',
         }
         $( "#" + newTab ).show();
     } );
+
+    PrototypeDialog.init( "Energy Skate Park: Basics" );
 } );
