@@ -166,12 +166,40 @@ public class LWJGLUtils {
     * error handling
     *----------------------------------------------------------------------------*/
 
-    public static boolean isMacJava7() {
-        return System.getProperty( "os.name" ).contains( "OS X" ) && System.getProperty( "java.version" ).split( "\\." )[1].equals( "7" );
+    public static boolean containsMacJava7Issue() {
+        return System.mapLibraryName( "lwjgl" ).endsWith( "dylib" ) && System.getProperty( "os.name" ).contains( "OS X" ) && System.getProperty( "java.version" ).split( "\\." )[1].equals( "7" );
     }
 
     public static void showMacJava7Warning( final Frame parentFrame ) {
-
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                JDialog frame = new JDialog( parentFrame ) {{
+                    setContentPane( new JPanel( new GridLayout( 1, 1 ) ) {{
+                        add( new VerticalLayoutPanel() {{
+                                 add( new JLabel( PhetCommonResources.getString( "Jme.thisSimulationWasUnableToStart" ) ) {{
+                                     setFont( new PhetFont( 20, true ) );
+                                     setForeground( Color.RED );
+                                 }} );
+                                 String troubleshootingUrl = "http://support.apple.com/kb/HT5559?viewlocale=en_US";
+                                 String body = PhetCommonResources.getString( "Lwjgl.macJava17Message" );
+                                 add( new HTMLUtils.InteractiveHTMLPane( MessageFormat.format( body, troubleshootingUrl ) ) {{
+                                     setOpaque( false );
+                                     setFont( new PhetFont( 16, true ) );
+                                 }} );
+                             }},
+                             new GridBagConstraints() {{
+                                 fill = GridBagConstraints.HORIZONTAL;
+                                 insets = new Insets( 10, 10, 10, 10 );
+                             }}
+                        );
+                        setMaximumSize( new Dimension( 500, 10000 ) );
+                    }} );
+                }};
+                frame.pack();
+                SwingUtils.centerInParent( frame );
+                frame.setVisible( true );
+            }
+        } );
     }
 
     public static void showErrorDialog( final Frame parentFrame, final Throwable t ) {

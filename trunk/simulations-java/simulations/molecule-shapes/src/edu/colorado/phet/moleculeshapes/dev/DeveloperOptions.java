@@ -73,5 +73,12 @@ public class DeveloperOptions {
                 }
             } ) );
         }} );
+        developerMenu.add( new JMenuItem( "Show Mac Java 1.7 Dialog" ) {{
+            addActionListener( new GLActionListener(new Runnable() {
+                public void run() {
+                    LWJGLUtils.showMacJava7Warning( frame );
+                }
+            } ) );
+        }} );
     }
 }
