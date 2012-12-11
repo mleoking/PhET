@@ -34,7 +34,8 @@ public class Biker extends EnergySource {
     public static final double MAX_ANGULAR_VELOCITY_OF_CRANK = 3 * Math.PI; // In radians/sec.
     private static final double ANGULAR_ACCELERATION = Math.PI / 2; // In radians/(sec^2).
     // TODO: This is temp until we figure out how much it should really put out.
-    private static final double MAX_ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
+    private static final double MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR = 10; // In joules / (radians / sec)
+    private static final double MAX_ENERGY_OUTPUT_WHEN_RUNNING_FREE = 2; // In joules / (radians / sec)
     private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
     private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
     private static final Random RAND = new Random();
@@ -197,13 +198,16 @@ public class Biker extends EnergySource {
                 setCrankToPoisedPosition();
             }
 
-            // Decide if new chem energy chunk should start on its way.
-            if ( targetCrankAngularVelocity.get() > 0 && mechanicalPoweredSystemIsNext.get()){
-                energyProducedSinceLastChunkEmitted += MAX_ENERGY_OUTPUT_RATE * ( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK ) * dt;
+            // Determine how much energy is produced in this time step.
+            if ( targetCrankAngularVelocity.get() > 0 ) {
+
+                // Less energy is produced if not hooked up to generator.
+                double maxEnergyProductionRate = mechanicalPoweredSystemIsNext.get() ? MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR : MAX_ENERGY_OUTPUT_WHEN_RUNNING_FREE;
+                energyProducedSinceLastChunkEmitted += maxEnergyProductionRate * ( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK ) * dt;
             }
-            if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT &&
-                 targetCrankAngularVelocity.get() > 0 &&
-                 mechanicalPoweredSystemIsNext.get() ) {
+
+            // Decide if new chem energy chunk should start on its way.
+            if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT && targetCrankAngularVelocity.get() > 0 ) {
 
                 // Start a new chunk moving.
                 if ( energyChunkList.size() > 0 ) {
@@ -227,15 +231,7 @@ public class Biker extends EnergySource {
                         energyChunkMovers.remove( energyChunkMover );
 
                         // Add new mover for the mechanical energy chunk.
-                        if ( mechanicalChunksSinceLastThermal < MECHANICAL_TO_THERMAL_CHUNK_RATIO ){
-                            // Send this chunk to the next energy system.
-                            energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
-                                                                             createMechanicalEnergyChunkPath( getPosition() ),
-                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                            mechanicalChunksSinceLastThermal++;
-
-                        }
-                        else {
+                        if ( mechanicalChunksSinceLastThermal >= MECHANICAL_TO_THERMAL_CHUNK_RATIO || !mechanicalPoweredSystemIsNext.get() ) {
                             // Make this chunk travel to the rear hub, where it
                             // will become a chunk of thermal energy.
                             energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
@@ -243,8 +239,15 @@ public class Biker extends EnergySource {
                                                                              EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                             mechanicalChunksSinceLastThermal = 0;
                         }
+                        else {
+                            // Send this chunk to the next energy system.
+                            energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                             createMechanicalEnergyChunkPath( getPosition() ),
+                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                            mechanicalChunksSinceLastThermal++;
+                        }
                     }
-                    else if ( energyChunk.energyType.get() == EnergyType.MECHANICAL && energyChunk.position.get().distance( getPosition().plus( CENTER_OF_BACK_WHEEL_OFFSET ) ) < 1E-6  ) {
+                    else if ( energyChunk.energyType.get() == EnergyType.MECHANICAL && energyChunk.position.get().distance( getPosition().plus( CENTER_OF_BACK_WHEEL_OFFSET ) ) < 1E-6 ) {
                         // This is a mechanical energy chunk that has traveled
                         // to the hub and should now become thermal energy.
                         energyChunkMovers.remove( energyChunkMover );
@@ -253,13 +256,13 @@ public class Biker extends EnergySource {
                                                                          createThermalEnergyChunkPath( getPosition() ),
                                                                          EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
-                    else if ( energyChunk.energyType.get() == EnergyType.THERMAL ){
+                    else if ( energyChunk.energyType.get() == EnergyType.THERMAL ) {
                         // This is a radiating thermal energy chunk that has
                         // reached the end of its route.  Delete it.
                         energyChunkMovers.remove( energyChunkMover );
                         energyChunkList.remove( energyChunk );
                     }
-                    else{
+                    else {
                         // Must be mechanical energy that is being passed to
                         // the next energy system.
                         outgoingEnergyChunks.add( energyChunk );
@@ -268,7 +271,7 @@ public class Biker extends EnergySource {
                 }
             }
         }
-        return new Energy( EnergyType.MECHANICAL, Math.abs( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK * MAX_ENERGY_OUTPUT_RATE ), -Math.PI / 2 );
+        return new Energy( EnergyType.MECHANICAL, Math.abs( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK * MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR ), -Math.PI / 2 );
     }
 
     /*
@@ -370,7 +373,7 @@ public class Biker extends EnergySource {
 
             // Add a set of path segments that make the chunk move up in a somewhat random path.
             add( new Vector2D( offset ) );
-            for ( int i = 0; i < numSegments; i++ ){
+            for ( int i = 0; i < numSegments; i++ ) {
                 offset = offset.plus( new Vector2D( 0, segmentLength ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * maxAngle ) );
                 add( new Vector2D( offset ) );
             }
