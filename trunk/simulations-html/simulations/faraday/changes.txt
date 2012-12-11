@@ -1,3 +1,4 @@
+12/11/12 i18n of title
 12/10/12 comment out a log warning that was tanking performance
 12/10/12 migrate Property to common
 12/10/12 migrate Point2D to common before migrating things that have it as a dependency
