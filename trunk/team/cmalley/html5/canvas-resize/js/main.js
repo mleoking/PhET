@@ -23,7 +23,7 @@ require( [
 
              var mvt = new ModelVewTransform2D( 1, new Point2D( 0, 0 ) );
 
-             var canvas = document.getElementById( 'canvas' );
+             var canvas = $( '#canvas' )[0];
              var stage = new Easel.Stage( canvas );
              stage.enableMouseOver();
 
@@ -43,8 +43,8 @@ require( [
              var handleResize = function () {
 
                  // get the window width
-                 var width = window.innerWidth;
-                 var height = window.innerHeight;
+                 var width = $( window ).width();
+                 var height = $( window ).height();
                  console.log( "window size = " + width + " x " + height );
 
                  // make the canvas fill the window
