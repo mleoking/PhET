@@ -7,6 +7,7 @@
  */
 require( [
              'easel',
+             'i18n!../nls/faraday-strings',
              'common/CanvasQuirks',
              'phetcommon/util/Logger',
              'common/ModelViewTransform2D',
@@ -14,9 +15,13 @@ require( [
              'view/OptionsPanel',
              'view/FaradayStage'
          ],
-         function ( Easel, CanvasQuirks, Logger, ModelViewTransform2D, FaradayModel, OptionsPanel, FaradayStage ) {
+         function ( Easel, Strings, CanvasQuirks, Logger, ModelViewTransform2D, FaradayModel, OptionsPanel, FaradayStage ) {
 
              Logger.enabled = true;
+
+             // Title --------------------------------------------------------------------
+
+             $( 'title' ).html( Strings.title );
 
              // Canvas --------------------------------------------------------------------
 

@@ -8,5 +8,6 @@ define( {
             "seeInsideMagnet":"Montrer l'int\u00E9rieur de l'aimant",
             "showCompass":"Montrer la boussole",
             "showField":"Montrer l'ensemble des aiguilles aimant\u00E9es",
-            "showFieldMeter":"Montrer le teslam\u00E8tre"
+            "showFieldMeter":"Montrer le teslam\u00E8tre",
+            "title":"Labo d'\u00E9lectromagn\u00E9tisme de Faraday"
         } );

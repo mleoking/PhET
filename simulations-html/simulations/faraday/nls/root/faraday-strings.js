@@ -8,5 +8,6 @@ define( {
             "seeInsideMagnet":"See Inside Magnet",
             "showCompass":"Show Compass",
             "showField":"Show Field",
-            "showFieldMeter":"Show Field Meter"
+            "showFieldMeter":"Show Field Meter",
+            "title":"Faraday's Electromagnetic Lab"
         } );
