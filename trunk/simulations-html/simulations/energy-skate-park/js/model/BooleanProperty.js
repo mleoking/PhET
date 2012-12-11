@@ -1,5 +1,5 @@
 /**Subclass of Property that adds methods specific to boolean values*/
-define( ['model/Property', 'util/Inheritance'], function ( Property, Inheritance ) {
+define( ['phetcommon/model/property/Property', 'util/Inheritance'], function ( Property, Inheritance ) {
 
     Inheritance.inheritPrototype( BooleanProperty, Property );
 
