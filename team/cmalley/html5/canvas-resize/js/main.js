@@ -27,20 +27,38 @@ require( [
              var stage = new Easel.Stage( canvas );
              stage.enableMouseOver();
 
-             // black background
+             // canvas background
              var background = new Easel.Shape();
-             background.graphics
-                     .beginFill( 'black' )
-                     .rect( 0, 0, canvas.width, canvas.height );
              stage.addChild( background );
 
+             // root display object
+             var rootContainer = new Easel.Container();
+             stage.addChild( rootContainer );
+
              var barMagnetDisplay = new BarMagnetDisplay( barMagnet, mvt );
-             stage.addChild( barMagnetDisplay );
+             rootContainer.addChild( barMagnetDisplay );
+
+             // Resize ----------------------------------------------------------
 
              var handleResize = function () {
+
+                 // get the window width
                  var width = $( window ).width();
                  var height = $( window ).height();
                  console.log( "window width=" + width + " height=" + height );
+
+                 // make the canvas fill the window
+                 $( "#canvas" ).attr( 'width', width );
+                 $( "#canvas" ).attr( 'height', height );
+
+                 // expand the background to fill the canvas
+                 background.graphics
+                         .beginFill( 'black' )
+                         .rect( 0, 0, canvas.width, canvas.height );
+
+                 // move the root node to the center of the canvas, so the origin remains at the center
+                 rootContainer.x = canvas.width / 2;
+                 rootContainer.y = canvas.height / 2;
              };
              $( window ).resize( handleResize );
              handleResize();
