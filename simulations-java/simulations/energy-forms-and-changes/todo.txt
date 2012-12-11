@@ -1,8 +1,11 @@
 
+Scale solar panel.
+Integrate bike with chain.
+Implement the dotted E's on the generator so that the E's never disappear.
+
 Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 
-Implement the dotted E's on the generator so that the E's never disappear.
 
 Make the E's go all the way into and out of the bucket on the 1st tab.
 
