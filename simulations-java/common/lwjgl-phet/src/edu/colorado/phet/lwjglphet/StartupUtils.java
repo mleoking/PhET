@@ -16,6 +16,7 @@ import org.lwjgl.opengl.Pbuffer;
 import org.lwjgl.opengl.PixelFormat;
 
 import edu.colorado.phet.lwjglphet.contrib.LWJGLStartupImplementation;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 
 /**
  * Responsible for extracting the native libraries into the correct place, if needed.
@@ -27,6 +28,10 @@ public class StartupUtils {
     public static void setupLibraries() throws IOException {
 
         JPopupMenu.setDefaultLightWeightPopupEnabled( false ); // potential solution for menu-over-OpenGL canvas issue. see http://lwjgl.org/forum/index.php?topic=2365.0;wap2
+
+        if ( LWJGLUtils.containsMacJava7Issue() ) {
+            LWJGLUtils.showMacJava7Warning( null );
+        }
 
         boolean webstart = System.getProperty( "javawebstart.version" ) != null;
 
