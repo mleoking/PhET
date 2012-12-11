@@ -1,21 +1,33 @@
 
-Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
 Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
-No limits on heat and cool on both tab 1 & 2.
-Make the rate of heating for the beaker on 2nd tab roughly match that heating rate on the first.
-Have some delay for lights and burner lighting up when energy starts to flow to it.
-Implement boiling and freezing of the water.
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
+
+Implement the dotted E's on the generator so that the E's never disappear.
+
+Make the E's go all the way into and out of the bucket on the 1st tab.
+
+No limits on heat and cool on both tab 1 & 2.
+Implement boiling and freezing of the water.
+- Freeze from the top down.
+- Boiling is essentially just steaming.
+- Temperature stays fixed at 0, start freezing, E's come out as it is freezing, E's stop coming out when all ice.
+- Temperature stays at 100 once boiling, never goes above.  E's coming out equals E's coming in.
+
+Profile, have Chris test on Mac
+
+--> Start interviews?
+
+Fix: Long reset time.
+Fix: Jittery E's in beaker
 Make E's not cluster in the wires leading from solar panel.
 Make E's not cluster in the output (spout) of the tea pot.
-Profile, have Chris test on Mac
-Integrate Sam's way of making slider work
-Fix flicker when E's are transferred between energy systems
-Fix: 1st tab, weird interaction between beaker and thermometer control panel.
-Fix: Jittery E's in beaker.
-Internationalize E's
+Fix: 1st tab, weird interaction between beaker and thermometer control panel. Just put panel at very back.
+Internationalize E's (will need blank E's from NP).
 i18n
+Fix flicker when E's are transferred between energy systems
 
+
+DONE: Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
 DONE: E's should build up in heat coil before going into beaker.
 DONE: No thermal E's on the fluorescent light bulb.
 DONE: Add Reset All just under the legend
