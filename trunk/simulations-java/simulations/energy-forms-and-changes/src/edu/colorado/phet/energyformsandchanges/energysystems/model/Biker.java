@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -162,6 +163,29 @@ public class Biker extends EnergySource {
 
         // Get the crank into a position where animation will start right away.
         setCrankToPoisedPosition();
+
+        // Add a handler for the situation when energy chunks were in transit
+        // to the next energy system and that system is swapped out.
+        mechanicalPoweredSystemIsNext.addObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean isNext, Boolean wasNext ) {
+                Vector2D hubPosition = getPosition().plus( CENTER_OF_BACK_WHEEL_OFFSET );
+                for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
+                    EnergyChunk ec = energyChunkMover.energyChunk;
+                    if ( ec.energyType.get() == EnergyType.MECHANICAL ) {
+                        if ( ec.position.get().getX() > hubPosition.getX() ) {
+                            // Just remove this energy chunk.
+                            energyChunkMovers.remove( energyChunkMover );
+                            movingEnergyChunks.remove( ec );
+                        }
+                        else {
+                            // Make sure that this energy chunk turns to thermal energy.
+                            energyChunkMovers.remove( energyChunkMover );
+                            energyChunkMovers.add( new EnergyChunkPathMover( ec, createThermalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        }
+                    }
+                }
+            }
+        } );
     }
 
     //-------------------------------------------------------------------------
