@@ -12,9 +12,10 @@ define( [ 'easel' ],
                 var SIDE_LENGTH = 10;
                 var X_SPACING = 3 * SIDE_LENGTH;
                 var Y_SPACING = X_SPACING;
+                var that = this;
                 this.update = function ( canvasWidth, canvasHeight ) {
 
-                    this.removeAllChildren();
+                    that.removeAllChildren();
 
                     // create a grid of red rectangles
                     var gridWidth = canvasWidth + X_SPACING;
@@ -28,7 +29,7 @@ define( [ 'easel' ],
                             needle.graphics.rect( -SIDE_LENGTH/2, -SIDE_LENGTH/2, SIDE_LENGTH, SIDE_LENGTH );
                             needle.x = x;
                             needle.y = y;
-                            this.addChild( needle );
+                            that.addChild( needle );
                             x += X_SPACING;
                         }
                         y += Y_SPACING;
