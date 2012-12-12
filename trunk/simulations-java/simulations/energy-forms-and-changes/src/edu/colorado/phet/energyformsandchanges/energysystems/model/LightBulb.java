@@ -48,7 +48,7 @@ public class LightBulb extends EnergyUser {
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
     private static final Random RAND = new Random();
     private static final DoubleRange THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = new DoubleRange( 2, 2.5 );
-    private static final double ENERGY_TO_FULLY_LIGHT = 50;
+    private static final double ENERGY_TO_FULLY_LIGHT = EFACConstants.MAX_ENERGY_RATE;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -140,7 +140,7 @@ public class LightBulb extends EnergyUser {
 
             // Set how lit the bulb is.
             if ( isActive() && incomingEnergy.type == EnergyType.ELECTRICAL ) {
-                litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / ENERGY_TO_FULLY_LIGHT, 1 ) );
+                litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / ( ENERGY_TO_FULLY_LIGHT * dt ), 1 ) );
             }
             else {
                 litProportion.set( 0.0 );

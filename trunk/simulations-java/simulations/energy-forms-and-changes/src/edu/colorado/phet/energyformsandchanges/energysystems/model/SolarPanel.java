@@ -29,8 +29,6 @@ public class SolarPanel extends EnergyConverter {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double CONVERSION_EFFICIENCY = 0.3;
-
     private static final Vector2D SOLAR_PANEL_OFFSET = new Vector2D( 0, 0.044 );
     public static final ModelElementImage SOLAR_PANEL_IMAGE = new ModelElementImage( SOLAR_PANEL, 0.15, SOLAR_PANEL_OFFSET );
     public static final Vector2D CONVERTER_IMAGE_OFFSET = new Vector2D( 0.015, -0.040 );
@@ -109,7 +107,7 @@ public class SolarPanel extends EnergyConverter {
         // Produce the appropriate amount of energy.
         double energyProduced = 0;
         if ( isActive() && incomingEnergy.type == EnergyType.LIGHT ) {
-            energyProduced = incomingEnergy.amount * CONVERSION_EFFICIENCY;
+            energyProduced = incomingEnergy.amount; // Perfectly efficient conversion. We should patent this.
         }
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
