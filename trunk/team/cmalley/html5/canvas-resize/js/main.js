@@ -11,9 +11,10 @@ require( [
              'math/Point2D',
              'model/BarMagnet',
              'view/BarMagnetDisplay',
+             'view/GridDisplay',
              'view/ModelViewTransform2D'
          ],
-         function ( Easel, Dimension2D, Point2D, BarMagnet, BarMagnetDisplay, ModelVewTransform2D ) {
+         function ( Easel, Dimension2D, Point2D, BarMagnet, BarMagnetDisplay, GridDisplay, ModelVewTransform2D ) {
 
              // Model ------------------------------------------------------------------
 
@@ -35,6 +36,9 @@ require( [
              var rootContainer = new Easel.Container();
              stage.addChild( rootContainer );
 
+             var gridDisplay = new GridDisplay( mvt, canvas.width, canvas.height );
+             rootContainer.addChild( gridDisplay );
+
              var barMagnetDisplay = new BarMagnetDisplay( barMagnet, mvt );
              rootContainer.addChild( barMagnetDisplay );
 
@@ -55,6 +59,9 @@ require( [
                  background.graphics
                          .beginFill( 'black' )
                          .rect( 0, 0, canvas.width, canvas.height );
+
+                 // expand the grid to fill the canvas
+                 gridDisplay.update( width, height );
 
                  // move the root node to the center of the canvas, so the origin remains at the center
                  rootContainer.x = canvas.width / 2;
