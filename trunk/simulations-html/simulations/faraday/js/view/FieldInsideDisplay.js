@@ -53,6 +53,7 @@ define( [
                 // sync with model
                 var that = this;
                 barMagnet.strength.addObserver( function ( strength ) {
+                    // Set the alpha of this container, not the individual needles.
                     that.alpha = strength / barMagnet.strengthRange.max;
                 } );
                 barMagnet.location.addObserver( function ( /* Point2D */ location ) {
