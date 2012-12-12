@@ -41,7 +41,9 @@ define( [
 
                 this.addChild( northShape );
                 this.addChild( southShape );
-                this.cache( -size.width/2, -size.height/2, size.width, size.height ); //TODO causes jitter on iPad?
+
+                // Caching improves performance significantly.
+                this.cache( -size.width/2, -size.height/2, size.width, size.height );
             }
 
             // prototype chaining
