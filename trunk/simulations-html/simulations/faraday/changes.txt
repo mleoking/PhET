@@ -1,3 +1,4 @@
+12/11/12 make Options button yellow
 12/11/12 move Options button a tad to the right
 12/11/12 move frame rate display to upper-left corner of stage
 12/11/12 on browser window resize: resize canvas to fill window, move origin to center of canvas, update field visualization to fill canvas
