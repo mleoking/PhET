@@ -84,15 +84,16 @@ textarea {
    ========================================================================== */
 
 #canvas-container {
-  position: absolute;
-  width: 60%;
-  height: 100%;
-  min-height: 100%; }
+    position: absolute;
+    width: 60%;
+    height: 100%;
+    min-height: 100%;
+}
 
 /* For debug - uncomment to show border of the canvas. */
 /*#atom-construction-canvas {*/
-  /*-webkit-box-shadow: inset 0px 0px 6px 0px #000;*/
-          /*box-shadow: inset 0px 0px 6px 0px #000;*/
+/*-webkit-box-shadow: inset 0px 0px 6px 0px #000;*/
+/*box-shadow: inset 0px 0px 6px 0px #000;*/
 /*}*/
 
 /* ------------------------------ Widget Control Panel ------------------------------ */
@@ -131,22 +132,22 @@ textarea {
 }
 
 #periodic-table table td.active {
-  background: #fff;
-  border-color: red;
-  font-weight: bold;
-  /* without display: block, active cells start getting cut off by the zoom, starting with Boron*/
-  display: block;
+    background: #fff;
+    border-color: red;
+    font-weight: bold;
+    /* without display: block, active cells start getting cut off by the zoom, starting with Boron*/
+    display: block;
 
-  -webkit-transform: scale(1.5);
-     -moz-transform: scale(1.5);
-      -ms-transform: scale(1.5);
-       -o-transform: scale(1.5);
-          transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
 
-  -webkit-animation: pulseBorderColor 1s infinite 500ms;
-     -moz-animation: pulseBorderColor 1s infinite 500ms;
-       -o-animation: pulseBorderColor 1s infinite 500ms;
-          animation: pulseBorderColor 1s infinite 500ms;
+    -webkit-animation: pulseBorderColor 1s infinite 500ms;
+    -moz-animation: pulseBorderColor 1s infinite 500ms;
+    -o-animation: pulseBorderColor 1s infinite 500ms;
+    animation: pulseBorderColor 1s infinite 500ms;
 }
 
 @-webkit-keyframes pulseBorderColor {
@@ -181,107 +182,107 @@ textarea {
 }
 
 #detailed-element-symbol h1 {
-  margin: 0;
-  text-align: center;
-  line-height: 100px;
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  z-index: 1;
+    margin: 0;
+    text-align: center;
+    line-height: 100px;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    z-index: 1;
 }
 
 #detailed-element-symbol span {
-  position: absolute;
-  font-weight: bold;
-  z-index: 5;
+    position: absolute;
+    font-weight: bold;
+    z-index: 5;
 }
 
 #detailed-element-symbol .atomic-weight {
-  top: 5px;
-  left: 5px;
+    top: 5px;
+    left: 5px;
 }
 
 #detailed-element-symbol .atomic-number {
-  bottom: 5px;
-  left: 5px;
-  color: red;
+    bottom: 5px;
+    left: 5px;
+    color: red;
 }
 
 #detailed-element-symbol .charge {
-  top: 5px;
-  right: 5px;
+    top: 5px;
+    right: 5px;
 }
 
 /* ------------------------------ Mass Number ------------------------------ */
 
 #mass-number-container {
-  position: relative;
-  width: 102px;
-  height: 110px;
-  background: url(../images/atom_builder_scale.png) no-repeat bottom left;
+    position: relative;
+    width: 102px;
+    height: 110px;
+    background: url(../images/atom_builder_scale.png) no-repeat bottom left;
 }
 
 #mass-number-container .mass-number {
-  width: 60px;
-  height: 22px;
-  position: absolute;
-  bottom: 4px;
-  left: 21px;
-  background: #fff;
-  font-weight: bold;
-  text-align: center;
+    width: 60px;
+    height: 22px;
+    position: absolute;
+    bottom: 4px;
+    left: 21px;
+    background: #fff;
+    font-weight: bold;
+    text-align: center;
 }
 
 #mass-number-container .orbital-view {
-  width: 62px;
-  height: 62px;
-  background: url(../images/small_electron_rings.png) no-repeat;
-  position: absolute;
-  top: 0px;
-  left: 20px;
+    width: 62px;
+    height: 62px;
+    background: url(../images/small_electron_rings.png) no-repeat;
+    position: absolute;
+    top: 0px;
+    left: 20px;
 }
 
 /* ------------------------------ Net Charge Widget ------------------------------ */
 
 #net-charge-container {
-  width: 94px;
-  height: 88px;
-  background: url(../images/atom_builder_charge_meter_no_window.png) no-repeat;
-  position: relative;
+    width: 94px;
+    height: 88px;
+    background: url(../images/atom_builder_charge_meter_no_window.png) no-repeat;
+    position: relative;
+    font-size: 1.4em;
+
 }
 
 #net-charge-container .net-charge {
-  width: 60px;
-  height: 22px;
-  position: absolute;
-  bottom: 8px;
-  left: 17px;
-  background: #fff;
-  font-weight: bold;
-  text-align: center;
+    width: 60px;
+    height: 30px;
+    position: absolute;
+    bottom: 8px;
+    left: 17px;
+    background: #fff;
+    font-weight: bold;
+    text-align: center;
 }
 
 /* ------------------------------ Media Queries ------------------------------ */
 
 @media only screen and (max-width: 990px) {
 
-  #canvas-container {
-    width: 100%;
-    position: static;
-  }
+    #canvas-container {
+        width: 100%;
+        position: static;
+    }
 
-  #control-panel {
-    width: 100%;
-    position: static;
-  }
+    #control-panel {
+        width: 100%;
+        position: static;
+    }
 
-  #control-panel .widget-box {
-    width: 97%;
-  }
+    #control-panel .widget-box {
+        width: 97%;
+    }
 
 }
-
-
 
 /* ==========================================================================
 Helper classes
