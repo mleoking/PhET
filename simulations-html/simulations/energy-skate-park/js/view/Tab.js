@@ -46,6 +46,16 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
             booleanProperty.addObserver( function ( checked ) {$component.attr( "checked", checked ).checkboxradio( "refresh" );} );
         };
 
+        var connectBooleanFlip = function ( $component, booleanProperty ) {
+
+            // sync model with check box
+            $component.bind( 'change', function () {booleanProperty.set( !$component.attr( "checked" ) );} );
+
+            // sync check box with model
+            booleanProperty.addObserver( function ( checked ) {$component.attr( "checked", !checked ).checkboxradio( "refresh" );} );
+        };
+
+
         connectBoolean( $tab.find( '.barGraphButton' ), model.barChartVisible );
         connectBoolean( $tab.find( '.pieChartButton' ), model.pieChartVisible );
         connectBoolean( $tab.find( '.gridButton' ), model.gridVisible );
@@ -59,6 +69,8 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
 
         $tab.find( '.reset-all-button' ).click( model.resetAll.bind( model ) );
         $tab.find( '.return-skater-button' ).click( model.skater.returnSkater.bind( model.skater ) );
+        connectBoolean( $tab.find( '#slow-motion-button' ), model.slowMotion );
+        connectBooleanFlip( $tab.find( '#normal-button' ), model.slowMotion );
 //
 //        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], model.slowMotion._set( true ) );
 //        new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
