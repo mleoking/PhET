@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -52,7 +51,8 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                                          new Vector2D( teaPotImageNode.getFullBoundsReference().getMaxX() - 5,
                                                        teaPotImageNode.getFullBoundsReference().getMinY() + 16 ),
                                          teaPot.getEnergyProductionRate(),
-                                         EFACConstants.MAX_ENERGY_RATE );
+                                         EFACConstants.MAX_ENERGY_RATE,
+                                         teaPot.getObservableActiveState() );
 
         // Create the burner stand.
         double burnerStandWidth = teaPotImageNode.getFullBoundsReference().getWidth() * 0.9;
@@ -95,51 +95,58 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
         private static boolean SHOW_BOUNDS = false; // For debug.
         private static final Random RANDOM = new Random();
 
-        private SteamNode( IClock clock, final Vector2D origin, final ObservableProperty<Double> energyOutput, final double maxEnergyOutput ) {
+        private SteamNode( IClock clock, final Vector2D origin, final ObservableProperty<Double> energyOutput, final double maxEnergyOutput, final ObservableProperty<Boolean> isActive ) {
             final PPath cloud = new PhetPPath( Color.LIGHT_GRAY );
             addChild( cloud );
             final PPath overallBounds = new PhetPPath( new BasicStroke( 1 ), Color.RED );
             if ( SHOW_BOUNDS ) {
                 addChild( overallBounds );
             }
+
+            // Update the steam cloud shape on each clock tick.
             clock.addClockListener( new ClockAdapter() {
                 @Override public void clockTicked( ClockEvent clockEvent ) {
-                    double proportion = energyOutput.get() / maxEnergyOutput;
-                    final double heightAndWidth = proportion * MAX_HEIGHT_AND_WIDTH;
-                    List<Vector2D> cloudStemShapePoints = new ArrayList<Vector2D>() {{
-                        double stemBaseWidth = 8; // Empirically chosen
-                        Vector2D startingPoint = new Vector2D( 0, heightAndWidth ).plus( new Vector2D( -stemBaseWidth / 2, 0 ).getRotatedInstance( Math.PI / 4 ) );
-                        add( startingPoint );
-                        add( startingPoint.plus( new Vector2D( stemBaseWidth, 0 ).getRotatedInstance( Math.PI / 4 ) ) );
-                        double stemAngularWidth = Math.PI / 4 * ( 1 + 0.3 * ( RANDOM.nextDouble() - 0.5 ) );
-                        add( startingPoint.plus( new Vector2D( heightAndWidth / 2, -heightAndWidth / 2 ).getRotatedInstance( stemAngularWidth / 2 ) ) );
-                        add( startingPoint.plus( new Vector2D( heightAndWidth / 2, -heightAndWidth / 2 ).getRotatedInstance( -stemAngularWidth / 2 ) ) );
-                    }};
-                    List<Vector2D> cloudBodyShapePoints = new ArrayList<Vector2D>() {{
-                        double cloudBodyHeightAndWidth = heightAndWidth * 0.9; // Multiplier empirically chosen.
-                        Vector2D centerPoint = new Vector2D( heightAndWidth - cloudBodyHeightAndWidth / 2, cloudBodyHeightAndWidth / 2 );
-                        int numPoints = 16;
-                        for ( int i = 0; i < numPoints; i++ ) {
-                            double distanceFromCenter = cloudBodyHeightAndWidth / 2 * ( 1 + 0.1 * ( RANDOM.nextDouble() - 0.5 ) );
-                            add( centerPoint.plus( new Vector2D( distanceFromCenter, 0 ).getRotatedInstance( i * ( Math.PI * 2 / numPoints ) ) ) );
-                        }
-                    }};
+                    if ( isActive.get() ) {
+                        double proportion = energyOutput.get() / maxEnergyOutput;
+                        final double heightAndWidth = proportion * MAX_HEIGHT_AND_WIDTH;
+                        List<Vector2D> cloudStemShapePoints = new ArrayList<Vector2D>() {{
+                            double stemBaseWidth = 8; // Empirically chosen
+                            Vector2D startingPoint = new Vector2D( 0, heightAndWidth ).plus( new Vector2D( -stemBaseWidth / 2, 0 ).getRotatedInstance( Math.PI / 4 ) );
+                            add( startingPoint );
+                            add( startingPoint.plus( new Vector2D( stemBaseWidth, 0 ).getRotatedInstance( Math.PI / 4 ) ) );
+                            double stemAngularWidth = Math.PI / 4 * ( 1 + 0.3 * ( RANDOM.nextDouble() - 0.5 ) );
+                            add( startingPoint.plus( new Vector2D( heightAndWidth / 2, -heightAndWidth / 2 ).getRotatedInstance( stemAngularWidth / 2 ) ) );
+                            add( startingPoint.plus( new Vector2D( heightAndWidth / 2, -heightAndWidth / 2 ).getRotatedInstance( -stemAngularWidth / 2 ) ) );
+                        }};
+                        List<Vector2D> cloudBodyShapePoints = new ArrayList<Vector2D>() {{
+                            double cloudBodyHeightAndWidth = heightAndWidth * 0.9; // Multiplier empirically chosen.
+                            Vector2D centerPoint = new Vector2D( heightAndWidth - cloudBodyHeightAndWidth / 2, cloudBodyHeightAndWidth / 2 );
+                            int numPoints = 16;
+                            for ( int i = 0; i < numPoints; i++ ) {
+                                double distanceFromCenter = cloudBodyHeightAndWidth / 2 * ( 1 + 0.1 * ( RANDOM.nextDouble() - 0.5 ) );
+                                add( centerPoint.plus( new Vector2D( distanceFromCenter, 0 ).getRotatedInstance( i * ( Math.PI * 2 / numPoints ) ) ) );
+                            }
+                        }};
 
-                    Area overallShape = new Area( ShapeUtils.createShapeFromPoints( cloudStemShapePoints ) );
-                    overallShape.add( new Area( ShapeUtils.createRoundedShapeFromVectorPoints( cloudBodyShapePoints ) ) );
-                    cloud.setPathTo( overallShape );
-                    overallBounds.setPathTo( new Rectangle2D.Double( 0, 0, heightAndWidth, heightAndWidth ) );
-                    int opacity = MathUtil.clamp( 0, (int) Math.round( 255 * proportion ), 255 );
-                    cloud.setPaint( new RoundGradientPaint( cloud.getFullBoundsReference().getWidth() / 2,
-                                                            cloud.getFullBoundsReference().getHeight() / 2,
-                                                            new Color( 255, 255, 255, opacity ),
-                                                            new Point2D.Double( cloud.getFullBoundsReference().getWidth() * 0.5 + 0.005,
-                                                                                cloud.getFullBoundsReference().getHeight() * 0.5 + 0.005 ),
-                                                            new Color( 200, 200, 200, opacity ) ) );
-                    // Move so that the lower left corner is at the origin.
-                    cloud.setOffset( origin.getX(), origin.getY() - heightAndWidth );
-                    overallBounds.setOffset( origin.getX(), origin.getY() - heightAndWidth );
-
+                        Area overallShape = new Area( ShapeUtils.createShapeFromPoints( cloudStemShapePoints ) );
+                        overallShape.add( new Area( ShapeUtils.createRoundedShapeFromVectorPoints( cloudBodyShapePoints ) ) );
+                        cloud.setPathTo( overallShape );
+                        overallBounds.setPathTo( new Rectangle2D.Double( 0, 0, heightAndWidth, heightAndWidth ) );
+                        int opacity = MathUtil.clamp( 0, (int) Math.round( 255 * ( proportion * 0.9 ) ), 255 );
+                        cloud.setPaint( new RoundGradientPaint( cloud.getFullBoundsReference().getWidth() / 2,
+                                                                cloud.getFullBoundsReference().getHeight() / 2,
+                                                                new Color( 255, 255, 255, opacity ),
+                                                                new Point2D.Double( cloud.getFullBoundsReference().getWidth() * 0.5 + 0.005,
+                                                                                    cloud.getFullBoundsReference().getHeight() * 0.5 + 0.005 ),
+                                                                new Color( 200, 200, 200, opacity ) ) );
+                        // Move so that the lower left corner is at the origin.
+                        cloud.setOffset( origin.getX(), origin.getY() - heightAndWidth );
+                        overallBounds.setOffset( origin.getX(), origin.getY() - heightAndWidth );
+                        cloud.setVisible( true );
+                    }
+                    else{
+                        cloud.setVisible( false );
+                    }
                 }
             } );
         }
