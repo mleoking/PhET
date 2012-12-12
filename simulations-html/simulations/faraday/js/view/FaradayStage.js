@@ -95,7 +95,6 @@ define( [
                     // get the window width
                     var width = $( window ).width();
                     var height = $( window ).height();
-                    console.log( "window size = " + width + " x " + height );
 
                     // make the canvas fill the window
                     canvas.width = width;
