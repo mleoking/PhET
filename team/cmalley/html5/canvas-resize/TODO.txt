@@ -1,5 +1,4 @@
 Things to investigate:
 
-- make the canvas update while the window is being resized
 - scale the scenegraph
 - adjust the model bounds
