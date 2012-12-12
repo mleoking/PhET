@@ -3,8 +3,7 @@
 /**
  * Google analytics collection for HTML5 sims.
  * Include this script as the last thing in your DOM's head.
- *
- * @author Sam Reid
+ * Code provided by Google, possibly doctored by PhET.
  */
 
 var _gaq = _gaq || [];
