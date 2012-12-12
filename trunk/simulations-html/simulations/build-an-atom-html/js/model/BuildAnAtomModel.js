@@ -28,9 +28,9 @@ define( [
         this.atom = new Atom( 0, 0 );
 
         this.buckets = {
-            protonBucket:new Bucket( -200, 300, BUCKET_WIDTH, SharedConstants.NUCLEON_RADIUS, "Protons" ),
-            neutronBucket:new Bucket( 0, 300, BUCKET_WIDTH, SharedConstants.NUCLEON_RADIUS, "Neutrons" ),
-            electronBucket:new Bucket( 200, 300, BUCKET_WIDTH, SharedConstants.ELECTRON_RADIUS, "Electrons" )
+            protonBucket:new Bucket( -200, 300, BUCKET_WIDTH, SharedConstants.NUCLEON_RADIUS, PROTON_COLOR, "Protons" ),
+            neutronBucket:new Bucket( 0, 300, BUCKET_WIDTH, SharedConstants.NUCLEON_RADIUS, NEUTRON_COLOR, "Neutrons" ),
+            electronBucket:new Bucket( 200, 300, BUCKET_WIDTH, SharedConstants.ELECTRON_RADIUS, ELECTRON_COLOR, "Electrons" )
         };
 
         this.nucleons = [];

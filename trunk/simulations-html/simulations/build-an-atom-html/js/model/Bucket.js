@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 define( [ 'underscore' ], function ( _ ) {
 
-    function Bucket( xPos, yPos, width, particleRadius, labelText ) {
+    function Bucket( xPos, yPos, width, particleRadius, color, labelText ) {
         this.x = xPos;
         this.y = yPos;
         this.width = width;
@@ -9,6 +9,7 @@ define( [ 'underscore' ], function ( _ ) {
         this.labelText = labelText;
         this.particles = [];
         this.yOffset = this.particleRadius; // Empirically determined, for positioning particles inside the bucket.
+        this.color = color;
     }
 
     Bucket.prototype.addParticle = function ( particle ) {
