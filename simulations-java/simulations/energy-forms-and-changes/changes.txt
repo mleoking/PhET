@@ -1,3 +1,5 @@
+2nd tab: Made the amount of energy produced, converted, and consumed consistent across all energy systems.
+2nd tab: New biker image that includes a chain.
 2nd tab: Scaled solar panel to not overlap with beaker or biker.
 2nd tab: Added occasional emission of thermal energy from bicycle wheel.
 # 0.00.27 (70285) Nov 13, 2012
