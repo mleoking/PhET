@@ -9,7 +9,7 @@ define( [
             'easel',
             'phetcommon/math/Dimension2D',
             'common/Inheritance',
-            'common/ModelViewTransform2D',
+            'phetcommon/view/ModelViewTransform2D',
             'phetcommon/math/Point2D',
             'phetcommon/model/property/Property',
             'view/BarMagnetDisplay',

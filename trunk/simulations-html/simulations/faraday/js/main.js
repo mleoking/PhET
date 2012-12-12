@@ -10,7 +10,7 @@ require( [
              'i18n!../nls/faraday-strings',
              'common/CanvasQuirks',
              'phetcommon/util/Logger',
-             'common/ModelViewTransform2D',
+             'phetcommon/view/ModelViewTransform2D',
              'phetcommon/view/PrototypeDialog',
              'model/FaradayModel',
              'view/OptionsPanel',
