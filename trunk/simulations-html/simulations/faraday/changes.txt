@@ -1,4 +1,5 @@
-12/12/12 on browser window resize: resize canvas to fill window, move origin to center of canvas, update field visualization to fill canvas
+12/11/12 move frame rate display to upper-left corner of stage
+12/11/12 on browser window resize: resize canvas to fill window, move origin to center of canvas, update field visualization to fill canvas
 12/11/12 i18n of title
 12/10/12 comment out a log warning that was tanking performance
 12/10/12 migrate Property to common
