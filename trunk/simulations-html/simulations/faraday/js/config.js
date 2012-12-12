@@ -19,6 +19,7 @@ require.config( {
 
         // common
         phetcommon:"../../../common/phetcommon/js",
+        phetcommon_html:"../../../common/phetcommon/html",
         'easel-phet':"../../../common/easel-phet/js"
     },
 
