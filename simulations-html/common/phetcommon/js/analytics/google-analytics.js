@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Analytics collection for the Dec 2012 newsletter prototypes.
+ * Google analytics collection for HTML5 sims.
  * Include this script as the last thing in your DOM's head.
  *
  * @author Sam Reid
