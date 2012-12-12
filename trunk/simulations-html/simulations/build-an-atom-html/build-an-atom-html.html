@@ -19,7 +19,8 @@
 
     <title>Build an Atom Easel</title>
 
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet"
+          href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
 
@@ -28,6 +29,9 @@
     <script src="../../contrib/jquery-1.8.3.js"></script>
     <script src="../../contrib/jquery.mobile-1.2.0/jquery.mobile-1.2.0-phet.js"></script>
 
+    <!-- Prototype analytics code.  TODO: Should be removed at some point -->
+    <script src='../../common/phetcommon/js/analytics/google-analytics.js'></script>
+
 </head>
 
 <body>
@@ -35,31 +39,36 @@
 <div class=phet-container>
     <!--Make the canvas be roughly the expected size on the nominal screen, which is 1024x768.-->
     <div id="canvas-container">
-      <canvas id="atom-construction-canvas" width="614" height="768"></canvas>
+        <canvas id="atom-construction-canvas" width="614" height="768"></canvas>
     </div>
     <div id="control-panel">
         <div id="periodic-table-box" data-role="collapsible" class=widget-box>
             <h2>Periodic Table</h2>
+
             <div id="periodic-table"></div>
         </div>
         <div id="symbol" data-role="collapsible" class=widget-box>
             <h2>Symbol</h2>
+
             <div id="detailed-element-symbol"></div>
         </div>
         <div id="mass-number" data-role="collapsible" class=widget-box>
             <h2>Mass Number</h2>
+
             <div id="mass-number-container"></div>
         </div>
         <div id="net-charge" data-role="collapsible" class=widget-box>
             <h2>Net Charge</h2>
+
             <div id="net-charge-container">
-              <div class="net-charge">0</div>
+                <div class="net-charge">0</div>
             </div>
         </div>
     </div>
 </div>
 
-<script data-main="js/build-an-atom-config.js" src="../../contrib/require-2.1.2.js"></script>
+<script data-main="js/build-an-atom-config.js"
+        src="../../contrib/require-2.1.2.js"></script>
 
 </body>
 </html>
