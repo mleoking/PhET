@@ -8,24 +8,25 @@ define( [ 'underscore', 'easel', 'common/Point2D' ], function ( _, Easel, Point2
      **/
     var BucketFront = function ( bucket, mvt ) {
         Easel.Container.prototype.initialize.call( this );
-        this.bucket = bucket;
-        this.mvt = mvt;
-        this.initialize( mvt );
+        this.initialize( bucket, mvt );
     };
 
     var p = BucketFront.prototype;
 
     _.extend( p, Easel.Container.prototype );
 
-    p.initialize = function ( mvt ) {
+    p.initialize = function ( bucket, mvt ) {
 
+        this.bucket = bucket;
         var width = mvt.modelToView( this.bucket.width );
         var height = width * 0.5; // Determined empirically for best look.
 
         // Create the basic shape of the front of the bucket.
         var shape = new Easel.Shape();
-        shape.graphics.beginStroke( "black" ).beginFill( "gray" ).setStrokeStyle( 2 );
         shape.graphics
+                .beginStroke( "black" )
+                .beginLinearGradientFill( ["white", bucket.color, "black" ], [.1,.9,1], 0, 0, width, 0 )
+                .setStrokeStyle( 2 )
                 .moveTo( 0, 0 )
                 .lineTo( width * 0.1, height * 0.8 )
                 .bezierCurveTo( width * 0.3, height, width * 0.7, height, width * 0.9, height * 0.8 )
