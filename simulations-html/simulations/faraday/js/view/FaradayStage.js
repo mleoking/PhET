@@ -37,25 +37,22 @@ define( [
 
                 // model-view transform
                 var MVT_SCALE = 1; // 1 model unit == 1 view unit
-                var MVT_OFFSET = new Point2D( 0.5 * canvas.width / MVT_SCALE, 0.5 * canvas.height / MVT_SCALE ); // origin in center of canvas
+                var MVT_OFFSET = new Point2D( 0, 0 ); // origin relative to rootContainer
                 var mvt = new ModelViewTransform2D( MVT_SCALE, MVT_OFFSET );
 
                 // black background
                 var background = new Easel.Shape();
-                background.graphics
-                        .beginFill( 'black' )
-                        .rect( 0, 0, canvas.width, canvas.height );
 
                 // needle size, used for field inside and outside the magnet
                 var NEEDLE_SIZE = new Dimension2D( 25, 7 );
 
                 // field outside the magnet
-                var field = new FieldOutsideDisplay( model.barMagnet, mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
-                field.visible = this.showField.get();
+                var fieldOutside = new FieldOutsideDisplay( model.barMagnet, mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
+                fieldOutside.visible = this.showField.get();
                 this.showField.addObserver( function ( visible ) {
-                    field.visible = visible;
+                    fieldOutside.visible = visible;
                     if ( visible ) {
-                        field.updateField();
+                        fieldOutside.updateField();
                     }
                 } );
 
@@ -82,12 +79,45 @@ define( [
 
                 // rendering order
                 this.addChild( background );
-                this.addChild( field );
-                this.addChild( barMagnet );
-                this.addChild( fieldInside );
-                this.addChild( compass );
-                this.addChild( meter );
-                this.addChild( this.frameRateDisplay );
+                var rootContainer = new Easel.Container();
+                this.addChild( rootContainer );
+                rootContainer.addChild( fieldOutside );
+                rootContainer.addChild( barMagnet );
+                rootContainer.addChild( fieldInside );
+                rootContainer.addChild( compass );
+                rootContainer.addChild( meter );
+                rootContainer.addChild( this.frameRateDisplay );
+
+                // resize handler
+                var that = this;
+                var handleResize = function () {
+
+                    // get the window width
+                    var width = $( window ).width();
+                    var height = $( window ).height();
+                    console.log( "window size = " + width + " x " + height );
+
+                    // make the canvas fill the window
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    // expand the background to fill the canvas
+                    background.graphics
+                            .beginFill( 'black' )
+                            .rect( 0, 0, canvas.width, canvas.height );
+
+                    // expand the grid to fill the canvas
+                    fieldOutside.resize( new Dimension2D( canvas.width, canvas.height ) );
+
+                    // move the root node to the center of the canvas, so the origin remains at the center
+                    rootContainer.x = canvas.width / 2;
+                    rootContainer.y = canvas.height / 2;
+
+                    // force rendering update
+                    that.tick();
+                };
+                $( window ).resize( handleResize );
+                handleResize(); // initial size
             }
 
             Inheritance.inheritPrototype( FaradayStage, Easel.Stage );
