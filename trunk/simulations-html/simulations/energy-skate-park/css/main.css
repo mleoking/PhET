@@ -23,3 +23,18 @@
     width: 20%;
     max-width: 200px;
 }
+
+.footer {
+    overflow: hidden; /* add this to contain floated children */
+}
+
+.speed-buttons {
+    width: 300px;
+    float: left; /* add this */
+    border: 1px solid red;
+}
+
+.play-pause-button {
+    border: 1px solid green;
+    float: left; /* add this */
+}
