@@ -6,6 +6,7 @@ HIGH:
 - improve tablet performance
 
 MEDIUM:
+- startup error: Empty string passed to getElementById().
 - investigate non-modal popups
 - investigate other patterns for Options panel
 
