@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -133,7 +132,6 @@ public class Biker extends EnergySource {
     private double crankAngularVelocity = 0; // In radians/s.
     private final ObservableProperty<Boolean> energyChunksVisible;
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    public ObservableList<EnergyChunk> movingEnergyChunks = new ObservableList<EnergyChunk>();
     private double energyProducedSinceLastChunkEmitted = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT * 0.9;
     private int mechanicalChunksSinceLastThermal = 0;
 
@@ -175,7 +173,7 @@ public class Biker extends EnergySource {
                         if ( ec.position.get().getX() > hubPosition.getX() ) {
                             // Just remove this energy chunk.
                             energyChunkMovers.remove( energyChunkMover );
-                            movingEnergyChunks.remove( ec );
+                            energyChunkList.remove( ec );
                         }
                         else {
                             // Make sure that this energy chunk turns to thermal energy.
@@ -199,7 +197,7 @@ public class Biker extends EnergySource {
 
             // If there is no energy, the target speed is 0, otherwise it is
             // the current set point.
-            double target = energyChunkList.size() > 0 ? targetCrankAngularVelocity.get() : 0;
+            double target = bikerHasEnergy() ? targetCrankAngularVelocity.get() : 0;
 
             // Speed up or slow down the angular velocity of the crank.
             double previousAngularVelocity = crankAngularVelocity;
@@ -236,11 +234,9 @@ public class Biker extends EnergySource {
             if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT && targetCrankAngularVelocity.get() > 0 ) {
 
                 // Start a new chunk moving.
-                if ( energyChunkList.size() > 0 ) {
-                    EnergyChunk energyChunk = energyChunkList.get( 0 );
+                if ( bikerHasEnergy() ) {
+                    EnergyChunk energyChunk = findNonMovingEnergyChunk();
                     energyChunkMovers.add( new EnergyChunkPathMover( energyChunk, createChemicalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                    energyChunkList.remove( energyChunk );
-                    movingEnergyChunks.add( energyChunk );
                     energyProducedSinceLastChunkEmitted = 0;
                 }
             }
@@ -326,15 +322,7 @@ public class Biker extends EnergySource {
 
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();
-        movingEnergyChunks.clear();
         energyChunkMovers.clear();
-    }
-
-    @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
-        List<EnergyChunk> retVal = new ArrayList<EnergyChunk>( outgoingEnergyChunks );
-        movingEnergyChunks.removeAll( outgoingEnergyChunks );
-        outgoingEnergyChunks.clear();
-        return retVal;
     }
 
     public ObservableProperty<Double> getRearWheelAngle() {
@@ -382,7 +370,7 @@ public class Biker extends EnergySource {
     private static List<Vector2D> createMechanicalToThermalEnergyChunkPath( final Vector2D centerPosition, final Vector2D currentPosition ) {
         return new ArrayList<Vector2D>() {{
             Vector2D crankPosition = centerPosition.plus( BIKE_CRANK_OFFSET );
-            if ( currentPosition.getY() > crankPosition.getY() ){
+            if ( currentPosition.getY() > crankPosition.getY() ) {
                 // Only add the crank position if the current position
                 // indicates that the chunk hasn't reached the crank yet.
                 add( centerPosition.plus( BIKE_CRANK_OFFSET ) );
@@ -409,6 +397,26 @@ public class Biker extends EnergySource {
                 add( new Vector2D( offset ) );
             }
         }};
+    }
+
+    // Choose a non-moving energy chunk, returns null if all chunks are moving.
+    private EnergyChunk findNonMovingEnergyChunk(){
+        List<EnergyChunk> movingEnergyChunks = new ArrayList<EnergyChunk>(  );
+        for ( EnergyChunkPathMover energyChunkMover : energyChunkMovers ) {
+            movingEnergyChunks.add( energyChunkMover.energyChunk );
+        }
+        EnergyChunk nonMovingEnergyChunk = null;
+        for ( EnergyChunk energyChunk : energyChunkList ) {
+            if ( !movingEnergyChunks.contains( energyChunk )){
+                nonMovingEnergyChunk = energyChunk;
+                break;
+            }
+        }
+        return nonMovingEnergyChunk;
+    }
+
+    private boolean bikerHasEnergy(){
+        return energyChunkList.size() > 0 && energyChunkList.size() > energyChunkMovers.size();
     }
 
     @Override public IUserComponent getUserComponent() {

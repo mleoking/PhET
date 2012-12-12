@@ -87,7 +87,6 @@ public class BikerNode extends PositionableFadableModelElementNode {
 
         // Add the energy chunk layers.
         addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
-        addChild( new EnergyChunkLayer( biker.movingEnergyChunks, biker.getObservablePosition(), mvt ) );
 
         // Add button to replenish the biker's energy.
         // TODO: i18n
