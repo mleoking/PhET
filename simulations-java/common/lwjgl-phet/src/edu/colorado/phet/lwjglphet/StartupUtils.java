@@ -55,7 +55,7 @@ public class StartupUtils {
     public static int getMaximumAntialiasingSamples() {
         int result = 0;
         try {
-            Pbuffer pb = new Pbuffer( 10, 10, new PixelFormat( 32, 0, 24, 8, 0 ), null );
+            Pbuffer pb = new Pbuffer( 10, 10, new PixelFormat( 24, 8, 24, 8, 0 ), null );
             pb.makeCurrent();
             boolean supported = GLContext.getCapabilities().GL_ARB_multisample;
             if ( supported ) {
