@@ -21,4 +21,5 @@
     right: 10px; /*Prevent scroll bars.  This line was probably necessary after changing the default font in the buttons*/
     top: 40px;
     width: 20%;
+    max-width: 200px;
 }
