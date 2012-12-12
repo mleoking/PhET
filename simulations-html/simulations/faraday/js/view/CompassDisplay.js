@@ -26,30 +26,34 @@ define( [
                 // constructor stealing
                 Easel.Container.call( this );
 
-                var outsideRadius = 40;
-                var ringThickness = 10;
+                var OUTSIDE_RADIUS = 40;
+                var RING_THICKNESS = 10;
+
+                // the body of the compass, the part that doesn't change
+                var body = new Easel.Container();
+                this.addChild( body );
 
                 // ring
                 var ring = new Easel.Shape();
                 ring.graphics
                         .beginFill( Easel.Graphics.getRGB( 0, 0, 0, 0.05 ) )
-                        .setStrokeStyle( ringThickness )
+                        .setStrokeStyle( RING_THICKNESS )
                         .beginStroke( Easel.Graphics.getRGB( 153, 153, 153 ) )
-                        .drawCircle( 0, 0, outsideRadius - ( ringThickness / 2 ) );
-                this.addChild( ring );
+                        .drawCircle( 0, 0, OUTSIDE_RADIUS - ( RING_THICKNESS / 2 ) );
+                body.addChild( ring );
 
-                // indicators on the ring
+                // indicators on the ring, spaced 45-degrees apart
                 var angle = 0;
                 while ( angle < 360 ) {
 
-                    var vector = Vector2D.createPolar( outsideRadius - ( ringThickness / 2 ), MathUtil.toRadians( angle ) );
+                    var vector = Vector2D.createPolar( OUTSIDE_RADIUS - ( RING_THICKNESS / 2 ), MathUtil.toRadians( angle ) );
 
                     var indicator = new Easel.Shape();
                     indicator.graphics
                             .beginFill( 'black' )
                             .setStrokeStyle( 0 )
                             .drawCircle( vector.x, vector.y, 3 );
-                    this.addChild( indicator );
+                    body.addChild( indicator );
 
                     angle += 45;
                 }
@@ -84,6 +88,9 @@ define( [
                 compass.visible.addObserver( function updateVisibility( visible ) {
                     that.visible = visible;
                 } );
+
+                // Cache the part of the compass that doesn't change, to improve performance.
+                body.cache( -OUTSIDE_RADIUS, -OUTSIDE_RADIUS, 2 * OUTSIDE_RADIUS, 2 * OUTSIDE_RADIUS );
             }
 
             // prototype chaining
