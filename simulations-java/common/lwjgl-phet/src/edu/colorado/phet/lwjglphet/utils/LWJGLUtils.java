@@ -167,6 +167,8 @@ public class LWJGLUtils {
     *----------------------------------------------------------------------------*/
 
     public static boolean containsMacJava7Issue() {
+        // uses recommended method at https://developer.apple.com/library/mac/#technotes/tn2002/tn2110.html for detection,
+        // in addition to verifying that the improper extension is used for the mapped library name
         return System.mapLibraryName( "lwjgl" ).endsWith( "dylib" ) && System.getProperty( "os.name" ).contains( "OS X" ) && System.getProperty( "java.version" ).split( "\\." )[1].equals( "7" );
     }
 
