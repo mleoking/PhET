@@ -3,14 +3,12 @@
 define( [],
         function () {
 
-            function Person( firstName, lastName ) {
-
-                this.firstName = firstName;
-                this.lastName = lastName;
+            function Person( name ) {
+                this.name = name;
             }
 
             Person.prototype.printName = function() {
-                console.log( this.firstName + " " + this.lastName );
+                console.log( this.name );
             }
 
             return Person;

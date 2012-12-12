@@ -1,4 +1,4 @@
-define( [ "./Person" ],
+define( [ "modelpath/Person" ],
         function ( Person ) {
 
             function Contact( name ) {

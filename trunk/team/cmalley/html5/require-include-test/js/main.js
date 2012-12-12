@@ -1,4 +1,4 @@
-require( [ "model/Contact", "../js/model/Person" ],
+require( [ "modelpath/Contact", "modelpath/Person" ],
          function ( Contact, Person ) {
              var contact = new Contact( "Joe Plumber" );
              if ( contact.person instanceof Person ) {
