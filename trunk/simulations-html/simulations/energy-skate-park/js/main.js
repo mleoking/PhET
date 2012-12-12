@@ -14,7 +14,8 @@ require( ['util/WebsocketRefresh',
 //    var tabs = ["introductionTab", "frictionTab", "trackPlaygroundTab"];
     var tabs = ["introductionTab"];
 
-    var activeTab = new Property( tabs[0] );
+    var tab0 = tabs[0];
+    var activeTab = new Property( tab0 );
     var $container = $( '#container' );
 
     for ( var i = 0; i < tabs.length; i++ ) {
