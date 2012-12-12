@@ -71,6 +71,15 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         $tab.find( '.return-skater-button' ).click( model.skater.returnSkater.bind( model.skater ) );
         connectBoolean( $tab.find( '#slow-motion-button' ), model.slowMotion );
         connectBooleanFlip( $tab.find( '#normal-button' ), model.slowMotion );
+
+        $( '.play-pause-button' ).bind( 'click', function () {
+            model.playing.toggle();
+            $( '.play-pause-button > .ui-btn-inner > .ui-btn-text' ).html( !model.playing.get() ? "&#9654;" : "&#10074;&#10074;" );
+        } );
+
+        model.playing.addObserver( function () {
+            $( '.play-pause-button > .ui-btn-inner > .ui-btn-text' ).html( !model.playing.get() ? "&#9654;" : "&#10074;&#10074;" );
+        } );
 //
 //        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], model.slowMotion._set( true ) );
 //        new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
