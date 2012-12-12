@@ -59,6 +59,9 @@ require( [
                  // move the root node to the center of the canvas, so the origin remains at the center
                  rootContainer.x = canvas.width / 2;
                  rootContainer.y = canvas.height / 2;
+
+                 // force rendering update
+                 stage.tick();
              };
              $( window ).resize( handleResize );
              handleResize();
