@@ -63,6 +63,9 @@ define( [
                 barMagnet.orientation.addObserver( function ( orientation /* radians */ ) {
                     that.rotation = MathUtil.toDegrees( orientation );
                 } );
+
+                // Cache to improve performance.
+                this.cache( -(barMagnet.size.width / 2), -(barMagnet.size.height / 2), barMagnet.size.width, barMagnet.size.height );
             }
 
             // prototype chaining
