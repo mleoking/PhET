@@ -27,11 +27,19 @@ define( [
 
     NetChargeView.prototype.render = function () {
 
-        var charge = this.atom.getCharge();
+        var atomCharge = this.atom.getCharge();
         var chargeIndicator = this.atom.getCharge() > 0 ? "+" : "";
+        var color = 'black';
+        if ( atomCharge > 0 ){
+            color = 'red';
+        }
+        else{
+            color = 'blue';
+        }
 
         var template = netChargeTemplate( {
-                                              charge:chargeIndicator + this.atom.getCharge()
+                                              charge:chargeIndicator + atomCharge,
+                                              fontColor:color
                                           } );
 
         this.$el.html( template );
