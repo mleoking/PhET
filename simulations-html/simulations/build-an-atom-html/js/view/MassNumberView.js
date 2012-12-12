@@ -3,11 +3,11 @@ define([
   'tpl!templates/mass-number.html'
 ], function( _, massNumberTemplate ){
 
-  function MassNumberlView( atom ){
+  function MassNumberView( atom ){
     this.atom = atom;
 
     if( !this.atom ){
-      throw new Error('I need an atom!');
+      throw new Error('No atom supplied.');
     }
 
     this.$el = $('#mass-number-container');
@@ -21,7 +21,7 @@ define([
     this.render();
   }
 
-  MassNumberlView.prototype.render = function(){
+  MassNumberView.prototype.render = function(){
 
     var template = massNumberTemplate({
       mass: this.atom.getWeight()
@@ -30,6 +30,6 @@ define([
     this.$el.html( template );
   };
 
-  return MassNumberlView;
+  return MassNumberView;
 
 });
