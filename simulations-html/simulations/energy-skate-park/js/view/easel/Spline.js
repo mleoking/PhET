@@ -11,7 +11,7 @@ define( ['easel', 'numeric' ], function ( createjs, numeric ) {
 
     var that = {};
 
-    that.createSplineLayer = function ( groundHeight ) {
+    that.createSplineLayer = function ( groundHeight, model ) {
 
         var splineLayer = new createjs.Container();
         var line = null;
@@ -53,6 +53,19 @@ define( ['easel', 'numeric' ], function ( createjs, numeric ) {
         var a = createControlPoint( 100, 200 );
         var b = createControlPoint( 200, 300 );
         var c = createControlPoint( 300, 250 );
+
+        model.resettableSpline = {reset: function () {
+            a.x = 100;
+            a.y = 200;
+
+            b.x = 200;
+            b.y = 300;
+
+            c.x = 300;
+            c.y = 250;
+
+            line.drawBetweenControlPoints();
+        }};
 
         var controlPoints = [a, b, c];
 
