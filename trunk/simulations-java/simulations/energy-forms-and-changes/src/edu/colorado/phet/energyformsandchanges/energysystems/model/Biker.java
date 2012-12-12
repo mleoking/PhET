@@ -40,7 +40,7 @@ public class Biker extends EnergySource {
     private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
     private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
     private static final Random RAND = new Random();
-    public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 10; // In joules, but empirically determined.
+    public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 125; // In joules, but empirically determined.
     public static final int MECHANICAL_TO_THERMAL_CHUNK_RATIO = 5;
 
     // Offset of the bike frame center.  Most other image offsets are relative
