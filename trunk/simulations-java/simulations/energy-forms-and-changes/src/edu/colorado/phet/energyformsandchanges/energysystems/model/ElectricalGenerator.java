@@ -25,7 +25,7 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  *
  * @author John Blanco
  */
-public class Generator extends EnergyConverter {
+public class ElectricalGenerator extends EnergyConverter {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -75,7 +75,7 @@ public class Generator extends EnergyConverter {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public Generator() {
+    public ElectricalGenerator() {
         super( EnergyFormsAndChangesResources.Images.GENERATOR_ICON );
     }
 
