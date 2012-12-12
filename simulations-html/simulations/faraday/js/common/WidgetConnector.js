@@ -2,7 +2,7 @@
 
 /**
  * Encapsulates the connection of DOM user-interface components to JavaScript.
- * This implementation used jQuery Mobile.
+ * This implementation uses jQuery Mobile.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
