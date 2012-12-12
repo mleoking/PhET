@@ -58,6 +58,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
 //        } );
 
         $tab.find( '.reset-all-button' ).click( model.resetAll.bind( model ) );
+        $tab.find( '.return-skater-button' ).click( model.skater.returnSkater.bind( model.skater ) );
 //
 //        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], model.slowMotion._set( true ) );
 //        new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
