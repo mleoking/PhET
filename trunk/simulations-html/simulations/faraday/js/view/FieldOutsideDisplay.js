@@ -3,6 +3,8 @@
 /**
  * Display object for the B-field outside the magnet, a grid of compass needles.
  * Each needle represents the B-field vector at a specific point.
+ * Assumes that the origin is at the center of the canvas, and resizes itself
+ * to fill the canvas.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
