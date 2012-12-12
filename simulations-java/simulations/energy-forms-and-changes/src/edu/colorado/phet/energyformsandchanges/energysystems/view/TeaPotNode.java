@@ -12,6 +12,10 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -33,7 +37,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class TeaPotNode extends PositionableFadableModelElementNode {
 
-    public TeaPotNode( TeaPot teaPot, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
+    public TeaPotNode( TeaPot teaPot, IClock clock, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( teaPot, mvt );
 
         // Create the burner.
@@ -44,10 +48,11 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
         final PNode teaPotImageNode = new ModelElementImageNode( TeaPot.TEAPOT_IMAGE, mvt );
 
         // Create the steam node.  There are some tweak factors in the position.
-        PNode steamNode = new SteamBackgroundNode( new Vector2D( teaPotImageNode.getFullBoundsReference().getMaxX() - 5,
-                                                                 teaPotImageNode.getFullBoundsReference().getMinY() + 16 ),
-                                                   teaPot.getEnergyProductionRate(),
-                                                   EFACConstants.MAX_ENERGY_RATE );
+        PNode steamNode = new SteamNode( clock,
+                                         new Vector2D( teaPotImageNode.getFullBoundsReference().getMaxX() - 5,
+                                                       teaPotImageNode.getFullBoundsReference().getMinY() + 16 ),
+                                         teaPot.getEnergyProductionRate(),
+                                         EFACConstants.MAX_ENERGY_RATE );
 
         // Create the burner stand.
         double burnerStandWidth = teaPotImageNode.getFullBoundsReference().getWidth() * 0.9;
@@ -84,22 +89,22 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
         addChild( teaPotImageNode );
     }
 
-    private static class SteamBackgroundNode extends PNode {
+    private static class SteamNode extends PNode {
 
         private static double MAX_HEIGHT_AND_WIDTH = 200;
         private static boolean SHOW_BOUNDS = false; // For debug.
         private static final Random RANDOM = new Random();
 
-        private SteamBackgroundNode( final Vector2D origin, ObservableProperty<Double> energyOutput, final double maxEnergyOutput ) {
+        private SteamNode( IClock clock, final Vector2D origin, final ObservableProperty<Double> energyOutput, final double maxEnergyOutput ) {
             final PPath cloud = new PhetPPath( Color.LIGHT_GRAY );
             addChild( cloud );
             final PPath overallBounds = new PhetPPath( new BasicStroke( 1 ), Color.RED );
             if ( SHOW_BOUNDS ) {
                 addChild( overallBounds );
             }
-            energyOutput.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double energyOutput ) {
-                    double proportion = energyOutput / maxEnergyOutput;
+            clock.addClockListener( new ClockAdapter() {
+                @Override public void clockTicked( ClockEvent clockEvent ) {
+                    double proportion = energyOutput.get() / maxEnergyOutput;
                     final double heightAndWidth = proportion * MAX_HEIGHT_AND_WIDTH;
                     List<Vector2D> cloudStemShapePoints = new ArrayList<Vector2D>() {{
                         double stemBaseWidth = 8; // Empirically chosen
@@ -134,9 +139,9 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                     // Move so that the lower left corner is at the origin.
                     cloud.setOffset( origin.getX(), origin.getY() - heightAndWidth );
                     overallBounds.setOffset( origin.getX(), origin.getY() - heightAndWidth );
+
                 }
             } );
-
         }
     }
 }
