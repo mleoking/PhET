@@ -99,7 +99,6 @@ public class TeaPot extends EnergySource {
                 // trickle on forever.
                 energyProductionRate.set( 0.0 );
             }
-            System.out.println( "energyProductionRate = " + energyProductionRate.get() );
 
             // See if it's time to emit a new energy chunk from the heater.
             heatEnergyProducedSinceLastChunk += Math.max( heatCoolAmount.get(), 0 ) * EFACConstants.MAX_ENERGY_RATE * dt;
