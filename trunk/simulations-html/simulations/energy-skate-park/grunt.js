@@ -29,7 +29,7 @@ module.exports = function ( grunt ) {
                           requirejs: {
                               compile: {
                                   options: {
-                                      mainConfigFile: "app/config.js",
+                                      mainConfigFile: "js/config.js",
                                       out: "dist/debug/require.js",
                                       name: "config",
                                       wrap: false
