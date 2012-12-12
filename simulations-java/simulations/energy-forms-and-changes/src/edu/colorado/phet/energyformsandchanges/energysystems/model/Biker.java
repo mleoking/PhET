@@ -35,8 +35,8 @@ public class Biker extends EnergySource {
     public static final double MAX_ANGULAR_VELOCITY_OF_CRANK = 3 * Math.PI; // In radians/sec.
     private static final double ANGULAR_ACCELERATION = Math.PI / 2; // In radians/(sec^2).
     // TODO: This is temp until we figure out how much it should really put out.
-    private static final double MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR = 10; // In joules / (radians / sec)
-    private static final double MAX_ENERGY_OUTPUT_WHEN_RUNNING_FREE = 2; // In joules / (radians / sec)
+    private static final double MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR = EFACConstants.MAX_ENERGY_RATE; // In joules / sec
+    private static final double MAX_ENERGY_OUTPUT_WHEN_RUNNING_FREE = MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR / 5; // In joules / sec
     private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
     private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
     private static final Random RAND = new Random();
@@ -51,7 +51,7 @@ public class Biker extends EnergySource {
     // offsets, which are in meters, were empirically determined.  The values
     // aren't really to scale, since there are so many things in this model
     // with very different scales.
-    public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME_2, FRAME_CENTER_OFFSET );
+    public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME_3, FRAME_CENTER_OFFSET );
     public static final ModelElementImage REAR_WHEEL_SPOKES_IMAGE = new ModelElementImage( BICYCLE_SPOKES, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.035, -0.020 ) ) );
     public static final ModelElementImage RIDER_NORMAL_UPPER_BODY_IMAGE = new ModelElementImage( BICYCLE_RIDER, FRAME_CENTER_OFFSET.plus( new Vector2D( -0.0025, 0.062 ) ) );
     public static final ModelElementImage RIDER_TIRED_UPPER_BODY_IMAGE = new ModelElementImage( BICYCLE_RIDER_TIRED, FRAME_CENTER_OFFSET.plus( new Vector2D( -0.0032, 0.056 ) ) );

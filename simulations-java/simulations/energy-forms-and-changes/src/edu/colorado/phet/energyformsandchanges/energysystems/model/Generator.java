@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -32,8 +33,8 @@ public class Generator extends EnergyConverter {
 
     // Attributes of the wheel and generator.
     private static final double WHEEL_MOMENT_OF_INERTIA = 5; // In kg.
-    private static final double RESISTANCE_CONSTANT = 5; // Controls max speed and rate of slow down, empirically determined.
-    private static final double DIRECT_COUPLING_ENERGY_TO_ROTATION_CONSTANT = 0.2;
+    private static final double RESISTANCE_CONSTANT = 3; // Controls max speed and rate of slow down, empirically determined.
+    private static final double MAX_ROTATIONAL_VELOCITY = Math.PI / 2; // In radians/sec, empirically determined.
 
     // Images used to represent this model element in the view.
     public static final ModelElementImage HOUSING_IMAGE = new ModelElementImage( GENERATOR, new Vector2D( 0, 0 ) );
@@ -51,8 +52,6 @@ public class Generator extends EnergyConverter {
     private static final Vector2D WIRE_CURVE_POINT_1_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.015, -0.06 );
     private static final Vector2D WIRE_CURVE_POINT_2_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.03, -0.07 );
     private static final Vector2D CENTER_OF_CONNECTOR_OFFSET = CONNECTOR_OFFSET;
-
-    private static final double ENERGY_OUTPUT_RATE = 35; // In joules / (radians / sec)
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -92,7 +91,7 @@ public class Generator extends EnergyConverter {
                 // Treat the wheel as though it is directly coupled to the
                 // energy source, e.g. through a belt or drive shaft.
                 if ( incomingEnergy.type == EnergyType.MECHANICAL ) {
-                    wheelRotationalVelocity = incomingEnergy.amount * DIRECT_COUPLING_ENERGY_TO_ROTATION_CONSTANT * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
+                    wheelRotationalVelocity = incomingEnergy.amount / EFACConstants.MAX_ENERGY_RATE * MAX_ROTATIONAL_VELOCITY * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
                     wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
                 }
             }
@@ -101,11 +100,16 @@ public class Generator extends EnergyConverter {
                 // energy, such as water, and has inertia.
                 double torqueFromIncomingEnergy = 0;
                 if ( incomingEnergy.type == EnergyType.MECHANICAL ) {
-                    torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * 30 * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
+                    double torqueToEnergyConstant = 40; // Empirically determined to reach max energy after a second or two.
+                    torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * torqueToEnergyConstant * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
                 }
                 double torqueFromResistance = -wheelRotationalVelocity * RESISTANCE_CONSTANT;
                 double angularAcceleration = ( torqueFromIncomingEnergy + torqueFromResistance ) / WHEEL_MOMENT_OF_INERTIA;
-                wheelRotationalVelocity += angularAcceleration * dt;
+                wheelRotationalVelocity = MathUtil.clamp( -MAX_ROTATIONAL_VELOCITY, wheelRotationalVelocity + ( angularAcceleration * dt ), MAX_ROTATIONAL_VELOCITY );
+                if ( Math.abs( wheelRotationalVelocity ) < 1E-3 ){
+                    // Prevent the wheel from moving forever.
+                    wheelRotationalVelocity = 0;
+                }
                 wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
             }
 
@@ -161,7 +165,7 @@ public class Generator extends EnergyConverter {
         }
 
         // Produce the appropriate amount of energy.
-        return new Energy( EnergyType.ELECTRICAL, Math.abs( wheelRotationalVelocity * ENERGY_OUTPUT_RATE ) );
+        return new Energy( EnergyType.ELECTRICAL, Math.abs( ( wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY ) * EFACConstants.MAX_ENERGY_RATE ) * dt );
     }
 
     private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {

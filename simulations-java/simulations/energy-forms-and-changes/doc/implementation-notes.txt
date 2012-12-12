@@ -27,5 +27,15 @@ containers when in the appropriate state (i.e. heating or cooling).  Unlike
 the other energy containers, they don't calculate whether they have excess or
 a deficit of energy chunks.
 
+Tab 2
+
+The producers, converters, and consumers of energy are collectively referred to
+as "energy systems".
+
+All energy systems produce, convert, and consume energy at the same max rate,
+just to keep things consistent.  This is obviously much different from the
+real world (e.g. the sun doesn't really produce the same amount of energy as a
+tea pot).
+
 
 

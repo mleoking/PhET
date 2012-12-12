@@ -45,12 +45,10 @@ public class TeaPot extends EnergySource {
     private static final DoubleRange THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE = new DoubleRange( -0.015, 0.015 ); // In meters, must be coordinated with heater position.
 
     // Miscellaneous other constants.
-    public static final double MAX_ENERGY_PRODUCTION_RATE = 200; // In joules/second
     private static final double MAX_ENERGY_CHANGE_RATE = 20; // In joules/second
     private static final double COOLING_CONSTANT = 0.1; // Controls rate at which tea pot cools down, empirically determined.
     private static final double COOL_DOWN_COMPLETE_THRESHOLD = 30; // In joules/second
     public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 100; // In joules, but empirically determined.
-    public static final double MAX_ENERGY_CHUNK_DISTANCE = 0.5; // In meters.
     private static final DoubleRange ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE = new DoubleRange( 0.12, 0.15 );
     private static final Random RAND = new Random();
 
@@ -61,7 +59,6 @@ public class TeaPot extends EnergySource {
     public final Property<Double> heatCoolAmount = new Property<Double>( 0.0 );
     private Property<Double> energyProductionRate = new Property<Double>( 0.0 );
     private double heatEnergyProducedSinceLastChunk = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT / 2;
-    private double steamEnergyProducedSinceLastChunk = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT / 2;
     private ObservableProperty<Boolean> energyChunksVisible;
     private ObservableProperty<Boolean> steamPowerableElementInPlace;
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
@@ -95,17 +92,17 @@ public class TeaPot extends EnergySource {
                 double energyProductionIncreaseRate = heatCoolAmount.get() * MAX_ENERGY_CHANGE_RATE; // Analogous to acceleration.
                 double energyProductionDecreaseRate = energyProductionRate.get() * COOLING_CONSTANT; // Analogous to friction.
                 energyProductionRate.set( Math.min( energyProductionRate.get() + energyProductionIncreaseRate * dt - energyProductionDecreaseRate * dt,
-                                                    MAX_ENERGY_PRODUCTION_RATE ) ); // Analogous to velocity.
+                                                    EFACConstants.MAX_ENERGY_RATE ) ); // Analogous to velocity.
             }
             else {
                 // Clamp the energy production rate to zero so that it doesn't
                 // trickle on forever.
                 energyProductionRate.set( 0.0 );
-                steamEnergyProducedSinceLastChunk = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT / 2;
             }
+            System.out.println( "energyProductionRate = " + energyProductionRate.get() );
 
             // See if it's time to emit a new energy chunk from the heater.
-            heatEnergyProducedSinceLastChunk += Math.max( heatCoolAmount.get(), 0 ) * MAX_ENERGY_PRODUCTION_RATE * dt;
+            heatEnergyProducedSinceLastChunk += Math.max( heatCoolAmount.get(), 0 ) * EFACConstants.MAX_ENERGY_RATE * dt;
             if ( heatEnergyProducedSinceLastChunk >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT ) {
                 // Emit a new thermal energy chunk.
                 Vector2D initialPosition = new Vector2D( getPosition().getX() + THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE.getMin() + RAND.nextDouble() * THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE.getLength(),
@@ -188,7 +185,6 @@ public class TeaPot extends EnergySource {
         super.deactivate();
         heatCoolAmount.reset();
         energyProductionRate.reset();
-        steamEnergyProducedSinceLastChunk = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT / 2;
     }
 
     @Override public void clearEnergyChunks() {

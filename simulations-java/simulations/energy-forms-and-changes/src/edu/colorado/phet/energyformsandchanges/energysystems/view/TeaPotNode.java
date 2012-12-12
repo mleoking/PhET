@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.TeaPot;
@@ -46,7 +47,7 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
         PNode steamNode = new SteamBackgroundNode( new Vector2D( teaPotImageNode.getFullBoundsReference().getMaxX() - 5,
                                                                  teaPotImageNode.getFullBoundsReference().getMinY() + 16 ),
                                                    teaPot.getEnergyProductionRate(),
-                                                   TeaPot.MAX_ENERGY_PRODUCTION_RATE );
+                                                   EFACConstants.MAX_ENERGY_RATE );
 
         // Create the burner stand.
         double burnerStandWidth = teaPotImageNode.getFullBoundsReference().getWidth() * 0.9;

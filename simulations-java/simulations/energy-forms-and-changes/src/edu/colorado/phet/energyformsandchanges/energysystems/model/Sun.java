@@ -36,9 +36,6 @@ public class Sun extends EnergySource {
     private static final Random RAND = new Random();
     private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
 
-    // Energy production per square meter of the Earth's surface.
-    private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
-
     private final BooleanProperty energyChunksVisible;
 
     //-------------------------------------------------------------------------
@@ -156,7 +153,7 @@ public class Sun extends EnergySource {
             }
 
             // Calculate the amount of energy produced.
-            energyProduced = ENERGY_PRODUCTION_RATE * ( 1 - cloudiness.get() ) * dt;
+            energyProduced = EFACConstants.MAX_ENERGY_RATE * ( 1 - cloudiness.get() ) * dt;
         }
 
         // Produce the energy.

@@ -49,6 +49,10 @@ public class EFACConstants {
     // Threshold for deciding when two temperatures can be considered equal.
     public static final double TEMPERATURES_EQUAL_THRESHOLD = 1E-6; // In Kelvin.
 
+    // Constant used by all of the "energy systems" in order to keep the amount
+    // of energy generated, converted, and consumed consistent.
+    public static final double MAX_ENERGY_RATE = 100; // In joules/sec, but not very meaningful.
+
     // Colors that are used in multiple places.
     public static final float NOMINAL_WATER_OPACITY = 0.75f;
     public static final Color WATER_COLOR_OPAQUE = new Color( 175, 238, 238 );

@@ -47,6 +47,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage BACK_LEG_23 = RESOURCES.getImage( "back_leg_23.png" );
         public static final BufferedImage BACK_LEG_24 = RESOURCES.getImage( "back_leg_24.png" );
         public static final BufferedImage BICYCLE_FRAME_2 = RESOURCES.getImage( "bicycle_frame_2.png" );
+        public static final BufferedImage BICYCLE_FRAME_3 = RESOURCES.getImage( "bicycle_frame_3.png" );
         public static final BufferedImage BICYCLE_ICON = RESOURCES.getImage( "bicycle_icon.png" );
         public static final BufferedImage BICYCLE_RIDER = RESOURCES.getImage( "bicycle_rider.png" );
         public static final BufferedImage BICYCLE_RIDER_TIRED = RESOURCES.getImage( "bicycle_rider_tired.png" );
@@ -64,6 +65,8 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage ENERGY_CHUNKS_WHITE = RESOURCES.getImage( "energy-chunks-white.png" );
         public static final BufferedImage E_CHEM_BLANK = RESOURCES.getImage( "E_chem_blank.png" );
         public static final BufferedImage E_CHEM_OUTLINE_BLACK = RESOURCES.getImage( "E_chem_outline_black.png" );
+        public static final BufferedImage E_DASHED_BLANK = RESOURCES.getImage( "E_dashed_blank.png" );
+        public static final BufferedImage E_DASHED_OUTLINE_BLACK = RESOURCES.getImage( "E_dashed_outline_black.png" );
         public static final BufferedImage E_ELECTRIC_BLANK = RESOURCES.getImage( "E_electric_blank.png" );
         public static final BufferedImage E_ELECTRIC_OUTLINE = RESOURCES.getImage( "E_electric_outline.png" );
         public static final BufferedImage E_ELECTRIC_OUTLINE_BLACK = RESOURCES.getImage( "E_electric_outline_black.png" );
