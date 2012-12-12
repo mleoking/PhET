@@ -105,12 +105,16 @@ define( [
                             .beginFill( 'black' )
                             .rect( 0, 0, canvas.width, canvas.height );
 
-                    // expand the grid to fill the canvas
-                    fieldOutside.resize( new Dimension2D( canvas.width, canvas.height ) );
-
                     // move the root node to the center of the canvas, so the origin remains at the center
                     rootContainer.x = canvas.width / 2;
                     rootContainer.y = canvas.height / 2;
+
+                    // expand the grid to fill the canvas
+                    fieldOutside.resize( new Dimension2D( canvas.width, canvas.height ) );
+
+                    // frame rate display at upper left
+                    that.frameRateDisplay.x = -( canvas.width / 2 ) + 10;
+                    that.frameRateDisplay.y = -( canvas.height / 2 ) + 10;
 
                     // force rendering update
                     that.tick();
