@@ -87,8 +87,7 @@ textarea {
   position: absolute;
   width: 60%;
   height: 100%;
-  min-height: 100%;
-}
+  min-height: 100%; }
 
 /* For debug - uncomment to show border of the canvas. */
 /*#atom-construction-canvas {*/
