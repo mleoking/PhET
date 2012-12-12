@@ -19,8 +19,7 @@ define( ['easel',
         var root = new createjs.Container();
 
         var skaterView = SkaterView.createSkater( model.skater, groundHeight, groundY, analytics );
-
-        var splineLayer = Spline.createSplineLayer( groundHeight );
+        var splineLayer = Spline.createSplineLayer( groundHeight, model );
         root.addChild( Background.createBackground( groundHeight ) );
         var grid = new Grid( groundY );
         model.gridVisible.addObserver( function ( value ) {grid.visible = value;} );
