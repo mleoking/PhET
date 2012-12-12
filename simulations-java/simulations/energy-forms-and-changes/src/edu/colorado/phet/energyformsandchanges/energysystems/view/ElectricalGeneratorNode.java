@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
-import edu.colorado.phet.energyformsandchanges.energysystems.model.Generator;
+import edu.colorado.phet.energyformsandchanges.energysystems.model.ElectricalGenerator;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -14,21 +14,21 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNode {
+public class ElectricalGeneratorNode extends PositionableFadableModelElementNode {
 
-    public WaterPoweredGeneratorNode( final Generator generator, final ModelViewTransform mvt ) {
+    public ElectricalGeneratorNode( final ElectricalGenerator generator, final ModelViewTransform mvt ) {
         super( generator, mvt );
 
         // Create and add the various image nodes and energy chunk layers.
-        addChild( new ModelElementImageNode( Generator.WIRE_CURVED_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( ElectricalGenerator.WIRE_CURVED_IMAGE, mvt ) );
         addChild( new EnergyChunkLayer( generator.electricalEnergyChunks, generator.getObservablePosition(), mvt ) );
-        addChild( new ModelElementImageNode( Generator.HOUSING_IMAGE, mvt ) );
-        addChild( new ModelElementImageNode( Generator.CONNECTOR_IMAGE, mvt ) );
-        final PNode spokesNode = new ModelElementImageNode( Generator.SHORT_SPOKES_IMAGE, mvt );
+        addChild( new ModelElementImageNode( ElectricalGenerator.HOUSING_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( ElectricalGenerator.CONNECTOR_IMAGE, mvt ) );
+        final PNode spokesNode = new ModelElementImageNode( ElectricalGenerator.SHORT_SPOKES_IMAGE, mvt );
         addChild( spokesNode );
-        final PNode paddlesNode = new ModelElementImageNode( Generator.WHEEL_PADDLES_IMAGE, mvt );
+        final PNode paddlesNode = new ModelElementImageNode( ElectricalGenerator.WHEEL_PADDLES_IMAGE, mvt );
         addChild( paddlesNode );
-        addChild( new ModelElementImageNode( Generator.WHEEL_HUB_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( ElectricalGenerator.WHEEL_HUB_IMAGE, mvt ) );
         addChild( new EnergyChunkLayer( generator.energyChunkList, generator.getObservablePosition(), mvt ) );
 
         // Update the rotation of the wheel image based on model value.
