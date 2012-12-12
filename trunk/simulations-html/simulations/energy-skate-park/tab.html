@@ -1,23 +1,26 @@
 <!--Template for each tab.  Defined in the root directory so that image references don't have to between development/runtime (so that IDE navigation/highlighting works for them)-->
 <div id="<%= id%>" class="tab">
 
-    <!--Has to go in front of canvas but behind buttons so couldn't factor it out of tab-->
-    <ul class="nav nav-pills">
-        <li class="introductionTabButton"><a href="#">Introduction</a></li>
-        <li class="frictionTabButton"><a href="#">Friction</a></li>
-        <li class="trackPlaygroundTabButton"><a href="#">Track Playground</a></li>
-    </ul>
-
     <canvas class="play-area"></canvas>
 
+    <!--Has to go in front of canvas but behind buttons so couldn't factor it out of tab-->
+    <!--<ul class="nav nav-pills">-->
+    <!--<li class="introductionTabButton"><a href="#">Introduction</a></li>-->
+    <!--<li class="frictionTabButton"><a href="#">Friction</a></li>-->
+    <!--<li class="trackPlaygroundTabButton"><a href="#">Track Playground</a></li>-->
+    <!--</ul>-->
+
     <div class="control-panel">
-        <!--We wanted to use data-toggle="buttons-checkbox"  but it didn't seem to work, so we just added our own CSS overrides for js-active-button instead.-->
-        <div class="btn-group btn-group-vertical">
-            <button class="btn barGraphButton"><%= barGraph %><img src="images/barChartIcon.png"></button>
-            <button class="btn pieChartButton"><%= pieChart %><img src="images/pieChartIcon.png"></button>
-            <button class="btn gridButton"><%= grid %><img src="images/gridIcon.png"></button>
-            <button class="btn speedometerButton"><%= speed %><img src="images/speedIcon.png"></button>
+
+        <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup">
+                <input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom barGraphButton control-panel-checkbox"/> <label for="checkbox-2"><%= barGraph %></label>
+                <input type="checkbox" name="checkbox-3" id="checkbox-3" class="custom pieChartButton control-panel-checkbox"/> <label for="checkbox-3"><%= pieChart %></label>
+                <input type="checkbox" name="checkbox-4" id="checkbox-4" class="custom gridButton control-panel-checkbox"/> <label for="checkbox-4"><%= grid %></label>
+                <input type="checkbox" name="checkbox-5" id="checkbox-5" class="custom speedometerButton control-panel-checkbox"/> <label for="checkbox-5"><%= speed %></label>
+            </fieldset>
         </div>
+
         <div class="reset-controls">
             <button class="btn-large return-skater-button">Return Skater</button>
             <button class="btn-large reset-all-button">Reset All</button>
@@ -25,10 +28,13 @@
     </div>
 
     <div class="footer">
-        <div class="btn-group btn-group-horizontal">
-            <button class="btn slow-motion-button">Slow Motion</button>
-            <button class="btn normal-button">Normal</button>
-        </div>
+        <fieldset data-role="controlgroup">
+            <input type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" checked="checked"/>
+            <label for="radio-choice-1">Slow Motion</label>
+
+            <input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"/>
+            <label for="radio-choice-2">Normal</label>
+        </fieldset>
 
         <button class="btn-large play-pause-button">&#10074;&#10074;</button>
     </div>

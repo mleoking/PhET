@@ -36,43 +36,42 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         $tab.find( '.frictionTabButton' ).click( function () {activeTab.set( "frictionTab" );} );
         $tab.find( '.trackPlaygroundTabButton' ).click( function () {activeTab.set( "trackPlaygroundTab" );} );
 
-        //Wire up the buttons
-        //Use fastButton to make sure they are highlighted and dispatched immediately (otherwise it takes a long time on ipad)
-        function connectBoolean( $component, property ) {
-            new MBP.fastButton( $component[0], function ( e ) {property.toggle();} );
-            property.addObserver( function ( selected ) {
-                if ( selected && !$component.hasClass( "js-active-button" ) ||
-                     !selected && $component.hasClass( "js-active-button" ) ) {
-                    $component.toggleClass( "js-active-button" );
-                }
-            } );
-        }
+        //Copied from WidgetConnector
+        var connectBoolean = function ( $component, booleanProperty ) {
+
+            // sync model with check box
+            $component.bind( 'change', function () {booleanProperty.set( $component.attr( "checked" ) );} );
+
+            // sync check box with model
+            booleanProperty.addObserver( function ( checked ) {$component.attr( "checked", checked ).checkboxradio( "refresh" );} );
+        };
 
         connectBoolean( $tab.find( '.barGraphButton' ), model.barChartVisible );
         connectBoolean( $tab.find( '.pieChartButton' ), model.pieChartVisible );
         connectBoolean( $tab.find( '.gridButton' ), model.gridVisible );
         connectBoolean( $tab.find( '.speedometerButton' ), model.speedometerVisible );
 
-        new MBP.fastButton( $tab.find( '.play-pause-button' )[0], function ( e ) {
-            model.playing.toggle();
-            $tab.find( '.play-pause-button' ).html( !model.playing.get() ? "&#9654;" : "&#10074;&#10074;" );
-        } );
+//        $tab.find( '.play-pause-button' ).click()
+//        new MBP.fastButton( $tab.find( '.play-pause-button' )[0], function ( e ) {
+//            model.playing.toggle();
+//            $tab.find( '.play-pause-button' ).html( !model.playing.get() ? "&#9654;" : "&#10074;&#10074;" );
+//        } );
 
-        new MBP.fastButton( $tab.find( '.reset-all-button' )[0], function ( e ) {model.resetAll();} );
+        $tab.find( '.reset-all-button' ).click( model.resetAll.bind( model ) );
+//
+//        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], model.slowMotion._set( true ) );
+//        new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
 
-        new MBP.fastButton( $tab.find( '.slow-motion-button' )[0], model.slowMotion._set( true ) );
-        new MBP.fastButton( $tab.find( '.normal-button' )[0], function ( e ) {model.slowMotion.set( false );} );
-
-        model.slowMotion.addObserver( function ( slowMotion ) {
-            $tab.find( '.slow-motion-button' ).removeClass( "js-active-button" );
-            $tab.find( '.normal-button' ).removeClass( "js-active-button" );
-            if ( slowMotion ) {
-                $tab.find( '.slow-motion-button' ).addClass( "js-active-button" );
-            }
-            else {
-                $tab.find( '.normal-button' ).addClass( "js-active-button" );
-            }
-        } );
+//        model.slowMotion.addObserver( function ( slowMotion ) {
+//            $tab.find( '.slow-motion-button' ).removeClass( "js-active-button" );
+//            $tab.find( '.normal-button' ).removeClass( "js-active-button" );
+//            if ( slowMotion ) {
+//                $tab.find( '.slow-motion-button' ).addClass( "js-active-button" );
+//            }
+//            else {
+//                $tab.find( '.normal-button' ).addClass( "js-active-button" );
+//            }
+//        } );
 
     }
 

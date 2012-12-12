@@ -16,7 +16,7 @@ define( ["model/vector2d"], function ( Vector2D ) {
     SkaterModel.prototype.getMechanicalEnergy = function () { return this.getKineticEnergy() + this.getPotentialEnergy() };
 
     SkaterModel.prototype.returnSkater = function () {
-        this.position = new Vector2D( 0, 0 );
+        this.position = new Vector2D( 5, 0 );
         this.velocity = new Vector2D( 0, 0 );
         this.angle = 0.0;
         this.attached = false;

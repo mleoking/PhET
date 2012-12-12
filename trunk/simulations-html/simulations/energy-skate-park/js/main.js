@@ -11,23 +11,27 @@ require( ['util/WebsocketRefresh',
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
 
-    var tabs = ["introductionTab", "frictionTab", "trackPlaygroundTab"];
+//    var tabs = ["introductionTab", "frictionTab", "trackPlaygroundTab"];
+    var tabs = ["introductionTab"];
 
     var activeTab = new Property( tabs[0] );
     var $container = $( '#container' );
 
     for ( var i = 0; i < tabs.length; i++ ) {
         var tab = tabs[i];
-        $container.append( tabTemplate( {id: tab,
-                                            barGraph: Strings["plots.bar-graph"],
-                                            pieChart: Strings["pieChart"],
-                                            grid: Strings["controls.show-grid"],
-                                            speed: Strings["properties.speed"]} ) );
+        var filledTemplate = tabTemplate( {id: tab,
+                                              barGraph: Strings["plots.bar-graph"],
+                                              pieChart: Strings["pieChart"],
+                                              grid: Strings["controls.show-grid"],
+                                              speed: Strings["properties.speed"]} );
+        console.log( filledTemplate );
+        $container.append( filledTemplate ).trigger( "create" );
         var $tab = $( "#" + tab );
         new Tab( $tab, Easel, Strings, analytics, tab, activeTab ).render();
         if ( i > 0 ) {
             $tab.hide();
         }
+        $container.trigger( "create" );
     }
 
     activeTab.addObserver( function ( newTab ) {
