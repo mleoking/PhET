@@ -1,10 +1,9 @@
 define( [
             'easel',
             'view/DragHandler',
-            'math/MathUtil',
             'image!images/barMagnet.png'
         ],
-        function ( Easel, DragHandler, MathUtil, barMagnetImage ) {
+        function ( Easel, DragHandler, barMagnetImage ) {
 
             function BarMagnetDisplay( barMagnet, mvt ) {
 
