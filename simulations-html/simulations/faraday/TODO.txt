@@ -2,7 +2,6 @@ TODO list for faraday
 
 HIGH:
 - resolve requirejs include problem
-- move stuff to simulations-html/common
 - improve tablet performance
 
 MEDIUM:
