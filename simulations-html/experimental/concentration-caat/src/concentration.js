@@ -21,9 +21,9 @@
 
             director = new CAAT.Director().
                     initialize(
-                    width || 800,
-                    height || 600,
-                    canvascontainer );
+                            width || 800,
+                            height || 600,
+                            canvascontainer );
 
         }
         else {
@@ -46,14 +46,14 @@
             }
 
             //Show the CAAT Debug panel at the bottom of the screen
-        CAAT.DEBUG = 0;
+            CAAT.DEBUG = 0;
 
             director = new CAAT.Director().
                     initialize(
-                    width || 800,
-                    height || 600,
-                    canvascontainer );
-            director.setClear( CAAT.Director.CLEAR_DIRTY_RECTS );
+                            width || 800,
+                            height || 600,
+                            canvascontainer );
+            director.setClear( CAAT.Director.CLEAR_ALL );
         }
 
         /**
