@@ -62,3 +62,7 @@
     font-size: 125%;
     margin: 1em;
 }
+
+h3 {
+    border: 1px solid red;
+}
