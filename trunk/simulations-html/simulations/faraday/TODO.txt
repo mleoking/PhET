@@ -1,6 +1,7 @@
 TODO list for faraday
 
 HIGH:
+- add a "finger" indicator on tablets
 - resolve requirejs include problem
 - improve tablet performance
 
