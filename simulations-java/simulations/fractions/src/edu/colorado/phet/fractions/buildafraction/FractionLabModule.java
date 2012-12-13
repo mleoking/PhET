@@ -19,9 +19,12 @@ import edu.umd.cs.piccolo.activities.PActivity;
  * @author Sam Reid
  */
 public class FractionLabModule extends AbstractFractionsModule implements FractionLabCanvasContext {
-    public FractionLabModule() {
+    private final boolean rectangleDefault;
+
+    public FractionLabModule( boolean rectangleDefault ) {
         super( Components.fractionLabTab, Strings.FRACTION_LAB, new ConstantDtClock() );
-        setSimulationPanel( new FractionLabCanvas( this ) );
+        setSimulationPanel( new FractionLabCanvas( this, rectangleDefault ) );
+        this.rectangleDefault = rectangleDefault;
     }
 
     public void resetCanvas() {
@@ -34,7 +37,7 @@ public class FractionLabModule extends AbstractFractionsModule implements Fracti
         c.getPhetRootNode().addScreenChild( block );
         block.animateToTransparency( 1, 250 ).setDelegate( new PActivityDelegateAdapter() {
             @Override public void activityFinished( final PActivity activity ) {
-                final FractionLabCanvas newOne = new FractionLabCanvas( FractionLabModule.this );
+                final FractionLabCanvas newOne = new FractionLabCanvas( FractionLabModule.this, rectangleDefault );
                 final PhetPPath block = new PhetPPath( new Rectangle( c.getWidth(), c.getHeight() ), BuildAFractionCanvas.LIGHT_BLUE );
                 newOne.getPhetRootNode().addScreenChild( block );
                 setSimulationPanel( newOne );
