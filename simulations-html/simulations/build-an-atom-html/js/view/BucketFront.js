@@ -25,7 +25,7 @@ define( [ 'underscore', 'easel', 'common/Point2D' ], function ( _, Easel, Point2
         var shape = new Easel.Shape();
         shape.graphics
                 .beginStroke( "black" )
-                .beginLinearGradientFill( ["white", bucket.color, "black" ], [.1,.9,1], 0, 0, width, 0 )
+                .beginLinearGradientFill( ["white", bucket.color, "gray" ], [.05,.9,1], 0, 0, width, 0 )
                 .setStrokeStyle( 2 )
                 .moveTo( 0, 0 )
                 .lineTo( width * 0.1, height * 0.8 )
