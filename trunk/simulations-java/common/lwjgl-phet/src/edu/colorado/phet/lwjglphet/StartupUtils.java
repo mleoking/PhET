@@ -29,9 +29,9 @@ public class StartupUtils {
 
         JPopupMenu.setDefaultLightWeightPopupEnabled( false ); // potential solution for menu-over-OpenGL canvas issue. see http://lwjgl.org/forum/index.php?topic=2365.0;wap2
 
-        if ( LWJGLUtils.containsMacJava7Issue() ) {
+        //if ( LWJGLUtils.containsMacJava7Issue() ) {
             LWJGLUtils.showMacJava7Warning( null );
-        }
+        //}
 
         boolean webstart = System.getProperty( "javawebstart.version" ) != null;
 
