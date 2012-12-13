@@ -4,7 +4,7 @@ define( ['tpl!phetcommon_html/prototype-dialog.html'], function ( template ) {
     return {init: function ( simName ) {
         $( template( {simName: simName} ) ).appendTo( $( "body" ) );
         $( '.dialog-overlay' ).click( function () {
-            $(this).hide();
+            $(this).fadeOut(200);
         } );
     }};
 } );
