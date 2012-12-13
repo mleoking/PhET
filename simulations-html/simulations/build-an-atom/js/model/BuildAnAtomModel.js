@@ -3,9 +3,9 @@ define( [
             'underscore',
             'common/SharedConstants',
             'common/Utils',
-            'model/atom',
+            'model/Atom',
             'model/Bucket',
-            'model/particle'
+            'model/Particle'
         ], function ( _, SharedConstants, Utils, Atom, Bucket, Particle ) {
 
     var NUM_PROTONS = 10;
