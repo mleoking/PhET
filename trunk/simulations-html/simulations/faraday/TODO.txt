@@ -6,15 +6,13 @@ HIGH:
 - improve tablet performance
 
 MEDIUM:
-- startup error: Empty string passed to getElementById().
 - investigate non-modal popups
 - investigate other patterns for Options panel
 
 LOW:
-- center title at top of Options panel (see css)
-- compass/magnet collision detection (bounds computations)
+- startup error: Empty string passed to getElementById().
 - "not well-formed" errors for optionsButton.html template
-- cache needles at various angles (and alphas?) to improve performance
+- center title at top of Options panel (see css)
 - use css instead of <br> to add vertical space
 
 Questions:
