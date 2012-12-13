@@ -1,3 +1,4 @@
+# 1.02.02 (71290) Dec 13, 2012
 Made bars default for research application
 # 1.02.01 (71282) Dec 12, 2012
 # 1.02.00 (69269) Oct 17, 2012
