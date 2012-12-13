@@ -3,11 +3,14 @@ package edu.colorado.phet.lwjglphet.utils;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.text.MessageFormat;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ContextCapabilities;
@@ -173,35 +176,42 @@ public class LWJGLUtils {
     }
 
     public static void showMacJava7Warning( final Frame parentFrame ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                JDialog frame = new JDialog( parentFrame ) {{
-                    setContentPane( new JPanel( new GridLayout( 1, 1 ) ) {{
-                        add( new VerticalLayoutPanel() {{
-                                 add( new JLabel( PhetCommonResources.getString( "Jme.thisSimulationWasUnableToStart" ) ) {{
-                                     setFont( new PhetFont( 20, true ) );
-                                     setForeground( Color.RED );
-                                 }} );
-                                 String troubleshootingUrl = "http://support.apple.com/kb/HT5559?viewlocale=en_US";
-                                 String body = PhetCommonResources.getString( "Lwjgl.macJava17Message" );
-                                 add( new HTMLUtils.InteractiveHTMLPane( MessageFormat.format( body, troubleshootingUrl ) ) {{
-                                     setOpaque( false );
-                                     setFont( new PhetFont( 16, true ) );
-                                 }} );
-                             }},
-                             new GridBagConstraints() {{
-                                 fill = GridBagConstraints.HORIZONTAL;
-                                 insets = new Insets( 10, 10, 10, 10 );
-                             }}
-                        );
-                        setMaximumSize( new Dimension( 500, 10000 ) );
-                    }} );
-                }};
-                frame.pack();
-                SwingUtils.centerInParent( frame );
-                frame.setVisible( true );
-            }
-        } );
+        JDialog dialog = new JDialog( parentFrame ) {{
+            setContentPane( new JPanel( new GridLayout( 1, 1 ) ) {{
+                setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
+                add( new VerticalLayoutPanel() {{
+                         add( new JLabel( PhetCommonResources.getString( "Jme.thisSimulationWasUnableToStart" ) ) {{
+                             setFont( new PhetFont( 20, true ) );
+                             setForeground( Color.RED );
+                         }} );
+                         String troubleshootingUrl = "http://support.apple.com/kb/HT5559?viewlocale=en_US";
+                         String body = PhetCommonResources.getString( "Lwjgl.macJava17Message" );
+                         add( new HTMLUtils.InteractiveHTMLPane( MessageFormat.format( body, troubleshootingUrl ) ) {{
+                             setOpaque( false );
+                             setFont( new PhetFont( 16, true ) );
+                         }} );
+                         add( new JPanel() {{
+                            add( new JButton( PhetCommonResources.getString( "Common.choice.ok" ) ) {{
+                                addActionListener( new ActionListener() { 
+                                    public void actionPerformed( ActionEvent e ) {
+                                        dispose();
+                                    }
+                                });
+                             }} );
+                         }});
+                     }},
+                     new GridBagConstraints() {{
+                         fill = GridBagConstraints.HORIZONTAL;
+                         insets = new Insets( 10, 10, 10, 10 );
+                     }}
+                );
+                setMaximumSize( new Dimension( 500, 10000 ) );
+            }} );
+        }};
+        dialog.setModal( true );
+        dialog.pack();
+        SwingUtils.centerWindowOnScreen( dialog );
+        dialog.show();
     }
 
     public static void showErrorDialog( final Frame parentFrame, final Throwable t ) {
