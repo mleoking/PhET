@@ -55,20 +55,25 @@ define( [
                 titleText.textBaseline = "middle";
                 titleText.x = meter.image.width / 2;
                 titleText.y = 84;
-                var TEXT_X = 55;
+                var TEXT_X = 110;
+                var TEXT_ALIGN = 'right';
                 var textY = 104;
                 var TEXT_Y_DELTA = 23;
                 magnitudeText.x = TEXT_X;
                 magnitudeText.y = textY;
+                magnitudeText.textAlign = TEXT_ALIGN;
                 textY += TEXT_Y_DELTA;
                 xText.x = TEXT_X;
                 xText.y = textY;
+                xText.textAlign = TEXT_ALIGN;
                 textY += TEXT_Y_DELTA;
                 yText.x = TEXT_X;
                 yText.y = textY;
+                yText.textAlign = TEXT_ALIGN;
                 textY += TEXT_Y_DELTA;
                 angleText.x = TEXT_X;
                 angleText.y = textY;
+                angleText.textAlign = TEXT_ALIGN;
 
                 // @param {Point2D} point
                 DragHandler.register( this, function ( point ) {
