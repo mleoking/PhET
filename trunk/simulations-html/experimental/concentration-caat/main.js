@@ -160,9 +160,9 @@
     }
 
     //English strings obtained from https://github.com/nzakas/props2js
-    var englishStrings = {"copperSulfate":"Copper sulfate", "solution":"Solution", "concentration":"Concentration", "beers-law-lab.name":"Beer\u0027s Law Lab", "tab.beersLaw":"Beer\u0027s Law", "tab.concentration":"Concentration", "units.molesPerLiter":"mol/L", "potassiumDichromate":"Potassium dichromate", "removeSolute":"Remove Solute", "solid":"Solid", "fixed":"fixed", "pattern.0percent":"{0}%", "none":"none", "evaporation":"Evaporation", "potassiumChromate":"Potassium chromate", "units.mM":"mM", "lots":"lots", "saturated":"Saturated!", "pattern.0formula.1name":"{0}: {1}", "transmittance":"Transmittance", "water":"water", "pattern.0value.1units":"{0} {1}", "potassiumPermanganate":"Potassium permanganate", "drinkMix":"Drink mix", "pattern.0label":"{0}:", "units.centimeters":"cm", "concentration.name":"Concentration", "pattern.parentheses.0text":"({0})", "variable":"variable", "units.uM":"µM", "nickelIIChloride":"Nickel (II) chloride", "units.M":"M", "cobaltChloride":"Cobalt chloride", "cobaltIINitrate":"Cobalt (II) nitrate", "solute":"Solute", "wavelength":"Wavelength", "absorbance":"Absorbance", "units.liters":"L"};
-    var frenchStrings = {"units.uM":"µmol/L", "drinkMix":"mélange type", "none":"aucune", "tab.beersLaw":"Loi de Beer-Lambert", "potassiumPermanganate":"permanganate de potassium", "cobaltIINitrate":"nitrate de cobalt (II)", "fixed":"fixée", "units.mM":"mmol/L", "beers-law-lab.name":"Loi de Beer-Lambert", "lots":"élevée", "removeSolute":"Retirer le soluté", "potassiumChromate":"chromate de potassium", "units.M":"mol/L", "variable":"variable", "potassiumDichromate":"dichromate de potassium", "copperSulfate":"sulfate de cuivre", "solute":"Soluté", "translation.credits":"Ph. Chevallier, Lycée Rotrou, France", "evaporation":"Évaporation", "solid":"Solide", "saturated":"Solution saturée !", "cobaltChloride":"chlorure de cobalt (II)", "wavelength":"longueur d\u0027onde", "nickelIIChloride":"chlorure de nickel (II)", "water":"eau"};
-    var arabicStrings = {"copperSulfate":"كبريتات النحاس", "solution":"محلول", "concentration":"التركيز", "beers-law-lab.name":"قانون بير", "tab.beersLaw":"قانون بير", "tab.concentration":"التركيز", "units.molesPerLiter":"mol/L", "potassiumDichromate":"ثنائي كرومات البوتاسيوم", "removeSolute":"إزالة المذيب", "solid":"صلب", "translation.credits":"\u003chtml\u003eSeffar Abdelkhalek \u003cbr\u003eLycée Moulay Idriss, Fès,Maroc\u003cbr\u003ehttp://lewebpedagogique.com/seffar\u003c/html\u003e", "fixed":"ثابت", "pattern.0percent":"{0}%", "none":"لا شيء", "evaporation":"تبخر", "potassiumChromate":"كرومات البوتاسيوم", "units.mM":"mM", "lots":"الكثير", "saturated":"! مشبع", "pattern.0formula.1name":"{0}: {1}", "transmittance":"نفاذية", "water":"ماء", "pattern.0value.1units":"{0} {1}", "potassiumPermanganate":"برمنغنات البوتاسيوم", "drinkMix":"مشروب", "pattern.0label":"{0}:", "units.centimeters":"cm", "concentration.name":"التركيز", "pattern.parentheses.0text":"({0})", "variable":"متغير", "units.uM":"µM", "nickelIIChloride":"II كلورور النيكل", "units.M":"M", "cobaltChloride":"كلورور الكوبالت", "cobaltIINitrate":"II نترات الكوبالت", "solute":"المذاب", "absorbance":"الامتصاص", "wavelength":"طول الموجة", "units.liters":"L"};
+    var englishStrings = {"copperSulfate": "Copper sulfate", "solution": "Solution", "concentration": "Concentration", "beers-law-lab.name": "Beer\u0027s Law Lab", "tab.beersLaw": "Beer\u0027s Law", "tab.concentration": "Concentration", "units.molesPerLiter": "mol/L", "potassiumDichromate": "Potassium dichromate", "removeSolute": "Remove Solute", "solid": "Solid", "fixed": "fixed", "pattern.0percent": "{0}%", "none": "none", "evaporation": "Evaporation", "potassiumChromate": "Potassium chromate", "units.mM": "mM", "lots": "lots", "saturated": "Saturated!", "pattern.0formula.1name": "{0}: {1}", "transmittance": "Transmittance", "water": "water", "pattern.0value.1units": "{0} {1}", "potassiumPermanganate": "Potassium permanganate", "drinkMix": "Drink mix", "pattern.0label": "{0}:", "units.centimeters": "cm", "concentration.name": "Concentration", "pattern.parentheses.0text": "({0})", "variable": "variable", "units.uM": "µM", "nickelIIChloride": "Nickel (II) chloride", "units.M": "M", "cobaltChloride": "Cobalt chloride", "cobaltIINitrate": "Cobalt (II) nitrate", "solute": "Solute", "wavelength": "Wavelength", "absorbance": "Absorbance", "units.liters": "L"};
+    var frenchStrings = {"units.uM": "µmol/L", "drinkMix": "mélange type", "none": "aucune", "tab.beersLaw": "Loi de Beer-Lambert", "potassiumPermanganate": "permanganate de potassium", "cobaltIINitrate": "nitrate de cobalt (II)", "fixed": "fixée", "units.mM": "mmol/L", "beers-law-lab.name": "Loi de Beer-Lambert", "lots": "élevée", "removeSolute": "Retirer le soluté", "potassiumChromate": "chromate de potassium", "units.M": "mol/L", "variable": "variable", "potassiumDichromate": "dichromate de potassium", "copperSulfate": "sulfate de cuivre", "solute": "Soluté", "translation.credits": "Ph. Chevallier, Lycée Rotrou, France", "evaporation": "Évaporation", "solid": "Solide", "saturated": "Solution saturée !", "cobaltChloride": "chlorure de cobalt (II)", "wavelength": "longueur d\u0027onde", "nickelIIChloride": "chlorure de nickel (II)", "water": "eau"};
+    var arabicStrings = {"copperSulfate": "كبريتات النحاس", "solution": "محلول", "concentration": "التركيز", "beers-law-lab.name": "قانون بير", "tab.beersLaw": "قانون بير", "tab.concentration": "التركيز", "units.molesPerLiter": "mol/L", "potassiumDichromate": "ثنائي كرومات البوتاسيوم", "removeSolute": "إزالة المذيب", "solid": "صلب", "translation.credits": "\u003chtml\u003eSeffar Abdelkhalek \u003cbr\u003eLycée Moulay Idriss, Fès,Maroc\u003cbr\u003ehttp://lewebpedagogique.com/seffar\u003c/html\u003e", "fixed": "ثابت", "pattern.0percent": "{0}%", "none": "لا شيء", "evaporation": "تبخر", "potassiumChromate": "كرومات البوتاسيوم", "units.mM": "mM", "lots": "الكثير", "saturated": "! مشبع", "pattern.0formula.1name": "{0}: {1}", "transmittance": "نفاذية", "water": "ماء", "pattern.0value.1units": "{0} {1}", "potassiumPermanganate": "برمنغنات البوتاسيوم", "drinkMix": "مشروب", "pattern.0label": "{0}:", "units.centimeters": "cm", "concentration.name": "التركيز", "pattern.parentheses.0text": "({0})", "variable": "متغير", "units.uM": "µM", "nickelIIChloride": "II كلورور النيكل", "units.M": "M", "cobaltChloride": "كلورور الكوبالت", "cobaltIINitrate": "II نترات الكوبالت", "solute": "المذاب", "absorbance": "الامتصاص", "wavelength": "طول الموجة", "units.liters": "L"};
 
     var strings = getParameterByName( "language" ) == "ar" ? arabicStrings :
                   getParameterByName( "language" ) == "fr" ? frenchStrings : englishStrings;
@@ -282,7 +282,7 @@
 
     //Interpolate colors with midpoint, see original code
     function getColorWithMidpoint( concentration, solute ) {
-        var water = {red:224, green:255, blue:255};
+        var water = {red: 224, green: 255, blue: 255};
         if ( concentration <= 0 ) {
             return rgbToColor( water );
         }
@@ -302,9 +302,9 @@
 
     function getColor( source, distance, destination ) {
         var relative = {
-            red:interpolate( 0, source.red, 1, destination.red, distance ),
-            green:interpolate( 0, source.green, 1, destination.green, distance ),
-            blue:interpolate( 0, source.blue, 1, destination.blue, distance )};
+            red: interpolate( 0, source.red, 1, destination.red, distance ),
+            green: interpolate( 0, source.green, 1, destination.green, distance ),
+            blue: interpolate( 0, source.blue, 1, destination.blue, distance )};
 
         return 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
     }
@@ -378,7 +378,7 @@
     }
 
     function solution( name, minConcentration, minRed, minGreen, minBlue, maxConcentration, maxRed, maxGreen, maxBlue ) {
-        return {name:translate( name ), minConcentration:minConcentration, minColor:{red:minRed, green:minGreen, blue:minBlue}, maxConcentration:maxConcentration, maxColor:{red:maxRed, blue:maxBlue, green:maxGreen}};
+        return {name: translate( name ), minConcentration: minConcentration, minColor: {red: minRed, green: minGreen, blue: minBlue}, maxConcentration: maxConcentration, maxColor: {red: maxRed, blue: maxBlue, green: maxGreen}};
     }
 
     function createScenesAfterResourcesLoaded( director ) {
@@ -506,7 +506,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            var water = {red:224, green:255, blue:255};
+            var water = {red: 224, green: 255, blue: 255};
             ctx.fillStyle = 'rgb(' + Math.round( water.red ) + ',' + Math.round( water.green ) + ',' + Math.round( water.blue ) + ')';
 
             if ( topFlowAmount > 0.1 && fluidHeight < beakerHeight ) {
@@ -1060,7 +1060,7 @@
 //        }
     }
 
-    console.log( "hello" );
+//    console.log( "hello" );
     /**
      * Startup it all up when the document is ready.
      * Change for your favorite frameworks initialization code.
@@ -1082,18 +1082,18 @@
                          No images can be set too.
                          */
                         [
-                            {id:'shaker', url:'resources/shaker.png'},
-                            {id:'faucet_front', url:'resources/faucet_front.png'},
-                            {id:'faucet_pipe_long', url:'resources/faucet_pipe_long.png'},
-                            {id:'slider-knob', url:'resources/slider-knob.png'},
-                            {id:'concentration-meter-body', url:'resources/concentration-meter-body.png'},
-                            {id:'concentration-meter-probe', url:'resources/concentration-meter-probe.png'},
-                            {id:'shaker-icon', url:'resources/shaker-icon.png'},
-                            {id:'dropper-icon', url:'resources/dropper-icon.png'},
-                            {id:'dropper-background', url:'resources/dropper_background.png'},
-                            {id:'dropper-foreground', url:'resources/dropper_foreground.png'},
-                            {id:'dropper-button-unpressed', url:'resources/button_unpressed.png'},
-                            {id:'dropper-button-pressed', url:'resources/button_pressed.png'}
+                            {id: 'shaker', url: 'resources/shaker.png'},
+                            {id: 'faucet_front', url: 'resources/faucet_front.png'},
+                            {id: 'faucet_pipe_long', url: 'resources/faucet_pipe_long.png'},
+                            {id: 'slider-knob', url: 'resources/slider-knob.png'},
+                            {id: 'concentration-meter-body', url: 'resources/concentration-meter-body.png'},
+                            {id: 'concentration-meter-probe', url: 'resources/concentration-meter-probe.png'},
+                            {id: 'shaker-icon', url: 'resources/shaker-icon.png'},
+                            {id: 'dropper-icon', url: 'resources/dropper-icon.png'},
+                            {id: 'dropper-background', url: 'resources/dropper_background.png'},
+                            {id: 'dropper-foreground', url: 'resources/dropper_foreground.png'},
+                            {id: 'dropper-button-unpressed', url: 'resources/button_unpressed.png'},
+                            {id: 'dropper-button-pressed', url: 'resources/button_pressed.png'}
                         ],
 
                         /*
@@ -1106,39 +1106,39 @@
             },
             false );
 
-    CAAT.modules.initialization.init(
-            window.innerWidth, window.innerHeight,
-
-            /* and will be added to the end of document. set an id of a canvas or div element */
-            undefined,
-
-            /*
-             load these images and set them up for non splash scenes.
-             image elements must be of the form:
-             {id:'<unique string id>',    url:'<url to image>'}
-
-             No images can be set too.
-             */
-            [
-                {id:'shaker', url:'resources/shaker.png'},
-                {id:'faucet_front', url:'resources/faucet_front.png'},
-                {id:'faucet_pipe_long', url:'resources/faucet_pipe_long.png'},
-                {id:'slider-knob', url:'resources/slider-knob.png'},
-                {id:'concentration-meter-body', url:'resources/concentration-meter-body.png'},
-                {id:'concentration-meter-probe', url:'resources/concentration-meter-probe.png'},
-                {id:'shaker-icon', url:'resources/shaker-icon.png'},
-                {id:'dropper-icon', url:'resources/dropper-icon.png'},
-                {id:'dropper-background', url:'resources/dropper_background.png'},
-                {id:'dropper-foreground', url:'resources/dropper_foreground.png'},
-                {id:'dropper-button-unpressed', url:'resources/button_unpressed.png'},
-                {id:'dropper-button-pressed', url:'resources/button_pressed.png'}
-            ],
-
-            /*
-             onEndSplash callback function.
-             Create your scenes on this method.
-             */
-            createScenes
-
-    )
+//    CAAT.modules.initialization.init(
+//            window.innerWidth, window.innerHeight,
+//
+//            /* and will be added to the end of document. set an id of a canvas or div element */
+//            undefined,
+//
+//            /*
+//             load these images and set them up for non splash scenes.
+//             image elements must be of the form:
+//             {id:'<unique string id>',    url:'<url to image>'}
+//
+//             No images can be set too.
+//             */
+//            [
+//                {id:'shaker', url:'resources/shaker.png'},
+//                {id:'faucet_front', url:'resources/faucet_front.png'},
+//                {id:'faucet_pipe_long', url:'resources/faucet_pipe_long.png'},
+//                {id:'slider-knob', url:'resources/slider-knob.png'},
+//                {id:'concentration-meter-body', url:'resources/concentration-meter-body.png'},
+//                {id:'concentration-meter-probe', url:'resources/concentration-meter-probe.png'},
+//                {id:'shaker-icon', url:'resources/shaker-icon.png'},
+//                {id:'dropper-icon', url:'resources/dropper-icon.png'},
+//                {id:'dropper-background', url:'resources/dropper_background.png'},
+//                {id:'dropper-foreground', url:'resources/dropper_foreground.png'},
+//                {id:'dropper-button-unpressed', url:'resources/button_unpressed.png'},
+//                {id:'dropper-button-pressed', url:'resources/button_pressed.png'}
+//            ],
+//
+//            /*
+//             onEndSplash callback function.
+//             Create your scenes on this method.
+//             */
+//            createScenes
+//
+//    )
 })();
