@@ -11,7 +11,7 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
 
 /**
- * "Fractions Intro" PhET Application
+ * Research application, requested by Karina.
  *
  * @author Sam Reid
  */
@@ -28,7 +28,7 @@ public class ResearchStudy2013Application extends PiccoloPhetApplication {
         addModule( new FractionsIntroModule() );
         final BooleanProperty audioEnabled = new BooleanProperty( true );
         addModule( new BuildAFractionModule( new BuildAFractionModel( new BooleanProperty( false ), audioEnabled ) ) );
-        addModule( new FractionLabModule() );
+        addModule( new FractionLabModule( true ) );
     }
 
     public static void main( String[] args ) {

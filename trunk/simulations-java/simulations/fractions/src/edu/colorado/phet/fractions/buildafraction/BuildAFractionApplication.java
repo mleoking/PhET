@@ -23,7 +23,7 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
         BooleanProperty audioEnabled = new BooleanProperty( true );
         addModule( new BuildAFractionModule( new BuildAFractionModel( collectedMatch, audioEnabled ) ) );
         addModule( new MixedNumbersModule( new MixedNumbersModel( collectedMatch, audioEnabled ) ) );
-        addModule( new FractionLabModule() );
+        addModule( new FractionLabModule( false ) );
     }
 
     public static void main( String[] args ) {
