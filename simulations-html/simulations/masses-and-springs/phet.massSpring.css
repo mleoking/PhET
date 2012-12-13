@@ -1,98 +1,101 @@
-
 .phet .radioButtons, .checkButtons, .draggable, .button, .radioButtonsIpad g {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .noselection {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-  cursor: default;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor: default;
 }
 
 .radioButtonsView, .radioButtonsIpad {
-  display: none;
+    display: none;
 }
 
 .checkButtons, .checkButtonsIpad {
-  display: none;
+    display: none;
 }
 
 .aboutButton {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 0px;
-  margin: 0px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0px;
+    margin: 0px;
 }
 
 .aboutPopup, .aboutSoftware {
-  display: none;
+    display: none;
 }
 
 .aboutMain {
-  width: 280px;
-  height: 270px;
-  border: 2px groove #c0c0c0;
-  border-radius: 8px;
-  padding: 8px;
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: justify;
-  font-size: 10pt;
-  color: #0b333c;
+    width: 280px;
+    height: 270px;
+    border: 2px groove #c0c0c0;
+    border-radius: 8px;
+    padding: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: justify;
+    font-size: 10pt;
+    color: #0b333c;
 }
 
 .aboutSoftware .aboutMain {
-  width: 480px;
-  height: 470px;
+    width: 480px;
+    height: 470px;
 }
 
 .aboutMainInner {
-  width: 100%;
-  height: 100%;
-  background: #e6e6e6;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  overflow: scroll;
+    width: 100%;
+    height: 100%;
+    background: #e6e6e6;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    overflow: scroll;
 }
 
 .aboutHeader {
-  height: 25px;
-  background: #efefef;
-  border: 1px solid #c0c0c0;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  vertical-align: middle;
-  padding: 3px;
-  text-align: center;
-  border-bottom-width: 0;
+    height: 25px;
+    background: #efefef;
+    border: 1px solid #c0c0c0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    vertical-align: middle;
+    padding: 3px;
+    text-align: center;
+    border-bottom-width: 0;
 }
 
 .aboutBody {
-  border: 1px solid #c0c0c0;
-  border-bottom-width: 0;
-  padding: 3px;
-  height: 195px;
-  overflow: auto;
+    border: 1px solid #c0c0c0;
+    border-bottom-width: 0;
+    padding: 3px;
+    height: 195px;
+    overflow: auto;
 }
+
 .aboutFooter {
-  border: 1px solid #c0c0c0;
-  border-top-width: 0;
-  padding: 3px;
+    border: 1px solid #c0c0c0;
+    border-top-width: 0;
+    padding: 3px;
 }
 
 input[type="button"] {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .blockUI.blockMsg.blockPage {
-  background-color: transparent !important;
-  border: 0 !important;
+    background-color: transparent !important;
+    border: 0 !important;
 }
 
+/* Copyright 2002-2012, University of Colorado */
+
+/* Styling of the Prototype dialog, prototype-dialog.html -----------------------------------*/
 /* Copyright 2002-2012, University of Colorado */
 
 /* Styling of the Prototype dialog, prototype-dialog.html -----------------------------------*/
@@ -147,9 +150,17 @@ input[type="button"] {
     overflow: hidden; /* prevents float at left from creating ragged edge */
 }
 
-/* OK button */
-#prototype-dialog-ok-button {
-    display: table;
-    margin: 0 auto;
+/* Dialog buttons */
+.dialog-buttons {
     margin-top: 10px;
+    text-align: center;
+}
+
+.dialog-buttons button {
+    font-size: 125%;
+    margin: 1em;
+}
+
+h3 {
+    border: 1px solid red !important;
 }
