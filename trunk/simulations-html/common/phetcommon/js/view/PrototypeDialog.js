@@ -3,8 +3,8 @@
 define( ['tpl!phetcommon_html/prototype-dialog.html'], function ( template ) {
     return {init: function ( simName ) {
         $( template( {simName: simName} ) ).appendTo( $( "body" ) );
-        $( '#prototype-dialog-overlay' ).click( function () {
-            $( '#prototype-dialog-overlay' ).hide();
+        $( '.dialog-overlay' ).click( function () {
+            $(this).hide();
         } );
     }};
 } );

@@ -3,7 +3,7 @@
 /* Styling of the Prototype dialog, prototype-dialog.html -----------------------------------*/
 
 /* Overlay that covers the entire document area. */
-#prototype-dialog-overlay {
+.dialog-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -14,55 +14,51 @@
 }
 
 /* the content is everything inside the dialog */
-#prototype-dialog-content {
+.dialog {
     font-family: Arial;
     background: white;
     border: 2px solid #445;
     border-radius: 1em;
     margin: 6% 12%;
     max-height: 75%;
+    /*box-shadow: 0 1em 2em rgba(0, 0, 0, 0.5);*/   /* breaks dialog on Nexus 7 */
     overflow: auto;
-    box-shadow: 0 1em 2em rgba(0, 0, 0, 0.5);
     -webkit-overflow-scrolling: touch;
 }
 
-/* the body is everything except the title */
-#prototype-dialog-body {
-    margin: 1ex 1.6em;
-    padding-bottom: 1ex;
-}
-
 /* title */
-#prototype-dialog-title {
+.dialog h3 {
     margin: 0 0 0.5em 0;
     padding: 0.4em 0.6em;
     text-align: center;
     background: #eee;
     border-bottom: 1px solid #444;
+    border-top-left-radius: 1em;   /* Chrome doesn't round header edges without this */
+    border-top-right-radius: 1em;
 }
 
-/* PhET logo */
-#prototype-dialog-logo {
+/* the body is everything except the title */
+.dialog .body {
+    margin: 1ex 1.6em;
+    padding-bottom: 1ex;
+}
+
+.dialog .body .logo {
     float: left;
     margin-right: 1em;
 }
 
-/* text message */
-#prototype-dialog-text {
+.dialog .body p {
     overflow: hidden; /* prevents float at left from creating ragged edge */
 }
 
-/* Dialog buttons */
-.dialog-buttons {
+/* row of buttons at the bottom */
+.dialog .buttons {
     margin-top: 10px;
     text-align: center;
 }
 
-.dialog-buttons button {
+.dialog .buttons button {
     font-size: 125%;
     margin: 1em;
-}
-
-h3 {
-    border: 1px solid red !important;
 }
