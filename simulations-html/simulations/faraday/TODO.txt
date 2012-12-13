@@ -1,7 +1,6 @@
 TODO list for faraday
 
 HIGH:
-- make crosshairs area of meter draggable
 - resolve requirejs include problem
 - improve tablet performance
 
