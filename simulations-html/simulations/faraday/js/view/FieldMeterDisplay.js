@@ -10,9 +10,10 @@ define( [
             'easel-phet/events/DragHandler',
             'common/Inheritance',
             'phetcommon/math/MathUtil',
+            'i18n!../../nls/faraday-strings',
             'image!images/fieldMeter.png'
         ],
-        function ( Easel, DragHandler, Inheritance, MathUtil, fieldMeterImage ) {
+        function ( Easel, DragHandler, Inheritance, MathUtil, Strings, fieldMeterImage ) {
 
             /**
              * @param {FieldMeter} fieldMeter
@@ -30,22 +31,30 @@ define( [
                 this.regX = meter.image.width / 2;
                 this.regY = 28; // manually measured in image file
 
+                // title
+                var titleText = new Easel.Text( Strings.magneticField, '14px Arial', 'white' );
+
                 // 4 values
-                var TEXT_FONT = "18px Arial";
-                var TEXT_COLOR = 'white';
-                var magnitudeText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
-                var xText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
-                var yText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
-                var angleText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+                var VALUE_FONT = "18px Arial";
+                var VALUE_COLOR = 'white';
+                var magnitudeText = new Easel.Text( "?", VALUE_FONT, VALUE_COLOR );
+                var xText = new Easel.Text( "?", VALUE_FONT, VALUE_COLOR );
+                var yText = new Easel.Text( "?", VALUE_FONT, VALUE_COLOR );
+                var angleText = new Easel.Text( "?", VALUE_FONT, VALUE_COLOR );
 
                 // rendering order
                 this.addChild( meter );
+                this.addChild( titleText );
                 this.addChild( magnitudeText );
                 this.addChild( xText );
                 this.addChild( yText );
                 this.addChild( angleText );
 
                 // layout
+                titleText.textAlign = "center";
+                titleText.textBaseline = "middle";
+                titleText.x = meter.image.width / 2;
+                titleText.y = 84;
                 var TEXT_X = 55;
                 var textY = 104;
                 var TEXT_Y_DELTA = 23;

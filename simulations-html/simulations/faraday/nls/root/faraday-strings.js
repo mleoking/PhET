@@ -2,6 +2,7 @@
 
 define( {
             "flipPolarity":"Flip Polarity",
+            "magneticField":"Magnetic (B) Field",
             "magnetStrength":"Magnet Strength:",
             "options":"Options",
             "resetAll":"Reset All",
