@@ -52,10 +52,13 @@
     overflow: hidden; /* prevents float at left from creating ragged edge */
 }
 
-/* OK button */
-#prototype-dialog-ok-button {
-    display: table;
-    margin: 0 auto;
+/* Dialog buttons */
+.dialog-buttons {
     margin-top: 10px;
+    text-align: center;
+}
+
+.dialog-buttons button {
     font-size: 125%;
+    margin: 1em;
 }
