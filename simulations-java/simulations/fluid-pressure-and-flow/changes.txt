@@ -1,3 +1,4 @@
+# 1.00.01 (71311) Dec 13, 2012
 > Fixed value for fluid density in English units.
 Addressed issues raised by the IntelliJ Inspection utility, see #3097
 Minor fixes & doc changes to prepare for code review, see #3097
