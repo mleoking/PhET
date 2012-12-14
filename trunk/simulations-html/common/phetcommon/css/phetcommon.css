@@ -1,8 +1,6 @@
 /* Copyright 2002-2012, University of Colorado */
 
-/* Styling of the Prototype dialog, prototype-dialog.html -----------------------------------*/
-
-/* Overlay that covers the entire document area. */
+/* Overlay behind dialogs that covers the entire document area. */
 .dialog-overlay {
     position: absolute;
     top: 0;
@@ -13,8 +11,10 @@
     z-index: 99; /* Make sure the dialog is in front of everything */
 }
 
-/* the content is everything inside the dialog */
-.dialog {
+/* Prototype dialog -----------------------------------------------------------*/
+
+/* the dialog */
+.prototype-dialog {
     font-family: Arial;
     background: white;
     border: 2px solid #445;
@@ -27,7 +27,7 @@
 }
 
 /* title */
-.dialog h3 {
+.prototype-dialog h3 {
     margin: 0 0 0.5em 0;
     padding: 0.4em 0.6em;
     text-align: center;
@@ -38,27 +38,27 @@
 }
 
 /* the body is everything except the title */
-.dialog .body {
+.prototype-dialog .body {
     margin: 1ex 1.6em;
     padding-bottom: 1ex;
 }
 
-.dialog .body .logo {
+.prototype-dialog .body .logo {
     float: left;
     margin-right: 1em;
 }
 
-.dialog .body p {
+.prototype-dialog .body p {
     overflow: hidden; /* prevents float at left from creating ragged edge */
 }
 
 /* row of buttons at the bottom */
-.dialog .buttons {
+.prototype-dialog .buttons {
     margin-top: 10px;
     text-align: center;
 }
 
-.dialog .buttons button {
+.prototype-dialog .buttons button {
     font-size: 125%;
     margin: 1em;
 }
