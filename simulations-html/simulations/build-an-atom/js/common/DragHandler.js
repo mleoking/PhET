@@ -12,6 +12,7 @@ define( [ 'underscore','common/Point2D' ],
             // not meant to be instantiated
             var DragHandler = {};
 
+            // TODO: Changed to support "userControlled". Need to consolidate with common code version.
             /**
              * Registers a drag handler with the specified Easel display object.
              * @param {DisplayObject} displayObject
