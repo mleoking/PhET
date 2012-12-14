@@ -3,6 +3,8 @@ Make everything turn on all the way when getting energy, taper as energy is redu
 
 Implement the dotted E's on the generator so that the E's never disappear.
 
+Make it possible to measure temperature in the steam cloud, have temperature taper.
+
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 
 Make the E's go all the way into and out of the bucket on the 1st tab.
