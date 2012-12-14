@@ -1,3 +1,5 @@
+# 0.00.28 (71322) Dec 14, 2012
+12/14/12 Deploying for review by design team.
 2nd tab: Added "hidden" energy chunks to the generator so that the mechanical chunks don't look like they disappear.
 2nd tab: Made the amount of energy produced, converted, and consumed consistent across all energy systems.
 2nd tab: New biker image that includes a chain.
