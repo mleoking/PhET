@@ -16,7 +16,7 @@ public class UnitSet {
 
     //Common units for density
     private static final Unit FLUID_DENSITY_METRIC = new LinearUnit( DENSITY_UNITS_METRIC, 1, new DecimalFormat( "0.00" ) );
-    private static final Unit FLUID_DENSITY_ENGLISH = new LinearUnit( DENSITY_UNITS_ENGLISH, 16.0184634, new DecimalFormat( "0.00" ) );
+    private static final Unit FLUID_DENSITY_ENGLISH = new LinearUnit( DENSITY_UNITS_ENGLISH, 62.4 / 1000.0, new DecimalFormat( "0.00" ) );
 
     //units for flow, see volumetric flux: http://en.wikipedia.org/wiki/Flux
     private static final Unit FLUX_METRIC = new LinearUnit( FLUX_UNITS_METRIC, 1E3, new DecimalFormat( "0.00" ) );//m3 m-2 s-1
