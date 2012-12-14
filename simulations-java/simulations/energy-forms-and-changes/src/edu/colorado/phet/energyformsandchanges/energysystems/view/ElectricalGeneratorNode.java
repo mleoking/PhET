@@ -29,6 +29,7 @@ public class ElectricalGeneratorNode extends PositionableFadableModelElementNode
         final PNode paddlesNode = new ModelElementImageNode( ElectricalGenerator.WHEEL_PADDLES_IMAGE, mvt );
         addChild( paddlesNode );
         addChild( new ModelElementImageNode( ElectricalGenerator.WHEEL_HUB_IMAGE, mvt ) );
+        addChild( new EnergyChunkLayer( generator.hiddenEnergyChunks, generator.getObservablePosition(), mvt ) );
         addChild( new EnergyChunkLayer( generator.energyChunkList, generator.getObservablePosition(), mvt ) );
 
         // Update the rotation of the wheel image based on model value.

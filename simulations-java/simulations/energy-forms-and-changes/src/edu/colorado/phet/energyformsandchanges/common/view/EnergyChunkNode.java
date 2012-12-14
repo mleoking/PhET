@@ -30,6 +30,7 @@ public class EnergyChunkNode extends PNode {
         put( EnergyType.MECHANICAL, EnergyFormsAndChangesResources.Images.E_MECH_OUTLINE_BLACK );
         put( EnergyType.LIGHT, EnergyFormsAndChangesResources.Images.E_LIGHT_OUTLINE_BLACK );
         put( EnergyType.CHEMICAL, EnergyFormsAndChangesResources.Images.E_CHEM_OUTLINE_BLACK );
+        put( EnergyType.HIDDEN, EnergyFormsAndChangesResources.Images.E_DASHED_OUTLINE_BLACK );
     }};
 
     public EnergyChunkNode( final EnergyChunk energyChunk, final ModelViewTransform mvt ) {

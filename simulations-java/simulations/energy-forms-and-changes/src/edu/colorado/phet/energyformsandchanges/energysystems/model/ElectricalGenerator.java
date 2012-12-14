@@ -61,6 +61,8 @@ public class ElectricalGenerator extends EnergyConverter {
     private double wheelRotationalVelocity = 0; // In radians/s.
     private List<EnergyChunkPathMover> mechanicalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private List<EnergyChunkPathMover> hiddenEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private ObservableProperty<Boolean> energyChunkVisibilityControl;
 
     // Flag that controls "direct coupling mode", which means that the
     // generator wheel turns at a rate that is directly proportionate to the
@@ -71,12 +73,17 @@ public class ElectricalGenerator extends EnergyConverter {
     // placing them on a different layer in the view.
     public ObservableList<EnergyChunk> electricalEnergyChunks = new ObservableList<EnergyChunk>();
 
+    // The "hidden" energy chunks are kept on a separate list mainly for
+    // code clarity.
+    public ObservableList<EnergyChunk> hiddenEnergyChunks = new ObservableList<EnergyChunk>();
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public ElectricalGenerator() {
+    public ElectricalGenerator( ObservableProperty<Boolean> energyChunkVisibilityControl ) {
         super( EnergyFormsAndChangesResources.Images.GENERATOR_ICON );
+        this.energyChunkVisibilityControl = energyChunkVisibilityControl;
     }
 
     //-------------------------------------------------------------------------
@@ -106,7 +113,7 @@ public class ElectricalGenerator extends EnergyConverter {
                 double torqueFromResistance = -wheelRotationalVelocity * RESISTANCE_CONSTANT;
                 double angularAcceleration = ( torqueFromIncomingEnergy + torqueFromResistance ) / WHEEL_MOMENT_OF_INERTIA;
                 wheelRotationalVelocity = MathUtil.clamp( -MAX_ROTATIONAL_VELOCITY, wheelRotationalVelocity + ( angularAcceleration * dt ), MAX_ROTATIONAL_VELOCITY );
-                if ( Math.abs( wheelRotationalVelocity ) < 1E-3 ){
+                if ( Math.abs( wheelRotationalVelocity ) < 1E-3 ) {
                     // Prevent the wheel from moving forever.
                     wheelRotationalVelocity = 0;
                 }
@@ -141,14 +148,21 @@ public class ElectricalGenerator extends EnergyConverter {
                 if ( energyChunkMover.isPathFullyTraversed() ) {
                     // The mechanical energy chunk has traveled to the end of
                     // its path, so change it to electrical and send it on its
-                    // way.
+                    // way.  Also add a "hidden" chunk so that the movement
+                    // through the generator can be seen by the user.
+                    EnergyChunk ec = energyChunkMover.energyChunk;
+                    energyChunkList.remove( ec );
                     mechanicalEnergyChunkMovers.remove( energyChunkMover );
-                    energyChunkList.remove( energyChunkMover.energyChunk );
-                    energyChunkMover.energyChunk.energyType.set( EnergyType.ELECTRICAL );
-                    electricalEnergyChunks.add( energyChunkMover.energyChunk );
+                    ec.energyType.set( EnergyType.ELECTRICAL );
+                    electricalEnergyChunks.add( ec );
                     electricalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
                                                                                createElectricalEnergyChunkPath( getPosition() ),
                                                                                EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                    EnergyChunk hiddenEnergyChunk = new EnergyChunk( EnergyType.HIDDEN, ec.position.get(), energyChunkVisibilityControl );
+                    hiddenEnergyChunks.add( hiddenEnergyChunk );
+                    hiddenEnergyChunkMovers.add( new EnergyChunkPathMover( hiddenEnergyChunk,
+                                                                           createHiddenEnergyChunkPath( getPosition() ),
+                                                                           EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                 }
             }
 
@@ -160,6 +174,19 @@ public class ElectricalGenerator extends EnergyConverter {
                     // its path, so transfer it to the next energy system.
                     electricalEnergyChunkMovers.remove( energyChunkMover );
                     outgoingEnergyChunks.add( energyChunkMover.energyChunk );
+                }
+            }
+
+            // Move the "hidden" energy chunks and update their state.
+            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( hiddenEnergyChunkMovers ) ) {
+                energyChunkMover.moveAlongPath( dt );
+                if ( energyChunkMover.isPathFullyTraversed() ) {
+                    // The hidden energy chunk has traveled to the end of
+                    // its path, so just remove it, because the electrical
+                    // energy chunk to which is corresponds should now be
+                    // visible to the user.
+                    hiddenEnergyChunks.remove( energyChunkMover.energyChunk );
+                    hiddenEnergyChunkMovers.remove( energyChunkMover );
                 }
             }
         }
@@ -183,6 +210,14 @@ public class ElectricalGenerator extends EnergyConverter {
         }};
     }
 
+    private static List<Vector2D> createHiddenEnergyChunkPath( final Vector2D panelPosition ) {
+        return new ArrayList<Vector2D>() {{
+            // Overlaps with the electrical chunks until it reaches the window, then is done.
+            add( panelPosition.plus( START_OF_WIRE_CURVE_OFFSET ) );
+            add( panelPosition.plus( WIRE_CURVE_POINT_1_OFFSET ) );
+        }};
+    }
+
     @Override public void deactivate() {
         super.deactivate();
         wheelRotationalVelocity = 0;
@@ -193,6 +228,7 @@ public class ElectricalGenerator extends EnergyConverter {
         electricalEnergyChunks.clear();
         electricalEnergyChunkMovers.clear();
         mechanicalEnergyChunkMovers.clear();
+        hiddenEnergyChunkMovers.clear();
     }
 
     public ObservableProperty<Double> getWheelRotationalAngle() {

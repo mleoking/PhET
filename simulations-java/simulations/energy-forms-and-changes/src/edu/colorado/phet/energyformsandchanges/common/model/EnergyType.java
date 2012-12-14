@@ -7,5 +7,5 @@ package edu.colorado.phet.energyformsandchanges.common.model;
  * @author John Blanco
  */
 public enum EnergyType {
-    THERMAL, ELECTRICAL, MECHANICAL, LIGHT, CHEMICAL
+    THERMAL, ELECTRICAL, MECHANICAL, LIGHT, CHEMICAL, HIDDEN
 }

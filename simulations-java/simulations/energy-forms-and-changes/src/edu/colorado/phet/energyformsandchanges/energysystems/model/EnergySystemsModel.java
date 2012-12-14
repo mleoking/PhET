@@ -49,7 +49,7 @@ public class EnergySystemsModel implements Resettable {
     }};
 
     // Energy Converters.
-    public final ElectricalGenerator waterPoweredGenerator = new ElectricalGenerator();
+    public final ElectricalGenerator waterPoweredGenerator = new ElectricalGenerator( energyChunksVisible );
     public final SolarPanel solarPanel = new SolarPanel();
 
     // Energy sources.
