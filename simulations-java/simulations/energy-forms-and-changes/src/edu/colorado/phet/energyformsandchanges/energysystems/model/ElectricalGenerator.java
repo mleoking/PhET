@@ -59,9 +59,7 @@ public class ElectricalGenerator extends EnergyConverter {
 
     private Property<Double> wheelRotationalAngle = new Property<Double>( 0.0 ); // In radians.
     private double wheelRotationalVelocity = 0; // In radians/s.
-    private List<EnergyChunkPathMover> mechanicalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    private List<EnergyChunkPathMover> hiddenEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private ObservableProperty<Boolean> energyChunkVisibilityControl;
 
     // Flag that controls "direct coupling mode", which means that the
@@ -130,9 +128,9 @@ public class ElectricalGenerator extends EnergyConverter {
 
                         // And a "mover" that will move this energy chunk to
                         // the center of the wheel.
-                        mechanicalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
-                                                                                   createMechanicalEnergyChunkPath( getPosition() ),
-                                                                                   EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
+                                                                         createMechanicalEnergyChunkPath( getPosition() ),
+                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.
@@ -142,51 +140,50 @@ public class ElectricalGenerator extends EnergyConverter {
                 incomingEnergyChunks.clear();
             }
 
-            // Move the mechanical energy chunks and update their state.
-            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( mechanicalEnergyChunkMovers ) ) {
+            // Move the energy chunks and update their state.
+            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
-                    // The mechanical energy chunk has traveled to the end of
-                    // its path, so change it to electrical and send it on its
-                    // way.  Also add a "hidden" chunk so that the movement
-                    // through the generator can be seen by the user.
                     EnergyChunk ec = energyChunkMover.energyChunk;
-                    energyChunkList.remove( ec );
-                    mechanicalEnergyChunkMovers.remove( energyChunkMover );
-                    ec.energyType.set( EnergyType.ELECTRICAL );
-                    electricalEnergyChunks.add( ec );
-                    electricalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
-                                                                               createElectricalEnergyChunkPath( getPosition() ),
-                                                                               EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                    EnergyChunk hiddenEnergyChunk = new EnergyChunk( EnergyType.HIDDEN, ec.position.get(), energyChunkVisibilityControl );
-                    hiddenEnergyChunks.add( hiddenEnergyChunk );
-                    hiddenEnergyChunkMovers.add( new EnergyChunkPathMover( hiddenEnergyChunk,
-                                                                           createHiddenEnergyChunkPath( getPosition() ),
-                                                                           EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                }
-            }
+                    switch( ec.energyType.get() ) {
+                        case MECHANICAL:
+                            // This mechanical energy chunk has traveled to the
+                            // end of its path, so change it to electrical and
+                            // send it on its way.  Also add a "hidden" chunk
+                            // so that the movement through the generator can
+                            // be seen by the user.
+                            energyChunkList.remove( ec );
+                            energyChunkMovers.remove( energyChunkMover );
+                            ec.energyType.set( EnergyType.ELECTRICAL );
+                            electricalEnergyChunks.add( ec );
+                            energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                             createElectricalEnergyChunkPath( getPosition() ),
+                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                            EnergyChunk hiddenEnergyChunk = new EnergyChunk( EnergyType.HIDDEN, ec.position.get(), energyChunkVisibilityControl );
+                            hiddenEnergyChunks.add( hiddenEnergyChunk );
+                            energyChunkMovers.add( new EnergyChunkPathMover( hiddenEnergyChunk,
+                                                                             createHiddenEnergyChunkPath( getPosition() ),
+                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                            break;
 
-            // Move the electrical energy chunks and update their state.
-            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
-                energyChunkMover.moveAlongPath( dt );
-                if ( energyChunkMover.isPathFullyTraversed() ) {
-                    // The electrical energy chunk has traveled to the end of
-                    // its path, so transfer it to the next energy system.
-                    electricalEnergyChunkMovers.remove( energyChunkMover );
-                    outgoingEnergyChunks.add( energyChunkMover.energyChunk );
-                }
-            }
+                        case ELECTRICAL:
+                            // This electrical energy chunk has traveled to the
+                            // end of its path, so transfer it to the next
+                            // energy system.
+                            energyChunkMovers.remove( energyChunkMover );
+                            outgoingEnergyChunks.add( ec );
+                            break;
 
-            // Move the "hidden" energy chunks and update their state.
-            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( hiddenEnergyChunkMovers ) ) {
-                energyChunkMover.moveAlongPath( dt );
-                if ( energyChunkMover.isPathFullyTraversed() ) {
-                    // The hidden energy chunk has traveled to the end of
-                    // its path, so just remove it, because the electrical
-                    // energy chunk to which is corresponds should now be
-                    // visible to the user.
-                    hiddenEnergyChunks.remove( energyChunkMover.energyChunk );
-                    hiddenEnergyChunkMovers.remove( energyChunkMover );
+                        case HIDDEN:
+                            // This hidden energy chunk has traveled to the end
+                            // of its path, so just remove it, because the
+                            // electrical energy chunk to which is corresponds
+                            // should now be visible to the user.
+                            hiddenEnergyChunks.remove( energyChunkMover.energyChunk );
+                            energyChunkMovers.remove( energyChunkMover );
+
+                            break;
+                    }
                 }
             }
         }
@@ -226,9 +223,7 @@ public class ElectricalGenerator extends EnergyConverter {
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();
         electricalEnergyChunks.clear();
-        electricalEnergyChunkMovers.clear();
-        mechanicalEnergyChunkMovers.clear();
-        hiddenEnergyChunkMovers.clear();
+        energyChunkMovers.clear();
     }
 
     public ObservableProperty<Double> getWheelRotationalAngle() {
