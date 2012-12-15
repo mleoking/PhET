@@ -100,8 +100,8 @@ textarea {
 
 #control-panel {
     position: absolute;
-    width: 40%;
-    right: 0;
+    width: 35%;
+    right: 14%;
 }
 
 #control-panel .widget-box {
@@ -109,7 +109,7 @@ textarea {
     clear: both;
     width: 91%;
     min-height: 1em;
-    min-width: 485px;
+    min-width: 480px;
     background: rgb(255, 255, 153);
     margin: 1%;
     border: 2px solid black;
@@ -280,7 +280,6 @@ textarea {
     #control-panel .widget-box {
         width: 97%;
     }
-
 }
 
 /* ==========================================================================
