@@ -182,7 +182,7 @@ public class LWJGLUtils {
                 add( new VerticalLayoutPanel() {{
                          add( new JLabel( PhetCommonResources.getString( "Jme.thisSimulationWasUnableToStart" ) ) {{
                              setFont( new PhetFont( 20, true ) );
-                             setForeground( Color.RED );
+                             setForeground( Color.BLUE );
                          }} );
                          String troubleshootingUrl = "http://support.apple.com/kb/HT5559?viewlocale=en_US";
                          String body = PhetCommonResources.getString( "Lwjgl.macJava17Message" );
