@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -179,7 +180,11 @@ public class LWJGLUtils {
         JDialog dialog = new JDialog( parentFrame ) {{
             setContentPane( new JPanel( new GridLayout( 1, 1 ) ) {{
                 setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
-                add( new VerticalLayoutPanel() {{
+                add( new HorizontalLayoutPanel() {{
+                    ImageIcon imageIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PHET_LOGO ) );
+                    JLabel titleLabel = new JLabel( imageIcon );
+                    add( titleLabel );
+                    add( new VerticalLayoutPanel() {{
                          add( new JLabel( PhetCommonResources.getString( "Jme.thisSimulationWasUnableToStart" ) ) {{
                              setFont( new PhetFont( 20, true ) );
                              setForeground( Color.BLUE );
@@ -203,8 +208,8 @@ public class LWJGLUtils {
                      new GridBagConstraints() {{
                          fill = GridBagConstraints.HORIZONTAL;
                          insets = new Insets( 10, 10, 10, 10 );
-                     }}
-                );
+                     }} );
+                }} );
                 setMaximumSize( new Dimension( 500, 10000 ) );
             }} );
         }};
