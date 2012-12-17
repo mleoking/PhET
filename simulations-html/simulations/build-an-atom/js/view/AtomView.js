@@ -92,6 +92,7 @@ define( [
                 self.ionIndicator.text = "+Ion";
                 self.ionIndicator.color = "red";
             }
+            self.ionIndicator.x = 180 - self.ionIndicator.getMeasuredWidth();
         } );
     };
 
