@@ -1,3 +1,4 @@
+12/17/12 rewrite layout code for slope-intercept equations so that it adds, rather than deletes, nodes
 # 0.00.42 (70534) Nov 20, 2012
 11/20/12 dev version with smaller subscripts
 11/20/12 subscripts are too small with <small> tag, revert to <font size='-1'>

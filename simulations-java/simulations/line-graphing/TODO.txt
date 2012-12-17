@@ -17,7 +17,7 @@ MEDIUM
 - sort out duplication in IChallenge and ChallengeNode hierarchies
 
 LOW
-- implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
+- implementation of PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
 - consider using a subtle background color for buttons (Reset All, Save Line, Erase Lines)
 - add more horizontal space between graph and control panels, when possible
