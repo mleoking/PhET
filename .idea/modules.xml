@@ -62,7 +62,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/glaciers/glaciers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/glaciers/glaciers.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/gravity-and-orbits/gravity-and-orbits.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/gravity-and-orbits/gravity-and-orbits.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/greenhouse/greenhouse.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/greenhouse/greenhouse.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simulations-html5/build-tools/html5-build-tools.iml" filepath="$PROJECT_DIR$/simulations-html5/build-tools/html5-build-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-html/build-tools/html5-build-tools.iml" filepath="$PROJECT_DIR$/simulations-html/build-tools/html5-build-tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/hydrogen-atom/hydrogen-atom.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/hydrogen-atom/hydrogen-atom.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/ideal-gas/ideal-gas.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/ideal-gas/ideal-gas.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/inside-magnets/inside-magnets.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/inside-magnets/inside-magnets.iml" />
