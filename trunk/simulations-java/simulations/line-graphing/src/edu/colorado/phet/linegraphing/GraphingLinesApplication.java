@@ -26,7 +26,7 @@ public class GraphingLinesApplication extends PiccoloPhetApplication {
         addModule( new SlopeModule() );
         addModule( new SlopeInterceptModule() );
         addModule( new PointSlopeModule() );
-//        addModule( new LineGameModule() );
+        addModule( new LineGameModule() );
 
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
