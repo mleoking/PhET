@@ -1,3 +1,4 @@
+12/17/12 rewrite layout code for point-slope equations so that it adds, rather than deletes, nodes
 12/17/12 rewrite layout code for slope-intercept equations so that it adds, rather than deletes, nodes
 # 0.00.42 (70534) Nov 20, 2012
 11/20/12 dev version with smaller subscripts

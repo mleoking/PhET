@@ -163,8 +163,10 @@ public class PointSlopeEquationNode extends EquationNode {
 
         final boolean interactive = interactiveX1 || interactiveY1 || interactiveSlope;
 
-        // Start by adding all nodes, then we'll selectively remove some nodes based on the desired form of the equation.
+        // Start by removing all nodes, then we'll selectively add nodes based on the desired form of the equation.
         removeAllChildren();
+        xOperatorNode.removeAllChildren();
+        yOperatorNode.removeAllChildren();
         if ( line.undefinedSlope() && !interactive ) {
             // slope is undefined and nothing is interactive
             addChild( new SlopeUndefinedNode( line, staticFont, staticColor ) );
@@ -175,30 +177,9 @@ public class PointSlopeEquationNode extends EquationNode {
             addChild( new SlopeInterceptEquationNode( Line.createSlopeIntercept( line.rise, line.run, 0, line.color ), staticFont, staticColor ) );
             return;
         }
-        else {
-            // nodes that may be interactive first, so we can more easily identify layout problems
-            addChild( y1Node );
-            addChild( x1Node );
-            addChild( riseNode );
-            addChild( runNode );
-
-            addChild( yLeftParenNode );
-            addChild( yNode );
-            addChild( yOperatorNode );
-            addChild( yRightParenNode );
-            addChild( y1MinusSignNode );
-            addChild( equalsNode );
-            addChild( slopeMinusSignNode );
-            addChild( fractionLineNode );
-            addChild( xLeftParenNode );
-            addChild( xNode );
-            addChild( xOperatorNode );
-            addChild( xRightParenNode );
-        }
 
         // Change the operators to account for the signs of x1 and y1.
         {
-            xOperatorNode.removeAllChildren();
             if ( interactiveX1 || line.x1 >= 0 ) {
                 xOperatorNode.addChild( new MinusNode( operatorLineSize, staticColor ) );
             }
@@ -206,7 +187,6 @@ public class PointSlopeEquationNode extends EquationNode {
                 xOperatorNode.addChild( new PlusNode( operatorLineSize, staticColor ) );
             }
 
-            yOperatorNode.removeAllChildren();
             if ( interactiveY1 || line.y1 >= 0 ) {
                 yOperatorNode.addChild( new MinusNode( operatorLineSize, staticColor ) );
             }
@@ -216,47 +196,36 @@ public class PointSlopeEquationNode extends EquationNode {
         }
 
         if ( line.rise == 0 && !interactiveSlope && !interactiveX1 ) {
-
             // y1 is on the right side of the equation
-
-            removeChild( yLeftParenNode );
-            removeChild( yOperatorNode );
-            removeChild( yRightParenNode );
-            removeChild( slopeMinusSignNode );
-            removeChild( riseNode );
-            removeChild( runNode );
-            removeChild( fractionLineNode );
-            removeChild( xLeftParenNode );
-            removeChild( xNode );
-            removeChild( xOperatorNode );
-            removeChild( x1Node );
-            removeChild( xRightParenNode );
-
+            addChild( yNode );
+            addChild( equalsNode );
+            addChild( y1Node );
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
             if ( interactiveY1 || line.y1 >= 0 ) {
-                removeChild( y1MinusSignNode );
                 // y = y1
                 y1Node.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                   yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
             }
             else {
                 // y = -y1
+                addChild( y1MinusSignNode );
                 y1MinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                            equalsNode.getFullBoundsReference().getCenterY() - ( y1MinusSignNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
                 y1Node.setOffset( y1MinusSignNode.getFullBoundsReference().getMaxX() + integerSignXSpacing,
                                   yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
             }
         }
-        else {
-            // y1 is on the left side of the equation
+        else {  // y1 is on the left side of the equation
 
-            removeChild( y1MinusSignNode );
-
-            // left side of equation (y term)
             PNode previousNode;
-            removeChild( y1MinusSignNode );
+
             // (y - y1)
+            addChild( yLeftParenNode );
+            addChild( yNode );
+            addChild( yOperatorNode );
+            addChild( y1Node );
+            addChild( yRightParenNode );
             yLeftParenNode.setOffset( 0, 0 );
             yNode.setOffset( yLeftParenNode.getFullBoundsReference().getMaxX() + parenXSpacing,
                              yLeftParenNode.getYOffset() );
@@ -268,6 +237,7 @@ public class PointSlopeEquationNode extends EquationNode {
                                        yNode.getYOffset() );
 
             // =
+            addChild( equalsNode );
             equalsNode.setOffset( yRightParenNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                   yNode.getYOffset() );
 
@@ -275,7 +245,9 @@ public class PointSlopeEquationNode extends EquationNode {
             double previousXOffset;
             if ( interactiveSlope ) {
                 // (rise/run), where rise and run are spinners, and the sign is integrated into the spinners
-                removeChild( slopeMinusSignNode );
+                addChild( riseNode );
+                addChild( fractionLineNode );
+                addChild( runNode );
                 fractionLineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                             equalsNode.getFullBoundsReference().getCenterY() + 2 );
                 riseNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
@@ -301,14 +273,14 @@ public class PointSlopeEquationNode extends EquationNode {
                 fractionLineNode.setPathTo( createFractionLineShape( lineWidth ) );
 
                 // decide whether to include the slope minus sign
-                if ( positiveSlope ) {
+                if ( positiveSlope || zeroSlope ) {
                     // no sign
-                    removeChild( slopeMinusSignNode );
                     previousNode = equalsNode;
                     previousXOffset = relationalOperatorXSpacing;
                 }
                 else {
                     // -
+                    addChild( slopeMinusSignNode );
                     slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                                   equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor + slopeSignYOffset );
                     previousNode = slopeMinusSignNode;
@@ -317,6 +289,9 @@ public class PointSlopeEquationNode extends EquationNode {
 
                 if ( line.undefinedSlope() || fractionalSlope ) {
                     // rise/run
+                    addChild( riseNode );
+                    addChild( fractionLineNode );
+                    addChild( runNode );
                     fractionLineNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset,
                                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
                     riseNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
@@ -328,24 +303,18 @@ public class PointSlopeEquationNode extends EquationNode {
                 }
                 else if ( zeroSlope ) {
                     // 0
-                    removeChild( slopeMinusSignNode );
-                    removeChild( fractionLineNode );
-                    removeChild( runNode );
+                    addChild( riseNode );
                     riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
                     previousNode = riseNode;
                     previousXOffset = integerSlopeXSpacing;
                 }
                 else if ( unitySlope ) {
                     // no slope term
-                    removeChild( fractionLineNode );
-                    removeChild( riseNode );
-                    removeChild( runNode );
                     previousXOffset = relationalOperatorXSpacing;
                 }
                 else if ( integerSlope ) {
                     // N
-                    removeChild( fractionLineNode );
-                    removeChild( runNode );
+                    addChild( riseNode );
                     riseNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset, yNode.getYOffset() );
                     previousNode = riseNode;
                     previousXOffset = integerSlopeXSpacing;
@@ -358,6 +327,11 @@ public class PointSlopeEquationNode extends EquationNode {
             // x term
             if ( interactiveX1 || line.rise != 0 ) {
                 // (x - x1)
+                addChild( xLeftParenNode );
+                addChild( xNode );
+                addChild( xOperatorNode );
+                addChild( x1Node );
+                addChild( xRightParenNode );
                 xLeftParenNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset,
                                           yNode.getYOffset() );
                 xNode.setOffset( xLeftParenNode.getFullBoundsReference().getMaxX() + parenXSpacing,
@@ -371,11 +345,6 @@ public class PointSlopeEquationNode extends EquationNode {
             }
             else if ( line.rise == 0 ) {
                 // no x term
-                removeChild( xLeftParenNode );
-                removeChild( xNode );
-                removeChild( xOperatorNode );
-                removeChild( x1Node );
-                removeChild( xRightParenNode );
             }
             else {
                 throw new IllegalStateException( "programming error, didn't handle some x-term case" );
