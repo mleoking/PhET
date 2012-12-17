@@ -18,6 +18,7 @@ textarea {
 body {
     font-size: 1em;
     line-height: 1.4;
+    overflow: hidden;
 }
 
 .ui-page {
@@ -129,6 +130,7 @@ textarea {
 #periodic-table table td {
     border: 1px solid black;
     text-align: center;
+    font-size: 0.9em;
 }
 
 #periodic-table table td.active {
