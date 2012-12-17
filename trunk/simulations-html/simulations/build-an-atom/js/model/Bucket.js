@@ -39,7 +39,6 @@ define( [
             return;
         }
         this.particles = _.without( this.particles, particle );
-        console.log( "this.particles.length = " + this.particles.length );
 //        this.relayoutBucketParticles();
     }
 
@@ -107,7 +106,6 @@ define( [
     }
 
     Bucket.prototype.getLayerForYPosition = function ( yPosition ) {
-        console.log( "yPosition" + yPosition );
         return Math.abs( Math.round( ( yPosition - ( this.y + this.yOffset ) ) / ( this.particleRadius * 2 * 0.866 ) ) );
     }
 
@@ -124,7 +122,6 @@ define( [
         var self = this;
         _.each( this.particles, function ( particle ) {
             var layer = self.getLayerForYPosition( particle.y );
-            console.log( "Checking layer...layer is " + layer );
             if ( layer > highestOccupiedLayer ) {
                 highestOccupiedLayer = layer;
             }
@@ -207,7 +204,6 @@ define( [
                 count++;
             }
         }
-        console.log( "count = " + count );
         return count;
     }
 
