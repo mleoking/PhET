@@ -6,7 +6,6 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- nicer subscripts on x1,x2,y1,y2
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is not interactive)
 - Game: try check-mark and "X" icons in upper-right corner of equation box
 - Game: "Place 3 Points" challenge
