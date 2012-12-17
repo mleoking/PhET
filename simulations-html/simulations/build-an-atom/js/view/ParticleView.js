@@ -62,21 +62,17 @@ define( [
         } );
 
         particle.events.on( 'userGrabbed', function () {
-            console.log( "Inflate" );
             self.drawRadius = self.mvt.modelToView( self.particle.radius ) * TOUCH_INFLATION_MULTIPLIER;
             self.render();
         } );
 
         particle.events.on( 'userReleased', function () {
-            console.log( "Deflate" );
             self.drawRadius = self.mvt.modelToView( self.particle.radius );
             self.render();
         } );
     }
 
     ParticleView.prototype.render = function () {
-        console.log( "this.drawRadius = " + this.drawRadius );
-
         this.graphics.clear();
         this.graphics
                 .beginStroke( "black" )
