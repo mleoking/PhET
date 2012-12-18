@@ -17,7 +17,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -25,6 +27,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -67,6 +71,7 @@ public class HeaterCoolerView {
     // the burner.
     private final PNode holeLayer = new PNode();
     private final PNode frontLayer = new PNode();
+    private final PNode energyChunkLayer = new PNode();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -83,7 +88,9 @@ public class HeaterCoolerView {
      * @param coolLabel     Textual label for the slider knob position that
      *                      corresponds to max cooling.
      */
-    public HeaterCoolerView( Property<Double> heatCoolLevel, boolean heatEnabled, String heatLabel, boolean coolEnabled, String coolLabel, final double width, final double height, final double openingHeight ) {
+    public HeaterCoolerView( Property<Double> heatCoolLevel, boolean heatEnabled, String heatLabel, boolean coolEnabled,
+                             String coolLabel, final double width, final double height, final double openingHeight,
+                             final ObservableList<EnergyChunk> energyChunkList, final ModelViewTransform mvt ) {
 
         this.heatCoolLevel = heatCoolLevel;
 
@@ -129,11 +136,28 @@ public class HeaterCoolerView {
         iceImage = new PImage( PiccoloPhetResources.getImage( "ice-cube-stack.png" ) );
         iceImage.setScale( ( width * 0.8 ) / iceImage.getFullBoundsReference().getWidth() );
 
+        // Monitor energy chunks and add/remove as needed.
+        energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( final EnergyChunk addedEnergyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
+                energyChunkLayer.addChild( energyChunkNode );
+                energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                    public void apply( EnergyChunk removedEnergyChunk ) {
+                        if ( removedEnergyChunk == addedEnergyChunk ) {
+                            energyChunkLayer.removeChild( energyChunkNode );
+                            energyChunkList.removeElementRemovedObserver( this );
+                        }
+                    }
+                } );
+            }
+        } );
+
         // Add the various components in the order needed to achieve the
         // desired layering.
         holeLayer.addChild( burnerInterior );
         holeLayer.addChild( fireImage );
         holeLayer.addChild( iceImage );
+        holeLayer.addChild( energyChunkLayer );
         frontLayer.addChild( burner );
         frontLayer.addChild( stoveControlSlider );
 
@@ -214,6 +238,7 @@ public class HeaterCoolerView {
 
     public void setOffset( double x, double y ) {
         holeLayer.setOffset( x, y );
+        energyChunkLayer.setOffset( -x, -y ); // The energy chunk layer must remain in global space.
         frontLayer.setOffset( x, y );
     }
 

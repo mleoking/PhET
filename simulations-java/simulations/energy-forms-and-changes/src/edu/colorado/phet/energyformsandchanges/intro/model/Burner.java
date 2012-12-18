@@ -33,12 +33,9 @@ public class Burner extends ModelElement {
     //-------------------------------------------------------------------------
 
     private static final double WIDTH = 0.075; // In meters.
-    private static final double HEIGHT = WIDTH;
+    private static final double HEIGHT = WIDTH * 1;
     private static final double MAX_ENERGY_GENERATION_RATE = 5000; // joules/sec, empirically chosen.
     private static final double CONTACT_DISTANCE = 0.001; // In meters.
-
-    // Distance at which energy chunks must start fading out.  Value empirically determined.
-    private static final double FADE_RADIUS = WIDTH / 2; // In meters.
 
     // Max rate at which the flame/ice is "clamped down" when the limits are hit.
     private static final double CLAMP_DOWN_RATE = 4; // In proportion per second.
@@ -52,7 +49,6 @@ public class Burner extends ModelElement {
     public final BoundedDoubleProperty heatCoolLevel = new BoundedDoubleProperty( 0.0, -1, 1 );
     private final Property<HorizontalSurface> topSurface;
     private final BooleanProperty energyChunksVisible;
-    private final ConstantDtClock clock;
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
     private final BooleanProperty isSomethingOnTop = new BooleanProperty( false );
@@ -75,7 +71,6 @@ public class Burner extends ModelElement {
      *                            chunks are visible.
      */
     public Burner( ConstantDtClock clock, Vector2D position, BooleanProperty energyChunksVisible ) {
-        this.clock = clock;
         this.position = new Vector2D( position );
         this.energyChunksVisible = energyChunksVisible;
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
@@ -147,7 +142,7 @@ public class Burner extends ModelElement {
     }
 
     private Vector2D getEnergyChunkStartEndPoint() {
-        return new Vector2D( getCenterPoint().getX(), getCenterPoint().getY() + HEIGHT * 0.1 );
+        return new Vector2D( getCenterPoint().getX(), getCenterPoint().getY() );
     }
 
     /**
@@ -280,13 +275,8 @@ public class Burner extends ModelElement {
         // Animate energy chunks.
         for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
             energyChunkWanderController.updatePosition( dt );
-            // See if the chunk needs to start fading.
-            EnergyChunk ec = energyChunkWanderController.getEnergyChunk();
-            if ( ec.getExistenceStrength().get() == 1.0 && ec.position.get().distance( energyChunkWanderController.getDestination() ) <= FADE_RADIUS ) {
-                ec.startFadeOut();
-            }
-            else if ( ec.getExistenceStrength().get() <= 0 ) {
-                energyChunkList.remove( ec );
+            if ( energyChunkWanderController.destinationReached() ) {
+                energyChunkList.remove( energyChunkWanderController.getEnergyChunk() );
                 energyChunkWanderControllers.remove( energyChunkWanderController );
             }
         }

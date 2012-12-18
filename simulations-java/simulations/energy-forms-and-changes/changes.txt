@@ -1,4 +1,6 @@
-2nd tab: Make "hidden" energy chunks in the generator appear partially faded.
+1st tab: Removed the feature where the burner disables half of the control slider when a max or min temperature is reached.
+1st tab: Made the energy chunks go into or come out of the burner, rather than fading in or out.
+2nd tab: Made "hidden" energy chunks in the generator appear partially faded.
 # 0.00.28 (71322) Dec 14, 2012
 12/14/12 Deploying for review by design team.
 2nd tab: Added "hidden" energy chunks to the generator so that the mechanical chunks don't look like they disappear.

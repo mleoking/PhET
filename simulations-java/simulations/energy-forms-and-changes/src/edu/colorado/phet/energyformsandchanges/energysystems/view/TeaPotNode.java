@@ -16,12 +16,14 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.TeaPot;
@@ -45,7 +47,9 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
 
         // Create the burner.
         // TODO: i18n
-        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, true, "Heat", false, "", BURNER_WIDTH, BURNER_HEIGHT, BURNER_OPENING_WIDTH );
+        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, true, "Heat", false, "",
+                                                              BURNER_WIDTH, BURNER_HEIGHT, BURNER_OPENING_WIDTH,
+                                                              new ObservableList<EnergyChunk>(  ), mvt );
 
         // Create the tea pot.
         final PNode teaPotImageNode = new ModelElementImageNode( TeaPot.TEAPOT_IMAGE, mvt );
