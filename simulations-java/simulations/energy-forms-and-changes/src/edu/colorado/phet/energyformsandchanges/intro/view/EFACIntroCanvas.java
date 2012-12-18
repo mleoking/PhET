@@ -31,6 +31,8 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
 import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerNode;
+import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
+import edu.colorado.phet.energyformsandchanges.energysystems.view.HeaterCoolerView;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.ElementFollowingThermometer;
 import edu.umd.cs.piccolo.PNode;
@@ -93,6 +95,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( blockLayer );
         PNode airLayer = new PNode();
         rootNode.addChild( airLayer );
+        PNode heaterCoolerFrontLayer = new PNode();
+        rootNode.addChild( heaterCoolerFrontLayer );
         final PNode thermometerLayer = new PNode();
         rootNode.addChild( thermometerLayer );
         final PNode beakerFrontLayer = new PNode();
@@ -176,8 +180,24 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         }
 
         // Add the burners.
-        backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
-        backLayer.addChild( new BurnerNode( model.getRightBurner(), mvt ) );
+        double burnerProjectionAmount = mvt.modelToView( model.getLeftBurner().getOutlineRect() ).getBounds2D().getWidth() * 0.2; // Multiplier empirically determined for best look.
+        double burnerWidth = mvt.modelToViewDeltaX( model.getLeftBurner().getOutlineRect().getWidth() ) * 0.7;
+        double burnerHeight = burnerWidth * 0.8;
+        double burnerOpeningHeight = burnerHeight * 0.2;
+        double burnerYPosTweak = -10; // Empirically determined for best look.
+        HeaterCoolerView leftHeaterCooler = new HeaterCoolerView( model.getLeftBurner().heatCoolLevel, true, "Heat", true, "Cool", burnerWidth, burnerHeight, burnerOpeningHeight );
+        leftHeaterCooler.setOffset( mvt.modelToViewX( model.getLeftBurner().getOutlineRect().getCenterX() ) - leftHeaterCooler.getHoleNode().getFullBounds().getWidth() / 2,
+                                    mvt.modelToViewY( model.getLeftBurner().getOutlineRect().getMinY() ) - leftHeaterCooler.getFrontNode().getFullBounds().getHeight() - burnerYPosTweak );
+        backLayer.addChild( leftHeaterCooler.getHoleNode() );
+        backLayer.addChild( new BurnerStandNode( mvt.modelToView( model.getLeftBurner().getOutlineRect() ).getBounds2D(), burnerProjectionAmount ) );
+        heaterCoolerFrontLayer.addChild( leftHeaterCooler.getFrontNode() );
+
+        HeaterCoolerView rightHeaterCooler = new HeaterCoolerView( model.getRightBurner().heatCoolLevel, true, "Heat", true, "Cool", burnerWidth, burnerHeight, burnerOpeningHeight );
+        rightHeaterCooler.setOffset( mvt.modelToViewX( model.getRightBurner().getOutlineRect().getCenterX() ) - rightHeaterCooler.getHoleNode().getFullBounds().getWidth() / 2,
+                                    mvt.modelToViewY( model.getRightBurner().getOutlineRect().getMinY() ) - rightHeaterCooler.getFrontNode().getFullBounds().getHeight() - burnerYPosTweak );
+        backLayer.addChild( rightHeaterCooler.getHoleNode() );
+        backLayer.addChild( new BurnerStandNode( mvt.modelToView( model.getRightBurner().getOutlineRect() ).getBounds2D(), burnerProjectionAmount ) );
+        heaterCoolerFrontLayer.addChild( rightHeaterCooler.getFrontNode() );
 
         // Add the air.
         airLayer.addChild( new AirNode( model.getAir(), mvt ) );
