@@ -38,7 +38,7 @@ public class TestEquationNodes {
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );
 
-        final int xSpacing = 50;
+        final int xSpacing = 100;
         final int ySpacing = 60;
 
         // point-slope tests
@@ -121,7 +121,7 @@ public class TestEquationNodes {
         canvas.getLayer().addChild( slopeParent );
 
         // layout
-        pointSlopeParent.setOffset( 100, 50 );
+        pointSlopeParent.setOffset( 50, 50 );
         slopeInterceptParent.setOffset( pointSlopeParent.getFullBoundsReference().getMaxX() + xSpacing, pointSlopeParent.getYOffset() );
         slopeParent.setOffset( slopeInterceptParent.getXOffset(), slopeInterceptParent.getFullBoundsReference().getMaxY() + 75 );
 
