@@ -14,6 +14,7 @@ HIGH
 MEDIUM
 - reuse LineFormGraphNode subclasses in game
 - sort out duplication in IChallenge and ChallengeNode hierarchies
+- rise value on slope tool falls off left edge of play area in Point-Slope tab
 
 LOW
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
