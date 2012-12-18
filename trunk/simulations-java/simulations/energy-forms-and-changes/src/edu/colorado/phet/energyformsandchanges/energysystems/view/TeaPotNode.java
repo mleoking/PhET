@@ -36,12 +36,16 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class TeaPotNode extends PositionableFadableModelElementNode {
 
+    private double BURNER_WIDTH = 125; // Emprically determined.
+    private double BURNER_HEIGHT = BURNER_WIDTH * 0.75;
+    private double BURNER_OPENING_WIDTH = BURNER_WIDTH * 0.1;
+
     public TeaPotNode( TeaPot teaPot, IClock clock, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( teaPot, mvt );
 
         // Create the burner.
         // TODO: i18n
-        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, true, "Heat", false, "" );
+        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, true, "Heat", false, "", BURNER_WIDTH, BURNER_HEIGHT, BURNER_OPENING_WIDTH );
 
         // Create the tea pot.
         final PNode teaPotImageNode = new ModelElementImageNode( TeaPot.TEAPOT_IMAGE, mvt );

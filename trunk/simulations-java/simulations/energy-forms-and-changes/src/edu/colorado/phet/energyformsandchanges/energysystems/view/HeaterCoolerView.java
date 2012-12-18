@@ -10,8 +10,8 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -34,7 +34,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * A view element that represents a device that can be used to heat or cool
  * things.  This is based on the HeaterCoolerNode that was in common code as
  * of early October 2012, but is different in that it doesn't extend PNode.
- * Instead, it provides an API that enabled the user to get the front and back
+ * Instead, it provides an API that enables the user to get the front and back
  * representations separately so that they can be layered on a canvas and other
  * view elements can be placed between them.
  *
@@ -45,13 +45,6 @@ public class HeaterCoolerView {
     //-------------------------------------------------------------------------
     // Class Data
     //-------------------------------------------------------------------------
-
-    // Size, in screen coordinates, of this node.  The size is fixed, but can
-    // be scaled if needed (within reasonable limits).
-    private static final double WIDTH = 125;                          // In screen coords, which are close to pixels.
-    private static final double HEIGHT = WIDTH * 0.75;                // In screen coords, which are close to pixels.
-    private static final double BURNER_OPENING_HEIGHT = WIDTH * 0.1;  // In screen coords, which are close to pixels.
-    private static final double BOTTOM_WIDTH = WIDTH * 0.8;           // In screen coords, which are close to pixels.
 
     // Basic color used for the stove.
     private static final Color BASE_COLOR = new Color( 159, 182, 205 );
@@ -90,11 +83,7 @@ public class HeaterCoolerView {
      * @param coolLabel     Textual label for the slider knob position that
      *                      corresponds to max cooling.
      */
-    public HeaterCoolerView( Property<Double> heatCoolLevel, boolean heatEnabled, String heatLabel, boolean coolEnabled, String coolLabel ) {
-
-        if ( !( heatEnabled || coolEnabled ) ) {
-            throw new IllegalArgumentException( "Either heating or cooling must be enabled." );
-        }
+    public HeaterCoolerView( Property<Double> heatCoolLevel, boolean heatEnabled, String heatLabel, boolean coolEnabled, String coolLabel, final double width, final double height, final double openingHeight ) {
 
         this.heatCoolLevel = heatCoolLevel;
 
@@ -103,41 +92,42 @@ public class HeaterCoolerView {
 
             // Draw the body of the burner.
             moveTo( 0, 0 ); // Start in upper left corner.
-            curveTo( 0, BURNER_OPENING_HEIGHT / 2, WIDTH, BURNER_OPENING_HEIGHT / 2, WIDTH, 0 ); // Curve to upper right corner.
-            lineTo( ( WIDTH + BOTTOM_WIDTH ) / 2, HEIGHT ); // Line to lower right corner.
-            curveTo( ( WIDTH + BOTTOM_WIDTH ) / 2,
-                     HEIGHT + BURNER_OPENING_HEIGHT / 2,
-                     ( WIDTH - BOTTOM_WIDTH ) / 2,
-                     HEIGHT + BURNER_OPENING_HEIGHT / 2,
-                     ( WIDTH - BOTTOM_WIDTH ) / 2, HEIGHT ); // Curve to lower left corner.
+            curveTo( 0, openingHeight / 2, width, openingHeight / 2, width, 0 ); // Curve to upper right corner.
+            double bottomWidth = width * 0.8;
+            lineTo( ( width + bottomWidth ) / 2, height ); // Line to lower right corner.
+            curveTo( ( width + bottomWidth ) / 2,
+                     height + openingHeight / 2,
+                     ( width - bottomWidth ) / 2,
+                     height + openingHeight / 2,
+                     ( width - bottomWidth ) / 2, height ); // Curve to lower left corner.
             lineTo( 0, 0 ); // Line back to the upper left corner.
             closePath(); // Just to be sure.
         }};
-        Paint stoveBodyPaint = new GradientPaint( 0, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ), (float) WIDTH, 0, ColorUtils.darkerColor( BASE_COLOR, 0.5 ) );
+        Paint stoveBodyPaint = new GradientPaint( 0, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ), (float) width, 0, ColorUtils.darkerColor( BASE_COLOR, 0.5 ) );
         burner = new PhetPPath( stoveBodyShape.getGeneralPath(), stoveBodyPaint, new BasicStroke( 1 ), Color.BLACK );
 
         // Create the inside bowl of the burner, which is an ellipse.
-        Shape burnerInteriorShape = new Ellipse2D.Double( 0, 0, WIDTH, BURNER_OPENING_HEIGHT );
-        Paint burnerInteriorPaint = new GradientPaint( 0, 0, ColorUtils.darkerColor( BASE_COLOR, 0.25 ), (float) WIDTH, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ) );
+        Shape burnerInteriorShape = new Ellipse2D.Double( 0, 0, width, openingHeight );
+        Paint burnerInteriorPaint = new GradientPaint( 0, 0, ColorUtils.darkerColor( BASE_COLOR, 0.25 ), (float) width, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ) );
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the slider.
         HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerView.this.heatCoolLevel, heatEnabled, heatLabel, coolEnabled, coolLabel ) {{
-            // Scale the slider to look reasonable on the body of the stove.  It
+            // Scale the slider to look reasonable on the body of the stove. It
             // may be scaled differently for different translations.
-            double maxWidth = WIDTH * 0.8;
-            double maxHeight = HEIGHT * 0.8;
-            double scale = Math.min( maxWidth / getFullBoundsReference().width,
-                                     maxHeight / getFullBoundsReference().height );
-            setScale( scale );
+            double maxWidth = width * 0.8;
+            double maxHeight = height * 0.8;
+            double sliderScale = Math.min( maxWidth / getFullBoundsReference().width,
+                                           maxHeight / getFullBoundsReference().height );
+            setScale( sliderScale );
         }};
 
         // Add the images for fire and ice that come out of the stove.
         fireImage = new PImage( PiccoloPhetResources.getImage( "flame.png" ) );
-        fireImage.setScale( ( WIDTH * 0.8 ) / fireImage.getFullBoundsReference().getWidth() );
+        fireImage.setScale( ( width * 0.8 ) / fireImage.getFullBoundsReference().getWidth() );
 
         iceImage = new PImage( PiccoloPhetResources.getImage( "ice-cube-stack.png" ) );
-        iceImage.setScale( ( WIDTH * 0.8 ) / iceImage.getFullBoundsReference().getWidth() );
+        iceImage.setScale( ( width * 0.8 ) / iceImage.getFullBoundsReference().getWidth() );
 
         // Add the various components in the order needed to achieve the
         // desired layering.
@@ -149,8 +139,8 @@ public class HeaterCoolerView {
 
         // Do the layout.
         burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 ); // Note - Goes a little negative in Y direction.
-        stoveControlSlider.setOffset( WIDTH / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
-                                      HEIGHT / 2 - stoveControlSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
+        stoveControlSlider.setOffset( width / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
+                                      height / 2 - stoveControlSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
 
         // Add a handler that updates the appearance when the heat-cool amount
         // changes.
@@ -227,7 +217,7 @@ public class HeaterCoolerView {
         frontLayer.setOffset( x, y );
     }
 
-    public void setOffset( Vector2D offset ) {
+    public void setOffset( Point2D offset ) {
         setOffset( offset.getX(), offset.getY() );
     }
 
@@ -260,12 +250,8 @@ public class HeaterCoolerView {
 
             // Show labels for add, zero, and remove.
             slider.addLabel( 0.0, new TickMark() );
-            if ( heatingEnabled ) {
-                slider.addLabel( +1, new PhetPText( heatLabel, LABEL_FONT ) );
-            }
-            if ( coolingEnabled ) {
-                slider.addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
-            }
+            slider.addLabel( +1, new PhetPText( heatLabel, LABEL_FONT ) );
+            slider.addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
 
             // Return to 0 when the user releases the slider.
             addInputEventListener( new PBasicInputEventHandler() {
