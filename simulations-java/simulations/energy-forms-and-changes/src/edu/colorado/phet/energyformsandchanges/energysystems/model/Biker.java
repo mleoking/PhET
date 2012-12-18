@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -134,6 +135,7 @@ public class Biker extends EnergySource {
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private double energyProducedSinceLastChunkEmitted = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT * 0.9;
     private int mechanicalChunksSinceLastThermal = 0;
+    public BooleanProperty bikerHasEnergy = new BooleanProperty( true );
 
     // Property through which the target pedaling rate is set.
     public Property<Double> targetCrankAngularVelocity = new Property<Double>( 0.0 ); // In radians/sec
@@ -195,9 +197,12 @@ public class Biker extends EnergySource {
     @Override public Energy stepInTime( double dt ) {
         if ( isActive() ) {
 
+            // Update energy state.
+            bikerHasEnergy.set( bikerHasEnergy() );
+
             // If there is no energy, the target speed is 0, otherwise it is
             // the current set point.
-            double target = bikerHasEnergy() ? targetCrankAngularVelocity.get() : 0;
+            double target = bikerHasEnergy.get() ? targetCrankAngularVelocity.get() : 0;
 
             // Speed up or slow down the angular velocity of the crank.
             double previousAngularVelocity = crankAngularVelocity;
