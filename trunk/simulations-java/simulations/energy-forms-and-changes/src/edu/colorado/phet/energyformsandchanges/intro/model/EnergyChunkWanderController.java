@@ -101,4 +101,8 @@ public final class EnergyChunkWanderController {
     public Vector2D getDestination() {
         return destination.get();
     }
+
+    public boolean destinationReached(){
+        return destination.get().distance( energyChunk.position.get() ) < 1E-7;
+    }
 }
