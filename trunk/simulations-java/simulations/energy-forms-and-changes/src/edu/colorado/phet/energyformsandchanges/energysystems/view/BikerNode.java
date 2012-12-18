@@ -97,28 +97,11 @@ public class BikerNode extends PositionableFadableModelElementNode {
                 biker.replenishEnergyChunks();
             }
         } );
-        final Function0<Boolean> vizUpdater = new Function0<Boolean>() {
-            public Boolean apply() {
-                boolean outOfEnergy = biker.energyChunkList.size() == 0 && biker.isActive();
-                feedMeButton.setVisible( outOfEnergy );
-                upperBodyNormal.setVisible( !outOfEnergy );
-                upperBodyTired.setVisible( outOfEnergy );
-                return outOfEnergy;
-            }
-        };
-        biker.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
-            public void apply( EnergyChunk energyChunk ) {
-                vizUpdater.apply();
-            }
-        } );
-        biker.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
-            public void apply( EnergyChunk energyChunk ) {
-                vizUpdater.apply();
-            }
-        } );
-        biker.getObservableActiveState().addObserver( new SimpleObserver() {
-            public void update() {
-                vizUpdater.apply();
+        biker.bikerHasEnergy.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean hasEnergy ) {
+                feedMeButton.setVisible( !hasEnergy );
+                upperBodyNormal.setVisible( hasEnergy );
+                upperBodyTired.setVisible( !hasEnergy );
             }
         } );
         addChild( feedMeButton );
