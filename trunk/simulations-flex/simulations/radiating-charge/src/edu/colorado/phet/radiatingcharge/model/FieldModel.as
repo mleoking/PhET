@@ -95,7 +95,7 @@ public class FieldModel {
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
         this._nbrFieldLines = 16;
-        this._nbrPhotonsPerLine = 100;
+        this._nbrPhotonsPerLine = 200;           //default = 100
         this.theta_arr = new Array( this._nbrFieldLines );
         this.cos_arr = new Array( this._nbrFieldLines );
         this.sin_arr = new Array( this._nbrFieldLines );
@@ -149,10 +149,10 @@ public class FieldModel {
         this._tLastPhoton = 0;
         this.dtDefault = 0.006;      //default time step is 6 ms
         this.dt = 0.006;
-        this.delTPhotonDefault = 0.02;        //default time between photon emission events on a given ray is 20 ms
+        this.delTPhotonDefault = 0.02;        //default time between photon emission events on a given ray is 0.020 s = 20 ms
         this.delTPhoton = delTPhotonDefault;
         this.tRate = 1;         //not currently used
-        this.stepsPerFrame = 4;              // 4 steps between screen redraws
+        this.stepsPerFrame = 6;              // 4 steps between screen redraws
         this.flag = false;
         this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, reDrawScreen );
@@ -494,10 +494,6 @@ public class FieldModel {
 
     private function linearMotionStep():void{
 
-//        if(flag ){
-//            flag = false;
-//            trace("FieldModel.linearMotionStep  _vTarget = " + _vTarget/c + "    _v0 = " + _v0/c );
-//        }
         var betaDiff: Number = Math.abs( _vTarget - _vX )/c ;
         if( betaDiff < 0.005 ){
             _vX = _vTarget;
@@ -520,18 +516,17 @@ public class FieldModel {
     private function sinusiodalStep():void{
         var A:Number = this._amplitude;  //_amplitude of sinusoidal motion
         var f:Number = this._frequency;   //_frequency of motion in hertz
+
+        //var amplitudeAcceleration:Number = A*Math.PI*f*Math.PI*f;
         this._xC = 0;
         this._yC = A*Math.sin( 2*Math.PI*f*this._t + phi ) ;
         this._vX = 0;
         this._vY = A*2*Math.PI*f*Math.cos( 2*Math.PI*f*this._t + phi );
-//        this.aX = 0;
-//        this.aY =  -A*(2*Math.PI)*f*(2*Math.PI*f)*Math.sin( 2*Math.PI*f*this._t + phi );
-//        var fudge: Number = Math.abs(aY)/(c);
-//        this.delTPhoton = delTPhotonDefault/fudge;
-//        if(delTPhoton > 0.1){delTPhoton = 0.1 };
-        //trace("FieldModel.sinusoidalStep()  aY = "+aY/c);
         this._v = Math.sqrt( _vX*_vX + _vY*_vY );
+        this.aY = -A*2*Math.PI*f*2*Math.PI*f*Math.sin( 2*Math.PI*f*this._t + phi );
         this.beta = this._v/this.c;
+        //delTPhoton = 0.01;///(1+aY); //Math.max(delTPhotonDefault, 0.1/( 1 + aY ));
+
     } //end sinusoidal step
 
     private function circularStep():void{
@@ -560,32 +555,7 @@ public class FieldModel {
         this.beta = this._v/this.c;
     }
 
-    //NOT USED
-//    private function sawToothStep():void{
-//        _xC = 0;
-//        _vX = 0;
-//        this.fX = 0;
-//        if( _yC >= 0 ){
-//            slopeSign = -1;
-//        } else if(_yC < 0 ){
-//            slopeSign = 1;
-//        }
-//        var extraForceFactor:Number = 100*(Math.abs( yC ))/amplitude;
-//        var signY:Number = yC/Math.abs( yC );
-//        var signVY:Number = _vY/Math.abs( _vY );
-//        if( signY != signVY  ){
-//            extraForceFactor *= 0.7;
-//        }
-//        this.fY = slopeSign*(100+extraForceFactor)*amplitude;
-//        this.beta = this._v/this.c;
-//        this.gamma = 1/Math.sqrt( 1 - beta*beta );
-//        var g3:Number = Math.pow( gamma, 3 );
-//        var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
-//        _yC += _vY*dt + 0.5*aY*dt*dt;
-//        _vY += aY*dt;
-//        _v = Math.sqrt( _vX*_vX + _vY*_vY );
-//        this.beta = this._v/this.c;
-//    }//end sawToothStep();
+
 
     private function randomWalkStep():void{
         if( (this._t - this.tLastRandomStep) > this.delTRandomWalk ){
