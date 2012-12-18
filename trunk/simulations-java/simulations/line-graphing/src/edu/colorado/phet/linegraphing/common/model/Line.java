@@ -161,6 +161,14 @@ public class Line {
         }
     }
 
+    // Gets the the y-intercept as a simplified fraction.
+    public Fraction getYIntercept() {
+        int numerator = (int) ( ( y1 * run ) - ( x1 * rise ) );
+        int denominator = (int) run;
+        int gcd = MathUtil.getGreatestCommonDivisor( numerator, denominator );
+        return new Fraction( numerator / gcd, denominator / gcd );
+    }
+
     @Override public String toString() {
         return "x1=" + x1 + ", y1=" + y1 + ", x2=" + x2 + ", y2=" + y2 + ", rise=" + rise + ", run=" + run + ", color=" + color;
     }
