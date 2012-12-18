@@ -1,3 +1,4 @@
+12/18/12 TestEquationNodes: delete some redundant test cases to make room for testing fractional y-intercept
 12/17/12 move algorithm for fractional y-intercept into model
 12/17/12 test program for converting y-intercept from decimal to improper fraction
 12/17/12 MTE challenges: show the user's guess line (black) when the user's guess is correct

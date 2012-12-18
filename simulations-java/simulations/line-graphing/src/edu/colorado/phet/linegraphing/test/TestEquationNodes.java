@@ -51,25 +51,19 @@ public class TestEquationNodes {
             PointSlopeEquationNode equationNode1 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, true, interactiveFont, staticFont, staticColor );
             PointSlopeEquationNode equationNode2 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true, interactiveFont, staticFont, staticColor );
             PointSlopeEquationNode equationNode3 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false, interactiveFont, staticFont, staticColor );
-            PointSlopeEquationNode equationNode4 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, false, false, interactiveFont, staticFont, staticColor );
-            PointSlopeEquationNode equationNode5 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, true, false, interactiveFont, staticFont, staticColor );
-            PointSlopeEquationNode equationNode6 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false, interactiveFont, staticFont, staticColor );
+            PointSlopeEquationNode equationNode4 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false, interactiveFont, staticFont, staticColor );
 
             // rendering order
             pointSlopeParent.addChild( equationNode1 );
             pointSlopeParent.addChild( equationNode2 );
             pointSlopeParent.addChild( equationNode3 );
             pointSlopeParent.addChild( equationNode4 );
-            pointSlopeParent.addChild( equationNode5 );
-            pointSlopeParent.addChild( equationNode6 );
 
             // layout
             equationNode1.setOffset( 0, 0 );
             equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
             equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
             equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
-            equationNode5.setOffset( equationNode1.getXOffset(), equationNode4.getFullBoundsReference().getMaxY() + ySpacing );
-            equationNode6.setOffset( equationNode1.getXOffset(), equationNode5.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
         // slope-intercept tests
