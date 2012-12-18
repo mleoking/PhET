@@ -7,7 +7,6 @@ DESIGN
 
 HIGH
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is not interactive)
-- Game: try check-mark and "X" icons in upper-right corner of equation box
 - Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
 - Game: challenge generation (levels and randomization)
