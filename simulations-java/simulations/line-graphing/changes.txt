@@ -1,3 +1,4 @@
+12/17/12 test program for converting y-intercept from decimal to improper fraction
 12/17/12 MTE challenges: show the user's guess line (black) when the user's guess is correct
 12/17/12 GTL challenges: show the answer line (green) when user's guess is correct
 12/17/12 keep the color of "your line" consistently black
