@@ -21,8 +21,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class EnergyChunkNode extends PNode {
 
+    public static final double Z_DISTANCE_WHERE_FULLY_FADED = 0.1; // In meters.
     private static final double WIDTH = 24; // In screen coords, which is close to pixels.
-    private static final double Z_DISTANCE_WHERE_FULLY_FADED = 0.1; // In meters.
 
     private static final Map<EnergyType, Image> mapEnergyTypeToImage = new HashMap<EnergyType, Image>() {{
         put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK );

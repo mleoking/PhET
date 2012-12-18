@@ -1,15 +1,6 @@
 
-Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
-
-Implement the dotted E's on the generator so that the E's never disappear.
-
-Make it possible to measure temperature in the steam cloud, have temperature taper.
-
-Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 
 Make the E's go all the way into and out of the bucket on the 1st tab.
-
-Improve steam shape for tea pot
 
 No limits on heat and cool on both tab 1 & 2.
 Implement boiling and freezing of the water.
@@ -17,6 +8,12 @@ Implement boiling and freezing of the water.
 - Boiling is essentially just steaming.
 - Temperature stays fixed at 0, start freezing, E's come out as it is freezing, E's stop coming out when all ice.
 - Temperature stays at 100 once boiling, never goes above.  E's coming out equals E's coming in.
+
+Make it possible to measure temperature in the steam cloud, have temperature taper.
+
+Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
+
+Improve steam shape for tea pot
 
 Profile, have Chris test on Mac
 
@@ -31,7 +28,8 @@ Internationalize E's (will need blank E's from NP).
 i18n
 Fix flicker when E's are transferred between energy systems
 
-
+DONE: Implement the dotted E's on the generator so that the E's never disappear.
+DONE: Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 DONE: Integrate bike with chain.
 DONE: Scale solar panel.
 DONE: Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
