@@ -16,6 +16,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkNode;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 
@@ -160,6 +161,7 @@ public class ElectricalGenerator extends EnergyConverter {
                                                                              createElectricalEnergyChunkPath( getPosition() ),
                                                                              EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                             EnergyChunk hiddenEnergyChunk = new EnergyChunk( EnergyType.HIDDEN, ec.position.get(), energyChunkVisibilityControl );
+                            hiddenEnergyChunk.zPosition.set( -EnergyChunkNode.Z_DISTANCE_WHERE_FULLY_FADED / 2 );
                             hiddenEnergyChunks.add( hiddenEnergyChunk );
                             energyChunkMovers.add( new EnergyChunkPathMover( hiddenEnergyChunk,
                                                                              createHiddenEnergyChunkPath( getPosition() ),
