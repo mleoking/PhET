@@ -202,8 +202,8 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             public void actionPerformed( ActionEvent e ) {
                 if ( challenge.isCorrect() ) {
                     faceNode.smile();
+                    graphNode.setAnswerVisible( true );
                     audioPlayer.correctAnswer();
-                    challenge.guess.set( challenge.guess.get().withColor( LineGameConstants.ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
                     pointsAwardedNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
