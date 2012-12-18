@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.test;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.linegraphing.common.model.Fraction;
 import edu.colorado.phet.linegraphing.common.model.Line;
 
 /**
@@ -32,21 +33,8 @@ public class TestFractionalSlopes {
                             Line line = new Line( x1, y1, x2, y2, Color.BLACK );
                             double b = line.solveY( 0 );
                             if ( !MathUtil.isInteger( b ) ) {
-                                // y-intercept is a fraction
-                                numberOfFractions++;
-
-                                int rise = y2 - y1;
-                                int run = x2 - x1;
-
-                                int numerator = ( y1 * run ) - ( x1 * rise );
-                                int denominator = run;
-
-                                int gcd = MathUtil.getGreatestCommonDivisor( numerator, denominator );
-
-                                numerator = numerator / gcd;
-                                denominator = denominator / gcd;
-
-                                System.out.println( x1 + " " + y1 + " " + x2 + " " + y2 + " " + b + " " + numerator + " " + denominator );
+                                Fraction yIntercept = line.getYIntercept();
+                                System.out.println( x1 + " " + y1 + " " + x2 + " " + y2 + " " + b + " " + yIntercept.numerator + " " + yIntercept.denominator );
                             }
                         }
                     }
