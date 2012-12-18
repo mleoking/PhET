@@ -17,7 +17,7 @@ public class TestFractionalSlopes {
 
     public static void main( String[] args ) {
 
-        System.out.println( "x1 | y1 | x2 | y2 | rise | run | b" );
+        System.out.println( "x1 | y1 | x2 | y2 | rise | run | b | numerator | denominator" );
         int numberOfFractions = 0;
         for ( int x1 = -10; x1 <= 10; x1++ ) {
             for ( int y1 = -10; y1 <= 10; y1++ ) {
@@ -34,7 +34,8 @@ public class TestFractionalSlopes {
                             double b = line.solveY( 0 );
                             if ( !MathUtil.isInteger( b ) ) {
                                 Fraction yIntercept = line.getYIntercept();
-                                System.out.println( x1 + " " + y1 + " " + x2 + " " + y2 + " " + b + " " + yIntercept.numerator + " " + yIntercept.denominator );
+                                System.out.println( x1 + " " + y1 + " " + x2 + " " + y2 + " " + line.rise + " " + line.run + " " +
+                                                    b + " " + yIntercept.numerator + " " + yIntercept.denominator );
                             }
                         }
                     }
