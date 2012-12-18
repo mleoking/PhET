@@ -39,7 +39,7 @@ define( [
             return;
         }
         this.particles = _.without( this.particles, particle );
-//        this.relayoutBucketParticles();
+        this.relayoutBucketParticles();
     }
 
     Bucket.prototype.isPositionOpen = function ( x, y ) {
@@ -191,12 +191,12 @@ define( [
      */
     Bucket.prototype.isDangling = function ( particle ) {
         var onBottomRow = particle.y === this.y + this.yOffset;
-        return !onBottomRow && this.countSupportingParticles( particle ) < 2;
+        return !onBottomRow && this.countSupportingParticles( particle.x, particle.y ) < 2;
     }
 
     Bucket.prototype.countSupportingParticles = function ( xPos, yPos ) {
         var count = 0;
-        for (var i = 0; i < this.particles.length; i++) {
+        for ( var i = 0; i < this.particles.length; i++ ) {
             p = this.particles[i];
             if ( p.y > yPos && //must be in a lower layer (and larger y is further down on the page).
                  Utils.distanceBetweenPoints( p.x, p.y, xPos, yPos ) < this.particleRadius * 3 ) {
@@ -208,14 +208,17 @@ define( [
     }
 
     Bucket.prototype.relayoutBucketParticles = function () {
-        var self = this;
-        _.each( this.particles, function ( particle ) {
-            if ( self.isDangling( particle ) ) {
-                self.removeParticle( particle );
-                self.addParticleNearestOpen( particle );
-                self.relayoutBucketParticles();
+        do{
+            for ( var i = 0; i < this.particles.length; i++ ){
+                var particleMoved = false;
+                var particle = this.particles[i];
+                if ( this.isDangling( particle )){
+                    particle.setLocation( this.getNearestOpenLocation( particle.x, particle.y ) );
+                    particleMoved = true;
+                    break;
+                }
             }
-        } );
+        } while ( particleMoved );
     }
 
     return Bucket;
