@@ -161,8 +161,12 @@ public class Line {
         }
     }
 
-    // Gets the the y-intercept as a simplified fraction.
+    /**
+     * Gets the the y-intercept as a simplified fraction.
+     * This is valid only if (x1,y1) and (x2,y2) are at integer locations on the grid.
+     */
     public Fraction getYIntercept() {
+        assert( MathUtil.isInteger( x1 ) &&  MathUtil.isInteger( y1 ) && MathUtil.isInteger( rise ) && MathUtil.isInteger( run ) );
         int numerator = (int) ( ( y1 * run ) - ( x1 * rise ) );
         int denominator = (int) run;
         int gcd = MathUtil.getGreatestCommonDivisor( numerator, denominator );
