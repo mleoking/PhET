@@ -35,20 +35,18 @@ public class TestFractionalSlopes {
                                 // y-intercept is a fraction
                                 numberOfFractions++;
 
-                                // Using the actual number of decimal places causes us to exceed the range of Integer.
-//                                String s = Double.toString( b );
-//                                int numberOfDecimalPlaces = 6;//s.length() - 1 - s.indexOf('.');
+                                int rise = y2 - y1;
+                                int run = x2 - x1;
 
-                                // Using a hardcoded number of decimal places gets us a fraction, but a fraction we want to show to the user.
-                                // Eg, b=6.666666666666667 becomes 3333333/500000, when what we really want is 20/3.
-                                int numberOfDecimalPlaces = 6;
+                                int numerator = ( y1 * run ) - ( x1 * rise );
+                                int denominator = run;
 
-                                int denominator = (int) Math.pow( 10, numberOfDecimalPlaces );
-                                int numerator = (int)( b * denominator );
                                 int gcd = MathUtil.getGreatestCommonDivisor( numerator, denominator );
-                                int rise = numerator / gcd;
-                                int run = denominator / gcd;
-                                System.out.println( x1 + " " + y1 + " " + x2 + " " + y2 + " " + b + " " + rise + " " + run );
+
+                                numerator = numerator / gcd;
+                                denominator = denominator / gcd;
+
+                                System.out.println( x1 + " " + y1 + " " + x2 + " " + y2 + " " + b + " " + numerator + " " + denominator );
                             }
                         }
                     }
