@@ -38,7 +38,6 @@ public abstract class GTL_GraphNode extends GraphNode {
         manipulatorsParent = new PNode();
 
         // Slope tool
-        final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( 0.85 );
         slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt );
 
         // rendering order
