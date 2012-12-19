@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -125,19 +126,27 @@ public class Air implements ThermalEnergyContainer {
         energyChunkWanderControllers.clear();
     }
 
-    public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
-        // TODO: This code is duplicated in RectangularThermalMovableModelElement.  If still true later, figure out how to avoid the duplication.
-        double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
+    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
+        double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
         if ( thermalContactLength > 0 ) {
-            if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > EFACConstants.TEMPERATURES_EQUAL_THRESHOLD ) {
-                // Exchange energy between this and the other energy container.
-                double heatTransferConstant = getHeatTransferFactor( this.getEnergyContainerCategory(), otherEnergyContainer.getEnergyContainerCategory() );
+            if ( energyContainer instanceof Beaker && ( (Beaker) energyContainer ).isBoiling() ) {
+                // Special case for beaker with boiling water inside: All
+                // energy beyond what is needed for boiling is moved from the
+                // boiling water into the air.
+                double thermalEnergyGained = ((Beaker)energyContainer).getEnergyBeyondBoiling();
+                energyContainer.changeEnergy( -thermalEnergyGained );
+                changeEnergy( thermalEnergyGained );
+                System.out.println( "Water boiling, thermalEnergyGained = " + thermalEnergyGained );
+            }
+            else if ( Math.abs( energyContainer.getTemperature() - getTemperature() ) > EFACConstants.TEMPERATURES_EQUAL_THRESHOLD ) {
+                // Exchange energy between the air and the energy container.
+                double heatTransferConstant = getHeatTransferFactor( this.getEnergyContainerCategory(), energyContainer.getEnergyContainerCategory() );
                 int numFullTimeStepExchanges = (int) Math.floor( dt / MAX_HEAT_EXCHANGE_TIME_STEP );
                 double leftoverTime = dt - ( numFullTimeStepExchanges * MAX_HEAT_EXCHANGE_TIME_STEP );
                 for ( int i = 0; i < numFullTimeStepExchanges + 1; i++ ) {
                     double timeStep = i < numFullTimeStepExchanges ? MAX_HEAT_EXCHANGE_TIME_STEP : leftoverTime;
-                    double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * heatTransferConstant * timeStep;
-                    otherEnergyContainer.changeEnergy( -thermalEnergyGained );
+                    double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * heatTransferConstant * timeStep;
+                    energyContainer.changeEnergy( -thermalEnergyGained );
                     changeEnergy( thermalEnergyGained );
                 }
             }

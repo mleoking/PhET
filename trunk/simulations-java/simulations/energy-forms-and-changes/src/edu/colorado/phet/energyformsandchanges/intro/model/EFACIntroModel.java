@@ -202,6 +202,13 @@ public class EFACIntroModel implements ITemperatureModel {
         // Energy and Energy Chunk Exchange
         //=====================================================================
 
+        // Note: The original intent was to design all the energy containers
+        // such that the order of the exchange didn't matter, nor who was
+        // exchanging with whom.  This turned out to be a lot of extra work to
+        // maintain, and was eventually abandoned.  So, the order and nature of
+        // the exchanged below should be maintained unless there is a good
+        // reason not to, and any changes should be well tested.
+
         // Loop through all the movable thermal energy containers and have them
         // exchange energy with one another.
         for ( ThermalEnergyContainer ec1 : movableThermalEnergyContainers ) {
