@@ -1,3 +1,5 @@
+# 0.00.43 (71362) Dec 18, 2012
+12/18/12 demo fractional y-intercept in test application
 12/18/12 fix Line.getYIntercept to handle case where numerator or denominator is zero
 12/18/12 factor out duplicated code in for fractional y-intercept in slope-intercept equations
 12/18/12 add fractional y-intercept to slope-intercept equations (some duplicated code)
