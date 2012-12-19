@@ -35,22 +35,25 @@ import edu.umd.cs.piccolo.nodes.PPath;
 /**
  * Renderer for slope-intercept equations, with optional interactivity of slope and intercept.
  * General slope-intercept form is: y = mx + b
- * <p/>
+ * <p>
  * Spinners are used to increment/decrement parts of the equation that are specified as being interactive.
  * Non-interactive parts of the equation are expressed in a form that is typical of how the equation
  * would normally be written.  For example, if the slope is -1, then only the sign is written, not "-1".
+ * <p>
+ * Note that both m and b may be improper fractions. b may be an improper fraction only if no parts
+ * of the equation are interactive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SlopeInterceptEquationNode extends EquationNode {
 
-    private final Property<Double> rise, run, yIntercept; // internal properties that are connected to spinners
+    private final Property<Double> rise, run, yInterceptNumerator, yInterceptDenominator; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
     // Nodes that appear in all possible forms of the equation "y = mx + b"
-    private final PNode yNode, equalsNode, slopeMinusSignNode, riseNode, runNode, xNode, operatorNode, yInterceptNode;
+    private final PNode yNode, equalsNode, slopeMinusSignNode, riseNode, runNode, xNode, operatorNode, yInterceptNumeratorNode, yInterceptDenominatorNode;
     private final PNode yInterceptMinusSignNode; // for "y = -b" case
-    private final PPath slopeFractionLineNode;
+    private final PPath slopeFractionLineNode, yInterceptFractionLineNode;
 
     // Constructor for a static line.
     public SlopeInterceptEquationNode( Line line, PhetFont font, Color color ) {
@@ -75,7 +78,8 @@ public class SlopeInterceptEquationNode extends EquationNode {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
-        this.yIntercept = new Property<Double>( interactiveLine.get().y1 );
+        this.yInterceptNumerator = new Property<Double>( (double) interactiveLine.get().getYIntercept().numerator );
+        this.yInterceptDenominator = new Property<Double>( (double) interactiveLine.get().getYIntercept().denominator );
 
         // Determine the max width of the rise and run spinners.
         double maxSlopeSpinnerWidth = computeMaxSlopeSpinnerWidth( riseRange, runRange, interactiveFont, FORMAT );
@@ -102,21 +106,27 @@ public class SlopeInterceptEquationNode extends EquationNode {
         operatorNode = new PNode(); // parent for + or - node
         yInterceptMinusSignNode = new MinusNode( signLineSize, staticColor );
         if ( interactiveIntercept ) {
-            yInterceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
+            yInterceptNumeratorNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, yInterceptNumerator, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
+            yInterceptDenominatorNode = new PPath();
         }
         else {
-            yInterceptNode = new DynamicValueNode( yIntercept, FORMAT, staticFont, staticColor, true ); // absolute value
+            yInterceptNumeratorNode = new DynamicValueNode( yInterceptNumerator, FORMAT, staticFont, staticColor, true ); // absolute value
+            yInterceptDenominatorNode = new DynamicValueNode( yInterceptDenominator, FORMAT, staticFont, staticColor, true ); // absolute value
         }
+        yInterceptFractionLineNode = new PPath( createFractionLineShape( maxSlopeSpinnerWidth ) ) {{
+            setStroke( null );
+            setPaint( staticColor );
+        }};
 
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 if ( !updatingControls ) {
-                    interactiveLine.set( Line.createSlopeIntercept( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color ) );
+                    interactiveLine.set( Line.createSlopeIntercept( rise.get(), run.get(), yInterceptNumerator.get(), interactiveLine.get().color ) );
                 }
             }
         };
-        lineUpdater.observe( rise, run, yIntercept );
+        lineUpdater.observe( rise, run, yInterceptNumerator );
 
         // sync the controls and layout with the model
         interactiveLine.addObserver( new VoidFunction1<Line>() {
@@ -130,7 +140,8 @@ public class SlopeInterceptEquationNode extends EquationNode {
                 {
                     rise.set( interactiveSlope ? line.rise : line.getSimplifiedRise() );
                     run.set( interactiveSlope ? line.run : line.getSimplifiedRun() );
-                    yIntercept.set( line.y1 );
+                    yInterceptNumerator.set( (double) interactiveLine.get().getYIntercept().numerator );
+                    yInterceptDenominator.set( (double) interactiveLine.get().getYIntercept().denominator );
                 }
                 updatingControls = false;
 
@@ -156,6 +167,10 @@ public class SlopeInterceptEquationNode extends EquationNode {
             return;
         }
 
+        // y-intercept
+        final int yInterceptNumerator = line.getYIntercept().numerator;
+        final int yInterceptDenominator = line.getYIntercept().denominator;
+
         // slope properties
         final double slope = line.getSlope();
         final boolean zeroSlope = ( slope == 0 );
@@ -163,6 +178,8 @@ public class SlopeInterceptEquationNode extends EquationNode {
         final boolean integerSlope = MathUtil.isInteger( slope );
         final boolean positiveSlope = ( slope > 0 );
         final boolean fractionalSlope = ( !zeroSlope && !unitySlope && !integerSlope );
+        final boolean zeroYIntercept = ( (double) yInterceptNumerator / (double) yInterceptDenominator ) == 0;
+        final boolean positiveYIntercept = ( (double) yInterceptNumerator / (double) yInterceptDenominator ) > 0;
 
         // y =
         addChild( yNode );
@@ -246,70 +263,107 @@ public class SlopeInterceptEquationNode extends EquationNode {
         if ( interactiveIntercept ) {
             if ( zeroSlope && !interactiveSlope ) {
                 // y = b
-                addChild( yInterceptNode );
-                yInterceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                         yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
+                addChild( yInterceptNumeratorNode );
+                yInterceptNumeratorNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                          yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
             }
             else {
                 // y = (rise/run)x + b
                 addChild( operatorNode );
-                addChild( yInterceptNode );
+                addChild( yInterceptNumeratorNode );
                 operatorNode.addChild( new PlusNode( operatorLineSize, staticColor ) );
                 operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                                         equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
-                yInterceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
-                                         yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
+                yInterceptNumeratorNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                          yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
             }
         }
         else {
-            if ( line.y1 == 0 ) {
+            if ( zeroYIntercept ) {
                 if ( zeroSlope && !interactiveSlope ) {
                     // y = 0
-                    addChild( yInterceptNode );
-                    yInterceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                             yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
+                    addChild( yInterceptNumeratorNode );
+                    yInterceptNumeratorNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                              yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
                 }
                 else {
                     // no intercept
                 }
             }
-            else if ( line.y1 > 0 ) {  // positive intercept
+            else if ( positiveYIntercept ) {  // positive intercept
                 if ( zeroSlope && !interactiveSlope ) {
                     // y = b
-                    addChild( yInterceptNode );
-                    yInterceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                             yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
+                    addChild( yInterceptNumeratorNode );
+                    yInterceptNumeratorNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                              yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
                 }
                 else {
                     // y = mx + b
                     addChild( operatorNode );
-                    addChild( yInterceptNode );
                     operatorNode.addChild( new PlusNode( operatorLineSize, staticColor ) );
                     operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                                             equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
-                    yInterceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
-                                             yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
+
+                    if ( yInterceptDenominator == 1 ) {
+                        addChild( yInterceptNumeratorNode );
+                        yInterceptNumeratorNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                                           yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
+                    }
+                    else {
+                        addChild( yInterceptNumeratorNode );
+                        addChild( yInterceptFractionLineNode );
+                        addChild( yInterceptDenominatorNode );
+                        // adjust fraction line width
+                        double lineWidth = Math.max( yInterceptNumeratorNode.getFullBoundsReference().getWidth(), yInterceptDenominatorNode.getFullBoundsReference().getWidth() );
+                        yInterceptFractionLineNode.setPathTo( createFractionLineShape( lineWidth ) );
+                        // layout
+                        yInterceptFractionLineNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                                              equalsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
+                        yInterceptNumeratorNode.setOffset( yInterceptFractionLineNode.getFullBoundsReference().getCenterX() - ( yInterceptNumeratorNode.getFullBoundsReference().getWidth() / 2 ),
+                                                           yInterceptFractionLineNode.getFullBoundsReference().getMinY() - yInterceptNumeratorNode.getFullBoundsReference().getHeight() - ySpacing );
+                        yInterceptDenominatorNode.setOffset( yInterceptFractionLineNode.getFullBoundsReference().getCenterX() - ( yInterceptDenominatorNode.getFullBoundsReference().getWidth() / 2 ),
+                                                             yInterceptFractionLineNode.getFullBoundsReference().getMaxY() + ySpacing );
+                    }
                 }
             }
             else { // negative intercept
                 if ( zeroSlope && !interactiveSlope ) {
                     // y = -b
                     addChild( yInterceptMinusSignNode );
-                    addChild( yInterceptNode );
+                    addChild( yInterceptNumeratorNode );
                     yInterceptMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                                      equalsNode.getFullBoundsReference().getCenterY() - ( yInterceptMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
-                    yInterceptNode.setOffset( yInterceptMinusSignNode.getFullBoundsReference().getMaxX() + integerSignXSpacing,
-                                             yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
+                                                       equalsNode.getFullBoundsReference().getCenterY() - ( yInterceptMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
+                    yInterceptNumeratorNode.setOffset( yInterceptMinusSignNode.getFullBoundsReference().getMaxX() + integerSignXSpacing,
+                                              yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
                 }
                 else {
                     // y = mx - b
                     addChild( operatorNode );
-                    addChild( yInterceptNode );
                     operatorNode.addChild( new MinusNode( operatorLineSize, staticColor ) );
                     operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                                             equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
-                    yInterceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
-                                             yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
+
+                    //TODO duplicate of above
+                    if ( yInterceptDenominator == 1 ) {
+                        addChild( yInterceptNumeratorNode );
+                        yInterceptNumeratorNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                                           yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
+                    }
+                    else {
+                        addChild( yInterceptNumeratorNode );
+                        addChild( yInterceptFractionLineNode );
+                        addChild( yInterceptDenominatorNode );
+                        // adjust fraction line width
+                        double lineWidth = Math.max( yInterceptNumeratorNode.getFullBoundsReference().getWidth(), yInterceptDenominatorNode.getFullBoundsReference().getWidth() );
+                        yInterceptFractionLineNode.setPathTo( createFractionLineShape( lineWidth ) );
+                        // layout
+                        yInterceptFractionLineNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                                              equalsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
+                        yInterceptNumeratorNode.setOffset( yInterceptFractionLineNode.getFullBoundsReference().getCenterX() - ( yInterceptNumeratorNode.getFullBoundsReference().getWidth() / 2 ),
+                                                           yInterceptFractionLineNode.getFullBoundsReference().getMinY() - yInterceptNumeratorNode.getFullBoundsReference().getHeight() - ySpacing );
+                        yInterceptDenominatorNode.setOffset( yInterceptFractionLineNode.getFullBoundsReference().getCenterX() - ( yInterceptDenominatorNode.getFullBoundsReference().getWidth() / 2 ),
+                                                             yInterceptFractionLineNode.getFullBoundsReference().getMaxY() + ySpacing );
+                    }
                 }
             }
         }
