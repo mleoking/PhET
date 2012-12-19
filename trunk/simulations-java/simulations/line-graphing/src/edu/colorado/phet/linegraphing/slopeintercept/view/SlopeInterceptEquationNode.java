@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
+import edu.colorado.phet.linegraphing.common.model.Fraction;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
@@ -78,8 +79,9 @@ public class SlopeInterceptEquationNode extends EquationNode {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
-        this.yInterceptNumerator = new Property<Double>( (double) interactiveLine.get().getYIntercept().numerator );
-        this.yInterceptDenominator = new Property<Double>( (double) interactiveLine.get().getYIntercept().denominator );
+        Fraction yIntercept = interactiveLine.get().getYIntercept();
+        this.yInterceptNumerator = new Property<Double>( (double) yIntercept.numerator );
+        this.yInterceptDenominator = new Property<Double>( (double) yIntercept.denominator );
 
         // Determine the max width of the rise and run spinners.
         double maxSlopeSpinnerWidth = computeMaxSlopeSpinnerWidth( riseRange, runRange, interactiveFont, FORMAT );
@@ -140,8 +142,9 @@ public class SlopeInterceptEquationNode extends EquationNode {
                 {
                     rise.set( interactiveSlope ? line.rise : line.getSimplifiedRise() );
                     run.set( interactiveSlope ? line.run : line.getSimplifiedRun() );
-                    yInterceptNumerator.set( (double) interactiveLine.get().getYIntercept().numerator );
-                    yInterceptDenominator.set( (double) interactiveLine.get().getYIntercept().denominator );
+                    Fraction yIntercept = interactiveLine.get().getYIntercept();
+                    yInterceptNumerator.set( (double) yIntercept.numerator );
+                    yInterceptDenominator.set( (double) yIntercept.denominator );
                 }
                 updatingControls = false;
 
