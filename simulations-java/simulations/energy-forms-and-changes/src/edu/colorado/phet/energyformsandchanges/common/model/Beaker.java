@@ -21,6 +21,8 @@ import edu.colorado.phet.energyformsandchanges.intro.model.HorizontalSurface;
 import edu.colorado.phet.energyformsandchanges.intro.model.RectangularThermalMovableModelElement;
 import edu.colorado.phet.energyformsandchanges.intro.model.ThermalContactArea;
 
+import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.BOILING_POINT_TEMPERATURE;
+
 /**
  * Model element that represents a beaker that contains some amount of water,
  * and the water contains energy, which includes energy chunks, and has
@@ -191,5 +193,25 @@ public class Beaker extends RectangularThermalMovableModelElement {
 
     @Override public IUserComponent getUserComponent() {
         return EnergyFormsAndChangesSimSharing.UserComponents.beaker;
+    }
+
+    /**
+     * Get the amount of energy currently contained that is beyond the amount
+     * required to make the water boil.
+     *
+     * @return excess energy beyond amount for boiling, 0 if not currently
+     * boiling.
+     */
+    public double getEnergyBeyondBoiling(){
+        return Math.max( energy - ( BOILING_POINT_TEMPERATURE * mass * specificHeat ), 0 );
+    }
+
+    // Limit max temp to the boiling point.
+    @Override public double getTemperature() {
+        return Math.min( super.getTemperature(), BOILING_POINT_TEMPERATURE );
+    }
+
+    public boolean isBoiling() {
+        return getTemperature() >= BOILING_POINT_TEMPERATURE;
     }
 }
