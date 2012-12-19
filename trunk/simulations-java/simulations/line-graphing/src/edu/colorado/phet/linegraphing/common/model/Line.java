@@ -169,8 +169,13 @@ public class Line {
         assert( MathUtil.isInteger( x1 ) &&  MathUtil.isInteger( y1 ) && MathUtil.isInteger( rise ) && MathUtil.isInteger( run ) );
         int numerator = (int) ( ( y1 * run ) - ( x1 * rise ) );
         int denominator = (int) run;
-        int gcd = MathUtil.getGreatestCommonDivisor( numerator, denominator );
-        return new Fraction( numerator / gcd, denominator / gcd );
+        if ( numerator == 0 || denominator == 0 ) {
+            return new Fraction( numerator, denominator );
+        }
+        else {
+            int gcd = MathUtil.getGreatestCommonDivisor( numerator, denominator );
+            return new Fraction( numerator / gcd, denominator / gcd );
+        }
     }
 
     @Override public String toString() {
