@@ -6,7 +6,7 @@
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'underscore','common/Point2D' ],
+define( [ 'underscore', 'common/Point2D' ],
         function ( _, Point2D ) {
 
             // not meant to be instantiated
@@ -17,8 +17,9 @@ define( [ 'underscore','common/Point2D' ],
              * Registers a drag handler with the specified Easel display object.
              * @param {DisplayObject} displayObject
              * @param {Function} dragFunction function called while dragging, params: {Point2D}
+             * @param {Function} pressFunction additional function called when press occurs, params: (event).
              */
-            DragHandler.register = function ( displayObject, dragFunction, onPress ) {
+            DragHandler.register = function ( displayObject, dragFunction, pressFunction ) {
 
                 // Drag cursor
                 displayObject.onMouseOver = function () {
@@ -33,6 +34,8 @@ define( [ 'underscore','common/Point2D' ],
                 // @param {MouseEvent} pressEvent
                 displayObject.onPress = function ( pressEvent ) {
 
+                    console.log( "pressEvent.type = " + pressEvent.type );
+
                     // Make dragging relative to touch Point2D.
                     var relativePressPoint = null;
                     // @param {MouseEvent} moveEvent
@@ -46,8 +49,8 @@ define( [ 'underscore','common/Point2D' ],
                         }
                     };
 
-                    if( _.isFunction( onPress ) ){
-                      onPress(pressEvent);
+                    if ( _.isFunction( pressFunction ) ) {
+                        pressFunction( pressEvent );
                     }
 
                 };
