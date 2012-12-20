@@ -171,8 +171,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
         }
 
         // y-intercept
-        final int yInterceptNumerator = line.getYIntercept().numerator;
-        final int yInterceptDenominator = line.getYIntercept().denominator;
+        final Fraction yIntercept = line.getYIntercept();
 
         // slope properties
         final double slope = line.getSlope();
@@ -181,8 +180,8 @@ public class SlopeInterceptEquationNode extends EquationNode {
         final boolean integerSlope = MathUtil.isInteger( slope );
         final boolean positiveSlope = ( slope > 0 );
         final boolean fractionalSlope = ( !zeroSlope && !unitySlope && !integerSlope );
-        final boolean zeroYIntercept = ( (double) yInterceptNumerator / (double) yInterceptDenominator ) == 0;
-        final boolean positiveYIntercept = ( (double) yInterceptNumerator / (double) yInterceptDenominator ) > 0;
+        final boolean zeroYIntercept = ( yIntercept.toDecimal() == 0 );
+        final boolean positiveYIntercept = ( yIntercept.toDecimal() > 0 );
 
         // y =
         addChild( yNode );
@@ -315,7 +314,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
                 operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                                         equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
 
-                if ( yInterceptDenominator == 1 ) {
+                if ( yIntercept.isInteger() ) {
                     // b is an integer
                     addChild( yInterceptNumeratorNode );
                     yInterceptNumeratorNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
