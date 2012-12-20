@@ -101,7 +101,7 @@ define( [
             var scale = Math.min( winW / 614, winH / 768 );
 
             var canvasW = scale * 614;
-            var canvasH = scale * 768;
+            var canvasH = scale * 768 - 4; // The tweak factor is necessary to prevent a scroll bar, not entirely sure why.
 
             var container = buildAnAtomCanvas.parent();
 
