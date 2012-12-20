@@ -1,3 +1,4 @@
+12/20/12 move computations and tests related to fractional y-intercept into Fraction class
 12/18/12 consolidate calls to Line.getYIntercept
 # 0.00.43 (71362) Dec 18, 2012
 12/18/12 demo fractional y-intercept in test application
