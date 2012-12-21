@@ -37,8 +37,7 @@ public abstract class P3P_GraphNode extends GraphNode {
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            LineNode answerNode = createAnswerLineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
-            answerNode.setEquationVisible( false );
+            LineNode answerNode = createLineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
             addChild( answerNode );
         }
 
@@ -46,8 +45,7 @@ public abstract class P3P_GraphNode extends GraphNode {
         final PNode guessNodeParent = new PComposite();
 
         // the correct answer, initially hidden
-        answerNode = createAnswerLineNode( challenge.answer, challenge.graph, challenge.mvt );
-        answerNode.setEquationVisible( false );
+        answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
         answerNode.setVisible( false );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
@@ -90,8 +88,7 @@ public abstract class P3P_GraphNode extends GraphNode {
                 // draw the line
                 guessNodeParent.removeAllChildren();
                 if ( challenge.guess.get() != null ) {
-                    LineNode guessNode = createGuessLineNode( challenge.guess.get(), challenge.graph, challenge.mvt );
-                    guessNode.setEquationVisible( false );
+                    LineNode guessNode = createLineNode( challenge.guess.get(), challenge.graph, challenge.mvt );
                     guessNodeParent.addChild( guessNode );
                 }
 
@@ -109,9 +106,6 @@ public abstract class P3P_GraphNode extends GraphNode {
         answerNode.setVisible( visible );
     }
 
-    // Creates the node that corresponds to the "answer" line.
-    protected abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
-
-    // Creates the node that corresponds to the "guess" line.
-    protected abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
+    // Creates the node for a line.
+    protected abstract LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt );
 }

@@ -19,11 +19,9 @@ public class P3P_PS_GraphNode extends P3P_GraphNode {
         super( challenge );
     }
 
-    @Override protected LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-        return new PointSlopeLineNode( line, graph, mvt );
-    }
-
-    @Override protected LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-        return new PointSlopeLineNode( line, graph, mvt );
+    @Override protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+        return new PointSlopeLineNode( line, graph, mvt ) {{
+            setEquationVisible( false );
+        }};
     }
 }
