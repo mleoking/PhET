@@ -6,24 +6,24 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_Challenge;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 
 /**
- * Graph for all "Place 3 Point" (P3P) challenges that use point-slope (PS) form.
+ * Graph for all "Place 3 Point" (P3P) challenges that use slope-intercept (SI) form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class P3P_PS_GraphNode extends P3P_GraphNode {
+public class P3P_SI_GraphNode extends P3P_GraphNode {
 
-    public P3P_PS_GraphNode( final P3P_Challenge challenge ) {
+    public P3P_SI_GraphNode( final P3P_Challenge challenge ) {
         super( challenge );
     }
 
     @Override protected LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-        return new PointSlopeLineNode( line, graph, mvt );
+        return new SlopeInterceptLineNode( line, graph, mvt );
     }
 
     @Override protected LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-        return new PointSlopeLineNode( line, graph, mvt );
+        return new SlopeInterceptLineNode( line, graph, mvt );
     }
 }

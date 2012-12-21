@@ -50,7 +50,7 @@ public abstract class P3P_Challenge implements IChallenge {
         this.guess = new Property<Line>( null );
         this.p1 = new Property<Vector2D>( new Vector2D( -3, 2 ) );
         this.p2 = new Property<Vector2D>( new Vector2D( 0, 0 ) );
-        this.p3 = new Property<Vector2D>( new Vector2D( 3, 3 ) );
+        this.p3 = new Property<Vector2D>( new Vector2D( 3, 2 ) );
 
         final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units
         mvt = ModelViewTransform.createOffsetScaleMapping( ORIGIN_OFFSET, mvtScale, -mvtScale ); // graph on right, y inverted

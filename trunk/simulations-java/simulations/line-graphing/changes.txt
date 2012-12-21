@@ -1,3 +1,4 @@
+12/21/12 refactor P3P challenges, move functionality to base classes, add support for slope-intercept
 12/21/12 remove assertion from SlopeInterceptLineNode that disallows fractional y-intercept
 12/21/12 prevent points from overlapping in "Place 3 Points" challenges
 12/21/12 first pass at "Place 3 Points" for point-slope form (mostly working, a few warts)
