@@ -24,4 +24,8 @@ public class Fraction {
     public boolean isInteger() {
         return MathUtil.isInteger( toDecimal() );
     }
+
+    @Override public String toString() {
+        return "Fraction[numerator=" + numerator + ", denominator=" + denominator + "]";
+    }
 }
