@@ -41,8 +41,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * Non-interactive parts of the equation are expressed in a form that is typical of how the equation
  * would normally be written.  For example, if the slope is -1, then only the sign is written, not "-1".
  * <p>
- * Note that both m and b may be improper fractions. b may be an improper fraction only if no parts
- * of the equation are interactive.
+ * Note that both m and b may be improper fractions. b may be an improper fraction only if the y-intercept
+ * is not interactive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -124,7 +124,10 @@ public class SlopeInterceptEquationNode extends EquationNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 if ( !updatingControls ) {
-                    interactiveLine.set( Line.createSlopeIntercept( rise.get(), run.get(), yInterceptNumerator.get(), interactiveLine.get().color ) );
+                    //This is a little complicated, because y1 == yInterceptNumerator only if the intercept is interactive.
+                    Line line = interactiveLine.get();
+                    final double y1 = ( interactiveIntercept ) ? yInterceptNumerator.get() : line.y1;
+                    interactiveLine.set( new Line( line.x1, y1, line.x1 + run.get(), y1 + rise.get(), interactiveLine.get().color ) );
                 }
             }
         };
