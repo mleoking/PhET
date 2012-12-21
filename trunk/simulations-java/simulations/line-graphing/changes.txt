@@ -1,3 +1,4 @@
+12/21/12 add game levels 5 & 6, for testing "Place Points" challenges
 12/21/12 make "correct answer" a slightly darker shade of green (from rgb=0,200,0 to 0,180,0)
 12/20/12 move computations and tests related to fractional y-intercept into Fraction class
 12/18/12 consolidate calls to Line.getYIntercept
