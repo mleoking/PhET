@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGConstants;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
@@ -27,7 +28,9 @@ public abstract class P3P_Challenge implements IChallenge {
     private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
     private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 700, 300 ); // offset of the origin (center of the graph) in view coordinates
 
-    public final Line line; // the correct answer
+    public final String title;
+    public final Line answer;
+    public Property<Line> guess;
     public final Property<Vector2D> p1, p2, p3; // points that the user places
 
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
@@ -36,16 +39,18 @@ public abstract class P3P_Challenge implements IChallenge {
     private final ObservableList<Line> allLines;
     private boolean answerVisible;
 
-    public P3P_Challenge( Line line ) {
-        this( line, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+    public P3P_Challenge( Line answer ) {
+        this( answer, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
     }
 
-    private P3P_Challenge( Line line, IntegerRange xRange, IntegerRange yRange ) {
+    private P3P_Challenge( Line answer, IntegerRange xRange, IntegerRange yRange ) {
 
-        this.line = line;
-        this.p1 = new Property<Vector2D>( new Vector2D( -1, -1 ) );
+        this.title = Strings.PLACE_THE_POINTS;
+        this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
+        this.guess = new Property<Line>( null );
+        this.p1 = new Property<Vector2D>( new Vector2D( -3, 2 ) );
         this.p2 = new Property<Vector2D>( new Vector2D( 0, 0 ) );
-        this.p3 = new Property<Vector2D>( new Vector2D( 1, 1 ) );
+        this.p3 = new Property<Vector2D>( new Vector2D( 3, 3 ) );
 
         final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units
         mvt = ModelViewTransform.createOffsetScaleMapping( ORIGIN_OFFSET, mvtScale, -mvtScale ); // graph on right, y inverted
@@ -66,7 +71,7 @@ public abstract class P3P_Challenge implements IChallenge {
 
     // Correct if all points are on the line.
     public boolean isCorrect() {
-        return line.onLine( p1.get() ) && line.onLine( p2.get() ) && line.onLine( p3.get() );
+        return answer.onLine( p1.get() ) && answer.onLine( p2.get() ) && answer.onLine( p3.get() );
     }
 
     public void setAnswerVisible( boolean visible ) {
@@ -77,17 +82,22 @@ public abstract class P3P_Challenge implements IChallenge {
     // Updates the list of lines that are visible to the point tools.
     private void updateLines() {
 
-        allLines.clear();
-
         // the user's guess, if the 3 points make a straight line
         Line guess = new Line( p1.get().x, p1.get().y, p2.get().x, p2.get().y, LineGameConstants.GUESS_COLOR );
         if ( guess.onLine( p3.get() ) ) {
-            allLines.add( guess );
+            this.guess.set( guess );
+        }
+        else {
+            this.guess.set( null );
         }
 
-        // the answer line
+        // the lines to display
+        allLines.clear();
+        if ( this.guess.get() != null ) {
+            allLines.add( this.guess.get() );
+        }
         if ( answerVisible ) {
-            allLines.add( line );
+            allLines.add( answer );
         }
     }
 }
