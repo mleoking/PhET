@@ -41,7 +41,7 @@ public class LineGameModel {
 
     private static final int CHALLENGES_PER_GAME = 4;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
-    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 4 );
+    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 6 );
 
     // phases of a game, mutually exclusive
     public enum GamePhase {
