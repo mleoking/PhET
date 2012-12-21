@@ -1,3 +1,4 @@
+12/21/12 first pass at "Place 3 Points" for point-slope form (mostly working, a few warts)
 12/21/12 remove ':' from sim title
 12/21/12 add game levels 5 & 6, for testing "Place Points" challenges
 12/21/12 make "correct answer" a slightly darker shade of green (from rgb=0,200,0 to 0,180,0)
