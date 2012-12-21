@@ -19,7 +19,6 @@ public class SlopeInterceptLineNode extends LineNode {
 
     public SlopeInterceptLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         super( line, graph, mvt );
-        assert ( line.x1 == 0 ); // point is on the y-axis
     }
 
     // Creates the line's equation in slope-intercept form.
