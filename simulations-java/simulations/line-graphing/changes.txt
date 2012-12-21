@@ -1,3 +1,4 @@
+12/21/12 prevent points from overlapping in "Place 3 Points" challenges
 12/21/12 first pass at "Place 3 Points" for point-slope form (mostly working, a few warts)
 12/21/12 remove ':' from sim title
 12/21/12 add game levels 5 & 6, for testing "Place Points" challenges
