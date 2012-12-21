@@ -6,7 +6,6 @@ DESIGN
 - Game: for first incorrect guess, should we show the user's equation or plot their line?
 
 HIGH
-- bug: fractional y-intercepts are not displayed in P3P challenges
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
 - Game: challenge generation (levels and randomization)
 
