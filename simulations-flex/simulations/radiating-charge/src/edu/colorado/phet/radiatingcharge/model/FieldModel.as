@@ -152,7 +152,7 @@ public class FieldModel {
         this.delTPhotonDefault = 0.02;        //default time between photon emission events on a given ray is 0.020 s = 20 ms
         this.delTPhoton = delTPhotonDefault;
         this.tRate = 1;         //not currently used
-        this.stepsPerFrame = 6;              // 4 steps between screen redraws
+        this.stepsPerFrame = 6;              // 6 steps between screen redraws
         this.flag = false;
         this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, reDrawScreen );
@@ -633,28 +633,30 @@ public class FieldModel {
     private function reDrawScreen( evt: TimerEvent ):void{
         var currentTime:Number = this._t;
         this.clockTime = getTimer();
-        elapsedTime = clockTime - tLastStep;
-        this.tLastStep = clockTime;
-        testCounter += 1;
-        if( testCounter >= 20 ){
-            trace( "elapsed time between screen redraws is " + elapsedTime );
-            testCounter = 0;
+        elapsedTime = (clockTime - tLastStep)/1000;  //elapsed time in seconds
+        if( elapsedTime > 2*stepsPerFrame*dt ){
+            elapsedTime = stepsPerFrame*dt;
         }
-//        if(dt > 0.05 ){
-//            dt = dtDefault;
-//        }
-//        dt = elapsedTime;
-//        this.tLastStep = currentTime;
-//        this.dt = dtDefault;
+        this.tLastStep = clockTime;
 
-        for(var s:int = 0; s < stepsPerFrame; s++ ) {
-            this._t += this.dt;
+
+        var nbrOfStepsInThisFrame:Number = Math.round(elapsedTime/dt);//time-based animation
+        for(var s:int = 0; s < nbrOfStepsInThisFrame; s++ ) {
+            this._t += dt;
             if( this._t > this._tLastPhoton + this.delTPhoton ){
                 this._tLastPhoton = this._t;
                 this.emitPhotons();
             }
             this.moveCharge();
         }
+        //Start of test code
+        testCounter += 1;
+        if( testCounter >= 20 ){
+            trace( "elapsed time between screen redraws is " + elapsedTime + "    Nbr of steps in this frame is " + nbrOfStepsInThisFrame );
+            testCounter = 0;
+        }
+        //end of test code
+
         for( var i:int = 0; i < this._nbrFieldLines; i++ ){  //for each ray
             for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){    //for each photon in a ray.
                 var t0:Number = this._fieldLine_arr[i][j].tEmitted;
