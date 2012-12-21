@@ -3,7 +3,7 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- sign-off on specification of game levels
+- Game: for first incorrect guess, should we show the user's equation or plot their line?
 
 HIGH
 - Game: "Place 3 Points" challenge
