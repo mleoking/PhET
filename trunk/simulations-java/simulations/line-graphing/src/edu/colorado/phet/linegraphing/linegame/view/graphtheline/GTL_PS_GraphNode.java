@@ -19,11 +19,7 @@ public abstract class GTL_PS_GraphNode extends GTL_GraphNode {
         super( challenge );
     }
 
-    @Override protected LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-        return new PointSlopeLineNode( line, graph, mvt );
-    }
-
-    @Override protected LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+    @Override protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         return new PointSlopeLineNode( line, graph, mvt );
     }
 }
