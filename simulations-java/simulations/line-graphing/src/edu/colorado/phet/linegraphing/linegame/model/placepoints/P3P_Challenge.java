@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.linegame.model.placepoints;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -17,19 +18,25 @@ import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.IChallenge;
+import edu.colorado.phet.linegraphing.linegame.model.LineForm;
+import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.placepoints.P3P_ChallengeNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class for challenges where the user must "Place 3 Points" (P3P) on a given line.
+ * Challenges where the user must "Place 3 Points" (P3P) on a given line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class P3P_Challenge implements IChallenge {
+public class P3P_Challenge implements IChallenge {
 
     private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
     private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 700, 300 ); // offset of the origin (center of the graph) in view coordinates
 
     public final String title;
     public final Line answer;
+    public final LineForm lineForm;
     public Property<Line> guess;
     public final Property<Vector2D> p1, p2, p3; // points that the user places
 
@@ -39,14 +46,15 @@ public abstract class P3P_Challenge implements IChallenge {
     private final ObservableList<Line> allLines;
     private boolean answerVisible;
 
-    public P3P_Challenge( Line answer ) {
-        this( answer, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+    public P3P_Challenge( Line answer, LineForm lineForm ) {
+        this( answer, lineForm, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
     }
 
-    private P3P_Challenge( Line answer, IntegerRange xRange, IntegerRange yRange ) {
+    private P3P_Challenge( Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
 
         this.title = Strings.PLACE_THE_POINTS;
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
+        this.lineForm = lineForm;
         this.guess = new Property<Line>( null );
         this.p1 = new Property<Vector2D>( new Vector2D( -3, 2 ) );
         this.p2 = new Property<Vector2D>( new Vector2D( 0, 0 ) );
@@ -99,5 +107,10 @@ public abstract class P3P_Challenge implements IChallenge {
         if ( answerVisible ) {
             allLines.add( answer );
         }
+    }
+
+    // Creates the view for this challenge.
+    public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+        return new P3P_ChallengeNode( model, this, audioPlayer, challengeSize );
     }
 }

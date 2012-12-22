@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
@@ -18,16 +19,19 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.PointDragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
+import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_Challenge;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for the graph node in all "Place 3 Points" (P3P) challenges.
+ * Graph node for "Place 3 Points" (P3P) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class P3P_GraphNode extends GraphNode {
+public class P3P_GraphNode extends GraphNode {
 
     private final LineNode answerNode;
     private final LineManipulatorNode p1ManipulatorNode, p2ManipulatorNode, p3ManipulatorNode;
@@ -37,7 +41,7 @@ public abstract class P3P_GraphNode extends GraphNode {
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            LineNode answerNode = createLineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
+            LineNode answerNode = createLineNode( challenge.lineForm, challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
             addChild( answerNode );
         }
 
@@ -45,7 +49,7 @@ public abstract class P3P_GraphNode extends GraphNode {
         final PNode guessNodeParent = new PComposite();
 
         // the correct answer, initially hidden
-        answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
+        answerNode = createLineNode( challenge.lineForm, challenge.answer, challenge.graph, challenge.mvt );
         answerNode.setVisible( false );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
@@ -88,7 +92,7 @@ public abstract class P3P_GraphNode extends GraphNode {
                 // draw the line
                 guessNodeParent.removeAllChildren();
                 if ( challenge.guess.get() != null ) {
-                    LineNode guessNode = createLineNode( challenge.guess.get(), challenge.graph, challenge.mvt );
+                    LineNode guessNode = createLineNode( challenge.lineForm, challenge.guess.get(), challenge.graph, challenge.mvt );
                     guessNodeParent.addChild( guessNode );
                 }
 
@@ -107,5 +111,16 @@ public abstract class P3P_GraphNode extends GraphNode {
     }
 
     // Creates the node for a line.
-    protected abstract LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt );
+    private LineNode createLineNode( LineForm lineForm, Line line, Graph graph, ModelViewTransform mvt ) {
+        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
+            return new SlopeInterceptLineNode( line, graph, mvt ) {{
+                setEquationVisible( false );
+            }};
+        }
+        else {
+            return new PointSlopeLineNode( line, graph, mvt ) {{
+                setEquationVisible( false );
+            }};
+        }
+    }
 }
