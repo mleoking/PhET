@@ -18,7 +18,7 @@ import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;

@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.linegame.model.maketheequation;
+package edu.colorado.phet.linegraphing.linegame.model;
 
 import java.awt.geom.Point2D;
 
