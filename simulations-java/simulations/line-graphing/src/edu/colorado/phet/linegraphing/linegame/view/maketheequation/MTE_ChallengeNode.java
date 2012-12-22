@@ -13,6 +13,7 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -30,6 +31,7 @@ import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.MTE_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.EquationBoxNode;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
@@ -40,11 +42,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class view for "Make the Equation" (MTE) challenges.
+ * View for "Make the Equation" (MTE) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class MTE_ChallengeNode extends ChallengeNode {
+public class MTE_ChallengeNode extends ChallengeNode {
 
     public MTE_ChallengeNode( final LineGameModel model, final MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
@@ -54,7 +56,9 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
         // The equation for the user's guess.
         final PNode guessBoxNode = new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
-                                                        createGuessEquationNode( challenge.guess, challenge.graph, LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT, challenge.guess.get().color ) );
+                                                        createGuessEquationNode( challenge.lineForm, challenge.manipulationMode, challenge.guess, challenge.graph,
+                                                                                 LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
+                                                                                 challenge.guess.get().color ) );
 
         // The equation for the correct answer.
         final PNode answerBoxNode = new EquationBoxNode( Strings.CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
@@ -268,6 +272,28 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the "guess" equation portion of the view.
-    protected abstract EquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor );
-
+    private EquationNode createGuessEquationNode( LineForm lineForm, ManipulationMode manipulationMode,
+                                                  Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor ) {
+        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
+            boolean interactiveSlope = ( manipulationMode == ManipulationMode.SLOPE ) || ( manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
+            boolean interactiveIntercept = ( manipulationMode == ManipulationMode.INTERCEPT ) || ( manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
+            return new SlopeInterceptEquationNode( line,
+                                                   new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                                   new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                                   new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                                   interactiveSlope, interactiveIntercept,
+                                                   interactiveFont, staticFont, staticColor );
+        }
+        else {
+            boolean interactivePoint = ( manipulationMode == ManipulationMode.POINT ) || ( manipulationMode == ManipulationMode.POINT_SLOPE );
+            boolean interactiveSlope = ( manipulationMode == ManipulationMode.SLOPE ) || ( manipulationMode == ManipulationMode.POINT_SLOPE );
+            return new PointSlopeEquationNode( line,
+                                               new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                               new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                               new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                               new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                               interactivePoint, interactivePoint, interactiveSlope,
+                                               interactiveFont, staticFont, staticColor );
+        }
+    }
 }

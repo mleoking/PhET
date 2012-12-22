@@ -1,3 +1,4 @@
+12/22/12 collapse MTE view hierarchy to 2 nodes by consulting challenge.lineForm and challenge.manipulationMode
 12/22/12 collapse MTE view hierarchy by consulting challenge.lineForm
 12/22/12 move duplicate code into MTE_ChallengeNode base class
 12/22/12 use PointSlopeLineNode throughout MTE challenges, because we don't show the equation on graphed lines

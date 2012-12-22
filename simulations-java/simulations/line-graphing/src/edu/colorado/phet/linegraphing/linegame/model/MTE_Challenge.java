@@ -15,17 +15,8 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.linegame.model.LineForm;
-import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
-import edu.colorado.phet.linegraphing.linegame.model.MatchChallenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.maketheequation.MTE_PS_PointSlope_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.maketheequation.MTE_PS_Point_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.maketheequation.MTE_PS_Slope_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.maketheequation.MTE_SI_Intercept_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.maketheequation.MTE_SI_SlopeIntercept_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.maketheequation.MTE_SI_Slope_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.maketheequation.MTE_ChallengeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -121,30 +112,8 @@ public class MTE_Challenge extends MatchChallenge {
         }
     }
 
-    // Creates the view that corresponds to the lineForm and manipulationMode.
+    // Creates the view for this challenge.
     public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
-            if ( manipulationMode == ManipulationMode.SLOPE ) {
-                return new MTE_SI_Slope_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.INTERCEPT ) {
-                return new MTE_SI_Intercept_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
-                return new MTE_SI_SlopeIntercept_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-        }
-        else {
-            if ( manipulationMode == ManipulationMode.POINT ) {
-                return new MTE_PS_Point_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.SLOPE ) {
-                return new MTE_PS_Slope_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.POINT_SLOPE ) {
-                return new MTE_PS_PointSlope_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-        }
-        throw new IllegalStateException( "unsupported combination of lineForm and manipulationMode" );
+        return new MTE_ChallengeNode( model, this, audioPlayer, challengeSize );
     }
 }
