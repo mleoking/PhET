@@ -12,12 +12,10 @@ import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
  */
 public abstract class MatchChallenge implements IChallenge {
 
-    public final String title;
     public final Line answer; // the correct answer
     public final Property<Line> guess; // the user's current guess
 
-    protected MatchChallenge( String title, Line answer, Line guess ) {
-        this.title = title;
+    protected MatchChallenge( Line answer, Line guess ) {
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
         this.guess = new Property<Line>( guess.withColor( LineGameConstants.GUESS_COLOR ) );
     }

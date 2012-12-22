@@ -26,6 +26,7 @@ public abstract class MTE_Challenge extends MatchChallenge {
     private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
     private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 275, 300 ); // offset of the origin (center of the graph) in view coordinates
 
+    public final String title;
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
     public final Graph graph; // the graph that plots the lines
     public final PointTool pointTool1, pointTool2;
@@ -42,7 +43,9 @@ public abstract class MTE_Challenge extends MatchChallenge {
     }
 
     private MTE_Challenge( String title, Line answer, Line guess, IntegerRange xRange, IntegerRange yRange ) {
-        super( title, answer, guess );
+        super( answer, guess );
+
+        this.title = title;
 
         final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units
         mvt = ModelViewTransform.createOffsetScaleMapping( ORIGIN_OFFSET, mvtScale, -mvtScale ); // graph on right, y inverted
