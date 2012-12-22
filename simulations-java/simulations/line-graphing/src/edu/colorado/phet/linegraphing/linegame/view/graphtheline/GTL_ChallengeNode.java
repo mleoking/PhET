@@ -27,6 +27,7 @@ import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.EquationBoxNode;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
@@ -37,11 +38,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class view for "Graph the Line" (GTL) challenges.
+ * View for "Graph the Line" (GTL) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class GTL_ChallengeNode extends ChallengeNode {
+public class GTL_ChallengeNode extends ChallengeNode {
 
     public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, final PDimension challengeSize ) {
 
@@ -253,7 +254,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the equation portion of the view.
-    protected EquationNode createEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
+    private EquationNode createEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
         if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
             return new SlopeInterceptEquationNode( line, font, color );
         }
@@ -263,5 +264,18 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    protected abstract GTL_GraphNode createGraphNode( GTL_Challenge challenge );
+    protected GTL_GraphNode createGraphNode( GTL_Challenge challenge ) {
+        if ( challenge.manipulationMode == ManipulationMode.POINTS ) {
+            return new GTL_Points_GraphNode( challenge );
+        }
+        else if ( challenge.lineForm == LineForm.SLOPE_INTERCEPT ) {
+            return new GTL_SlopeIntercept_GraphNode( challenge );
+        }
+        else if ( challenge.lineForm == LineForm.POINT_SLOPE ) {
+            return new GTL_PointSlope_GraphNode( challenge );
+        }
+        else {
+            throw new IllegalStateException( "unsupported lineForm and manipulatorMode combination" );
+        }
+    }
 }
