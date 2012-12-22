@@ -9,15 +9,16 @@ import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.MTE_Challenge;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for the graph node in all "Make the Equation" (MTE) challenges.
+ * Graph node in all "Make the Equation" (MTE) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class MTE_GraphNode extends GraphNode {
+public class MTE_GraphNode extends GraphNode {
 
     private final PNode guessNodeParent;
     private final PNode slopeToolNode;
@@ -34,8 +35,7 @@ public abstract class MTE_GraphNode extends GraphNode {
         guessNodeParent.setVisible( false );
 
         // the correct answer
-        LineNode answerNode = createAnswerLineNode( challenge.answer, challenge.graph, challenge.mvt );
-        answerNode.setEquationVisible( false );
+        LineNode answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
 
         // Slope tool
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( 0.85 );
@@ -51,8 +51,7 @@ public abstract class MTE_GraphNode extends GraphNode {
             public void apply( Line line ) {
                 // draw the line
                 guessNodeParent.removeAllChildren();
-                LineNode guessNode = createGuessLineNode( line, challenge.graph, challenge.mvt );
-                guessNode.setEquationVisible( false );
+                LineNode guessNode = createLineNode( line, challenge.graph, challenge.mvt );
                 guessNodeParent.addChild( guessNode );
             }
         } );
@@ -62,11 +61,15 @@ public abstract class MTE_GraphNode extends GraphNode {
         slopeToolNode.setVisible( visible );
     }
 
-    // Creates the node that corresponds to the "answer" line.
-    protected abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
-
-    // Creates the node that corresponds to the "guess" line.
-    protected abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
+    /*
+     * Creates the node for a line.
+     * Use point-slope lines everywhere because the equation is hidden.
+     */
+    private LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+        return new PointSlopeLineNode( line, graph, mvt ) {{
+            setEquationVisible( false );
+        }};
+    }
 
     // Changes the visibility of the "guess" line.
     public void setGuessVisible( boolean visible ) {
