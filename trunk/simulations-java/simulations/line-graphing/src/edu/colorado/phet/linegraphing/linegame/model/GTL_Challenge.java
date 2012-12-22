@@ -10,25 +10,13 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGConstants;
-import edu.colorado.phet.linegraphing.common.LGResources;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.linegame.model.LineForm;
-import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
-import edu.colorado.phet.linegraphing.linegame.model.MatchChallenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_PS_PointSlope_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_PS_Point_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_PS_Points_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_PS_Slope_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_SI_Intercept_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_SI_Points_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_SI_SlopeIntercept_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_SI_Slope_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_ChallengeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -126,34 +114,6 @@ public class GTL_Challenge extends MatchChallenge {
 
     // Creates the view that corresponds to the lineForm and manipulationMode.
     public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
-            if ( manipulationMode == ManipulationMode.SLOPE ) {
-                return new GTL_SI_Slope_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.INTERCEPT ) {
-                return new GTL_SI_Intercept_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
-                return new GTL_SI_SlopeIntercept_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.POINTS ) {
-                return new GTL_SI_Points_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-        }
-        else {
-            if ( manipulationMode == ManipulationMode.POINT ) {
-                return new GTL_PS_Point_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.SLOPE ) {
-                return new GTL_PS_Slope_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.POINT_SLOPE ) {
-                return new GTL_PS_PointSlope_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-            else if ( manipulationMode == ManipulationMode.POINTS ) {
-                return new GTL_PS_Points_ChallengeNode( model, this, audioPlayer, challengeSize );
-            }
-        }
-        throw new IllegalStateException( "unsupported combination of lineForm and manipulationMode" );
+        return new GTL_ChallengeNode( model, this, audioPlayer, challengeSize );
     }
 }
