@@ -27,7 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GTL_PS_PointSlope_ChallengeNode extends GTL_PS_ChallengeNode {
+public class GTL_PS_PointSlope_ChallengeNode extends GTL_ChallengeNode {
 
     public GTL_PS_PointSlope_ChallengeNode( final LineGameModel model, GTL_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );

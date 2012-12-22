@@ -23,11 +23,14 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
+import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.EquationBoxNode;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -48,7 +51,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
         // The equation for the answer.
         final PNode answerBoxNode = new EquationBoxNode( Strings.LINE_TO_GRAPH, challenge.answer.color, boxSize,
-                                                         createEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+                                                         createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
@@ -150,7 +153,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 // update the equation
                 guessEquationParent.removeAllChildren();
                 guessEquationParent.addChild( new EquationBoxNode( Strings.YOUR_LINE, line.color, boxSize,
-                                                                   createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, line.color ) ) );
+                                                                   createEquationNode( challenge.lineForm, line, LineGameConstants.STATIC_EQUATION_FONT, line.color ) ) );
                 guessEquationParent.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
 
                 // keep icons in correct place on box
@@ -250,7 +253,14 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the equation portion of the view.
-    protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
+    protected EquationNode createEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
+        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
+            return new SlopeInterceptEquationNode( line, font, color );
+        }
+        else {
+            return new PointSlopeEquationNode( line, font, color );
+        }
+    }
 
     // Creates the graph portion of the view.
     protected abstract GTL_GraphNode createGraphNode( GTL_Challenge challenge );
