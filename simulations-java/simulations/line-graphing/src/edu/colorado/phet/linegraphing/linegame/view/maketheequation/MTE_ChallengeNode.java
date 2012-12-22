@@ -26,11 +26,14 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
+import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.MTE_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.EquationBoxNode;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -55,7 +58,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
         // The equation for the correct answer.
         final PNode answerBoxNode = new EquationBoxNode( Strings.CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
-                                                         createAnswerEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+                                                         createAnswerEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // icons for indicating correct vs incorrect
         final PNode answerCorrectNode = new PImage( Images.CHECK_MARK );
@@ -146,7 +149,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
         // To reduce brain damage during development, show the answer equation in translucent gray.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            PNode devAnswerNode = createAnswerEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, new Color( 0, 0, 0, 25 ) );
+            PNode devAnswerNode = createAnswerEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, new Color( 0, 0, 0, 25 ) );
             devAnswerNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() + 30,
                                      answerBoxNode.getFullBoundsReference().getCenterY() - ( devAnswerNode.getFullBoundsReference().getHeight() / 2 ) );
             addChild( devAnswerNode );
@@ -254,9 +257,17 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         } );
     }
 
+    // Creates the "answer" equation portion of the view.
+    private EquationNode createAnswerEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
+        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
+            return new SlopeInterceptEquationNode( line, font, color );
+        }
+        else {
+            return new PointSlopeEquationNode( line, font, color );
+        }
+    }
+
     // Creates the "guess" equation portion of the view.
     protected abstract EquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor );
 
-    // Creates the "answer" equation portion of the view.
-    protected abstract EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color );
 }
