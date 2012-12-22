@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
@@ -20,7 +19,7 @@ import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNod
 import edu.colorado.phet.linegraphing.common.view.manipulator.PointDragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineForm;
-import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.P3P_Challenge;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;

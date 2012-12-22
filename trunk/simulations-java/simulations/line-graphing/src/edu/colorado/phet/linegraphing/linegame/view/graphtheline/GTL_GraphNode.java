@@ -10,7 +10,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.umd.cs.piccolo.PNode;
 
 /**

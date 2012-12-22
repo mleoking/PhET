@@ -25,7 +25,7 @@ import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.EquationBoxNode;
 import edu.umd.cs.piccolo.PNode;

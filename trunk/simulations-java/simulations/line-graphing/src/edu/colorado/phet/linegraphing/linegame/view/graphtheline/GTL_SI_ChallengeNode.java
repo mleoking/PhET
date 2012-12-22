@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.util.PDimension;
 

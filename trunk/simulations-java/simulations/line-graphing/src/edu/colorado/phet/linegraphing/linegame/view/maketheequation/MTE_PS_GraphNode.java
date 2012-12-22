@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.MTE_Challenge;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 
 /**

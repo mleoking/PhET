@@ -8,9 +8,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_Challenge;
 
 /**
  * Model for the "Line Game" module. Responsibilities include:

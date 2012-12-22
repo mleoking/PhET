@@ -8,7 +8,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.MTE_Challenge;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
