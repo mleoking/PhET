@@ -58,6 +58,9 @@ public class GTL_Challenge extends MatchChallenge {
     private GTL_Challenge( Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
         super( answer, Line.Y_EQUALS_X_LINE );
 
+        this.lineForm = lineForm;
+        this.manipulationMode = manipulationMode;
+
         // Adjust the title and initial state of the guess.
         if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
             if ( manipulationMode == ManipulationMode.SLOPE ) {
@@ -92,9 +95,6 @@ public class GTL_Challenge extends MatchChallenge {
         mvt = ModelViewTransform.createOffsetScaleMapping( ORIGIN_OFFSET, mvtScale, -mvtScale ); // graph on right, y inverted
 
         graph = new Graph( xRange, yRange );
-
-        this.lineForm = lineForm;
-        this.manipulationMode = manipulationMode;
 
         allLines = new ObservableList<Line>();
         allLines.add( guess.get() );

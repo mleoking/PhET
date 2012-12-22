@@ -21,9 +21,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MTE_PS_Point_Slope_ChallengeNode extends MTE_PS_ChallengeNode {
+public class MTE_PS_PointSlope_ChallengeNode extends MTE_PS_ChallengeNode {
 
-    public MTE_PS_Point_Slope_ChallengeNode( final LineGameModel model, MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public MTE_PS_PointSlope_ChallengeNode( final LineGameModel model, MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );
     }
 

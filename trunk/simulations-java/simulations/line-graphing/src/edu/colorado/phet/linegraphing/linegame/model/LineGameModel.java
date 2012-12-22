@@ -9,12 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_PointSlope_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_Point_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_Slope_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Intercept_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Slope_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Slope_Intercept_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_Challenge;
 
 /**
@@ -146,16 +141,16 @@ public class LineGameModel {
             challenges[index++] = new GTL_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINTS );
         }
         else if ( settings.level.get() == 3 ) {
-            challenges[index++] = new MTE_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );
-            challenges[index++] = new MTE_SI_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ) );
-            challenges[index++] = new MTE_SI_Slope_Intercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ) );
-            challenges[index++] = new MTE_SI_Slope_Intercept_Challenge( Line.createSlopeIntercept( 3, 3, -3 ) );
+            challenges[index++] = new MTE_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT );
+            challenges[index++] = new MTE_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE );
+            challenges[index++] = new MTE_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT );
+            challenges[index++] = new MTE_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT );
         }
         else if ( settings.level.get() == 4 ) {
-            challenges[index++] = new MTE_PS_Slope_Challenge( Line.createPointSlope( 2, 1, 1, 2 ) );
-            challenges[index++] = new MTE_PS_Point_Challenge( Line.createPointSlope( 1, -3, 1, 3 ) );
-            challenges[index++] = new MTE_PS_PointSlope_Challenge( Line.createPointSlope( -2, 1, -4, 3 ) );
-            challenges[index++] = new MTE_PS_PointSlope_Challenge( Line.createPointSlope( 5, 4, 3, 2 ) );
+            challenges[index++] = new MTE_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, ManipulationMode.SLOPE );
+            challenges[index++] = new MTE_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT );
+            challenges[index++] = new MTE_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE );
+            challenges[index++] = new MTE_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE );
         }
         else if ( settings.level.get() == 5 ) {
             challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT );

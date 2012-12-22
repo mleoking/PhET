@@ -7,6 +7,7 @@ DESIGN
 - P3P: use similar but different colors for the 3 points?
 
 HIGH
+- perfect-score reward isn't working for level > 2
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
 - Game: challenge generation (levels and randomization)
 
