@@ -14,8 +14,8 @@ import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNod
 import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.manipulator.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
-import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptParameterRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -39,7 +39,7 @@ public class GTL_SI_SlopeIntercept_ChallengeNode extends GTL_SI_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends GTL_SI_GraphNode {
+    private static class ThisGraphNode extends GTL_GraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode slopeManipulatorNode, interceptManipulatorNode;
