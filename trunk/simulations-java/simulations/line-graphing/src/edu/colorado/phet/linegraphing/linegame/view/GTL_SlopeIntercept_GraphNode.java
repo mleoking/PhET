@@ -56,14 +56,14 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
                                                                           riseRange,
                                                                           new Property<DoubleRange>( new DoubleRange( challenge.graph.xRange ) ) ) );
 
-        // point (y intercept) manipulator
+        // point (y-intercept) manipulator
         interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
         interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                              interceptManipulatorNode, challenge.mvt, challenge.guess,
                                                                              new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), /* x1 is fixed */
                                                                              y1Range,
                                                                              true /* constantSlope */ ) );
-        // intercept as a plotted point
+        // plotted y-intercept
         final double pointDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.POINT_DIAMETER );
         interceptNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
 
@@ -80,7 +80,7 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
             addManipulatorNode( slopeManipulatorNode );
         }
 
-        // Show the user's current guess
+        // Sync with the user's current guess
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
 
