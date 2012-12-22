@@ -76,7 +76,7 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
         else {
             addManipulatorNode( interceptNode );
         }
-        if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
+        if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT || challenge.manipulationMode == ManipulationMode.POINT_SLOPE ) {
             addManipulatorNode( slopeManipulatorNode );
         }
 

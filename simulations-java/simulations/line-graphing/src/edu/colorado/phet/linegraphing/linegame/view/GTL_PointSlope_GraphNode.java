@@ -76,7 +76,7 @@ class GTL_PointSlope_GraphNode extends GTL_GraphNode {
         else {
             addManipulatorNode( pointNode );
         }
-        if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.POINT_SLOPE ) {
+        if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.POINT_SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
             addManipulatorNode( slopeManipulatorNode );
         }
 
