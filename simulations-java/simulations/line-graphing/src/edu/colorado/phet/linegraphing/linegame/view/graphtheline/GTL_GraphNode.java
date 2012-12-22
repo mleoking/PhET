@@ -28,7 +28,7 @@ public abstract class GTL_GraphNode extends GraphNode {
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            LineNode answerNode = createAnswerLineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
+            LineNode answerNode = createLineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
             answerNode.setEquationVisible( false );
             addChild( answerNode );
         }
@@ -58,11 +58,8 @@ public abstract class GTL_GraphNode extends GraphNode {
         manipulatorsParent.addChild( node );
     }
 
-    // Creates the node that corresponds to the "answer" line.
-    protected abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
-
-    // Creates the node that corresponds to the "guess" line.
-    protected abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
+    // Creates the node for a line.
+    protected abstract LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt );
 
     // Changes the visibility of the "answer" line.
     public abstract void setAnswerVisible( boolean visible );

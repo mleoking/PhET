@@ -51,7 +51,7 @@ public class GTL_SI_SlopeIntercept_ChallengeNode extends GTL_SI_ChallengeNode {
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = createAnswerLineNode( challenge.answer, challenge.graph, challenge.mvt );
+            answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false );
 
@@ -88,7 +88,7 @@ public class GTL_SI_SlopeIntercept_ChallengeNode extends GTL_SI_ChallengeNode {
 
                     // draw the line
                     guessNodeParent.removeAllChildren();
-                    LineNode guessNode = createGuessLineNode( line, challenge.graph, challenge.mvt );
+                    LineNode guessNode = createLineNode( line, challenge.graph, challenge.mvt );
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 

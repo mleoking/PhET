@@ -67,7 +67,7 @@ public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = createAnswerLineNode( challenge.answer, challenge.graph, challenge.mvt );
+            answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false );
 
@@ -100,7 +100,7 @@ public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
 
                     // draw the line
                     guessNodeParent.removeAllChildren();
-                    LineNode guessNode = createGuessLineNode( line, challenge.graph, challenge.mvt );
+                    LineNode guessNode = createLineNode( line, challenge.graph, challenge.mvt );
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 
@@ -109,11 +109,6 @@ public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
                     x2y2ManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
                 }
             } );
-        }
-
-        // Guess has to be in point-slope form, since a guess with 2 arbitrary points won't conform to slope-intercept form.
-        @Override public LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-            return new PointSlopeLineNode( line, graph, mvt );
         }
 
         // Sets the visibility of the correct answer. When answer is visible, manipulators are hidden.
