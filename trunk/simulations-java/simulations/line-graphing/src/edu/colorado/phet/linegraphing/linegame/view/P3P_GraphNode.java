@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.linegame.view.placepoints;
+package edu.colorado.phet.linegraphing.linegame.view;
 
 import java.awt.Color;
 
