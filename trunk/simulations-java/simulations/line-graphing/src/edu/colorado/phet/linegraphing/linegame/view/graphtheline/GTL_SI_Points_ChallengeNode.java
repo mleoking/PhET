@@ -8,22 +8,19 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
+import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.common.view.manipulator.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
-import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -55,7 +52,7 @@ public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends GTL_SI_GraphNode {
+    private static class ThisGraphNode extends GTL_GraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;

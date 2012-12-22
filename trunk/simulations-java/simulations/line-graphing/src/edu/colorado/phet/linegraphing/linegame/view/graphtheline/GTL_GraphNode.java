@@ -11,6 +11,7 @@ import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -58,8 +59,15 @@ public abstract class GTL_GraphNode extends GraphNode {
         manipulatorsParent.addChild( node );
     }
 
-    // Creates the node for a line.
-    protected abstract LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt );
+    /*
+     * Creates the node for a line.
+     * Use point-slope lines everywhere because the equation is hidden.
+     */
+    protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+        return new PointSlopeLineNode( line, graph, mvt ) {{
+            setEquationVisible( false );
+        }};
+    }
 
     // Changes the visibility of the "answer" line.
     public abstract void setAnswerVisible( boolean visible );
