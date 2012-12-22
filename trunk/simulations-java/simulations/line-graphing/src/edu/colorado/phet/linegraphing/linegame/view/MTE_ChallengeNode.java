@@ -264,8 +264,11 @@ public class MTE_ChallengeNode extends ChallengeNode {
         if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
             return new SlopeInterceptEquationNode( line, font, color );
         }
-        else {
+        else if ( lineForm == LineForm.POINT_SLOPE ) {
             return new PointSlopeEquationNode( line, font, color );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
         }
     }
 
@@ -282,7 +285,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
                                                    interactiveSlope, interactiveIntercept,
                                                    interactiveFont, staticFont, staticColor );
         }
-        else {
+        else if ( lineForm == LineForm.POINT_SLOPE ) {
             boolean interactivePoint = ( manipulationMode == ManipulationMode.POINT ) || ( manipulationMode == ManipulationMode.POINT_SLOPE );
             boolean interactiveSlope = ( manipulationMode == ManipulationMode.SLOPE ) || ( manipulationMode == ManipulationMode.POINT_SLOPE );
             return new PointSlopeEquationNode( line,
@@ -292,6 +295,9 @@ public class MTE_ChallengeNode extends ChallengeNode {
                                                new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                interactivePoint, interactivePoint, interactiveSlope,
                                                interactiveFont, staticFont, staticColor );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
         }
     }
 }
