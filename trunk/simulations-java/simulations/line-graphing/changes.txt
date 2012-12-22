@@ -1,3 +1,5 @@
+# 0.00.44 (71396) Dec 21, 2012
+12/21/12 demonstrate "Place the Points" challenges for Game
 12/21/12 simplify implementation of P3P challenges to 3 classes
 12/21/12 add LineForm enum to game model
 12/21/12 fix fractional y-intercepts in P3P challenges
