@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GTL_SI_Intercept_ChallengeNode extends GTL_SI_ChallengeNode {
+public class GTL_SI_Intercept_ChallengeNode extends GTL_ChallengeNode {
 
     public GTL_SI_Intercept_ChallengeNode( final LineGameModel model, GTL_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );

@@ -19,6 +19,7 @@ import edu.colorado.phet.linegraphing.common.view.manipulator.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.common.view.manipulator.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
 import edu.umd.cs.piccolo.PNode;
@@ -31,19 +32,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
+public class GTL_SI_Points_ChallengeNode extends GTL_ChallengeNode {
 
     public GTL_SI_Points_ChallengeNode( final LineGameModel model, GTL_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );
-    }
-
-    /*
-     * Creates the equation portion of the view.
-     * When manipulating 2 arbitrary points, we need to use a PointSlopeEquationFactory since
-     * the y intercept may be at a non-integer value.
-     */
-    @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
-        return new PointSlopeEquationNode( line, font, color );
     }
 
     // Creates the graph portion of the view.
