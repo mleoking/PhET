@@ -1,3 +1,4 @@
+12/22/12 move duplicate code into MTE_ChallengeNode base class
 12/22/12 use PointSlopeLineNode throughout MTE challenges, because we don't show the equation on graphed lines
 12/22/12 use PointSlopeLineNode throughout GTL challenges, because we don't show the equation on graphed lines
 12/22/12 simplify GTL_GraphNode interface, don't need separate methods for creating answer and guess line nodes
