@@ -116,10 +116,13 @@ public class P3P_GraphNode extends GraphNode {
                 setEquationVisible( false );
             }};
         }
-        else {
+        else if ( lineForm == LineForm.POINT_SLOPE ) {
             return new PointSlopeLineNode( line, graph, mvt ) {{
                 setEquationVisible( false );
             }};
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
         }
     }
 }

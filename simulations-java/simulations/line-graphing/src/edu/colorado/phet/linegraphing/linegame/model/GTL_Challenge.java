@@ -65,7 +65,7 @@ public class GTL_Challenge extends MatchChallenge {
                 // default guess is fine
             }
         }
-        else {
+        else if ( lineForm == LineForm.POINT_SLOPE ) {
             if ( manipulationMode == ManipulationMode.POINT ) {
                 title = Strings.SET_THE_POINT;
                 guess.set( Line.createPointSlope( 0, 0, answer.rise, answer.run ) );
@@ -78,6 +78,9 @@ public class GTL_Challenge extends MatchChallenge {
                 title = Strings.GRAPH_THE_LINE;
                 // default guess is fine
             }
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
         }
 
         final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units

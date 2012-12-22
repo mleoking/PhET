@@ -256,8 +256,11 @@ public class GTL_ChallengeNode extends ChallengeNode {
         if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
             return new SlopeInterceptEquationNode( line, font, color );
         }
-        else {
+        else if ( lineForm == LineForm.POINT_SLOPE ) {
             return new PointSlopeEquationNode( line, font, color );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
         }
     }
 
@@ -273,7 +276,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
             return new GTL_PointSlope_GraphNode( challenge );
         }
         else {
-            throw new IllegalStateException( "unsupported lineForm and manipulatorMode combination" );
+            throw new IllegalArgumentException( "unsupported lineForm and manipulatorMode combination" );
         }
     }
 }

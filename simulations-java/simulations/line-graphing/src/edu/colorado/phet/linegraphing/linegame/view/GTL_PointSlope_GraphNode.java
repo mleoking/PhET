@@ -52,12 +52,12 @@ class GTL_PointSlope_GraphNode extends GTL_GraphNode {
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
 
-        // point manipulator
+        // point (x1,y1) manipulator
         pointManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
         pointManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                          pointManipulatorNode, challenge.mvt, challenge.guess, x1Range, y1Range,
                                                                          true /* constantSlope */ ) );
-        // point
+        // (x1,y1) as a plotted point
         final double pointDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.POINT_DIAMETER );
         pointNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
         pointNode.setOffset( challenge.mvt.modelToView( new Point2D.Double( challenge.guess.get().x1, challenge.guess.get().y1 ) ) );

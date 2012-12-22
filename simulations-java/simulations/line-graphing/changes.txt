@@ -1,3 +1,4 @@
+12/22/12 throw exception if an unsupported LineForm or ManipulationMode is encountered
 12/22/12 consolidate all game view elements in one package
 12/22/12 collapse GTL view hierarchy to 1 primary node and 4 graphs by consulting challenge.lineForm and challenge.manipulationMode
 12/22/12 collapse GTL view hierarchy by consulting challenge.lineForm

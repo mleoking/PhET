@@ -258,8 +258,11 @@ public class P3P_ChallengeNode extends ChallengeNode {
         if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
             return new SlopeInterceptEquationNode( line, font, color );
         }
-        else {
+        else if ( lineForm == LineForm.POINT_SLOPE ) {
             return new PointSlopeEquationNode( line, font, color );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
         }
     }
 }
