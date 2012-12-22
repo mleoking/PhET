@@ -22,22 +22,25 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
+import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.EquationBoxNode;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class view for "Place 3 Points" (P3P) challenges.
+ * View for "Place 3 Points" (P3P) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class P3P_ChallengeNode extends ChallengeNode {
+public class P3P_ChallengeNode extends ChallengeNode {
 
     public P3P_ChallengeNode( final LineGameModel model, final P3P_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
@@ -47,7 +50,7 @@ public abstract class P3P_ChallengeNode extends ChallengeNode {
 
         // The equation for the answer.
         final PNode answerBoxNode = new EquationBoxNode( Strings.LINE_TO_GRAPH, challenge.answer.color, boxSize,
-                                                         createEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+                                                         createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
@@ -58,7 +61,7 @@ public abstract class P3P_ChallengeNode extends ChallengeNode {
         final PNode guessCorrectNode = new PImage( Images.CHECK_MARK );
         final PNode guessIncorrectNode = new PImage( Images.X_MARK );
 
-        final P3P_GraphNode graphNode = createGraphNode( challenge );
+        final P3P_GraphNode graphNode = new P3P_GraphNode( challenge );
 
         final FaceNode faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR,
                                                 new BasicStroke( 1f ), LineGameConstants.FACE_COLOR.darker(), Color.BLACK, Color.BLACK );
@@ -153,7 +156,7 @@ public abstract class P3P_ChallengeNode extends ChallengeNode {
                     equationNode = new PhetPText( Strings.NOT_A_LINE, new PhetFont( Font.BOLD, 24 ), LineGameConstants.GUESS_COLOR );
                 }
                 else {
-                    equationNode = createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR );
+                    equationNode = createEquationNode( challenge.lineForm, line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR );
                 }
                 guessEquationParent.addChild( new EquationBoxNode( Strings.YOUR_LINE, LineGameConstants.GUESS_COLOR, boxSize, equationNode ) );
                 guessEquationParent.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
@@ -252,9 +255,13 @@ public abstract class P3P_ChallengeNode extends ChallengeNode {
         } );
     }
 
-     // Creates the equation portion of the view.
-    protected abstract PNode createEquationNode( Line line, PhetFont font, Color color );
-
-    // Creates the graph portion of the view.
-    protected abstract P3P_GraphNode createGraphNode( P3P_Challenge challenge );
+    // Creates the equation portion of the view.
+    private PNode createEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
+        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
+            return new SlopeInterceptEquationNode( line, font, color );
+        }
+        else {
+            return new PointSlopeEquationNode( line, font, color );
+        }
+    }
 }

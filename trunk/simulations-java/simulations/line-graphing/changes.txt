@@ -1,3 +1,5 @@
+12/21/12 simplify implementation of P3P challenges to 3 classes
+12/21/12 add LineForm enum to game model
 12/21/12 fix fractional y-intercepts in P3P challenges
 12/21/12 a bit more refactoring of P3P view, to eliminate some duplicate code
 12/21/12 refactor P3P challenges, move functionality to base classes, add support for slope-intercept

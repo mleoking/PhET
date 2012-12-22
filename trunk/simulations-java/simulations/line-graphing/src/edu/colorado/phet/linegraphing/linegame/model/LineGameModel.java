@@ -22,8 +22,7 @@ import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_Slop
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Intercept_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Slope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Slope_Intercept_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_PS_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_SI_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.placepoints.P3P_Challenge;
 
 /**
  * Model for the "Line Game" module. Responsibilities include:
@@ -165,16 +164,16 @@ public class LineGameModel {
             challenges[index++] = new MTE_PS_PointSlope_Challenge( Line.createPointSlope( 5, 4, 3, 2 ) );
         }
         else if ( settings.level.get() == 5 ) {
-            challenges[index++] = new P3P_SI_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );
-            challenges[index++] = new P3P_SI_Challenge( Line.createSlopeIntercept( 5, 1, 1 ) );
-            challenges[index++] = new P3P_SI_Challenge( Line.createSlopeIntercept( 4, 2, 3 ) );
-            challenges[index++] = new P3P_SI_Challenge( Line.createSlopeIntercept( 3, 3, -3 ) );
+            challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT );
+            challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT );
+            challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT );
+            challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT );
         }
         else if ( settings.level.get() == 6 ) {
-            challenges[index++] = new P3P_PS_Challenge( Line.createPointSlope( 2, 1, 1, 2 ) );
-            challenges[index++] = new P3P_PS_Challenge( Line.createPointSlope( 1, -3, 1, 3 ) );
-            challenges[index++] = new P3P_PS_Challenge( Line.createPointSlope( -2, 1, -4, 3 ) );
-            challenges[index++] = new P3P_PS_Challenge( Line.createPointSlope( 5, 4, 3, 2 ) );
+            challenges[index++] = new P3P_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE );
+            challenges[index++] = new P3P_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE );
+            challenges[index++] = new P3P_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE );
+            challenges[index++] = new P3P_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE );
         }
         else {
             throw new IllegalArgumentException( "unsupported level: " + settings.level.get() );
