@@ -214,8 +214,8 @@ public class RewardNode extends PhetPNode {
     public void setLevel( int level ) {
         setImagesVisible( equationImages, level == 1 );
         setImagesVisible( graphImages, level == 2 );
-        setImagesVisible( pointToolImages, level == 2 );
-        setImagesVisible( smileyFaceImages, level == 3 );
+        setImagesVisible( pointToolImages, level == 3 );
+        setImagesVisible( smileyFaceImages, level > 3 );
     }
 
     /**
