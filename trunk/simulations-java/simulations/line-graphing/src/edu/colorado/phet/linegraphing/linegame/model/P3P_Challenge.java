@@ -25,7 +25,8 @@ import edu.colorado.phet.linegraphing.linegame.view.placepoints.P3P_ChallengeNod
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Challenges where the user must "Place 3 Points" (P3P) on a given line.
+ * Model for all "Place 3 Points" (P3P) challenges.
+ * In this challenge, the user is given an equation and must place 3 points on a graph to make the line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

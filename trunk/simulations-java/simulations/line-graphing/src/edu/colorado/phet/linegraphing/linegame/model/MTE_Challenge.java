@@ -30,6 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Model for all "Make the Equation" (MTE) challenges.
+ * In this challenge, the user is given a graphed line and must make the equation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
