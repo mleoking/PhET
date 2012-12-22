@@ -8,14 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_PointSlope_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Point_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Points_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Slope_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Intercept_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Points_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_SlopeIntercept_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Slope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_PointSlope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_Point_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_Slope_Challenge;
@@ -81,7 +74,8 @@ public class LineGameModel {
         timer = new GameTimer();
         results = new GameResults( LEVELS_RANGE );
 
-        challenge = new Property<IChallenge>( new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ) ) ); // initial value is meaningless
+        // initial value is meaningless, but must be non-null
+        challenge = new Property<IChallenge>( new GTL_Challenge( Line.createSlopeIntercept( 1, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE ) );
 
         phase = new Property<GamePhase>( GamePhase.SETTINGS ) {
 
@@ -140,16 +134,16 @@ public class LineGameModel {
         //TODO replace with random challenge generation
         int index = 0;
         if ( settings.level.get() == 1 ) {
-            challenges[index++] = new GTL_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );
-            challenges[index++] = new GTL_SI_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ) );
-            challenges[index++] = new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ) );
-            challenges[index++] = new GTL_SI_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3 ) );
+            challenges[index++] = new GTL_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT );
+            challenges[index++] = new GTL_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE );
+            challenges[index++] = new GTL_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT );
+            challenges[index++] = new GTL_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.POINTS);
         }
         else if ( settings.level.get() == 2 ) {
-            challenges[index++] = new GTL_PS_Slope_Challenge( Line.createPointSlope( 2, 1, 1, 2 ) );
-            challenges[index++] = new GTL_PS_Point_Challenge( Line.createPointSlope( 1, -3, 1, 3 ) );
-            challenges[index++] = new GTL_PS_PointSlope_Challenge( Line.createPointSlope( -2, 1, -4, 3 ) );
-            challenges[index++] = new GTL_PS_Points_Challenge( Line.createPointSlope( 5, 4, 3, 2 ) );
+            challenges[index++] = new GTL_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, ManipulationMode.SLOPE );
+            challenges[index++] = new GTL_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT );
+            challenges[index++] = new GTL_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE );
+            challenges[index++] = new GTL_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINTS );
         }
         else if ( settings.level.get() == 3 ) {
             challenges[index++] = new MTE_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );

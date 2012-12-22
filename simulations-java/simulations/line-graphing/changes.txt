@@ -1,3 +1,4 @@
+12/21/12 flatten GTL_Challenge hierarchy to one class (model for "Graph the Line" challenges)
 # 0.00.44 (71398) Dec 21, 2012
 12/21/12 demonstrate "Place the Points" challenges for Game
 12/21/12 simplify implementation of P3P challenges to 3 classes
