@@ -16,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.GTL_ChallengeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

@@ -17,11 +17,8 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
-import edu.colorado.phet.linegraphing.linegame.model.IChallenge;
-import edu.colorado.phet.linegraphing.linegame.model.LineForm;
-import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.placepoints.P3P_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.P3P_ChallengeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
