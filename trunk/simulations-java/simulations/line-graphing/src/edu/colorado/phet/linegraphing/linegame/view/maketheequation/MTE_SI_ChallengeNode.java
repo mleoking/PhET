@@ -26,9 +26,4 @@ public abstract class MTE_SI_ChallengeNode extends MTE_ChallengeNode {
     @Override protected EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color ) {
         return new SlopeInterceptEquationNode( line, font, color );
     }
-
-    // Creates the graph portion of the view.
-    @Override protected MTE_GraphNode createGraphNode( MTE_Challenge challenge ) {
-        return new MTE_GraphNode( challenge );
-    }
 }

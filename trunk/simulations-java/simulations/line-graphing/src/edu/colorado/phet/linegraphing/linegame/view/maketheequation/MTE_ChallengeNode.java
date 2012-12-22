@@ -62,7 +62,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         final PNode guessCorrectNode = new PImage( Images.CHECK_MARK );
         final PNode guessIncorrectNode = new PImage( Images.X_MARK );
 
-        final MTE_GraphNode graphNode = createGraphNode( challenge );
+        final MTE_GraphNode graphNode = new MTE_GraphNode( challenge );
 
         final FaceNode faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR,
                                                 new BasicStroke( 1f ), LineGameConstants.FACE_COLOR.darker(), Color.BLACK, Color.BLACK );
@@ -259,7 +259,4 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
     // Creates the "answer" equation portion of the view.
     protected abstract EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color );
-
-    // Creates the graph portion of the view.
-    protected abstract MTE_GraphNode createGraphNode( MTE_Challenge challenge );
 }

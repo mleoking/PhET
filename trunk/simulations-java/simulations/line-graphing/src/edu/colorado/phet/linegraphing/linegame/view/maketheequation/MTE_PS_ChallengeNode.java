@@ -26,9 +26,4 @@ public abstract class MTE_PS_ChallengeNode extends MTE_ChallengeNode {
     @Override protected EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color ) {
         return new PointSlopeEquationNode( line, font, color );
     }
-
-    // Creates the graph portion of the view.
-    @Override protected MTE_GraphNode createGraphNode( MTE_Challenge challenge ) {
-        return new MTE_GraphNode( challenge );
-    }
 }
