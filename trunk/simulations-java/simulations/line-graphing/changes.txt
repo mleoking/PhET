@@ -1,3 +1,4 @@
+12/22/12 fix RewardNode.setLevel so that we have a perfect-score reward for all levels
 12/22/12 consolidate all game-model elements in one package
 12/22/12 flatten MTE_Challenge hierarchy to one class (model for "Make the Equation" challenges)
 12/22/12 flatten GTL_Challenge hierarchy to one class (model for "Graph the Line" challenges)
