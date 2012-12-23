@@ -24,7 +24,7 @@ public class LineGameConstants {
     // colors
     public static final Color TITLE_COLOR = Color.BLACK;
     public static final Color ANSWER_COLOR = new Color( 0, 180, 0 ); // color of the correct answer
-    public static final Color GUESS_COLOR = Color.BLACK;
+    public static final Color GUESS_COLOR = Color.BLACK; // color of the user's guess
     public static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     public static final Color POINTS_AWARDED_COLOR = Color.BLACK;
     public static final Color BUTTON_COLOR = Color.YELLOW;
