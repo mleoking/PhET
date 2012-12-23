@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -68,6 +69,7 @@ public class RewardNode extends PhetPNode {
     private final ArrayList<Image> equationImages;
     private final ArrayList<Image> pointToolImages;
     private final ArrayList<Image> smileyFaceImages;
+    private final ArrayList<Image> phetLogoImages;
 
     private final ArrayList<Image> imagePool; // images currently in use by the animation
 
@@ -129,6 +131,7 @@ public class RewardNode extends PhetPNode {
             equationImages = new ArrayList<Image>();
             pointToolImages = new ArrayList<Image>();
             smileyFaceImages = new ArrayList<Image>();
+            phetLogoImages = new ArrayList<Image>();
 
             Color[] colors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
             for ( Color color : colors ) {
@@ -142,6 +145,11 @@ public class RewardNode extends PhetPNode {
                 }
             }
 
+            // PhET logo
+            PNode phetLogoNode = new PImage( PhetCommonResources.getImage( "logos/phet-logo-120x50.jpg" ));
+            phetLogoNode.scale( 1.0 );
+            phetLogoImages.add( phetLogoNode.toImage() );
+
             // image pool, images that are in use by the animation
             imagePool = new ArrayList<Image>();
         }
@@ -154,11 +162,12 @@ public class RewardNode extends PhetPNode {
             }
         } );
 
-        // initial state, everything visible
+        // initial state, all image types visible
         setBounds( bounds );
         setGraphsVisible( true );
         setEquationsVisible( true );
         setPointToolsVisible( true );
+        setPhETLogosVisible( true );
         setSmileyFacesVisible( true );
     }
 
@@ -208,14 +217,17 @@ public class RewardNode extends PhetPNode {
 
     /**
      * Sets the animation parameters based on game difficulty level.
+     * Levels 1-5 each have one image; level 6 is all images.
      *
      * @param level
      */
     public void setLevel( int level ) {
-        setImagesVisible( equationImages, level == 1 );
-        setImagesVisible( graphImages, level == 2 );
-        setImagesVisible( pointToolImages, level == 3 );
-        setImagesVisible( smileyFaceImages, level > 3 );
+        assert( level >= 1 && level <= 6 );
+        setImagesVisible( equationImages, level == 1 || level == 6 );
+        setImagesVisible( graphImages, level == 2 || level == 6 );
+        setImagesVisible( pointToolImages, level == 3 || level == 6 );
+        setImagesVisible( smileyFaceImages, level == 4 || level == 6 );
+        setImagesVisible( phetLogoImages, level == 5 || level == 6 );
     }
 
     /**
@@ -299,6 +311,14 @@ public class RewardNode extends PhetPNode {
 
     private void setPointToolsVisible( boolean visible ) {
         setImagesVisible( pointToolImages, visible );
+    }
+
+    private boolean isPhETLogosVisible() {
+        return isImagesVisible( phetLogoImages );
+    }
+
+    private void setPhETLogosVisible( boolean visible ) {
+        setImagesVisible( phetLogoImages, visible );
     }
 
     private boolean isSmileyFacesVisible() {
@@ -550,6 +570,14 @@ public class RewardNode extends PhetPNode {
             }
         } );
 
+        final JCheckBox phetLogosCheckBox = new JCheckBox( "PhET logos" );
+        phetLogosCheckBox.setSelected( rewardNode.isPhETLogosVisible() );
+        phetLogosCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rewardNode.setPhETLogosVisible( phetLogosCheckBox.isSelected() );
+            }
+        } );
+
         final JCheckBox smileyFacesCheckBox = new JCheckBox( "smiley faces" );
         smileyFacesCheckBox.setSelected( rewardNode.isSmileyFacesVisible() );
         smileyFacesCheckBox.addActionListener( new ActionListener() {
@@ -563,6 +591,7 @@ public class RewardNode extends PhetPNode {
         objectsControlPanel.add( graphsCheckBox );
         objectsControlPanel.add( equationsCheckBox );
         objectsControlPanel.add( pointToolsCheckBox );
+        objectsControlPanel.add( phetLogosCheckBox );
         objectsControlPanel.add( smileyFacesCheckBox );
 
         final LinearValueControl populationControl = new LinearValueControl( populationRange.getMin(), populationRange.getMax(), "population:", "##0", "" );
