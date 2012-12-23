@@ -1,4 +1,4 @@
-Graphing: Linear Inequalities (design notes)
+Graphing Linear Inequalities (design notes)
 
 Requirements from 7/26/11 meeting:
 • slope-intercept format only (y = mx + b)
