@@ -3,7 +3,7 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- Game: for first incorrect guess, should we show the user's equation or plot their line?
+- Game: for first incorrect guess, should we show the user's equation (for GTL) or line (for MTE)?
 - P3P challenges: use similar but different colors for the 3 points?
 
 HIGH
