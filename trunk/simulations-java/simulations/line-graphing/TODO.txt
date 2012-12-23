@@ -13,6 +13,7 @@ HIGH
 
 MEDIUM
 - rise value on slope tool falls off left edge of play area in Point-Slope tab
+- slope tool rise/run can go off the graph for some game challenges
 
 LOW
 - implement RewardNode.setLevel so that we have unique rewards for each level
