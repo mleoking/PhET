@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -39,12 +38,7 @@ public class GTL_Challenge extends MatchChallenge {
     private final ObservableList<Line> allLines; // lines that are visible to the point tools
     private boolean answerVisible;
 
-    // Challenge with default title.
-    public GTL_Challenge( Line answer, LineForm lineForm, ManipulationMode manipulationMode ) {
-        this( answer, lineForm, manipulationMode, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
-    }
-
-    private GTL_Challenge( Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
+    public GTL_Challenge( Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
         super( answer, Line.Y_EQUALS_X_LINE );
 
         this.lineForm = lineForm;

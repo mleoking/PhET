@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -44,11 +43,7 @@ public class P3P_Challenge implements IChallenge {
     private final ObservableList<Line> allLines; // lines that are visible to the point tools
     private boolean answerVisible;
 
-    public P3P_Challenge( Line answer, LineForm lineForm ) {
-        this( answer, lineForm, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
-    }
-
-    private P3P_Challenge( Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
+    public P3P_Challenge( Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
 
         this.title = Strings.PLACE_THE_POINTS;
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );

@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.slope.model;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 
@@ -25,10 +24,10 @@ public class SlopeModel extends LineFormsModel {
         super( interactiveLine );
 
         // ranges
-        x1Range = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
-        y1Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
-        x2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
-        y2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
+        x1Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
+        y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+        x2Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
+        y2Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
 
         //NOTE: Unlike slope-intercept and point-slope, ranges do not need to be dynamically adjusted, because the points are free ranging.
     }
