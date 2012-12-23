@@ -31,9 +31,6 @@ DEVELOPER CONTROLS
 - "resample" to change the challenges for the current Game level
 - provide (or specify) a fixed set of challenges for Game testing
 
-DATA COLLECTION
-- instrument Game
-
 LOOSE ENDS
 - screenshot
 - model.txt
