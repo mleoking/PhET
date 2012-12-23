@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class SpinnerArrowNode extends PPath {
 
-    public static enum SpinnerArrowOrientation {UP, DOWN}
+    public static enum SpinnerArrowOrientation {UP, DOWN} // direction that the arrow points
 
     private static final PDimension BUTTON_SIZE = new PDimension( 26, 4 );
 

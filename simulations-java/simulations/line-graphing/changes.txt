@@ -1,3 +1,4 @@
+12/22/12 review and augment internal documentation
 12/22/12 verified that basic data-collection works for Game
 12/22/12 fix dynamic ranges for GTL challenges
 12/22/12 set initial guess for GTL and MTE challenges in a more general way

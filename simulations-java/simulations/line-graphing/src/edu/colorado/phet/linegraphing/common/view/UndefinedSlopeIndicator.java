@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * A translucent "X", to be placed over an interactive equation whose slope is undefined.
+ * A translucent "X", to be placed on top of an equation whose slope is undefined.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

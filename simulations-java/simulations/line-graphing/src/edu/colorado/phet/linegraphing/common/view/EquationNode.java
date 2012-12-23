@@ -66,7 +66,10 @@ public abstract class EquationNode extends PhetPNode {
      */
     protected EquationNode( int pointSize ) {
 
-        // Compute dimensions and layout offsets as percentages of the font's point size.
+        /*
+         * Compute dimensions and layout offsets as percentages of the font's point size.
+         * These multipliers were determined by laborious visual inspection.
+         */
         slopeSignYOffset = 0;
         slopeSignYFudgeFactor = 0.07 * pointSize;
         operatorYFudgeFactor = 0.07 * pointSize;
