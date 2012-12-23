@@ -13,7 +13,7 @@ HIGH
 
 MEDIUM
 - rise value on slope tool falls off left edge of play area in Point-Slope tab
-- slope tool rise/run can go off the graph for GTL challenges" "Set the y-Intercept", "Set the Point"
+- slope tool rise/run can go off the graph for GTL challenges that don't manipulate slope (ie, "Set the y-Intercept", "Set the Point")
 
 LOW
 - implement RewardNode.setLevel so that we have unique rewards for each level
