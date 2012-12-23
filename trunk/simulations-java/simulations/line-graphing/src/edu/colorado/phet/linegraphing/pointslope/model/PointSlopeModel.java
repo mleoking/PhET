@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 
@@ -26,10 +25,10 @@ public class PointSlopeModel extends LineFormsModel {
         super( interactiveLine );
 
         // ranges
-        x1Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
-        y1Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
-        riseRange = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
-        runRange = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
+        x1Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
+        y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+        riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+        runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
 
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
         this.interactiveLine.addObserver( new VoidFunction1<Line>() {

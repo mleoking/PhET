@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
  * Creates challenges for game level 1, as specified in the design document.
@@ -25,7 +26,7 @@ public class ChallengeFactory1 {
 
     private ChallengeFactory1() {}
 
-    public static IChallenge[] createChallenges() {
+    public static IChallenge[] createChallenges( IntegerRange xRange, IntegerRange yRange ) {
 
         IChallenge[] challenges = new IChallenge[6];
 
