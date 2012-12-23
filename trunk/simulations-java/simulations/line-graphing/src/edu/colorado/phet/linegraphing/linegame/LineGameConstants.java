@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
- * Constants related to the "Line Game" tab.
+ * Constants that are specific to the "Line Game" tab.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
