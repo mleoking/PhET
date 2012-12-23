@@ -1,3 +1,4 @@
+12/22/12 add support for 6 levels to game reward; PhET logo for level 5, all images for level 6
 12/22/12 smite inappropriate uses of constants for axes ranges
 12/22/12 started the basic outline of challenge generator for Level 1, see ChallengeFactory1
 12/22/12 review and augment internal documentation
