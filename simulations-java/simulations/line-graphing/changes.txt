@@ -1,3 +1,4 @@
+12/22/12 started the basic outline of challenge generator for Level 1, see ChallengeFactory1
 12/22/12 review and augment internal documentation
 12/22/12 verified that basic data-collection works for Game
 12/22/12 fix dynamic ranges for GTL challenges
