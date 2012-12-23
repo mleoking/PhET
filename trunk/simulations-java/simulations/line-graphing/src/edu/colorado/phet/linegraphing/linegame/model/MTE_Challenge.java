@@ -36,7 +36,7 @@ public class MTE_Challenge extends MatchChallenge {
     public final LineForm lineForm;
     public final ManipulationMode manipulationMode;
     public final PointTool pointTool1, pointTool2;
-    private final ObservableList<Line> allLines;
+    private final ObservableList<Line> allLines; // lines that are visible to the point tools
     private boolean answerVisible;
 
     // Challenge with default title.

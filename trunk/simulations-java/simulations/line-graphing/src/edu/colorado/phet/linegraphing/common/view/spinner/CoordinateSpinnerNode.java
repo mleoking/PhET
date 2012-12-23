@@ -13,13 +13,15 @@ import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator;
 
 /**
- * Spinner for one coordinate of a point that prevents the point from having the same value as some other point.
- * This is used to prevent the case where (x1,y1) == (x2,y2).
+ * Spinner for one coordinate of a point.
+ * It prevents the point from having the same value as some other point,
+ * so that we don't end up with with an undefined line because (x1,y1) == (x2,y2).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class CoordinateSpinnerNode extends SpinnerNode {
 
+    //TODO doc
     public CoordinateSpinnerNode( IUserComponent userComponent,
                                   final Property<Double> p1,
                                   final Property<Double> p2,

@@ -23,11 +23,13 @@ public class LineGameModule extends LGModule {
         setSimulationPanel( canvas );
     }
 
+    // Restart the game reward animation when activated.
     @Override public void activate() {
         super.activate();
         canvas.setRewardRunning( rewardWasRunning );
     }
 
+    // Stop the game reward animation when deactivated.
     @Override public void deactivate() {
         super.deactivate();
         rewardWasRunning = canvas.isRewardRunning();

@@ -36,12 +36,12 @@ public class P3P_Challenge implements IChallenge {
     public final Line answer;
     public final LineForm lineForm;
     public Property<Line> guess;
-    public final Property<Vector2D> p1, p2, p3; // points that the user places
+    public final Property<Vector2D> p1, p2, p3; // the 3 points that the user places
 
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
     public final Graph graph; // the graph that plots the lines
     public final PointTool pointTool1, pointTool2;
-    private final ObservableList<Line> allLines;
+    private final ObservableList<Line> allLines; // lines that are visible to the point tools
     private boolean answerVisible;
 
     public P3P_Challenge( Line answer, LineForm lineForm ) {

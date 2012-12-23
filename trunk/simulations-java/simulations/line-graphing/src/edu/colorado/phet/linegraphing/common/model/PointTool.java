@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class PointTool implements Resettable {
 
-    public static enum Orientation {UP, DOWN}
+    public static enum Orientation {UP, DOWN} // direction that the tool points
 
     public final Property<Vector2D> location;
     public final Orientation orientation;
