@@ -1,3 +1,4 @@
+12/22/12 fix dynamic ranges for GTL challenges
 12/22/12 set initial guess for GTL and MTE challenges in a more general way
 12/22/12 add slope manipulator for dissimilar line forms
 12/22/12 throw exception if an unsupported LineForm or ManipulationMode is encountered

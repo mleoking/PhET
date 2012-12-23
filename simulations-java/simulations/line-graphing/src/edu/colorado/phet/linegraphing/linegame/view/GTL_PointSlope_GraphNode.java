@@ -45,10 +45,11 @@ class GTL_PointSlope_GraphNode extends GTL_GraphNode {
         answerNode.setVisible( false );
 
         // dynamic ranges
+        final PointSlopeParameterRange pointSlopeParameterRange = new PointSlopeParameterRange();
         final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( challenge.graph.xRange ) );
         final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( challenge.graph.yRange ) );
-        final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( challenge.graph.yRange ) );
-        final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( challenge.graph.xRange ) );
+        final Property<DoubleRange> riseRange = new Property<DoubleRange>( pointSlopeParameterRange.rise( challenge.guess.get(), challenge.graph ) );
+        final Property<DoubleRange> runRange = new Property<DoubleRange>( pointSlopeParameterRange.run( challenge.guess.get(), challenge.graph ) );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
 
@@ -65,7 +66,8 @@ class GTL_PointSlope_GraphNode extends GTL_GraphNode {
         // slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                          slopeManipulatorNode, challenge.mvt, challenge.guess, riseRange, runRange ) );
+                                                                          slopeManipulatorNode, challenge.mvt, challenge.guess,
+                                                                          riseRange, runRange ) );
 
         // Rendering order
         addLineNode( guessNodeParent );
@@ -76,7 +78,7 @@ class GTL_PointSlope_GraphNode extends GTL_GraphNode {
         else {
             addManipulatorNode( pointNode );
         }
-        if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.POINT_SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
+        if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.POINT_SLOPE ) {
             addManipulatorNode( slopeManipulatorNode );
         }
 
@@ -96,11 +98,13 @@ class GTL_PointSlope_GraphNode extends GTL_GraphNode {
                 slopeManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
 
                 // adjust ranges
-                final PointSlopeParameterRange pointSlopeParameterRange = new PointSlopeParameterRange();
-                x1Range.set( pointSlopeParameterRange.x1( line, challenge.graph ) );
-                y1Range.set( pointSlopeParameterRange.y1( line, challenge.graph ) );
-                riseRange.set( pointSlopeParameterRange.rise( line, challenge.graph ) );
-                runRange.set( pointSlopeParameterRange.run( line, challenge.graph ) );
+                if ( challenge.manipulationMode == ManipulationMode.POINT_SLOPE ) {
+                    final PointSlopeParameterRange pointSlopeParameterRange = new PointSlopeParameterRange();
+                    x1Range.set( pointSlopeParameterRange.x1( line, challenge.graph ) );
+                    y1Range.set( pointSlopeParameterRange.y1( line, challenge.graph ) );
+                    riseRange.set( pointSlopeParameterRange.rise( line, challenge.graph ) );
+                    runRange.set( pointSlopeParameterRange.run( line, challenge.graph ) );
+                }
             }
         } );
     }

@@ -43,7 +43,9 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
         answerNode.setVisible( false );
 
         // dynamic ranges
-        final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( challenge.graph.yRange ) );
+        SlopeInterceptParameterRange parameterRange = new SlopeInterceptParameterRange();
+        final Property<DoubleRange> riseRange = new Property<DoubleRange>( parameterRange.rise( challenge.guess.get(), challenge.graph ) );
+        final Property<DoubleRange> runRange = new Property<DoubleRange>( parameterRange.run( challenge.guess.get(), challenge.graph ) );
         final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( challenge.graph.yRange ) );
 
         // line manipulators
@@ -53,8 +55,7 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                           slopeManipulatorNode, challenge.mvt, challenge.guess,
-                                                                          riseRange,
-                                                                          new Property<DoubleRange>( new DoubleRange( challenge.graph.xRange ) ) ) );
+                                                                          riseRange, runRange ) );
 
         // point (y-intercept) manipulator
         interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
@@ -76,7 +77,7 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
         else {
             addManipulatorNode( interceptNode );
         }
-        if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT || challenge.manipulationMode == ManipulationMode.POINT_SLOPE ) {
+        if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
             addManipulatorNode( slopeManipulatorNode );
         }
 
@@ -96,9 +97,11 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
                 interceptNode.setOffset( interceptManipulatorNode.getOffset() );
 
                 // adjust ranges
-                SlopeInterceptParameterRange parameterRange = new SlopeInterceptParameterRange();
-                riseRange.set( parameterRange.rise( line, challenge.graph ) );
-                y1Range.set( parameterRange.y1( line, challenge.graph ) );
+                if ( challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
+                    SlopeInterceptParameterRange parameterRange = new SlopeInterceptParameterRange();
+                    riseRange.set( parameterRange.rise( line, challenge.graph ) );
+                    y1Range.set( parameterRange.y1( line, challenge.graph ) );
+                }
             }
         } );
     }
