@@ -51,36 +51,21 @@ public class MTE_Challenge extends MatchChallenge {
         this.manipulationMode = manipulationMode;
 
         // Adjust the title and initial state of the guess.
-        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
-            if ( manipulationMode == ManipulationMode.SLOPE ) {
-                title = Strings.SET_THE_SLOPE;
-                guess.set( Line.createSlopeIntercept( 1, 1, answer.y1 ) );
-            }
-            else if ( manipulationMode == ManipulationMode.INTERCEPT ) {
-                title = Strings.SET_THE_Y_INTERCEPT;
-                guess.set( Line.createSlopeIntercept( answer.rise, answer.run, 0 ) );
-            }
-            else {
-                title = Strings.MAKE_THE_EQUATION;
-                // default guess is fine
-            }
+        if ( manipulationMode == ManipulationMode.SLOPE ) {
+            title = Strings.SET_THE_SLOPE;
+            guess.set( Line.createPointSlope( answer.x1, answer.y1, 1, 1 ) );
         }
-        else if ( lineForm == LineForm.POINT_SLOPE ) {
-            if ( manipulationMode == ManipulationMode.POINT ) {
-                title = Strings.SET_THE_POINT;
-                guess.set( Line.createPointSlope( 0, 0, answer.rise, answer.run ) );
-            }
-            else if ( manipulationMode == ManipulationMode.SLOPE ) {
-                title = Strings.SET_THE_SLOPE;
-                guess.set( Line.createPointSlope( answer.x1, answer.y1, 1, 1 ) );
-            }
-            else {
-                title = Strings.MAKE_THE_EQUATION;
-                // default guess is fine
-            }
+        else if ( manipulationMode == ManipulationMode.INTERCEPT ) {
+            title = Strings.SET_THE_Y_INTERCEPT;
+            guess.set( Line.createSlopeIntercept( answer.rise, answer.run, 0 ) );
+        }
+        else if ( manipulationMode == ManipulationMode.POINT ) {
+            title = Strings.SET_THE_POINT;
+            guess.set( Line.createPointSlope( 0, 0, answer.rise, answer.run ) );
         }
         else {
-            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
+            title = Strings.MAKE_THE_EQUATION;
+            // default line is fine
         }
 
         final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units
