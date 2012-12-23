@@ -1,1 +1,13 @@
-TODO: write implementation notes
+********************************** Graphing Lines simulation ***************************************
+
+1. General
+
+2. Slope tab
+
+3. Slope-Intercept tab
+
+4. Point-Slope tab
+
+5. Line Game tab
+
+****************************************************************************************************
