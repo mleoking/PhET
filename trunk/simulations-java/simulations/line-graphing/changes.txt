@@ -1,3 +1,4 @@
+12/27/12 move most (but not all) duplicate code into ChallengeNode base class
 12/27/12 delete redundant visibility updates in Check button handler
 12/27/12 move visibility changes into model game-state observer
 12/27/12 move title creation to ChallengeNode base class
