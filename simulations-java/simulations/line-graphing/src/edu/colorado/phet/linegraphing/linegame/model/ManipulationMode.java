@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 /**
  * Modes of manipulation that are provided by Game challenges.
+ * These indicate which properties of a line the user is able to change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
