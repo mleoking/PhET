@@ -8,5 +8,5 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ChallengeNode extends PhetPNode {
+public abstract class ChallengeNode extends PhetPNode {
 }
