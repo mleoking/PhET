@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -27,31 +28,30 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class P3P_ChallengeNode extends ChallengeNode {
 
+    private EquationBoxNode guessBoxNode;
+
     public P3P_ChallengeNode( final LineGameModel model, final P3P_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );
 
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
 
-        // The equation for the answer.
-        final PNode answerBoxNode = new EquationBoxNode( Strings.LINE_TO_GRAPH, challenge.answer.color, boxSize,
-                                                         createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+        // Answer
+        final EquationBoxNode answerBoxNode = new EquationBoxNode( Strings.LINE_TO_GRAPH, challenge.answer.color, boxSize,
+                                                                   createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
-        // The equation for the current guess will be a child of this node, to maintain rendering order.
-        final PNode guessEquationParent = new PNode();
-        guessEquationParent.setVisible( false );
+        // Guess
+        guessBoxNode = null;
 
+        // Graph
         final P3P_GraphNode graphNode = new P3P_GraphNode( challenge );
 
         // rendering order
         {
             subclassParent.addChild( graphNode );
             subclassParent.addChild( answerBoxNode );
-            subclassParent.addChild( guessEquationParent );
         }
 
         // layout
-        final int iconXMargin = 10;
-        final int iconYMargin = 5;
         {
             // graphNode is positioned automatically based on mvt's origin offset.
 
@@ -59,40 +59,45 @@ public class P3P_ChallengeNode extends ChallengeNode {
             answerBoxNode.setOffset( ( challengeSize.getWidth() / 2 ) - answerBoxNode.getFullBoundsReference().getWidth() - 40,
                                      graphNode.getFullBoundsReference().getMinY() + 70 );
 
-            // correct/incorrect icons in upper-right corner of equation boxes
-            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMaxX() - answerCorrectNode.getFullBoundsReference().getWidth() - iconXMargin,
-                                         answerBoxNode.getFullBoundsReference().getMinY() + iconYMargin );
-
             // face centered below equation boxes
             faceNode.setOffset( answerBoxNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
                                 checkButton.getFullBoundsReference().getMaxY() - faceNode.getFullBoundsReference().getHeight() );
         }
 
-        // Function that keeps the guess equation updated as the user manipulates the points.
+        // Update visibility of the correct/incorrect icons.
+        final VoidFunction0 updateIcons = new VoidFunction0() {
+            public void apply() {
+                answerBoxNode.setCorrectIconVisible( model.state.get() == PlayState.NEXT );
+                if ( guessBoxNode != null ) {
+                    guessBoxNode.setCorrectIconVisible( model.state.get() == PlayState.NEXT && challenge.isCorrect() );
+                    guessBoxNode.setIncorrectIconVisible( model.state.get() == PlayState.NEXT && !challenge.isCorrect() );
+                }
+            }
+        };
+
+        // sync with guess
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
 
-                // update the equation
-                guessEquationParent.removeAllChildren();
-                PNode equationNode;
-                if ( line == null ) {
-                    equationNode = new PhetPText( Strings.NOT_A_LINE, new PhetFont( Font.BOLD, 24 ), LineGameConstants.GUESS_COLOR );
+                // update the equation (line may be null if points don't make a line)
+                if ( guessBoxNode != null ) {
+                    subclassParent.removeChild( guessBoxNode );
+                    guessBoxNode = null;
                 }
-                else {
-                    equationNode = createEquationNode( challenge.lineForm, line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR );
+                if ( line != null ) {
+                    guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, line.color, boxSize,
+                                                        createEquationNode( challenge.lineForm, line, LineGameConstants.STATIC_EQUATION_FONT, line.color ) );
+                    guessBoxNode.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
+                    subclassParent.addChild( guessBoxNode );
+                    guessBoxNode.setVisible( model.state.get() == PlayState.NEXT );
                 }
-                guessEquationParent.addChild( new EquationBoxNode( Strings.YOUR_LINE, LineGameConstants.GUESS_COLOR, boxSize, equationNode ) );
-                guessEquationParent.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
 
-                // keep icons in correct place on box
-                guessCorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMaxX() - guessCorrectNode.getFullBoundsReference().getWidth() - iconXMargin,
-                                            guessEquationParent.getFullBoundsReference().getMinY() + iconYMargin );
-                guessIncorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMaxX() - guessIncorrectNode.getFullBoundsReference().getWidth() - iconXMargin,
-                                              guessEquationParent.getFullBoundsReference().getMinY() + iconYMargin );
+                // visibility of correct/incorrect icons
+                updateIcons.apply();
             }
         } );
 
-        // state changes
+        // sync with game state
         model.state.addObserver( new VoidFunction1<PlayState>() {
             public void apply( PlayState state ) {
 
@@ -101,8 +106,13 @@ public class P3P_ChallengeNode extends ChallengeNode {
                 graphNode.setChildrenPickable( graphNode.getPickable() );
 
                 // Show all equations and lines at the end of the challenge.
-                guessEquationParent.setVisible( state == PlayState.NEXT );
+                if ( guessBoxNode != null ) {
+                    guessBoxNode.setVisible( state == PlayState.NEXT );
+                }
                 graphNode.setAnswerVisible( state == PlayState.NEXT );
+
+                // visibility of correct/incorrect icons
+                updateIcons.apply();
             }
         } );
     }

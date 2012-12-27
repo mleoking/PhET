@@ -11,22 +11,18 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.MatchChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -37,7 +33,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Subclasses are responsible for:
  * <li>
  * <ul>providing the nodes for graph and equations</ul>
- * <ul>positioning the "correct" and "incorrect" icons</ul>
  * <ul>positioning faceNode</ul>
  * </li>
  *
@@ -47,7 +42,6 @@ public abstract class ChallengeNode extends PhetPNode {
 
     protected final FaceNode faceNode;
     protected final PText pointsAwardedNode;
-    protected final PNode answerCorrectNode, guessCorrectNode, guessIncorrectNode;
     protected final TextButtonNode checkButton;
     protected final PNode subclassParent; // subclasses should add children to this node, to preserve rendering order
 
@@ -63,11 +57,6 @@ public abstract class ChallengeNode extends PhetPNode {
 
         // points awarded
         pointsAwardedNode = new PhetPText( "", LineGameConstants.POINTS_AWARDED_FONT, LineGameConstants.POINTS_AWARDED_COLOR );
-
-        // icons for indicating correct vs incorrect
-        answerCorrectNode = new PImage( Images.CHECK_MARK );
-        guessCorrectNode = new PImage( Images.CHECK_MARK );
-        guessIncorrectNode = new PImage( Images.X_MARK );
 
         // buttons
         final Font buttonFont = LineGameConstants.BUTTON_FONT;
@@ -103,9 +92,6 @@ public abstract class ChallengeNode extends PhetPNode {
             addChild( pointToolParent );
             addChild( faceNode );
             addChild( pointsAwardedNode );
-            addChild( answerCorrectNode );
-            addChild( guessCorrectNode );
-            addChild( guessIncorrectNode );
         }
 
         // layout
@@ -168,15 +154,6 @@ public abstract class ChallengeNode extends PhetPNode {
             }
         } );
 
-        // Update visibility of the correct/incorrect icons.
-        final VoidFunction0 updateIcons = new VoidFunction0() {
-            public void apply() {
-                answerCorrectNode.setVisible( model.state.get() == PlayState.NEXT );
-                guessCorrectNode.setVisible( answerCorrectNode.getVisible() && challenge.isCorrect() );
-                guessIncorrectNode.setVisible( answerCorrectNode.getVisible() && !challenge.isCorrect() );
-            }
-        };
-
         // state changes
         model.state.addObserver( new VoidFunction1<PlayState>() {
             public void apply( PlayState state ) {
@@ -194,15 +171,6 @@ public abstract class ChallengeNode extends PhetPNode {
                 tryAgainButton.setVisible( state == PlayState.TRY_AGAIN );
                 showAnswerButton.setVisible( state == PlayState.SHOW_ANSWER );
                 nextButton.setVisible( state == PlayState.NEXT );
-
-                // visibility of correct/incorrect icons
-                updateIcons.apply();
-            }
-        } );
-
-        challenge.guess.addObserver( new VoidFunction1<Line>() {
-            public void apply( Line line ) {
-                updateIcons.apply();
             }
         } );
     }

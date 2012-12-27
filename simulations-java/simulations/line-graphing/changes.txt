@@ -1,3 +1,4 @@
+12/27/12 move correct/incorrect icons into EquationBoxNode
 12/27/12 move more duplicated code into ChallengeNode base class
 12/27/12 standardize rendering order in ChallengeNode subclasses
 12/27/12 move most (but not all) duplicate code into ChallengeNode base class
