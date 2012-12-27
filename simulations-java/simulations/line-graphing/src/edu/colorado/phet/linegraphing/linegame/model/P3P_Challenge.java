@@ -68,8 +68,10 @@ public class P3P_Challenge extends MatchChallenge {
     // Updates the collection of lines that are "seen" by the point tools.
     @Override protected void updatePointToolLines() {
         pointToolLines.clear();
-        pointToolLines.add( answer );
-        if ( answerVisible && guess.get() != null ) {
+        if ( answerVisible ) {
+            pointToolLines.add( answer );
+        }
+        if ( guess.get() != null ) {
             pointToolLines.add( guess.get() );
         }
     }

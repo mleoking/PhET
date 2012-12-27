@@ -33,10 +33,10 @@ public class GTL_Challenge extends MatchChallenge {
     // Updates the collection of lines that are "seen" by the point tools.
     @Override protected void updatePointToolLines() {
         pointToolLines.clear();
-        pointToolLines.add( guess.get() );
         if ( answerVisible ) {
             pointToolLines.add( answer );
         }
+        pointToolLines.add( guess.get() );
     }
 
     // Creates the view that corresponds to the lineForm and manipulationMode.

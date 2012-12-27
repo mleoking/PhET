@@ -71,7 +71,6 @@ public abstract class MatchChallenge implements IChallenge {
 
         // Point tools
         pointToolLines = new ObservableList<Line>();
-        pointToolLines.add( this.guess.get() );
         this.pointTool1 = new PointTool( pointToolLocation1, Orientation.UP, pointToolLines );
         this.pointTool2 = new PointTool( pointToolLocation2, Orientation.DOWN, pointToolLines );
 

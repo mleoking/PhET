@@ -1,3 +1,4 @@
+12/27/12 standardize order of lines that are provided to point tool
 12/27/12 move enums to top-level class files
 12/27/12 improve model sync in P3P_GraphNode
 12/27/12 move duplicate code into GTL_GraphNode base class
