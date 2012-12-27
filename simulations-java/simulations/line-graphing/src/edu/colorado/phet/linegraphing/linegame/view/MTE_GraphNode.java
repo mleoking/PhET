@@ -38,7 +38,6 @@ public class MTE_GraphNode extends GraphNode {
         LineNode answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
 
         // Slope tool
-        final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( 0.85 );
         slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt );
 
         // Rendering order
