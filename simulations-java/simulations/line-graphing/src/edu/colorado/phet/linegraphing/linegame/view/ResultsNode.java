@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
+import edu.colorado.phet.linegraphing.linegame.model.GamePhase;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
