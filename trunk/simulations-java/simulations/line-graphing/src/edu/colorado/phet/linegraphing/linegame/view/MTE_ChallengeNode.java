@@ -7,6 +7,8 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
@@ -36,16 +38,17 @@ public class MTE_ChallengeNode extends ChallengeNode {
 
         final double boxWidth = 0.4 * challengeSize.getWidth();
 
-        // The equation for the user's guess.
-        final PNode guessBoxNode = new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
-                                                        createGuessEquationNode( challenge.lineForm, challenge.manipulationMode, challenge.guess, challenge.graph,
-                                                                                 LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
-                                                                                 challenge.guess.get().color ) );
+        // Answer
+        final EquationBoxNode answerBoxNode = new EquationBoxNode( Strings.CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
+                                                                   createAnswerEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
-        // The equation for the correct answer.
-        final PNode answerBoxNode = new EquationBoxNode( Strings.CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
-                                                         createAnswerEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+        // Guess
+        final EquationBoxNode guessBoxNode = new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
+                                                                  createGuessEquationNode( challenge.lineForm, challenge.manipulationMode, challenge.guess, challenge.graph,
+                                                                                           LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
+                                                                                           challenge.guess.get().color ) );
 
+        // Graph
         final MTE_GraphNode graphNode = new MTE_GraphNode( challenge );
 
         // rendering order
@@ -56,8 +59,6 @@ public class MTE_ChallengeNode extends ChallengeNode {
         }
 
         // layout
-        final int iconXMargin = 10;
-        final int iconYMargin = 5;
         {
             // graphNode is positioned automatically based on mvt's origin offset.
 
@@ -67,14 +68,6 @@ public class MTE_ChallengeNode extends ChallengeNode {
 
             // answer below guess
             answerBoxNode.setOffset( guessBoxNode.getXOffset(), guessBoxNode.getFullBoundsReference().getMaxY() + 20 );
-
-            // correct/incorrect icons are in upper-right corners of equation boxes
-            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMaxX() - answerCorrectNode.getFullBoundsReference().getWidth() - iconXMargin,
-                                         answerBoxNode.getFullBoundsReference().getMinY() + iconYMargin );
-            guessCorrectNode.setOffset( guessBoxNode.getFullBoundsReference().getMaxX() - guessCorrectNode.getFullBoundsReference().getWidth() - iconXMargin,
-                                        guessBoxNode.getFullBoundsReference().getMinY() + iconYMargin );
-            guessIncorrectNode.setOffset( guessBoxNode.getFullBoundsReference().getMaxX() - guessIncorrectNode.getFullBoundsReference().getWidth() - iconXMargin,
-                                          guessBoxNode.getFullBoundsReference().getMinY() + iconYMargin );
 
             // face centered below equation boxes
             faceNode.setOffset( answerBoxNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
@@ -90,7 +83,24 @@ public class MTE_ChallengeNode extends ChallengeNode {
             devAnswerNode.moveToBack();
         }
 
-        // state changes
+        // Update visibility of the correct/incorrect icons.
+        final VoidFunction0 updateIcons = new VoidFunction0() {
+            public void apply() {
+                answerBoxNode.setCorrectIconVisible( model.state.get() == PlayState.NEXT );
+                guessBoxNode.setCorrectIconVisible( model.state.get() == PlayState.NEXT && challenge.isCorrect() );
+                guessBoxNode.setIncorrectIconVisible( model.state.get() == PlayState.NEXT && !challenge.isCorrect() );
+            }
+        };
+
+        // sync with guess
+        challenge.guess.addObserver( new SimpleObserver() {
+            public void update() {
+                // visibility of correct/incorrect icons
+                updateIcons.apply();
+            }
+        } );
+
+        // sync with game state
         model.state.addObserver( new VoidFunction1<PlayState>() {
             public void apply( PlayState state ) {
 
@@ -104,6 +114,9 @@ public class MTE_ChallengeNode extends ChallengeNode {
 
                 // slope tool visible when user got it wrong
                 graphNode.setSlopeToolVisible( state == PlayState.NEXT && !challenge.isCorrect() );
+
+                // visibility of correct/incorrect icons
+                updateIcons.apply();
             }
         } );
     }
