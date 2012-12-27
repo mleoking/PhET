@@ -17,8 +17,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class MTE_GraphNode extends GraphNode {
 
-    private final PNode guessNodeParent;
-    private final PNode slopeToolNode;
+    private final PNode guessNodeParent, slopeToolNode;
 
     public MTE_GraphNode( final MTE_Challenge challenge ) {
         super( challenge.graph, challenge.mvt );
@@ -32,7 +31,7 @@ public class MTE_GraphNode extends GraphNode {
         guessNodeParent.setVisible( false );
 
         // the correct answer
-        LineNode answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
+        PNode answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
 
         // Slope tool
         slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt );
