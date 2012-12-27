@@ -22,8 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class GTL_GraphNode extends GraphNode {
 
-    private final LineNode answerNode;
-    private final PNode slopeToolNode;
+    private final PNode answerNode, slopeToolNode;
 
     public GTL_GraphNode( final GTL_Challenge challenge ) {
         super( challenge.graph, challenge.mvt );

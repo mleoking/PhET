@@ -28,7 +28,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class P3P_GraphNode extends GraphNode {
 
-    private final LineNode answerNode;
+    private final PNode answerNode;
     private final LineManipulatorNode p1ManipulatorNode, p2ManipulatorNode, p3ManipulatorNode;
 
     public P3P_GraphNode( final P3P_Challenge challenge ) {
