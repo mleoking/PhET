@@ -136,7 +136,6 @@ public class Air implements ThermalEnergyContainer {
                 double thermalEnergyGained = ((Beaker)energyContainer).getEnergyBeyondBoiling();
                 energyContainer.changeEnergy( -thermalEnergyGained );
                 changeEnergy( thermalEnergyGained );
-                System.out.println( "Water boiling, thermalEnergyGained = " + thermalEnergyGained );
             }
             else if ( Math.abs( energyContainer.getTemperature() - getTemperature() ) > EFACConstants.TEMPERATURES_EQUAL_THRESHOLD ) {
                 // Exchange energy between the air and the energy container.

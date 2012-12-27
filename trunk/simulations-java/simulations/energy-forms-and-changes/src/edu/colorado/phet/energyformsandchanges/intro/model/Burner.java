@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
@@ -52,6 +53,9 @@ public class Burner extends ModelElement {
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
     private final BooleanProperty isSomethingOnTop = new BooleanProperty( false );
+
+    // Track energy transferred to anything sitting on the burner.
+    private double energyExchangedWithObjectSinceLastChunkTransfer = 0;
 
     // Track build up of energy for transferring chunks to/from the air.
     private double energyExchangedWithAirSinceLastChunkTransfer = 0;
@@ -90,6 +94,15 @@ public class Burner extends ModelElement {
                 }
             }
         } );
+
+        // Clear the accumulated energy transfer if thing is removed from burner.
+        isSomethingOnTop.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean somethingOnTop ) {
+                if ( !somethingOnTop ) {
+                    energyExchangedWithObjectSinceLastChunkTransfer = 0;
+                }
+            }
+        } );
     }
 
     //-------------------------------------------------------------------------
@@ -113,19 +126,28 @@ public class Burner extends ModelElement {
         return topSurface;
     }
 
-    public void addOrRemoveEnergy( ThermalEnergyContainer thermalEnergyContainer, double dt ) {
+    /**
+     * Interact with a thermal energy container, adding or removing energy
+     * based on the current heat/cool setting.
+     *
+     * @param thermalEnergyContainer Model object that will get or give energy.
+     * @param dt                     Amount of time (delta time).
+     */
+    public void addOrRemoveEnergyToFromObject( ThermalEnergyContainer thermalEnergyContainer, double dt ) {
         assert !( thermalEnergyContainer instanceof Air );  // This shouldn't be used for air - there is a specific method for that.
         if ( inContactWith( thermalEnergyContainer ) ) {
-            thermalEnergyContainer.changeEnergy( MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt );
+            double deltaEnergy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
+            thermalEnergyContainer.changeEnergy( deltaEnergy );
+            energyExchangedWithObjectSinceLastChunkTransfer += deltaEnergy;
         }
     }
 
     public void addOrRemoveEnergyToFromAir( Air air, double dt ) {
+        // TODO: Consolidate with other energy exchange method.
         double deltaEnergy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
         air.changeEnergy( deltaEnergy );
         energyExchangedWithAirSinceLastChunkTransfer += deltaEnergy;
     }
-
 
     public boolean inContactWith( ThermalEnergyContainer thermalEnergyContainer ) {
         Rectangle2D containerThermalArea = thermalEnergyContainer.getThermalContactArea().getBounds();
@@ -139,6 +161,7 @@ public class Burner extends ModelElement {
         energyChunkList.add( ec );
         energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, getEnergyChunkStartEndPoint() ) );
         energyExchangedWithAirSinceLastChunkTransfer = 0;
+        energyExchangedWithObjectSinceLastChunkTransfer = 0;
     }
 
     private Vector2D getEnergyChunkStartEndPoint() {
@@ -174,6 +197,7 @@ public class Burner extends ModelElement {
 
         if ( closestEnergyChunk != null ) {
             energyExchangedWithAirSinceLastChunkTransfer = 0;
+            energyExchangedWithObjectSinceLastChunkTransfer = 0;
         }
         else {
             System.out.println( getClass().getName() + " - Warning: Request for energy chunk from burner when not in heat mode and no chunks contained, returning null." );
@@ -191,6 +215,7 @@ public class Burner extends ModelElement {
         energyChunkList.clear();
         energyChunkWanderControllers.clear();
         energyExchangedWithAirSinceLastChunkTransfer = 0;
+        energyExchangedWithObjectSinceLastChunkTransfer = 0;
     }
 
     /**
@@ -295,6 +320,18 @@ public class Burner extends ModelElement {
 
     public double getTemperature() {
         return EFACConstants.ROOM_TEMPERATURE + heatCoolLevel.get() * 100;
+    }
+
+    /**
+     * Get the number of excess of deficit energy chunks for interaction with
+     * thermal objects (as opposed to air).
+     *
+     * @return Number of energy chunks that could be supplied or consumed.
+     *         Negative value indicates that chunks should come in.
+     */
+    public int getEnergyChunkBalanceWithObjects() {
+//        return (int) ( Math.floor( Math.abs( energyExchangedWithObjectSinceLastChunkTransfer ) / EFACConstants.ENERGY_PER_CHUNK ) * Math.signum( energyExchangedWithObjectSinceLastChunkTransfer ) );
+        return (int) ( Math.floor( Math.abs( energyExchangedWithObjectSinceLastChunkTransfer ) / 5000 ) * Math.signum( energyExchangedWithObjectSinceLastChunkTransfer ) );
     }
 
     public boolean canSupplyEnergyChunk() {

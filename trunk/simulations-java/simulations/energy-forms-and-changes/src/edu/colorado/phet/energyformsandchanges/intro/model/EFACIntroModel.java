@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -217,12 +216,12 @@ public class EFACIntroModel implements ITemperatureModel {
             }
         }
 
-        // Exchange thermal energy between the burners and the various movable
-        // thermal energy containers.
+        // Exchange thermal energy between the burners and the other thermal
+        // model elements, including air.
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
             if ( burner.areAnyOnTop( ironBlock, brick, beaker ) ) {
                 for ( ThermalEnergyContainer movableThermalEnergyContainer : movableThermalEnergyContainers ) {
-                    burner.addOrRemoveEnergy( movableThermalEnergyContainer, dt );
+                    burner.addOrRemoveEnergyToFromObject( movableThermalEnergyContainer, dt );
                 }
             }
             else {
@@ -234,12 +233,24 @@ public class EFACIntroModel implements ITemperatureModel {
         // Exchange energy chunks between burners and non-air energy containers.
         for ( RectangularThermalMovableModelElement thermalModelElement : Arrays.asList( ironBlock, brick, beaker ) ) {
             for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
-                if ( thermalModelElement.getSystemEnergyChunkBalance() < 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
+                // TODO: This is the problem.  Shouldn't be pushing in energy
+                // chunks based on energy chunk balance, but on how many chunks
+                // worth of energy that the burner has added or removed.
+                if ( burner.getEnergyChunkBalanceWithObjects() > 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
+                    // Give the item on the burner an energy chunk (whether it
+                    // needs one or not).
                     thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
                 }
-                else if ( thermalModelElement.getSystemEnergyChunkBalance() > 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
+                else if ( burner.getEnergyChunkBalanceWithObjects() < 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
+                    // Extract an energy chunk from the model element.
                     burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getFlameIceRect() ) );
                 }
+//                if ( thermalModelElement.getSystemEnergyChunkBalance() < 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
+//                    thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
+//                }
+//                else if ( thermalModelElement.getSystemEnergyChunkBalance() > 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
+//                    burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getFlameIceRect() ) );
+//                }
             }
         }
 
