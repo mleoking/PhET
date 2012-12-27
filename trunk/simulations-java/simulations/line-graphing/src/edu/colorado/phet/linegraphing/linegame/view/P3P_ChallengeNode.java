@@ -41,8 +41,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class P3P_ChallengeNode extends ChallengeNode {
 
     public P3P_ChallengeNode( final LineGameModel model, final P3P_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-
-        PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
+        super( challenge, challengeSize );
 
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
 
@@ -88,7 +87,6 @@ public class P3P_ChallengeNode extends ChallengeNode {
 
         // rendering order
         {
-            addChild( titleNode );
             addChild( answerBoxNode );
             addChild( answerCorrectNode );
             addChild( guessEquationParent );
@@ -109,10 +107,6 @@ public class P3P_ChallengeNode extends ChallengeNode {
         final int iconXMargin = 10;
         final int iconYMargin = 5;
         {
-            // title centered at top
-            titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 10 );
-
             // equation in left half of challenge space
             answerBoxNode.setOffset( ( challengeSize.getWidth() / 2 ) - answerBoxNode.getFullBoundsReference().getWidth() - 40,
                                      graphNode.getFullBoundsReference().getMinY() + 70 );

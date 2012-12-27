@@ -47,8 +47,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class MTE_ChallengeNode extends ChallengeNode {
 
     public MTE_ChallengeNode( final LineGameModel model, final MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-
-        PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
+        super( challenge, challengeSize );
 
         final double boxWidth = 0.4 * challengeSize.getWidth();
 
@@ -96,7 +95,6 @@ public class MTE_ChallengeNode extends ChallengeNode {
 
         // rendering order
         {
-            addChild( titleNode );
             addChild( answerBoxNode );
             addChild( guessBoxNode );
             addChild( graphNode );
@@ -116,9 +114,6 @@ public class MTE_ChallengeNode extends ChallengeNode {
         final int iconXMargin = 10;
         final int iconYMargin = 5;
         {
-            // title centered at top
-            titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 10 );
-
             // guess equation in right half of challenge space
             guessBoxNode.setOffset( ( 0.75 * challengeSize.getWidth() ) - ( guessBoxNode.getFullBoundsReference().getWidth() / 2 ) + 10,
                                     graphNode.getFullBoundsReference().getMinY() + 50 );
