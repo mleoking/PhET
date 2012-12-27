@@ -97,24 +97,28 @@ public abstract class MatchChallenge implements IChallenge {
     // Updates the collection of lines that are "seen" by the point tools.
     protected abstract void updatePointToolLines();
 
-    // Creates an initial guess.
+    // Creates an initial guess, based on the answer and what the user can manipulate..
     protected static Line createInitialGuess( Line answer, ManipulationMode manipulationMode ) {
         if ( manipulationMode == ManipulationMode.SLOPE ) {
+            // slope is variable, so use the answer's point
             return Line.createPointSlope( answer.x1, answer.y1, 1, 1, LineGameConstants.GUESS_COLOR );
         }
         else if ( manipulationMode == ManipulationMode.INTERCEPT ) {
+            // intercept is variable, so use the answer's slope
             return Line.createSlopeIntercept( answer.rise, answer.run, 0, LineGameConstants.GUESS_COLOR );
         }
         else if ( manipulationMode == ManipulationMode.POINT ) {
+            // point is variable, so use the answer's slope
             return Line.createPointSlope( 0, 0, answer.rise, answer.run, LineGameConstants.GUESS_COLOR );
         }
         else {
+            // in all other cases, use the standard line y=x
             return Line.Y_EQUALS_X_LINE.withColor( LineGameConstants.GUESS_COLOR );
         }
     }
 
     // Creates a standard title for the challenge, based on what the user can manipulate.
-    protected static String createTitle( ManipulationMode manipulationMode ) {
+    protected static String createTitle( String defaultTitle, ManipulationMode manipulationMode ) {
         if ( manipulationMode == ManipulationMode.SLOPE ) {
             return Strings.SET_THE_SLOPE;
         }
@@ -125,7 +129,7 @@ public abstract class MatchChallenge implements IChallenge {
             return Strings.SET_THE_POINT;
         }
         else {
-            return Strings.GRAPH_THE_LINE;
+            return defaultTitle;
         }
     }
 }

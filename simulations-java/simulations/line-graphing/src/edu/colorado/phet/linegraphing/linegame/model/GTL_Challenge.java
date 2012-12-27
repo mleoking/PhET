@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.GTL_ChallengeNode;
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GTL_Challenge extends MatchChallenge {
 
     public GTL_Challenge( Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
-        super( createTitle( manipulationMode ),
+        super( createTitle( Strings.GRAPH_THE_LINE, manipulationMode ),
                answer, createInitialGuess( answer, manipulationMode ),
                lineForm, manipulationMode,
                xRange, yRange,

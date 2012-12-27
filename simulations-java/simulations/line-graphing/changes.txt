@@ -1,3 +1,4 @@
+12/27/12 fix default title for MTE challenges
 12/27/12 make P3P_Challenge extend MatchChallenge, instead of being a different type of challenge
 12/27/12 move duplication in GTL_Challenge and MTE_Challenge into base class MatchChallenge
 12/22/12 add support for 6 levels to game reward; PhET logo for level 5, all images for level 6
