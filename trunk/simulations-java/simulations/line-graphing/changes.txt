@@ -1,3 +1,4 @@
+12/27/12 move duplicate code into GTL_GraphNode base class
 12/27/12 make LineNode non-abstract, with no equation by default (useful in game)
 12/27/12 fix default title for MTE challenges
 12/27/12 make P3P_Challenge extend MatchChallenge, instead of being a different type of challenge

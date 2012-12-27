@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
@@ -18,7 +17,6 @@ import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptParameterRange;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Graph for a "Graph the Line" (GTL) challenge that involves manipulating components of a slope-intercept line.
@@ -27,19 +25,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
 
-    private final LineNode answerNode;
-    private final LineManipulatorNode slopeManipulatorNode, interceptManipulatorNode;
-    private final PNode interceptNode;
-
     public GTL_SlopeIntercept_GraphNode( final GTL_Challenge challenge ) {
         super( challenge );
-
-        // parent for the guess node, to maintain rendering order
-        final PNode guessNodeParent = new PComposite();
-
-        // the correct answer, initially hidden
-        answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
-        answerNode.setVisible( false );
 
         // dynamic ranges
         SlopeInterceptParameterRange parameterRange = new SlopeInterceptParameterRange();
@@ -47,17 +34,16 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
         final Property<DoubleRange> runRange = new Property<DoubleRange>( parameterRange.run( challenge.guess.get(), challenge.graph ) );
         final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( challenge.graph.yRange ) );
 
-        // line manipulators
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
 
         // slope manipulator
-        slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
+        final LineManipulatorNode slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                           slopeManipulatorNode, challenge.mvt, challenge.guess,
                                                                           riseRange, runRange ) );
 
-        // point (y-intercept) manipulator
-        interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
+        // y-intercept manipulator
+        final LineManipulatorNode interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
         interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                              interceptManipulatorNode, challenge.mvt, challenge.guess,
                                                                              new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), /* x1 is fixed */
@@ -65,28 +51,22 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
                                                                              true /* constantSlope */ ) );
         // plotted y-intercept
         final double pointDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.POINT_DIAMETER );
-        interceptNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
+        final PNode interceptNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
 
         // Rendering order
-        addLineNode( guessNodeParent );
-        addLineNode( answerNode );
         if ( challenge.manipulationMode == ManipulationMode.INTERCEPT || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
-            addManipulatorNode( interceptManipulatorNode );
+            addChild( interceptManipulatorNode );
         }
         else {
-            addManipulatorNode( interceptNode );
+            addChild( interceptNode );
         }
         if ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
-            addManipulatorNode( slopeManipulatorNode );
+            addChild( slopeManipulatorNode );
         }
 
-        // Sync with the user's current guess
+        // Sync with the guess
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
-
-                // draw the line
-                guessNodeParent.removeAllChildren();
-                guessNodeParent.addChild( new LineNode( line, challenge.graph, challenge.mvt ) );
 
                 // move the manipulators
                 slopeManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
@@ -101,10 +81,5 @@ class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
                 }
             }
         } );
-    }
-
-    // Sets the visibility of the correct answer. When answer is visible, manipulators are hidden.
-    public void setAnswerVisible( boolean visible ) {
-        answerNode.setVisible( visible );
     }
 }
