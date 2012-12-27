@@ -93,8 +93,7 @@ public class LineGameModel {
                             challengeIndex++;
                         }
                     }
-                    else if ( state == PlayState.NEXT && !challenge.get().isCorrect() ) {
-                        // user got it wrong, show the answer
+                    else if ( state == PlayState.NEXT ) {
                         challenge.get().setAnswerVisible( true );
                     }
                 }
