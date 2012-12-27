@@ -43,22 +43,12 @@ public class GTL_ChallengeNode extends ChallengeNode {
         final PNode guessEquationParent = new PNode();
         guessEquationParent.setVisible( false );
 
-        // icons for indicating correct vs incorrect
-        final PNode answerCorrectNode = new PImage( Images.CHECK_MARK );
-        final PNode guessCorrectNode = new PImage( Images.CHECK_MARK );
-        final PNode guessIncorrectNode = new PImage( Images.X_MARK );
-
         final GTL_GraphNode graphNode = createGraphNode( challenge );
 
         // rendering order
-        {
-            subclassParent.addChild( graphNode );
-            subclassParent.addChild( answerBoxNode );
-            subclassParent.addChild( guessEquationParent );
-            subclassParent.addChild( answerCorrectNode );
-            subclassParent.addChild( guessCorrectNode );
-            subclassParent.addChild( guessIncorrectNode );
-        }
+        subclassParent.addChild( graphNode );
+        subclassParent.addChild( answerBoxNode );
+        subclassParent.addChild( guessEquationParent );
 
         // layout
         final int iconXMargin = 10;
@@ -79,15 +69,6 @@ public class GTL_ChallengeNode extends ChallengeNode {
                                 checkButton.getFullBoundsReference().getMaxY() - faceNode.getFullBoundsReference().getHeight() );
         }
 
-        // Update visibility of the correct/incorrect icons.
-        final VoidFunction0 updateIcons = new VoidFunction0() {
-            public void apply() {
-                answerCorrectNode.setVisible( model.state.get() == PlayState.NEXT );
-                guessCorrectNode.setVisible( answerCorrectNode.getVisible() && challenge.isCorrect() );
-                guessIncorrectNode.setVisible( answerCorrectNode.getVisible() && !challenge.isCorrect() );
-            }
-        };
-
         // Function that keeps the guess equation updated as the user manipulates the line.
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
@@ -103,9 +84,6 @@ public class GTL_ChallengeNode extends ChallengeNode {
                                             guessEquationParent.getFullBoundsReference().getMinY() + iconYMargin );
                 guessIncorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMaxX() - guessIncorrectNode.getFullBoundsReference().getWidth() - iconXMargin,
                                               guessEquationParent.getFullBoundsReference().getMinY() + iconYMargin );
-
-                // make relevant icons visible
-                updateIcons.apply();
             }
         } );
 
@@ -120,9 +98,6 @@ public class GTL_ChallengeNode extends ChallengeNode {
                 // Show all equations and lines at the end of the challenge.
                 guessEquationParent.setVisible( state == PlayState.NEXT );
                 graphNode.setAnswerVisible( state == PlayState.NEXT );
-
-                // visibility of correct/incorrect icons
-                updateIcons.apply();
 
                 // slope tool visible when user got it wrong
                 graphNode.setSlopeToolVisible( state == PlayState.NEXT && !challenge.isCorrect() );
