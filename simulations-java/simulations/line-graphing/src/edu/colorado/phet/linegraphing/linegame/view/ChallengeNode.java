@@ -37,7 +37,7 @@ public abstract class ChallengeNode extends PhetPNode {
     protected final FaceNode faceNode;
     protected final PText pointsAwardedNode;
     protected final TextButtonNode checkButton;
-    protected final PNode parentNode; //TODO rename
+    protected final PNode subclassParent; // subclasses should add children to this node, to preserve rendering order
 
     public ChallengeNode( final LineGameModel model, final MatchChallenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
@@ -45,12 +45,14 @@ public abstract class ChallengeNode extends PhetPNode {
         PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
         titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 10 ); // top center
 
+        // smiley/frowny face
         faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR,
                                  new BasicStroke( 1f ), LineGameConstants.FACE_COLOR.darker(), Color.BLACK, Color.BLACK );
 
+        // points awarded
         pointsAwardedNode = new PhetPText( "", LineGameConstants.POINTS_AWARDED_FONT, LineGameConstants.POINTS_AWARDED_COLOR );
 
-        // Buttons
+        // buttons
         final Font buttonFont = LineGameConstants.BUTTON_FONT;
         final Color buttonForeground = LineGameConstants.BUTTON_COLOR;
         checkButton = new TextButtonNode( Strings.CHECK, buttonFont, buttonForeground );
@@ -58,7 +60,7 @@ public abstract class ChallengeNode extends PhetPNode {
         final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, buttonFont, buttonForeground );
         final TextButtonNode nextButton = new TextButtonNode( Strings.NEXT, buttonFont, buttonForeground );
 
-        // Point tools
+        // point tools
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
         PointToolNode pointToolNode1 = new PointToolNode( challenge.pointTool1, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
         PointToolNode pointToolNode2 = new PointToolNode( challenge.pointTool2, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
@@ -71,10 +73,10 @@ public abstract class ChallengeNode extends PhetPNode {
         pointToolParent.addChild( pointToolNode2 );
 
         // Parent for subclass-specific nodes, to maintain rendering order.
-        parentNode = new PNode();
+        subclassParent = new PNode();
 
         // Rendering order
-        addChild( parentNode );
+        addChild( subclassParent );
         addChild( titleNode );
         addChild( checkButton );
         addChild( tryAgainButton );
