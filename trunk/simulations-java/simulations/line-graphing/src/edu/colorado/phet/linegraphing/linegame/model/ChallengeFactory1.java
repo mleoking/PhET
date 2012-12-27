@@ -20,9 +20,9 @@ public class ChallengeFactory1 {
             { 2d / 3d, 3d / 4d, 3d / 5d, 2d / 5d }
     };
 
-    private static final DoubleRange SI_INTERCEPT_RANGE = new DoubleRange( -9, 4 );
-    private static final DoubleRange PS_X1_RANGE = new DoubleRange( -9, 4 );
-    private static final DoubleRange PS_Y1_RANGE = new DoubleRange( -9, 4 );
+    private static final DoubleRange Y_INTERCEPT_RANGE = new DoubleRange( -9, 4 );
+    private static final DoubleRange X1_RANGE = new DoubleRange( -9, 4 );
+    private static final DoubleRange Y1_RANGE = new DoubleRange( -9, 4 );
 
     private ChallengeFactory1() {}
 
