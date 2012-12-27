@@ -276,7 +276,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
             return new GTL_PointSlope_GraphNode( challenge );
         }
         else {
-            throw new IllegalArgumentException( "unsupported lineForm and manipulatorMode combination" );
+            throw new IllegalArgumentException( "unsupported lineForm (" + challenge.lineForm + ") and manipulatorMode (" + challenge.manipulationMode + ") combination" );
         }
     }
 }
