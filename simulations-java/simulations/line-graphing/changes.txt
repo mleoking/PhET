@@ -1,3 +1,4 @@
+12/27/12 fix: call IChallenge.setAnswerVisible when "Next" button is visible, so that point tools see the answer line
 12/27/12 standardize order of lines that are provided to point tool
 12/27/12 move enums to top-level class files
 12/27/12 improve model sync in P3P_GraphNode
