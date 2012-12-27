@@ -112,7 +112,12 @@ public class Line {
 
     // Returns true if 2 points on the specified line are also on this line.
     public boolean same( Line line ) {
-        return onLine( line.x1, line.y1 ) && onLine( line.x2, line.y2 );
+        if ( line == null ) {
+            return false;
+        }
+        else {
+            return onLine( line.x1, line.y1 ) && onLine( line.x2, line.y2 );
+        }
     }
 
     // Gets the simplified rise.

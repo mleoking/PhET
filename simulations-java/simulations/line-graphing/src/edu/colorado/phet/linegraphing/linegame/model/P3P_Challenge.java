@@ -23,82 +23,54 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * Model for all "Place 3 Points" (P3P) challenges.
  * In this challenge, the user is given an equation and must place 3 points on a graph to make the line.
+ * If the 3 points do not form a line, the guess line will be null.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class P3P_Challenge implements IChallenge {
+public class P3P_Challenge extends MatchChallenge {
 
-    private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
-    private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 700, 300 ); // offset of the origin (center of the graph) in view coordinates
-
-    public final String title;
-    public final Line answer;
-    public final LineForm lineForm;
-    public Property<Line> guess;
     public final Property<Vector2D> p1, p2, p3; // the 3 points that the user places
 
-    public final ModelViewTransform mvt; // transform between model and view coordinate frames
-    public final Graph graph; // the graph that plots the lines
-    public final PointTool pointTool1, pointTool2;
-    private final ObservableList<Line> allLines; // lines that are visible to the point tools
-    private boolean answerVisible;
-
     public P3P_Challenge( Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
+        super( Strings.PLACE_THE_POINTS,
+               answer, Line.Y_EQUALS_X_LINE,
+               lineForm, ManipulationMode.POINTS,
+               xRange, yRange,
+               new Point2D.Double( 700, 300 ), // origin offset
+               new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), // point tool location 1
+               new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ) ); // point tool location 2
 
-        this.title = Strings.PLACE_THE_POINTS;
-        this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
-        this.lineForm = lineForm;
-        this.guess = new Property<Line>( null );
+        // initial points do not form a line
         this.p1 = new Property<Vector2D>( new Vector2D( -3, 2 ) );
         this.p2 = new Property<Vector2D>( new Vector2D( 0, 0 ) );
         this.p3 = new Property<Vector2D>( new Vector2D( 3, 2 ) );
 
-        final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units
-        mvt = ModelViewTransform.createOffsetScaleMapping( ORIGIN_OFFSET, mvtScale, -mvtScale ); // graph on right, y inverted
-
-        graph = new Graph( xRange, yRange );
-
-        allLines = new ObservableList<Line>();
-        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
-        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
-
+        // update the guess when the points change
         final RichSimpleObserver pointObserver = new RichSimpleObserver() {
             public void update() {
-                updateLines();
+                updateGuess();
             }
         };
         pointObserver.observe( p1, p2, p3 );
     }
 
-    // Correct if all points are on the line.
-    public boolean isCorrect() {
-        return answer.onLine( p1.get() ) && answer.onLine( p2.get() ) && answer.onLine( p3.get() );
-    }
-
-    public void setAnswerVisible( boolean visible ) {
-        answerVisible = visible;
-        updateLines();
-    }
-
-    // Updates the list of lines that are visible to the point tools.
-    private void updateLines() {
-
-        // the user's guess, if the 3 points make a straight line
-        Line guess = new Line( p1.get().x, p1.get().y, p2.get().x, p2.get().y, LineGameConstants.GUESS_COLOR );
-        if ( guess.onLine( p3.get() ) ) {
-            this.guess.set( guess );
+    // Updates the guess to match the points.
+    private void updateGuess() {
+        Line line = new Line( p1.get().x, p1.get().y, p2.get().x, p2.get().y, LineGameConstants.GUESS_COLOR );
+        if ( line.onLine( p3.get() ) ) {
+            guess.set( line );
         }
         else {
-            this.guess.set( null );
+            guess.set( null );
         }
+    }
 
-        // the lines to display
-        allLines.clear();
-        if ( this.guess.get() != null ) {
-            allLines.add( this.guess.get() );
-        }
-        if ( answerVisible ) {
-            allLines.add( answer );
+    // Updates the collection of lines that are "seen" by the point tools.
+    @Override protected void updatePointToolLines() {
+        pointToolLines.clear();
+        pointToolLines.add( answer );
+        if ( answerVisible && guess.get() != null ) {
+            pointToolLines.add( guess.get() );
         }
     }
 

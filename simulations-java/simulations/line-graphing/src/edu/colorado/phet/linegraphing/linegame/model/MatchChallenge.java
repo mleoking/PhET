@@ -39,7 +39,9 @@ public abstract class MatchChallenge implements IChallenge {
 
     /**
      * Constructor.
+     * @param title
      * @param answer
+     * @param guess
      * @param lineForm
      * @param manipulationMode
      * @param xRange
@@ -48,34 +50,17 @@ public abstract class MatchChallenge implements IChallenge {
      * @param pointToolLocation1 location of point tool in model coordinates
      * @param pointToolLocation2 location of point tool in model coordinates
      */
-    protected MatchChallenge( Line answer,
+    protected MatchChallenge( String title, Line answer, Line guess,
                               LineForm lineForm, ManipulationMode manipulationMode,
                               IntegerRange xRange, IntegerRange yRange,
                               Point2D originOffset, Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
 
+        this.title = title;
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
-        this.guess = new Property<Line>( null ); // this will be initialized below
+        this.guess = new Property<Line>( guess.withColor( LineGameConstants.GUESS_COLOR ) );
 
         this.lineForm = lineForm;
         this.manipulationMode = manipulationMode;
-
-        // Adjust the title and initial state of the guess.
-        if ( manipulationMode == ManipulationMode.SLOPE ) {
-            title = Strings.SET_THE_SLOPE;
-            guess.set( Line.createPointSlope( answer.x1, answer.y1, 1, 1, LineGameConstants.GUESS_COLOR ) );
-        }
-        else if ( manipulationMode == ManipulationMode.INTERCEPT ) {
-            title = Strings.SET_THE_Y_INTERCEPT;
-            guess.set( Line.createSlopeIntercept( answer.rise, answer.run, 0, LineGameConstants.GUESS_COLOR ) );
-        }
-        else if ( manipulationMode == ManipulationMode.POINT ) {
-            title = Strings.SET_THE_POINT;
-            guess.set( Line.createPointSlope( 0, 0, answer.rise, answer.run, LineGameConstants.GUESS_COLOR ) );
-        }
-        else {
-            title = Strings.GRAPH_THE_LINE;
-            guess.set( Line.Y_EQUALS_X_LINE.withColor( LineGameConstants.GUESS_COLOR ) );
-        }
 
         // Create the model-view transform.
         final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units
@@ -86,7 +71,7 @@ public abstract class MatchChallenge implements IChallenge {
 
         // Point tools
         pointToolLines = new ObservableList<Line>();
-        pointToolLines.add( guess.get() );
+        pointToolLines.add( this.guess.get() );
         this.pointTool1 = new PointTool( pointToolLocation1, Orientation.UP, pointToolLines );
         this.pointTool2 = new PointTool( pointToolLocation2, Orientation.DOWN, pointToolLines );
 
@@ -111,4 +96,36 @@ public abstract class MatchChallenge implements IChallenge {
 
     // Updates the collection of lines that are "seen" by the point tools.
     protected abstract void updatePointToolLines();
+
+    // Creates an initial guess.
+    protected static Line createInitialGuess( Line answer, ManipulationMode manipulationMode ) {
+        if ( manipulationMode == ManipulationMode.SLOPE ) {
+            return Line.createPointSlope( answer.x1, answer.y1, 1, 1, LineGameConstants.GUESS_COLOR );
+        }
+        else if ( manipulationMode == ManipulationMode.INTERCEPT ) {
+            return Line.createSlopeIntercept( answer.rise, answer.run, 0, LineGameConstants.GUESS_COLOR );
+        }
+        else if ( manipulationMode == ManipulationMode.POINT ) {
+            return Line.createPointSlope( 0, 0, answer.rise, answer.run, LineGameConstants.GUESS_COLOR );
+        }
+        else {
+            return Line.Y_EQUALS_X_LINE.withColor( LineGameConstants.GUESS_COLOR );
+        }
+    }
+
+    // Creates a standard title for the challenge, based on what the user can manipulate.
+    protected static String createTitle( ManipulationMode manipulationMode ) {
+        if ( manipulationMode == ManipulationMode.SLOPE ) {
+            return Strings.SET_THE_SLOPE;
+        }
+        else if ( manipulationMode == ManipulationMode.INTERCEPT ) {
+            return Strings.SET_THE_Y_INTERCEPT;
+        }
+        else if ( manipulationMode == ManipulationMode.POINT ) {
+            return Strings.SET_THE_POINT;
+        }
+        else {
+            return Strings.GRAPH_THE_LINE;
+        }
+    }
 }
