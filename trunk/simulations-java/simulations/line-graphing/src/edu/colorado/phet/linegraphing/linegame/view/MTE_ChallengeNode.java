@@ -191,8 +191,9 @@ public class MTE_ChallengeNode extends ChallengeNode {
                 guessBoxNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || ( state == PlayState.NEXT && !challenge.isCorrect() ) );
                 guessBoxNode.setChildrenPickable( guessBoxNode.getPickable() );
 
-                // Show the equation for the answer at the end of the challenge.
+                // Show all equations and lines at the end of the challenge.
                 answerBoxNode.setVisible( state == PlayState.NEXT );
+                graphNode.setGuessVisible( state == PlayState.NEXT );
 
                 // visibility of correct/incorrect icons
                 updateIcons.apply();
@@ -241,7 +242,6 @@ public class MTE_ChallengeNode extends ChallengeNode {
         // "Show Answer" button
         showAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                graphNode.setGuessVisible( true );
                 model.state.set( PlayState.NEXT );
             }
         } );
