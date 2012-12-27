@@ -8,8 +8,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
@@ -78,17 +80,9 @@ public class P3P_GraphNode extends GraphNode {
         addChild( p2ManipulatorNode );
         addChild( p3ManipulatorNode );
 
-        // Show the user's current guess
+        // Sync with points
         final RichSimpleObserver pointsObserver = new RichSimpleObserver() {
             public void update() {
-
-                // draw the line
-                guessNodeParent.removeAllChildren();
-                if ( challenge.guess.get() != null ) {
-                    LineNode guessNode = new LineNode( challenge.guess.get(), challenge.graph, challenge.mvt );
-                    guessNodeParent.addChild( guessNode );
-                }
-
                 // move the manipulators
                 p1ManipulatorNode.setOffset( challenge.mvt.modelToView( challenge.p1.get().x, challenge.p1.get().y ) );
                 p2ManipulatorNode.setOffset( challenge.mvt.modelToView( challenge.p2.get().x, challenge.p2.get().y ) );
@@ -96,6 +90,18 @@ public class P3P_GraphNode extends GraphNode {
             }
         };
         pointsObserver.observe( challenge.p1, challenge.p2, challenge.p3 );
+
+        // Sync with guess
+        challenge.guess.addObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+                // redraw the guess line
+                guessNodeParent.removeAllChildren();
+                if ( challenge.guess.get() != null ) {
+                    LineNode guessNode = new LineNode( challenge.guess.get(), challenge.graph, challenge.mvt );
+                    guessNodeParent.addChild( guessNode );
+                }
+            }
+        } );
     }
 
     // Sets the visibility of the correct answer.
