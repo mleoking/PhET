@@ -1,3 +1,5 @@
+# 0.00.29 (71440) Dec 26, 2012
+12/26/12 Deploying for review by design team.
 1st tab: Implemented first attempt at boiling, where the water starts exchanging all of its energy beyond the boiling temperature with the air.
 2nd tab: Fixed an issue where the biker wouldn't appear to run out of energy until the thermal chunks had traveled away.
 1st tab: Removed the feature where the burner disables half of the control slider when a max or min temperature is reached.
