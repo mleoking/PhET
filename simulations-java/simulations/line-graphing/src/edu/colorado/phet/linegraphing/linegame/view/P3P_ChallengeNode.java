@@ -187,8 +187,9 @@ public class P3P_ChallengeNode extends ChallengeNode {
                 graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || ( state == PlayState.NEXT && !challenge.isCorrect() ) );
                 graphNode.setChildrenPickable( graphNode.getPickable() );
 
-                // Show the equation for the user's guess at the end of the challenge.
+                // Show all equations and lines at the end of the challenge.
                 guessEquationParent.setVisible( state == PlayState.NEXT );
+                graphNode.setAnswerVisible( state == PlayState.NEXT );
 
                 // visibility of correct/incorrect icons
                 updateIcons.apply();
@@ -234,7 +235,6 @@ public class P3P_ChallengeNode extends ChallengeNode {
         // "Show Answer" button
         showAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                graphNode.setAnswerVisible( true );
                 model.state.set( PlayState.NEXT );
             }
         } );
