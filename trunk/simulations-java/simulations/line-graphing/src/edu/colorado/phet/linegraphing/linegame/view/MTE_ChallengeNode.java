@@ -208,7 +208,6 @@ public class MTE_ChallengeNode extends ChallengeNode {
             public void actionPerformed( ActionEvent e ) {
                 if ( challenge.isCorrect() ) {
                     faceNode.smile();
-                    graphNode.setGuessVisible( true );
                     audioPlayer.correctAnswer();
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
