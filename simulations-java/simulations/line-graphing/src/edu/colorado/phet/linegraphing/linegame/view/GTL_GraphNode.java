@@ -4,14 +4,10 @@ package edu.colorado.phet.linegraphing.linegame.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -29,9 +25,7 @@ public abstract class GTL_GraphNode extends GraphNode {
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            LineNode answerNode = createLineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
-            answerNode.setEquationVisible( false );
-            addChild( answerNode );
+            addChild( new LineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt ) );
         }
 
         // parent nodes, for maintaining rendering order
@@ -57,16 +51,6 @@ public abstract class GTL_GraphNode extends GraphNode {
 
     protected void addManipulatorNode( PNode node ) {
         manipulatorsParent.addChild( node );
-    }
-
-    /*
-     * Creates the node for a line.
-     * Use point-slope lines everywhere because the equation is hidden.
-     */
-    protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-        return new PointSlopeLineNode( line, graph, mvt ) {{
-            setEquationVisible( false );
-        }};
     }
 
     // Changes the visibility of the "answer" line.

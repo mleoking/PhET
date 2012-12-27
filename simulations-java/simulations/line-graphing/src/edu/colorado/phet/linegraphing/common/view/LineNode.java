@@ -17,12 +17,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class for visual representation of all lines.
- * The line's equation is positioned towards the tip, parallel with the line.
- * Subclasses are responsible for creating the equation in the correct form (slope, slope-intercept, point-slope.)
+ * <p>
+ * By default, a line is not labeled with an equation. Subclasses are responsible for creating an equation
+ * in the correct form (slope, slope-intercept, point-slope.) The line's equation is positioned towards
+ * the tip, parallel with the line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineNode extends PComposite {
+public class LineNode extends PComposite {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 3;
@@ -41,7 +43,7 @@ public abstract class LineNode extends PComposite {
      * @param graph the graph to draw it on
      * @param mvt   the transform between model and view coordinate frames
      */
-    protected LineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
+    public LineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
 
@@ -106,8 +108,13 @@ public abstract class LineNode extends PComposite {
         updateEquation( line, EQUATION_FONT, line.color );
     }
 
-    // Creates the line's equation in the correct form.
-    protected abstract PNode createEquationNode( Line line, PhetFont font, Color color );
+    /*
+     * By default, a line does not display an equation.
+     * Subclasses must override this method to return an equation in the correct form.
+     */
+    protected PNode createEquationNode( Line line, PhetFont font, Color color ) {
+        return new PNode();
+    };
 
     public void setEquationVisible( boolean visible ) {
         equationParentNode.setVisible( visible );

@@ -2,14 +2,11 @@
 package edu.colorado.phet.linegraphing.linegame.view;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.MTE_Challenge;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -35,7 +32,7 @@ public class MTE_GraphNode extends GraphNode {
         guessNodeParent.setVisible( false );
 
         // the correct answer
-        LineNode answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
+        LineNode answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
 
         // Slope tool
         slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt );
@@ -50,7 +47,7 @@ public class MTE_GraphNode extends GraphNode {
             public void apply( Line line ) {
                 // draw the line
                 guessNodeParent.removeAllChildren();
-                LineNode guessNode = createLineNode( line, challenge.graph, challenge.mvt );
+                LineNode guessNode = new LineNode( line, challenge.graph, challenge.mvt );
                 guessNodeParent.addChild( guessNode );
             }
         } );
@@ -58,16 +55,6 @@ public class MTE_GraphNode extends GraphNode {
 
     public void setSlopeToolVisible( boolean visible ) {
         slopeToolNode.setVisible( visible );
-    }
-
-    /*
-     * Creates the node for a line.
-     * Use point-slope lines everywhere because the equation is hidden.
-     */
-    private LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-        return new PointSlopeLineNode( line, graph, mvt ) {{
-            setEquationVisible( false );
-        }};
     }
 
     // Changes the visibility of the "guess" line.
