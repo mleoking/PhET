@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.linegame.model;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameTimer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
@@ -28,28 +27,6 @@ public class LineGameModel {
     private static final int CHALLENGES_PER_GAME = 4;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 6 );
-
-    // phases of a game, mutually exclusive
-    public enum GamePhase {
-        SETTINGS,  // user is choosing game settings
-        PLAY, // user is playing the game
-        RESULTS // user is receiving results of playing the game
-    }
-
-    /*
-     * States during the "play" phase of a game, mutually exclusive.
-     * For lack of better names, the state names correspond to the main action that
-     * the user can take in that state.  For example. the FIRST_CHECK state is where the user
-     * has their first opportunity to press the "Check" button to check their answer.
-     */
-    public static enum PlayState {
-        FIRST_CHECK,
-        TRY_AGAIN,
-        SECOND_CHECK,
-        SHOW_ANSWER,
-        NEXT,
-        NONE // use this value when game is not in the "play" phase
-    }
 
     public final GameSettings settings;
     public final GameTimer timer;

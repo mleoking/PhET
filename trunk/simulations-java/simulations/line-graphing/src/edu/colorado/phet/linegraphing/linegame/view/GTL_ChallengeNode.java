@@ -25,7 +25,7 @@ import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
+import edu.colorado.phet.linegraphing.linegame.model.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
