@@ -100,12 +100,12 @@ textarea {
 
 #control-panel {
     position: absolute;
-    width: 35%;
-    right: 10%;
+    width: 40%;
+    right: 0%;
 }
 
 #control-panel .widget-box {
-    float: left;
+    float: right;
     clear: both;
     width: 91%;
     min-height: 1em;
@@ -266,6 +266,23 @@ textarea {
 /* ------------------------------ Media Queries ------------------------------ */
 
 @media only screen and (max-width: 990px) {
+
+    #canvas-container {
+        width: 100%;
+        position: static;
+    }
+
+    #control-panel {
+        width: 100%;
+        position: static;
+    }
+
+    #control-panel .widget-box {
+        width: 97%;
+    }
+}
+
+@media all and (orientation:portrait)  {
 
     #canvas-container {
         width: 100%;
