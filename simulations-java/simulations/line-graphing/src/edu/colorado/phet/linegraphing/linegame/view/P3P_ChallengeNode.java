@@ -52,10 +52,10 @@ public class P3P_ChallengeNode extends ChallengeNode {
 
         // rendering order
         {
+            subclassParent.addChild( graphNode );
             subclassParent.addChild( answerBoxNode );
             subclassParent.addChild( answerCorrectNode );
             subclassParent.addChild( guessEquationParent );
-            subclassParent.addChild( graphNode );
             subclassParent.addChild( answerCorrectNode );
             subclassParent.addChild( guessCorrectNode );
             subclassParent.addChild( guessIncorrectNode );

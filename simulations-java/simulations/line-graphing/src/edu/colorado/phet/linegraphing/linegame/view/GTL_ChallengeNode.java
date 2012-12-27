@@ -52,10 +52,9 @@ public class GTL_ChallengeNode extends ChallengeNode {
 
         // rendering order
         {
-            subclassParent.addChild( answerBoxNode );
-            subclassParent.addChild( answerCorrectNode );
-            subclassParent.addChild( guessEquationParent );
             subclassParent.addChild( graphNode );
+            subclassParent.addChild( answerBoxNode );
+            subclassParent.addChild( guessEquationParent );
             subclassParent.addChild( answerCorrectNode );
             subclassParent.addChild( guessCorrectNode );
             subclassParent.addChild( guessIncorrectNode );
