@@ -8,20 +8,14 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.PointDragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
-import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.P3P_Challenge;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -40,7 +34,7 @@ public class P3P_GraphNode extends GraphNode {
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            LineNode answerNode = createLineNode( challenge.lineForm, challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
+            LineNode answerNode = new LineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
             addChild( answerNode );
         }
 
@@ -48,7 +42,7 @@ public class P3P_GraphNode extends GraphNode {
         final PNode guessNodeParent = new PComposite();
 
         // the correct answer, initially hidden
-        answerNode = createLineNode( challenge.lineForm, challenge.answer, challenge.graph, challenge.mvt );
+        answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
         answerNode.setVisible( false );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
@@ -91,7 +85,7 @@ public class P3P_GraphNode extends GraphNode {
                 // draw the line
                 guessNodeParent.removeAllChildren();
                 if ( challenge.guess.get() != null ) {
-                    LineNode guessNode = createLineNode( challenge.lineForm, challenge.guess.get(), challenge.graph, challenge.mvt );
+                    LineNode guessNode = new LineNode( challenge.guess.get(), challenge.graph, challenge.mvt );
                     guessNodeParent.addChild( guessNode );
                 }
 
@@ -107,22 +101,5 @@ public class P3P_GraphNode extends GraphNode {
     // Sets the visibility of the correct answer.
     public void setAnswerVisible( boolean visible ) {
         answerNode.setVisible( visible );
-    }
-
-    // Creates the node for a line.
-    private LineNode createLineNode( LineForm lineForm, Line line, Graph graph, ModelViewTransform mvt ) {
-        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
-            return new SlopeInterceptLineNode( line, graph, mvt ) {{
-                setEquationVisible( false );
-            }};
-        }
-        else if ( lineForm == LineForm.POINT_SLOPE ) {
-            return new PointSlopeLineNode( line, graph, mvt ) {{
-                setEquationVisible( false );
-            }};
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
-        }
     }
 }

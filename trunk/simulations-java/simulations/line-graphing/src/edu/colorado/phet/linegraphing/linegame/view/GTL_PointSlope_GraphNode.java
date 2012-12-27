@@ -40,8 +40,7 @@ class GTL_PointSlope_GraphNode extends GTL_GraphNode {
         final PNode guessNodeParent = new PComposite();
 
         // the correct answer, initially hidden
-        answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
-        answerNode.setEquationVisible( false );
+        answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
         answerNode.setVisible( false );
 
         // dynamic ranges
@@ -88,9 +87,7 @@ class GTL_PointSlope_GraphNode extends GTL_GraphNode {
 
                 // draw the line
                 guessNodeParent.removeAllChildren();
-                LineNode guessNode = createLineNode( line, challenge.graph, challenge.mvt );
-                guessNode.setEquationVisible( false );
-                guessNodeParent.addChild( guessNode );
+                guessNodeParent.addChild( new LineNode( line, challenge.graph, challenge.mvt ) );
 
                 // move the manipulators
                 pointManipulatorNode.setOffset( challenge.mvt.modelToView( line.x1, line.y1 ) );

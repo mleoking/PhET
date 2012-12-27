@@ -34,8 +34,7 @@ class GTL_Points_GraphNode extends GTL_GraphNode {
         final PNode guessNodeParent = new PComposite();
 
         // the correct answer, initially hidden
-        answerNode = createLineNode( challenge.answer, challenge.graph, challenge.mvt );
-        answerNode.setEquationVisible( false );
+        answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
         answerNode.setVisible( false );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
@@ -67,9 +66,7 @@ class GTL_Points_GraphNode extends GTL_GraphNode {
 
                 // draw the line
                 guessNodeParent.removeAllChildren();
-                LineNode guessNode = createLineNode( line, challenge.graph, challenge.mvt );
-                guessNode.setEquationVisible( false );
-                guessNodeParent.addChild( guessNode );
+                guessNodeParent.addChild( new LineNode( line, challenge.graph, challenge.mvt ) );
 
                 // move the manipulators
                 x1y1ManipulatorNode.setOffset( challenge.mvt.modelToView( line.x1, line.y1 ) );
