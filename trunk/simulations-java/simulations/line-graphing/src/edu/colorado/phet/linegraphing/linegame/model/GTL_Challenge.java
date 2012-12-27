@@ -20,7 +20,10 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GTL_Challenge extends MatchChallenge {
 
     public GTL_Challenge( Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
-        super( answer, lineForm, manipulationMode, xRange, yRange,
+        super( createTitle( manipulationMode ),
+               answer, createInitialGuess( answer, manipulationMode ),
+               lineForm, manipulationMode,
+               xRange, yRange,
                new Point2D.Double( 700, 300 ), // origin offset
                new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), // point tool location 1
                new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ) );  // point tool location 2
