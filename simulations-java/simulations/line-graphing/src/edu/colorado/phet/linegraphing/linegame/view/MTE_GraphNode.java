@@ -53,11 +53,12 @@ public class MTE_GraphNode extends GraphNode {
         } );
     }
 
+    // Sets the visibility of the slope tool.
     public void setSlopeToolVisible( boolean visible ) {
         slopeToolNode.setVisible( visible );
     }
 
-    // Changes the visibility of the "guess" line.
+    // Sets the visibility of the "guess" line.
     public void setGuessVisible( boolean visible ) {
         guessNodeParent.setVisible( visible );
     }
