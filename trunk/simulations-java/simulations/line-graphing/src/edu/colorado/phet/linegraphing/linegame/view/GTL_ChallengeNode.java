@@ -6,18 +6,14 @@ import java.awt.Color;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -109,19 +105,6 @@ public class GTL_ChallengeNode extends ChallengeNode {
                 updateIcons.apply();
             }
         } );
-    }
-
-    // Creates the equation portion of the view.
-    private EquationNode createEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
-        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
-            return new SlopeInterceptEquationNode( line, font, color );
-        }
-        else if ( lineForm == LineForm.POINT_SLOPE ) {
-            return new PointSlopeEquationNode( line, font, color );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
-        }
     }
 
     // Creates the graph portion of the view.
