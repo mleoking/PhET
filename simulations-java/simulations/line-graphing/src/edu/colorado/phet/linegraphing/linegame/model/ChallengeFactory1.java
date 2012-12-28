@@ -5,6 +5,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.linegraphing.common.model.Fraction;
 
 /**
  * Creates challenges for game level 1, as specified in the design document.
@@ -14,15 +15,15 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 public class ChallengeFactory1 {
 
     // One slope will be chosen from each of these 3 bins.
-    private static final double[][] SLOPES_BINS = new double[][] {
-            { 3d / 2d, 4d / 3d, 5d / 2d, 5d / 3d },
-            { 1d / 2d, 1d / 3d, 1d / 4d, 1d / 5d },
-            { 2d / 3d, 3d / 4d, 3d / 5d, 2d / 5d }
+    private static final Fraction[][] SLOPES_BINS = new Fraction[][] {
+            { new Fraction( 3, 2 ), new Fraction( 4, 3 ), new Fraction( 5, 2 ), new Fraction( 5, 3 ) },
+            { new Fraction( 1, 2 ), new Fraction( 1, 3 ), new Fraction( 1, 4 ), new Fraction( 1, 5 ) },
+            { new Fraction( 2, 3 ), new Fraction( 3, 4 ), new Fraction( 3, 5 ), new Fraction( 2, 5 ) }
     };
 
-    private static final DoubleRange Y_INTERCEPT_RANGE = new DoubleRange( -9, 4 );
-    private static final DoubleRange X1_RANGE = new DoubleRange( -9, 4 );
-    private static final DoubleRange Y1_RANGE = new DoubleRange( -9, 4 );
+    private static final IntegerRange Y_INTERCEPT_RANGE = new IntegerRange( -9, 4 );
+    private static final IntegerRange X1_RANGE = new IntegerRange( -9, 4 );
+    private static final IntegerRange Y1_RANGE = new IntegerRange( -9, 4 );
 
     private ChallengeFactory1() {}
 
