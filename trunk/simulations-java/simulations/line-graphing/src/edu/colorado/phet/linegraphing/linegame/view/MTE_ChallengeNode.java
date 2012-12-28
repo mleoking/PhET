@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * View for "Make the Equation" (MTE) challenges.
+ * User manipulates an equation on the right, graph is displayed on the left.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
