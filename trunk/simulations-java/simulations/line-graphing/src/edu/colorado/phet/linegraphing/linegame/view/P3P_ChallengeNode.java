@@ -28,8 +28,9 @@ public class P3P_ChallengeNode extends ChallengeNode {
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
 
         // Answer
-        final EquationBoxNode answerBoxNode = new EquationBoxNode( Strings.LINE_TO_GRAPH, challenge.answer.color, boxSize,
-                                                                   createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+        final EquationBoxNode answerBoxNode =
+                new EquationBoxNode( Strings.LINE_TO_GRAPH, challenge.answer.color, boxSize,
+                                     createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // Guess
         guessBoxNode = null;

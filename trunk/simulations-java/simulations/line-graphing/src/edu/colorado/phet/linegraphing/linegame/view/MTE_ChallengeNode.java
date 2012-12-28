@@ -40,14 +40,16 @@ public class MTE_ChallengeNode extends ChallengeNode {
         final double boxWidth = 0.4 * challengeSize.getWidth();
 
         // Answer
-        final EquationBoxNode answerBoxNode = new EquationBoxNode( Strings.CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
-                                                                   createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+        final EquationBoxNode answerBoxNode =
+                new EquationBoxNode( Strings.CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
+                                     createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // Guess
-        final EquationBoxNode guessBoxNode = new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
-                                                                  createInteractiveEquationNode( challenge.lineForm, challenge.manipulationMode, challenge.guess, challenge.graph,
-                                                                                                 LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
-                                                                                                 challenge.guess.get().color ) );
+        final EquationBoxNode guessBoxNode =
+                new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
+                                     createInteractiveEquationNode( challenge.lineForm, challenge.manipulationMode, challenge.guess, challenge.graph,
+                                                                    LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
+                                                                    challenge.guess.get().color ) );
 
         // Graph
         final MTE_GraphNode graphNode = new MTE_GraphNode( challenge );
