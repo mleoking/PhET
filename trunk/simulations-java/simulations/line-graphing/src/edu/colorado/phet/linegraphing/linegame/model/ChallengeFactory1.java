@@ -37,9 +37,13 @@ public class ChallengeFactory1 {
         // PS: random choice of point or slope
 
         // 3 MTE challenges
-        // SI: point
         // SI: slope
+        // SI: intercept
         // PS: if GTL choice was slope, then point; else slope
+
+        // Other requirements:
+        // - for intercept challenges, 1 positive, 1 negative
+        // - for point challenges, point must be in Q1 or Q3
 
         // randomize the order
 
