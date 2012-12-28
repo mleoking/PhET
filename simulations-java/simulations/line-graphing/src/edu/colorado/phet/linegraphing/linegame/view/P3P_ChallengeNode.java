@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * View for "Place 3 Points" (P3P) challenges.
+ * User manipulates 3 points on a graph on the right, equations are displayed on the left.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

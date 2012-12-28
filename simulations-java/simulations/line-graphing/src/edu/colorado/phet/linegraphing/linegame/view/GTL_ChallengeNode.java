@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * View for "Graph the Line" (GTL) challenges.
+ * User manipulates a graphed line on the right, equations are displayed on the left.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
