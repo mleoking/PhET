@@ -12,16 +12,22 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
+import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
+import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.MatchChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -173,5 +179,18 @@ public abstract class ChallengeNode extends PhetPNode {
                 nextButton.setVisible( state == PlayState.NEXT );
             }
         } );
+    }
+
+    // Creates a static (non-interactive) equation.
+    protected static EquationNode createEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
+        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
+            return new SlopeInterceptEquationNode( line, font, color );
+        }
+        else if ( lineForm == LineForm.POINT_SLOPE ) {
+            return new PointSlopeEquationNode( line, font, color );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
+        }
     }
 }

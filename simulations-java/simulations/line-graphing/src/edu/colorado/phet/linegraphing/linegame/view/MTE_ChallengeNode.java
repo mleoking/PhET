@@ -41,13 +41,13 @@ public class MTE_ChallengeNode extends ChallengeNode {
 
         // Answer
         final EquationBoxNode answerBoxNode = new EquationBoxNode( Strings.CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
-                                                                   createAnswerEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+                                                                   createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // Guess
         final EquationBoxNode guessBoxNode = new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
-                                                                  createGuessEquationNode( challenge.lineForm, challenge.manipulationMode, challenge.guess, challenge.graph,
-                                                                                           LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
-                                                                                           challenge.guess.get().color ) );
+                                                                  createInteractiveEquationNode( challenge.lineForm, challenge.manipulationMode, challenge.guess, challenge.graph,
+                                                                                                 LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
+                                                                                                 challenge.guess.get().color ) );
 
         // Graph
         final MTE_GraphNode graphNode = new MTE_GraphNode( challenge );
@@ -77,7 +77,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
 
         // To reduce brain damage during development, show the answer equation in translucent gray.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            PNode devAnswerNode = createAnswerEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, new Color( 0, 0, 0, 25 ) );
+            PNode devAnswerNode = createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, new Color( 0, 0, 0, 25 ) );
             devAnswerNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() + 30,
                                      answerBoxNode.getFullBoundsReference().getCenterY() - ( devAnswerNode.getFullBoundsReference().getHeight() / 2 ) );
             addChild( devAnswerNode );
@@ -122,22 +122,9 @@ public class MTE_ChallengeNode extends ChallengeNode {
         } );
     }
 
-    // Creates the "answer" equation portion of the view.
-    private EquationNode createAnswerEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
-        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
-            return new SlopeInterceptEquationNode( line, font, color );
-        }
-        else if ( lineForm == LineForm.POINT_SLOPE ) {
-            return new PointSlopeEquationNode( line, font, color );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
-        }
-    }
-
-    // Creates the "guess" equation portion of the view.
-    private EquationNode createGuessEquationNode( LineForm lineForm, ManipulationMode manipulationMode,
-                                                  Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor ) {
+    // Creates an interactive equation.
+    private EquationNode createInteractiveEquationNode( LineForm lineForm, ManipulationMode manipulationMode,
+                                                        Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor ) {
         if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
             boolean interactiveSlope = ( manipulationMode == ManipulationMode.SLOPE ) || ( manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
             boolean interactiveIntercept = ( manipulationMode == ManipulationMode.INTERCEPT ) || ( manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
