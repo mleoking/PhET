@@ -7,11 +7,11 @@ DESIGN
 - P3P challenges: use similar but different colors for the 3 points?
 
 HIGH
-- move duplication in GTL_ChallengeNode, MTE_ChallengeNode and P3P_ChallengeNode into base class ChallengeNode
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges (consult design doc)
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
+- move duplication in GTL_ChallengeNode, MTE_ChallengeNode and P3P_ChallengeNode into base class ChallengeNode
 - rise value on slope tool falls off left edge of play area in Point-Slope tab
 
 LOW
