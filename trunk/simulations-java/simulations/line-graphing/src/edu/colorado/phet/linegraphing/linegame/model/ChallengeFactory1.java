@@ -3,8 +3,6 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.linegraphing.common.model.Fraction;
@@ -32,34 +30,12 @@ import edu.colorado.phet.linegraphing.common.model.Line;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class ChallengeFactory1 {
-
-    private final Random random;
+class ChallengeFactory1 extends ChallengeFactory {
 
     public ChallengeFactory1() {
-        this.random = new Random();
+        super();
     }
 
-    /**
-     * Creates challenges for Level 1, according to these specifications:
-     * <p/>
-     * 3 GTL challenges
-     * SI: slope
-     * SI: intercept
-     * PS: random choice of point or slope
-     * <p/>
-     * 3 MTE challenges
-     * SI: slope
-     * SI: intercept
-     * PS: if GTL choice was slope, then point; else slope
-     * <p/>
-     * Other requirements:
-     * unique points and intercepts
-     * for intercept challenges, 1 positive, 1 negative
-     * for point challenges, point must be in Q1 or Q3
-     *
-     * @return collection of challenges
-     */
     public ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
 
         ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
@@ -207,87 +183,5 @@ class ChallengeFactory1 {
 
         // shuffle and return
         return shuffle( challenges );
-    }
-
-    // Converts an integer range to a list of values that are in that range.
-    private static ArrayList<Integer> rangeToList( IntegerRange range ) {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for ( int i = range.getMin(); i <= range.getMax(); i++ ) {
-            list.add( i );
-        }
-        assert ( list.size() > 0 );
-        return list;
-    }
-
-    // Gets a random index for a specified list.
-    private int randomIndex( List list ) {
-        return random.nextInt( list.size() );
-    }
-
-    // Picks a manipulation mode, removes it from the list.
-    private ManipulationMode pickManipulationMode( ArrayList<ManipulationMode> list ) {
-        int index = randomIndex( list );
-        final ManipulationMode manipulationMode = list.get( index );
-        list.remove( index );
-        return manipulationMode;
-    }
-
-    // Picks an integer, removes it from the bin.
-    private int pickInteger( ArrayList<ArrayList<Integer>> bins ) {
-        return pickInteger( bins, rangeToList( new IntegerRange( 0, bins.size() - 1 ) ) );
-    }
-
-    // Picks an integer, removes it from the bin, removes the bin from the binIndices.
-    private int pickInteger( ArrayList<ArrayList<Integer>> bins, ArrayList<Integer> binIndices ) {
-        int index = randomIndex( binIndices );
-        ArrayList<Integer> bin = bins.get( binIndices.get( index ) );
-        binIndices.remove( index );
-        index = randomIndex( bin );
-        final int value = bin.get( index );
-        bin.remove( index );
-        return value;
-    }
-
-    // Picks a fraction, removes it from the bin.
-    private Fraction pickFraction( ArrayList<ArrayList<Fraction>> bins ) {
-        return pickFraction( bins, rangeToList( new IntegerRange( 0, bins.size() - 1 ) ) );
-    }
-
-    // Picks a fraction, removes it from the bin, removes the bin from the binIndices.
-    private Fraction pickFraction( ArrayList<ArrayList<Fraction>> bins, ArrayList<Integer> binIndices ) {
-        int index = randomIndex( binIndices );
-        ArrayList<Fraction> bin = bins.get( binIndices.get( index ) );
-        binIndices.remove( index );
-        index = randomIndex( bin );
-        final Fraction value = bin.get( index );
-        bin.remove( index );
-        return value;
-    }
-
-    // Picks a point, removes it from the bin.
-    private Point2D pickPoint( ArrayList<ArrayList<Point2D>> pointBins ) {
-        return pickPoint( pointBins, rangeToList( new IntegerRange( 0, pointBins.size() - 1 ) ) );
-    }
-
-    // Picks a point, removes it from the bin, removes the bin from the binIndices.
-    private Point2D pickPoint( ArrayList<ArrayList<Point2D>> bins, ArrayList<Integer> binIndices ) {
-        int index = randomIndex( binIndices );
-        ArrayList<Point2D> bin = bins.get( binIndices.get( index ) );
-        binIndices.remove( index );
-        index = randomIndex( bin );
-        final Point2D point = bin.get( index );
-        bin.remove( index );
-        return point;
-    }
-
-    // Shuffles a list of challenges.
-    private ArrayList<IChallenge> shuffle( ArrayList<IChallenge> list ) {
-        ArrayList<IChallenge> shuffledList = new ArrayList<IChallenge>();
-        while ( list.size() != 0 ) {
-            int index = randomIndex( list );
-            shuffledList.add( list.get( index ) );
-            list.remove( index );
-        }
-        return shuffledList;
     }
 }
