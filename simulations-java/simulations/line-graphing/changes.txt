@@ -1,3 +1,4 @@
+# 0.00.45 (71486) Jan 2, 2013
 1/2/13 publish a dev version with hardcoded challenges, since significant refactoring/rewriting has been done since previous version
 1/2/13 break out challenge generation into separate factories for each level, single they are quite complicated
 1/2/13 more refinement of level=1 challenge generation
