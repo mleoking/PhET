@@ -1,3 +1,4 @@
+1/2/13 break out challenge generation into separate factories for each level, single they are quite complicated
 1/2/13 more refinement of level=1 challenge generation
 1/2/13 fixes and additional constraints for level=1 challenges
 1/2/13 first pass at challenge generation for level=1
