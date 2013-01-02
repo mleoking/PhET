@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameTimer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -24,7 +26,6 @@ public class LineGameModel {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LineGameModel.class.getCanonicalName() );
 
-    private static final int CHALLENGES_PER_GAME = 4;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 6 );
 
@@ -35,7 +36,7 @@ public class LineGameModel {
     public final Property<PlayState> state;
 
     public final Property<IChallenge> challenge; // the current challenge
-    private IChallenge[] challenges = new IChallenge[CHALLENGES_PER_GAME];
+    private ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
     private int challengeIndex;
 
     // Default is a graph with uniform quadrants.
@@ -83,13 +84,13 @@ public class LineGameModel {
                 public void apply( PlayState state ) {
                     LOGGER.info( "play state = " + state );
                     if ( state == PlayState.FIRST_CHECK ) {
-                        if ( challengeIndex == challenges.length ) {
+                        if ( challengeIndex == challenges.size() ) {
                             // game has been completed
                             phase.set( GamePhase.RESULTS );
                         }
                         else {
                             // next challenge
-                            challenge.set( challenges[challengeIndex] );
+                            challenge.set( challenges.get( challengeIndex ) );
                             challengeIndex++;
                         }
                     }
@@ -105,47 +106,46 @@ public class LineGameModel {
         //TODO replace with random challenge generation
         final IntegerRange xRange = LGConstants.X_AXIS_RANGE;
         final IntegerRange yRange = LGConstants.Y_AXIS_RANGE;
-        int index = 0;
+        challenges.clear();
         if ( settings.level.get() == 1 ) {
-            challenges[index++] = new GTL_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange );
-            challenges[index++] = new GTL_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange );
-            challenges[index++] = new GTL_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange );
-            challenges[index++] = new GTL_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.POINTS, xRange, yRange);
+            challenges.add( new GTL_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.POINTS, xRange, yRange ) );
         }
         else if ( settings.level.get() == 2 ) {
-            challenges[index++] = new GTL_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, ManipulationMode.SLOPE, xRange, yRange );
-            challenges[index++] = new GTL_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT, xRange, yRange );
-            challenges[index++] = new GTL_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange );
-            challenges[index++] = new GTL_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINTS, xRange, yRange );
+            challenges.add( new GTL_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, ManipulationMode.SLOPE, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINTS, xRange, yRange ) );
         }
         else if ( settings.level.get() == 3 ) {
-            challenges[index++] = new MTE_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange );
-            challenges[index++] = new MTE_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange );
-            challenges[index++] = new MTE_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange );
-            challenges[index++] = new MTE_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange );
+            challenges.add( new MTE_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
+            challenges.add( new MTE_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
+            challenges.add( new MTE_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+            challenges.add( new MTE_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
         else if ( settings.level.get() == 4 ) {
-            challenges[index++] = new MTE_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, ManipulationMode.SLOPE, xRange, yRange );
-            challenges[index++] = new MTE_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT, xRange, yRange );
-            challenges[index++] = new MTE_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange );
-            challenges[index++] = new MTE_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange );
+            challenges.add( new MTE_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, ManipulationMode.SLOPE, xRange, yRange ) );
+            challenges.add( new MTE_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT, xRange, yRange ) );
+            challenges.add( new MTE_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+            challenges.add( new MTE_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
         else if ( settings.level.get() == 5 ) {
-            challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, xRange, yRange );
-            challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, xRange, yRange );
-            challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, xRange, yRange );
-            challenges[index++] = new P3P_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, xRange, yRange );
+            challenges.add( new P3P_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
+            challenges.add( new P3P_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
+            challenges.add( new P3P_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
+            challenges.add( new P3P_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
         }
         else if ( settings.level.get() == 6 ) {
-            challenges[index++] = new P3P_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, xRange, yRange );
-            challenges[index++] = new P3P_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, xRange, yRange );
-            challenges[index++] = new P3P_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, xRange, yRange );
-            challenges[index++] = new P3P_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, xRange, yRange );
+            challenges.add( new P3P_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, xRange, yRange ) );
+            challenges.add( new P3P_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, xRange, yRange ) );
+            challenges.add( new P3P_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, xRange, yRange ) );
+            challenges.add( new P3P_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, xRange, yRange ) );
         }
         else {
             throw new IllegalArgumentException( "unsupported level: " + settings.level.get() );
         }
-        assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;
     }
 
@@ -155,7 +155,7 @@ public class LineGameModel {
 
     // Gets the number of points in a perfect score (ie, correct answers for all challenges on the first try)
     public int getPerfectScore() {
-        return CHALLENGES_PER_GAME * computePoints( 1 );
+        return challenges.size() * computePoints( 1 );
     }
 
     // Updates the best time for the current level, at the end of a timed game with a perfect score.
