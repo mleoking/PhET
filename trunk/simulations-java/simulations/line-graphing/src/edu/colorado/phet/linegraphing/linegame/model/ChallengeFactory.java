@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -58,6 +59,30 @@ public class ChallengeFactory {
 
         ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
 
+         // for point manipulation challenges, (x1,y1) must be in Quadrant 1 (both coordinates positive) or Quadrant 3 (both coordinates negative)
+        final IntegerRange x1Range = new IntegerRange( -9, 4 );
+        final IntegerRange y1Range = new IntegerRange( -9, 4 );
+        ArrayList<ArrayList<Point2D>> pointBins = new ArrayList<ArrayList<Point2D>>() {{
+            add( new ArrayList<Point2D>() {{
+                // Quadrant 1
+                assert( x1Range.getMax() > 0 && y1Range.getMax() > 0 );
+                for ( int x = 1; x < x1Range.getMax(); x++ ) {
+                    for ( int y = 1; y < y1Range.getMax(); y++ ) {
+                        add( new Point2D.Double( x, y ) );
+                    }
+                }
+            }} );
+            add( new ArrayList<Point2D>() {{
+                // Quadrant 3
+                assert( x1Range.getMin() < 0 && y1Range.getMin() < 0 );
+                for ( int x = x1Range.getMin(); x < 0; x++ ) {
+                    for ( int y = y1Range.getMin(); y < 0; y++ ) {
+                        add( new Point2D.Double( x, y ) );
+                    }
+                }
+            }} );
+        }};
+
         // for slope manipulation challenges, 1 slope must come from each bin
         ArrayList<ArrayList<Fraction>> slopeBins = new ArrayList<ArrayList<Fraction>>() {{
             add( new ArrayList<Fraction>() {{
@@ -79,241 +104,98 @@ public class ChallengeFactory {
                 add( new Fraction( 2, 5 ) );
             }} );
         }};
-        // for point manipulation challenges, (x1,y1) must be in Q1 or Q3
-        ArrayList<ArrayList<Integer>> x1Bins = new ArrayList<ArrayList<Integer>>() {{
-            add( rangeToList( new IntegerRange( -9, -1 ) ) );
-            add( rangeToList( new IntegerRange( 1, 4 ) ) );
-        }};
-        ArrayList<ArrayList<Integer>> y1Bins = new ArrayList<ArrayList<Integer>>() {{
-            add( rangeToList( new IntegerRange( -9, -1 ) ) );
-            add( rangeToList( new IntegerRange( 1, 4 ) ) );
-        }};
+
         // for y-intercept manipulation challenges, one must be positive, one negative
+        final IntegerRange yInterceptRange = new IntegerRange( -9, 4 );
         ArrayList<ArrayList<Integer>> yInterceptBins = new ArrayList<ArrayList<Integer>>() {{
-            add( rangeToList( new IntegerRange( -9, -1 ) ) );
-            add( rangeToList( new IntegerRange( 1, 4 ) ) );
+            assert( yInterceptRange.getMin() < 0 && yInterceptRange.getMax() > 0 );
+            add( rangeToList( new IntegerRange( yInterceptRange.getMin(), -1 ) ) );
+            add( rangeToList( new IntegerRange( 1, yInterceptRange.getMax() ) ) );
         }};
+
         // for point-slope form, one of each manipulation mode
-        ArrayList<ManipulationMode> pointSlopeManipulationMode = new ArrayList<ManipulationMode>() {{
+        ArrayList<ManipulationMode> pointSlopeManipulationModes = new ArrayList<ManipulationMode>() {{
             add( ManipulationMode.POINT );
             add( ManipulationMode.SLOPE );
         }};
 
         // bin indices
+        ArrayList<Integer> pointBinIndices = rangeToList( new IntegerRange( 0, pointBins.size() - 1 ) );
         ArrayList<Integer> slopeBinIndices = rangeToList( new IntegerRange( 0, slopeBins.size() - 1 ) );
-        assert ( x1Bins.size() == y1Bins.size() );
-        ArrayList<Integer> pointBinIndices = rangeToList( new IntegerRange( 0, x1Bins.size() - 1 ) );
         ArrayList<Integer> yInterceptBinIndices = rangeToList( new IntegerRange( 0, yInterceptBins.size() - 1 ) );
-
-        int index; // random index
 
         // GTL, SI, slope
         {
-            // slope: choose from remaining bins
-            index = randomIndex( slopeBinIndices );
-            ArrayList<Fraction> slopes = slopeBins.get( slopeBinIndices.get( index ) );
-            slopeBinIndices.remove( index );
-            index = randomIndex( slopes );
-            final Fraction slope = slopes.get( index );
-            slopes.remove( index );
-
-            // y-intercept: choose from any bin
-            index = randomIndex( yInterceptBins );
-            ArrayList<Integer> yIntercepts = yInterceptBins.get( index );
-            index = randomIndex( yIntercepts );
-            final int yIntercept = yIntercepts.get( index );
-            yIntercepts.remove( index );
-
-            // challenge
+            Fraction slope = pickFraction( slopeBins, slopeBinIndices );
+            int yIntercept = pickInteger( yInterceptBins );
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            IChallenge challenge = new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange );
-            challenges.add( challenge );
+            challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
         }
 
         // GTL, SI, intercept
         {
-            // slope: choose from any bin
-            ArrayList<Integer> indices = rangeToList( new IntegerRange( 0, slopeBins.size() - 1 ) );
-            index = randomIndex( indices );
-            ArrayList<Fraction> slopes = slopeBins.get( index );
-            index = randomIndex( slopes );
-            final Fraction slope = slopes.get( index );
-            slopes.remove( index );
-
-            // y-intercept: choose from remaining bins
-            index = randomIndex( yInterceptBinIndices );
-            ArrayList<Integer> yIntercepts = yInterceptBins.get( yInterceptBinIndices.get( index ) );
-            yInterceptBinIndices.remove( index );
-            index = randomIndex( yInterceptBins );
-            final int yIntercept = yIntercepts.get( index );
-            yIntercepts.remove( index );
-
-            // challenge
+            Fraction slope = pickFraction( slopeBins );
+            int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices );
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            IChallenge challenge = new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange );
-            challenges.add( challenge );
+            challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
         }
 
         // GTL, PS, point or slope
         {
             // manipulation mode
-            index = randomIndex( pointSlopeManipulationMode );
-            final ManipulationMode manipulationMode = pointSlopeManipulationMode.get( index );
-            pointSlopeManipulationMode.remove( index );
+            final ManipulationMode manipulationMode = pickManipulationMode( pointSlopeManipulationModes );
 
-            int x1, y1;
+            Point2D point;
             Fraction slope;
             if ( manipulationMode == ManipulationMode.SLOPE ) {
-
-                // point: choose from any bin
-                ArrayList<Integer> indices = rangeToList( new IntegerRange( 0, x1Bins.size() - 1 ) );
-                index = randomIndex( indices );
-                ArrayList<Integer> x1Values = x1Bins.get( index );
-                ArrayList<Integer> y1Values = x1Bins.get( index );
-                index = randomIndex( x1Values );
-                x1 = x1Values.get( index );
-                x1Values.remove( index );
-                index = randomIndex( y1Values );
-                y1 = y1Values.get( index );
-                y1Values.remove( index );
-
-                // slope: choose from remaining bins
-                index = randomIndex( slopeBinIndices );
-                ArrayList<Fraction> slopes = slopeBins.get( slopeBinIndices.get( index ) );
-                slopeBinIndices.remove( index );
-                index = randomIndex( slopes );
-                slope = slopes.get( index );
-                slopes.remove( index );
+                point = pickPoint( pointBins );
+                slope = pickFraction( slopeBins, slopeBinIndices );
             }
             else {
-                // point: choose from remaining bins
-                index = randomIndex( pointBinIndices );
-                ArrayList<Integer> x1Values = x1Bins.get( pointBinIndices.get( index ) );
-                ArrayList<Integer> y1Values = y1Bins.get( pointBinIndices.get( index ) );
-                pointBinIndices.remove( index );
-                index = randomIndex( x1Values );
-                x1 = x1Values.get( index );
-                x1Values.remove( index );
-                index = randomIndex( y1Values );
-                y1 = y1Values.get( index );
-                y1Values.remove( index );
-
-                // slope: choose from any bin
-                ArrayList<Integer> indices = rangeToList( new IntegerRange( 0, slopeBins.size() - 1 ) );
-                index = randomIndex( indices );
-                ArrayList<Fraction> slopes = slopeBins.get( index );
-                index = randomIndex( slopes );
-                slope = slopes.get( index );
-                slopes.remove( index );
+                point = pickPoint( pointBins, pointBinIndices );
+                slope = pickFraction( slopeBins );
             }
 
             // challenge
-            Line line = Line.createPointSlope( x1, y1, slope.numerator, slope.denominator );
+            Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
             IChallenge challenge = new GTL_Challenge( line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 
         // MTE, SI, slope
         {
-            // slope: choose from remaining bins
-            index = randomIndex( slopeBinIndices );
-            ArrayList<Fraction> slopes = slopeBins.get( slopeBinIndices.get( index ) );
-            slopeBinIndices.remove( index );
-            index = randomIndex( slopes );
-            final Fraction slope = slopes.get( index );
-            slopes.remove( index );
-
-            // y-intercept: choose from any bin
-            index = randomIndex( yInterceptBins );
-            ArrayList<Integer> yIntercepts = yInterceptBins.get( index );
-            index = randomIndex( yIntercepts );
-            final int yIntercept = yIntercepts.get( index );
-            yIntercepts.remove( index );
-
-            // challenge
+            Fraction slope = pickFraction( slopeBins, slopeBinIndices );
+            int yIntercept = pickInteger( yInterceptBins );
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            IChallenge challenge = new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange );
-            challenges.add( challenge );
+            challenges.add( new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
         }
 
         // GTL, SI, intercept
         {
-            // slope: choose from any bin
-            ArrayList<Integer> indices = rangeToList( new IntegerRange( 0, slopeBins.size() - 1 ) );
-            index = randomIndex( indices );
-            ArrayList<Fraction> slopes = slopeBins.get( index );
-            index = randomIndex( slopes );
-            final Fraction slope = slopes.get( index );
-            slopes.remove( index );
-
-            // y-intercept: choose from remaining bins
-            index = randomIndex( yInterceptBinIndices );
-            ArrayList<Integer> yIntercepts = yInterceptBins.get( yInterceptBinIndices.get( index ) );
-            index = randomIndex( yIntercepts );
-            final int yIntercept = yIntercepts.get( index );
-            yIntercepts.remove( index );
-
-            // challenge
+            Fraction slope = pickFraction( slopeBins );
+            int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices );
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            IChallenge challenge = new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange );
-            challenges.add( challenge );
+            challenges.add( new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
         }
 
         // MTE, PS, point or slope
         {
             // manipulation mode
-            index = randomIndex( pointSlopeManipulationMode );
-            final ManipulationMode manipulationMode = pointSlopeManipulationMode.get( index );
-            pointSlopeManipulationMode.remove( index );
+            final ManipulationMode manipulationMode = pickManipulationMode( pointSlopeManipulationModes );
 
-            int x1, y1;
+            Point2D point;
             Fraction slope;
             if ( manipulationMode == ManipulationMode.SLOPE ) {
-
-                // point: choose from any bin
-                ArrayList<Integer> indices = rangeToList( new IntegerRange( 0, x1Bins.size() - 1 ) );
-                index = randomIndex( indices );
-                ArrayList<Integer> x1Values = x1Bins.get( index );
-                ArrayList<Integer> y1Values = x1Bins.get( index );
-                index = randomIndex( x1Values );
-                x1 = x1Values.get( index );
-                x1Values.remove( index );
-                index = randomIndex( y1Values );
-                y1 = y1Values.get( index );
-                y1Values.remove( index );
-
-                // slope: choose from remaining bins
-                index = randomIndex( slopeBinIndices );
-                ArrayList<Fraction> slopes = slopeBins.get( slopeBinIndices.get( index ) );
-                slopeBinIndices.remove( index );
-                index = randomIndex( slopes );
-                slope = slopes.get( index );
-                slopes.remove( index );
+                point = pickPoint( pointBins );
+                slope = pickFraction( slopeBins, slopeBinIndices );
             }
             else {
-                // point: choose from remaining bins
-                index = randomIndex( pointBinIndices );
-                ArrayList<Integer> x1Values = x1Bins.get( pointBinIndices.get( index ) );
-                ArrayList<Integer> y1Values = y1Bins.get( pointBinIndices.get( index ) );
-                pointBinIndices.remove( index );
-                index = randomIndex( x1Values );
-                x1 = x1Values.get( index );
-                x1Values.remove( index );
-                index = randomIndex( y1Values );
-                y1 = y1Values.get( index );
-                y1Values.remove( index );
-
-                // slope: choose from any bin
-                ArrayList<Integer> indices = rangeToList( new IntegerRange( 0, slopeBins.size() - 1 ) );
-                index = randomIndex( indices );
-                ArrayList<Fraction> slopes = slopeBins.get( index );
-                index = randomIndex( slopes );
-                slope = slopes.get( index );
-                slopes.remove( index );
+                point = pickPoint( pointBins, pointBinIndices );
+                slope = pickFraction( slopeBins );
             }
 
             // challenge
-            Line line = Line.createPointSlope( x1, y1, slope.numerator, slope.denominator );
+            Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
             IChallenge challenge = new MTE_Challenge( line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
@@ -322,7 +204,7 @@ public class ChallengeFactory {
         return shuffle( challenges );
     }
 
-    // Coverts an integer range to a list of values that are in that range.
+    // Converts an integer range to a list of values that are in that range.
     private static ArrayList<Integer> rangeToList( IntegerRange range ) {
         ArrayList<Integer> list = new ArrayList<Integer>();
         for ( int i = range.getMin(); i <= range.getMax(); i++ ) {
@@ -335,6 +217,62 @@ public class ChallengeFactory {
     // Gets a random index for a specified list.
     private int randomIndex( List list ) {
         return random.nextInt( list.size() );
+    }
+
+    // Picks a manipulation mode, removes it from the list.
+    private ManipulationMode pickManipulationMode( ArrayList<ManipulationMode> list ) {
+        int index = randomIndex( list );
+        final ManipulationMode manipulationMode = list.get( index );
+        list.remove( index );
+        return manipulationMode;
+    }
+
+    // Picks an integer, removes it from the bin.
+    private int pickInteger( ArrayList<ArrayList<Integer>> bins ) {
+        return pickInteger( bins, rangeToList( new IntegerRange( 0, bins.size() - 1 ) ) );
+    }
+
+    // Picks an integer, removes it from the bin, removes the bin from the binIndices.
+    private int pickInteger( ArrayList<ArrayList<Integer>> bins, ArrayList<Integer> binIndices ) {
+        int index = randomIndex( binIndices );
+        ArrayList<Integer> bin = bins.get( binIndices.get( index ) );
+        binIndices.remove( index );
+        index = randomIndex( bin );
+        final int value = bin.get( index );
+        bin.remove( index );
+        return value;
+    }
+
+    // Picks a fraction, removes it from the bin.
+    private Fraction pickFraction( ArrayList<ArrayList<Fraction>> bins ) {
+        return pickFraction( bins, rangeToList( new IntegerRange( 0, bins.size() - 1 ) ) );
+    }
+
+    // Picks a fraction, removes it from the bin, removes the bin from the binIndices.
+    private Fraction pickFraction( ArrayList<ArrayList<Fraction>> bins, ArrayList<Integer> binIndices ) {
+        int index = randomIndex( binIndices );
+        ArrayList<Fraction> bin = bins.get( binIndices.get( index ) );
+        binIndices.remove( index );
+        index = randomIndex( bin );
+        final Fraction value = bin.get( index );
+        bin.remove( index );
+        return value;
+    }
+
+    // Picks a point, removes it from the bin.
+    private Point2D pickPoint( ArrayList<ArrayList<Point2D>> pointBins ) {
+        return pickPoint( pointBins, rangeToList( new IntegerRange( 0, pointBins.size() - 1 ) ) );
+    }
+
+    // Picks a point, removes it from the bin, removes the bin from the binIndices.
+    private Point2D pickPoint( ArrayList<ArrayList<Point2D>> bins, ArrayList<Integer> binIndices ) {
+        int index = randomIndex( binIndices );
+        ArrayList<Point2D> bin = bins.get( binIndices.get( index ) );
+        binIndices.remove( index );
+        index = randomIndex( bin );
+        final Point2D point = bin.get( index );
+        bin.remove( index );
+        return point;
     }
 
     // Shuffles a list of challenges.
