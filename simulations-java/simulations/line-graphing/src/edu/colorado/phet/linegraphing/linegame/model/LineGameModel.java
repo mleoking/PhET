@@ -115,10 +115,11 @@ public class LineGameModel {
             challenges = new ChallengeFactory1().createChallenges( xRange, yRange );
         }
         else if ( settings.level.get() == 2 ) {
-            challenges.add( new GTL_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, ManipulationMode.SLOPE, xRange, yRange ) );
-            challenges.add( new GTL_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT, xRange, yRange ) );
-            challenges.add( new GTL_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
-            challenges.add( new GTL_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINTS, xRange, yRange ) );
+//            challenges.add( new GTL_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, ManipulationMode.SLOPE, xRange, yRange ) );
+//            challenges.add( new GTL_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT, xRange, yRange ) );
+//            challenges.add( new GTL_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+//            challenges.add( new GTL_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINTS, xRange, yRange ) );
+            challenges = new ChallengeFactory2().createChallenges( xRange, yRange );
         }
         else if ( settings.level.get() == 3 ) {
             challenges.add( new MTE_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
