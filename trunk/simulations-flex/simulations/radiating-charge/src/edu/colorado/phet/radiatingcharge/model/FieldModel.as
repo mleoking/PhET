@@ -634,7 +634,7 @@ public class FieldModel {
         var currentTime:Number = this._t;
         this.clockTime = getTimer();
         elapsedTime = (clockTime - tLastStep)/1000;  //elapsed time in seconds
-        if( elapsedTime > 2*stepsPerFrame*dt ){
+        if( elapsedTime > 10*stepsPerFrame*dt ){
             elapsedTime = stepsPerFrame*dt;
         }
         this.tLastStep = clockTime;
