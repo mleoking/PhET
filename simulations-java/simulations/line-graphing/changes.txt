@@ -1,3 +1,4 @@
+1/3/13 fix: for P3P challenges, show "not a line" when guess is not a line (broken during refactoring from 0.00.44 to 0.00.45)
 1/2/13 when P3P is correct, set the guess to the answer, so that equations will match
 1/2/13 first pass at challenge generation for level=2
 1/2/13 more challenge generation utilities to base class
