@@ -59,6 +59,9 @@ public class P3P_Challenge extends MatchChallenge {
         Line line = new Line( p1.get().x, p1.get().y, p2.get().x, p2.get().y, LineGameConstants.GUESS_COLOR );
         if ( line.onLine( p3.get() ) ) {
             guess.set( line );
+            if ( isCorrect() ) {
+                guess.set( answer );
+            }
         }
         else {
             guess.set( null );

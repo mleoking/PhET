@@ -1,3 +1,4 @@
+1/2/13 when P3P is correct, set the guess to the answer, so that equations will match
 1/2/13 first pass at challenge generation for level=2
 1/2/13 more challenge generation utilities to base class
 1/2/13 restore challenge factory for level=1
