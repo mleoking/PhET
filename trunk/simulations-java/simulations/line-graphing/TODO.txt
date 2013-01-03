@@ -14,7 +14,6 @@ MEDIUM
 - rise value on slope tool falls off left edge of play area in Point-Slope tab
 
 LOW
-- slope tool rise/run can go off the graph for GTL challenges that don't manipulate slope (ie, "Set the y-Intercept", "Set the Point")
 - document CoordinateSpinnerNode constructor
 - remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - order of lines provided to point tool is not related to order of lines rendered on graph, would be nice if they used the same info
