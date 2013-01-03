@@ -9,6 +9,8 @@ HIGH
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
+- dev: Play Again
+- dev: Level 7 = configure your own challenge
 - move duplication in GTL_ChallengeNode, MTE_ChallengeNode and P3P_ChallengeNode into base class ChallengeNode
 - could P3P_ChallengeNode be a subclass of GTL_ChallengeNode?
 - rise value on slope tool falls off left edge of play area in Point-Slope tab
@@ -33,6 +35,6 @@ LOOSE ENDS
 - screenshot
 - model.txt
 - implementation-notes.txt
-- code review
+- code review (JB)
 
 MIGRATE TO COMMON
