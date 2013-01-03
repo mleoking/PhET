@@ -21,7 +21,7 @@ class ChallengeFactory2 extends ChallengeFactory {
 
     public ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
 
-        //TODO for point-slope, x1 range selected to work with positive run
+        //TODO for point-slope, x1 & y1 range selected to work with slope
 
         ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
 
