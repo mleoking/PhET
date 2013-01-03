@@ -3,10 +3,6 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- Game: for first incorrect guess, should we show the user's equation (for GTL) or line (for MTE)?
-- P3P challenges: use similar but different colors for the 3 points?
-- slope tool goes off play area for some types of challenges
-- Level 1: are the slope bins for all slopes, or only interactive slopes?
 
 HIGH
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges (consult design doc)
