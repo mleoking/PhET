@@ -114,7 +114,7 @@ public abstract class ChallengeFactory {
         return point;
     }
 
-    // Picks a point on that keeps the slope indicator on the graph.
+    // Picks a point that keeps the slope indicator on the graph.
     protected Point2D pickPointForSlope( final Fraction slope, final IntegerRange graphXRange, final IntegerRange graphYRange ) {
 
         final int rise = slope.numerator;
