@@ -5,11 +5,13 @@ DEADLINES
 DESIGN
 
 HIGH
-- Game: generate challenges for levels 4-6
+- Game level 4: force inversion of slope in GTL challenge with 2 points
+- Game: generate challenges for levels 5-6
 - Game dev: Level 7 = configure your own challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges (consult design doc)
 
 MEDIUM
+- factor out duplication in ChallengeFactory hierarchy when the dust settles
 - move duplication in GTL_ChallengeNode, MTE_ChallengeNode and P3P_ChallengeNode into base class ChallengeNode
 - could P3P_ChallengeNode be a subclass of GTL_ChallengeNode?
 - rise value on slope tool falls off left edge of play area in Point-Slope tab

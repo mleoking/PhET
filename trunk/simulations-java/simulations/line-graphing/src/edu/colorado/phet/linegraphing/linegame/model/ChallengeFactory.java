@@ -40,6 +40,8 @@ public abstract class ChallengeFactory {
                 return new ChallengeFactory2().createChallenges( xRange, yRange );
             case 3:
                 return new ChallengeFactory3().createChallenges( xRange, yRange );
+            case 4:
+                return new ChallengeFactory4().createChallenges( xRange, yRange );
             default:
                 //TODO throw exception
                 return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
