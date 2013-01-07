@@ -38,6 +38,8 @@ public abstract class ChallengeFactory {
                 return new ChallengeFactory1().createChallenges( xRange, yRange );
             case 2:
                 return new ChallengeFactory2().createChallenges( xRange, yRange );
+            case 3:
+                return new ChallengeFactory3().createChallenges( xRange, yRange );
             default:
                 //TODO throw exception
                 return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
@@ -73,6 +75,14 @@ public abstract class ChallengeFactory {
         final ManipulationMode manipulationMode = list.get( index );
         list.remove( index );
         return manipulationMode;
+    }
+
+    // Picks a line form, removes it from the list.
+    protected LineForm pickLineForm( ArrayList<LineForm> list ) {
+        int index = randomIndex( list );
+        final LineForm lineForm = list.get( index );
+        list.remove( index );
+        return lineForm;
     }
 
     // Picks an integer, removes it from the bin.
