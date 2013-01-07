@@ -16,11 +16,32 @@ import edu.colorado.phet.linegraphing.common.model.Fraction;
  */
 public abstract class ChallengeFactory {
 
+    private static final boolean USE_HARD_CODED_CHALLENGES = false;
+
     protected final Random random;
 
     protected ChallengeFactory() {
         this.random = new Random();
     }
+
+    public static ArrayList<IChallenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
+
+        if ( USE_HARD_CODED_CHALLENGES ) {
+            return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
+        }
+
+        switch( level ) {
+            case 1:
+                return new ChallengeFactory1().createChallenges( xRange, yRange );
+            case 2:
+                return new ChallengeFactory2().createChallenges( xRange, yRange );
+            default:
+                //TODO throw exception
+                return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
+        }
+    }
+
+    public abstract ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange );
 
     // Converts an integer range to a list of values that are in that range.
     protected static ArrayList<Integer> rangeToList( IntegerRange range ) {
