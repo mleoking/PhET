@@ -141,20 +141,22 @@ class ChallengeFactory4 extends ChallengeFactory {
             challenges.add( new GTL_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
-        //TODO force inversion of slope based on where y-intercept or point is placed. This means (x1,y2) must be off the graph.
-        // GTL, SI or PS (random choice), 2 points
+        /*
+         * GTL, SI or PS (random choice), 2 points.
+         * Choose y-intercept or point such that (x2,y2) is off the graph, so that user is forced to invert the slope.
+         */
         {
             if ( pickLineForm( lineForms ) == LineForm.SLOPE_INTERCEPT ) {
                 // GTL, SI, 2 points
                 Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // third required slope, unique
-                int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
+                int yIntercept = (int) pickPointForInvertedSlope( slope, xRange, yRange ).getY(); // random y-intercept, not necessarily unique
                 Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
                 challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.POINTS, xRange, yRange ) );
             }
             else {
                 // GTL, PS, 2 points
                 Fraction slope = pickFraction( slopeBins ); // third required slope, unique
-                Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+                Point2D point = pickPointForInvertedSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
                 challenges.add( new GTL_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINTS, xRange, yRange ) );
             }
