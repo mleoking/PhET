@@ -114,6 +114,37 @@ public abstract class ChallengeFactory {
         return point;
     }
 
+    // Picks a point on that keeps the slope indicator on the graph.
+    protected Point2D pickPointForSlope( final Fraction slope, final IntegerRange graphXRange, final IntegerRange graphYRange ) {
+
+        final int rise = slope.numerator;
+        final int run = slope.denominator;
+
+        // x coordinates
+        IntegerRange xRange;
+        if ( run >= 0 ) {
+            xRange = new IntegerRange( graphXRange.getMin(), graphYRange.getMax() - run );
+        }
+        else {
+            xRange = new IntegerRange( graphXRange.getMin() - run, graphYRange.getMax() );
+        }
+        ArrayList<Integer> xList = rangeToList( xRange );
+
+        // y coordinates
+        IntegerRange yRange;
+        if ( rise >= 0 ) {
+            yRange = new IntegerRange( graphYRange.getMin(), graphYRange.getMax() - rise );
+        }
+        else {
+            yRange = new IntegerRange( graphYRange.getMin() - rise, graphYRange.getMax() );
+        }
+        ArrayList<Integer> yList = rangeToList( yRange );
+
+        final int x = xList.get( randomIndex( xList ) );
+        final int y = yList.get( randomIndex( yList ) );
+        return new Point2D.Double( x, y );
+    }
+
     // Shuffles a list of challenges.
     protected ArrayList<IChallenge> shuffle( ArrayList<IChallenge> list ) {
         ArrayList<IChallenge> shuffledList = new ArrayList<IChallenge>();

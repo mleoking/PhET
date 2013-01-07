@@ -21,23 +21,7 @@ class ChallengeFactory2 extends ChallengeFactory {
 
     public ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
 
-        //TODO for point-slope, x1 & y1 range selected to work with slope
-
         ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
-
-        //TODO this is a lot of points
-        // for point manipulation challenges, signs of x1 and y1 can be mixed
-        final IntegerRange x1Range = new IntegerRange( -10, 10 );
-        final IntegerRange y1Range = new IntegerRange( -10, 10 );
-        ArrayList<Point2D> points = new ArrayList<Point2D>() {{
-            for ( int x = x1Range.getMin(); x <= x1Range.getMax(); x++ ) {
-                for ( int y = y1Range.getMin(); y <= y1Range.getMax(); y++ ) {
-                    if ( !( x == 0 && y == 0 ) ) {
-                        add( new Point2D.Double( x, y ) );
-                    }
-                }
-            }
-        }};
 
         // for slope manipulation challenges, 1 slope must come from each bin
         ArrayList<ArrayList<Fraction>> slopeBins = new ArrayList<ArrayList<Fraction>>() {{
@@ -129,7 +113,6 @@ class ChallengeFactory2 extends ChallengeFactory {
             // manipulation mode
             final ManipulationMode manipulationMode = pickManipulationMode( pointSlopeManipulationModes );
 
-            Point2D point = choosePoint( points );
             Fraction slope;
             if ( manipulationMode == ManipulationMode.SLOPE ) {
                 slope = pickFraction( slopeBins, slopeBinIndices );
@@ -137,6 +120,7 @@ class ChallengeFactory2 extends ChallengeFactory {
             else {
                 slope = pickFraction( slopeBins );
             }
+            Point2D point = pickPointForSlope( slope, xRange, yRange );
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
@@ -165,7 +149,6 @@ class ChallengeFactory2 extends ChallengeFactory {
             // manipulation mode
             final ManipulationMode manipulationMode = pickManipulationMode( pointSlopeManipulationModes );
 
-            Point2D point = choosePoint( points );
             Fraction slope;
             if ( manipulationMode == ManipulationMode.SLOPE ) {
                 slope = pickFraction( slopeBins, slopeBinIndices );
@@ -173,6 +156,7 @@ class ChallengeFactory2 extends ChallengeFactory {
             else {
                 slope = pickFraction( slopeBins );
             }
+            Point2D point = pickPointForSlope( slope, xRange, yRange );
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
