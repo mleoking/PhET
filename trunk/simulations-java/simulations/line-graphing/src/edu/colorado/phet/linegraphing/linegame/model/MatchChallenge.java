@@ -82,6 +82,13 @@ public abstract class MatchChallenge implements IChallenge {
         } );
     }
 
+    public void reset() {
+        guess.reset();
+        pointTool1.reset();
+        pointTool2.reset();
+        setAnswerVisible( false );
+    }
+
     // Correct if the guess and answer are descriptions of the same line.
     public boolean isCorrect() {
         return answer.same( guess.get() );

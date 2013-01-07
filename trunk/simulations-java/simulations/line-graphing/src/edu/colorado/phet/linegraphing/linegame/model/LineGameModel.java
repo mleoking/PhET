@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameTimer;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -127,5 +128,17 @@ public class LineGameModel {
     // Compute points to be awarded for a correct answer.
     public int computePoints( int attempts ) {
         return Math.max( 0, MAX_POINTS_PER_CHALLENGE - attempts + 1 );
+    }
+
+    /*
+     * Replays the current challenge.
+     * This is a developer-only feature.
+     * No attempt is made to adjust the score, so points and best times are meaningless after using this.
+     */
+    public void replayCurrentChallenge() {
+        assert ( PhetApplication.getInstance().isDeveloperControlsEnabled() );
+        challenge.get().reset();
+        challengeIndex--;
+        state.set( PlayState.FIRST_CHECK );
     }
 }

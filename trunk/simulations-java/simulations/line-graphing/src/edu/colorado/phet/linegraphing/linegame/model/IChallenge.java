@@ -20,4 +20,7 @@ public interface IChallenge {
 
     // Do anything that is dependent on visibility of the answer.
     public void setAnswerVisible( boolean visible );
+
+    // Resets the challenge
+    public void reset();
 }

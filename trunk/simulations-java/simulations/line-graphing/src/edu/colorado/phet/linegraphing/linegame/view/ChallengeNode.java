@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -66,11 +67,12 @@ public abstract class ChallengeNode extends PhetPNode {
 
         // buttons
         final Font buttonFont = LineGameConstants.BUTTON_FONT;
-        final Color buttonForeground = LineGameConstants.BUTTON_COLOR;
-        checkButton = new TextButtonNode( Strings.CHECK, buttonFont, buttonForeground );
-        final TextButtonNode tryAgainButton = new TextButtonNode( Strings.TRY_AGAIN, buttonFont, buttonForeground );
-        final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, buttonFont, buttonForeground );
-        final TextButtonNode nextButton = new TextButtonNode( Strings.NEXT, buttonFont, buttonForeground );
+        final Color buttonBackground = LineGameConstants.BUTTON_COLOR;
+        checkButton = new TextButtonNode( Strings.CHECK, buttonFont, buttonBackground );
+        final TextButtonNode tryAgainButton = new TextButtonNode( Strings.TRY_AGAIN, buttonFont, buttonBackground );
+        final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, buttonFont, buttonBackground );
+        final TextButtonNode nextButton = new TextButtonNode( Strings.NEXT, buttonFont, buttonBackground );
+        final TextButtonNode replayButton = new TextButtonNode( "Replay", new PhetFont( Font.BOLD, 15 ), Color.RED ); // developer control, no i18n
 
         // point tools
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
@@ -95,6 +97,10 @@ public abstract class ChallengeNode extends PhetPNode {
             addChild( tryAgainButton );
             addChild( showAnswerButton );
             addChild( nextButton );
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+                // This button lets you repeat the current challenge.
+                addChild( replayButton );
+            }
             addChild( pointToolParent );
             addChild( faceNode );
             addChild( pointsAwardedNode );
@@ -109,6 +115,8 @@ public abstract class ChallengeNode extends PhetPNode {
             tryAgainButton.setOffset( buttonCenterX - ( tryAgainButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             showAnswerButton.setOffset( buttonCenterX - ( showAnswerButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             nextButton.setOffset( buttonCenterX - ( nextButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
+            replayButton.setOffset( nextButton.getFullBoundsReference().getMaxX() + 5,
+                                    nextButton.getFullBoundsReference().getMaxY() - replayButton.getFullBoundsReference().getHeight() );
         }
 
         // "Check" button
@@ -160,6 +168,13 @@ public abstract class ChallengeNode extends PhetPNode {
             }
         } );
 
+        // "Repeat" button
+        replayButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.replayCurrentChallenge();
+            }
+        } );
+
         // state changes
         model.state.addObserver( new VoidFunction1<PlayState>() {
             public void apply( PlayState state ) {
@@ -177,6 +192,7 @@ public abstract class ChallengeNode extends PhetPNode {
                 tryAgainButton.setVisible( state == PlayState.TRY_AGAIN );
                 showAnswerButton.setVisible( state == PlayState.SHOW_ANSWER );
                 nextButton.setVisible( state == PlayState.NEXT );
+                replayButton.setVisible( nextButton.getVisible() );
             }
         } );
     }
