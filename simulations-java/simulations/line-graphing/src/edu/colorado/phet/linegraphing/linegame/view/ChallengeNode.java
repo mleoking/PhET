@@ -72,7 +72,7 @@ public abstract class ChallengeNode extends PhetPNode {
         final TextButtonNode tryAgainButton = new TextButtonNode( Strings.TRY_AGAIN, buttonFont, buttonBackground );
         final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, buttonFont, buttonBackground );
         final TextButtonNode nextButton = new TextButtonNode( Strings.NEXT, buttonFont, buttonBackground );
-        final TextButtonNode replayButton = new TextButtonNode( "Replay", new PhetFont( Font.BOLD, 15 ), Color.RED ); // developer control, no i18n
+        final TextButtonNode replayButton = new TextButtonNode( "Replay", new PhetFont( Font.BOLD, 12 ), Color.RED ); // developer control, no i18n
 
         // point tools
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
@@ -115,8 +115,8 @@ public abstract class ChallengeNode extends PhetPNode {
             tryAgainButton.setOffset( buttonCenterX - ( tryAgainButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             showAnswerButton.setOffset( buttonCenterX - ( showAnswerButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             nextButton.setOffset( buttonCenterX - ( nextButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
-            replayButton.setOffset( nextButton.getFullBoundsReference().getMaxX() + 5,
-                                    nextButton.getFullBoundsReference().getMaxY() - replayButton.getFullBoundsReference().getHeight() );
+            replayButton.setOffset( nextButton.getFullBoundsReference().getCenterX() - ( replayButton.getFullBoundsReference().getWidth() / 2 ),
+                                    nextButton.getFullBoundsReference().getMaxY() + 2 );
         }
 
         // "Check" button
