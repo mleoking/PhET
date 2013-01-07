@@ -6,7 +6,6 @@ DESIGN
 
 HIGH
 - Game: generate challenges for levels 3-6
-- Game dev: Play Again
 - Game dev: Level 7 = configure your own challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges (consult design doc)
 

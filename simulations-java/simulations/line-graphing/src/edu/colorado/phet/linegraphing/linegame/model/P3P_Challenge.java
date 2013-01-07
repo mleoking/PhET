@@ -54,6 +54,13 @@ public class P3P_Challenge extends MatchChallenge {
         pointObserver.observe( p1, p2, p3 );
     }
 
+    @Override public void reset() {
+        super.reset();
+        p1.reset();
+        p2.reset();
+        p3.reset();
+    }
+
     // Updates the guess to match the points.
     private void updateGuess() {
         Line line = new Line( p1.get().x, p1.get().y, p2.get().x, p2.get().y, LineGameConstants.GUESS_COLOR );
