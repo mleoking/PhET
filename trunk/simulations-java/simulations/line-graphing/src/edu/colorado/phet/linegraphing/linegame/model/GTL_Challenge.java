@@ -20,8 +20,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class GTL_Challenge extends MatchChallenge {
 
-    public GTL_Challenge( Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
-        super( createTitle( Strings.GRAPH_THE_LINE, manipulationMode ),
+    public GTL_Challenge( String description, Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
+        super( createTitle( Strings.GRAPH_THE_LINE, manipulationMode ), description,
                answer, createInitialGuess( answer, manipulationMode ),
                lineForm, manipulationMode,
                xRange, yRange,

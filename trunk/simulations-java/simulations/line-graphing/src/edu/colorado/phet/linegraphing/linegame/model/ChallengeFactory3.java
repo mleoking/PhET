@@ -97,7 +97,8 @@ class ChallengeFactory3 extends ChallengeFactory {
             Fraction slope = pickFraction( slopeBins ); // unique slope
             int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // first required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( "1 of 2 required y-intercepts",
+                                               line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // GTL, PS, point & slope
@@ -105,7 +106,8 @@ class ChallengeFactory3 extends ChallengeFactory {
             Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // first required slope, unique
             Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            challenges.add( new GTL_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( "1 of 3 required slopes",
+                                               line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
         // GTL, SI or PS (random choice)
@@ -115,31 +117,35 @@ class ChallengeFactory3 extends ChallengeFactory {
                 Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // second required slope, unique
                 int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
                 Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-                challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new GTL_Challenge( "random choice of slope-intercept, 2 of 2 required slopes",
+                                                   line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
             }
             else {
                 // GTL, PS, point & slope
                 Fraction slope = pickFraction( slopeBins ); // unique slope
                 Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-                challenges.add( new GTL_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                challenges.add( new GTL_Challenge( "random choice of point-slope",
+                                                   line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
         }
 
         // MTE, SI, slope & intercept
         {
-            Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // third required slope
+            Fraction slope = pickFraction( slopeBins ); // unique slope
             int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // second required y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+            challenges.add( new MTE_Challenge( "2 of 2 required y-intercepts",
+                                               line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // MTE, PS, point & slope
         {
-            Fraction slope = pickFraction( slopeBins ); // unique slope
+            Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // 3rd required slope, unique
             Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            challenges.add( new MTE_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+            challenges.add( new MTE_Challenge( "3 of 3 required slopes",
+                                               line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
         // MTE, SI or PS (whichever wasn't chosen above)
@@ -149,13 +155,16 @@ class ChallengeFactory3 extends ChallengeFactory {
                 Fraction slope = pickFraction( slopeBins ); // unique slope
                 int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
                 Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
+                challenges.add( new MTE_Challenge( "slope-intercept because GTL uses point-slope",
+                                                   line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
             }
             else {
                 // MTE, PS, point & slope
                 Fraction slope = pickFraction( slopeBins ); // unique slope
                 Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-                challenges.add( new MTE_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                challenges.add( new MTE_Challenge( "point-slope because GTL uses slope-intercept",
+                                                   line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
         }
 

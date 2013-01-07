@@ -58,6 +58,11 @@ public abstract class ChallengeNode extends PhetPNode {
         PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
         titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 10 ); // top center
 
+        // description (dev)
+        PNode descriptionNode = new PhetPText( challenge.description, new PhetFont(12), Color.BLACK );
+        descriptionNode.setOffset( titleNode.getFullBoundsReference().getCenterX() - ( descriptionNode.getFullBoundsReference().getWidth() / 2 ),
+                                   titleNode.getFullBoundsReference().getMaxY() + 2 );
+
         // smiley/frowny face
         faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR,
                                  new BasicStroke( 1f ), LineGameConstants.FACE_COLOR.darker(), Color.BLACK, Color.BLACK );
@@ -93,6 +98,9 @@ public abstract class ChallengeNode extends PhetPNode {
         {
             addChild( subclassParent );
             addChild( titleNode );
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+               addChild( descriptionNode );
+            }
             addChild( checkButton );
             addChild( tryAgainButton );
             addChild( showAnswerButton );

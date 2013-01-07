@@ -20,8 +20,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MTE_Challenge extends MatchChallenge {
 
-    public MTE_Challenge( Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
-        super( createTitle( Strings.MAKE_THE_EQUATION, manipulationMode ),
+    public MTE_Challenge( String description, Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
+        super( createTitle( Strings.MAKE_THE_EQUATION, manipulationMode ), description,
                answer, createInitialGuess( answer, manipulationMode ),
                lineForm, manipulationMode,
                xRange, yRange,

@@ -31,8 +31,8 @@ public class P3P_Challenge extends MatchChallenge {
 
     public final Property<Vector2D> p1, p2, p3; // the 3 points that the user places
 
-    public P3P_Challenge( Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
-        super( Strings.PLACE_THE_POINTS,
+    public P3P_Challenge( String description, Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
+        super( Strings.PLACE_THE_POINTS, description,
                answer, Line.Y_EQUALS_X_LINE,
                lineForm, ManipulationMode.POINTS,
                xRange, yRange,

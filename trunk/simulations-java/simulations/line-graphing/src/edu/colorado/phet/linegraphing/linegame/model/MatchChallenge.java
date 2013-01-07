@@ -29,6 +29,7 @@ public abstract class MatchChallenge implements IChallenge {
     public final Property<Line> guess; // the user's current guess
 
     public final String title;
+    public final String description; // dev attribute, for debugging challenge generation, no i18n
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
     public final Graph graph; // the graph that plots the lines
     public final LineForm lineForm;
@@ -40,6 +41,7 @@ public abstract class MatchChallenge implements IChallenge {
     /**
      * Constructor.
      * @param title
+     * @param description
      * @param answer
      * @param guess
      * @param lineForm
@@ -50,12 +52,14 @@ public abstract class MatchChallenge implements IChallenge {
      * @param pointToolLocation1 location of point tool in model coordinates
      * @param pointToolLocation2 location of point tool in model coordinates
      */
-    protected MatchChallenge( String title, Line answer, Line guess,
+    protected MatchChallenge( String title, String description,
+                              Line answer, Line guess,
                               LineForm lineForm, ManipulationMode manipulationMode,
                               IntegerRange xRange, IntegerRange yRange,
                               Point2D originOffset, Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
 
         this.title = title;
+        this.description = description;
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
         this.guess = new Property<Line>( guess.withColor( LineGameConstants.GUESS_COLOR ) );
 
