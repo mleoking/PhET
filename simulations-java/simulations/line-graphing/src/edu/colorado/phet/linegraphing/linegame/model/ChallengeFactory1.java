@@ -135,7 +135,7 @@ class ChallengeFactory1 extends ChallengeFactory {
             challenges.add( new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
         }
 
-        // GTL, SI, intercept
+        // MTE, SI, intercept
         {
             Fraction slope = pickFraction( slopeBins );
             int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices );
