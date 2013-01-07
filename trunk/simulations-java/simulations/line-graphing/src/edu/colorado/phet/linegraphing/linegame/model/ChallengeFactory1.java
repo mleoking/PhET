@@ -166,7 +166,7 @@ class ChallengeFactory1 extends ChallengeFactory {
             else {
                 point = pickPoint( pointBins, pointBinIndices ); // second required point, unique
                 slope = pickFraction( slopeBins ); // unique slope
-                description = "manipulate point because GTL uses slope, 1 of 2 required points";
+                description = "manipulate point because GTL uses slope, 2 of 2 required points";
             }
 
             // challenge
