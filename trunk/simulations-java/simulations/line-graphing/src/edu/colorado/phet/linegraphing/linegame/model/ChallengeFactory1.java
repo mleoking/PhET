@@ -10,23 +10,6 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 
 /**
  * Creates game challenges for Level=1, as specified in the design document.
- * <p/>
- * The specifications:
- * <p/>
- * 3 GTL challenges
- * SI: slope
- * SI: intercept
- * PS: random choice of point or slope
- * <p/>
- * 3 MTE challenges
- * SI: slope
- * SI: intercept
- * PS: if GTL choice was slope, then point; else slope
- * <p/>
- * Other requirements:
- * unique points and intercepts
- * for intercept challenges, 1 positive, 1 negative
- * for point challenges, point must be in Q1 or Q3
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
