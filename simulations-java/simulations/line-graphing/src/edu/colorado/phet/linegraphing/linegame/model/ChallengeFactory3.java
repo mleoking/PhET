@@ -9,15 +9,13 @@ import edu.colorado.phet.linegraphing.common.model.Fraction;
 import edu.colorado.phet.linegraphing.common.model.Line;
 
 /**
- * Creates game challenges for Level=2, as specified in the design document.
- * Slope and intercept are uniquely chosen.
- * Point (x1,y1) is not unique, but is chosen such that slope indicator is on the graph.
+ * Creates game challenges for Level=3, as specified in the design document.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class ChallengeFactory2 extends ChallengeFactory {
+class ChallengeFactory3 extends ChallengeFactory {
 
-    public ChallengeFactory2() {
+    public ChallengeFactory3() {
         super();
     }
 
@@ -84,86 +82,81 @@ class ChallengeFactory2 extends ChallengeFactory {
             add( rangeToList( new IntegerRange( 1, yInterceptRange.getMax() ) ) );
         }};
 
-        // for point-slope form, one of each manipulation mode
-        ArrayList<ManipulationMode> pointSlopeManipulationModes = new ArrayList<ManipulationMode>() {{
-            add( ManipulationMode.POINT );
-            add( ManipulationMode.SLOPE );
+        // line form for 3rd challenge of each type
+        ArrayList<LineForm> lineForms = new ArrayList<LineForm>() {{
+            add( LineForm.SLOPE_INTERCEPT );
+            add( LineForm.POINT_SLOPE );
         }};
 
         // bin indices
         ArrayList<Integer> slopeBinIndices = rangeToList( new IntegerRange( 0, slopeBins.size() - 1 ) );
         ArrayList<Integer> yInterceptBinIndices = rangeToList( new IntegerRange( 0, yInterceptBins.size() - 1 ) );
 
-        // GTL, SI, slope
-        {
-            Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // first required slope, unique
-            int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
-            Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
-        }
-
-        // GTL, SI, intercept
+        // GTL, SI, slope & intercept
         {
             Fraction slope = pickFraction( slopeBins ); // unique slope
             int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // first required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
+            challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
-        // MTE, SI, slope
+        // GTL, PS, point & slope
         {
-            Fraction slope = pickFraction( slopeBins, slopeBinIndices );  // second required slope, unique
-            int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
-            Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
+            Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // first required slope, unique
+            Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+            Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
+            challenges.add( new GTL_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
-        // MTE, SI, intercept
+        // GTL, SI or PS (random choice)
+        {
+            if ( pickLineForm( lineForms ) == LineForm.SLOPE_INTERCEPT ) {
+                // GTL, SI, slope & intercept
+                Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // second required slope, unique
+                int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
+                Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
+                challenges.add( new GTL_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+            }
+            else {
+                // GTL, PS, point & slope
+                Fraction slope = pickFraction( slopeBins ); // unique slope
+                Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+                Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
+                challenges.add( new GTL_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+            }
+        }
+
+        // MTE, SI, slope & intercept
+        {
+            Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // third required slope
+            int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // second required y-intercept
+            Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
+            challenges.add( new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+        }
+
+        // MTE, PS, point & slope
         {
             Fraction slope = pickFraction( slopeBins ); // unique slope
-            int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // second required y-intercept, unique
-            Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new MTE_Challenge( line, LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
+            Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+            Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
+            challenges.add( new MTE_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
-        // GTL, PS, point or slope
+        // MTE, SI or PS (whichever wasn't chosen above)
         {
-            // manipulation mode
-            final ManipulationMode manipulationMode = pickManipulationMode( pointSlopeManipulationModes );
-
-            Fraction slope;
-            if ( manipulationMode == ManipulationMode.SLOPE ) {
-                slope = pickFraction( slopeBins, slopeBinIndices ); // third required slope, unique
+            if ( pickLineForm( lineForms ) == LineForm.SLOPE_INTERCEPT ) {
+                // MTE, SI, slope & intercept
+                Fraction slope = pickFraction( slopeBins ); // unique slope
+                int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
+                Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             }
             else {
-                slope = pickFraction( slopeBins ); // unique slope
+                // MTE, PS, point & slope
+                Fraction slope = pickFraction( slopeBins ); // unique slope
+                Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+                Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
+                challenges.add( new MTE_Challenge( line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
-            Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
-
-            // challenge
-            Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            IChallenge challenge = new GTL_Challenge( line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
-            challenges.add( challenge );
-        }
-
-        // MTE, PS, point or slope
-        {
-            // manipulation mode
-            final ManipulationMode manipulationMode = pickManipulationMode( pointSlopeManipulationModes );
-
-            Fraction slope;
-            if ( manipulationMode == ManipulationMode.SLOPE ) {
-                slope = pickFraction( slopeBins, slopeBinIndices ); // third required slope, unique
-            }
-            else {
-                slope = pickFraction( slopeBins ); // unique slope
-            }
-            Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
-
-            // challenge
-            Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            IChallenge challenge = new MTE_Challenge( line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
-            challenges.add( challenge );
         }
 
         // shuffle and return
