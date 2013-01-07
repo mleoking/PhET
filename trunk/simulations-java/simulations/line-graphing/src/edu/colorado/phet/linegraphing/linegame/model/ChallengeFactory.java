@@ -18,7 +18,7 @@ public abstract class ChallengeFactory {
 
     protected final Random random;
 
-    public ChallengeFactory() {
+    protected ChallengeFactory() {
         this.random = new Random();
     }
 
