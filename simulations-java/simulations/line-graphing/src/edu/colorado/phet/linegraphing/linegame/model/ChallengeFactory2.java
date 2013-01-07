@@ -10,6 +10,8 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 
 /**
  * Creates game challenges for Level=2, as specified in the design document.
+ * Slope and intercept are uniquely chosen.
+ * Point (x1,y1) is not unique, but is chosen such that slope indicator is on the graph.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

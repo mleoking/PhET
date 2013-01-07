@@ -10,6 +10,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 
 /**
  * Creates game challenges for Level=1, as specified in the design document.
+ * Slope, points and intercept are all uniquely chosen.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

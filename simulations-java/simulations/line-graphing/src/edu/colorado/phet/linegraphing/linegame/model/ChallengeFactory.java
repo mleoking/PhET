@@ -18,12 +18,15 @@ public abstract class ChallengeFactory {
 
     private static final boolean USE_HARD_CODED_CHALLENGES = false;
 
-    protected final Random random;
-
-    protected ChallengeFactory() {
-        this.random = new Random();
-    }
-
+    /**
+     * Creates challenges for the specified level and graph.
+     *
+     * @param level  game level
+     * @param xRange x-coordinate range of the graph
+     * @param yRange y-coordinate range of the graph
+     * @return list of challenges
+     * @throws IllegalArgumentException if level is out of range
+     */
     public static ArrayList<IChallenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
 
         if ( USE_HARD_CODED_CHALLENGES ) {
@@ -39,6 +42,12 @@ public abstract class ChallengeFactory {
                 //TODO throw exception
                 return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
         }
+    }
+
+    protected final Random random;
+
+    protected ChallengeFactory() {
+        this.random = new Random();
     }
 
     public abstract ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange );
