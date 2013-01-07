@@ -1,4 +1,3 @@
-# 0.00.46 (71518) Jan 7, 2013
 1/7/13 demonstrate challenge generation for levels 1 & 2
 1/7/13 position "Replay" button below "Next" button
 1/7/13 add ability to reset a challenge, add developer "Replay" button for replaying the current challenge
