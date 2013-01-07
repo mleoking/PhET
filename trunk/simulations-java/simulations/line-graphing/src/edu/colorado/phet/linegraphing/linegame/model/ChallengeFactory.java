@@ -140,6 +140,7 @@ public abstract class ChallengeFactory {
         }
         ArrayList<Integer> yList = rangeToList( yRange );
 
+        // random point
         final int x = xList.get( randomIndex( xList ) );
         final int y = yList.get( randomIndex( yList ) );
         return new Point2D.Double( x, y );
