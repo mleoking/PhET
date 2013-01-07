@@ -1,3 +1,4 @@
+1/7/13 position "Replay" button below "Next" button
 1/7/13 add ability to reset a challenge, add developer "Replay" button for replaying the current challenge
 1/7/13 in level 2, constrain (x1,y1) so that slope indicator stays on the graph
 1/7/13 encapsulate challenge factory choice in ChallengeFactory.createChallenges
