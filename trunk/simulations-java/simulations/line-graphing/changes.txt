@@ -1,3 +1,4 @@
+1/7/13 first attempt at forcing slope inversion in level=4
 1/7/13 first pass at challenge generation for level=4
 1/7/13 cleanup and document challenge generation for levels 1-3
 1/7/13 challenge generation for level=3

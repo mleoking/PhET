@@ -167,6 +167,38 @@ public abstract class ChallengeFactory {
         return new Point2D.Double( x, y );
     }
 
+    // Picks a point that results in the slope indicator being off the graph. This forces the user to invert the slope.
+    protected Point2D pickPointForInvertedSlope( final Fraction slope, final IntegerRange graphXRange, final IntegerRange graphYRange ) {
+
+        final int rise = slope.numerator;
+        final int run = slope.denominator;
+
+        // x coordinates
+        IntegerRange xRange;
+        if ( run >= 0 ) {
+            xRange = new IntegerRange( run + 1, graphXRange.getMax() + run );
+        }
+        else {
+            xRange = new IntegerRange( graphXRange.getMin() + run, run - 1 );
+        }
+        ArrayList<Integer> xList = rangeToList( xRange );
+
+        // y coordinates
+        IntegerRange yRange;
+        if ( run >= 0 ) {
+            yRange = new IntegerRange( rise + 1, graphYRange.getMax() + rise );
+        }
+        else {
+            yRange = new IntegerRange( graphYRange.getMin() + rise, rise - 1 );
+        }
+        ArrayList<Integer> yList = rangeToList( yRange );
+
+        // random point
+        final int x = xList.get( randomIndex( xList ) );
+        final int y = yList.get( randomIndex( yList ) );
+        return new Point2D.Double( x, y );
+    }
+
     // Shuffles a list of challenges.
     protected ArrayList<IChallenge> shuffle( ArrayList<IChallenge> list ) {
         ArrayList<IChallenge> shuffledList = new ArrayList<IChallenge>();
