@@ -1,3 +1,5 @@
+1/8/13 PTP_GraphNode extends GTL_GraphNode
+1/8/13 PTP_Challenge extends GTL_Challenge
 1/8/13 rename GTL_GraphNode subclasses
 1/8/13 rename ManipulationMode.POINTS to TWO_POINTS, change usage sites accordingly
 1/8/13 add ManipulationMode.THREE_POINTS

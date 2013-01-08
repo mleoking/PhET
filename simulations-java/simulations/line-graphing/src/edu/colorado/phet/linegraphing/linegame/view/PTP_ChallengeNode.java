@@ -47,9 +47,9 @@ public class PTP_ChallengeNode extends ChallengeNode {
         final PTP_GraphNode graphNode = new PTP_GraphNode( challenge );
 
         // rendering order
-            subclassParent.addChild( graphNode );
-            subclassParent.addChild( answerBoxNode );
-            subclassParent.addChild( guessBoxNode );
+        subclassParent.addChild( graphNode );
+        subclassParent.addChild( answerBoxNode );
+        subclassParent.addChild( guessBoxNode );
 
         // layout
         {

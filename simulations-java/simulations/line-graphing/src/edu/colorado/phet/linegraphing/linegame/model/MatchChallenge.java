@@ -138,6 +138,9 @@ public abstract class MatchChallenge implements IChallenge {
         else if ( manipulationMode == ManipulationMode.POINT ) {
             return Strings.SET_THE_POINT;
         }
+        else if ( manipulationMode == ManipulationMode.THREE_POINTS ) {
+            return Strings.PLACE_THE_POINTS;
+        }
         else {
             return defaultTitle;
         }

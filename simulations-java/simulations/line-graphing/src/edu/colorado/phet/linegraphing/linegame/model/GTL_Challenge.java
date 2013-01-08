@@ -36,7 +36,9 @@ public class GTL_Challenge extends MatchChallenge {
         if ( answerVisible ) {
             pointToolLines.add( answer );
         }
-        pointToolLines.add( guess.get() );
+        if ( guess.get() != null ) {
+            pointToolLines.add( guess.get() );
+        }
     }
 
     // Creates the view that corresponds to the lineForm and manipulationMode.
