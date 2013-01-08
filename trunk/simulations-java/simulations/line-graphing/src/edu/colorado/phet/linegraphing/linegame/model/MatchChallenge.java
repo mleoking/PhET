@@ -43,7 +43,6 @@ public abstract class MatchChallenge implements IChallenge {
      * @param title
      * @param description
      * @param answer
-     * @param guess
      * @param lineForm
      * @param manipulationMode
      * @param xRange
@@ -53,15 +52,14 @@ public abstract class MatchChallenge implements IChallenge {
      * @param pointToolLocation2 location of point tool in model coordinates
      */
     protected MatchChallenge( String title, String description,
-                              Line answer, Line guess,
-                              LineForm lineForm, ManipulationMode manipulationMode,
+                              Line answer, LineForm lineForm, ManipulationMode manipulationMode,
                               IntegerRange xRange, IntegerRange yRange,
                               Point2D originOffset, Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
 
         this.title = title;
         this.description = description;
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
-        this.guess = new Property<Line>( guess.withColor( LineGameConstants.GUESS_COLOR ) );
+        this.guess = new Property<Line>( createInitialGuess( answer, manipulationMode ) );
 
         this.lineForm = lineForm;
         this.manipulationMode = manipulationMode;
@@ -108,7 +106,7 @@ public abstract class MatchChallenge implements IChallenge {
     protected abstract void updatePointToolLines();
 
     // Creates an initial guess, based on the answer and what the user can manipulate..
-    protected static Line createInitialGuess( Line answer, ManipulationMode manipulationMode ) {
+    private static Line createInitialGuess( Line answer, ManipulationMode manipulationMode ) {
         if ( manipulationMode == ManipulationMode.SLOPE ) {
             // slope is variable, so use the answer's point
             return Line.createPointSlope( answer.x1, answer.y1, 1, 1, LineGameConstants.GUESS_COLOR );
@@ -120,6 +118,9 @@ public abstract class MatchChallenge implements IChallenge {
         else if ( manipulationMode == ManipulationMode.POINT ) {
             // point is variable, so use the answer's slope
             return Line.createPointSlope( 0, 0, answer.rise, answer.run, LineGameConstants.GUESS_COLOR );
+        }
+        else if ( manipulationMode == ManipulationMode.THREE_POINTS ) {
+            return null; // 3 points don't initially form a line
         }
         else {
             // in all other cases, use the standard line y=x
