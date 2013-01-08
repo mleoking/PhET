@@ -133,7 +133,7 @@ public class LineGameModel {
     /**
      * Skips the current challenge.
      * This is a developer feature.
-     * No attempt is made to adjust the score, so points and best times are meaningless after using this.
+     * Score and best times are meaningless after using this.
      */
     public void skipCurrentChallenge() {
         assert ( PhetApplication.getInstance().isDeveloperControlsEnabled() );
@@ -144,7 +144,7 @@ public class LineGameModel {
     /**
      * Replays the current challenge.
      * This is a developer feature.
-     * No attempt is made to adjust the score, so points and best times are meaningless after using this.
+     * Score and best times are meaningless after using this.
      */
     public void replayCurrentChallenge() {
         assert ( PhetApplication.getInstance().isDeveloperControlsEnabled() );
