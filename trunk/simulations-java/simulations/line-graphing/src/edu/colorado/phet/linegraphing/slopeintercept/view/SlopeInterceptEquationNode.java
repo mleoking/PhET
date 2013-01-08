@@ -182,9 +182,6 @@ public class SlopeInterceptEquationNode extends EquationNode {
             return;
         }
 
-        // y-intercept
-        final Fraction yIntercept = line.getYIntercept();
-
         // slope properties
         final double slope = line.getSlope();
         final boolean zeroSlope = ( slope == 0 );
@@ -192,8 +189,6 @@ public class SlopeInterceptEquationNode extends EquationNode {
         final boolean integerSlope = MathUtil.isInteger( slope );
         final boolean positiveSlope = ( slope > 0 );
         final boolean fractionalSlope = ( !zeroSlope && !unitySlope && !integerSlope );
-        final boolean zeroYIntercept = ( yIntercept.toDecimal() == 0 );
-        final boolean positiveYIntercept = ( yIntercept.toDecimal() > 0 );
 
         // y =
         addChild( yNode );
@@ -204,6 +199,9 @@ public class SlopeInterceptEquationNode extends EquationNode {
 
         // Layout the "mx" part of the equation.
         if ( interactiveSlope ) {
+
+            // slope is interactive, will be displayed as a fraction
+
             // (rise/run)x
             addChild( riseNode );
             addChild( slopeFractionLineNode );
@@ -218,6 +216,8 @@ public class SlopeInterceptEquationNode extends EquationNode {
             xNode.setOffset( slopeFractionLineNode.getFullBoundsReference().getMaxX() + fractionalSlopeXSpacing, yNode.getYOffset() );
         }
         else {
+            // slope is not interactive, may be displayed as an integer or improper fraction
+
             // decide whether to include the slope minus sign
             PNode previousNode;
             double previousXOffset;
@@ -275,6 +275,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
 
         // Layout the "+ b" part of the equation.
         if ( interactiveIntercept ) {
+            // intercept is interactive and will be an integer
             if ( zeroSlope && !interactiveSlope ) {
                 // y = b
                 addChild( yInterceptNode );
@@ -293,7 +294,15 @@ public class SlopeInterceptEquationNode extends EquationNode {
             }
         }
         else {
-            if ( zeroYIntercept ) {
+            // intercept is not interactive and may be displayed as an integer or improper fraction
+
+            // y-intercept properties
+            final Fraction fractionalIntercept = line.getYIntercept();
+            final boolean zeroIntercept = ( fractionalIntercept.toDecimal() == 0 );
+            final boolean integerIntercept = fractionalIntercept.isInteger();
+            final boolean positiveIntercept = ( fractionalIntercept.toDecimal() > 0 );
+
+            if ( zeroIntercept ) {
                 if ( zeroSlope && !interactiveSlope ) {
                     // y = 0
                     addChild( yInterceptNumeratorNode );
@@ -304,13 +313,13 @@ public class SlopeInterceptEquationNode extends EquationNode {
                     // no intercept
                 }
             }
-            else if ( positiveYIntercept && zeroSlope && !interactiveSlope ) {
+            else if ( positiveIntercept && zeroSlope && !interactiveSlope ) {
                 // y = b
                 addChild( yInterceptNumeratorNode );
                 yInterceptNumeratorNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                                    yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
             }
-            else if ( !positiveYIntercept && zeroSlope && !interactiveSlope ) {
+            else if ( !positiveIntercept && zeroSlope && !interactiveSlope ) {
                 // y = -b
                 addChild( yInterceptMinusSignNode );
                 addChild( yInterceptNumeratorNode );
@@ -322,11 +331,11 @@ public class SlopeInterceptEquationNode extends EquationNode {
             else {
                 // y = mx +/- b
                 addChild( operatorNode );
-                operatorNode.addChild( positiveYIntercept ? new PlusNode( operatorLineSize, staticColor ) : new MinusNode( operatorLineSize, staticColor ) );
+                operatorNode.addChild( positiveIntercept ? new PlusNode( operatorLineSize, staticColor ) : new MinusNode( operatorLineSize, staticColor ) );
                 operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                                         equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
 
-                if ( yIntercept.isInteger() ) {
+                if ( integerIntercept ) {
                     // b is an integer
                     addChild( yInterceptNumeratorNode );
                     yInterceptNumeratorNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
