@@ -24,7 +24,7 @@ public class PTP_Challenge extends GTL_Challenge {
 
     public final Property<Vector2D> p1, p2, p3; // the 3 points that the user places
 
-    public PTP_Challenge( String description, Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
+    public PTP_Challenge( String description, final Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
         super( description, answer, lineForm, ManipulationMode.THREE_POINTS, xRange, yRange );
 
         // initial points do not form a line
@@ -35,7 +35,19 @@ public class PTP_Challenge extends GTL_Challenge {
         // update the guess when the points change
         final RichSimpleObserver pointObserver = new RichSimpleObserver() {
             public void update() {
-                updateGuess();
+                Line line = new Line( p1.get().x, p1.get().y, p2.get().x, p2.get().y, LineGameConstants.GUESS_COLOR );
+                if ( line.onLine( p3.get() ) ) {
+                    // all 3 points are on a line
+                    guess.set( line );
+                    if ( isCorrect() ) {
+                        // when correct, we want the guess to match the answer exactly
+                        guess.set( answer );
+                    }
+                }
+                else {
+                    // the 3 points don't form a line
+                    guess.set( null );
+                }
             }
         };
         pointObserver.observe( p1, p2, p3 );
@@ -46,20 +58,6 @@ public class PTP_Challenge extends GTL_Challenge {
         p1.reset();
         p2.reset();
         p3.reset();
-    }
-
-    // Updates the guess to match the points.
-    private void updateGuess() {
-        Line line = new Line( p1.get().x, p1.get().y, p2.get().x, p2.get().y, LineGameConstants.GUESS_COLOR );
-        if ( line.onLine( p3.get() ) ) {
-            guess.set( line );
-            if ( isCorrect() ) {
-                guess.set( answer );
-            }
-        }
-        else {
-            guess.set( null );
-        }
     }
 
     // Creates the view for this challenge.
