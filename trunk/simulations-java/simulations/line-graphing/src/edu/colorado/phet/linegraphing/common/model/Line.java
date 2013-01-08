@@ -172,15 +172,13 @@ public class Line {
      */
     public Fraction getYIntercept() {
         assert( MathUtil.isInteger( x1 ) &&  MathUtil.isInteger( y1 ) && MathUtil.isInteger( rise ) && MathUtil.isInteger( run ) );
+        if ( rise == 0 || run == 0 ) {
+            return new Fraction( (int) y1, 1 ); // not technically correct for run==0, but gives the desired result in slope-intercept equations
+        }
         int numerator = (int) ( ( y1 * run ) - ( x1 * rise ) );
         int denominator = (int) run;
-        if ( numerator == 0 || denominator == 0 ) {
-            return new Fraction( numerator, denominator );
-        }
-        else {
-            int gcd = MathUtil.getGreatestCommonDivisor( numerator, denominator );
-            return new Fraction( numerator / gcd, denominator / gcd );
-        }
+        int gcd = MathUtil.getGreatestCommonDivisor( numerator, denominator );
+        return new Fraction( numerator / gcd, denominator / gcd );
     }
 
     @Override public String toString() {
