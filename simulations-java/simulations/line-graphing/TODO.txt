@@ -12,6 +12,7 @@ HIGH
 
 MEDIUM
 - factor out duplication in ChallengeFactory hierarchy when the dust settles
+- factor out duplication in GTL_ChallengeNode and MTE_ChallengeNode
 - rise value on slope tool falls off left edge of play area in Point-Slope tab
 
 LOW
