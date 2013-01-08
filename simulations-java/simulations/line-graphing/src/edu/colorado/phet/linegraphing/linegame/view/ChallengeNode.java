@@ -23,9 +23,9 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
+import edu.colorado.phet.linegraphing.linegame.model.Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.MatchChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
@@ -52,7 +52,7 @@ public abstract class ChallengeNode extends PhetPNode {
     protected final TextButtonNode checkButton;
     protected final PNode subclassParent; // subclasses should add children to this node, to preserve rendering order
 
-    public ChallengeNode( final LineGameModel model, final MatchChallenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public ChallengeNode( final LineGameModel model, final Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
         // title
         PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );

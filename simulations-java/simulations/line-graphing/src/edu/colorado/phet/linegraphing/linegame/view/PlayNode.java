@@ -10,9 +10,9 @@ import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.linegraphing.linegame.model.IChallenge;
-import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.model.Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.GamePhase;
+import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -67,8 +67,8 @@ class PlayNode extends PhetPNode {
         } );
 
         // Set up a new challenge
-        model.challenge.addObserver( new VoidFunction1<IChallenge>() {
-            public void apply( IChallenge challenge ) {
+        model.challenge.addObserver( new VoidFunction1<Challenge>() {
+            public void apply( Challenge challenge ) {
                 challengeParent.removeAllChildren();
                 challengeParent.addChild( challenge.createView( model, audioPlayer, challengeSize ) );
             }

@@ -21,9 +21,9 @@ class ChallengeFactory2 extends ChallengeFactory {
         super();
     }
 
-    public ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
+    public ArrayList<Challenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
 
-        ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
+        ArrayList<Challenge> challenges = new ArrayList<Challenge>();
 
         // for slope manipulation challenges, 1 slope must come from each bin
         ArrayList<ArrayList<Fraction>> slopeBins = new ArrayList<ArrayList<Fraction>>() {{
@@ -149,7 +149,7 @@ class ChallengeFactory2 extends ChallengeFactory {
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            IChallenge challenge = new GTL_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
+            Challenge challenge = new GTL_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 
@@ -172,7 +172,7 @@ class ChallengeFactory2 extends ChallengeFactory {
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            IChallenge challenge = new MTE_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
+            Challenge challenge = new MTE_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 

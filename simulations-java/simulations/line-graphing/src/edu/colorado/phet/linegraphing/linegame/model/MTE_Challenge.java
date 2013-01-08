@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MTE_Challenge extends MatchChallenge {
+public class MTE_Challenge extends Challenge {
 
     public MTE_Challenge( String description, Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
         super( createTitle( Strings.MAKE_THE_EQUATION, manipulationMode ), description,

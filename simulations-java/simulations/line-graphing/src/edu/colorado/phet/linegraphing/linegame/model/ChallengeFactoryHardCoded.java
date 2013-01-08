@@ -17,8 +17,8 @@ public class ChallengeFactoryHardCoded {
 
     private ChallengeFactoryHardCoded() {}
 
-    public static ArrayList<IChallenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
-        ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
+    public static ArrayList<Challenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
+        ArrayList<Challenge> challenges = new ArrayList<Challenge>();
         switch( level ) {
             case 1:
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
