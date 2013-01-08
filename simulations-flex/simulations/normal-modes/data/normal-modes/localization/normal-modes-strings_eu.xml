@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_eu.xml created Fri Jan 04 18:51:04 CET 2013 using: normal-modes 1.01.00 (66456), translation-utility 2.14.00 (69024) oct 9, 2012--><SimStrings>
+<string key="simSpeed" value="simulazio abiadura"/>
+<string key="vertical" value="Bertikala"/>
+<string key="slow" value="astiro"/>
+<string key="modeSpectrumDisplay" value="Moduen Espektroa Ikusi"/>
+<string key="phase:" value="Fasea:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="Zero Posizioak"/>
+<string key="start" value="Hasi"/>
+<string key="step" value="pauso"/>
+<string key="modeNumbersXY" value="Modu Zenbakiak x, y."/>
+<string key="polarization:" value="Polarizazio&lt;br&gt;Kontrola:"/>
+<string key="amplitude:" value="Anplitudea:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="Modu Normalen Espektroa"/>
+<string key="frequency:" value="Maiztasuna:"/>
+<string key="normalModes" value="Modu Normalak"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="Faseak Ikusi"/>
+<string key="normal-modes.simTitle" value="Modu Normalak"/>
+<string key="showSprings" value="Malgukiak Ikusi"/>
+<string key="stop" value="Gelditu"/>
+<string key="resetPositions" value="Hasierako Posizioak"/>
+<string key="normalMode:" value="Modu Normala:"/>
+<string key="translation.credits" value="Carlos Bereciartu"/>
+<string key="horizontal" value="Horizontala"/>
+<string key="paused" value="GELDIRIK"/>
+<string key="numberOfMasses" value="Masa kopurua"/>
+<string key="normal" value="normal"/>
+</SimStrings>
