@@ -5,6 +5,8 @@ DEADLINES
 DESIGN
 
 HIGH
+- bug: in SI equations, if interactive run=0, then noninteractive y-intercept is 0/0, and interactive y-intercept can't be changed
+- bug: in PS equations, if interactive rise=0, then noninteractive (x-x1) term disappears
 - Game level 4: force inversion of slope in GTL challenge with 2 points
 - Game: generate challenges for levels 5-6
 - Game dev: Level 7 = configure your own challenge
