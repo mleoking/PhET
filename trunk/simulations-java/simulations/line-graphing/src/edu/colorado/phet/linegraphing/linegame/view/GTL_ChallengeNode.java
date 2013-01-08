@@ -38,7 +38,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
                                      createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // Guess
-        guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, Color.BLACK, boxSize, new PNode() ); // dummy node
+        guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, Color.BLACK, boxSize, new PNode() ); // dummy
 
         // Graph
         final GTL_GraphNode graphNode = createGraphNode( challenge );
