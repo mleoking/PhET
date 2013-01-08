@@ -2,10 +2,13 @@
 package edu.colorado.phet.linegraphing.linegame.view;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
@@ -13,6 +16,7 @@ import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
+import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -24,6 +28,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GTL_ChallengeNode extends ChallengeNode {
+
+    private static final PNode NOT_A_LINE = new PhetPText( Strings.NOT_A_LINE, new PhetFont( Font.BOLD, 24 ), Color.BLACK );
 
     private EquationBoxNode guessBoxNode;
 
@@ -74,10 +80,11 @@ public class GTL_ChallengeNode extends ChallengeNode {
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
 
-                // update the equation
+                // update the equation (line is null if ManipulationMode.THREE_POINTS and points don't make a line)
                 subclassParent.removeChild( guessBoxNode );
-                guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, line.color, boxSize,
-                                                    createEquationNode( challenge.lineForm, line, LineGameConstants.STATIC_EQUATION_FONT, line.color ) );
+                PNode equationNode = ( line == null ) ? NOT_A_LINE : createEquationNode( challenge.lineForm, line, LineGameConstants.STATIC_EQUATION_FONT, line.color );
+                Color color = ( line == null ) ? LineGameConstants.GUESS_COLOR : line.color;
+                guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, color, boxSize, equationNode );
                 guessBoxNode.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
                 subclassParent.addChild( guessBoxNode );
                 guessBoxNode.setVisible( model.state.get() == PlayState.NEXT );
@@ -112,6 +119,10 @@ public class GTL_ChallengeNode extends ChallengeNode {
     protected GTL_GraphNode createGraphNode( GTL_Challenge challenge ) {
         if ( challenge.manipulationMode == ManipulationMode.TWO_POINTS ) {
             return new GTL_GraphNode_TwoPoints( challenge );
+        }
+        else if ( challenge.manipulationMode == ManipulationMode.THREE_POINTS ) {
+            assert( challenge instanceof PTP_Challenge );
+            return new GTL_GraphNode_ThreePoints( (PTP_Challenge) challenge );
         }
         else if ( challenge.lineForm == LineForm.SLOPE_INTERCEPT ) {
             return new GTL_GraphNode_SlopeIntercept( challenge );

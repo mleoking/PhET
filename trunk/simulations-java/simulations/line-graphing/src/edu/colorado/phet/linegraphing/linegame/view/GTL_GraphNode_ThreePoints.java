@@ -13,13 +13,15 @@ import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
 
 /**
- * Graph node for "Place the Points" (PTP) challenges.
+ * Graph node for a specialized type of "GTL" (Graph the Line) challenge.
+ * "Place the Points" (PTP) challenges allow the user to manipulate 3 arbitrary points,
+ * which may or may not form a line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PTP_GraphNode extends GTL_GraphNode {
+public class GTL_GraphNode_ThreePoints extends GTL_GraphNode {
 
-    public PTP_GraphNode( final PTP_Challenge challenge ) {
+    public GTL_GraphNode_ThreePoints( final PTP_Challenge challenge ) {
         super( challenge, false /* slopeToolEnabled */ );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
