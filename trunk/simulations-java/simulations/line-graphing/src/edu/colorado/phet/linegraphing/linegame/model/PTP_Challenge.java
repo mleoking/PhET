@@ -7,31 +7,26 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.model.PointTool;
-import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.P3P_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.PTP_ChallengeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Model for all "Place 3 Points" (P3P) challenges.
+ * Model for all "Place the Points" (PTP) challenges.
  * In this challenge, the user is given an equation and must place 3 points on a graph to make the line.
  * If the 3 points do not form a line, the guess line will be null.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class P3P_Challenge extends MatchChallenge {
+public class PTP_Challenge extends MatchChallenge {
 
     public final Property<Vector2D> p1, p2, p3; // the 3 points that the user places
 
-    public P3P_Challenge( String description, Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
+    public PTP_Challenge( String description, Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
         super( Strings.PLACE_THE_POINTS, description,
                answer, Line.Y_EQUALS_X_LINE,
                lineForm, ManipulationMode.POINTS,
@@ -88,6 +83,6 @@ public class P3P_Challenge extends MatchChallenge {
 
     // Creates the view for this challenge.
     public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-        return new P3P_ChallengeNode( model, this, audioPlayer, challengeSize );
+        return new PTP_ChallengeNode( model, this, audioPlayer, challengeSize );
     }
 }

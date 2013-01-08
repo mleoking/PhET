@@ -1,3 +1,4 @@
+1/8/13 change "P3P" (Place 3 Points) to "PTP" (Place the Points) throughout code, to match terminology used by the team
 # 0.00.48 (71539) Jan 8, 2013
 1/8/13 demonstrate equation fixes
 1/8/13 fix: in point-slope equations, if interactive rise=0, then noninteractive (x-x1) term disappears

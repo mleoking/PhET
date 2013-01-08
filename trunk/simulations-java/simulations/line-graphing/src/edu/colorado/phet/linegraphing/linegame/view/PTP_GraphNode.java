@@ -17,21 +17,21 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.PointDragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
-import edu.colorado.phet.linegraphing.linegame.model.P3P_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Graph node for "Place 3 Points" (P3P) challenges.
+ * Graph node for "Place the Points" (PTP) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class P3P_GraphNode extends GraphNode {
+public class PTP_GraphNode extends GraphNode {
 
     private final PNode answerNode;
     private final LineManipulatorNode p1ManipulatorNode, p2ManipulatorNode, p3ManipulatorNode;
 
-    public P3P_GraphNode( final P3P_Challenge challenge ) {
+    public PTP_GraphNode( final PTP_Challenge challenge ) {
         super( challenge.graph, challenge.mvt );
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
