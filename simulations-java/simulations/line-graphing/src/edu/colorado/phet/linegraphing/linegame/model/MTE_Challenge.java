@@ -22,9 +22,7 @@ public class MTE_Challenge extends MatchChallenge {
 
     public MTE_Challenge( String description, Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
         super( createTitle( Strings.MAKE_THE_EQUATION, manipulationMode ), description,
-               answer, createInitialGuess( answer, manipulationMode ),
-               lineForm, manipulationMode,
-               xRange, yRange,
+               answer, lineForm, manipulationMode, xRange, yRange,
                new Point2D.Double( 275, 300 ), // origin offset
                new Vector2D( xRange.getMin() + ( 0.05 * xRange.getLength() ), yRange.getMin() - 1.5 ), // point tool location 1
                new Vector2D( xRange.getMin() + ( 0.35 * xRange.getLength() ), yRange.getMin() - 4.5 ) );  // point tool location 2
