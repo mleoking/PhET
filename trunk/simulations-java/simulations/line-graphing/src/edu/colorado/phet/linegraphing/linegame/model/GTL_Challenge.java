@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GTL_Challenge extends MatchChallenge {
+public class GTL_Challenge extends Challenge {
 
     public GTL_Challenge( String description, Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
         super( createTitle( Strings.GRAPH_THE_LINE, manipulationMode ), description,

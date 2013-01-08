@@ -19,9 +19,9 @@ class ChallengeFactory4 extends ChallengeFactory {
         super();
     }
 
-    public ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
+    public ArrayList<Challenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
 
-        ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
+        ArrayList<Challenge> challenges = new ArrayList<Challenge>();
 
         // for slope manipulation challenges, 1 slope must come from each bin
         ArrayList<ArrayList<Fraction>> slopeBins = new ArrayList<ArrayList<Fraction>>() {{

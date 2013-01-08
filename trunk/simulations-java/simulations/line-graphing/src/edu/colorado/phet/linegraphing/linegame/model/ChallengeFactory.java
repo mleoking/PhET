@@ -27,7 +27,7 @@ public abstract class ChallengeFactory {
      * @return list of challenges
      * @throws IllegalArgumentException if level is out of range
      */
-    public static ArrayList<IChallenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
+    public static ArrayList<Challenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
 
         if ( USE_HARD_CODED_CHALLENGES ) {
             return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
@@ -54,7 +54,7 @@ public abstract class ChallengeFactory {
         this.random = new Random();
     }
 
-    public abstract ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange );
+    public abstract ArrayList<Challenge> createChallenges( IntegerRange xRange, IntegerRange yRange );
 
     // Converts an integer range to a list of values that are in that range.
     protected static ArrayList<Integer> rangeToList( IntegerRange range ) {
@@ -200,8 +200,8 @@ public abstract class ChallengeFactory {
     }
 
     // Shuffles a list of challenges.
-    protected ArrayList<IChallenge> shuffle( ArrayList<IChallenge> list ) {
-        ArrayList<IChallenge> shuffledList = new ArrayList<IChallenge>();
+    protected ArrayList<Challenge> shuffle( ArrayList<Challenge> list ) {
+        ArrayList<Challenge> shuffledList = new ArrayList<Challenge>();
         while ( list.size() != 0 ) {
             int index = randomIndex( list );
             shuffledList.add( list.get( index ) );

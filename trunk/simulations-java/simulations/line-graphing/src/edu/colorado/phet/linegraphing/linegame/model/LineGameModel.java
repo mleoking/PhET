@@ -36,8 +36,8 @@ public class LineGameModel {
     public final Property<GamePhase> phase;
     public final Property<PlayState> state;
 
-    public final Property<IChallenge> challenge; // the current challenge
-    private ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
+    public final Property<Challenge> challenge; // the current challenge
+    private ArrayList<Challenge> challenges = new ArrayList<Challenge>();
     private int challengeIndex;
 
     // Default is a graph with uniform quadrants.
@@ -48,7 +48,7 @@ public class LineGameModel {
         results = new GameResults( LEVELS_RANGE );
 
         // initial value is meaningless, but must be non-null
-        challenge = new Property<IChallenge>( new GTL_Challenge( "", Line.createSlopeIntercept( 1, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE,
+        challenge = new Property<Challenge>( new GTL_Challenge( "", Line.createSlopeIntercept( 1, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE,
                                                                  LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE ) );
 
         phase = new Property<GamePhase>( GamePhase.SETTINGS ) {

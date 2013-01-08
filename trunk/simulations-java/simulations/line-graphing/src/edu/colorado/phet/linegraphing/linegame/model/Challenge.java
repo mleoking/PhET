@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -15,13 +16,16 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
+import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class for game challenges where the user is trying to match some "given" line.
+ * Base class for game challenges.
+ * In all challenges, the user is trying to match a given line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class MatchChallenge implements IChallenge {
+public abstract class Challenge {
 
     private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
 
@@ -51,10 +55,10 @@ public abstract class MatchChallenge implements IChallenge {
      * @param pointToolLocation1 location of point tool in model coordinates
      * @param pointToolLocation2 location of point tool in model coordinates
      */
-    protected MatchChallenge( String title, String description,
-                              Line answer, LineForm lineForm, ManipulationMode manipulationMode,
-                              IntegerRange xRange, IntegerRange yRange,
-                              Point2D originOffset, Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
+    protected Challenge( String title, String description,
+                         Line answer, LineForm lineForm, ManipulationMode manipulationMode,
+                         IntegerRange xRange, IntegerRange yRange,
+                         Point2D originOffset, Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
 
         this.title = title;
         this.description = description;
@@ -84,6 +88,7 @@ public abstract class MatchChallenge implements IChallenge {
         } );
     }
 
+    // Resets the challenge
     public void reset() {
         guess.reset();
         pointTool1.reset();
@@ -91,7 +96,10 @@ public abstract class MatchChallenge implements IChallenge {
         setAnswerVisible( false );
     }
 
-    // Correct if the guess and answer are descriptions of the same line.
+    // Creates the view component for the challenge.
+    public abstract ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize );
+
+    // True if the guess and answer are descriptions of the same line.
     public boolean isCorrect() {
         return answer.same( guess.get() );
     }

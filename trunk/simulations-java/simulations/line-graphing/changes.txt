@@ -1,3 +1,4 @@
+1/8/13 remove unnecessary IChallenge interface, rename base class MatchChallenge to Challenge
 1/8/13 make specialized graphs inner classes of GTL_GraphNode
 1/8/13 handle PTP challenges in the GTL view
 1/8/13 make MatchChallenge.createInitialGuess private, make initial guess null for PTP challenges

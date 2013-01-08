@@ -20,9 +20,9 @@ class ChallengeFactory1 extends ChallengeFactory {
         super();
     }
 
-    public ArrayList<IChallenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
+    public ArrayList<Challenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
 
-        ArrayList<IChallenge> challenges = new ArrayList<IChallenge>();
+        ArrayList<Challenge> challenges = new ArrayList<Challenge>();
 
         // for point manipulation challenges, (x1,y1) must be in Quadrant 1 (both coordinates positive) or Quadrant 3 (both coordinates negative)
         final IntegerRange x1Range = new IntegerRange( -9, 4 );
@@ -146,7 +146,7 @@ class ChallengeFactory1 extends ChallengeFactory {
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            IChallenge challenge = new GTL_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
+            Challenge challenge = new GTL_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 
@@ -171,7 +171,7 @@ class ChallengeFactory1 extends ChallengeFactory {
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            IChallenge challenge = new MTE_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
+            Challenge challenge = new MTE_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 
