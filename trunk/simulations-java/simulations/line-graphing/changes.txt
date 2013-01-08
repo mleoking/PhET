@@ -1,3 +1,5 @@
+1/8/13 fix: in slope-intercept equations, if interactive run=0, then interactive y-intercept can't be changed
+1/8/13 slope-intercept equations: use separate properties and node for interactive (integer) vs non-interactive (fractional) y-intercept
 1/8/13 add developer "Skip" button for skipping the current challenge
 1/8/13 change request: "Set the y-Intercept" -> "Set the Y-intercept"
 # 0.00.47 (71528) Jan 7, 2013

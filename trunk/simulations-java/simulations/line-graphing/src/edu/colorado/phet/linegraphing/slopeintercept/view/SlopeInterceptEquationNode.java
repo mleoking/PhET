@@ -48,11 +48,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class SlopeInterceptEquationNode extends EquationNode {
 
-    private final Property<Double> rise, run, yInterceptNumerator, yInterceptDenominator; // internal properties that are connected to spinners
+    private final Property<Double> rise, run;
+    private final Property<Double> yIntercept; // this is used for interactive y-intercept
+    private final Property<Double> yInterceptNumerator, yInterceptDenominator; // these are used for non-interactive, fractional y-intercept
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
     // Nodes that appear in all possible forms of the equation "y = mx + b"
-    private final PNode yNode, equalsNode, slopeMinusSignNode, riseNode, runNode, xNode, operatorNode, yInterceptNumeratorNode, yInterceptDenominatorNode;
+    private final PNode yNode, equalsNode, slopeMinusSignNode, riseNode, runNode, xNode, operatorNode;
+    private final PNode yInterceptNode; // used for interactive, integer y-intercept
+    private final PNode yInterceptNumeratorNode, yInterceptDenominatorNode; // used for non-interactive, fractionl y-intercept
     private final PNode yInterceptMinusSignNode; // for "y = -b" case
     private final PPath slopeFractionLineNode, yInterceptFractionLineNode;
 
@@ -79,9 +83,10 @@ public class SlopeInterceptEquationNode extends EquationNode {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
-        Fraction yIntercept = interactiveLine.get().getYIntercept();
-        this.yInterceptNumerator = new Property<Double>( (double) yIntercept.numerator );
-        this.yInterceptDenominator = new Property<Double>( (double) yIntercept.denominator );
+        this.yIntercept = new Property<Double>( interactiveLine.get().y1 );
+        Fraction fractionalIntercept = interactiveLine.get().getYIntercept();
+        this.yInterceptNumerator = new Property<Double>( (double) fractionalIntercept.numerator );
+        this.yInterceptDenominator = new Property<Double>( (double) fractionalIntercept.denominator );
 
         // Determine the max width of the rise and run spinners.
         double maxSlopeSpinnerWidth = computeMaxSlopeSpinnerWidth( riseRange, runRange, interactiveFont, FORMAT );
@@ -107,14 +112,9 @@ public class SlopeInterceptEquationNode extends EquationNode {
         xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
         operatorNode = new PNode(); // parent for + or - node
         yInterceptMinusSignNode = new MinusNode( signLineSize, staticColor );
-        if ( interactiveIntercept ) {
-            yInterceptNumeratorNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, yInterceptNumerator, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
-            yInterceptDenominatorNode = new PPath();
-        }
-        else {
-            yInterceptNumeratorNode = new DynamicValueNode( yInterceptNumerator, FORMAT, staticFont, staticColor, true ); // absolute value
-            yInterceptDenominatorNode = new DynamicValueNode( yInterceptDenominator, FORMAT, staticFont, staticColor, true ); // absolute value
-        }
+        yInterceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
+        yInterceptNumeratorNode = new DynamicValueNode( yInterceptNumerator, FORMAT, staticFont, staticColor, true ); // absolute value
+        yInterceptDenominatorNode = new DynamicValueNode( yInterceptDenominator, FORMAT, staticFont, staticColor, true ); // absolute value
         yInterceptFractionLineNode = new PPath( createFractionLineShape( maxSlopeSpinnerWidth ) ) {{
             setStroke( null );
             setPaint( staticColor );
@@ -124,14 +124,17 @@ public class SlopeInterceptEquationNode extends EquationNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 if ( !updatingControls ) {
-                    //This is a little complicated, because y1 == yInterceptNumerator only if the intercept is interactive.
-                    Line line = interactiveLine.get();
-                    final double y1 = ( interactiveIntercept ) ? yInterceptNumerator.get() : line.y1;
-                    interactiveLine.set( new Line( line.x1, y1, line.x1 + run.get(), y1 + rise.get(), interactiveLine.get().color ) );
+                    if ( interactiveIntercept ) {
+                        interactiveLine.set( Line.createSlopeIntercept( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color ) );
+                    }
+                    else {
+                        Line line = interactiveLine.get();
+                        interactiveLine.set( new Line( line.x1, line.y1, line.x1 + run.get(), line.y1 + rise.get(), interactiveLine.get().color ) );
+                    }
                 }
             }
         };
-        lineUpdater.observe( rise, run, yInterceptNumerator );
+        lineUpdater.observe( rise, run, yIntercept );
 
         // sync the controls and layout with the model
         interactiveLine.addObserver( new VoidFunction1<Line>() {
@@ -145,9 +148,15 @@ public class SlopeInterceptEquationNode extends EquationNode {
                 {
                     rise.set( interactiveSlope ? line.rise : line.getSimplifiedRise() );
                     run.set( interactiveSlope ? line.run : line.getSimplifiedRun() );
-                    Fraction yIntercept = interactiveLine.get().getYIntercept();
-                    yInterceptNumerator.set( (double) yIntercept.numerator );
-                    yInterceptDenominator.set( (double) yIntercept.denominator );
+
+                    if ( interactiveIntercept ) {
+                        yIntercept.set( line.y1 );
+                    }
+                    else {
+                        Fraction fractionalIntercept = interactiveLine.get().getYIntercept();
+                        yInterceptNumerator.set( (double) fractionalIntercept.numerator );
+                        yInterceptDenominator.set( (double) fractionalIntercept.denominator );
+                    }
                 }
                 updatingControls = false;
 
@@ -268,19 +277,19 @@ public class SlopeInterceptEquationNode extends EquationNode {
         if ( interactiveIntercept ) {
             if ( zeroSlope && !interactiveSlope ) {
                 // y = b
-                addChild( yInterceptNumeratorNode );
-                yInterceptNumeratorNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                          yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
+                addChild( yInterceptNode );
+                yInterceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                          yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
             }
             else {
                 // y = (rise/run)x + b
                 addChild( operatorNode );
-                addChild( yInterceptNumeratorNode );
+                addChild( yInterceptNode );
                 operatorNode.addChild( new PlusNode( operatorLineSize, staticColor ) );
                 operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                                         equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
-                yInterceptNumeratorNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
-                                          yNode.getFullBoundsReference().getCenterY() - ( yInterceptNumeratorNode.getFullBoundsReference().getHeight() / 2 ) );
+                yInterceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                          yNode.getFullBoundsReference().getCenterY() - ( yInterceptNode.getFullBoundsReference().getHeight() / 2 ) );
             }
         }
         else {
