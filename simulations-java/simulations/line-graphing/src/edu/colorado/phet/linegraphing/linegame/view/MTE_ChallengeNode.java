@@ -55,11 +55,9 @@ public class MTE_ChallengeNode extends ChallengeNode {
         final MTE_GraphNode graphNode = new MTE_GraphNode( challenge );
 
         // rendering order
-        {
-            subclassParent.addChild( graphNode );
-            subclassParent.addChild( answerBoxNode );
-            subclassParent.addChild( guessBoxNode );
-        }
+        subclassParent.addChild( graphNode );
+        subclassParent.addChild( answerBoxNode );
+        subclassParent.addChild( guessBoxNode );
 
         // layout
         {
