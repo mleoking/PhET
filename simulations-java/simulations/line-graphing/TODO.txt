@@ -13,7 +13,7 @@ HIGH
 MEDIUM
 - factor out duplication in ChallengeFactory hierarchy when the dust settles
 - move duplication in GTL_ChallengeNode, MTE_ChallengeNode and P3P_ChallengeNode into base class ChallengeNode
-- could P3P_ChallengeNode be a subclass of GTL_ChallengeNode?
+- make PTP a specialization of GTL (model, view, graph)
 - rise value on slope tool falls off left edge of play area in Point-Slope tab
 
 LOW
