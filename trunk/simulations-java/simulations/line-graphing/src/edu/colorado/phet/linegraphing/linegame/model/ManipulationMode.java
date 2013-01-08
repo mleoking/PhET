@@ -13,5 +13,6 @@ public enum ManipulationMode {
     SLOPE_INTERCEPT,
     POINT,
     POINT_SLOPE,
-    POINTS
+    TWO_POINTS,
+    THREE_POINTS
 }

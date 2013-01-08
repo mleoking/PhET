@@ -29,7 +29,7 @@ public class PTP_Challenge extends MatchChallenge {
     public PTP_Challenge( String description, Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
         super( Strings.PLACE_THE_POINTS, description,
                answer, Line.Y_EQUALS_X_LINE,
-               lineForm, ManipulationMode.POINTS,
+               lineForm, ManipulationMode.THREE_POINTS,
                xRange, yRange,
                new Point2D.Double( 700, 300 ), // origin offset
                new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), // point tool location 1

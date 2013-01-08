@@ -23,9 +23,9 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class GTL_SlopeIntercept_GraphNode extends GTL_GraphNode {
+class GTL_GraphNode_SlopeIntercept extends GTL_GraphNode {
 
-    public GTL_SlopeIntercept_GraphNode( final GTL_Challenge challenge ) {
+    public GTL_GraphNode_SlopeIntercept( final GTL_Challenge challenge ) {
         super( challenge );
 
         // dynamic ranges

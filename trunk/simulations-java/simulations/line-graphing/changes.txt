@@ -1,3 +1,6 @@
+1/8/13 rename GTL_GraphNode subclasses
+1/8/13 rename ManipulationMode.POINTS to TWO_POINTS, change usage sites accordingly
+1/8/13 add ManipulationMode.THREE_POINTS
 1/8/13 a couple of tweaks to make GTL and PTP view implementations more similar, to ease refactoring
 1/8/13 change "P3P" (Place 3 Points) to "PTP" (Place the Points) throughout code, to match terminology used by the team
 # 0.00.48 (71539) Jan 8, 2013

@@ -110,14 +110,14 @@ public class GTL_ChallengeNode extends ChallengeNode {
 
     // Creates the graph portion of the view.
     protected GTL_GraphNode createGraphNode( GTL_Challenge challenge ) {
-        if ( challenge.manipulationMode == ManipulationMode.POINTS ) {
-            return new GTL_Points_GraphNode( challenge );
+        if ( challenge.manipulationMode == ManipulationMode.TWO_POINTS ) {
+            return new GTL_GraphNode_TwoPoints( challenge );
         }
         else if ( challenge.lineForm == LineForm.SLOPE_INTERCEPT ) {
-            return new GTL_SlopeIntercept_GraphNode( challenge );
+            return new GTL_GraphNode_SlopeIntercept( challenge );
         }
         else if ( challenge.lineForm == LineForm.POINT_SLOPE ) {
-            return new GTL_PointSlope_GraphNode( challenge );
+            return new GTL_GraphNode_PointSlope( challenge );
         }
         else {
             throw new IllegalArgumentException( "unsupported lineForm (" + challenge.lineForm + ") and manipulatorMode (" + challenge.manipulationMode + ") combination" );
