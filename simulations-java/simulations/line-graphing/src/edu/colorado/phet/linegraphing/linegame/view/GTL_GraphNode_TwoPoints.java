@@ -20,9 +20,9 @@ import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class GTL_Points_GraphNode extends GTL_GraphNode {
+class GTL_GraphNode_TwoPoints extends GTL_GraphNode {
 
-    public GTL_Points_GraphNode( final GTL_Challenge challenge ) {
+    public GTL_GraphNode_TwoPoints( final GTL_Challenge challenge ) {
         super( challenge );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
