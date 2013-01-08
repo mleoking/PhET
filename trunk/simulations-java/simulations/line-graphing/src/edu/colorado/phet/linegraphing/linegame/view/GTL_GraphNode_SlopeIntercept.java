@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.PNode;
 class GTL_GraphNode_SlopeIntercept extends GTL_GraphNode {
 
     public GTL_GraphNode_SlopeIntercept( final GTL_Challenge challenge ) {
-        super( challenge );
+        super( challenge, true /* slopeToolEnabled */ );
 
         // dynamic ranges
         SlopeInterceptParameterRange parameterRange = new SlopeInterceptParameterRange();

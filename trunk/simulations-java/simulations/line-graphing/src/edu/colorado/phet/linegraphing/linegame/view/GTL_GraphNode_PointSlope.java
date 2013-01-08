@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.PNode;
 class GTL_GraphNode_PointSlope extends GTL_GraphNode {
 
     public GTL_GraphNode_PointSlope( final GTL_Challenge challenge ) {
-        super( challenge );
+        super( challenge, true /* slopeToolEnabled */ );
 
         // dynamic ranges
         final PointSlopeParameterRange pointSlopeParameterRange = new PointSlopeParameterRange();

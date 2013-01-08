@@ -24,7 +24,7 @@ public abstract class GTL_GraphNode extends GraphNode {
 
     private final PNode answerNode, slopeToolNode;
 
-    public GTL_GraphNode( final GTL_Challenge challenge ) {
+    public GTL_GraphNode( final GTL_Challenge challenge, boolean slopeToolEnabled ) {
         super( challenge.graph, challenge.mvt );
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
@@ -40,7 +40,12 @@ public abstract class GTL_GraphNode extends GraphNode {
         final PNode guessNodeParent = new PComposite();
 
         // Slope tool
-        slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt );
+        if ( slopeToolEnabled ) {
+            slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt );
+        }
+        else {
+            slopeToolNode = new PNode();
+        }
 
         // rendering order
         addChild( guessNodeParent );
@@ -51,7 +56,9 @@ public abstract class GTL_GraphNode extends GraphNode {
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 guessNodeParent.removeAllChildren();
-                guessNodeParent.addChild( new LineNode( line, challenge.graph, challenge.mvt ) );
+                if ( line != null ) {
+                    guessNodeParent.addChild( new LineNode( line, challenge.graph, challenge.mvt ) );
+                }
             }
         } );
     }
