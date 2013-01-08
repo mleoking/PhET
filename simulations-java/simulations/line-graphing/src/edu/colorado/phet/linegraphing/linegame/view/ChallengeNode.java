@@ -77,7 +77,8 @@ public abstract class ChallengeNode extends PhetPNode {
         final TextButtonNode tryAgainButton = new TextButtonNode( Strings.TRY_AGAIN, buttonFont, buttonBackground );
         final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, buttonFont, buttonBackground );
         final TextButtonNode nextButton = new TextButtonNode( Strings.NEXT, buttonFont, buttonBackground );
-        final TextButtonNode replayButton = new TextButtonNode( "Replay", new PhetFont( Font.BOLD, 12 ), Color.RED ); // developer control, no i18n
+        final TextButtonNode skipButton = new TextButtonNode( "dev: Skip", new PhetFont( Font.BOLD, 12 ), Color.WHITE ); // developer control, no i18n
+        final TextButtonNode replayButton = new TextButtonNode( "dev: Replay", new PhetFont( Font.BOLD, 12 ), Color.WHITE ); // developer control, no i18n
 
         // point tools
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
@@ -106,8 +107,8 @@ public abstract class ChallengeNode extends PhetPNode {
             addChild( showAnswerButton );
             addChild( nextButton );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-                // This button lets you repeat the current challenge.
-                addChild( replayButton );
+                addChild( skipButton ); // This button lets you skip the current challenge.
+                addChild( replayButton ); // This button lets you repeat the current challenge.
             }
             addChild( pointToolParent );
             addChild( faceNode );
@@ -123,6 +124,8 @@ public abstract class ChallengeNode extends PhetPNode {
             tryAgainButton.setOffset( buttonCenterX - ( tryAgainButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             showAnswerButton.setOffset( buttonCenterX - ( showAnswerButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             nextButton.setOffset( buttonCenterX - ( nextButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
+            skipButton.setOffset( nextButton.getFullBoundsReference().getCenterX() - ( skipButton.getFullBoundsReference().getWidth() / 2 ),
+                                  nextButton.getFullBoundsReference().getMaxY() + 2 );
             replayButton.setOffset( nextButton.getFullBoundsReference().getCenterX() - ( replayButton.getFullBoundsReference().getWidth() / 2 ),
                                     nextButton.getFullBoundsReference().getMaxY() + 2 );
         }
@@ -176,6 +179,13 @@ public abstract class ChallengeNode extends PhetPNode {
             }
         } );
 
+        // "Skip" button
+        skipButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.skipCurrentChallenge();
+            }
+        } );
+
         // "Repeat" button
         replayButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -200,6 +210,7 @@ public abstract class ChallengeNode extends PhetPNode {
                 tryAgainButton.setVisible( state == PlayState.TRY_AGAIN );
                 showAnswerButton.setVisible( state == PlayState.SHOW_ANSWER );
                 nextButton.setVisible( state == PlayState.NEXT );
+                skipButton.setVisible( !nextButton.getVisible() );
                 replayButton.setVisible( nextButton.getVisible() );
             }
         } );
