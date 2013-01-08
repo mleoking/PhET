@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for an arbitrary point, represented as a Vector2D.
- * Used exclusively in "Place 3 Points" game challenges.
+ * Used exclusively in "Place the Points" game challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
