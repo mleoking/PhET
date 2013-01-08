@@ -41,17 +41,15 @@ public class PTP_ChallengeNode extends ChallengeNode {
                                      createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // Guess
-        guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, Color.BLACK, boxSize, NOT_A_LINE ); // dummy
+        guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, Color.BLACK, boxSize, new PNode() ); // dummy
 
         // Graph
         final PTP_GraphNode graphNode = new PTP_GraphNode( challenge );
 
         // rendering order
-        {
             subclassParent.addChild( graphNode );
             subclassParent.addChild( answerBoxNode );
             subclassParent.addChild( guessBoxNode );
-        }
 
         // layout
         {
