@@ -233,18 +233,17 @@ public class EFACIntroModel implements ITemperatureModel {
         // Exchange energy chunks between burners and non-air energy containers.
         for ( RectangularThermalMovableModelElement thermalModelElement : Arrays.asList( ironBlock, brick, beaker ) ) {
             for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
-                // TODO: This is the problem.  Shouldn't be pushing in energy
-                // chunks based on energy chunk balance, but on how many chunks
-                // worth of energy that the burner has added or removed.
                 if ( burner.getEnergyChunkBalanceWithObjects() > 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
-                    // Give the item on the burner an energy chunk (whether it
-                    // needs one or not).
+                    // Push an energy chunk into the item on the burner.
                     thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
                 }
                 else if ( burner.getEnergyChunkBalanceWithObjects() < 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
                     // Extract an energy chunk from the model element.
                     burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getFlameIceRect() ) );
                 }
+                // TODO: Below is the commented out code from before boiling
+                // was implemented. Removed in Dec 2012, take out permanently
+                // if and when boiling and freezing are working well.
 //                if ( thermalModelElement.getSystemEnergyChunkBalance() < 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
 //                    thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
 //                }
