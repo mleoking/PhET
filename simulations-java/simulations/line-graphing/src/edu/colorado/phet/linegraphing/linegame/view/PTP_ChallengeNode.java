@@ -9,29 +9,28 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.linegraphing.common.LGResources;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.P3P_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * View for "Place 3 Points" (P3P) challenges.
+ * View for "Place the Points" (PTP) challenges.
  * User manipulates 3 points on a graph on the right, equations are displayed on the left.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class P3P_ChallengeNode extends ChallengeNode {
+public class PTP_ChallengeNode extends ChallengeNode {
 
     private static final PNode NOT_A_LINE = new PhetPText( Strings.NOT_A_LINE, new PhetFont( Font.BOLD, 24 ), Color.BLACK );
 
     private EquationBoxNode guessBoxNode;
 
-    public P3P_ChallengeNode( final LineGameModel model, final P3P_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public PTP_ChallengeNode( final LineGameModel model, final PTP_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );
 
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
@@ -45,7 +44,7 @@ public class P3P_ChallengeNode extends ChallengeNode {
         guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, Color.BLACK, boxSize, NOT_A_LINE ); // dummy
 
         // Graph
-        final P3P_GraphNode graphNode = new P3P_GraphNode( challenge );
+        final PTP_GraphNode graphNode = new PTP_GraphNode( challenge );
 
         // rendering order
         {

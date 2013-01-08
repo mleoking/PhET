@@ -45,16 +45,16 @@ public class ChallengeFactoryHardCoded {
                 challenges.add( new MTE_Challenge( DESCRIPTION, Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
                 break;
             case 5:
-                challenges.add( new P3P_Challenge( DESCRIPTION, Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
-                challenges.add( new P3P_Challenge( DESCRIPTION, Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
-                challenges.add( new P3P_Challenge( DESCRIPTION, Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
-                challenges.add( new P3P_Challenge( DESCRIPTION, Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PTP_Challenge( DESCRIPTION, Line.createSlopeIntercept( 1, 1, -2 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PTP_Challenge( DESCRIPTION, Line.createSlopeIntercept( 5, 1, 1 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PTP_Challenge( DESCRIPTION, Line.createSlopeIntercept( 4, 2, 3 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PTP_Challenge( DESCRIPTION, Line.createSlopeIntercept( 3, 3, -3 ), LineForm.SLOPE_INTERCEPT, xRange, yRange ) );
                 break;
             case 6:
-                challenges.add( new P3P_Challenge( DESCRIPTION, Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, xRange, yRange ) );
-                challenges.add( new P3P_Challenge( DESCRIPTION, Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, xRange, yRange ) );
-                challenges.add( new P3P_Challenge( DESCRIPTION, Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, xRange, yRange ) );
-                challenges.add( new P3P_Challenge( DESCRIPTION, Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, xRange, yRange ) );
+                challenges.add( new PTP_Challenge( DESCRIPTION, Line.createPointSlope( 2, 1, 1, 2 ), LineForm.POINT_SLOPE, xRange, yRange ) );
+                challenges.add( new PTP_Challenge( DESCRIPTION, Line.createPointSlope( 1, -3, 1, 3 ), LineForm.POINT_SLOPE, xRange, yRange ) );
+                challenges.add( new PTP_Challenge( DESCRIPTION, Line.createPointSlope( -2, 1, -4, 3 ), LineForm.POINT_SLOPE, xRange, yRange ) );
+                challenges.add( new PTP_Challenge( DESCRIPTION, Line.createPointSlope( 5, 4, 3, 2 ), LineForm.POINT_SLOPE, xRange, yRange ) );
                 break;
             default:
                 throw new IllegalArgumentException( "unsupported level: " + level );
