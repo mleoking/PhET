@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_mr.xml created Sat Jan 05 17:23:26 IST 2013 using: friction 2.03.00 (51676), translation-utility 2.14.00 (69024) Oct 10, 2012--><SimStrings>
+<string key="rubYellowAtoms" value="पिवळॆ अणू\nलाल अणूंशी घासा"/>
+<string key="physics" value="भौतिकशास्त्र"/>
+<string key="reset" value="मुळस्थिती"/>
+<string key="simTitle" value="घर्षण"/>
+<string key="translation.credits" value="योगेश      (nyogi2004@gmail.com)"/>
+<string key="chemistry" value="रसायनशास्त्र"/>
+</SimStrings>
