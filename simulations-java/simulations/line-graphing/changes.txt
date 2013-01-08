@@ -1,3 +1,4 @@
+1/8/13 handle PTP challenges in the GTL view
 1/8/13 make MatchChallenge.createInitialGuess private, make initial guess null for PTP challenges
 1/8/13 PTP_GraphNode extends GTL_GraphNode
 1/8/13 PTP_Challenge extends GTL_Challenge
