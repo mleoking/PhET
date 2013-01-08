@@ -1,3 +1,4 @@
+1/8/13 change request: "Set the y-Intercept" -> "Set the Y-intercept"
 # 0.00.47 (71528) Jan 7, 2013
 1/7/13 add challenge descriptions, displayed below challenge title for debugging purposes
 1/7/13 first attempt at forcing slope inversion in level=4
