@@ -130,7 +130,18 @@ public class LineGameModel {
         return Math.max( 0, MAX_POINTS_PER_CHALLENGE - attempts + 1 );
     }
 
-    /*
+    /**
+     * Skips the current challenge.
+     * This is a developer-only feature.
+     * No attempt is made to adjust the score, so points and best times are meaningless after using this.
+     */
+    public void skipCurrentChallenge() {
+        assert ( PhetApplication.getInstance().isDeveloperControlsEnabled() );
+        state.set( PlayState.NEXT );
+        state.set( PlayState.FIRST_CHECK );
+    }
+
+    /**
      * Replays the current challenge.
      * This is a developer-only feature.
      * No attempt is made to adjust the score, so points and best times are meaningless after using this.
