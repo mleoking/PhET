@@ -325,7 +325,7 @@ public class PointSlopeEquationNode extends EquationNode {
             }
 
             // x term
-            if ( interactiveX1 || line.rise != 0 ) {
+            if ( interactiveX1 || interactiveSlope || line.rise != 0 ) {
                 // (x - x1)
                 addChild( xLeftParenNode );
                 addChild( xNode );
