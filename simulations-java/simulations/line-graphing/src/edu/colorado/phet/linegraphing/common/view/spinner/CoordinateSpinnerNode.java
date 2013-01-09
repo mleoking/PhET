@@ -13,7 +13,7 @@ import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator;
 
 /**
- * Spinner for one coordinate of a point.
+ * Spinner for one coordinate of a 2D point.
  * It prevents the point from having the same value as some other point,
  * so that we don't end up with with an undefined line because (x1,y1) == (x2,y2).
  *
@@ -21,23 +21,34 @@ import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator;
  */
 public class CoordinateSpinnerNode extends SpinnerNode {
 
-    //TODO doc
+    /**
+     * Constructor
+     * @param userComponent used in sim-sharing message
+     * @param x1 the coordinate that this spinner changes (not necessarily on the x-axis!)
+     * @param y1 the other coordinate of the point that has coordinate x1
+     * @param x2 the coordinate in the second point that is on the same axis as x1
+     * @param y2 the coordinate in the second point that is on the same axis as y1
+     * @param range range of x1
+     * @param colors color scheme that will be used for the spinner
+     * @param font font for the number in the spinner
+     * @param format format of the number in the spinner
+     */
     public CoordinateSpinnerNode( IUserComponent userComponent,
-                                  final Property<Double> p1,
-                                  final Property<Double> p2,
-                                  final Property<Double> q1,
-                                  final Property<Double> q2,
+                                  final Property<Double> x1,
+                                  final Property<Double> y1,
+                                  final Property<Double> x2,
+                                  final Property<Double> y2,
                                   final Property<DoubleRange> range,
                                   SpinnerStateIndicator<Color> colors, PhetFont font, NumberFormat format ) {
-        super( userComponent, p1, range, colors, font, format,
+        super( userComponent, x1, range, colors, font, format,
                // "up" function, skips up
                new Function0<Double>() {
                    public Double apply() {
-                       double x1New = p1.get() + 1;
-                       if ( x1New == p2.get().doubleValue() && q1.get().doubleValue() == q2.get().doubleValue() ) { // will points be the same?
+                       double x1New = x1.get() + 1;
+                       if ( x1New == x2.get().doubleValue() && y1.get().doubleValue() == y2.get().doubleValue() ) { // will points be the same?
                            x1New++;
                            if ( x1New > range.get().getMax() ) { // did we skip too far?
-                               x1New = p1.get();
+                               x1New = x1.get();
                            }
                        }
                        return x1New;
@@ -46,11 +57,11 @@ public class CoordinateSpinnerNode extends SpinnerNode {
                // "down" function, skips down
                new Function0<Double>() {
                    public Double apply() {
-                       double x1New = p1.get() - 1;
-                       if ( x1New == p2.get().doubleValue() && q1.get().doubleValue() == q2.get().doubleValue() ) { // will points be the same?
+                       double x1New = x1.get() - 1;
+                       if ( x1New == x2.get().doubleValue() && y1.get().doubleValue() == y2.get().doubleValue() ) { // will points be the same?
                            x1New--;
                            if ( x1New < range.get().getMin() ) { // did we skip too far?
-                               x1New = p1.get();
+                               x1New = x1.get();
                            }
                        }
                        return x1New;

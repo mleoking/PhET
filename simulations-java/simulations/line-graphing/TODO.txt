@@ -15,7 +15,6 @@ MEDIUM
 - factor out duplication in GTL_ChallengeNode and MTE_ChallengeNode
 
 LOW
-- document CoordinateSpinnerNode constructor
 - remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - order of lines provided to point tool is not related to order of lines rendered on graph, would be nice if they used the same info
 

@@ -1,3 +1,4 @@
+1/9/13 document CoordinateSpinnerNode constructor
 1/9/13 scale only the control panel that's too wide, not both control panels
 1/9/13 center control panels in the right section of the canvas (first 3 tabs), scale control panels if i18n makes them too wide
 1/8/13 for first 3 tabs, keep graph in same position, tweak position so that slope tool doesn't fall off left edge of play area
