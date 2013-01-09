@@ -133,7 +133,7 @@ public class Burner extends ModelElement {
         assert !( thermalEnergyContainer instanceof Air );  // This shouldn't be used for air - there is a specific method for that.
         if ( inContactWith( thermalEnergyContainer ) ) {
             double deltaEnergy = 0;
-            if ( thermalEnergyContainer.getTemperature() > 0 ) {
+            if ( thermalEnergyContainer.getTemperature() > EFACConstants.FREEZING_POINT_TEMPERATURE ) {
                 deltaEnergy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
             }
             thermalEnergyContainer.changeEnergy( deltaEnergy );

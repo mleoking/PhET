@@ -235,7 +235,6 @@ public class EFACIntroModel implements ITemperatureModel {
                         // Push an energy chunk into the item on the burner.
                         thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
                     }
-//                else if ( burner.getEnergyChunkBalanceWithObjects() < 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
                     else if ( burner.canAcceptEnergyChunk() && ( burner.getEnergyChunkBalanceWithObjects() < 0 || thermalModelElement.getEnergyChunkBalance() > 0 )) {
                         // Extract an energy chunk from the model element.
                         EnergyChunk ec = thermalModelElement.extractClosestEnergyChunk( burner.getFlameIceRect() );
