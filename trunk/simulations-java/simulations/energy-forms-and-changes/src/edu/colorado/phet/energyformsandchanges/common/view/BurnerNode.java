@@ -3,22 +3,15 @@ package edu.colorado.phet.energyformsandchanges.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.Timer;
-
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.HeaterCoolerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
-import edu.colorado.phet.energyformsandchanges.common.view.stove.HeaterCoolerWithLimitsNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.Burner;
 import edu.umd.cs.piccolo.PNode;
-
-import static edu.colorado.phet.energyformsandchanges.common.view.stove.HeaterCoolerWithLimitsNode.HeatCoolMode;
 
 /**
  * Piccolo node that represents a burner in the view.
@@ -31,8 +24,6 @@ public class BurnerNode extends PNode {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double MODE_CHANGE_LOCKOUT_TIME = 3; // In seconds.
-
     // For debug purposes.
     private static final boolean SHOW_2D_RECT = false;
 
@@ -40,7 +31,7 @@ public class BurnerNode extends PNode {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    protected final HeaterCoolerWithLimitsNode heaterCoolerNode;
+    protected final HeaterCoolerNode heaterCoolerNode;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -58,51 +49,12 @@ public class BurnerNode extends PNode {
 
         // Add the heater-cooler node to the center bottom.
         // TODO: i18n
-        heaterCoolerNode = new HeaterCoolerWithLimitsNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
+        heaterCoolerNode = new HeaterCoolerNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
             setScale( mvt.modelToViewDeltaX( burner.getOutlineRect().getWidth() ) * 0.7 / getFullBoundsReference().width );
             setOffset( burnerViewRect.getX() + burnerViewRect.getWidth() / 2 - getFullBoundsReference().width / 2,
                        burnerViewRect.getMaxY() - getFullBoundsReference().height * 0.9 );
         }};
         addChild( heaterCoolerNode );
-
-        // Set up the lockout timer that prevents the heat/cool mode from
-        // changing too rapidly.
-        final Timer heatCoolModeChangeLockoutTimer = new Timer( (int) ( MODE_CHANGE_LOCKOUT_TIME * 1000 ), null );
-        heatCoolModeChangeLockoutTimer.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateHeatCoolMode( burner.heatCoolLevel.getBoundsProperty().get() );
-                heatCoolModeChangeLockoutTimer.stop();
-            }
-        } );
-
-        // Update the mode of the heater cooler based on the limits on the burner.
-        burner.heatCoolLevel.getBoundsProperty().addObserver( new VoidFunction1<DoubleRange>() {
-            public void apply( DoubleRange allowedRange ) {
-                if ( !heatCoolModeChangeLockoutTimer.isRunning() ) {
-
-                    // Change is not locked out, so an update is allowed.
-                    HeatCoolMode modeBeforeUpdate = heaterCoolerNode.heatCoolMode.get();
-                    updateHeatCoolMode( allowedRange );
-                    if ( heaterCoolerNode.heatCoolMode.get() != modeBeforeUpdate ) {
-
-                        // A mode change occurred, so start the lockout timer.
-                        heatCoolModeChangeLockoutTimer.restart();
-                    }
-                }
-                // else ignore the change and let the timer handle it.
-            }
-        } );
-
-        // Update heat/cool mode when elements are added to or removed from burner.
-        burner.getIsSomethingOnTopProperty().addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean isSomethingOnBurner ) {
-                if ( !isSomethingOnBurner ) {
-                    // Whatever was on burner was removed, so clear limits.
-                    heatCoolModeChangeLockoutTimer.stop();
-                    updateHeatCoolMode( burner.heatCoolLevel.getBoundsProperty().get() );
-                }
-            }
-        } );
 
         // Add the stand that goes around and above the burner.
         addChild( new BurnerStandNode( burnerViewRect, burnerViewRect.getHeight() * 0.2 ) );
@@ -122,21 +74,5 @@ public class BurnerNode extends PNode {
                 } );
             }
         } );
-    }
-
-    //-------------------------------------------------------------------------
-    // Methods
-    //-------------------------------------------------------------------------
-
-    private void updateHeatCoolMode( DoubleRange allowedRange ) {
-        if ( allowedRange.getMin() == 0 && heaterCoolerNode.heatCoolMode.get() != HeatCoolMode.HEAT_ONLY ) {
-            heaterCoolerNode.heatCoolMode.set( HeatCoolMode.HEAT_ONLY );
-        }
-        else if ( allowedRange.getMax() == 0 && heaterCoolerNode.heatCoolMode.get() != HeatCoolMode.COOL_ONLY ) {
-            heaterCoolerNode.heatCoolMode.set( HeatCoolMode.COOL_ONLY );
-        }
-        else if ( allowedRange.getMin() < 0 && allowedRange.getMax() > 0 && heaterCoolerNode.heatCoolMode.get() != HeatCoolMode.HEAT_AND_COOL ) {
-            heaterCoolerNode.heatCoolMode.set( HeatCoolMode.HEAT_AND_COOL );
-        }
     }
 }
