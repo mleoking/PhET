@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 /**
  * Renderer for point-slope equations, with optional interactivity of point and slope.
  * General point-slope form is: (y - y1) = m(x - x1)
- * <p/>
+ * <p>
  * Point and/or slope may be interactive.
  * Spinners are used to increment/decrement parts of the equation that are specified as being interactive.
  * Non-interactive parts of the equation are expressed in a form that is typical of how the equation
