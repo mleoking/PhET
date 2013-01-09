@@ -1,3 +1,4 @@
+1/9/13 remove console logging that is no longer needed
 1/9/13 document CoordinateSpinnerNode constructor
 1/9/13 scale only the control panel that's too wide, not both control panels
 1/9/13 center control panels in the right section of the canvas (first 3 tabs), scale control panels if i18n makes them too wide
