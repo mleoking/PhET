@@ -13,8 +13,8 @@ import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
 
 /**
- * Challenge graph with manipulators for 3 arbitrary points, which may or may not form a line.
- * This graph requires a PTP (Place the Points) challenge.
+ * Challenge graph with manipulators for 3 arbitrary points, which may or may not form a guess line.
+ * The answer line is initially hidden.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
