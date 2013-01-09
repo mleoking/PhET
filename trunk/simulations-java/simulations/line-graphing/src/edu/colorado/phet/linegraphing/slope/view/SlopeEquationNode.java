@@ -36,6 +36,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Renderer for slope equations.
  * General form is m = (y2 - y1) / (x2 - x1) = rise/run
+ * <p>
  * x1, y1, x2, and y2 are all interactive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
