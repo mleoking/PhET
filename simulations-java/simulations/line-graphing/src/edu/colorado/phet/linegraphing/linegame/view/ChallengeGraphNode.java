@@ -23,7 +23,7 @@ import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.manipulator.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.common.view.manipulator.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
-import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
 import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeParameterRange;
@@ -32,17 +32,17 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for the graph node in all "Graph the Line" (GTL) challenges.
+ * Base class for graph node in game challenges.
  * Renders the answer line, guess line, and slope tool.
- * Manipulators are provided by subclasses.
+ * Optional manipulators are provided by subclasses.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class GTL_GraphNode extends GraphNode {
+public abstract class ChallengeGraphNode extends GraphNode {
 
-    private final PNode answerNode, slopeToolNode;
+    private final PNode answerNode, guessNodeParent, slopeToolNode;
 
-    public GTL_GraphNode( final GTL_Challenge challenge, boolean slopeToolEnabled ) {
+    public ChallengeGraphNode( final Challenge challenge, boolean slopeToolEnabled ) {
         super( challenge.graph, challenge.mvt );
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
@@ -50,12 +50,11 @@ public abstract class GTL_GraphNode extends GraphNode {
             addChild( new LineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt ) );
         }
 
-        // the correct answer, initially hidden
+        // the correct answer
         answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
-        answerNode.setVisible( false );
 
         // parent for the guess node, to maintain rendering order
-        final PNode guessNodeParent = new PComposite();
+        guessNodeParent = new PComposite();
 
         // Slope tool
         if ( slopeToolEnabled ) {
@@ -81,25 +80,44 @@ public abstract class GTL_GraphNode extends GraphNode {
         } );
     }
 
+    // Sets the visibility of the answer.
+    public void setAnswerVisible( boolean visible ) {
+        answerNode.setVisible( visible );
+    }
+
+    // Sets the visibility of the guess.
+    public void setGuessVisible( boolean visible ) {
+        guessNodeParent.setVisible( visible );
+    }
+
     // Sets the visibility of the slope tool.
     public void setSlopeToolVisible( boolean visible ) {
         slopeToolNode.setVisible( visible );
     }
 
-    // Sets the visibility of the correct answer.
-    public void setAnswerVisible( boolean visible ) {
-        answerNode.setVisible( visible );
+    /**
+     * Graph that initially shows the line to be matched, but not the user's guess.
+     * This is used in "Make the Equation" challenges.
+     */
+    public static class LineToMatch extends ChallengeGraphNode {
+
+        public LineToMatch( Challenge challenge ) {
+            super( challenge, true /* slopeToolEnabled */ );
+            setAnswerVisible( true );
+            setGuessVisible( false );
+        }
     }
 
     /**
-     * Graph for a "Graph the Line" (GTL) challenge that involves manipulating components of a slope-intercept line.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
+     * Graph with manipulators for slope and y-intercept.
      */
-    public static class SlopeIntercept extends GTL_GraphNode {
+    public static class SlopeIntercept extends ChallengeGraphNode {
 
-        public SlopeIntercept( final GTL_Challenge challenge ) {
+        public SlopeIntercept( final Challenge challenge ) {
             super( challenge, true /* slopeToolEnabled */ );
+
+            setAnswerVisible( false );
+            setGuessVisible( true );
 
             // dynamic ranges
             SlopeInterceptParameterRange parameterRange = new SlopeInterceptParameterRange();
@@ -158,14 +176,15 @@ public abstract class GTL_GraphNode extends GraphNode {
     }
 
     /**
-     * Graph for a "Graph the Line" (GTL) challenge that involves manipulating components of a point-slope line.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
+     * Graph with manipulators for point (x1,y1) and slope.
      */
-    public static class PointSlope extends GTL_GraphNode {
+    public static class PointSlope extends ChallengeGraphNode {
 
-        public PointSlope( final GTL_Challenge challenge ) {
+        public PointSlope( final Challenge challenge ) {
             super( challenge, true /* slopeToolEnabled */ );
+
+            setAnswerVisible( false );
+            setGuessVisible( true );
 
             // dynamic ranges
             final PointSlopeParameterRange pointSlopeParameterRange = new PointSlopeParameterRange();
@@ -226,15 +245,16 @@ public abstract class GTL_GraphNode extends GraphNode {
     }
 
     /**
-     * Graph for a "Graph the Line" (GTL) challenge that involves manipulating 2 arbitrary points.
+     * Graph manipulators for 2 points, (x1,y1) and (x2,y2).
      * Note that this graph has no dynamic ranges, because there are no dependencies between the 2 points.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
      */
-    public static class TwoPoints extends GTL_GraphNode {
+    public static class TwoPoints extends ChallengeGraphNode {
 
-        public TwoPoints( final GTL_Challenge challenge ) {
+        public TwoPoints( final Challenge challenge ) {
             super( challenge, true /* slopeToolEnabled */ );
+
+            setAnswerVisible( false );
+            setGuessVisible( true );
 
             final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
 
@@ -269,16 +289,16 @@ public abstract class GTL_GraphNode extends GraphNode {
     }
 
     /**
-     * Graph node for a specialized type of "GTL" (Graph the Line) challenge.
-     * "Place the Points" (PTP) challenges allow the user to manipulate 3 arbitrary points,
-     * which may or may not form a line.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
+     * Graph with manipulators for 3 arbitrary points, which may or may not form a line.
+     * This graph requires a PTP (Place the Points) challenge.
      */
-    public static class ThreePoints extends GTL_GraphNode {
+    public static class ThreePoints extends ChallengeGraphNode {
 
         public ThreePoints( final PTP_Challenge challenge ) {
             super( challenge, false /* slopeToolEnabled */ );
+
+            setAnswerVisible( false );
+            setGuessVisible( true );
 
             final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
 
