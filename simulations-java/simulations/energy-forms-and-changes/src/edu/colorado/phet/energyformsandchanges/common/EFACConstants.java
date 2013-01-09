@@ -40,8 +40,8 @@ public class EFACConstants {
     // Constant function for energy chunk mapping. The basis for this function
     // is that the brick has 2 energy chunks at room temp, one at the freezing
     // point of water.
-    private static double LOW_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_WATER_FREEZING_TEMPERATURE;
-    private static double HIGH_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_ROOM_TEMPERATURE;
+    private static double LOW_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_WATER_FREEZING_TEMPERATURE * 0.95;
+    private static double HIGH_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_ROOM_TEMPERATURE * 1.05;
     public static final Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
         private final Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( LOW_ENERGY_FOR_MAP_FUNCTION,
                                                                                               HIGH_ENERGY_FOR_MAP_FUNCTION,
