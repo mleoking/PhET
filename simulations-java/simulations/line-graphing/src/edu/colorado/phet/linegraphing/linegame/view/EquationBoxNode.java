@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EquationBoxNode extends PNode {
+class EquationBoxNode extends PNode {
 
     private static final int X_MARGIN = 20;
     private static final int Y_MARGIN = 10;

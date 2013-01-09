@@ -11,7 +11,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ChallengeFactoryHardCoded {
+class ChallengeFactoryHardCoded {
 
     private static final String DESCRIPTION = "hardcoded";
 
