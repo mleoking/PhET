@@ -143,7 +143,7 @@ public abstract class ChallengeNode extends PhetPNode {
                 if ( challenge.isCorrect() ) {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
-                    final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
+                    final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 /* number of attempts */ );
                     model.results.score.set( model.results.score.get() + points );
                     pointsAwardedNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
                     // points to right of face
