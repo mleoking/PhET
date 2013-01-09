@@ -47,7 +47,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
         guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, Color.BLACK, boxSize, new PNode() ); // dummy
 
         // Graph
-        final GTL_GraphNode graphNode = createGraphNode( challenge );
+        final ChallengeGraphNode graphNode = createGraphNode( challenge );
 
         // rendering order
         subclassParent.addChild( graphNode );
@@ -116,19 +116,19 @@ public class GTL_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    protected GTL_GraphNode createGraphNode( GTL_Challenge challenge ) {
+    protected ChallengeGraphNode createGraphNode( GTL_Challenge challenge ) {
         if ( challenge.manipulationMode == ManipulationMode.TWO_POINTS ) {
-            return new GTL_GraphNode.TwoPoints( challenge );
+            return new ChallengeGraphNode.TwoPoints( challenge );
         }
         else if ( challenge.manipulationMode == ManipulationMode.THREE_POINTS ) {
             assert( challenge instanceof PTP_Challenge );
-            return new GTL_GraphNode.ThreePoints( (PTP_Challenge) challenge );
+            return new ChallengeGraphNode.ThreePoints( (PTP_Challenge) challenge );
         }
         else if ( challenge.lineForm == LineForm.SLOPE_INTERCEPT ) {
-            return new GTL_GraphNode.SlopeIntercept( challenge );
+            return new ChallengeGraphNode.SlopeIntercept( challenge );
         }
         else if ( challenge.lineForm == LineForm.POINT_SLOPE ) {
-            return new GTL_GraphNode.PointSlope( challenge );
+            return new ChallengeGraphNode.PointSlope( challenge );
         }
         else {
             throw new IllegalArgumentException( "unsupported lineForm (" + challenge.lineForm + ") and manipulatorMode (" + challenge.manipulationMode + ") combination" );
