@@ -1,3 +1,4 @@
+1/9/13 remove code in SlopeEquationNode related to putting m=rise/run on a separate line
 1/9/13 merge GTL_GraphNode and MTE_GraphNode into ChallengeGraphNode
 1/9/13 remove console logging that is no longer needed
 1/9/13 document CoordinateSpinnerNode constructor
