@@ -52,7 +52,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
                                                                     challenge.guess.get().color ) );
 
         // Graph
-        final ChallengeGraphNode graphNode = new ChallengeGraphNode.LineToMatch( challenge );
+        final ChallengeGraphNode graphNode = new AnswerGraphNode( challenge );
 
         // rendering order
         subclassParent.addChild( graphNode );
