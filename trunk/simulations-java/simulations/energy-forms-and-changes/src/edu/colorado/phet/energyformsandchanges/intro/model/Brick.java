@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
  * @author John Blanco
@@ -18,6 +19,10 @@ public class Brick extends Block {
 
     private static final double SPECIFIC_HEAT = 840; // In J/kg-K, source = design document.
     private static final double DENSITY = 2000; // In kg/m^3, source = design document.
+
+    // Some constants needed for energy chunk mapping.
+    public static final double ENERGY_AT_ROOM_TEMPERATURE = Math.pow( SURFACE_WIDTH, 3 ) * DENSITY * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE; // In joules.
+    public static final double ENERGY_AT_WATER_FREEZING_TEMPERATURE = Math.pow( SURFACE_WIDTH, 3 ) * DENSITY * SPECIFIC_HEAT * EFACConstants.FREEZING_POINT_TEMPERATURE; // In joules.
 
     protected Brick( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, DENSITY, SPECIFIC_HEAT, energyChunksVisible );
