@@ -20,7 +20,8 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
  */
 public abstract class LineFormsModel implements Resettable {
 
-    private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
+    private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in view coordinates
+    private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 305, 320 ); // offset of the graph's origin in view coordinates
 
     public final Graph graph; // the graph that plots the lines
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
@@ -41,7 +42,7 @@ public abstract class LineFormsModel implements Resettable {
 
         // model-view transform
         final double mvtScale = GRID_VIEW_UNITS / Math.max( graph.xRange.getLength(), graph.yRange.getLength() ); // view units / model units
-        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
+        this.mvt = ModelViewTransform.createOffsetScaleMapping( ORIGIN_OFFSET, mvtScale, -mvtScale ); // y is inverted
 
         // lines
         this.interactiveLine = new Property<Line>( interactiveLine );
