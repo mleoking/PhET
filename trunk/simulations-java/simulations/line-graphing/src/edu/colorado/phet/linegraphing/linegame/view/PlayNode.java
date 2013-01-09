@@ -70,7 +70,7 @@ class PlayNode extends PhetPNode {
         model.challenge.addObserver( new VoidFunction1<Challenge>() {
             public void apply( Challenge challenge ) {
                 challengeParent.removeAllChildren();
-                challengeParent.addChild( challenge.createView( model, audioPlayer, challengeSize ) );
+                challengeParent.addChild( challenge.createView( model, challengeSize, audioPlayer ) );
             }
         } );
     }

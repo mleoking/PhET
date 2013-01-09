@@ -20,6 +20,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MTE_Challenge extends Challenge {
 
+    /**
+     * Constructor
+     * @param description brief description of the challenge, visible in dev versions
+     * @param answer the correct answer
+     * @param lineForm see LineForm
+     * @param manipulationMode see ManipulationMode
+     * @param xRange range of the graph's x axis
+     * @param yRange range of the graph's y axis
+     */
     public MTE_Challenge( String description, Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
         super( createTitle( Strings.MAKE_THE_EQUATION, manipulationMode ), description,
                answer, lineForm, manipulationMode, xRange, yRange,
@@ -38,7 +47,7 @@ public class MTE_Challenge extends Challenge {
     }
 
     // Creates the view for this challenge.
-    public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-        return new MTE_ChallengeNode( model, this, audioPlayer, challengeSize );
+    @Override public ChallengeNode createView( LineGameModel model, PDimension challengeSize, GameAudioPlayer audioPlayer ) {
+        return new MTE_ChallengeNode( this, model, challengeSize, audioPlayer );
     }
 }

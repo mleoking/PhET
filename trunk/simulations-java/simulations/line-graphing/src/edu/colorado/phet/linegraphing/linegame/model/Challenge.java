@@ -44,21 +44,23 @@ public abstract class Challenge {
 
     /**
      * Constructor.
-     * @param title
-     * @param description
-     * @param answer
-     * @param lineForm
-     * @param manipulationMode
-     * @param xRange
-     * @param yRange
+     * @param title title that is visible to the user
+     * @param description brief description of the challenge, visible in dev versions
+     * @param answer the correct answer
+     * @param lineForm see LineForm
+     * @param manipulationMode see ManipulationMode
+     * @param xRange range of the graph's x axis
+     * @param yRange range of the graph's y axis
      * @param originOffset offset of the origin (center of the graph) in view coordinates
      * @param pointToolLocation1 location of point tool in model coordinates
      * @param pointToolLocation2 location of point tool in model coordinates
      */
     protected Challenge( String title, String description,
-                         Line answer, LineForm lineForm, ManipulationMode manipulationMode,
+                         Line answer,
+                         LineForm lineForm, ManipulationMode manipulationMode,
                          IntegerRange xRange, IntegerRange yRange,
-                         Point2D originOffset, Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
+                         Point2D originOffset,
+                         Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
 
         this.title = title;
         this.description = description;
@@ -96,8 +98,13 @@ public abstract class Challenge {
         setAnswerVisible( false );
     }
 
-    // Creates the view component for the challenge.
-    public abstract ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize );
+    /**
+     * Creates the view component for the challenge.
+     * @param model the game model
+     * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
+     * @param audioPlayer the audio player, for providing audio feedback during game play
+     */
+    public abstract ChallengeNode createView( LineGameModel model, PDimension challengeSize, GameAudioPlayer audioPlayer );
 
     // True if the guess and answer are descriptions of the same line.
     public boolean isCorrect() {

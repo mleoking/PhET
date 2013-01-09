@@ -52,7 +52,14 @@ public abstract class ChallengeNode extends PhetPNode {
     protected final TextButtonNode checkButton;
     protected final PNode subclassParent; // subclasses should add children to this node, to preserve rendering order
 
-    public ChallengeNode( final LineGameModel model, final Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    /**
+     * Constructor
+     * @parma challenge the challenge
+     * @param model the game model
+     * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
+     * @param audioPlayer the audio player, for providing audio feedback during game play
+     */
+    public ChallengeNode( final Challenge challenge, final LineGameModel model, PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
 
         // title
         PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );

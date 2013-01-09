@@ -34,8 +34,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MTE_ChallengeNode extends ChallengeNode {
 
-    public MTE_ChallengeNode( final LineGameModel model, final MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-        super( model, challenge, audioPlayer, challengeSize );
+    /**
+     * Constructor
+     * @parma challenge the challenge
+     * @param model the game model
+     * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
+     * @param audioPlayer the audio player, for providing audio feedback during game play
+     */
+    public MTE_ChallengeNode( final MTE_Challenge challenge, final LineGameModel model, PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
+        super( challenge, model, challengeSize, audioPlayer );
 
         final double boxWidth = 0.4 * challengeSize.getWidth();
 

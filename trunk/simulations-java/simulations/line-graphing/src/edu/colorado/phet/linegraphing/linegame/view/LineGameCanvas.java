@@ -76,10 +76,12 @@ public class LineGameCanvas extends CenteredStageCanvas {
         }
     }
 
+    // Used to determine the animation state of the game reward when switching modules.
     public boolean isRewardRunning() {
         return resultsNode.isRewardRunning();
     }
 
+    // Uses to restore the animation state of the game reward when switching modules.
     public void setRewardRunning( boolean running ) {
         resultsNode.setRewardRunning( running );
     }

@@ -33,8 +33,15 @@ public class GTL_ChallengeNode extends ChallengeNode {
 
     private EquationBoxNode guessBoxNode;
 
-    public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, final PDimension challengeSize ) {
-        super( model, challenge, audioPlayer, challengeSize );
+    /**
+     * Constructor
+     * @parma challenge the challenge
+     * @param model the game model
+     * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
+     * @param audioPlayer the audio player, for providing audio feedback during game play
+     */
+    public GTL_ChallengeNode( final GTL_Challenge challenge, final LineGameModel model, final PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
+        super( challenge, model, challengeSize, audioPlayer );
 
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
 
