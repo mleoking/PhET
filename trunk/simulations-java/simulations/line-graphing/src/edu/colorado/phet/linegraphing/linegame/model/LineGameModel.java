@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Line;
 
@@ -24,8 +23,6 @@ import edu.colorado.phet.linegraphing.common.model.Line;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class LineGameModel {
-
-    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LineGameModel.class.getCanonicalName() );
 
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 6 );
@@ -55,7 +52,6 @@ public class LineGameModel {
 
             // Update fields so that they are accurate before property observers are notified.
             @Override public void set( GamePhase phase ) {
-                LOGGER.info( "game phase = " + phase );
                 if ( phase == GamePhase.SETTINGS ) {
                     state.set( PlayState.NONE );
                     timer.stop();
@@ -83,7 +79,6 @@ public class LineGameModel {
         state = new Property<PlayState>( PlayState.NONE ) {{
             addObserver( new VoidFunction1<PlayState>() {
                 public void apply( PlayState state ) {
-                    LOGGER.info( "play state = " + state );
                     if ( state == PlayState.FIRST_CHECK ) {
                         if ( challengeIndex == challenges.size() ) {
                             // game has been completed
