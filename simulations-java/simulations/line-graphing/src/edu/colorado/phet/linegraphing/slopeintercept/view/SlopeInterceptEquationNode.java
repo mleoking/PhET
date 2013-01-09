@@ -37,6 +37,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * Renderer for slope-intercept equations, with optional interactivity of slope and intercept.
  * General slope-intercept form is: y = mx + b
  * <p>
+ * Slope and/or intercept may be interactive.
  * Spinners are used to increment/decrement parts of the equation that are specified as being interactive.
  * Non-interactive parts of the equation are expressed in a form that is typical of how the equation
  * would normally be written.  For example, if the slope is -1, then only the sign is written, not "-1".
