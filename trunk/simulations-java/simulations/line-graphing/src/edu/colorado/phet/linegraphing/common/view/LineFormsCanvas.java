@@ -36,34 +36,14 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
 
         this.viewProperties = viewProperties;
 
-        // Put all control panels under a common parent, horizontally centered, origin at upper-left
-        PNode controlPanelsParent = new PNode();
-        {
-            PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
-                setConfirmationEnabled( false );
-            }};
-
-            // rendering order
-            controlPanelsParent.addChild( equationControls );
-            controlPanelsParent.addChild( graphControls );
-            controlPanelsParent.addChild( resetAllButtonNode );
-
-            // layout
-            final int ySpacing = 25;
-            // determine which control panel is wider
-            final double maxControlPanelWidth = Math.max( equationControls.getFullBoundsReference().getWidth(), graphControls.getFullBoundsReference().getWidth() );
-            // determine the center line for the control panels
-            final double centerX = maxControlPanelWidth / 2;
-            equationControls.setOffset( centerX - ( equationControls.getFullBoundsReference().getWidth() / 2 ), 0 );
-            graphControls.setOffset( centerX - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
-                                     equationControls.getFullBoundsReference().getMaxY() + ySpacing );
-            // centered below graph controls
-            resetAllButtonNode.setOffset( centerX - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
-                                          graphControls.getFullBoundsReference().getMaxY() + ySpacing );
-        }
+        PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
+            setConfirmationEnabled( false );
+        }};
 
         // rendering order
-        addChild( controlPanelsParent );
+        addChild( equationControls );
+        addChild( graphControls );
+        addChild( resetAllButtonNode );
         addChild( graphNode );
 
         // layout
@@ -72,15 +52,27 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
 
             // position of control panels:
             final double xMargin = 5;
-            // get the amount of horizontal space that's left for the control panels
+            final int ySpacing = 25;
+
+            // get the amount of canvas width that's available for the control panels
             final double availableControlPanelWidth = getStageWidth() - graphNode.getFullBoundsReference().getMaxX() - ( 2 * xMargin );
-            // if the available width is less than the width of the control panels, scale the control panels
-            if ( controlPanelsParent.getFullBoundsReference().getWidth() > availableControlPanelWidth ) {
-                controlPanelsParent.scale( availableControlPanelWidth / controlPanelsParent.getFullBoundsReference().getWidth() );
+
+            // if either control panel is too wide, scale it
+            if ( equationControls.getFullBoundsReference().getWidth() > availableControlPanelWidth ) {
+                equationControls.scale( availableControlPanelWidth / equationControls.getFullBoundsReference().getWidth() );
             }
-            // horizontally center controls in the available space
-            controlPanelsParent.setOffset( graphNode.getFullBoundsReference().getMaxX() + xMargin + ( availableControlPanelWidth / 2 ) - ( controlPanelsParent.getFullBoundsReference().getWidth() / 2 ),
-                                           50 );
+            if ( graphControls.getFullBoundsReference().getWidth() > availableControlPanelWidth ) {
+                graphControls.scale( availableControlPanelWidth / graphControls.getFullBoundsReference().getWidth() );
+            }
+
+            // determine the center line for the control panels
+            final double centerX = graphNode.getFullBoundsReference().getMaxX() + xMargin + ( availableControlPanelWidth / 2 );
+            equationControls.setOffset( centerX - ( equationControls.getFullBoundsReference().getWidth() / 2 ), 50 );
+            graphControls.setOffset( centerX - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
+                                     equationControls.getFullBoundsReference().getMaxY() + ySpacing );
+            // centered below graph controls
+            resetAllButtonNode.setOffset( centerX - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
+                                          graphControls.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
         // Point tools, added after centering root node, so that we can compute drag bounds.
