@@ -1,6 +1,5 @@
 
 
-Make the E's go all the way into and out of the bucket on the 1st tab.
 
 No limits on heat and cool on both tab 1 & 2.
 Implement boiling and freezing of the water.
@@ -28,6 +27,7 @@ Internationalize E's (will need blank E's from NP).
 i18n
 Fix flicker when E's are transferred between energy systems
 
+DONE: Make the E's go all the way into and out of the bucket on the 1st tab.
 DONE: Implement the dotted E's on the generator so that the E's never disappear.
 DONE: Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 DONE: Integrate bike with chain.

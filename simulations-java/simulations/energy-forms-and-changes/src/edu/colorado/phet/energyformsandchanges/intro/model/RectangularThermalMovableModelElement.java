@@ -194,7 +194,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      * get pulled off of one slice.
      *
      * @param point
-     * @return
+     * @return Energy chunk, null if there are none available.
      */
     public EnergyChunk extractClosestEnergyChunk( Vector2D point ) {
         EnergyChunk closestEnergyChunk = null;
@@ -223,10 +223,11 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      * Extract an energy chunk that is a good choice for being transferred to
      * the provided shape.  Generally, this means that it is close to the
      * shape.  This routine is not hugely general - it makes some assumptions
-     * that make it work for blocks in beakers and so forth.
+     * that make it work for blocks in beakers.  If support for other shapes is
+     * needed, it will need some work.
      *
      * @param destinationShape
-     * @return
+     * @return Energy chunk, null if none are available.
      */
     public EnergyChunk extractClosestEnergyChunk( Shape destinationShape ) {
         EnergyChunk chunkToExtract = null;
@@ -267,13 +268,15 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
         // Fail safe - If nothing found, get the first chunk.
         if ( chunkToExtract == null ) {
-            System.out.println( getClass().getName() + " - Warning: No energy chunk found by extraction algorithm, returning one arbitrarily." );
-            assert getNumEnergyChunks() != 0; // Everything should always have at least one chunk.
+            System.out.println( getClass().getName() + " - Warning: No energy chunk found by extraction algorithm, trying first available.." );
             for ( EnergyChunkContainerSlice slice : slices ) {
                 if ( slice.energyChunkList.size() > 0 ){
                     chunkToExtract = slice.energyChunkList.get( 0 );
                     break;
                 }
+            }
+            if ( chunkToExtract == null ){
+                System.out.println(getClass().getName() + " - Warning: No chunks available for extraction.");
             }
         }
 

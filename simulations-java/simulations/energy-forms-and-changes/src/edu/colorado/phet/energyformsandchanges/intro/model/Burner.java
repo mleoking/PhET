@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -38,9 +37,6 @@ public class Burner extends ModelElement {
     private static final double MAX_ENERGY_GENERATION_RATE = 5000; // joules/sec, empirically chosen.
     private static final double CONTACT_DISTANCE = 0.001; // In meters.
 
-    // Max rate at which the flame/ice is "clamped down" when the limits are hit.
-    private static final double CLAMP_DOWN_RATE = 4; // In proportion per second.
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -52,7 +48,6 @@ public class Burner extends ModelElement {
     private final BooleanProperty energyChunksVisible;
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
-    private final BooleanProperty isSomethingOnTop = new BooleanProperty( false );
 
     // Track energy transferred to anything sitting on the burner.
     private double energyExchangedWithObjectSinceLastChunkTransfer = 0;
@@ -96,7 +91,8 @@ public class Burner extends ModelElement {
         } );
 
         // Clear the accumulated energy transfer if thing is removed from burner.
-        isSomethingOnTop.addObserver( new VoidFunction1<Boolean>() {
+        BooleanProperty somethingOnTop = new BooleanProperty( false );
+        somethingOnTop.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean somethingOnTop ) {
                 if ( !somethingOnTop ) {
                     energyExchangedWithObjectSinceLastChunkTransfer = 0;
@@ -136,7 +132,10 @@ public class Burner extends ModelElement {
     public void addOrRemoveEnergyToFromObject( ThermalEnergyContainer thermalEnergyContainer, double dt ) {
         assert !( thermalEnergyContainer instanceof Air );  // This shouldn't be used for air - there is a specific method for that.
         if ( inContactWith( thermalEnergyContainer ) ) {
-            double deltaEnergy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
+            double deltaEnergy = 0;
+            if ( thermalEnergyContainer.getTemperature() > 0 ) {
+                deltaEnergy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
+            }
             thermalEnergyContainer.changeEnergy( deltaEnergy );
             energyExchangedWithObjectSinceLastChunkTransfer += deltaEnergy;
         }
@@ -218,55 +217,6 @@ public class Burner extends ModelElement {
         energyExchangedWithObjectSinceLastChunkTransfer = 0;
     }
 
-    /**
-     * Update the limits on heating and cooling based on which model element,
-     * if any, is in contact with the burner.  This is necessary to prevent the
-     * burner from overheating or over cooling another element.
-     *
-     * @param dt                      Time delta.
-     * @param thermalEnergyContainers List of all thermal energy containers
-     *                                that could possible be on the burner.
-     */
-    public void updateHeatCoolLimits( double dt, ThermalEnergyContainer... thermalEnergyContainers ) {
-
-        boolean contact = false;
-        for ( ThermalEnergyContainer thermalEnergyContainer : thermalEnergyContainers ) {
-
-            assert thermalEnergyContainer != this; // Make sure this method isn't being misused.
-
-            if ( inContactWith( thermalEnergyContainer ) ) {
-
-                // The burner is in contact with this item.  Adjust the limits
-                // based on the item's temperature.
-                double max = 1;
-                double min = -1;
-                if ( thermalEnergyContainer.getTemperature() >= EFACConstants.BOILING_POINT_TEMPERATURE ) {
-                    // No more heat allowed.
-                    max = Math.max( heatCoolLevel.getMax() - dt * CLAMP_DOWN_RATE, 0 );
-                }
-                else if ( thermalEnergyContainer.getTemperature() <= EFACConstants.FREEZING_POINT_TEMPERATURE ) {
-                    // No more cooling allowed.
-                    min = Math.min( heatCoolLevel.getMin() + dt * CLAMP_DOWN_RATE, 0 );
-                }
-                heatCoolLevel.setMin( min );
-                heatCoolLevel.setMax( max );
-
-                contact = true;
-
-                // Only one item can be in contact at once, so we're done.
-                break;
-            }
-        }
-
-        if ( !contact ) {
-            // Nothing is currently in contact, so clear any limits.
-            heatCoolLevel.setRange( -1, 1 );
-        }
-
-        // Update property that tracks whether something is on this burner.
-        isSomethingOnTop.set( contact );
-    }
-
     public boolean areAnyOnTop( ThermalEnergyContainer... thermalEnergyContainers ) {
         for ( ThermalEnergyContainer thermalEnergyContainer : thermalEnergyContainers ) {
             if ( inContactWith( thermalEnergyContainer ) ) {
@@ -330,8 +280,7 @@ public class Burner extends ModelElement {
      *         Negative value indicates that chunks should come in.
      */
     public int getEnergyChunkBalanceWithObjects() {
-//        return (int) ( Math.floor( Math.abs( energyExchangedWithObjectSinceLastChunkTransfer ) / EFACConstants.ENERGY_PER_CHUNK ) * Math.signum( energyExchangedWithObjectSinceLastChunkTransfer ) );
-        return (int) ( Math.floor( Math.abs( energyExchangedWithObjectSinceLastChunkTransfer ) / 5000 ) * Math.signum( energyExchangedWithObjectSinceLastChunkTransfer ) );
+        return (int) ( Math.floor( Math.abs( energyExchangedWithObjectSinceLastChunkTransfer ) / EFACConstants.ENERGY_PER_CHUNK ) * Math.signum( energyExchangedWithObjectSinceLastChunkTransfer ) );
     }
 
     public boolean canSupplyEnergyChunk() {
@@ -340,10 +289,6 @@ public class Burner extends ModelElement {
 
     public boolean canAcceptEnergyChunk() {
         return heatCoolLevel.get() < 0;
-    }
-
-    public ObservableProperty<Boolean> getIsSomethingOnTopProperty() {
-        return isSomethingOnTop;
     }
 
     // Convenience class - a Property<Double> with a limited range.
@@ -359,44 +304,6 @@ public class Burner extends ModelElement {
         @Override public void set( Double value ) {
             double boundedValue = MathUtil.clamp( bounds.get().getMin(), value, bounds.get().getMax() );
             super.set( boundedValue );
-        }
-
-        public void setMin( double min ) {
-            if ( min != bounds.get().getMin() ) {
-                bounds.set( new DoubleRange( min, bounds.get().getMax() ) );
-                update();
-            }
-        }
-
-        public void setMax( double max ) {
-            if ( max != bounds.get().getMax() ) {
-                bounds.set( new DoubleRange( bounds.get().getMin(), max ) );
-                update();
-            }
-        }
-
-        public void setRange( double min, double max ) {
-            if ( min != bounds.get().getMin() || max != bounds.get().getMax() ) {
-                bounds.set( new DoubleRange( min, max ) );
-                update();
-            }
-        }
-
-        // Make sure that the current value is within the range.
-        private void update() {
-            set( get() );
-        }
-
-        public double getMax() {
-            return bounds.get().getMax();
-        }
-
-        public double getMin() {
-            return bounds.get().getMin();
-        }
-
-        public ObservableProperty<DoubleRange> getBoundsProperty() {
-            return bounds;
         }
     }
 }

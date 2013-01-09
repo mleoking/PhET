@@ -1,3 +1,4 @@
+1st tab: Fixed some issues with adding and removing of energy chunks when interacting with burner.  Part of making the boiling feature work.
 # 0.00.29 (71440) Dec 26, 2012
 12/26/12 Deploying for review by design team.
 1st tab: Implemented first attempt at boiling, where the water starts exchanging all of its energy beyond the boiling temperature with the air.
