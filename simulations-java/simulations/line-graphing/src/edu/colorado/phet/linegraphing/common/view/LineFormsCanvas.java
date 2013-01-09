@@ -61,7 +61,6 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
             resetAllButtonNode.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                           graphControls.getFullBoundsReference().getMaxY() + ySpacing );
         }
-        centerRootNodeOnStage();
 
         // Point tools, added after centering root node, so that we can compute drag bounds.
         {
@@ -83,7 +82,6 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
             pointToolParent.addChild( pointTool2 );
             addChild( pointToolParent );
         }
-        centerRootNodeOnStage(); // center a second time to account for point tools
     }
 
     @Override public void reset() {

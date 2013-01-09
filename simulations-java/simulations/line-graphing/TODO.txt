@@ -5,6 +5,7 @@ DEADLINES
 DESIGN
 
 HIGH
+- center control panels in the right section of the canvas (first 3 tabs)
 - Game level 4: force inversion of slope in GTL challenge with 2 points
 - Game: generate challenges for levels 5-6
 - Game dev: Level 7 = configure your own challenge
@@ -13,7 +14,6 @@ HIGH
 MEDIUM
 - factor out duplication in ChallengeFactory hierarchy when the dust settles
 - factor out duplication in GTL_ChallengeNode and MTE_ChallengeNode
-- rise value on slope tool falls off left edge of play area in Point-Slope tab
 
 LOW
 - add horizontal space between L and R halves of the play area, where possible

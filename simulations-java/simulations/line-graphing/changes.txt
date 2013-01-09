@@ -1,3 +1,4 @@
+1/8/13 for first 3 tabs, keep graph in same position, tweak position so that slope tool doesn't fall off left edge of play area
 1/8/13 remove unnecessary IChallenge interface, rename base class MatchChallenge to Challenge
 1/8/13 make specialized graphs inner classes of GTL_GraphNode
 1/8/13 handle PTP challenges in the GTL view
