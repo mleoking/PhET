@@ -15,7 +15,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 /**
  * Model for the "Line Game" module. Responsibilities include:
  * <ul>
- * <li>creation of challenges</li>
+ * <li>creation of challenges (delegated to factory)</li>
  * <li>management of game state</li>
  * <li>management of game results</li>
  * </ul>
