@@ -5,7 +5,6 @@ DEADLINES
 DESIGN
 
 HIGH
-- center control panels in the right section of the canvas (first 3 tabs)
 - Game level 4: force inversion of slope in GTL challenge with 2 points
 - Game: generate challenges for levels 5-6
 - Game dev: Level 7 = configure your own challenge
