@@ -6,6 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.energyformsandchanges.intro.model.Brick;
 
 /**
  * Shared constants used in multiple locations within the sim.
@@ -36,15 +37,21 @@ public class EFACConstants {
     // For comparing temperatures.
     public static final double SIGNIFICANT_TEMPERATURE_DIFFERENCE = 1E-3; // In degrees K.
 
-    // Constants and constant functions for energy chunk mapping.
-    public static final double ENERGY_PER_CHUNK = 40000;
+    // Constant function for energy chunk mapping. The basis for this function
+    // is that the brick has 2 energy chunks at room temp, one at the freezing
+    // point of water.
+    private static double LOW_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_WATER_FREEZING_TEMPERATURE;
+    private static double HIGH_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_ROOM_TEMPERATURE;
     public static final Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
-        private final Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( ENERGY_PER_CHUNK, 45000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
-
+        private final Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( LOW_ENERGY_FOR_MAP_FUNCTION,
+                                                                                              HIGH_ENERGY_FOR_MAP_FUNCTION,
+                                                                                              1,
+                                                                                              2 );
         public Integer apply( Double energy ) {
             return Math.max( (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) ), 0 );
         }
     };
+    public static final double ENERGY_PER_CHUNK = HIGH_ENERGY_FOR_MAP_FUNCTION - LOW_ENERGY_FOR_MAP_FUNCTION;
 
     // Threshold for deciding when two temperatures can be considered equal.
     public static final double TEMPERATURES_EQUAL_THRESHOLD = 1E-6; // In Kelvin.
