@@ -85,6 +85,8 @@ public class GTL_ChallengeNode extends ChallengeNode {
                 PNode equationNode = ( line == null ) ? NOT_A_LINE : createEquationNode( challenge.lineForm, line, LineGameConstants.STATIC_EQUATION_FONT, line.color );
                 Color color = ( line == null ) ? LineGameConstants.GUESS_COLOR : line.color;
                 guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, color, boxSize, equationNode );
+
+                // adjust position of guess equation so that it's below the answer
                 guessBoxNode.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
                 subclassParent.addChild( guessBoxNode );
                 guessBoxNode.setVisible( model.state.get() == PlayState.NEXT );
