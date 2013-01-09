@@ -15,7 +15,6 @@ MEDIUM
 - factor out duplication in GTL_ChallengeNode and MTE_ChallengeNode
 
 LOW
-- add horizontal space between L and R halves of the play area, where possible
 - document CoordinateSpinnerNode constructor
 - remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - order of lines provided to point tool is not related to order of lines rendered on graph, would be nice if they used the same info
@@ -24,12 +23,9 @@ LOWEST
 - move ownership of mvt from model to view
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
 - consider using a subtle background color for buttons (Reset All, Save Line, Erase Lines)
-- repackage, in anticipation of having 3 sims in this project
 
 DEVELOPER CONTROLS
-- replay the current Game challenge
-- "resample" to change the challenges for the current Game level
-- provide (or specify) a fixed set of challenges for Game testing
+- enter a specific challenge
 
 LOOSE ENDS
 - screenshot
