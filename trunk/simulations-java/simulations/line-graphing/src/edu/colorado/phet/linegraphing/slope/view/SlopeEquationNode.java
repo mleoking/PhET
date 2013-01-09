@@ -72,15 +72,15 @@ public class SlopeEquationNode extends EquationNode {
         PNode mNode = new PhetPText( Strings.SYMBOL_SLOPE, staticFont, staticColor );
         PNode interactiveEqualsNode = new PhetPText( "=", staticFont, staticColor );
         // y2 - y2
-        PNode y2Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.y2Spinner, y2, y1, x2, x1, yRange, new X2Y2Colors(), interactiveFont, FORMAT ) );
+        PNode y2Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.y2Spinner, y2, x2, y1, x1, yRange, new X2Y2Colors(), interactiveFont, FORMAT ) );
         PNode numeratorOperatorNode = new PhetPText( "-", staticFont, staticColor );
-        PNode y1Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.y1Spinner, y1, y2, x1, x2, yRange, new X1Y1Colors(), interactiveFont, FORMAT ) );
+        PNode y1Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.y1Spinner, y1, x1, y2, x2, yRange, new X1Y1Colors(), interactiveFont, FORMAT ) );
         // fraction line
         PPath interactiveFractionLineNode = new PhetPPath( createFractionLineShape( 10 ), staticColor, null, null ); // correct length will be set later
         // x2 - x1
-        PNode x2Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.x2Spinner, x2, x1, y2, y1, xRange, new X2Y2Colors(), interactiveFont, FORMAT ) );
+        PNode x2Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.x2Spinner, x2, y2, x1, y1, xRange, new X2Y2Colors(), interactiveFont, FORMAT ) );
         PNode denominatorOperatorNode = new PhetPText( "-", staticFont, staticColor );
-        PNode x1Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.x1Spinner, x1, x2, y1, y2, xRange, new X1Y1Colors(), interactiveFont, FORMAT ) );
+        PNode x1Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.x1Spinner, x1, y1, x2, y2, xRange, new X1Y1Colors(), interactiveFont, FORMAT ) );
         // = unsimplified value
         final PNode unsimplifiedEqualsNode = new PhetPText( "=", staticFont, staticColor );
         unsimplifiedRiseNode = new PNode(); // non null
