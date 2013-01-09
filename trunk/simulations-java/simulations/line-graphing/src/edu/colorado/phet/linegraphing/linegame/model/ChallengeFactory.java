@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.common.model.Fraction;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class ChallengeFactory {
+abstract class ChallengeFactory {
 
     private static final boolean USE_HARD_CODED_CHALLENGES = false;
 
