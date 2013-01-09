@@ -12,7 +12,6 @@ HIGH
 
 MEDIUM
 - factor out duplication in ChallengeFactory hierarchy when the dust settles
-- factor out duplication in GTL_ChallengeNode and MTE_ChallengeNode
 
 LOW
 - remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
