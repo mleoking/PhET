@@ -27,6 +27,13 @@ class EquationBoxNode extends PNode {
 
     private final PNode correctIconNode, incorrectIconNode;
 
+    /**
+     * Constructor
+     * @param title title that appears in upper-left corner of box
+     * @param titleColor color of the title
+     * @param boxSize size of the box
+     * @param equationNode the equation that's in the box
+     */
     public EquationBoxNode( String title, Color titleColor, PDimension boxSize, PNode equationNode ) {
 
         PText titleNode = new PText( title );
@@ -76,10 +83,12 @@ class EquationBoxNode extends PNode {
         incorrectIconNode.setVisible( false );
     }
 
+    // Sets the visibility of the correct (green check mark) icon.
     public void setCorrectIconVisible( boolean visible ) {
         correctIconNode.setVisible( visible );
     }
 
+    // Sets the visibility of the incorrect (red X) icon.
     public void setIncorrectIconVisible( boolean visible ) {
         incorrectIconNode.setVisible( visible );
     }

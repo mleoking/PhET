@@ -9,5 +9,5 @@ package edu.colorado.phet.linegraphing.linegame.model;
 public enum GamePhase {
     SETTINGS,  // user is choosing game settings
     PLAY,      // user is playing the game
-    RESULTS    // user is receiving results of playing the game
+    RESULTS    // user is viewing results at end of a game
 }

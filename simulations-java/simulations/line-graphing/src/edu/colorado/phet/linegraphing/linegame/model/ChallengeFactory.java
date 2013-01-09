@@ -19,11 +19,11 @@ abstract class ChallengeFactory {
     private static final boolean USE_HARD_CODED_CHALLENGES = false;
 
     /**
-     * Creates challenges for the specified level and graph.
+     * Creates challenges for the specified level.
      *
      * @param level  game level
-     * @param xRange x-coordinate range of the graph
-     * @param yRange y-coordinate range of the graph
+     * @param xRange range of the graph's x axis
+     * @param yRange range of the graph's y axis
      * @return list of challenges
      * @throws IllegalArgumentException if level is out of range
      */
@@ -54,6 +54,12 @@ abstract class ChallengeFactory {
         this.random = new Random();
     }
 
+    /**
+     * Creates challenges for the factory's game level.
+     * @param xRange range of the graph's x axis
+     * @param yRange range of the graph's y axis
+     * @return list of challenges
+     */
     public abstract ArrayList<Challenge> createChallenges( IntegerRange xRange, IntegerRange yRange );
 
     // Converts an integer range to a list of values that are in that range.

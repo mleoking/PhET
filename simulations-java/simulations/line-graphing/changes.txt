@@ -1,3 +1,4 @@
+1/9/13 document game packages, change signatures of some constructors and methods for consistency
 1/9/13 make some classes package private
 1/9/13 move inner subclasses of ChallengeGraphNode to their own class files, rename
 1/9/13 remove code in SlopeEquationNode related to putting m=rise/run on a separate line [71577]

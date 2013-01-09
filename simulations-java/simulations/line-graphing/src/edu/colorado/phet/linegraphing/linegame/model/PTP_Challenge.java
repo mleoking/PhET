@@ -24,6 +24,14 @@ public class PTP_Challenge extends GTL_Challenge {
 
     public final Property<Vector2D> p1, p2, p3; // the 3 points that the user places
 
+    /**
+     * Constructor
+     * @param description brief description of the challenge, visible in dev versions
+     * @param answer the correct answer
+     * @param lineForm see LineForm
+     * @param xRange range of the graph's x axis
+     * @param yRange range of the graph's y axis
+     */
     public PTP_Challenge( String description, final Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
         super( description, answer, lineForm, ManipulationMode.THREE_POINTS, xRange, yRange );
 
@@ -61,7 +69,7 @@ public class PTP_Challenge extends GTL_Challenge {
     }
 
     // Creates the view for this challenge.
-    @Override public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-        return new GTL_ChallengeNode( model, this, audioPlayer, challengeSize );
+    @Override public ChallengeNode createView( LineGameModel model, PDimension challengeSize, GameAudioPlayer audioPlayer ) {
+        return new GTL_ChallengeNode( this, model, challengeSize, audioPlayer );
     }
 }

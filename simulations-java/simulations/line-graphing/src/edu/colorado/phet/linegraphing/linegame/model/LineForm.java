@@ -7,6 +7,6 @@ package edu.colorado.phet.linegraphing.linegame.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public enum LineForm {
-    SLOPE_INTERCEPT,
-    POINT_SLOPE
+    SLOPE_INTERCEPT, /* y = mx + b */
+    POINT_SLOPE /* (y2 - y1) = m(x2 - x1) */
 }

@@ -21,6 +21,12 @@ class ChallengeFactory2 extends ChallengeFactory {
         super();
     }
 
+    /**
+     * Creates challenges for this game level.
+     * @param xRange range of the graph's x axis
+     * @param yRange range of the graph's y axis
+     * @return list of challenges
+     */
     public ArrayList<Challenge> createChallenges( IntegerRange xRange, IntegerRange yRange ) {
 
         ArrayList<Challenge> challenges = new ArrayList<Challenge>();
