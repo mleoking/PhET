@@ -245,7 +245,7 @@ public abstract class ChallengeGraphNode extends GraphNode {
     }
 
     /**
-     * Graph manipulators for 2 points, (x1,y1) and (x2,y2).
+     * Graph with manipulators for 2 points, (x1,y1) and (x2,y2).
      * Note that this graph has no dynamic ranges, because there are no dependencies between the 2 points.
      */
     public static class TwoPoints extends ChallengeGraphNode {
