@@ -21,7 +21,8 @@ import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeParameterRange;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Challenge graph with manipulators for point (x1,y1) and slope.
+ * Challenge graph with manipulators for point (x1,y1) and slope of the guess line.
+ * The answer line is initially hidden.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

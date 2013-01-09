@@ -19,7 +19,8 @@ import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptParamet
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Challenge graph with manipulators for slope and y-intercept.
+ * Challenge graph with manipulators for slope and y-intercept of the guess line.
+ * The answer line is initially hidden.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

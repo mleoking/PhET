@@ -15,8 +15,8 @@ import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.Challenge;
 
 /**
- * Challenge graph with manipulators for 2 points, (x1,y1) and (x2,y2).
- * Note that this graph has no dynamic ranges, because there are no dependencies between the 2 points.
+ * Challenge graph with manipulators for 2 points, (x1,y1) and (x2,y2), of the guess line.
+ * The answer line is initially hidden.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
