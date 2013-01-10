@@ -1,3 +1,4 @@
+1/10/13 change: "Correct Answer" to "A Correct Answer"
 1/10/13 change order of graph controls: slope tool, y=x, y=-x, Hide lines
 # 0.00.49 (71607) Jan 9, 2013
 1/9/13 dev version with challenge generation for levels 1-4
