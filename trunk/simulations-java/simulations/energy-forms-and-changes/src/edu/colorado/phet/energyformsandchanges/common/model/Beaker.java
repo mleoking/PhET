@@ -62,6 +62,9 @@ public class Beaker extends RectangularThermalMovableModelElement {
     // on a burner, etc.
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
+    // Property that allows temperature changes to be monitored.
+    public final Property<Double> temperature = new Property<Double>( EFACConstants.ROOM_TEMPERATURE );
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -107,6 +110,11 @@ public class Beaker extends RectangularThermalMovableModelElement {
                                        position.get().getY(),
                                        width,
                                        height );
+    }
+
+    @Override protected void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        temperature.set( getTemperature() );
     }
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
