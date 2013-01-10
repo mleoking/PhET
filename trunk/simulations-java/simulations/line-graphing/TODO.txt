@@ -3,6 +3,7 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
+- game reward (which images for which levels)
 
 HIGH
 - Game: generate challenges for levels 5-6
