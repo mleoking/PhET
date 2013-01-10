@@ -1,3 +1,4 @@
+1/9/13 document why mvt is created in model
 1/9/13 various changes in comments for LineForm to EquationForm change
 1/9/13 rename LineForm to EquationForm, rename local variables accordingly
 1/9/13 add support for mismatching the line form of the equation & graph in GTL challenges

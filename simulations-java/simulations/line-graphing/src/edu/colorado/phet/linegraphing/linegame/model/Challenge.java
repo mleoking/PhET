@@ -70,7 +70,7 @@ public abstract class Challenge {
         this.equationForm = equationForm;
         this.manipulationMode = manipulationMode;
 
-        // Create the model-view transform.
+        // model-view transform, created in the model because each challenge subclass may have its own transform
         final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units
         mvt = ModelViewTransform.createOffsetScaleMapping( originOffset, mvtScale, -mvtScale ); // graph on right, y inverted
 
