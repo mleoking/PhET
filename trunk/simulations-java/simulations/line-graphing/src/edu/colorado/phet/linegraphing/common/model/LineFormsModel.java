@@ -40,7 +40,7 @@ public abstract class LineFormsModel implements Resettable {
         // graph
         this.graph = new Graph( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
 
-        // model-view transform
+        // model-view transform, created in the model because it's dependent on graph axes ranges
         final double mvtScale = GRID_VIEW_UNITS / Math.max( graph.xRange.getLength(), graph.yRange.getLength() ); // view units / model units
         this.mvt = ModelViewTransform.createOffsetScaleMapping( ORIGIN_OFFSET, mvtScale, -mvtScale ); // y is inverted
 
