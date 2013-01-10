@@ -1,0 +1,27 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: January 3-9, 2013
+
+Graphing Lines
+- discussed game design issues with AP
+- implemented quasi-random challenge generation for game levels 1-4
+- implemented developer features for game (Replay, Skip)
+- lots of internal consolidation and refactoring in game
+- minor change requests and fixes
+- latest: http://www.colorado.edu/physics/phet/dev/line-graphing/0.00.49/
+
+Administrative
+- status meeting
+
+WHAT'S NEXT:                                                                         '
+
+- Graphing Lines: wrap up
+- HTML5: development plan, UI widgets
+
+UNAVAILABLE:
+
+- Feb 14,15
+- April 5-21
+
+--
