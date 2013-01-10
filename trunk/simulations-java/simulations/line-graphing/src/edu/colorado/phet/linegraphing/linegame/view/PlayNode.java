@@ -45,6 +45,13 @@ class PlayNode extends PhetPNode {
             }
         } );
 
+        // level on the scoreboard
+        model.settings.level.addObserver( new SimpleObserver() {
+            public void update() {
+                scoreboardNode.setLevel( model.settings.level.get() );
+            }
+        } );
+
         // points on the scoreboard
         model.results.score.addObserver( new SimpleObserver() {
             public void update() {

@@ -5,7 +5,6 @@ DEADLINES
 DESIGN
 
 HIGH
-- fix: scoreboard always displays level 6
 - show "Your Line" (GLT) and "A Correct Equation" (MTE) only if they get the challenge wrong
 - use only positive slopes for challenges in level 4 that force slope inversion
 - ploy (x1,y1) for answer and guess if they get the challenge wrong
