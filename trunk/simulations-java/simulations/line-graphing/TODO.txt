@@ -5,8 +5,14 @@ DEADLINES
 DESIGN
 
 HIGH
+- fix: scoreboard always displays level 6
+- change: "Correct Answer" to "A Correct Answer"
+- show "Your Line" (GLT) and "A Correct Equation" (MTE) only if they get the challenge wrong
+- use only positive slopes for challenges in level 4 that force slope inversion
+- ploy (x1,y1) for answer and guess if they get the challenge wrong
+- in level 1, limit y-intercept range to (-5,5)
+- in PTP challenges, only show guess lines in state=TRY_AGAIN || state==NEXT
 - Game: generate challenges for levels 5-6
-- Game dev: Level 7 = configure your own challenge
 
 MEDIUM
 - factor out duplication in ChallengeFactory hierarchy when the dust settles

@@ -80,12 +80,12 @@ public class GraphControls extends PNode {
         panel.setAnchor( Anchor.CENTER ); // centered
         panel.setFill( Fill.NONE );
         panel.setAnchor( Anchor.WEST ); // left justified
-        panel.add( new JPanel() {{ add( hideLinesCheckBox ); }} ); // wrap with JPanel to get same horizontal alignment as PropertyCheckBoxWithIcon
+        panel.add( slopeCheckBox );
         if ( includeStandardLines ) {
             panel.add( positiveCheckBox );
             panel.add( negativeCheckBox );
         }
-        panel.add( slopeCheckBox );
+        panel.add( new JPanel() {{ add( hideLinesCheckBox ); }} ); // wrap with JPanel to get same horizontal alignment as PropertyCheckBoxWithIcon
 
         // wrap Swing in a Piccolo control panel
         addChild( new ControlPanelNode( panel, LGColors.GRAPH_CONTROL_PANEL ) );
