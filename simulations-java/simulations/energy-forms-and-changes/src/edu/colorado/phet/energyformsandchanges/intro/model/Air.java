@@ -129,16 +129,9 @@ public class Air implements ThermalEnergyContainer {
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
         if ( thermalContactLength > 0 ) {
-            if ( energyContainer instanceof Beaker && ( (Beaker) energyContainer ).isBoiling() ) {
-                // Special case for beaker with boiling water inside: All
-                // energy beyond what is needed for boiling is moved from the
-                // boiling water into the air.
-                double thermalEnergyGained = ((Beaker)energyContainer).getEnergyBeyondBoiling();
-                energyContainer.changeEnergy( -thermalEnergyGained );
-                changeEnergy( thermalEnergyGained );
-            }
-            else if ( Math.abs( energyContainer.getTemperature() - getTemperature() ) > EFACConstants.TEMPERATURES_EQUAL_THRESHOLD ) {
-                // Exchange energy between the air and the energy container.
+            double excessEnergy = energyContainer.getEnergyBeyondMaxTemperature();
+            if ( excessEnergy == 0 ){
+                // Container is below max temperature, exchange energy normally.
                 double heatTransferConstant = getHeatTransferFactor( this.getEnergyContainerCategory(), energyContainer.getEnergyContainerCategory() );
                 int numFullTimeStepExchanges = (int) Math.floor( dt / MAX_HEAT_EXCHANGE_TIME_STEP );
                 double leftoverTime = dt - ( numFullTimeStepExchanges * MAX_HEAT_EXCHANGE_TIME_STEP );
@@ -148,6 +141,11 @@ public class Air implements ThermalEnergyContainer {
                     energyContainer.changeEnergy( -thermalEnergyGained );
                     changeEnergy( thermalEnergyGained );
                 }
+            }
+            else{
+                // Item is at max temperature.  Shed all excess energy into the air.
+                energyContainer.changeEnergy( -excessEnergy );
+                changeEnergy( excessEnergy );
             }
         }
     }
@@ -181,5 +179,10 @@ public class Air implements ThermalEnergyContainer {
 
     public EnergyContainerCategory getEnergyContainerCategory() {
         return EnergyContainerCategory.AIR;
+    }
+
+    public double getEnergyBeyondMaxTemperature() {
+        // Air temperature is unlimited.
+        return 0;
     }
 }

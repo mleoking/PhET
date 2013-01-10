@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
+import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.BOILING_POINT_TEMPERATURE;
+
 /**
  * Class that represents a block in the model.  In the model, a block is two-
  * dimensional, so its shape is represented by a rectangle.
@@ -32,6 +34,8 @@ public abstract class Block extends RectangularThermalMovableModelElement {
     // Surfaces used for stacking and thermal interaction.
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
+
+    private final double MAX_TEMPERATURE = 450; // Degrees Kelvin, value is pretty much arbitrary. Whatever works.
 
     /**
      * Constructor.
@@ -146,5 +150,9 @@ public abstract class Block extends RectangularThermalMovableModelElement {
      */
     public static Shape getRawShape() {
         return new Rectangle2D.Double( -SURFACE_WIDTH / 2, 0, SURFACE_WIDTH, SURFACE_WIDTH );
+    }
+
+    public double getEnergyBeyondMaxTemperature() {
+        return Math.max( energy - ( MAX_TEMPERATURE * mass * specificHeat ), 0 );
     }
 }
