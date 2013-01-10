@@ -1,3 +1,4 @@
+1/10/13 use only positive slopes for challenges in level 4 that force slope inversion
 1/10/13 show guess ("Your Line" for GLT, "A Correct Equation" for MTE) only if they get the challenge wrong, to avoid issue of different equations for the same line
 1/10/13 in level 1, change y-intercept range to (-6,4)
 1/10/13 fix: scoreboard always displays level 6
