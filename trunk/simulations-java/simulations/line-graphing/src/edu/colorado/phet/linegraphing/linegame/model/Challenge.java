@@ -36,7 +36,7 @@ public abstract class Challenge {
     public final String description; // dev attribute, for debugging challenge generation, no i18n
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
     public final Graph graph; // the graph that plots the lines
-    public final LineForm lineForm;
+    public final EquationForm equationForm;
     public final ManipulationMode manipulationMode;
     public final PointTool pointTool1, pointTool2;
     protected final ObservableList<Line> pointToolLines; // lines that are "seen" by the point tools
@@ -47,7 +47,7 @@ public abstract class Challenge {
      * @param title title that is visible to the user
      * @param description brief description of the challenge, visible in dev versions
      * @param answer the correct answer
-     * @param lineForm see LineForm
+     * @param equationForm see LineForm
      * @param manipulationMode see ManipulationMode
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
@@ -57,7 +57,7 @@ public abstract class Challenge {
      */
     protected Challenge( String title, String description,
                          Line answer,
-                         LineForm lineForm, ManipulationMode manipulationMode,
+                         EquationForm equationForm, ManipulationMode manipulationMode,
                          IntegerRange xRange, IntegerRange yRange,
                          Point2D originOffset,
                          Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
@@ -67,7 +67,7 @@ public abstract class Challenge {
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
         this.guess = new Property<Line>( createInitialGuess( answer, manipulationMode ) );
 
-        this.lineForm = lineForm;
+        this.equationForm = equationForm;
         this.manipulationMode = manipulationMode;
 
         // Create the model-view transform.

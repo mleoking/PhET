@@ -13,7 +13,6 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.LineForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
@@ -48,7 +47,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
         // Answer
         final EquationBoxNode answerBoxNode =
                 new EquationBoxNode( Strings.LINE_TO_GRAPH, challenge.answer.color, boxSize,
-                                     createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+                                     createEquationNode( challenge.equationForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // Guess
         guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, Color.BLACK, boxSize, new PNode() ); // dummy
@@ -89,7 +88,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
 
                 // update the equation (line is null if ManipulationMode.THREE_POINTS and points don't make a line)
                 subclassParent.removeChild( guessBoxNode );
-                PNode equationNode = ( line == null ) ? NOT_A_LINE : createEquationNode( challenge.lineForm, line, LineGameConstants.STATIC_EQUATION_FONT, line.color );
+                PNode equationNode = ( line == null ) ? NOT_A_LINE : createEquationNode( challenge.equationForm, line, LineGameConstants.STATIC_EQUATION_FONT, line.color );
                 Color color = ( line == null ) ? LineGameConstants.GUESS_COLOR : line.color;
                 guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, color, boxSize, equationNode );
 

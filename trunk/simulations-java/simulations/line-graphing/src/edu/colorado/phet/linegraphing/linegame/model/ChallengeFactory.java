@@ -89,11 +89,11 @@ abstract class ChallengeFactory {
     }
 
     // Picks a line form, removes it from the list.
-    protected LineForm pickLineForm( ArrayList<LineForm> list ) {
+    protected EquationForm pickLineForm( ArrayList<EquationForm> list ) {
         int index = randomIndex( list );
-        final LineForm lineForm = list.get( index );
+        final EquationForm equationForm = list.get( index );
         list.remove( index );
-        return lineForm;
+        return equationForm;
     }
 
     // Picks an integer, removes it from the bin.

@@ -24,7 +24,7 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.LineForm;
+import edu.colorado.phet.linegraphing.linegame.model.EquationForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
@@ -224,15 +224,15 @@ public abstract class ChallengeNode extends PhetPNode {
     }
 
     // Creates a static (non-interactive) equation.
-    protected static EquationNode createEquationNode( LineForm lineForm, Line line, PhetFont font, Color color ) {
-        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
+    protected static EquationNode createEquationNode( EquationForm equationForm, Line line, PhetFont font, Color color ) {
+        if ( equationForm == EquationForm.SLOPE_INTERCEPT ) {
             return new SlopeInterceptEquationNode( line, font, color );
         }
-        else if ( lineForm == LineForm.POINT_SLOPE ) {
+        else if ( equationForm == EquationForm.POINT_SLOPE ) {
             return new PointSlopeEquationNode( line, font, color );
         }
         else {
-            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
+            throw new IllegalArgumentException( "unsupported line form: " + equationForm );
         }
     }
 }

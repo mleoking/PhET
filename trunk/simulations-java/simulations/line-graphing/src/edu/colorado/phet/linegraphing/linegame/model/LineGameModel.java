@@ -45,7 +45,7 @@ public class LineGameModel {
         results = new GameResults( LEVELS_RANGE );
 
         // initial value is meaningless, but must be non-null
-        challenge = new Property<Challenge>( new GTL_Challenge( "", Line.createSlopeIntercept( 1, 1, 1 ), LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE,
+        challenge = new Property<Challenge>( new GTL_Challenge( "", Line.createSlopeIntercept( 1, 1, 1 ), EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE,
                                                                  LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE ) );
 
         phase = new Property<GamePhase>( GamePhase.SETTINGS ) {

@@ -16,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
-import edu.colorado.phet.linegraphing.linegame.model.LineForm;
+import edu.colorado.phet.linegraphing.linegame.model.EquationForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.MTE_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
@@ -49,12 +49,12 @@ public class MTE_ChallengeNode extends ChallengeNode {
         // Answer
         final EquationBoxNode answerBoxNode =
                 new EquationBoxNode( Strings.CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
-                                     createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
+                                     createEquationNode( challenge.equationForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // Guess
         final EquationBoxNode guessBoxNode =
                 new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
-                                     createInteractiveEquationNode( challenge.lineForm, challenge.manipulationMode, challenge.guess, challenge.graph,
+                                     createInteractiveEquationNode( challenge.equationForm, challenge.manipulationMode, challenge.guess, challenge.graph,
                                                                     LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
                                                                     challenge.guess.get().color ) );
 
@@ -84,7 +84,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
 
         // To reduce brain damage during development, show the answer equation in translucent gray.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            PNode devAnswerNode = createEquationNode( challenge.lineForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, new Color( 0, 0, 0, 25 ) );
+            PNode devAnswerNode = createEquationNode( challenge.equationForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, new Color( 0, 0, 0, 25 ) );
             devAnswerNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() + 30,
                                      answerBoxNode.getFullBoundsReference().getCenterY() - ( devAnswerNode.getFullBoundsReference().getHeight() / 2 ) );
             addChild( devAnswerNode );
@@ -130,9 +130,9 @@ public class MTE_ChallengeNode extends ChallengeNode {
     }
 
     // Creates an interactive equation.
-    private EquationNode createInteractiveEquationNode( LineForm lineForm, ManipulationMode manipulationMode,
+    private EquationNode createInteractiveEquationNode( EquationForm equationForm, ManipulationMode manipulationMode,
                                                         Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor ) {
-        if ( lineForm == LineForm.SLOPE_INTERCEPT ) {
+        if ( equationForm == EquationForm.SLOPE_INTERCEPT ) {
             boolean interactiveSlope = ( manipulationMode == ManipulationMode.SLOPE ) || ( manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
             boolean interactiveIntercept = ( manipulationMode == ManipulationMode.INTERCEPT ) || ( manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
             return new SlopeInterceptEquationNode( line,
@@ -142,7 +142,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
                                                    interactiveSlope, interactiveIntercept,
                                                    interactiveFont, staticFont, staticColor );
         }
-        else if ( lineForm == LineForm.POINT_SLOPE ) {
+        else if ( equationForm == EquationForm.POINT_SLOPE ) {
             boolean interactivePoint = ( manipulationMode == ManipulationMode.POINT ) || ( manipulationMode == ManipulationMode.POINT_SLOPE );
             boolean interactiveSlope = ( manipulationMode == ManipulationMode.SLOPE ) || ( manipulationMode == ManipulationMode.POINT_SLOPE );
             return new PointSlopeEquationNode( line,
@@ -154,7 +154,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
                                                interactiveFont, staticFont, staticColor );
         }
         else {
-            throw new IllegalArgumentException( "unsupported line form: " + lineForm );
+            throw new IllegalArgumentException( "unsupported line form: " + equationForm );
         }
     }
 }

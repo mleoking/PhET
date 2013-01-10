@@ -89,9 +89,9 @@ class ChallengeFactory4 extends ChallengeFactory {
         }};
 
         // line form for 3rd challenge of each type
-        ArrayList<LineForm> lineForms = new ArrayList<LineForm>() {{
-            add( LineForm.SLOPE_INTERCEPT );
-            add( LineForm.POINT_SLOPE );
+        ArrayList<EquationForm> equationForms = new ArrayList<EquationForm>() {{
+            add( EquationForm.SLOPE_INTERCEPT );
+            add( EquationForm.POINT_SLOPE );
         }};
 
         // bin indices
@@ -104,7 +104,7 @@ class ChallengeFactory4 extends ChallengeFactory {
             int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // first required y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new MTE_Challenge( "1 of 2 required y-intercepts",
-                                               line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // MTE, PS, point & slope
@@ -113,18 +113,18 @@ class ChallengeFactory4 extends ChallengeFactory {
             Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
             challenges.add( new MTE_Challenge( "1 of 3 required slopes",
-                                               line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                                               line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
         // MTE, SI or PS (random choice)
         {
-            if ( pickLineForm( lineForms ) == LineForm.SLOPE_INTERCEPT ) {
+            if ( pickLineForm( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
                 // MTE, SI, slope & intercept
                 Fraction slope = pickFraction( slopeBins ); // unique slope
                 int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
                 Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
                 challenges.add( new MTE_Challenge( "random choice of slope-intercept",
-                                                   line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                                                   line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
             }
             else {
                 // MTE, PS, point & slope
@@ -132,7 +132,7 @@ class ChallengeFactory4 extends ChallengeFactory {
                 Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
                 challenges.add( new MTE_Challenge( "random choice of point-slope",
-                                                   line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                                                   line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
         }
 
@@ -142,7 +142,7 @@ class ChallengeFactory4 extends ChallengeFactory {
             int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // second required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new GTL_Challenge( "2 of 2 required y-intercepts",
-                                               line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // GTL, PS, point & slope
@@ -151,7 +151,7 @@ class ChallengeFactory4 extends ChallengeFactory {
             Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
             challenges.add( new GTL_Challenge( "2 of 3 required slopes",
-                                               line, LineForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                                               line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
         /*
@@ -159,13 +159,13 @@ class ChallengeFactory4 extends ChallengeFactory {
          * Choose y-intercept or point such that (x2,y2) is off the graph, so that user is forced to invert the slope.
          */
         {
-            if ( pickLineForm( lineForms ) == LineForm.SLOPE_INTERCEPT ) {
+            if ( pickLineForm( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
                 // GTL, SI, 2 points
                 Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // third required slope, unique
                 int yIntercept = (int) pickPointForInvertedSlope( slope, xRange, yRange ).getY(); // random y-intercept, not necessarily unique
                 Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
                 challenges.add( new GTL_Challenge( "slope-intercept because MTE uses point-slope, 3 of 3 required slopes, force slope inversion",
-                                                   line, LineForm.SLOPE_INTERCEPT, ManipulationMode.TWO_POINTS, xRange, yRange ) );
+                                                   line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.TWO_POINTS, xRange, yRange ) );
             }
             else {
                 // GTL, PS, 2 points
@@ -173,7 +173,7 @@ class ChallengeFactory4 extends ChallengeFactory {
                 Point2D point = pickPointForInvertedSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
                 challenges.add( new GTL_Challenge( "point-slope because MTE uses slope-intercept, 3 of 3 required slopes, force slope inversion",
-                                                   line, LineForm.POINT_SLOPE, ManipulationMode.TWO_POINTS, xRange, yRange ) );
+                                                   line, EquationForm.POINT_SLOPE, ManipulationMode.TWO_POINTS, xRange, yRange ) );
             }
         }
 
