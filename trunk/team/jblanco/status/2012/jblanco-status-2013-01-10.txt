@@ -1,0 +1,63 @@
+PhET Progress Report, J. Blanco, 1-10-2013
+
+PhET Weekly Progress Report
+John Blanco
+January 10th, 2013
+
+Time period covered: December 13th through January 9th.  This is a four week period due to cancelled meetings, holidays, and vacations.
+
+Energy Forms and Changes - 26.0 hrs
+
+o	Reviewed in Physics Group meeting, discussed addition of freezing, boiling, and temperature limits.
+o	Implemented "hidden E's" on the generator so that the energy chunks never disappear completely from the user's view.
+o	Consolidated code for moving the energy chunks.
+o	Make the E's on the first tab move all the way in and out of buckets, instead of fading in and out.
+o	Fixed issue where there was a delay when the biker ran out of energy before slumping.
+o	Implemented thermal and energy chunk behavior for boiling of the water.
+o	Fixed issues with mapping of energy level to number of energy chunks.
+o	Removed limits on heating and cooling.
+o	Limited cooling on all objects to 0 degrees C (freezing point of water).
+o	Limited max temperature of blocks by making them achieve equilibrium with air beyond certain max temperature.
+
+Tablet Investigation - Build an Atom Prototype - 11.0 hrs
+
+o	BAA-HTML: Integrated prototype dialog, published to dev.
+o	BAA-HTML: Implemented feature where particles get larger when selected by user (primarily for touch screen usage).
+o	BAA-HTML: Changed layout to work better on the iPad.
+o	BAA-HTML: Fixed issue where controls could overlap labels in the play area.
+o	BAA-HTML: Integrated stacking algorithm for particles in the bucket.
+
+Tablet Investigation - Process Development - 15.0 hrs
+
+o	Supplied estimates of relative sim implementation development in HTML5 (in Google doc spreadsheet).
+o	Met with Kathy P to discuss status and direction of HTML5 migration, basically a debrief prior to my vacation.
+o	Email to Rune Mathison of Norway about possible help in porting our sims to HTML5.
+o	Learned about Github, started investigating getting M&S sim on it.
+o	Worked on sole source justification form (with Oliver) for contracting work with Mobile Media Lab.
+o	Responded to ideas about implementation of Play/Record functionality, tested demo version.
+
+Tablet Investigation - Trip to Google - 2.0 hrs
+
+o	Debriefing meeting with Kathy P, Sam R, Ariel P.
+
+Sim Sharing - 1.0 hrs
+
+o	Meeting to discuss needs for sim sharing data.
+
+Collision Lab - 1.0 hrs
+
+o	Reviewed and discussed in Physics Group meeting.
+
+Meetings, Email, and Other Administrative Overhead - 7.5 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Group picture.
+o	Normal Unfuddle ticket overhead.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  94.5 hrs
+
+o	Holidays: December 24th and 25th, January 1st: 24 hrs
+o	Vacation: 60.5 hrs
+
