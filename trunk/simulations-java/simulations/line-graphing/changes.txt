@@ -1,3 +1,4 @@
+1/9/13 various changes in comments for LineForm to EquationForm change
 1/9/13 rename LineForm to EquationForm, rename local variables accordingly
 1/9/13 add support for mismatching the line form of the equation vs graph in GTL challenges
 1/9/13 algorithm that forces inversion of slope, picks (x1,y1) on the graph such that (x2,y2) is off the graph

@@ -88,8 +88,8 @@ abstract class ChallengeFactory {
         return manipulationMode;
     }
 
-    // Picks a line form, removes it from the list.
-    protected EquationForm pickLineForm( ArrayList<EquationForm> list ) {
+    // Picks an equation form, removes it from the list.
+    protected EquationForm pickEquationForm( ArrayList<EquationForm> list ) {
         int index = randomIndex( list );
         final EquationForm equationForm = list.get( index );
         list.remove( index );
