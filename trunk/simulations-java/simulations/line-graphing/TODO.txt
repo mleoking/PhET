@@ -5,8 +5,8 @@ DEADLINES
 DESIGN
 
 HIGH
-- plot (x1,y1) for answer and guess if they get the challenge wrong
-- in PTP challenges, only show guess lines in state=TRY_AGAIN || state==NEXT
+- all challenges: plot (x1,y1) for answer and guess if they get the challenge wrong
+- PTP challenges: only show guess lines in state=TRY_AGAIN || state==NEXT
 - PTP challenge ranges: rise=(-5,5), run=(-5,5), x1=(-5,5), y1=(-5,5)
 - Game: generate challenges for levels 5-6
 
