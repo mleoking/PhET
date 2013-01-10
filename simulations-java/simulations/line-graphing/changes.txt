@@ -1,3 +1,5 @@
+# 0.00.49 (71607) Jan 9, 2013
+1/9/13 dev version with challenge generation for levels 1-4
 1/9/13 document why mvt is created in model
 1/9/13 various changes in comments for LineForm to EquationForm change
 1/9/13 rename LineForm to EquationForm, rename local variables accordingly
