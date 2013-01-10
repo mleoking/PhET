@@ -45,9 +45,14 @@ abstract class ChallengeFactory {
                 return new ChallengeFactory3().createChallenges( xRange, yRange );
             case 4:
                 return new ChallengeFactory4().createChallenges( xRange, yRange );
-            default:
-                //TODO throw exception
+            case 5:
+                //TODO ChallengeFactory5
                 return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
+            case 6:
+                //TODO ChallengeFactory6
+                return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
+            default:
+                throw new IllegalArgumentException( "unsupported level: " + level );
         }
     }
 
