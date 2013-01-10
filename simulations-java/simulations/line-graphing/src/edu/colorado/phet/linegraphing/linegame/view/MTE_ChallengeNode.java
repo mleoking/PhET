@@ -117,7 +117,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
                 guessBoxNode.setChildrenPickable( guessBoxNode.getPickable() );
 
                 // Show all equations and lines at the end of the challenge.
-                answerBoxNode.setVisible( state == PlayState.NEXT );
+                answerBoxNode.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
                 graphNode.setGuessVisible( state == PlayState.NEXT );
 
                 // slope tool visible when user got it wrong

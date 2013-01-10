@@ -110,8 +110,8 @@ public class GTL_ChallengeNode extends ChallengeNode {
                 graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || ( state == PlayState.NEXT && !challenge.isCorrect() ) );
                 graphNode.setChildrenPickable( graphNode.getPickable() );
 
-                // Show all equations and lines at the end of the challenge.
-                guessBoxNode.setVisible( state == PlayState.NEXT );
+                // Show equations and lines at the end of the challenge.
+                guessBoxNode.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
                 graphNode.setAnswerVisible( state == PlayState.NEXT );
 
                 // slope tool visible when user got it wrong
