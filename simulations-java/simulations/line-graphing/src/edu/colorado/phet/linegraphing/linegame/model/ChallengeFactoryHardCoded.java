@@ -25,6 +25,7 @@ class ChallengeFactoryHardCoded {
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createSlopeIntercept( 5, 1, 1 ), EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createSlopeIntercept( 4, 2, 3 ), EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createSlopeIntercept( 3, 3, -3 ), EquationForm.SLOPE_INTERCEPT, ManipulationMode.TWO_POINTS, xRange, yRange ) );
+                // mismatched equation form and graph manipulators
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createSlopeIntercept( 3, 3, -3 ), EquationForm.SLOPE_INTERCEPT, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
                 break;
             case 2:
@@ -32,6 +33,7 @@ class ChallengeFactoryHardCoded {
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createPointSlope( 1, -3, 1, 3 ), EquationForm.POINT_SLOPE, ManipulationMode.POINT, xRange, yRange ) );
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createPointSlope( -2, 1, -4, 3 ), EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createPointSlope( 5, 4, 3, 2 ), EquationForm.POINT_SLOPE, ManipulationMode.TWO_POINTS, xRange, yRange ) );
+                // mismatched equation form and graph manipulators
                 challenges.add( new GTL_Challenge( DESCRIPTION, Line.createSlopeIntercept( 4, 2, 3 ), EquationForm.POINT_SLOPE, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
                 break;
             case 3:
