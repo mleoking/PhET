@@ -11,8 +11,10 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -78,7 +80,7 @@ public class BeakerView {
         frontNode.addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Add the water.  It will adjust its size based on the fluid level.
-        final PerspectiveWaterNode water = new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel );
+        final PerspectiveWaterNode water = new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel, beaker.temperature );
         frontNode.addChild( water );
 
         // Add the top ellipse.  It is behind the water for proper Z-order behavior.
@@ -166,7 +168,7 @@ public class BeakerView {
         private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.2 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
 
-        private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, Property<Double> waterLevel ) {
+        private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, Property<Double> waterLevel, ObservableProperty<Double> temperature ) {
 
             final PhetPPath waterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
             addChild( waterBodyNode );
@@ -202,6 +204,22 @@ public class BeakerView {
                     // Update the shape of the water based on the proportionate
                     // water level.
                     waterTopNode.setPathTo( topEllipse );
+                }
+            } );
+
+            temperature.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double currentTemperature ) {
+//                    System.out.println( "--------------" );
+//                    System.out.println( "beaker water temperature = " + currentTemperature );
+                    double freezeProportion = 0;
+                    if ( currentTemperature - EFACConstants.FREEZING_POINT_TEMPERATURE < 1 ) {
+                        // Water is starting to freeze, set the amount of freezing.
+                        freezeProportion = MathUtil.clamp( 0, 1 - ( currentTemperature - EFACConstants.FREEZING_POINT_TEMPERATURE ), 1 );
+                    }
+//                    System.out.println( "freezeProportion = " + freezeProportion );
+                    Color waterPaint = ColorUtils.interpolateRBGA( EFACConstants.WATER_COLOR_IN_BEAKER, Color.WHITE, freezeProportion );
+                    waterBodyNode.setPaint( waterPaint );
+                    waterTopNode.setPaint( waterPaint );
                 }
             } );
         }
