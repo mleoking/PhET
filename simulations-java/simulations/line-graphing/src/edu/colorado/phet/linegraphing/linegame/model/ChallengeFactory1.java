@@ -77,7 +77,7 @@ class ChallengeFactory1 extends ChallengeFactory {
         }};
 
         // for y-intercept manipulation challenges, one must be positive, one negative
-        final IntegerRange yInterceptRange = new IntegerRange( -9, 4 );
+        final IntegerRange yInterceptRange = new IntegerRange( -6, 4 );
         ArrayList<ArrayList<Integer>> yInterceptBins = new ArrayList<ArrayList<Integer>>() {{
             assert ( yInterceptRange.getMin() < 0 && yInterceptRange.getMax() > 0 );
             add( rangeToList( new IntegerRange( yInterceptRange.getMin(), -1 ) ) );
