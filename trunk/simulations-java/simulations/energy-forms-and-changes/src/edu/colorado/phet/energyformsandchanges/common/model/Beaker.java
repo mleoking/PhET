@@ -195,14 +195,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
         return EnergyFormsAndChangesSimSharing.UserComponents.beaker;
     }
 
-    /**
-     * Get the amount of energy currently contained that is beyond the amount
-     * required to make the water boil.
-     *
-     * @return excess energy beyond amount for boiling, 0 if not currently
-     * boiling.
-     */
-    public double getEnergyBeyondBoiling(){
+    public double getEnergyBeyondMaxTemperature(){
         return Math.max( energy - ( BOILING_POINT_TEMPERATURE * mass * specificHeat ), 0 );
     }
 
