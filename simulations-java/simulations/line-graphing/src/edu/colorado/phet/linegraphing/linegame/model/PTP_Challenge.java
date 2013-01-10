@@ -28,12 +28,12 @@ public class PTP_Challenge extends GTL_Challenge {
      * Constructor
      * @param description brief description of the challenge, visible in dev versions
      * @param answer the correct answer
-     * @param lineForm see LineForm
+     * @param equationForm see LineForm
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
      */
-    public PTP_Challenge( String description, final Line answer, LineForm lineForm, IntegerRange xRange, IntegerRange yRange ) {
-        super( description, answer, lineForm, ManipulationMode.THREE_POINTS, xRange, yRange );
+    public PTP_Challenge( String description, final Line answer, EquationForm equationForm, IntegerRange xRange, IntegerRange yRange ) {
+        super( description, answer, equationForm, ManipulationMode.THREE_POINTS, xRange, yRange );
 
         // initial points do not form a line
         this.p1 = new Property<Vector2D>( new Vector2D( -3, 2 ) );

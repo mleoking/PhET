@@ -24,14 +24,14 @@ public class GTL_Challenge extends Challenge {
      * Constructor
      * @param description brief description of the challenge, visible in dev versions
      * @param answer the correct answer
-     * @param lineForm see LineForm
+     * @param equationForm see LineForm
      * @param manipulationMode see ManipulationMode
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
      */
-    public GTL_Challenge( String description, Line answer, LineForm lineForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
+    public GTL_Challenge( String description, Line answer, EquationForm equationForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
         super( createTitle( Strings.GRAPH_THE_LINE, manipulationMode ), description,
-               answer, lineForm, manipulationMode, xRange, yRange,
+               answer, equationForm, manipulationMode, xRange, yRange,
                new Point2D.Double( 700, 300 ), // origin offset
                new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), // point tool location 1
                new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ) );  // point tool location 2

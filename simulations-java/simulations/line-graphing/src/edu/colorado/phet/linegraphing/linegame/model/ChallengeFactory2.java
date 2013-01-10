@@ -106,7 +106,7 @@ class ChallengeFactory2 extends ChallengeFactory {
             int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new GTL_Challenge( "1 of 3 required slopes",
-                                               line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
+                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
         }
 
         // GTL, SI, intercept
@@ -115,7 +115,7 @@ class ChallengeFactory2 extends ChallengeFactory {
             int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // first required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new GTL_Challenge( "1 of 2 required y-intercepts",
-                                               line, LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
+                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
         }
 
         // MTE, SI, slope
@@ -124,7 +124,7 @@ class ChallengeFactory2 extends ChallengeFactory {
             int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new MTE_Challenge( "2 of 3 requires slopes",
-                                               line, LineForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
+                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
         }
 
         // MTE, SI, intercept
@@ -133,7 +133,7 @@ class ChallengeFactory2 extends ChallengeFactory {
             int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // second required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new MTE_Challenge( "2 of 2 required y-intercepts",
-                                               line, LineForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
+                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
         }
 
         // GTL, PS, point or slope
@@ -155,7 +155,7 @@ class ChallengeFactory2 extends ChallengeFactory {
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            Challenge challenge = new GTL_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
+            Challenge challenge = new GTL_Challenge( description, line, EquationForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 
@@ -178,7 +178,7 @@ class ChallengeFactory2 extends ChallengeFactory {
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            Challenge challenge = new MTE_Challenge( description, line, LineForm.POINT_SLOPE, manipulationMode, xRange, yRange );
+            Challenge challenge = new MTE_Challenge( description, line, EquationForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 
