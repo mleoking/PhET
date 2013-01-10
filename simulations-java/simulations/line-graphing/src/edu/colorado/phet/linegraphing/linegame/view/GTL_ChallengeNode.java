@@ -126,21 +126,22 @@ public class GTL_ChallengeNode extends ChallengeNode {
 
     // Creates the graph portion of the view.
     protected ChallengeGraphNode createGraphNode( GTL_Challenge challenge ) {
-        if ( challenge.manipulationMode == ManipulationMode.TWO_POINTS ) {
+        if ( challenge.manipulationMode == ManipulationMode.POINT || challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.POINT_SLOPE ) {
+            return new PointSlopeGraphNode( challenge );
+        }
+        else if ( challenge.manipulationMode == ManipulationMode.INTERCEPT || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT ) {
+            assert( challenge.answer.getYIntercept().isInteger() );
+            return new SlopeInterceptGraphNode( challenge );
+        }
+        else if ( challenge.manipulationMode == ManipulationMode.TWO_POINTS ) {
             return new TwoPointsGraphNode( challenge );
         }
         else if ( challenge.manipulationMode == ManipulationMode.THREE_POINTS ) {
             assert( challenge instanceof PTP_Challenge );
             return new ThreePointsGraphNode( (PTP_Challenge) challenge );
         }
-        else if ( challenge.lineForm == LineForm.SLOPE_INTERCEPT ) {
-            return new SlopeInterceptGraphNode( challenge );
-        }
-        else if ( challenge.lineForm == LineForm.POINT_SLOPE ) {
-            return new PointSlopeGraphNode( challenge );
-        }
         else {
-            throw new IllegalArgumentException( "unsupported lineForm (" + challenge.lineForm + ") and manipulatorMode (" + challenge.manipulationMode + ") combination" );
+            throw new IllegalArgumentException( "unsupported manipulationMode: " + challenge.manipulationMode );
         }
     }
 }
