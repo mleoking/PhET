@@ -1,5 +1,9 @@
 
 
+E's continue into bucket, i.e. don't turn around.
+
+Work on ice appearance with NP and maybe Emily.
+Thermometer - Boiling point is 1 tick below last tick, 10 ticks from zero.
 
 No limits on heat and cool on both tab 1 & 2.
 Implement boiling and freezing of the water.
