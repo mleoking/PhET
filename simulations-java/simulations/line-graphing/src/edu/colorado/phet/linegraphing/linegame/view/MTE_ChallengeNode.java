@@ -154,7 +154,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
                                                interactiveFont, staticFont, staticColor );
         }
         else {
-            throw new IllegalArgumentException( "unsupported line form: " + equationForm );
+            throw new IllegalArgumentException( "unsupported equation form: " + equationForm );
         }
     }
 }

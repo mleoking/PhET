@@ -88,7 +88,7 @@ class ChallengeFactory3 extends ChallengeFactory {
             add( rangeToList( new IntegerRange( 1, yInterceptRange.getMax() ) ) );
         }};
 
-        // line form for 3rd challenge of each type
+        // equation form for 3rd challenge of each type
         ArrayList<EquationForm> equationForms = new ArrayList<EquationForm>() {{
             add( EquationForm.SLOPE_INTERCEPT );
             add( EquationForm.POINT_SLOPE );
@@ -118,7 +118,7 @@ class ChallengeFactory3 extends ChallengeFactory {
 
         // GTL, SI or PS (random choice)
         {
-            if ( pickLineForm( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
+            if ( pickEquationForm( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
                 // GTL, SI, slope & intercept
                 Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // second required slope, unique
                 int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
@@ -156,7 +156,7 @@ class ChallengeFactory3 extends ChallengeFactory {
 
         // MTE, SI or PS (whichever wasn't chosen above)
         {
-            if ( pickLineForm( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
+            if ( pickEquationForm( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
                 // MTE, SI, slope & intercept
                 Fraction slope = pickFraction( slopeBins ); // unique slope
                 int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept

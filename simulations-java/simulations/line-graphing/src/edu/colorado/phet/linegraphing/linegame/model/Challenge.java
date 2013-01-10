@@ -47,7 +47,7 @@ public abstract class Challenge {
      * @param title title that is visible to the user
      * @param description brief description of the challenge, visible in dev versions
      * @param answer the correct answer
-     * @param equationForm see LineForm
+     * @param equationForm see EquationForm
      * @param manipulationMode see ManipulationMode
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis

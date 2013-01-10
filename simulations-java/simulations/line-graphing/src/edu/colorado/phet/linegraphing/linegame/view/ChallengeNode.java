@@ -232,7 +232,7 @@ public abstract class ChallengeNode extends PhetPNode {
             return new PointSlopeEquationNode( line, font, color );
         }
         else {
-            throw new IllegalArgumentException( "unsupported line form: " + equationForm );
+            throw new IllegalArgumentException( "unsupported equation form: " + equationForm );
         }
     }
 }
