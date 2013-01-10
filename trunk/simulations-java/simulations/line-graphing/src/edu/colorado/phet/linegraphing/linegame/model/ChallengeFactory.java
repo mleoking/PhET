@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.model.Fraction;
 
 /**
@@ -15,6 +16,8 @@ import edu.colorado.phet.linegraphing.common.model.Fraction;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 abstract class ChallengeFactory {
+
+    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( ChallengeFactory.class.getCanonicalName() );
 
     private static final boolean USE_HARD_CODED_CHALLENGES = false;
 
@@ -173,36 +176,50 @@ abstract class ChallengeFactory {
         return new Point2D.Double( x, y );
     }
 
-    // Picks a point that results in the slope indicator being off the graph. This forces the user to invert the slope.
+    // Picks a point (x1,x2) on the graph that results in the slope indicator (x2,y2) being off the graph. This forces the user to invert the slope.
     protected Point2D pickPointForInvertedSlope( final Fraction slope, final IntegerRange graphXRange, final IntegerRange graphYRange ) {
 
         final int rise = slope.numerator;
         final int run = slope.denominator;
 
-        // x coordinates
+        // x1 coordinates
         IntegerRange xRange;
         if ( run >= 0 ) {
-            xRange = new IntegerRange( run + 1, graphXRange.getMax() + run );
+            xRange = new IntegerRange( graphXRange.getMax() - run + 1, graphXRange.getMax() );
         }
         else {
-            xRange = new IntegerRange( graphXRange.getMin() + run, run - 1 );
+            xRange = new IntegerRange( graphXRange.getMin(), graphXRange.getMin() - run - 1 );
         }
         ArrayList<Integer> xList = rangeToList( xRange );
 
-        // y coordinates
+        // y1 coordinates
         IntegerRange yRange;
-        if ( run >= 0 ) {
-            yRange = new IntegerRange( rise + 1, graphYRange.getMax() + rise );
+        if ( rise >= 0 ) {
+            yRange = new IntegerRange( graphYRange.getMax() - rise + 1, graphYRange.getMax() );
         }
         else {
-            yRange = new IntegerRange( graphYRange.getMin() + rise, rise - 1 );
+            yRange = new IntegerRange( graphYRange.getMin(), graphYRange.getMin() - rise - 1 );
         }
         ArrayList<Integer> yList = rangeToList( yRange );
 
         // random point
-        final int x = xList.get( randomIndex( xList ) );
-        final int y = yList.get( randomIndex( yList ) );
-        return new Point2D.Double( x, y );
+        final int x1 = xList.get( randomIndex( xList ) );
+        final int y1 = yList.get( randomIndex( yList ) );
+
+        final int x2 = x1 + run;
+        final int y2 = y1 + rise;
+
+        LOGGER.info( "slope=" + rise + "/" + run +
+                     " xRange=[" + xRange.getMin() + "," + xRange.getMax() + "]" +
+                     " yRange=[" + yRange.getMin() + "," + yRange.getMax() + "]" +
+                     " (x1,y1)=(" + x1 + "," + y1 + ")" +
+                     " (x2,y2)=(" + x2 + "," + y2 + ")" );
+
+        // (x1,x2) must be on the graph, (x2,y2) must be off the graph
+        assert( graphXRange.contains( x1 ) && !graphXRange.contains( x2 ) );
+        assert( graphYRange.contains( y1 ) && !graphYRange.contains( y2 ) );
+
+        return new Point2D.Double( x1, y1 );
     }
 
     // Shuffles a list of challenges.
