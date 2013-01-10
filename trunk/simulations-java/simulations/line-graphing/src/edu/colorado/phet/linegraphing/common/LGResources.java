@@ -39,7 +39,7 @@ public class LGResources {
         public static final String LINE_TO_GRAPH = RESOURCES.getLocalizedString( "lineToGraph" );
         public static final String YOUR_LINE = RESOURCES.getLocalizedString( "yourLine" );
         public static final String YOUR_EQUATION = RESOURCES.getLocalizedString( "yourEquation" );
-        public static final String CORRECT_EQUATION = RESOURCES.getLocalizedString( "correctEquation" );
+        public static final String A_CORRECT_EQUATION = RESOURCES.getLocalizedString( "aCorrectEquation" );
         public static final String UNDEFINED = RESOURCES.getLocalizedString( "undefined" );
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
