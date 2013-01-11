@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_pl.xml created Fri Jul 03 16:49:28 CEST 2009 using: arithmetic 2.00.00 (30671), translation-utility 2.01.00 (31673) maj 14, 2009-->
-<SimStrings>
+<!--arithmetic-strings_pl.xml created Fri Jan 11 22:04:07 CET 2013 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
 <string key="level" value="poziom"/>
 <string key="typeAnswer" value="Wpisz odpowiedź i naciśnij Enter"/>
 <string key="clickToSelect" value="Kliknij, aby wybrać poprawny kwadrat"/>
 <string key="correct" value="Poprawnie!"/>
 <string key="end" value="Koniec"/>
-<string key="isWrong" value="jestźle"/>
+<string key="isWrong" value=" jest źle."/>
 <string key="start" value="Start"/>
 <string key="simTitle" value="Arytmetyka"/>
 <string key="time" value="Czas (sec)"/>
@@ -18,12 +17,12 @@
 <string key="factor" value="Czynnik"/>
 <string key="minute" value="minuty"/>
 <string key="finalScore" value="końcowy wynik"/>
-<string key="nbrRight" value="odpowiedzi prawidłowe"/>
+<string key="nbrRight" value="prawidłowa liczba:"/>
 <string key="mustTypeNbr" value="Wpisz liczbę"/>
-<string key="score" value="Wynik"/>
+<string key="score" value="Wynik:"/>
 <string key="scorePer" value="wynik"/>
-<string key="nbrWrong" value="odpowiedzi nieprawidłowe"/>
-<string key="reset" value="Zresetuj"/>
+<string key="nbrWrong" value="nieprawidłowa liczba:"/>
+<string key="reset" value="Wyczyść"/>
 <string key="clock" value="zegar"/>
 <string key="title" value="Ćwiczenie arytmetyczne"/>
 </SimStrings>
