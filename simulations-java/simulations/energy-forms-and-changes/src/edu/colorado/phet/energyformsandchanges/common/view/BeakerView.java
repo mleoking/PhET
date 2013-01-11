@@ -4,11 +4,13 @@ package edu.colorado.phet.energyformsandchanges.common.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -18,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -169,12 +172,13 @@ public class BeakerView {
 
         private static final Color LIQUID_WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.2 );
         private static final Color FROZEN_WATER_OUTLINE_COLOR = ColorUtils.brighterColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.3 );
+        private static final Color BASIC_ICE_COLOR = new Color( 107, 207, 245 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
         private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
 
         private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
         private final PhetPPath liquidWaterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
-        private final PhetPPath frozenWaterTopNode = new PhetPPath( Color.WHITE, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
+        private final PhetPPath frozenWaterTopNode = new PhetPPath( BASIC_ICE_COLOR, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
         private final PhetPPath frozenWaterBodyNode = new PhetPPath( Color.WHITE, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
 
         private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
@@ -194,6 +198,20 @@ public class BeakerView {
                     updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
                 }
             } );
+
+            // Set up the gradient used for the frozen water.
+            frozenWaterBodyNode.setPaint( new GradientPaint( (float)beakerOutlineRect.getMinX(),
+                                                             0,
+                                                             BASIC_ICE_COLOR,
+                                                             (float)beakerOutlineRect.getCenterX(),
+                                                             0,
+                                                             ColorUtils.brighterColor( BASIC_ICE_COLOR, 0.85 ),
+                                                             true ) );
+            frozenWaterTopNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
+                                                                 beakerOutlineRect.getCenterY(),
+                                                                 ColorUtils.brighterColor( BASIC_ICE_COLOR, 0.85 ),
+                                                                 new Point2D.Double( 0, beakerOutlineRect.getWidth() / 2 ),
+                                                                 BASIC_ICE_COLOR ) );
         }
 
         private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature ) {
