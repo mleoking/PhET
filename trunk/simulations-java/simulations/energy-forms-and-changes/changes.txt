@@ -1,3 +1,4 @@
+1st tab: Added a first-cut implementation of ice for when the beaker freezes.
 1st tab: Added limits so that all thermal objects have a max and min temperature.  All min temperatures are 0 degrees C, max temperatures vary.
 1st tab: Changed mapping function, made changes to energy chunk exchange algorithms.
 1st tab: Fixed some issues with adding and removing of energy chunks when interacting with burner.  Part of making the boiling feature work.
