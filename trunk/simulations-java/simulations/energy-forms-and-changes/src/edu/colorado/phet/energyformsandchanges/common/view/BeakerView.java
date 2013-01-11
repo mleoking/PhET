@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -167,61 +168,81 @@ public class BeakerView {
     private static class PerspectiveWaterNode extends PNode {
         private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.2 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
+        private final PhetPPath liquidWaterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
+        private final PhetPPath frozenWaterBodyNode = new PhetPPath( Color.WHITE, WATER_OUTLINE_STROKE, Color.RED );
+        private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
+        private final PhetPPath frozenWaterTopNode = new PhetPPath( Color.WHITE, WATER_OUTLINE_STROKE, Color.RED );
 
-        private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, Property<Double> waterLevel, ObservableProperty<Double> temperature ) {
+        private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
+            addChild( liquidWaterBodyNode );
+            addChild( liquidWaterTopNode );
+            addChild( frozenWaterBodyNode );
+            addChild( frozenWaterTopNode );
 
-            final PhetPPath waterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
-            addChild( waterBodyNode );
-            final PhetPPath waterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
-            addChild( waterTopNode );
+            waterLevel.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
+                }
+            } );
 
-            waterLevel.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double fluidLevel ) {
-                    assert fluidLevel >= 0 && fluidLevel <= 1; // Bounds checking.
+            temperature.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
+                }
+            } );
+        }
 
-                    Rectangle2D waterRect = new Rectangle2D.Double( beakerOutlineRect.getX(),
-                                                                    beakerOutlineRect.getY() + beakerOutlineRect.getHeight() * ( 1 - fluidLevel ),
-                                                                    beakerOutlineRect.getWidth(),
-                                                                    beakerOutlineRect.getHeight() * fluidLevel );
+        private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature ) {
+            double freezeProportion = 0;
+            if ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE < 1 ) {
+                // Water is starting to freeze, set the amount of freezing.
+                freezeProportion = MathUtil.clamp( 0, 1 - ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE ), 1 );
+            }
 
-                    double ellipseHeight = PERSPECTIVE_PROPORTION * beakerOutlineRect.getWidth();
-                    Shape topEllipse = new Ellipse2D.Double( waterRect.getMinX(),
-                                                             waterRect.getMinY() - ellipseHeight / 2,
-                                                             waterRect.getWidth(),
-                                                             ellipseHeight );
+            double totalWaterHeight = beakerOutlineRect.getHeight() * fluidLevel;
+            double frozenWaterHeight = totalWaterHeight * freezeProportion;
+            double liquidWaterHeight = totalWaterHeight - frozenWaterHeight;
 
-                    Shape bottomEllipse = new Ellipse2D.Double( waterRect.getMinX(),
-                                                                waterRect.getMaxY() - ellipseHeight / 2,
-                                                                waterRect.getWidth(),
+            Rectangle2D liquidWaterRect = new Rectangle2D.Double( beakerOutlineRect.getX(),
+                                                                  beakerOutlineRect.getMaxY() - liquidWaterHeight,
+                                                                  beakerOutlineRect.getWidth(),
+                                                                  liquidWaterHeight );
+            Rectangle2D frozenWaterRect = new Rectangle2D.Double( beakerOutlineRect.getX(),
+                                                                  beakerOutlineRect.getMaxY() - totalWaterHeight,
+                                                                  beakerOutlineRect.getWidth(),
+                                                                  frozenWaterHeight );
+            double ellipseWidth = beakerOutlineRect.getWidth();
+            double ellipseHeight = PERSPECTIVE_PROPORTION * ellipseWidth;
+            Shape liquidWaterTopEllipse = new Ellipse2D.Double( liquidWaterRect.getMinX(),
+                                                                liquidWaterRect.getMinY() - ellipseHeight / 2,
+                                                                liquidWaterRect.getWidth(),
                                                                 ellipseHeight );
+            Shape frozenWaterTopEllipse = new Ellipse2D.Double( frozenWaterRect.getMinX(),
+                                                                frozenWaterRect.getMinY() - ellipseHeight / 2,
+                                                                frozenWaterRect.getWidth(),
+                                                                ellipseHeight );
+            Shape bottomEllipse = new Ellipse2D.Double( liquidWaterRect.getMinX(),
+                                                        liquidWaterRect.getMaxY() - ellipseHeight / 2,
+                                                        liquidWaterRect.getWidth(),
+                                                        ellipseHeight );
 
-                    // Update the shape of the body and bottom of the water.
-                    Area waterBodyArea = new Area( waterRect );
-                    waterBodyArea.add( new Area( bottomEllipse ) );
-                    waterBodyArea.subtract( new Area( topEllipse ) );
-                    waterBodyNode.setPathTo( waterBodyArea );
+            // Update shape of the the liquid water.
+            Area liquidWaterBodyArea = new Area( liquidWaterRect );
+            liquidWaterBodyArea.add( new Area( bottomEllipse ) );
+            liquidWaterBodyArea.subtract( new Area( liquidWaterTopEllipse ) );
+            liquidWaterBodyNode.setPathTo( liquidWaterBodyArea );
+            liquidWaterTopNode.setPathTo( liquidWaterTopEllipse );
 
-                    // Update the shape of the water based on the proportionate
-                    // water level.
-                    waterTopNode.setPathTo( topEllipse );
-                }
-            } );
+            // Update shape of frozen water.
+            Area frozenWaterBodyArea = new Area( frozenWaterRect );
+            frozenWaterBodyArea.subtract( new Area( frozenWaterTopEllipse ) );
+            frozenWaterBodyArea.add( new Area( liquidWaterTopEllipse ) );
+            frozenWaterBodyNode.setPathTo( frozenWaterBodyArea );
+            frozenWaterTopNode.setPathTo( frozenWaterTopEllipse );
 
-            temperature.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double currentTemperature ) {
-//                    System.out.println( "--------------" );
-//                    System.out.println( "beaker water temperature = " + currentTemperature );
-                    double freezeProportion = 0;
-                    if ( currentTemperature - EFACConstants.FREEZING_POINT_TEMPERATURE < 1 ) {
-                        // Water is starting to freeze, set the amount of freezing.
-                        freezeProportion = MathUtil.clamp( 0, 1 - ( currentTemperature - EFACConstants.FREEZING_POINT_TEMPERATURE ), 1 );
-                    }
-//                    System.out.println( "freezeProportion = " + freezeProportion );
-                    Color waterPaint = ColorUtils.interpolateRBGA( EFACConstants.WATER_COLOR_IN_BEAKER, Color.WHITE, freezeProportion );
-                    waterBodyNode.setPaint( waterPaint );
-                    waterTopNode.setPaint( waterPaint );
-                }
-            } );
+            // Frozen portions only visible if some freezing has occurred.
+            frozenWaterBodyNode.setVisible( freezeProportion > 0 );
+            frozenWaterTopNode.setVisible( freezeProportion > 0 );
         }
     }
 
