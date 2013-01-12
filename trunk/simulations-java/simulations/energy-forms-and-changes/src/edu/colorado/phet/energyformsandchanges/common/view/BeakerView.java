@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
@@ -12,6 +13,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -24,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
@@ -175,20 +179,24 @@ public class BeakerView {
         private static final Color BASIC_ICE_COLOR = new Color( 107, 207, 245 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
         private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
+        private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
 
         private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
         private final PhetPPath liquidWaterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
         private final PhetPPath frozenWaterTopNode = new PhetPPath( BASIC_ICE_COLOR, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
         private final PhetPPath frozenWaterBodyNode = new PhetPPath( Color.WHITE, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
+        private final PhetPPath steamNode = new PhetPPath( new Color( 220, 220, 220 ) );
 
         private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
             addChild( liquidWaterBodyNode );
             addChild( liquidWaterTopNode );
             addChild( frozenWaterBodyNode );
             addChild( frozenWaterTopNode );
+            addChild( steamNode );
 
             waterLevel.addObserver( new SimpleObserver() {
                 public void update() {
+                    updateSteamPaint( beakerOutlineRect, waterLevel.get() );
                     updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
                 }
             } );
@@ -200,10 +208,10 @@ public class BeakerView {
             } );
 
             // Set up the gradient used for the frozen water.
-            frozenWaterBodyNode.setPaint( new GradientPaint( (float)beakerOutlineRect.getMinX(),
+            frozenWaterBodyNode.setPaint( new GradientPaint( (float) beakerOutlineRect.getMinX(),
                                                              0,
                                                              BASIC_ICE_COLOR,
-                                                             (float)beakerOutlineRect.getCenterX(),
+                                                             (float) beakerOutlineRect.getCenterX(),
                                                              0,
                                                              ColorUtils.brighterColor( BASIC_ICE_COLOR, 0.85 ),
                                                              true ) );
@@ -212,6 +220,15 @@ public class BeakerView {
                                                                  ColorUtils.brighterColor( BASIC_ICE_COLOR, 0.85 ),
                                                                  new Point2D.Double( 0, beakerOutlineRect.getWidth() / 2 ),
                                                                  BASIC_ICE_COLOR ) );
+        }
+
+        private void updateSteamPaint( Rectangle2D beakerOutlineRect, double waterLevel ) {
+            double unfilledHeight = beakerOutlineRect.getHeight() * ( 1 - waterLevel );
+            steamNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
+                                                        beakerOutlineRect.getMinY() + unfilledHeight / 2,
+                                                        Color.WHITE,
+                                                        new Point2D.Double( beakerOutlineRect.getCenterX(), beakerOutlineRect.getMinY() ),
+                                                        new Color( 200, 200, 200 ) ) );
         }
 
         private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature ) {
@@ -265,6 +282,43 @@ public class BeakerView {
             // Frozen portions only visible if some freezing has occurred.
             frozenWaterBodyNode.setVisible( freezeProportion > 0 );
             frozenWaterTopNode.setVisible( freezeProportion > 0 );
+
+            // Update the shape of the steam.
+            steamNode.setVisible( temperature >= EFACConstants.BOILING_POINT_TEMPERATURE - STEAMING_RANGE );
+            if ( steamNode.getVisible() ) {
+                // Update shape of steam node.  There are some tweak factors
+                // used to make it look decent, re-tweak as needed.
+                double steamUpperCornerYPos = beakerOutlineRect.getMinY() - beakerOutlineRect.getHeight() * 0.2;
+                double steamHeight = frozenWaterRect.getMinY() - steamUpperCornerYPos;
+                double steamWidth = beakerOutlineRect.getWidth() * 0.95;
+                List<Vector2D> steamShapePoints = new ArrayList<Vector2D>();
+                // Start at lower left of node and move clockwise around.
+                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth * 0.4, frozenWaterRect.getMinY() - steamHeight * 0.005 ) ); // Lower left point.
+                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2, steamUpperCornerYPos + steamHeight / 2 ) );
+                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2 + steamWidth * 0.2, steamUpperCornerYPos ) );
+                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX(), steamUpperCornerYPos - steamHeight * 0.15 ) );
+                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2 - steamWidth * 0.2, steamUpperCornerYPos ) );
+                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2, steamUpperCornerYPos + steamHeight / 2 ) );
+                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth * 0.4, frozenWaterRect.getMinY() - steamHeight * 0.005 ) );
+                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX(), frozenWaterRect.getMinY() + ellipseHeight / 2 - steamWidth * 0.03 ) );
+                steamNode.setPathTo( ShapeUtils.createRoundedShapeFromVectorPoints( steamShapePoints ) );
+
+                // Update the gradient paint used for the steam.
+                double boilingProportion = 0;
+                if ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature < STEAMING_RANGE ) {
+                    // Water is starting to freeze, set the amount of freezing.
+                    boilingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
+                }
+
+                int steamAlpha = (int)(255 * boilingProportion);
+                double unfilledHeight = beakerOutlineRect.getHeight() * ( 1 - fluidLevel );
+                steamNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
+                                                            beakerOutlineRect.getMinY() + unfilledHeight / 2,
+                                                            new Color( 255, 255, 255, steamAlpha ),
+                                                            new Point2D.Double( beakerOutlineRect.getCenterX(), beakerOutlineRect.getMinY() ),
+                                                            new Color( 200, 200, 200, steamAlpha ) ) );
+            }
+
         }
     }
 
