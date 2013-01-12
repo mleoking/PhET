@@ -1,3 +1,4 @@
+1/12/13 fix: initially hide answer equation for MTE challenges
 1/12/13 fix: force view to reinitialize when replaying a challenge
 1/12/13 make everything invisible by default in challenge graphs, since this is closer to most default states
 1/12/13 all challenges: plot (x1,y1) for answer and guess if they get the challenge wrong
