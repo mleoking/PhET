@@ -26,6 +26,9 @@ public class LineGameModel {
 
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 6 );
+    private static final Challenge DUMMY_CHALLENGE = new GTL_Challenge( "", Line.createSlopeIntercept( 1, 1, 1 ),
+                                                                        EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE,
+                                                                        LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
 
     public final GameSettings settings;
     public final GameTimer timer;
@@ -45,8 +48,7 @@ public class LineGameModel {
         results = new GameResults( LEVELS_RANGE );
 
         // initial value is meaningless, but must be non-null
-        challenge = new Property<Challenge>( new GTL_Challenge( "", Line.createSlopeIntercept( 1, 1, 1 ), EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE,
-                                                                 LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE ) );
+        challenge = new Property<Challenge>( DUMMY_CHALLENGE );
 
         phase = new Property<GamePhase>( GamePhase.SETTINGS ) {
 
@@ -145,6 +147,7 @@ public class LineGameModel {
         assert ( PhetApplication.getInstance().isDeveloperControlsEnabled() );
         challenge.get().reset();
         challengeIndex--;
+        challenge.set( DUMMY_CHALLENGE ); // force an update
         state.set( PlayState.FIRST_CHECK );
     }
 }
