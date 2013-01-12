@@ -5,7 +5,7 @@ DEADLINES
 DESIGN
 
 HIGH
-- all challenges: plot (x1,y1) for answer and guess if they get the challenge wrong
+- view isn't reset properly when replaying a challenge
 - PTP challenge ranges: rise=(-5,5), run=(-5,5), x1=(-5,5), y1=(-5,5)
 - Game: generate challenges for levels 5-6
 

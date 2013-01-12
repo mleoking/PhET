@@ -27,6 +27,8 @@ class TwoPointsGraphNode extends ChallengeGraphNode {
 
         setAnswerVisible( false );
         setGuessVisible( true );
+        setAnswerPointVisible( false );
+        setGuessPointVisible( false );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
 
