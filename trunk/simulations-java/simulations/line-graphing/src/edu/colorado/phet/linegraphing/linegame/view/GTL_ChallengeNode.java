@@ -12,10 +12,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
+import edu.colorado.phet.linegraphing.linegame.model.Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
-import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -30,6 +30,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
 
     private static final PNode NOT_A_LINE = new PhetPText( Strings.NOT_A_LINE, new PhetFont( Font.BOLD, 24 ), Color.BLACK );
 
+    protected final ChallengeGraphNode graphNode;
     private EquationBoxNode guessBoxNode;
 
     /**
@@ -53,7 +54,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
         guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, Color.BLACK, boxSize, new PNode() ); // dummy
 
         // Graph
-        final ChallengeGraphNode graphNode = createGraphNode( challenge );
+        graphNode = createGraphNode( challenge );
 
         // rendering order
         subclassParent.addChild( graphNode );
@@ -124,7 +125,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    protected ChallengeGraphNode createGraphNode( GTL_Challenge challenge ) {
+    protected ChallengeGraphNode createGraphNode( Challenge challenge ) {
         if ( challenge.manipulationMode == ManipulationMode.POINT || challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.POINT_SLOPE ) {
             return new PointSlopeGraphNode( challenge );
         }
@@ -134,10 +135,6 @@ public class GTL_ChallengeNode extends ChallengeNode {
         }
         else if ( challenge.manipulationMode == ManipulationMode.TWO_POINTS ) {
             return new TwoPointsGraphNode( challenge );
-        }
-        else if ( challenge.manipulationMode == ManipulationMode.THREE_POINTS ) {
-            assert( challenge instanceof PTP_Challenge );
-            return new ThreePointsGraphNode( (PTP_Challenge) challenge );
         }
         else {
             throw new IllegalArgumentException( "unsupported manipulationMode: " + challenge.manipulationMode );
