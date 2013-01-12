@@ -27,13 +27,7 @@ class SlopeInterceptGraphNode extends ChallengeGraphNode {
     public SlopeInterceptGraphNode( final Challenge challenge ) {
         super( challenge, true /* slopeToolEnabled */ );
 
-        final boolean slopeIsVariable = ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
-        final boolean interceptIsVariable = ( challenge.manipulationMode == ManipulationMode.INTERCEPT || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
-
-        setAnswerVisible( false );
         setGuessVisible( true );
-        setAnswerPointVisible( false );
-        setGuessPointVisible( false );
 
         // dynamic ranges
         SlopeInterceptParameterRange parameterRange = new SlopeInterceptParameterRange();
@@ -58,6 +52,8 @@ class SlopeInterceptGraphNode extends ChallengeGraphNode {
                                                                              true /* constantSlope */ ) );
 
         // Rendering order
+        final boolean slopeIsVariable = ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
+        final boolean interceptIsVariable = ( challenge.manipulationMode == ManipulationMode.INTERCEPT || challenge.manipulationMode == ManipulationMode.SLOPE_INTERCEPT );
         if ( interceptIsVariable ) {
             addChild( interceptManipulatorNode );
         }

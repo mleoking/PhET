@@ -27,13 +27,7 @@ class PointSlopeGraphNode extends ChallengeGraphNode {
     public PointSlopeGraphNode( final Challenge challenge ) {
         super( challenge, true /* slopeToolEnabled */ );
 
-        final boolean pointIsVariable = ( challenge.manipulationMode == ManipulationMode.POINT ||  challenge.manipulationMode == ManipulationMode.POINT_SLOPE );
-        final boolean slopeIsVariable = ( challenge.manipulationMode == ManipulationMode.SLOPE ||  challenge.manipulationMode == ManipulationMode.POINT_SLOPE );
-
-        setAnswerVisible( false );
         setGuessVisible( true );
-        setAnswerPointVisible( false );
-        setGuessPointVisible( false );
 
         // dynamic ranges
         final PointSlopeParameterRange pointSlopeParameterRange = new PointSlopeParameterRange();
@@ -57,6 +51,8 @@ class PointSlopeGraphNode extends ChallengeGraphNode {
                                                                           riseRange, runRange ) );
 
         // Rendering order
+        final boolean pointIsVariable = ( challenge.manipulationMode == ManipulationMode.POINT || challenge.manipulationMode == ManipulationMode.POINT_SLOPE );
+        final boolean slopeIsVariable = ( challenge.manipulationMode == ManipulationMode.SLOPE || challenge.manipulationMode == ManipulationMode.POINT_SLOPE );
         if ( pointIsVariable ) {
             addChild( pointManipulatorNode );
         }
