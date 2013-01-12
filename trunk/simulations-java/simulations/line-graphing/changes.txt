@@ -1,3 +1,4 @@
+1/12/13 make everything invisible by default in challenge graphs, since this is closer to most default states
 1/12/13 all challenges: plot (x1,y1) for answer and guess if they get the challenge wrong
 1/12/13 for PTP challenges, only show guess lines when (!correct && (state=TRY_AGAIN || state==NEXT))
 1/10/13 use only positive slopes for challenges in level 4 that force slope inversion

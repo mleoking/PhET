@@ -19,6 +19,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Base class for graph node in game challenges.
  * Renders the answer line, guess line, and slope tool.
+ * Everything on the graph is hidden by default, it's up to subclasses and clients to determine what they want to see.
  * Optional manipulators are provided by subclasses.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -81,6 +82,13 @@ public abstract class ChallengeGraphNode extends GraphNode {
                 }
             }
         } );
+
+        // invisible by default
+        setAnswerVisible( false );
+        setAnswerPointVisible( false );
+        setGuessVisible( false );
+        setGuessPointVisible( false );
+        setSlopeToolVisible( false );
     }
 
     // Sets the visibility of the answer.
@@ -91,11 +99,6 @@ public abstract class ChallengeGraphNode extends GraphNode {
     // Sets the visibility of the guess.
     public void setGuessVisible( boolean visible ) {
         guessParentNode.setVisible( visible );
-    }
-
-    // Sets the visibility of the slope tool for the guess.
-    public void setSlopeToolVisible( boolean visible ) {
-        slopeToolNode.setVisible( visible );
     }
 
     // Sets the visibility of (x1,y1) for the answer.
@@ -109,5 +112,10 @@ public abstract class ChallengeGraphNode extends GraphNode {
         if ( guessPointNode != null ) {
             guessPointNode.setVisible( guessPointVisible );
         }
+    }
+
+    // Sets the visibility of the slope tool for the guess.
+    public void setSlopeToolVisible( boolean visible ) {
+        slopeToolNode.setVisible( visible );
     }
 }

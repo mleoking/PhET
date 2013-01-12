@@ -23,11 +23,6 @@ class ThreePointsGraphNode extends ChallengeGraphNode {
     public ThreePointsGraphNode( final PTP_Challenge challenge ) {
         super( challenge, false /* slopeToolEnabled */ );
 
-        setAnswerVisible( false );
-        setGuessVisible( false );
-        setAnswerPointVisible( false );
-        setGuessPointVisible( false );
-
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
 
         // p1 manipulator

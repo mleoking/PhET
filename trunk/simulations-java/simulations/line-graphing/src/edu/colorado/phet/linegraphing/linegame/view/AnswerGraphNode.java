@@ -15,9 +15,5 @@ class AnswerGraphNode extends ChallengeGraphNode {
     public AnswerGraphNode( Challenge challenge ) {
         super( challenge, true /* slopeToolEnabled */ );
         setAnswerVisible( true );
-        setGuessVisible( false );
-        setAnswerPointVisible( false );
-        setGuessPointVisible( false );
-        setSlopeToolVisible( false );
     }
 }

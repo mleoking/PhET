@@ -19,7 +19,7 @@ abstract class ChallengeFactory {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( ChallengeFactory.class.getCanonicalName() );
 
-    private static final boolean USE_HARD_CODED_CHALLENGES = false;
+    private static final boolean USE_HARD_CODED_CHALLENGES = true;
 
     /**
      * Creates challenges for the specified level.
@@ -33,6 +33,7 @@ abstract class ChallengeFactory {
     public static ArrayList<Challenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
 
         if ( USE_HARD_CODED_CHALLENGES ) {
+            LOGGER.info( "hard-coded challenges are enabled" );
             return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
         }
 
