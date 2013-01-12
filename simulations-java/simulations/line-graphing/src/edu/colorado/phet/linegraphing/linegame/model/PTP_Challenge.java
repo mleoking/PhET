@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.GTL_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.PTP_ChallengeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -70,6 +70,6 @@ public class PTP_Challenge extends GTL_Challenge {
 
     // Creates the view for this challenge.
     @Override public ChallengeNode createView( LineGameModel model, PDimension challengeSize, GameAudioPlayer audioPlayer ) {
-        return new GTL_ChallengeNode( this, model, challengeSize, audioPlayer );
+        return new PTP_ChallengeNode( this, model, challengeSize, audioPlayer );
     }
 }
