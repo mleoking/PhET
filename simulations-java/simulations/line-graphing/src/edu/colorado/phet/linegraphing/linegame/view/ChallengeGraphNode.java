@@ -5,29 +5,14 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
-import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
-import edu.colorado.phet.linegraphing.common.view.manipulator.PointDragHandler;
-import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
-import edu.colorado.phet.linegraphing.common.view.manipulator.X1Y1DragHandler;
-import edu.colorado.phet.linegraphing.common.view.manipulator.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
-import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
-import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeParameterRange;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptParameterRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -40,7 +25,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class ChallengeGraphNode extends GraphNode {
 
-    private final PNode answerNode, guessNodeParent, slopeToolNode;
+    private final PNode answerParentNode, guessParentNode, slopeToolNode, answerPointNode;
+    private PNode guessPointNode;
+    private boolean guessPointVisible = true;
 
     public ChallengeGraphNode( final Challenge challenge, boolean slopeToolEnabled ) {
         super( challenge.graph, challenge.mvt );
@@ -50,31 +37,47 @@ public abstract class ChallengeGraphNode extends GraphNode {
             addChild( new LineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt ) );
         }
 
-        // the correct answer
-        answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
+        final double pointDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.POINT_DIAMETER );
 
-        // parent for the guess node, to maintain rendering order
-        guessNodeParent = new PComposite();
+        // answer
+        {
+            answerParentNode = new PComposite();
+            PNode answerNode = new LineNode( challenge.answer, challenge.graph, challenge.mvt );
+            answerParentNode.addChild( answerNode );
 
-        // Slope tool
-        if ( slopeToolEnabled ) {
-            slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt );
+            // point (x1,y1) for answer
+            answerPointNode = new PlottedPointNode( pointDiameter, challenge.answer.color );
+            answerParentNode.addChild( answerPointNode );
+            answerPointNode.setOffset( challenge.mvt.modelToView( new Point2D.Double( challenge.answer.x1, challenge.answer.y1 ) ) );
         }
-        else {
-            slopeToolNode = new PNode();
-        }
+
+        // guess
+        guessParentNode = new PComposite();
+
+        // slope tool
+        slopeToolNode = slopeToolEnabled ? new SlopeToolNode( challenge.guess, challenge.mvt ) : new PNode();
 
         // rendering order
-        addChild( guessNodeParent );
-        addChild( answerNode );
+        addChild( guessParentNode );
+        addChild( answerParentNode );
         addChild( slopeToolNode );
 
         // Sync with the guess
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
-                guessNodeParent.removeAllChildren();
+
+                guessParentNode.removeAllChildren();
+                guessPointNode = null;
                 if ( line != null ) {
-                    guessNodeParent.addChild( new LineNode( line, challenge.graph, challenge.mvt ) );
+
+                    // draw the line
+                    guessParentNode.addChild( new LineNode( line, challenge.graph, challenge.mvt ) );
+
+                    // plot (x1,y1)
+                    guessPointNode = new PlottedPointNode( pointDiameter, line.color );
+                    guessPointNode.setVisible( guessPointVisible );
+                    guessParentNode.addChild( guessPointNode );
+                    guessPointNode.setOffset( challenge.mvt.modelToView( line.x1, line.y1 ) );
                 }
             }
         } );
@@ -82,17 +85,29 @@ public abstract class ChallengeGraphNode extends GraphNode {
 
     // Sets the visibility of the answer.
     public void setAnswerVisible( boolean visible ) {
-        answerNode.setVisible( visible );
+        answerParentNode.setVisible( visible );
     }
 
     // Sets the visibility of the guess.
     public void setGuessVisible( boolean visible ) {
-        guessNodeParent.setVisible( visible );
+        guessParentNode.setVisible( visible );
     }
 
-    // Sets the visibility of the slope tool.
+    // Sets the visibility of the slope tool for the guess.
     public void setSlopeToolVisible( boolean visible ) {
         slopeToolNode.setVisible( visible );
     }
 
+    // Sets the visibility of (x1,y1) for the answer.
+    public void setAnswerPointVisible( boolean visible ) {
+        answerPointNode.setVisible( visible );
+    }
+
+    // Sets the visibility of (x1,y1) for the guess.
+    public void setGuessPointVisible( boolean visible ) {
+        guessPointVisible = visible;
+        if ( guessPointNode != null ) {
+            guessPointNode.setVisible( guessPointVisible );
+        }
+    }
 }

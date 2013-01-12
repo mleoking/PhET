@@ -116,12 +116,16 @@ public class MTE_ChallengeNode extends ChallengeNode {
                 guessBoxNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || ( state == PlayState.NEXT && !challenge.isCorrect() ) );
                 guessBoxNode.setChildrenPickable( guessBoxNode.getPickable() );
 
-                // Show all equations and lines at the end of the challenge.
-                answerBoxNode.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
+                // Graph the guess line at the end of the challenge.
                 graphNode.setGuessVisible( state == PlayState.NEXT );
 
-                // slope tool visible when user got it wrong
-                graphNode.setSlopeToolVisible( state == PlayState.NEXT && !challenge.isCorrect() );
+                // show stuff when the user got the challenge wrong
+                if ( state == PlayState.NEXT && !challenge.isCorrect() ) {
+                    answerBoxNode.setVisible( true );
+                    graphNode.setAnswerPointVisible( true );
+                    graphNode.setGuessPointVisible( true );
+                    graphNode.setSlopeToolVisible( true );
+                }
 
                 // visibility of correct/incorrect icons
                 updateIcons.apply();
