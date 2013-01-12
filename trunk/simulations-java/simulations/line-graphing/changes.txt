@@ -1,3 +1,5 @@
+# 0.00.50 (71658) Jan 12, 2013
+1/12/13 implemented all change requests from 1/10/13 design meeting
 1/12/13 fix: initially hide answer equation for MTE challenges
 1/12/13 fix: force view to reinitialize when replaying a challenge
 1/12/13 make everything invisible by default in challenge graphs, since this is closer to most default states
