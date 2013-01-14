@@ -102,8 +102,8 @@ class ChallengeFactory2 extends ChallengeFactory {
 
         // GTL, SI, slope
         {
-            Fraction slope = pickFraction( slopeBins, slopeBinIndices ); // first required slope, unique
-            int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
+            Fraction slope = pickFractionFromBin( slopeBins, slopeBinIndices ); // first required slope, unique
+            int yIntercept = pickIntegerFromBin( yInterceptBins ); // unique y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new GTL_Challenge( "1 of 3 required slopes",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
@@ -111,8 +111,8 @@ class ChallengeFactory2 extends ChallengeFactory {
 
         // GTL, SI, intercept
         {
-            Fraction slope = pickFraction( slopeBins ); // unique slope
-            int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // first required y-intercept, unique
+            Fraction slope = pickFractionFromBin( slopeBins ); // unique slope
+            int yIntercept = pickIntegerFromBin( yInterceptBins, yInterceptBinIndices ); // first required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new GTL_Challenge( "1 of 2 required y-intercepts",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
@@ -120,8 +120,8 @@ class ChallengeFactory2 extends ChallengeFactory {
 
         // MTE, SI, slope
         {
-            Fraction slope = pickFraction( slopeBins, slopeBinIndices );  // second required slope, unique
-            int yIntercept = pickInteger( yInterceptBins ); // unique y-intercept
+            Fraction slope = pickFractionFromBin( slopeBins, slopeBinIndices );  // second required slope, unique
+            int yIntercept = pickIntegerFromBin( yInterceptBins ); // unique y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new MTE_Challenge( "2 of 3 requires slopes",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
@@ -129,8 +129,8 @@ class ChallengeFactory2 extends ChallengeFactory {
 
         // MTE, SI, intercept
         {
-            Fraction slope = pickFraction( slopeBins ); // unique slope
-            int yIntercept = pickInteger( yInterceptBins, yInterceptBinIndices ); // second required y-intercept, unique
+            Fraction slope = pickFractionFromBin( slopeBins ); // unique slope
+            int yIntercept = pickIntegerFromBin( yInterceptBins, yInterceptBinIndices ); // second required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
             challenges.add( new MTE_Challenge( "2 of 2 required y-intercepts",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
@@ -144,11 +144,11 @@ class ChallengeFactory2 extends ChallengeFactory {
             Fraction slope;
             String description;
             if ( manipulationMode == ManipulationMode.SLOPE ) {
-                slope = pickFraction( slopeBins, slopeBinIndices ); // third required slope, unique
+                slope = pickFractionFromBin( slopeBins, slopeBinIndices ); // third required slope, unique
                 description = "random choice of slope manipulation, 3 of 3 required slopes";
             }
             else {
-                slope = pickFraction( slopeBins ); // unique slope
+                slope = pickFractionFromBin( slopeBins ); // unique slope
                 description = "random choice of point manipulation";
             }
             Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
@@ -167,11 +167,11 @@ class ChallengeFactory2 extends ChallengeFactory {
             Fraction slope;
             String description;
             if ( manipulationMode == ManipulationMode.SLOPE ) {
-                slope = pickFraction( slopeBins, slopeBinIndices ); // third required slope, unique
+                slope = pickFractionFromBin( slopeBins, slopeBinIndices ); // third required slope, unique
                 description = "slope manipulation because GTL uses point, 3 of 3 required slopes";
             }
             else {
-                slope = pickFraction( slopeBins ); // unique slope
+                slope = pickFractionFromBin( slopeBins ); // unique slope
                 description = "point manipulation because GTL uses slope";
             }
             Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
