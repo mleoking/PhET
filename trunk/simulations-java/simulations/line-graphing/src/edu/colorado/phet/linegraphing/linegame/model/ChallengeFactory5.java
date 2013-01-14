@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.linegraphing.common.model.Fraction;
 import edu.colorado.phet.linegraphing.common.model.Line;
 
 /**
@@ -36,9 +37,14 @@ class ChallengeFactory5 extends ChallengeFactory {
             add( EquationForm.POINT_SLOPE );
         }};
 
+        // random choosers
+        final RandomChooser<Fraction> fractionChooser = new RandomChooser<Fraction>();
+        final RandomChooser<Integer> integerChooser = new RandomChooser<Integer>();
+        final RandomChooser<EquationForm> equationFormChooser = new RandomChooser<EquationForm>();
+
         // MTE, SI, slope=0
         {
-            final int yIntercept = 0; //TODO
+            final int yIntercept = integerChooser.choose( yIntercepts );
             Line line = Line.createSlopeIntercept( 0, 1, yIntercept );
             challenges.add( new MTE_Challenge( "slope=0",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
@@ -46,7 +52,7 @@ class ChallengeFactory5 extends ChallengeFactory {
 
         // GTL, SI, slope=0
         {
-            final int yIntercept = 0; //TODO
+            final int yIntercept = integerChooser.choose( yIntercepts );
             Line line = Line.createSlopeIntercept( 0, 1, yIntercept );
             challenges.add( new GTL_Challenge( "slope=0",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
