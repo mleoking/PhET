@@ -21,6 +21,7 @@ LOOSE ENDS
 - screenshot
 - model.txt
 - implementation-notes.txt
+- snapshot of design doc
 - code review (JB)
 
 MIGRATE TO COMMON
