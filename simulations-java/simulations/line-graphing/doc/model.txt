@@ -2,12 +2,58 @@
 
 1. General
 
+   Our model describes a line using 2 points, (x1,y1) and (x2,y2).
+   All tabs use this internal representation, but present the line in different forms.
+   See class file Line.java for more details.
+
+   Internally, slope is computed and stored as separate rise and run values.
+   When slope is not interactive, it is typically presented in simplified form.
+   That is, the rise and run are reduced to their simplest terms.
+   For example, a slope stored as 4/6 would be presented as 2/3.
+
+   The first 3 tabs provide both an equation and graph representation of a line.
+   These 2 representations are kept synchronized throughout all user interactions.
+
 2. Slope tab
+
+   The "Slope" tab presents a line using the standard equation for slope:
+
+   m = (y2 - y1)/(x2 - x1)
+
+   x1, y1, x2 and y2 are variable.
 
 3. Slope-Intercept tab
 
+   The "Slope-Intercept" tab presents a line in slope-intercept form:
+
+   y = (rise/run)x + b
+
+   Rise, run and b (y-intercept) are variable.
+
 4. Point-Slope tab
 
+   The "Point-Slope" tab presents a line in point-slope form:
+
+   (y - y1) = (rise/run)(x - x1)
+
+   Rise, run, x1 and y1 are variable.
+
 5. Line Game tab
+
+   The "Line Game" tab presents the student with a set of challenges to be solved.
+   All of these challenges involve deriving a line or equation for a given line or equation.
+   Throughout the source code, the given is referred to as the "answer", and the student's current
+   solution is referred to as the "guess".
+
+   There are 3 types of challenges:
+
+   Graph the Line: given an equation, graph the line
+   Make the Equation: given a graphed line, derive an equation for that line
+   Place the Points: given an equation, graph 3 points on the corresponding line
+
+   Challenges uses slope-intercept and point-slope forms, sometimes combining them in the same challenge.
+
+   Challenges are quasi-randomly generated, following the specification in the design document.
+   See the ChallengeFactory class hierarchy for more details on challenge generation.
 
 ****************************************************************************************************
