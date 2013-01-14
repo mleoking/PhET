@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -25,7 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class Challenge {
+public abstract class Challenge implements Resettable {
 
     private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
 
