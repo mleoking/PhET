@@ -38,7 +38,13 @@ public class RandomChooser<T> {
         return chooseFromLists( lists, ChallengeFactory.rangeToList( new IntegerRange( 0, lists.size() - 1 ) ) );
     }
 
-    // Chooses a value from a list of lists, removes it from the list in which it was found, removes the list from the listIndices.
+    /**
+     * Chooses a value from a list of lists, removes it from the list in which it was found, removes the list from the listIndices.
+     * Use this if you want to exclude sub-lists from further consideration.
+     *
+     * @param lists lists from which the value may be chosen
+     * @param listIndices indices of the lists that will be considered when choosing a value
+     */
     public T chooseFromLists( ArrayList<ArrayList<T>> lists, ArrayList<Integer> listIndices ) {
         int index = randomIndex( listIndices );
         ArrayList<T> bin = lists.get( listIndices.get( index ) );
