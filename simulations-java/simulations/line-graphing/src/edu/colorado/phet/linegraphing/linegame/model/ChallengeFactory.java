@@ -47,8 +47,7 @@ abstract class ChallengeFactory {
             case 4:
                 return new ChallengeFactory4().createChallenges( xRange, yRange );
             case 5:
-                //TODO ChallengeFactory5
-                return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
+                return new ChallengeFactory5().createChallenges( xRange, yRange );
             case 6:
                 //TODO ChallengeFactory6
                 return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
@@ -72,8 +71,9 @@ abstract class ChallengeFactory {
      */
     public abstract ArrayList<Challenge> createChallenges( IntegerRange xRange, IntegerRange yRange );
 
+    //TODO move this somewhere else?
     // Converts an integer range to a list of values that are in that range.
-    protected static ArrayList<Integer> rangeToList( IntegerRange range ) {
+    public static ArrayList<Integer> rangeToList( IntegerRange range ) {
         ArrayList<Integer> list = new ArrayList<Integer>();
         for ( int i = range.getMin(); i <= range.getMax(); i++ ) {
             list.add( i );
@@ -85,85 +85,6 @@ abstract class ChallengeFactory {
     // Gets a random index for a specified list.
     protected int randomIndex( List list ) {
         return random.nextInt( list.size() );
-    }
-
-    // Picks a manipulation mode, removes it from the list.
-    protected ManipulationMode pickManipulationMode( ArrayList<ManipulationMode> list ) {
-        int index = randomIndex( list );
-        final ManipulationMode manipulationMode = list.get( index );
-        list.remove( index );
-        return manipulationMode;
-    }
-
-    // Picks an equation form, removes it from the list.
-    protected EquationForm pickEquationForm( ArrayList<EquationForm> list ) {
-        int index = randomIndex( list );
-        final EquationForm equationForm = list.get( index );
-        list.remove( index );
-        return equationForm;
-    }
-
-    // Picks an integer from a list, removes the integer from the list.
-    protected Integer pickInteger( ArrayList<Integer> integers ) {
-        int index = randomIndex( integers );
-        final Integer integer = integers.get( index );
-        integers.remove( index );
-        return integer;
-    }
-
-    // Picks an integer, removes it from the bin.
-    protected int pickIntegerFromBin( ArrayList<ArrayList<Integer>> bins ) {
-        return pickIntegerFromBin( bins, rangeToList( new IntegerRange( 0, bins.size() - 1 ) ) );
-    }
-
-    // Picks an integer, removes it from the bin, removes the bin from the binIndices.
-    protected int pickIntegerFromBin( ArrayList<ArrayList<Integer>> bins, ArrayList<Integer> binIndices ) {
-        int index = randomIndex( binIndices );
-        ArrayList<Integer> bin = bins.get( binIndices.get( index ) );
-        binIndices.remove( index );
-        return pickInteger( bin );
-    }
-
-    // Picks a Fraction from a list, removes the Fraction from the list.
-    protected Fraction pickFraction( ArrayList<Fraction> fractions ) {
-        int index = randomIndex( fractions );
-        final Fraction fraction = fractions.get( index );
-        fractions.remove( index );
-        return fraction;
-    }
-
-    // Picks a fraction, removes it from the bin.
-    protected Fraction pickFractionFromBin( ArrayList<ArrayList<Fraction>> bins ) {
-        return pickFractionFromBin( bins, rangeToList( new IntegerRange( 0, bins.size() - 1 ) ) );
-    }
-
-    // Picks a fraction, removes it from the bin, removes the bin from the binIndices.
-    protected Fraction pickFractionFromBin( ArrayList<ArrayList<Fraction>> bins, ArrayList<Integer> binIndices ) {
-        int index = randomIndex( binIndices );
-        ArrayList<Fraction> bin = bins.get( binIndices.get( index ) );
-        binIndices.remove( index );
-        return pickFraction( bin );
-    }
-
-    // Picks a point from a list, removes the point from the list.
-    protected Point2D pickPoint( ArrayList<Point2D> points ) {
-        int index = randomIndex( points );
-        final Point2D point = points.get( index );
-        points.remove( index );
-        return point;
-    }
-
-    // Picks a point, removes it from the bin.
-    protected Point2D pickPointFromBin( ArrayList<ArrayList<Point2D>> pointBins ) {
-        return pickPointFromBin( pointBins, rangeToList( new IntegerRange( 0, pointBins.size() - 1 ) ) );
-    }
-
-    // Picks a point, removes it from the bin, removes the bin from the binIndices.
-    protected Point2D pickPointFromBin( ArrayList<ArrayList<Point2D>> bins, ArrayList<Integer> binIndices ) {
-        int index = randomIndex( binIndices );
-        ArrayList<Point2D> bin = bins.get( binIndices.get( index ) );
-        binIndices.remove( index );
-        return pickPoint( bin );
     }
 
     // Picks a point that keeps the slope indicator on the graph.
