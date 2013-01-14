@@ -11,8 +11,8 @@
    That is, the rise and run are reduced to their simplest terms.
    For example, a slope stored as 4/6 would be presented as 2/3.
 
-   The first 3 tabs provide both an equation and graph representation of a line.
-   These 2 representations are kept synchronized throughout all user interactions.
+   The first three tabs provide 2 representations of a line: equation and graph.
+   These representations are kept synchronized throughout all user interactions.
 
 2. Slope tab
 
@@ -47,8 +47,8 @@
 
    There are 3 types of challenges:
 
-   Graph the Line: given an equation, graph the line
    Make the Equation: given a graphed line, derive an equation for that line
+   Graph the Line: given an equation, graph the line
    Place the Points: given an equation, graph 3 points on the corresponding line
 
    Challenges uses slope-intercept and point-slope forms, sometimes combining them in the same challenge.
