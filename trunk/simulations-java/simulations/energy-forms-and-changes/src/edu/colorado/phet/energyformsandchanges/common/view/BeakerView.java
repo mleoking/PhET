@@ -13,11 +13,11 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -57,6 +57,7 @@ public class BeakerView {
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final boolean SHOW_MODEL_RECT = false;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
+    private static final Random RAND = new Random();
 
     protected final ModelViewTransform mvt;
     protected final PClip energyChunkClipNode;
@@ -184,7 +185,6 @@ public class BeakerView {
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
         private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
         private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
-        private static final Random RAND = new Random();
 
         private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
         private final PhetPPath liquidWaterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
@@ -297,51 +297,129 @@ public class BeakerView {
 
             // Update the shape of the steam.
             steamNode.setVisible( temperature >= EFACConstants.BOILING_POINT_TEMPERATURE - STEAMING_RANGE );
+            steamNode.setVisible( true );
             if ( steamNode.getVisible() ) {
 
-                // Update shape of steam node.  There are some tweak factors
-                // used to make it look decent, re-tweak as needed.
-                double steamUpperCornerYPos = beakerOutlineRect.getMinY() - beakerOutlineRect.getHeight() * 0.2;
-                double steamHeight = frozenWaterRect.getMinY() - steamUpperCornerYPos;
-                double steamWidth = beakerOutlineRect.getWidth() * 0.95;
-                List<Vector2D> steamShapePoints = new ArrayList<Vector2D>();
-
-                // Start at lower left of node and move clockwise around.
-                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth * 0.4, frozenWaterRect.getMinY() - steamHeight * 0.005 ) ); // Lower left point.
-                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2, steamUpperCornerYPos + steamHeight / 2 ) );
-                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2 + steamWidth * 0.2, steamUpperCornerYPos ) );
-                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX(), steamUpperCornerYPos - steamHeight * 0.15 ) );
-                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2 - steamWidth * 0.2, steamUpperCornerYPos ) );
-                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2, steamUpperCornerYPos + steamHeight / 2 ) );
-                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth * 0.4, frozenWaterRect.getMinY() - steamHeight * 0.005 ) );
-                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX(), frozenWaterRect.getMinY() + ellipseHeight / 2 - steamWidth * 0.03 ) );
-
-                // Randomize the steam points to make the steam cloud appear to move.
-                List<Vector2D> randomizedSteamPoints = new ArrayList<Vector2D>(  );
-                for ( Vector2D steamShapePoint : steamShapePoints ) {
-                    double length = 10;
-                    Vector2D movement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * length, ( RAND.nextDouble() - 0.5 ) * length );
-                    randomizedSteamPoints.add( steamShapePoint.plus( movement ) );
-                }
-                steamNode.setPathTo( ShapeUtils.createRoundedShapeFromVectorPoints( randomizedSteamPoints ) );
-
-                // Update the gradient paint used for the steam.
                 double boilingProportion = 0;
                 if ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature < STEAMING_RANGE ) {
 
-                    // Water is starting to freeze, set the amount of freezing.
+                    // Water is starting to boil, set the amount of boiling.
                     boilingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
                 }
 
+                // Update shape of steam node.
+                double steamHeight = frozenWaterRect.getMinY() - ( beakerOutlineRect.getMinY() - beakerOutlineRect.getHeight() * 0.3 * boilingProportion );
+                double steamWidth = beakerOutlineRect.getWidth() * 0.95;
+
+                // Steam cloud body.
+                double steamHeightAboveBeaker = steamHeight - ( frozenWaterRect.getMinY() - beakerOutlineRect.getMinY() );
+                Vector2D steamBodyLowerLeftCornerRef = new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2, frozenWaterRect.getMinY() );
+                Vector2D steamBodyLowerRightCornerRef = new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2, frozenWaterRect.getMinY() );
+                Vector2D steamBodyLeftBreakPointRef;
+                Vector2D steamBodyRightBreakPointRef;
+                Vector2D steamBodyUpperLeftCornerRef;
+                Vector2D steamBodyUpperRightCornerRef;
+                if ( steamHeightAboveBeaker > 0 ) {
+                    steamBodyLeftBreakPointRef = new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2, beakerOutlineRect.getMinY() );
+                    steamBodyRightBreakPointRef = new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2, beakerOutlineRect.getMinY() );
+                    steamBodyUpperLeftCornerRef = new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2 - steamHeightAboveBeaker * 0.2,
+                                                                beakerOutlineRect.getMinY() - steamHeightAboveBeaker );
+                    steamBodyUpperRightCornerRef = new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2 + steamHeightAboveBeaker * 0.2,
+                                                                 beakerOutlineRect.getMinY() - steamHeightAboveBeaker );
+                }
+                else {
+                    steamBodyUpperLeftCornerRef = steamBodyLowerLeftCornerRef.minus( 0, steamHeight );
+                    steamBodyUpperRightCornerRef = steamBodyLowerRightCornerRef.minus( 0, steamHeight );
+                    steamBodyLeftBreakPointRef = steamBodyUpperLeftCornerRef;
+                    steamBodyRightBreakPointRef = steamBodyUpperRightCornerRef;
+                }
+
+                List<Vector2D> steamBodyPoints = Arrays.asList( steamBodyLowerLeftCornerRef,
+                                                                steamBodyLeftBreakPointRef,
+                                                                steamBodyUpperLeftCornerRef,
+                                                                steamBodyUpperRightCornerRef,
+                                                                steamBodyRightBreakPointRef,
+                                                                steamBodyLowerRightCornerRef );
+
+                // Parameters that control the amount of variation in steam
+                // cloud shape.  Chosen empirically.
+                double horizontalVariation = 15;
+                double verticalVariation = 5;
+
+                // Bottom of the steam cloud.
+                List<Vector2D> cloudBottomReferencePoints = new ArrayList<Vector2D>();
+                cloudBottomReferencePoints.add( steamBodyLowerLeftCornerRef );
+                cloudBottomReferencePoints.add( randomize( new Vector2D( beakerOutlineRect.getCenterX(), steamBodyLowerLeftCornerRef.getY() + ellipseHeight / 2 ),
+                                                           horizontalVariation,
+                                                           verticalVariation ) );
+                cloudBottomReferencePoints.add( steamBodyLowerRightCornerRef );
+                cloudBottomReferencePoints.add( randomize( new Vector2D( beakerOutlineRect.getCenterX(), steamBodyLowerLeftCornerRef.getY() - ellipseHeight / 2 ),
+                                                           horizontalVariation,
+                                                           verticalVariation ) );
+
+                // Top of the steam cloud.
+                List<Vector2D> cloudTopReferencePoints = new ArrayList<Vector2D>();
+                cloudTopReferencePoints.add( steamBodyUpperLeftCornerRef );
+                cloudTopReferencePoints.add( randomize( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 4, steamBodyUpperLeftCornerRef.getY() - ellipseHeight ),
+                                                        horizontalVariation,
+                                                        verticalVariation ) );
+                cloudTopReferencePoints.add( randomize( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 4, steamBodyUpperLeftCornerRef.getY() - ellipseHeight ),
+                                                        horizontalVariation,
+                                                        verticalVariation ) );
+                cloudTopReferencePoints.add( steamBodyUpperRightCornerRef );
+                cloudTopReferencePoints.add( randomize( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 4, steamBodyUpperLeftCornerRef.getY() + ellipseHeight ),
+                                                        horizontalVariation,
+                                                        verticalVariation ) );
+                cloudTopReferencePoints.add( randomize( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 4, steamBodyUpperLeftCornerRef.getY() + ellipseHeight ),
+                                                        horizontalVariation,
+                                                        verticalVariation ) );
+
+                // Randomize the steam points to make the steam cloud appear to move.
+//                List<Vector2D> cloudBottomPoints = new ArrayList<Vector2D>();
+//                for ( Vector2D cloudBottomReferencePoint : cloudBottomReferencePoints ) {
+//                    double length = 10;
+//                    Vector2D movement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * length, ( RAND.nextDouble() - 0.5 ) * length );
+//                    cloudBottomPoints.add( cloudBottomReferencePoint.plus( movement ) );
+//                }
+//                List<Vector2D> cloudTopPoints = new ArrayList<Vector2D>();
+//                for ( Vector2D cloudTopReferencePoint : cloudTopReferencePoints ) {
+//                    double length = 20;
+//                    Vector2D movement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * length, ( RAND.nextDouble() - 0.5 ) * length );
+//                    cloudTopPoints.add( cloudTopReferencePoint.plus( movement ) );
+//                }
+
+                // Start at lower left of node and move clockwise around.
+//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth * 0.4, frozenWaterRect.getMinY() - steamHeight * 0.005 ) ); // Lower left point.
+//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2, steamUpperCornerYPos + steamHeight / 2 ) );
+//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2 + steamWidth * 0.2, steamUpperCornerYPos ) );
+//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX(), steamUpperCornerYPos - steamHeight * 0.15 ) );
+//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2 - steamWidth * 0.2, steamUpperCornerYPos ) );
+//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2, steamUpperCornerYPos + steamHeight / 2 ) );
+//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth * 0.4, frozenWaterRect.getMinY() - steamHeight * 0.005 ) );
+//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX(), frozenWaterRect.getMinY() + ellipseHeight / 2 - steamWidth * 0.03 ) );
+//
+//                // Randomize the steam points to make the steam cloud appear to move.
+//                List<Vector2D> randomizedSteamPoints = new ArrayList<Vector2D>();
+//                for ( Vector2D steamShapePoint : steamShapePoints ) {
+//                    double length = 10;
+//                    Vector2D movement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * length, ( RAND.nextDouble() - 0.5 ) * length );
+//                    randomizedSteamPoints.add( steamShapePoint.plus( movement ) );
+//                }
+//                steamNode.setPathTo( ShapeUtils.createRoundedShapeFromVectorPoints( randomizedSteamPoints ) );
+                Area steamShape = new Area( ShapeUtils.createShapeFromPoints( steamBodyPoints ) );
+                steamShape.add( new Area( ShapeUtils.createRoundedShapeFromVectorPoints( cloudBottomReferencePoints ) ) );
+                steamShape.add( new Area( ShapeUtils.createRoundedShapeFromVectorPoints( cloudTopReferencePoints ) ) );
+                steamNode.setPathTo( steamShape );
+
+                // Update the gradient paint used for the steam.
                 int steamAlpha = (int) ( 255 * boilingProportion );
                 double unfilledHeight = beakerOutlineRect.getHeight() * ( 1 - fluidLevel );
                 steamNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
-                                                            beakerOutlineRect.getMinY() + unfilledHeight / 2,
+                                                            steamNode.getFullBoundsReference().getMinY(),
                                                             new Color( 255, 255, 255, steamAlpha ),
-                                                            new Point2D.Double( beakerOutlineRect.getCenterX(), beakerOutlineRect.getMinY() ),
-                                                            new Color( 200, 200, 200, steamAlpha ) ) );
+                                                            new Point2D.Double( steamWidth, steamHeight ),
+                                                            new Color( 210, 210, 210, steamAlpha ) ) );
             }
-
         }
     }
 
@@ -351,5 +429,9 @@ public class BeakerView {
 
     public PNode getBackNode() {
         return backNode;
+    }
+
+    private static Vector2D randomize( Vector2D vector, double maxXVariation, double maxYVariation ) {
+        return vector.plus( maxXVariation * ( RAND.nextDouble() - 0.5 ) * 2, maxYVariation * ( RAND.nextDouble() - 0.5 ) * 2 );
     }
 }
