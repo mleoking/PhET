@@ -211,7 +211,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         final BlockNode ironBlockNode = new BlockNode( model, model.getIronBlock(), mvt );
         ironBlockNode.setApproachingEnergyChunkParentNode( airLayer );
         blockLayer.addChild( ironBlockNode );
-        BeakerView beakerView = new BeakerContainerView( model, mvt );
+        BeakerView beakerView = new BeakerContainerView( model.getClock(), model, mvt );
         beakerFrontLayer.addChild( beakerView.getFrontNode() );
         backLayer.addChild( beakerView.getBackNode() );
 

@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
 
-    public BeakerHeaterNode( final BeakerHeater beakerHeater, BooleanProperty energyChunksVisible, final ModelViewTransform mvt ) {
+    public BeakerHeaterNode( IClock clock, final BeakerHeater beakerHeater, BooleanProperty energyChunksVisible, final ModelViewTransform mvt ) {
         super( beakerHeater, mvt );
 
         // Add the images that are used to depict this element along with the
@@ -40,7 +41,7 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
                                                                                                               -mvt.modelToViewDeltaY( beakerHeater.getPosition().y ) ),
                                                                                           mvt.getTransform().getScaleX(),
                                                                                           mvt.getTransform().getScaleY() );
-        BeakerView beakerView = new BeakerView( beakerHeater.beaker, energyChunksVisible, compensatingMvt );
+        BeakerView beakerView = new BeakerView( clock, beakerHeater.beaker, energyChunksVisible, compensatingMvt );
         addChild( beakerView.getBackNode() );
         addChild( new EnergyChunkLayer( beakerHeater.radiatedEnergyChunkList, beakerHeater.getObservablePosition(), mvt ) );
         addChild( beakerView.getFrontNode() );

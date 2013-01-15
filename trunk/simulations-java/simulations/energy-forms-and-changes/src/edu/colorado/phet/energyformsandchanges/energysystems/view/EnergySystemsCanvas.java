@@ -115,7 +115,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode incandescentLightBulbNode = new IncandescentLightBulbNode( model.incandescentLightBulb, model.energyChunksVisible, mvt );
         PNode fluorescentLightBulbNode = new FluorescentLightBulbNode( model.fluorescentLightBulb, model.energyChunksVisible, mvt );
         PNode solarPanelNode = new SolarPanelNode( model.solarPanel, mvt );
-        PNode beakerHeaterNode = new BeakerHeaterNode( model.beakerHeater, model.energyChunksVisible, mvt );
+        PNode beakerHeaterNode = new BeakerHeaterNode( model.getClock(), model.beakerHeater, model.energyChunksVisible, mvt );
         PNode beltNode = new BeltNode( model.belt, mvt );
 
         // Create the reset button.
