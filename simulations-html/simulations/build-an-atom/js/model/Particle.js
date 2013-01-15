@@ -36,17 +36,13 @@ define( [
 
     // Use this when setting user controlled so that event is triggered.
     Particle.prototype.setUserControlled = function ( userControlled, event ) {
-        var isTouchEvent;
+        var isTouchEvent = !(event.nativeEvent instanceof window.MouseEvent);
 
         if ( userControlled && !this.userControlled ){
-
-            isTouchEvent = !(event.nativeEvent instanceof window.MouseEvent);
-
-            this.events.trigger( 'userGrabbed', [ isTouchEvent ] );
-
+            this.events.trigger( 'userGrabbed', [ isTouchEvent ]);
         }
         else if ( this.userControlled  ){
-            this.events.trigger( 'userReleased' );
+            this.events.trigger( 'userReleased', [ isTouchEvent ]);
         }
         this.userControlled = userControlled;
     }
