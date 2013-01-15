@@ -46,13 +46,13 @@ define( [
                               function ( point ) {
                                   particle.setLocation( mvt.viewToModel( point ) );
                               },
-                              function ( pressEvent ) {
+                              function( pressEvent ) {
 
-                                  pressEvent.onMouseUp = function () {
-                                      particle.setUserControlled( false );
+                                  pressEvent.onMouseUp = function( mouseUpEvent ) {
+                                      particle.setUserControlled( false, mouseUpEvent );
                                   };
 
-                                  particle.setUserControlled( true );
+                                  particle.setUserControlled( true, pressEvent );
                               } );
 
         particle.events.on( 'locationChange', function () {
@@ -61,8 +61,11 @@ define( [
             self.y = newLocation.y;
         } );
 
-        particle.events.on( 'userGrabbed', function () {
-            self.drawRadius = self.mvt.modelToView( self.particle.radius ) * TOUCH_INFLATION_MULTIPLIER;
+        particle.events.on( 'userGrabbed', function (e, isTouchEvent) {
+            if( isTouchEvent ){
+              self.drawRadius = self.mvt.modelToView( self.particle.radius ) * TOUCH_INFLATION_MULTIPLIER;
+            }
+
             self.render();
         } );
 
@@ -70,7 +73,7 @@ define( [
             self.drawRadius = self.mvt.modelToView( self.particle.radius );
             self.render();
         } );
-    }
+    };
 
     ParticleView.prototype.render = function () {
         this.graphics.clear();
