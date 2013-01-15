@@ -116,7 +116,7 @@ class ChallengeFactory4 extends ChallengeFactory {
         // MTE, PS, point & slope
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // first required slope
-            Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+            Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
             challenges.add( new MTE_Challenge( "1 of 3 required slopes",
                                                line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
@@ -135,7 +135,7 @@ class ChallengeFactory4 extends ChallengeFactory {
             else {
                 // MTE, PS, point & slope
                 Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // second required slope, unique
-                Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+                Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
                 challenges.add( new MTE_Challenge( "2 of 2 required slopes, random choice of point-slope",
                                                    line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
@@ -154,7 +154,7 @@ class ChallengeFactory4 extends ChallengeFactory {
         // GTL, PS, point & slope
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // third required slope, unique
-            Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+            Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
             challenges.add( new GTL_Challenge( "3 of 3 required slopes",
                                                line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
@@ -166,7 +166,7 @@ class ChallengeFactory4 extends ChallengeFactory {
          */
         {
             Fraction slope = fractionChooser.choose( positiveSlopes ); // unique positive slope
-            Point2D point = pickPointForInvertedSlope( slope, xRange, yRange ); // random point, not necessarily unique
+            Point2D point = choosePointForSlopeInversion( slope, xRange, yRange ); // random point, not necessarily unique
             if ( equationFormChooser.choose( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
                 // GTL, SI, 2 points
                 challenges.add( new GTL_Challenge( "slope-intercept because MTE uses point-slope, force slope inversion",

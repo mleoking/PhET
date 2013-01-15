@@ -154,7 +154,7 @@ class ChallengeFactory2 extends ChallengeFactory {
                 slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
                 description = "random choice of point manipulation";
             }
-            Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+            Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
@@ -177,7 +177,7 @@ class ChallengeFactory2 extends ChallengeFactory {
                 slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
                 description = "point manipulation because GTL uses slope";
             }
-            Point2D point = pickPointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
+            Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );

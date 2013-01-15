@@ -88,7 +88,7 @@ abstract class ChallengeFactory {
     }
 
     // Picks a point that keeps the slope indicator on the graph.
-    protected Point2D pickPointForSlope( final Fraction slope, final IntegerRange graphXRange, final IntegerRange graphYRange ) {
+    protected Point2D choosePointForSlope( final Fraction slope, final IntegerRange graphXRange, final IntegerRange graphYRange ) {
 
         final int rise = slope.numerator;
         final int run = slope.denominator;
@@ -120,7 +120,7 @@ abstract class ChallengeFactory {
     }
 
     // Picks a point (x1,x2) on the graph that results in the slope indicator (x2,y2) being off the graph. This forces the user to invert the slope.
-    protected Point2D pickPointForInvertedSlope( final Fraction slope, final IntegerRange graphXRange, final IntegerRange graphYRange ) {
+    protected Point2D choosePointForSlopeInversion( final Fraction slope, final IntegerRange graphXRange, final IntegerRange graphYRange ) {
 
         final int rise = slope.numerator;
         final int run = slope.denominator;

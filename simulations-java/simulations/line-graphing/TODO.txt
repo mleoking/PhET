@@ -9,6 +9,7 @@ HIGH
 - Game: generate challenges for levels 5-6
 
 MEDIUM
+- ChallengeFactory and RandomChooser both have "randomIndex" method and "random" field
 - factor out duplication in ChallengeFactory hierarchy when the dust settles
 
 LOW
