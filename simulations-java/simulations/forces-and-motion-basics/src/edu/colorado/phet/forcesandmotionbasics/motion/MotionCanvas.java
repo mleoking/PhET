@@ -404,7 +404,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         StackableNode girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), multiScaleToHeight( Images.GIRL_HOLDING, 100 ) );
         final int manHeight = (int) ( 200 / 150.0 * 100.0 );
         StackableNode man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, manHeight ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), multiScaleToHeight( Images.MAN_HOLDING, manHeight ) );
+
         StackableNode trash = new StackableNode( UserComponents.trash, this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses );
+        StackableNode bucket = new StackableNode( UserComponents.bucket, this, multiScaleToHeight( Images.WATER_BUCKET, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses );
         StackableNode gift = new StackableNode( UserComponents.gift, this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 60 ), 50, 40, showMasses ) {
             @Override protected Pair<Integer, String> getMassDisplayString( final double mass ) {
 
@@ -416,14 +418,16 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         double spacingX = 18;
         girl.setInitialOffset( rightToolbox.getFullBounds().getX() + spacingX, rightToolbox.getFullBounds().getMaxY() - girl.getFullBounds().getHeight() - 5 );
         man.setInitialOffset( girl.getObjectMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - man.getFullBounds().getHeight() - 5 );
-        trash.setInitialOffset( man.getObjectMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - trash.getFullBounds().getHeight() - 5 );
-        gift.setInitialOffset( trash.getObjectMaxX() + spacingX - 5, rightToolbox.getFullBounds().getMaxY() - gift.getFullBounds().getHeight() - 5 );
+
+        StackableNode trashOrBucket = accelerometer ? bucket : trash;
+        trashOrBucket.setInitialOffset( man.getObjectMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - trashOrBucket.getFullBounds().getHeight() - 5 );
+        gift.setInitialOffset( trashOrBucket.getObjectMaxX() + spacingX - 5, rightToolbox.getFullBounds().getMaxY() - gift.getFullBounds().getHeight() - 5 );
         addChild( girl );
         addChild( man );
-        addChild( trash );
+        addChild( trashOrBucket );
         addChild( gift );
 
-        stackableNodes = fj.data.List.list( fridge, crate1, crate2, man, girl, trash, gift );
+        stackableNodes = fj.data.List.list( fridge, crate1, crate2, man, girl, trashOrBucket, gift );
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
