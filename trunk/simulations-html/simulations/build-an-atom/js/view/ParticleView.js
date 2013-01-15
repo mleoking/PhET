@@ -69,8 +69,10 @@ define( [
             self.render();
         } );
 
-        particle.events.on( 'userReleased', function () {
-            self.drawRadius = self.mvt.modelToView( self.particle.radius );
+        particle.events.on( 'userReleased', function(e, isTouchEvent) {
+            if( isTouchEvent ){
+              self.drawRadius = self.mvt.modelToView( self.particle.radius );
+            }
             self.render();
         } );
     };
