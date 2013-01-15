@@ -141,6 +141,18 @@ class ChallengeFactory5 extends ChallengeFactory {
             }
         }
 
+        // PTP, SI
+        {
+            // ranges of x1,y1,rise,run limited to [-5,5]
+            //TODO
+        }
+
+        // PTP, PS
+        {
+            // ranges of x1,y1,rise,run limited to [-5,5]
+            //TODO
+        }
+
         // shuffle and return
         return shuffle( challenges );
     }
