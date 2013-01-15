@@ -5,6 +5,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -29,8 +30,8 @@ import edu.umd.cs.piccolox.nodes.PClip;
  */
 public class BeakerContainerView extends BeakerView {
 
-    public BeakerContainerView( final EFACIntroModel model, final ModelViewTransform mvt ) {
-        super( model.getBeaker(), model.energyChunksVisible, mvt );
+    public BeakerContainerView( IClock clock, final EFACIntroModel model, final ModelViewTransform mvt ) {
+        super( clock, model.getBeaker(), model.energyChunksVisible, mvt );
 
         // Update the clipping mask when any of the blocks move.  The clipping
         // mask hides energy chunks that overlap with blocks.
