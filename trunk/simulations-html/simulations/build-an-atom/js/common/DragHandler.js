@@ -5,6 +5,7 @@
  *
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
+ * @author John Blanco
  */
 define( [ 'underscore', 'common/Point2D' ],
         function ( _, Point2D ) {

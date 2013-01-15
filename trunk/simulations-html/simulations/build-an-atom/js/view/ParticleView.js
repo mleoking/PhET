@@ -10,7 +10,8 @@ define( [
     // Constants
     //-------------------------------------------------------------------------
 
-    var TOUCH_INFLATION_MULTIPLIER = 3;
+    var TOUCH_INFLATION_MULTIPLIER = 4;
+    var TOUCH_INFLATION_OFFSET = 45; // In pixels.
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -64,6 +65,7 @@ define( [
         particle.events.on( 'userGrabbed', function (e, isTouchEvent) {
             if( isTouchEvent ){
               self.drawRadius = self.mvt.modelToView( self.particle.radius ) * TOUCH_INFLATION_MULTIPLIER;
+              self.regY = TOUCH_INFLATION_OFFSET;
             }
 
             self.render();
@@ -72,6 +74,7 @@ define( [
         particle.events.on( 'userReleased', function(e, isTouchEvent) {
             if( isTouchEvent ){
               self.drawRadius = self.mvt.modelToView( self.particle.radius );
+              self.regY = 0;
             }
             self.render();
         } );
