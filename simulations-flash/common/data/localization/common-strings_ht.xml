@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_ht_20130114.xml created Mon Jan 14 22:56:39 EST 2013 using: flash-common-strings 2.03.00 (48823), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="About..." value="Konsènan nou..."/>
+<string key="SoftwareDevelopment" value="Devlopman lojisyèl"/>
+<string key="Cancel" value="Anile"/>
+<string key="StatisticsField-host_flash_accessibility" value="W ap itilize yon aparèy ki aksesib?"/>
+<string key="Privacy" value="Konfidansyalite"/>
+<string key="Version" value="Vèsyon"/>
+<string key="NewVersionAvailable" value="Yon vèsyon tou nèf disponib"/>
+<string key="SoftwareAgreement" value="Pwotokòl akò pou lojisyèl la"/>
+<string key="PhETInstallation" value="Pou w telechaje yon nouvo enstalatè ki gen similasyon ki tou nèf la, vizite &lt;a href='{0}'&gt;pou paj&lt;/a&gt; enstalatè otonòm pou sit PhET la."/>
+<string key="StatisticsField-sim_version_timestamp" value="Vèsyon similasyon (etikèt dat la):"/>
+<string key="StatisticsField-sim_dev_version" value="Vèsyon similasyon (devlòpman):"/>
+<string key="AskLater" value="Mande m pi ta"/>
+<string key="AcceptContinue" value="Dakò epi kontinye"/>
+<string key="BuildDate" value="Dat vèsyon an"/>
+<string key="TellMore" value="Di m plis..."/>
+<string key="FlashVersion" value="Vèsyon Flash"/>
+<string key="PhetSoftwareAgreement" value="Pwotokòl akò pou lojisyèl PhET la"/>
+<string key="NoUpdatesAvailable" value="Pa gen nouvo vèsyon ki disponib"/>
+<string key="StatisticsField-message_type" value="Tip mesaj la:"/>
+<string key="InstallationDated" value="Enstalatè otonòm PhET ou a date de {0}."/>
+<string key="CheckUpdates" value="Tcheke otomatikman si gen nouvo vèsyon "/>
+<string key="UpToDate" value="A la mòd"/>
+<string key="StatisticsField-sim_major_version" value="Vèsyon similasyon (majè)"/>
+<string key="StatisticsField-user_total_sessions" value="Konbyen fw an tou tout similasyon yo te egzekite:"/>
+<string key="InstallationNewer" value="Gen yon nouvo vèsyon ki disponib, dat li se {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="Konbyen fw an tou similasyon sa a te egzekite depi dènye fwa li sou sit la:"/>
+<string key="StatisticsField-sim_distribution_tag" value="Vèsyon similasyon (distribisyon):"/>
+<string key="Yes!" value="Wi!"/>
+<string key="StatisticsField-host_flash_domain" value="Domèn similasyon an:"/>
+<string key="DesignTeam" value="Ekip planifikasyon an"/>
+<string key="PhETPreferences" value="Preferans PhET yo"/>
+<string key="Preferences" value="Preferans yo..."/>
+<string key="AllowMessages" value="Bay pèmisyon pou voye enfòmasyon bay PhET"/>
+<string key="Updates" value="Aktyalizasyon yo"/>
+<string key="StatisticsField-sim_revision" value="Vèsyon similasyon (revizyon)"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Tan kreyasyon pou fichye Preferans yo:"/>
+<string key="Interviews" value="Entèvyou"/>
+<string key="StatisticsField-host_flash_time_offset" value="Fizo orè:"/>
+<string key="MostCurrentVersion" value="Ou gen vèsyon ({0}) ki se vèsyon tou nèf pou  {1}"/>
+<string key="StatisticsField-sim_deployment" value="Tip deplwayaj la:"/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; vin disponib gratis gras ak sibvansyon  nou jwenn ki mande pou nou ranmase yon minimòm enfòmasyon anonim pou ede nou dokimante ki kantite itilizasyon ki fèt ak PhET epi pou nou kapab sèvi bezwen aktyalizasyon itilizatè yo pi byen."/>
+<string key="StatisticsField-sim_type" value="Tip similasyon an:"/>
+<string key="Close" value="Fèmen"/>
+<string key="StatisticsField-sim_dev" value="Èske sa a se yon vèsyon pou pwogramè?:"/>
+<string key="InstallerAsk" value="Èske ou vle gen vèsyon tou nèf enstalatè otonòm PhET la?"/>
+<string key="PrivacyMessage2" value="Lè ou klike sou &quot;Dakò epi kontiye&quot;, ou dakò ak Pwotokòl akò pou lojisyèl PhET la ki gen ladann prensip sou konfidansyalite nan PhET sa a epi pou tout lòt similasyon ou gen pou w egzekite. (Pou detay, &lt;a href='{0}'&gt;klike la a&lt;/a&gt;). "/>
+<string key="StatisticsField-sim_total_sessions" value="Konbyen fw an tou similasyon sa a te egzekite"/>
+<string key="PrivacyMessage1" value="Nan tout similasyon PhET yo, nou ranmase yon minimòm &lt;a href='{0}'&gt; enfòmasyon&lt;/a&gt; anonim chak fwa similasyon an kòmanse (pa egzanp, vèsyon similasyon an, sistèm  esplwatasyon an). Ou ka koupe otorizasyon pou voye enfòmasyon sa a nan nenpòt moman; w ap sèlman itilize bouton Preferans la."/>
+<string key="StatisticsField-user_installation_timestamp" value="Etikèt dat pou enstalasyon PhET la:"/>
+<string key="StatisticsField-sim_name" value="Non similasyon an:"/>
+<string key="UpdateOptionsAvailable" value="Opsyon pou aktyalizasyon yo disponib nan &lt;i&gt;Preferans&lt;i&gt;."/>
+<string key="PhetDevelopmentTeam" value="Ekip devlopman PhET la"/>
+<string key="InstallerInfo2" value="Si ou chwazi pou w gen vèsyon ki pi nèf la, yon navigatè wèb ap ouvri kote ou ka telechaje enstalatè otonòm PhET la."/>
+<string key="InstallerInfo1" value="Lè enstalasyon PhET otonòm ou an alamòd, sa ap asire ou genyen aksè ak similasyon PhET ki pi nèf yo ansanm ak materyèl siplemantè yo."/>
+<string key="StatisticsField-sim_minor_version" value="Vèsyon similasyon (minè)"/>
+<string key="translation.credits" value="Lojisyèl sa a, se pwofesè Paul Belony ak pwofesè Michel DeGraff ki tradui l"/>
+<string key="Credits" value="Moun ki travay nan pwojè a"/>
+<string key="StatisticsField-host_flash_version" value="Vèsyon lektè Flash la:"/>
+<string key="TryNow" value="Eseye l kounyea"/>
+<string key="PrivacySkip" value="Sote vèsyon sa a"/>
+<string key="CheckInstallationUpdates" value="Tcheke si gen nouvo vèsyon pou enstalatè otonòm PhET la..."/>
+<string key="StatisticsField-sim_locale_language" value="Lang"/>
+<string key="Distribution" value="Distribisyon"/>
+<string key="LicenseLibraries" value="Enfòmasyon sou pèmi pou bibyotèk 2èm men:"/>
+<string key="PrivacyDetails" value="Detay sou konfidansyalite"/>
+<string key="NotUpdateSim" value="Similasyon sa a pa kapab aktyalize otomatikman."/>
+<string key="CurrentVersionIs" value="Vèsyon {0} aktyèl ou a se {1}"/>
+<string key="StatisticsField-host_flash_os" value="Sistèm esplwatasyon ak non li:"/>
+<string key="TranslatedBy" value="Moun ki fè tradiksyon an"/>
+<string key="OK" value="Oke"/>
+<string key="Error" value="Erè"/>
+<string key="CheckSimUpdates" value="Tcheke si gen nouvo vèsyon pou similasyon yo"/>
+<string key="NewerVersionIs" value="Yon vèsyon {0} ki pi nèf disponib."/>
+<string key="StatisticsField-sim_project" value="Non pwojè a:"/>
+<string key="SentInformation" value="Enfòmasyon ki parèt anba a pral jwenn PhET lè similasyon an kòmanse."/>
+<string key="OSVersion" value="OS"/>
+<string key="Details" value="Detay"/>
+<string key="StatisticsField-message_version" value="Vèsyon mesaj la"/>
+<string key="LeadDesign" value="Planifikasyon ki devan nèt la"/>
+<string key="StatisticsField-host_locale_language" value="Lang santral la:"/>
+<string key="AboutSim" value="Konsènan nou {0}"/>
+<string key="VersionError2" value="Souple, eseye ankò pi ta, oubyen vizite &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
+<string key="VersionError1" value="Nou rankontre yon erè lè nou t ap eseye jwenn enfòmasyon sou vèsyon an."/>
+<string key="StatisticsField-sim_locale_country" value="Peyi:"/>
+</SimStrings>
