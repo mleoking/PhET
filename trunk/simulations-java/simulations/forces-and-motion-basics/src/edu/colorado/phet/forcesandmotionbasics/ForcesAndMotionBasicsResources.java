@@ -112,5 +112,6 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage STOP_PRESSED = RESOURCES.getImage( "stop_pressed.png" );
         public static final BufferedImage STOP_UP = RESOURCES.getImage( "stop_up.png" );
         public static final BufferedImage TRASH_CAN = RESOURCES.getImage( "trash-can.png" );
+        public static final BufferedImage WATER_BUCKET = RESOURCES.getImage( "water-bucket.png" );
     }
 }

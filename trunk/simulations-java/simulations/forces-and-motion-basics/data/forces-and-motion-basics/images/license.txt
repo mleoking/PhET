@@ -7,3 +7,4 @@ girl-standing.png source=PhET notes=balancing act
 mystery-object-01.png source=PhET notes=balancing act
 trash-can.png source=PhET notes=balancing act
 ollie.gif source=PhET notes=motion-series
+water-bucket.png source=PhET notes=Noah
