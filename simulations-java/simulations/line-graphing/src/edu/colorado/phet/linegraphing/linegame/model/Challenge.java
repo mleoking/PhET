@@ -63,6 +63,8 @@ public abstract class Challenge implements Resettable {
                          Point2D originOffset,
                          Vector2D pointToolLocation1, Vector2D pointToolLocation2 ) {
 
+        assert( !answer.undefinedSlope() ); // our answer should be defined
+
         this.title = title;
         this.description = description;
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
