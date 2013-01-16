@@ -10,7 +10,7 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.PointDragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
-import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.PlaceThePoints;
 
 /**
  * Challenge graph with manipulators for 3 arbitrary points, which may or may not form a guess line.
@@ -20,7 +20,7 @@ import edu.colorado.phet.linegraphing.linegame.model.PTP_Challenge;
  */
 class ThreePointsGraphNode extends ChallengeGraphNode {
 
-    public ThreePointsGraphNode( final PTP_Challenge challenge ) {
+    public ThreePointsGraphNode( final PlaceThePoints challenge ) {
         super( challenge, false /* slopeToolEnabled */ );
 
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );

@@ -93,43 +93,43 @@ class ChallengeFactory1 extends ChallengeFactory {
             add( ManipulationMode.SLOPE );
         }};
 
-        // GTL, SI, slope
+        // Graph-the-Line, slope-intercept form, slope variable
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeListIndices ); // first required slope
             int yIntercept = integerChooser.chooseFromLists( yInterceptLists ); // unique y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new GTL_Challenge( "1 of 3 required slopes",
+            challenges.add( new GraphTheLine( "1 of 3 required slopes",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
         }
 
-        // GTL, SI, intercept
+        // Graph-the-Line, slope-intercept form, intercept variable
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
             int yIntercept = integerChooser.chooseFromLists( yInterceptLists, yInterceptListIndices ); // first required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new GTL_Challenge( "1 of 2 required y-intercepts",
+            challenges.add( new GraphTheLine( "1 of 2 required y-intercepts",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
         }
 
-        // MTE, SI, slope
+        // Make-the-Equation, slope-intercept form, slope variable
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeListIndices ); // second required slope, unique
             int yIntercept = integerChooser.chooseFromLists( yInterceptLists ); // unique y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new MTE_Challenge( "2 of 3 required slopes",
+            challenges.add( new MakeTheEquation( "2 of 3 required slopes",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE, xRange, yRange ) );
         }
 
-        // MTE, SI, intercept
+        // Make-the-Equation, slope-intercept form, intercept variable
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
             int yIntercept = integerChooser.chooseFromLists( yInterceptLists, yInterceptListIndices ); // second required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new MTE_Challenge( "2 of 2 required y-intercepts",
+            challenges.add( new MakeTheEquation( "2 of 2 required y-intercepts",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.INTERCEPT, xRange, yRange ) );
         }
 
-        // GTL, PS, point or slope (random choice)
+        // Graph-the-Line, point-slope form, point or slope variable (random choice)
         {
             // manipulation mode
             final ManipulationMode manipulationMode = manipulationModeChooser.choose( pointSlopeManipulationModes );
@@ -150,11 +150,11 @@ class ChallengeFactory1 extends ChallengeFactory {
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            Challenge challenge = new GTL_Challenge( description, line, EquationForm.POINT_SLOPE, manipulationMode, xRange, yRange );
+            Challenge challenge = new GraphTheLine( description, line, EquationForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 
-        // MTE, PS, point or slope (whichever was not chosen above)
+        // Make-the-Equation, point-slope form, point or slope variable (whichever was not chosen above)
         {
             // manipulation mode
             final ManipulationMode manipulationMode = manipulationModeChooser.choose( pointSlopeManipulationModes );
@@ -165,17 +165,17 @@ class ChallengeFactory1 extends ChallengeFactory {
             if ( manipulationMode == ManipulationMode.SLOPE ) {
                 point = pointChooser.chooseFromLists( pointLists ); // unique point
                 slope = fractionChooser.chooseFromLists( slopeLists, slopeListIndices ); // third required slope, unique
-                description = "manipulate slope because GTL uses point, 3 of 3 required slopes";
+                description = "manipulate slope because Graph-the-Line uses point, 3 of 3 required slopes";
             }
             else {
                 point = pointChooser.chooseFromLists( pointLists, pointListIndices ); // second required point, unique
                 slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
-                description = "manipulate point because GTL uses slope, 2 of 2 required points";
+                description = "manipulate point because Graph-the-Line uses slope, 2 of 2 required points";
             }
 
             // challenge
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            Challenge challenge = new MTE_Challenge( description, line, EquationForm.POINT_SLOPE, manipulationMode, xRange, yRange );
+            Challenge challenge = new MakeTheEquation( description, line, EquationForm.POINT_SLOPE, manipulationMode, xRange, yRange );
             challenges.add( challenge );
         }
 

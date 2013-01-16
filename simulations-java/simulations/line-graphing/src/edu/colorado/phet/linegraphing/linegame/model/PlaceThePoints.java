@@ -9,18 +9,18 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.PTP_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.PlaceThePointsNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Model for all "Place the Points" (PTP) challenges.
- * This is a specialization of the "Graph the Line" (GTL) challenge.
+ * Model for all "Place the Points" challenges.
+ * This is a specialization of the "Graph the Line" challenge.
  * In this challenge, the user is given an equation and must place 3 points on a graph to make the line.
  * If the 3 points do not form a line, the guess line will be null.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PTP_Challenge extends GTL_Challenge {
+public class PlaceThePoints extends GraphTheLine {
 
     public final Property<Vector2D> p1, p2, p3; // the 3 points that the user places
 
@@ -32,7 +32,7 @@ public class PTP_Challenge extends GTL_Challenge {
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
      */
-    public PTP_Challenge( String description, final Line answer, EquationForm equationForm, IntegerRange xRange, IntegerRange yRange ) {
+    public PlaceThePoints( String description, final Line answer, EquationForm equationForm, IntegerRange xRange, IntegerRange yRange ) {
         super( description, answer, equationForm, ManipulationMode.THREE_POINTS, xRange, yRange );
 
         // initial points do not form a line
@@ -70,6 +70,6 @@ public class PTP_Challenge extends GTL_Challenge {
 
     // Creates the view for this challenge.
     @Override public ChallengeNode createView( LineGameModel model, PDimension challengeSize, GameAudioPlayer audioPlayer ) {
-        return new PTP_ChallengeNode( this, model, challengeSize, audioPlayer );
+        return new PlaceThePointsNode( this, model, challengeSize, audioPlayer );
     }
 }

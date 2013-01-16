@@ -13,7 +13,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.GraphTheLine;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
@@ -21,12 +21,12 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * View for "Graph the Line" (GTL) challenges.
+ * View for "Graph the Line" challenges.
  * User manipulates a graphed line on the right, equations are displayed on the left.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GTL_ChallengeNode extends ChallengeNode {
+public class GraphTheLineNode extends ChallengeNode {
 
     private static final PNode NOT_A_LINE = new PhetPText( Strings.NOT_A_LINE, new PhetFont( Font.BOLD, 24 ), Color.BLACK );
 
@@ -40,7 +40,7 @@ public class GTL_ChallengeNode extends ChallengeNode {
      * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
      * @param audioPlayer the audio player, for providing audio feedback during game play
      */
-    public GTL_ChallengeNode( final GTL_Challenge challenge, final LineGameModel model, final PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
+    public GraphTheLineNode( final GraphTheLine challenge, final LineGameModel model, final PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
         super( challenge, model, challengeSize, audioPlayer );
 
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
