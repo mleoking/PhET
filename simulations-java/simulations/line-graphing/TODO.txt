@@ -1,18 +1,12 @@
 TODO list for line-graphing
 
-DEADLINES
-
-DESIGN
-
 HIGH
+- PTP challenges in level=6 should use mismatched forms
 
 MEDIUM
 
 LOW
 - order of lines provided to point tool is not related to order of lines rendered on graph, would be nice if they used the same info
-
-LOWEST
-- Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
 
 LOOSE ENDS
 - screenshot
