@@ -1,3 +1,4 @@
+1/15/13 use the same instance of the random number generator for all random parts of a challenge factory
 1/15/13 move static ChallengeFactory.createChallenges to LineGameModel
 1/15/13 implementation of challenge generation for level=6
 1/15/13 provide random choosers as members of ChallengeFactory base class

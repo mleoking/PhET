@@ -12,12 +12,12 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RandomChooser<T> {
+class RandomChooser<T> {
 
     protected final Random random;
 
-    public RandomChooser() {
-        this.random = new Random();
+    public RandomChooser( Random random ) {
+        this.random = random;
     }
 
     // Gets a random index for a specified list.
