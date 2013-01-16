@@ -32,8 +32,8 @@ public class SlopeDragHandler extends LineManipulatorDragHandler {
      * @param manipulatorNode the node being manipulated by the user
      * @param mvt             transform between model and view coordinate frames
      * @param line            the line being manipulated
-     * @param riseRange
-     * @param runRange
+     * @param riseRange       range of the rise
+     * @param runRange        range of the run
      */
     public SlopeDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                              LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<Line> line,

@@ -14,9 +14,14 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
  */
 public class LineManipulatorNode extends ShadedSphereNode {
 
-    public LineManipulatorNode( double diameter, Color fillColor ) {
-        super( diameter, fillColor, Color.WHITE, fillColor.darker().darker(), false /* convertToImage */ );
-        setStrokeAndPaint( new BasicStroke( 1f ), fillColor.darker().darker() );
+    /**
+     * Constructor.
+     * @param diameter diameter of the sphere
+     * @param baseColor base color use to shade the sphere
+     */
+    public LineManipulatorNode( double diameter, Color baseColor ) {
+        super( diameter, baseColor, Color.WHITE, baseColor.darker().darker(), false /* convertToImage */ );
+        setStrokeAndPaint( new BasicStroke( 1f ), baseColor.darker().darker() );
         addInputEventListener( new CursorHandler() ); // all manipulators are interactive
     }
 }
