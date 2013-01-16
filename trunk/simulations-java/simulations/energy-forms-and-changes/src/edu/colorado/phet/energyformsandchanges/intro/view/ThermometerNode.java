@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -71,15 +72,21 @@ public class ThermometerNode extends PComposite {
         thermometerBack.setScale( imageScale );
         backLayer.addChild( thermometerBack );
 
+        // Add the clipping node that will hold the shaft node.  The clip will
+        // prevent the liquid from ever appearing to pop out of the top.
+        PClip liquidShaftClipNode = new PClip();
+        liquidShaftClipNode.setStroke( null );
+        backLayer.addChild( liquidShaftClipNode );
+
         // Add the liquid shaft, the shape of which will indicate the temperature.
         {
             final PPath liquidShaft = new PhetPPath( new Color( 237, 28, 36 ) );
-            backLayer.addChild( liquidShaft );
-            // There are some tweak factors in here used to position the shaft.
+            liquidShaftClipNode.addChild( liquidShaft );
+            // There are some tweak factors in here used to position the liquid.
             final Point2D centerOfBulb = new Point2D.Double( thermometerBack.getFullBoundsReference().getCenterX(),
                                                              thermometerBack.getFullBoundsReference().getMaxY() - thermometerBack.getFullBoundsReference().height * 0.1 );
             final double liquidShaftWidth = thermometerBack.getFullBoundsReference().getWidth() * 0.45;
-            final double maxLiquidShaftHeight = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY() - thermometerBack.getFullBoundsReference().height * 0.05;
+            final double maxLiquidShaftHeight = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY();
             final double minLiquidShaftHeight = thermometerBack.getFullBoundsReference().width * 0.67; // Tweaked a bit in order to make min temp align with lowest tick mark on graphic.
             thermometer.sensedTemperature.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double temperature ) {
@@ -91,6 +98,27 @@ public class ThermometerNode extends PComposite {
                                                                    liquidShaftHeight ) );
                 }
             } );
+
+            // Set the clipping region to prevent any portion of the liquid
+            // from pushing out the top.  This is a bit tweaky, and must be
+            // manually coordinated with the image used for the thermometer.
+            DoubleGeneralPath clipPath = new DoubleGeneralPath() {{
+                double clipWidth = liquidShaft.getFullBoundsReference().width * 1.1;
+                double curveStartProportion = 0.95;
+                double centerX = liquidShaft.getFullBoundsReference().getCenterX();
+                moveTo( centerX - clipWidth / 2, centerOfBulb.getY() );
+                lineTo( centerX - clipWidth / 2, centerOfBulb.getY() - maxLiquidShaftHeight * curveStartProportion );
+                curveTo( centerX - clipWidth / 4,
+                         centerOfBulb.getY() - maxLiquidShaftHeight,
+                         centerX + clipWidth / 4,
+                         centerOfBulb.getY() - maxLiquidShaftHeight,
+                         centerX + clipWidth / 2,
+                         centerOfBulb.getY() - maxLiquidShaftHeight * curveStartProportion
+                );
+                lineTo( centerX + clipWidth / 2, centerOfBulb.getY() );
+                closePath();
+            }};
+            liquidShaftClipNode.setPathTo( clipPath.getGeneralPath() );
         }
 
         // Add the image for the front of the thermometer.
