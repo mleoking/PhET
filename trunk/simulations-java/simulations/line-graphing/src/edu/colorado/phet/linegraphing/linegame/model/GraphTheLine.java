@@ -13,7 +13,7 @@ import edu.colorado.phet.linegraphing.linegame.view.GraphTheLineNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Model for all "Graph the Line" challenges.
+ * Model for "Graph the Line" challenges.
  * In this challenge, the user is given an equation and must graph the line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
