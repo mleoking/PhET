@@ -98,11 +98,6 @@ class ChallengeFactory2 extends ChallengeFactory {
             add( ManipulationMode.SLOPE );
         }};
 
-        // random choosers
-        final RandomChooser<Fraction> fractionChooser = new RandomChooser<Fraction>();
-        final RandomChooser<Integer> integerChooser = new RandomChooser<Integer>();
-        final RandomChooser<ManipulationMode> manipulationModeChooser = new RandomChooser<ManipulationMode>();
-
         // GTL, SI, slope
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeListIndices ); // first required slope, unique

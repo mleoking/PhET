@@ -21,6 +21,7 @@ class ChallengeFactory3 extends ChallengeFactory {
 
     /**
      * Creates challenges for this game level.
+     *
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
      * @return list of challenges
@@ -95,11 +96,6 @@ class ChallengeFactory3 extends ChallengeFactory {
             add( EquationForm.SLOPE_INTERCEPT );
             add( EquationForm.POINT_SLOPE );
         }};
-
-        // random choosers
-        final RandomChooser<Fraction> fractionChooser = new RandomChooser<Fraction>();
-        final RandomChooser<Integer> integerChooser = new RandomChooser<Integer>();
-        final RandomChooser<EquationForm> equationFormChooser = new RandomChooser<EquationForm>();
 
         // GTL, SI, slope & intercept
         {

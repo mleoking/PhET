@@ -34,10 +34,6 @@ class ChallengeFactory5 extends ChallengeFactory {
         // for y-intercept manipulation challenges
         ArrayList<Integer> yIntercepts = rangeToList( new IntegerRange( -10, 10 ) );
 
-        // random choosers
-        final RandomChooser<Integer> integerChooser = new RandomChooser<Integer>();
-        final RandomChooser<EquationForm> equationFormChooser = new RandomChooser<EquationForm>();
-
         // MTE, SI, slope=0
         {
             final int yIntercept = integerChooser.choose( yIntercepts );
@@ -64,8 +60,9 @@ class ChallengeFactory5 extends ChallengeFactory {
             final EquationForm equationForm = equationFormChooser.choose( equationForms );
 
             // random points
-            final ArrayList<Integer> xList = rangeToList( new IntegerRange( -5, 5 ) );
-            final ArrayList<Integer> yList = rangeToList( new IntegerRange( -5, 5 ) );
+            IntegerRange range = new IntegerRange( -5, 5 );
+            final ArrayList<Integer> xList = rangeToList( range );
+            final ArrayList<Integer> yList = rangeToList( range );
             final int x1 = ( equationForm == EquationForm.SLOPE_INTERCEPT ) ? 0 : integerChooser.choose( xList );
             final int y1 = integerChooser.choose( yList );
             int x2 = integerChooser.choose( xList );
