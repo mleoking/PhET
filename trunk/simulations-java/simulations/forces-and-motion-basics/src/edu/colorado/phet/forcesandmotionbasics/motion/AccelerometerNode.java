@@ -35,7 +35,6 @@ public class AccelerometerNode extends PNode {
                 acceleration.addObserver( new VoidFunction1<Option<java.lang.Double>>() {
                     public void apply( final Option<java.lang.Double> doubles ) {
                         double value = doubles.getOrElse( 0.0 );
-                        System.out.println( "value = " + value );
                         final double scaled = value * scale;
                         if ( value > 0 ) {
                             final double scaledValue = scaled;
