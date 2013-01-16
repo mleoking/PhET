@@ -3,10 +3,13 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -38,12 +41,9 @@ public class ThermometerNode extends PComposite {
     // are changed.
     private static final double TRIANGLE_SIDE_SIZE = 15; // In screen coordinates, which is close to pixels.
 
-    // Temperature range handled by this thermometer.  Depiction is linear.
-    private static final double MIN_TEMPERATURE = EFACConstants.FREEZING_POINT_TEMPERATURE; // In degrees Kelvin.
-    private static final double MAX_TEMPERATURE = EFACConstants.BOILING_POINT_TEMPERATURE + 5; // In degrees Kelvin.
-    private static final double TEMPERATURE_RANGE = MAX_TEMPERATURE - MIN_TEMPERATURE; // In degrees Kelvin.
-
     private final Thermometer thermometer;
+    private static final int NUM_TICK_MARKS = 13;
+    private static final Stroke TICK_MARK_STROKE = new BasicStroke( 2 );
 
     /*
      * Constructor.
@@ -59,7 +59,7 @@ public class ThermometerNode extends PComposite {
         PNode rootNode = new PNode();
 
         // Create and add nodes that will act as layers.
-        PNode backLayer = new PNode();
+        final PNode backLayer = new PNode();
         rootNode.addChild( backLayer );
         PNode middleLayer = new PNode();
         rootNode.addChild( middleLayer );
@@ -72,26 +72,31 @@ public class ThermometerNode extends PComposite {
         thermometerBack.setScale( imageScale );
         backLayer.addChild( thermometerBack );
 
-        // Add the clipping node that will hold the shaft node.  The clip will
-        // prevent the liquid from ever appearing to pop out of the top.
+        // Add the clipping node that will contain the liquid shaft node.  The
+        // clip will prevent the liquid from ever appearing to pop out the top.
         PClip liquidShaftClipNode = new PClip();
         liquidShaftClipNode.setStroke( null );
         backLayer.addChild( liquidShaftClipNode );
+
+        // Set up reference values for layout.
+        final Point2D centerOfBulb = new Point2D.Double( thermometerBack.getFullBoundsReference().getCenterX(),
+                                                         thermometerBack.getFullBoundsReference().getMaxY() - thermometerBack.getFullBoundsReference().height * 0.1 );
 
         // Add the liquid shaft, the shape of which will indicate the temperature.
         {
             final PPath liquidShaft = new PhetPPath( new Color( 237, 28, 36 ) );
             liquidShaftClipNode.addChild( liquidShaft );
-            // There are some tweak factors in here used to position the liquid.
-            final Point2D centerOfBulb = new Point2D.Double( thermometerBack.getFullBoundsReference().getCenterX(),
-                                                             thermometerBack.getFullBoundsReference().getMaxY() - thermometerBack.getFullBoundsReference().height * 0.1 );
+            // There are some tweak factors in here for setting the shape of the thermometer liquid.
             final double liquidShaftWidth = thermometerBack.getFullBoundsReference().getWidth() * 0.45;
-            final double maxLiquidShaftHeight = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY();
-            final double minLiquidShaftHeight = thermometerBack.getFullBoundsReference().width * 0.67; // Tweaked a bit in order to make min temp align with lowest tick mark on graphic.
+            final double boilingPointLiquidHeight = (centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY()) * 0.84; // Tweak multiplier to align with desired tick mark at 100 degrees C.
+            final double freezingPointLiquidHeight = thermometerBack.getFullBoundsReference().height * 0.21; // Tweak multiplier to align with desired tick mark at 0 degrees C.
+            final Function.LinearFunction heightMapFunction = new Function.LinearFunction( EFACConstants.FREEZING_POINT_TEMPERATURE,
+                                                                                           EFACConstants.BOILING_POINT_TEMPERATURE,
+                                                                                           freezingPointLiquidHeight,
+                                                                                           boilingPointLiquidHeight );
             thermometer.sensedTemperature.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double temperature ) {
-                    double proportion = MathUtil.clamp( 0, ( temperature - MIN_TEMPERATURE ) / TEMPERATURE_RANGE, 1 );
-                    double liquidShaftHeight = minLiquidShaftHeight + ( maxLiquidShaftHeight - minLiquidShaftHeight ) * proportion;
+                    double liquidShaftHeight = heightMapFunction.evaluate( temperature );
                     liquidShaft.setPathTo( new Rectangle2D.Double( centerOfBulb.getX() - liquidShaftWidth / 2 + 0.75,
                                                                    centerOfBulb.getY() - liquidShaftHeight,
                                                                    liquidShaftWidth,
@@ -103,17 +108,18 @@ public class ThermometerNode extends PComposite {
             // from pushing out the top.  This is a bit tweaky, and must be
             // manually coordinated with the image used for the thermometer.
             DoubleGeneralPath clipPath = new DoubleGeneralPath() {{
+                double thermometerTopY = backLayer.getFullBoundsReference().getMinY();
+                double curveStartOffset = backLayer.getFullBoundsReference().getHeight() * 0.05;
                 double clipWidth = liquidShaft.getFullBoundsReference().width * 1.1;
-                double curveStartProportion = 0.95;
                 double centerX = liquidShaft.getFullBoundsReference().getCenterX();
                 moveTo( centerX - clipWidth / 2, centerOfBulb.getY() );
-                lineTo( centerX - clipWidth / 2, centerOfBulb.getY() - maxLiquidShaftHeight * curveStartProportion );
+                lineTo( centerX - clipWidth / 2, thermometerTopY + curveStartOffset );
                 curveTo( centerX - clipWidth / 4,
-                         centerOfBulb.getY() - maxLiquidShaftHeight,
+                         thermometerTopY - curveStartOffset / 4,
                          centerX + clipWidth / 4,
-                         centerOfBulb.getY() - maxLiquidShaftHeight,
+                         thermometerTopY - curveStartOffset / 4,
                          centerX + clipWidth / 2,
-                         centerOfBulb.getY() - maxLiquidShaftHeight * curveStartProportion
+                         thermometerTopY + curveStartOffset
                 );
                 lineTo( centerX + clipWidth / 2, centerOfBulb.getY() );
                 closePath();
@@ -125,6 +131,18 @@ public class ThermometerNode extends PComposite {
         frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_MEDIUM_FRONT ) {{
             setScale( imageScale );
         }} );
+
+        // Add the tick marks.  There are some tweak factors here.
+        double tickMarkXOffset = thermometerBack.getFullBoundsReference().width * 0.3;
+        double tickMarkWidth = thermometerBack.getFullBoundsReference().width * 0.1;
+        double tickMarkMinY = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getHeight() * 0.15;
+        double tickMarkSpacing = ( ( tickMarkMinY - thermometerBack.getFullBoundsReference().getMinY() ) / NUM_TICK_MARKS ) * 0.945;
+        for ( int i = 0; i < NUM_TICK_MARKS; i++ ) {
+            Line2D tickMarkShape = new Line2D.Double( 0, 0, tickMarkWidth, 0 );
+            PNode tickMark = new PhetPPath( tickMarkShape, TICK_MARK_STROKE, Color.BLACK );
+            tickMark.setOffset( tickMarkXOffset, tickMarkMinY - i * tickMarkSpacing );
+            frontLayer.addChild( tickMark );
+        }
 
         // Add the triangle that represents the point where the thermometer
         // touches the element whose temperature is being measured.  The
