@@ -99,11 +99,6 @@ class ChallengeFactory4 extends ChallengeFactory {
             add( EquationForm.POINT_SLOPE );
         }};
 
-        // random choosers
-        final RandomChooser<Fraction> fractionChooser = new RandomChooser<Fraction>();
-        final RandomChooser<Integer> integerChooser = new RandomChooser<Integer>();
-        final RandomChooser<EquationForm> equationFormChooser = new RandomChooser<EquationForm>();
-
         // MTE, SI, slope & intercept
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope

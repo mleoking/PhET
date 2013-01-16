@@ -49,14 +49,20 @@ abstract class ChallengeFactory {
             case 5:
                 return new ChallengeFactory5().createChallenges( xRange, yRange );
             case 6:
-                //TODO ChallengeFactory6
-                return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
+                return new ChallengeFactory6().createChallenges( xRange, yRange );
             default:
                 throw new IllegalArgumentException( "unsupported level: " + level );
         }
     }
 
     protected final Random random;
+
+    // random choosers
+    protected final RandomChooser<Fraction> fractionChooser = new RandomChooser<Fraction>();
+    protected final RandomChooser<Integer> integerChooser = new RandomChooser<Integer>();
+    protected final RandomChooser<Point2D> pointChooser = new RandomChooser<Point2D>();
+    protected final RandomChooser<ManipulationMode> manipulationModeChooser = new RandomChooser<ManipulationMode>();
+    protected final RandomChooser<EquationForm> equationFormChooser = new RandomChooser<EquationForm>();
 
     protected ChallengeFactory() {
         this.random = new Random();
