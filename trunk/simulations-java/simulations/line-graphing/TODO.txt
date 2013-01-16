@@ -1,6 +1,7 @@
 TODO list for line-graphing
 
 HIGH
+- final pass for doc, cleanup, etc.
 
 MEDIUM
 
@@ -11,5 +12,3 @@ LOOSE ENDS
 - screenshot
 - implementation-notes.txt
 - code review (JB)
-
-MIGRATE TO COMMON
