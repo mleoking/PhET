@@ -38,13 +38,14 @@ public class GraphTheLine extends Challenge {
     }
 
     // Updates the collection of lines that are "seen" by the point tools.
-    @Override protected void updatePointToolLines() {
-        pointToolLines.clear();
-        if ( answerVisible ) {
-            pointToolLines.add( answer );
-        }
+    @Override protected void updateGraphLines() {
+        graph.lines.clear();
+        // add lines in the order that they would be rendered
         if ( guess.get() != null ) {
-            pointToolLines.add( guess.get() );
+            graph.lines.add( guess.get() );
+        }
+        if ( answerVisible ) {
+            graph.lines.add( answer );
         }
     }
 
