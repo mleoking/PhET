@@ -35,7 +35,6 @@ class ChallengeFactory5 extends ChallengeFactory {
         ArrayList<Integer> yIntercepts = rangeToList( new IntegerRange( -10, 10 ) );
 
         // random choosers
-        final RandomChooser<Fraction> fractionChooser = new RandomChooser<Fraction>();
         final RandomChooser<Integer> integerChooser = new RandomChooser<Integer>();
         final RandomChooser<EquationForm> equationFormChooser = new RandomChooser<EquationForm>();
 
