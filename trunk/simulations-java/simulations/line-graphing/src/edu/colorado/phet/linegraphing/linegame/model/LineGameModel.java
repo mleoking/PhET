@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Line;
 
@@ -24,11 +25,23 @@ import edu.colorado.phet.linegraphing.common.model.Line;
  */
 public class LineGameModel {
 
+    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LineGameModel.class.getCanonicalName() );
+
+    private static final boolean USE_HARD_CODED_CHALLENGES = false;
+
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 6 );
     private static final Challenge DUMMY_CHALLENGE = new GTL_Challenge( "", Line.createSlopeIntercept( 1, 1, 1 ),
                                                                         EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE,
                                                                         LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+
+    // a challenge factory for each level
+    private final ChallengeFactory factory1 = new ChallengeFactory1();
+    private final ChallengeFactory factory2 = new ChallengeFactory2();
+    private final ChallengeFactory factory3 = new ChallengeFactory3();
+    private final ChallengeFactory factory4 = new ChallengeFactory4();
+    private final ChallengeFactory factory5 = new ChallengeFactory5();
+    private final ChallengeFactory factory6 = new ChallengeFactory6();
 
     public final GameSettings settings;
     public final GameTimer timer;
@@ -100,9 +113,39 @@ public class LineGameModel {
         }};
     }
 
+    // initializes a new set of challenges for the current level
     private void initChallenges() {
-        challenges = ChallengeFactory.createChallenges( settings.level.get(), LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+
         challengeIndex = 0;
+
+        if ( USE_HARD_CODED_CHALLENGES ) {
+            LOGGER.info( "hard-coded challenges are enabled" );
+            challenges = ChallengeFactoryHardCoded.createChallenges( settings.level.get(), LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+        }
+        else {
+            switch( settings.level.get() ) {
+                case 1:
+                    challenges = factory1.createChallenges( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+                    break;
+                case 2:
+                    challenges = factory2.createChallenges( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+                    break;
+                case 3:
+                    challenges = factory3.createChallenges( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+                    break;
+                case 4:
+                    challenges = factory4.createChallenges( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+                    break;
+                case 5:
+                    challenges = factory5.createChallenges( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+                    break;
+                case 6:
+                    challenges = factory6.createChallenges( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+                    break;
+                default:
+                    throw new IllegalArgumentException( "unsupported level: " + settings.level.get() );
+            }
+        }
     }
 
     public boolean isPerfectScore() {

@@ -7,55 +7,17 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.model.Fraction;
 
 /**
- * Base class for challenge factories. These factories handle generation of challenges.
+ * Base class for challenge factories. These factories handle quasi-random creation of challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 abstract class ChallengeFactory {
 
-    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( ChallengeFactory.class.getCanonicalName() );
-
-    private static final boolean USE_HARD_CODED_CHALLENGES = false;
-
-    /**
-     * Creates challenges for the specified level.
-     *
-     * @param level  game level
-     * @param xRange range of the graph's x axis
-     * @param yRange range of the graph's y axis
-     * @return list of challenges
-     * @throws IllegalArgumentException if level is out of range
-     */
-    public static ArrayList<Challenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
-
-        if ( USE_HARD_CODED_CHALLENGES ) {
-            LOGGER.info( "hard-coded challenges are enabled" );
-            return ChallengeFactoryHardCoded.createChallenges( level, xRange, yRange );
-        }
-
-        switch( level ) {
-            case 1:
-                return new ChallengeFactory1().createChallenges( xRange, yRange );
-            case 2:
-                return new ChallengeFactory2().createChallenges( xRange, yRange );
-            case 3:
-                return new ChallengeFactory3().createChallenges( xRange, yRange );
-            case 4:
-                return new ChallengeFactory4().createChallenges( xRange, yRange );
-            case 5:
-                return new ChallengeFactory5().createChallenges( xRange, yRange );
-            case 6:
-                return new ChallengeFactory6().createChallenges( xRange, yRange );
-            default:
-                throw new IllegalArgumentException( "unsupported level: " + level );
-        }
-    }
-
-    protected final Random random;
+    //TODO RandomChooser has this same field
+    protected final Random random; // random number generator
 
     // random choosers
     protected final RandomChooser<Fraction> fractionChooser = new RandomChooser<Fraction>();
@@ -88,6 +50,7 @@ abstract class ChallengeFactory {
         return list;
     }
 
+    //TODO this is duplicated in RandomChooser
     // Gets a random index for a specified list.
     protected int randomIndex( List list ) {
         return random.nextInt( list.size() );
@@ -157,12 +120,6 @@ abstract class ChallengeFactory {
 
         final int x2 = x1 + run;
         final int y2 = y1 + rise;
-
-        LOGGER.info( "slope=" + rise + "/" + run +
-                     " xRange=[" + xRange.getMin() + "," + xRange.getMax() + "]" +
-                     " yRange=[" + yRange.getMin() + "," + yRange.getMax() + "]" +
-                     " (x1,y1)=(" + x1 + "," + y1 + ")" +
-                     " (x2,y2)=(" + x2 + "," + y2 + ")" );
 
         // (x1,x2) must be on the graph, (x2,y2) must be off the graph
         assert ( graphXRange.contains( x1 ) && !graphXRange.contains( x2 ) );

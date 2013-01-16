@@ -1,3 +1,4 @@
+1/15/13 move static ChallengeFactory.createChallenges to LineGameModel
 1/15/13 implementation of challenge generation for level=6
 1/15/13 provide random choosers as members of ChallengeFactory base class
 1/15/13 completed challenge generation for level=5
