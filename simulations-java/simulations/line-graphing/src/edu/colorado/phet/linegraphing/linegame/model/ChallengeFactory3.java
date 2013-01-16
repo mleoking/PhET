@@ -31,55 +31,7 @@ class ChallengeFactory3 extends ChallengeFactory {
         ArrayList<Challenge> challenges = new ArrayList<Challenge>();
 
         // for slope manipulation challenges, 1 slope must come from each list
-        ArrayList<ArrayList<Fraction>> slopeLists = new ArrayList<ArrayList<Fraction>>() {{
-            add( new ArrayList<Fraction>() {{
-                // positive and negative integers
-                add( new Fraction( 1, 1 ) );
-                add( new Fraction( 2, 1 ) );
-                add( new Fraction( 3, 1 ) );
-                add( new Fraction( 4, 1 ) );
-                add( new Fraction( 5, 1 ) );
-                add( new Fraction( -1, 1 ) );
-                add( new Fraction( -2, 1 ) );
-                add( new Fraction( -3, 1 ) );
-                add( new Fraction( -4, 1 ) );
-                add( new Fraction( -5, 1 ) );
-            }} );
-            add( new ArrayList<Fraction>() {{
-                // positive fractions
-                add( new Fraction( 1, 4 ) );
-                add( new Fraction( 1, 5 ) );
-                add( new Fraction( 1, 6 ) );
-                add( new Fraction( 1, 7 ) );
-                add( new Fraction( 2, 5 ) );
-                add( new Fraction( 3, 5 ) );
-                add( new Fraction( 2, 7 ) );
-                add( new Fraction( 3, 7 ) );
-                add( new Fraction( 4, 7 ) );
-                add( new Fraction( 5, 2 ) );
-                add( new Fraction( 3, 2 ) );
-                add( new Fraction( 7, 2 ) );
-                add( new Fraction( 7, 3 ) );
-                add( new Fraction( 7, 4 ) );
-            }} );
-            add( new ArrayList<Fraction>() {{
-                // negative fractions
-                add( new Fraction( -1, 2 ) );
-                add( new Fraction( -1, 3 ) );
-                add( new Fraction( -1, 4 ) );
-                add( new Fraction( -1, 5 ) );
-                add( new Fraction( -2, 3 ) );
-                add( new Fraction( -3, 4 ) );
-                add( new Fraction( -2, 5 ) );
-                add( new Fraction( -3, 5 ) );
-                add( new Fraction( -4, 5 ) );
-                add( new Fraction( -3, 2 ) );
-                add( new Fraction( -4, 3 ) );
-                add( new Fraction( -5, 2 ) );
-                add( new Fraction( -5, 3 ) );
-                add( new Fraction( -5, 4 ) );
-            }} );
-        }};
+        ArrayList<ArrayList<Fraction>> slopeLists = ChallengeFactory2.createSlopeLists(); // same slopes as level 2
         ArrayList<Integer> slopeListIndices = rangeToList( new IntegerRange( 0, slopeLists.size() - 1 ) );
 
         // for y-intercept manipulation challenges, one must be positive, one negative
