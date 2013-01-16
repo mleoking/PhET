@@ -193,7 +193,6 @@ public class BeakerView {
         private final PClip iceFleckClipNode = new PClip() {{
             setStroke( null );
         }};
-        private final List<IceFleckNode> iceFlecks = new ArrayList<IceFleckNode>();
         private final PhetPPath steamNode;
 
         private PerspectiveWaterNode( IClock clock, final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
