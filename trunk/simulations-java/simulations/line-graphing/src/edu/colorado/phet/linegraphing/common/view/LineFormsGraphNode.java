@@ -51,9 +51,6 @@ public abstract class LineFormsGraphNode extends GraphNode {
         savedLinesParentNode = new PNode();
         interactiveLineParentNode = new PComposite();
 
-        // Diameter of manipulators, in view coordinate frame.
-        final double manipulatorDiameter = model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
-
         // Slope tool
         slopeToolNode = new SlopeToolNode( model.interactiveLine, model.mvt );
 
