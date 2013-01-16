@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.linegame.model;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -68,7 +69,10 @@ class ChallengeFactory5 extends ChallengeFactory {
             final ArrayList<Integer> yList = rangeToList( new IntegerRange( -5, 5 ) );
             final int x1 = ( equationForm == EquationForm.SLOPE_INTERCEPT ) ? 0 : integerChooser.choose( xList );
             final int y1 = integerChooser.choose( yList );
-            final int x2 = integerChooser.choose( xList );
+            int x2 = integerChooser.choose( xList );
+            if ( x2 == x1 ) {
+                x2 = integerChooser.choose( xList ); // prevent undefined slope
+            }
             final int y2 = integerChooser.choose( yList );
 
             // challenge
@@ -102,30 +106,35 @@ class ChallengeFactory5 extends ChallengeFactory {
                 add( new Fraction( 2, 3 ) );
             }};
 
-            // choose rise and run such that they don't make an excluded slope.
-            final ArrayList<Integer> riseList = rangeToList( yRange );
-            final ArrayList<Integer> runList = rangeToList( xRange );
-            int rise = integerChooser.choose( riseList );
-            final int run = integerChooser.choose( runList );
-            boolean excluded = true;
-            while ( excluded && riseList.size() > 0 ) {
-                excluded = false;
-                // is this an excluded slope?
-                for ( Fraction slope : excludedSlopes ) {
-                    if ( slope.toDecimal() == new Fraction( rise, run ).toDecimal() ) {
-                        excluded = true;
-                        rise = integerChooser.choose( riseList ); // choose a new rise, and remove it from riseList
-                        break;
+            // choose rise and run such that they don't make an undefined or excluded slope
+            int rise, run;
+            {
+                final ArrayList<Integer> riseList = rangeToList( yRange );
+                final ArrayList<Integer> runList = rangeToList( xRange );
+                rise = integerChooser.choose( riseList );
+                run = integerChooser.choose( runList );
+                boolean excluded = true;
+                while ( excluded && runList.size() > 0 ) {
+                    excluded = false;
+                    // is this an excluded or undefined slope?
+                    for ( Fraction slope : excludedSlopes ) {
+                        if ( run == 0 || slope.toDecimal() == new Fraction( rise, run ).toDecimal() ) {
+                            excluded = true;
+                            run = integerChooser.choose( runList ); // choose a new run, and remove it from runList
+                            break;
+                        }
                     }
                 }
+                if ( excluded ) {
+                    run = 5; // a run that's not in excludedSlopes
+                }
             }
-            if ( excluded ) {
-                rise = 5; // a run that's not in excludedSlopes
-            }
+            assert( run != 0 );
 
             // points
-            final int x1 = ( equationForm == EquationForm.SLOPE_INTERCEPT ) ? 0 : integerChooser.choose( rangeToList( yRange ) );
-            final int y1 = integerChooser.choose( rangeToList( yRange ) );
+            final Point2D p = choosePointForSlope( new Fraction( rise, run ), xRange, yRange );
+            final int x1 = ( equationForm == EquationForm.SLOPE_INTERCEPT ) ? 0 : (int) p.getX();
+            final int y1 = (int) p.getY();
             final int x2 = x1 + run;
             final int y2 = y1 + rise;
 
@@ -141,16 +150,42 @@ class ChallengeFactory5 extends ChallengeFactory {
             }
         }
 
-        // PTP, SI
+        // 2 PTP challenges
         {
             // ranges of x1,y1,rise,run limited to [-5,5]
-            //TODO
-        }
+            IntegerRange range = new IntegerRange( -5, 5 );
+            ArrayList<Integer> xList = rangeToList( range );
+            ArrayList<Integer> yList = rangeToList( range );
+            ArrayList<Integer> riseList = rangeToList( range );
+            ArrayList<Integer> runList = rangeToList( range );
 
-        // PTP, PS
-        {
-            // ranges of x1,y1,rise,run limited to [-5,5]
-            //TODO
+            // SI
+            {
+                final int x1 = integerChooser.choose( xList );
+                final int y1 = integerChooser.choose( yList );
+                final int rise = integerChooser.choose( riseList );
+                int run = integerChooser.choose( runList );
+                if ( run == 0 ) {
+                    // prevent undefined slope
+                    run = integerChooser.choose( runList );
+                }
+                final Line line = new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK );
+                challenges.add( new PTP_Challenge( "slope-intercept, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+            }
+
+            // PS
+            {
+                final int x1 = integerChooser.choose( xList );
+                final int y1 = integerChooser.choose( yList );
+                final int rise = integerChooser.choose( riseList );
+                int run = integerChooser.choose( runList );
+                if ( run == 0 ) {
+                    // prevent undefined slope
+                    run = integerChooser.choose( runList );
+                }
+                final Line line = new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK );
+                challenges.add( new PTP_Challenge( "point-slope, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+            }
         }
 
         // shuffle and return
