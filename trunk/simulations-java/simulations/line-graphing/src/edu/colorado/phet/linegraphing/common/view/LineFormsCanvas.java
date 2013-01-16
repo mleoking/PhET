@@ -26,10 +26,10 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
      * Constructor
      *
      * @param model            model container
-     * @param viewProperties
-     * @param graphNode
-     * @param equationControls
-     * @param graphControls
+     * @param viewProperties   properties that are specific to the view, have no model representation
+     * @param graphNode        visual representation of the graph
+     * @param equationControls controls that affect the equation
+     * @param graphControls    controls that affect the graph
      */
     protected LineFormsCanvas( LineFormsModel model, LineFormsViewProperties viewProperties, PNode graphNode, PNode equationControls, PNode graphControls ) {
         setBackground( LGColors.CANVAS );
