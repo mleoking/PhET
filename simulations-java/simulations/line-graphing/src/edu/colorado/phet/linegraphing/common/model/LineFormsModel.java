@@ -55,7 +55,7 @@ public abstract class LineFormsModel implements Resettable {
             this.interactiveLine.addObserver( new ChangeObserver<Line>() {
                 public void update( Line newLine, Line oldLine ) {
                     allLines.remove( oldLine ); // remove first, because on observer registration oldLine == newLine
-                    allLines.add( newLine ); // add interactive line to end, so we find it last
+                    allLines.add( newLine ); // add interactive line to end, so point tool sees it last
                 }
             } );
 
