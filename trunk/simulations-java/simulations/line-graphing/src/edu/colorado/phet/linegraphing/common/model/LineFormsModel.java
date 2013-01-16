@@ -61,7 +61,7 @@ public abstract class LineFormsModel implements Resettable {
 
             savedLines.addElementAddedObserver( new VoidFunction1<Line>() {
                 public void apply( Line line ) {
-                    allLines.add( 0, line ); // add saved lines to front, so we find them first
+                    allLines.add( 0, line ); // add saved lines to front, so the point tool sees them first
                 }
             } );
             savedLines.addElementRemovedObserver( new VoidFunction1<Line>() {
@@ -73,7 +73,7 @@ public abstract class LineFormsModel implements Resettable {
 
             standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
                 public void apply( Line line ) {
-                    allLines.add( 0, line ); // add standard lines to front, so we find them first
+                    allLines.add( 0, line ); // add standard lines to front, so the point tool sees them first
                 }
             } );
             standardLines.addElementRemovedObserver( new VoidFunction1<Line>() {
