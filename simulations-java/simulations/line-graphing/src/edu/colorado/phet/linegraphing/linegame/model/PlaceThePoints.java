@@ -13,8 +13,8 @@ import edu.colorado.phet.linegraphing.linegame.view.PlaceThePointsNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Model for all "Place the Points" challenges.
- * This is a specialization of the "Graph the Line" challenge.
+ * Model for "Place the Points" challenges.
+ * This is a specialization of "Graph the Line" challenge.
  * In this challenge, the user is given an equation and must place 3 points on a graph to make the line.
  * If the 3 points do not form a line, the guess line will be null.
  *

@@ -20,7 +20,6 @@ class ChallengeFactory6 extends ChallengeFactory {
 
     /**
      * Creates challenges for this game level.
-     *
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
      * @return list of challenges

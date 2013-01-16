@@ -15,6 +15,6 @@ public enum ManipulationMode {
     SLOPE_INTERCEPT,
     POINT,
     POINT_SLOPE,
-    TWO_POINTS, /* 2 points, (x1,y1) and (x2,y2) */
-    THREE_POINTS /* 3 arbitrary points that may or may not form a line */
+    TWO_POINTS, /* 2 points that define a line: (x1,y1) and (x2,y2) */
+    THREE_POINTS /* 3 arbitrary points that may or may not form a line: p1, p2, p3 */
 }
