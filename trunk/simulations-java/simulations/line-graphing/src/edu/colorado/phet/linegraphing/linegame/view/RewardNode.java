@@ -54,6 +54,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * The reward that is displayed when a game is completed with a perfect score.
+ * Various images (based on game level) move from top to bottom in the play area.
+ * See the "Developer->Test game reward" menu item for testing and configuration of this node.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

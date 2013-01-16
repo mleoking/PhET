@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for graph node in game challenges.
+ * Base class for graph nodes in game challenges.
  * Renders the answer line, guess line, and slope tool.
  * Everything on the graph is hidden by default, it's up to subclasses and clients to determine what they want to see.
  * Optional manipulators are provided by subclasses.

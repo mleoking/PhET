@@ -11,6 +11,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * View for "Place the Points" challenges.
+ * This is a specialization of the "Graph the Line" view.
  * User manipulates 3 arbitrary points, equations are displayed on the left.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

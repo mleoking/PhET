@@ -14,6 +14,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Portion of the scenegraph that corresponds to the "settings" game phase. (See GamePhase.SETTINGS)
+ * The displays a panel with controls used to configure a game.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

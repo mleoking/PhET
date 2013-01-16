@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Portion of the scenegraph that corresponds to the "play" game phase. (See GamePhase.PLAY)
+ * Displays the scoreboard and current challenge.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

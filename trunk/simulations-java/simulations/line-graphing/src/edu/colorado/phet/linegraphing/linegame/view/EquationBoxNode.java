@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Box around an equation in the "Line Game".
+ * Has an icon that indicates "correct" (check mark) or "incorrect" (red "X").
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
