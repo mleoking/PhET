@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
- * Resources for the line-graphing project.
+ * Resources for this project.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
