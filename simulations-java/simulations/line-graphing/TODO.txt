@@ -1,7 +1,6 @@
 TODO list for line-graphing
 
 HIGH
-- final pass for doc, cleanup, etc.
 
 MEDIUM
 
