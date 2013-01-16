@@ -45,7 +45,6 @@ abstract class ChallengeFactory {
      */
     public abstract ArrayList<Challenge> createChallenges( IntegerRange xRange, IntegerRange yRange );
 
-    //TODO move this somewhere else?
     // Converts an integer range to a list of values that are in that range.
     public static ArrayList<Integer> rangeToList( IntegerRange range ) {
         ArrayList<Integer> list = new ArrayList<Integer>();
@@ -54,12 +53,6 @@ abstract class ChallengeFactory {
         }
         assert ( list.size() > 0 );
         return list;
-    }
-
-    //TODO this is duplicated in RandomChooser
-    // Gets a random index for a specified list.
-    protected int randomIndex( List list ) {
-        return random.nextInt( list.size() );
     }
 
     // Picks a point that keeps the slope indicator on the graph.
@@ -132,6 +125,11 @@ abstract class ChallengeFactory {
         assert ( graphYRange.contains( y1 ) && !graphYRange.contains( y2 ) );
 
         return new Point2D.Double( x1, y1 );
+    }
+
+    // Gets a random index for a specified list.
+    protected int randomIndex( List list ) {
+        return random.nextInt( list.size() );
     }
 
     // Shuffles a list of challenges.
