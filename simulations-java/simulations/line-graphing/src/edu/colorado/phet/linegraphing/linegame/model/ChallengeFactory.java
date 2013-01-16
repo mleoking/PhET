@@ -16,18 +16,24 @@ import edu.colorado.phet.linegraphing.common.model.Fraction;
  */
 abstract class ChallengeFactory {
 
-    //TODO RandomChooser has this same field
     protected final Random random; // random number generator
 
     // random choosers
-    protected final RandomChooser<Fraction> fractionChooser = new RandomChooser<Fraction>();
-    protected final RandomChooser<Integer> integerChooser = new RandomChooser<Integer>();
-    protected final RandomChooser<Point2D> pointChooser = new RandomChooser<Point2D>();
-    protected final RandomChooser<ManipulationMode> manipulationModeChooser = new RandomChooser<ManipulationMode>();
-    protected final RandomChooser<EquationForm> equationFormChooser = new RandomChooser<EquationForm>();
+    protected final RandomChooser<Fraction> fractionChooser;
+    protected final RandomChooser<Integer> integerChooser;
+    protected final RandomChooser<Point2D> pointChooser;
+    protected final RandomChooser<ManipulationMode> manipulationModeChooser;
+    protected final RandomChooser<EquationForm> equationFormChooser;
 
     protected ChallengeFactory() {
-        this.random = new Random();
+
+        random = new Random();
+
+        fractionChooser = new RandomChooser<Fraction>( random );
+        integerChooser = new RandomChooser<Integer>( random );
+        pointChooser = new RandomChooser<Point2D>( random );
+        manipulationModeChooser = new RandomChooser<ManipulationMode>( random );
+        equationFormChooser = new RandomChooser<EquationForm>( random );
     }
 
     /**
