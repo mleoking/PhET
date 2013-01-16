@@ -32,17 +32,17 @@ class ChallengeFactory5 extends ChallengeFactory {
         // Make-the-Equation, slope-intercept form, slope=0
         {
             final int yIntercept = integerChooser.choose( yIntercepts );
-            Line line = Line.createSlopeIntercept( 0, 1, yIntercept );
             challenges.add( new MakeTheEquation( "slope=0",
-                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                                                 Line.createSlopeIntercept( 0, 1, yIntercept ),
+                                                 EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // Graph-the-Line, slope-intercept form, slope=0
         {
             final int yIntercept = integerChooser.choose( yIntercepts );
-            Line line = Line.createSlopeIntercept( 0, 1, yIntercept );
             challenges.add( new GraphTheLine( "slope=0",
-                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                                              Line.createSlopeIntercept( 0, 1, yIntercept ),
+                                              EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // Graph-the-Line, slope-intercept or point-slope form (random choice), 2 variables
@@ -160,8 +160,9 @@ class ChallengeFactory5 extends ChallengeFactory {
                     // prevent undefined slope
                     run = integerChooser.choose( runList );
                 }
-                final Line line = new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK );
-                challenges.add( new PlaceThePoints( "slope-intercept, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PlaceThePoints( "slope-intercept, random points",
+                                                    new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
+                                                    EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
             }
 
             // point-slope form, point and slope variable
@@ -174,8 +175,9 @@ class ChallengeFactory5 extends ChallengeFactory {
                     // prevent undefined slope
                     run = integerChooser.choose( runList );
                 }
-                final Line line = new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK );
-                challenges.add( new PlaceThePoints( "point-slope, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PlaceThePoints( "point-slope, random points",
+                                                    new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
+                                                    EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
             }
         }
 
