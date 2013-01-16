@@ -190,12 +190,17 @@ public class BeakerView {
         private final PhetPPath liquidWaterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
         private final PhetPPath frozenWaterTopNode = new PhetPPath( BASIC_ICE_COLOR, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
         private final PhetPPath frozenWaterBodyNode = new PhetPPath( Color.WHITE, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
+        private final PClip iceFleckClipNode = new PClip() {{
+            setStroke( null );
+        }};
+        private final List<IceFleckNode> iceFlecks = new ArrayList<IceFleckNode>();
         private final PhetPPath steamNode;
 
         private PerspectiveWaterNode( IClock clock, final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
             addChild( liquidWaterBodyNode );
             addChild( liquidWaterTopNode );
             addChild( frozenWaterBodyNode );
+            addChild( iceFleckClipNode );
             addChild( frozenWaterTopNode );
             steamNode = new PhetPPath( new Color( 220, 220, 220 ) );
             addChild( steamNode );
@@ -244,9 +249,11 @@ public class BeakerView {
         }
 
         private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature ) {
+
             double freezeProportion = 0;
             if ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE < FREEZING_RANGE ) {
-                // Water is starting to freeze, set the amount of freezing.
+                // Set the proportion of freezing that is occurring.  Zero
+                // indicates no freezing, 1 indication fully frozen.
                 freezeProportion = MathUtil.clamp( 0, 1 - ( ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE ) / FREEZING_RANGE ), 1 );
             }
 
@@ -290,6 +297,24 @@ public class BeakerView {
             frozenWaterBodyArea.add( new Area( liquidWaterTopEllipse ) );
             frozenWaterBodyNode.setPathTo( frozenWaterBodyArea );
             frozenWaterTopNode.setPathTo( frozenWaterTopEllipse );
+
+            // Update the place where the ice flecks go.
+            Area iceFleckArea = frozenWaterBodyArea;
+            iceFleckArea.add( new Area( frozenWaterTopEllipse ) );
+            iceFleckClipNode.setPathTo( iceFleckArea );
+
+            // Regenerate ice flecks if freezing has just started.
+            if ( !frozenWaterBodyNode.getVisible() && freezeProportion > 0 ) {
+                iceFlecks.clear();
+                // TODO: Make num of flecks a constant if we keep them.
+                for ( int i = 0; i < 100; i++ ) {
+                    IceFleckNode iceFleck = new IceFleckNode( generateRandomIceFleckColor() );
+                    iceFleck.setOffset( generateRandomLocationInShape( liquidWaterBodyArea ) );
+                    iceFlecks.add( iceFleck );
+                    // TODO: Temp
+                    iceFleckClipNode.addChild( iceFleck );
+                }
+            }
 
             // Frozen portions only visible if some freezing has occurred.
             frozenWaterBodyNode.setVisible( freezeProportion > 0 );
@@ -374,38 +399,6 @@ public class BeakerView {
                                                         horizontalVariation,
                                                         verticalVariation ) );
 
-                // Randomize the steam points to make the steam cloud appear to move.
-//                List<Vector2D> cloudBottomPoints = new ArrayList<Vector2D>();
-//                for ( Vector2D cloudBottomReferencePoint : cloudBottomReferencePoints ) {
-//                    double length = 10;
-//                    Vector2D movement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * length, ( RAND.nextDouble() - 0.5 ) * length );
-//                    cloudBottomPoints.add( cloudBottomReferencePoint.plus( movement ) );
-//                }
-//                List<Vector2D> cloudTopPoints = new ArrayList<Vector2D>();
-//                for ( Vector2D cloudTopReferencePoint : cloudTopReferencePoints ) {
-//                    double length = 20;
-//                    Vector2D movement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * length, ( RAND.nextDouble() - 0.5 ) * length );
-//                    cloudTopPoints.add( cloudTopReferencePoint.plus( movement ) );
-//                }
-
-                // Start at lower left of node and move clockwise around.
-//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth * 0.4, frozenWaterRect.getMinY() - steamHeight * 0.005 ) ); // Lower left point.
-//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2, steamUpperCornerYPos + steamHeight / 2 ) );
-//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() - steamWidth / 2 + steamWidth * 0.2, steamUpperCornerYPos ) );
-//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX(), steamUpperCornerYPos - steamHeight * 0.15 ) );
-//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2 - steamWidth * 0.2, steamUpperCornerYPos ) );
-//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth / 2, steamUpperCornerYPos + steamHeight / 2 ) );
-//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX() + steamWidth * 0.4, frozenWaterRect.getMinY() - steamHeight * 0.005 ) );
-//                steamShapePoints.add( new Vector2D( beakerOutlineRect.getCenterX(), frozenWaterRect.getMinY() + ellipseHeight / 2 - steamWidth * 0.03 ) );
-//
-//                // Randomize the steam points to make the steam cloud appear to move.
-//                List<Vector2D> randomizedSteamPoints = new ArrayList<Vector2D>();
-//                for ( Vector2D steamShapePoint : steamShapePoints ) {
-//                    double length = 10;
-//                    Vector2D movement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * length, ( RAND.nextDouble() - 0.5 ) * length );
-//                    randomizedSteamPoints.add( steamShapePoint.plus( movement ) );
-//                }
-//                steamNode.setPathTo( ShapeUtils.createRoundedShapeFromVectorPoints( randomizedSteamPoints ) );
                 Area steamShape = new Area( ShapeUtils.createShapeFromPoints( steamBodyPoints ) );
                 steamShape.add( new Area( ShapeUtils.createRoundedShapeFromVectorPoints( cloudBottomReferencePoints ) ) );
                 steamShape.add( new Area( ShapeUtils.createRoundedShapeFromVectorPoints( cloudTopReferencePoints ) ) );
@@ -413,7 +406,6 @@ public class BeakerView {
 
                 // Update the gradient paint used for the steam.
                 int steamAlpha = (int) ( 255 * boilingProportion );
-                double unfilledHeight = beakerOutlineRect.getHeight() * ( 1 - fluidLevel );
                 steamNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
                                                             steamNode.getFullBoundsReference().getMinY(),
                                                             new Color( 255, 255, 255, steamAlpha ),
@@ -433,5 +425,40 @@ public class BeakerView {
 
     private static Vector2D randomize( Vector2D vector, double maxXVariation, double maxYVariation ) {
         return vector.plus( maxXVariation * ( RAND.nextDouble() - 0.5 ) * 2, maxYVariation * ( RAND.nextDouble() - 0.5 ) * 2 );
+    }
+
+    private static Point2D generateRandomLocationInShape( Shape shape ) {
+        Rectangle2D shapeBounds = shape.getBounds2D();
+        int maxGenAttempts = 100;
+        Point2D location = null;
+        for ( int i = 0; i < maxGenAttempts; i++ ) {
+            location = new Point2D.Double( shapeBounds.getMinX() + RAND.nextDouble() * shapeBounds.getWidth(),
+                                           shapeBounds.getMinY() + RAND.nextDouble() * shapeBounds.getHeight() );
+            if ( shape.contains( location ) ) {
+                return location;
+            }
+        }
+
+        System.out.println( "BeakerView" + " - Warning: Didn't generate point within shape, using point within shape bounds." );
+        return location;
+    }
+
+    private static final List<Color> ICE_FLECK_COLORS = new ArrayList<Color>() {{
+        add( Color.BLACK );
+        add( Color.WHITE );
+        add( Color.BLUE );
+        add( Color.LIGHT_GRAY );
+    }};
+
+    private static final Color generateRandomIceFleckColor() {
+        return ICE_FLECK_COLORS.get( RAND.nextInt( ICE_FLECK_COLORS.size() ) );
+    }
+
+    private static class IceFleckNode extends PNode {
+        private static final double DIAMETER = 1;
+
+        private IceFleckNode( Color color ) {
+            addChild( new PhetPPath( new Ellipse2D.Double( -DIAMETER / 2, -DIAMETER / 2, DIAMETER, DIAMETER ), color ) );
+        }
     }
 }
