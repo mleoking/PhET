@@ -29,59 +29,8 @@ class ChallengeFactory4 extends ChallengeFactory {
 
         ArrayList<Challenge> challenges = new ArrayList<Challenge>();
 
-        // positive slopes
-        final ArrayList<Fraction> positiveSlopes = new ArrayList<Fraction>() {{
-            // positive fractions
-            add( new Fraction( 1, 4 ) );
-            add( new Fraction( 1, 5 ) );
-            add( new Fraction( 1, 6 ) );
-            add( new Fraction( 1, 7 ) );
-            add( new Fraction( 2, 5 ) );
-            add( new Fraction( 3, 5 ) );
-            add( new Fraction( 2, 7 ) );
-            add( new Fraction( 3, 7 ) );
-            add( new Fraction( 4, 7 ) );
-            add( new Fraction( 5, 2 ) );
-            add( new Fraction( 3, 2 ) );
-            add( new Fraction( 7, 2 ) );
-            add( new Fraction( 7, 3 ) );
-            add( new Fraction( 7, 4 ) );
-        }};
-
         // for slope manipulation challenges, 1 slope must come from each list
-        ArrayList<ArrayList<Fraction>> slopeLists = new ArrayList<ArrayList<Fraction>>() {{
-            add( new ArrayList<Fraction>() {{
-                // positive and negative integers
-                add( new Fraction( 1, 1 ) );
-                add( new Fraction( 2, 1 ) );
-                add( new Fraction( 3, 1 ) );
-                add( new Fraction( 4, 1 ) );
-                add( new Fraction( 5, 1 ) );
-                add( new Fraction( -1, 1 ) );
-                add( new Fraction( -2, 1 ) );
-                add( new Fraction( -3, 1 ) );
-                add( new Fraction( -4, 1 ) );
-                add( new Fraction( -5, 1 ) );
-            }} );
-            add( positiveSlopes );
-            add( new ArrayList<Fraction>() {{
-                // negative fractions
-                add( new Fraction( -1, 2 ) );
-                add( new Fraction( -1, 3 ) );
-                add( new Fraction( -1, 4 ) );
-                add( new Fraction( -1, 5 ) );
-                add( new Fraction( -2, 3 ) );
-                add( new Fraction( -3, 4 ) );
-                add( new Fraction( -2, 5 ) );
-                add( new Fraction( -3, 5 ) );
-                add( new Fraction( -4, 5 ) );
-                add( new Fraction( -3, 2 ) );
-                add( new Fraction( -4, 3 ) );
-                add( new Fraction( -5, 2 ) );
-                add( new Fraction( -5, 3 ) );
-                add( new Fraction( -5, 4 ) );
-            }} );
-        }};
+        ArrayList<ArrayList<Fraction>> slopeLists = ChallengeFactory2.createSlopeLists();
         ArrayList<Integer> slopeBinIndices = rangeToList( new IntegerRange( 0, slopeLists.size() - 1 ) );
 
         // for y-intercept manipulation challenges, one must be positive, one negative
@@ -160,8 +109,16 @@ class ChallengeFactory4 extends ChallengeFactory {
          * Choose y-intercept or point such that (x2,y2) is off the graph, so that user is forced to invert the slope.
          */
         {
-            Fraction slope = fractionChooser.choose( positiveSlopes ); // unique positive slope
+            // choose a positive fractional slope
+            final ArrayList<Fraction> positiveSlopes = ChallengeFactory2.createPositiveFractionalSlopes();
+            positiveSlopes.add( new Fraction( 2, 1 ) );
+            positiveSlopes.add( new Fraction( 3, 1 ) );
+            positiveSlopes.add( new Fraction( 4, 1 ) );
+            positiveSlopes.add( new Fraction( 5, 1 ) );
+            Fraction slope = fractionChooser.choose( positiveSlopes );
+
             Point2D point = choosePointForSlopeInversion( slope, xRange, yRange ); // random point, not necessarily unique
+
             if ( equationFormChooser.choose( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
                 // GTL, SI, 2 points
                 challenges.add( new GTL_Challenge( "slope-intercept because MTE uses point-slope, force slope inversion",
