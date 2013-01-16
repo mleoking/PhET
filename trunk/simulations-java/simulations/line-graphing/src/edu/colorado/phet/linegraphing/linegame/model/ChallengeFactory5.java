@@ -34,23 +34,23 @@ class ChallengeFactory5 extends ChallengeFactory {
         // for y-intercept manipulation challenges
         ArrayList<Integer> yIntercepts = rangeToList( new IntegerRange( -10, 10 ) );
 
-        // MTE, SI, slope=0
+        // Make-the-Equation, slope-intercept form, slope=0
         {
             final int yIntercept = integerChooser.choose( yIntercepts );
             Line line = Line.createSlopeIntercept( 0, 1, yIntercept );
-            challenges.add( new MTE_Challenge( "slope=0",
+            challenges.add( new MakeTheEquation( "slope=0",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
-        // GTL, SI, slope=0
+        // Graph-the-Line, slope-intercept form, slope=0
         {
             final int yIntercept = integerChooser.choose( yIntercepts );
             Line line = Line.createSlopeIntercept( 0, 1, yIntercept );
-            challenges.add( new GTL_Challenge( "slope=0",
+            challenges.add( new GraphTheLine( "slope=0",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
-        // GTL, SI or PS, slope-intercept or point-slope
+        // Graph-the-Line, slope-intercept or point-slope form (random choice), 2 variables
         {
             // randomly choose equation form
             ArrayList<EquationForm> equationForms = new ArrayList<EquationForm>() {{
@@ -74,16 +74,16 @@ class ChallengeFactory5 extends ChallengeFactory {
             // challenge
             final Line line = new Line( x1, y1, x2, y2, Color.BLACK );
             if ( equationForm == EquationForm.SLOPE_INTERCEPT ) {
-                challenges.add( new GTL_Challenge( "random choice of slope-intercept, points in [-5,5]",
+                challenges.add( new GraphTheLine( "random choice of slope-intercept, points in [-5,5]",
                                                    line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
             }
             else {
-                challenges.add( new GTL_Challenge( "random choice of point-slope, points in [-5,5]",
+                challenges.add( new GraphTheLine( "random choice of point-slope, points in [-5,5]",
                                                    line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
         }
 
-        // MTE, SI or PS, random slope with exclusions
+        // Make-the-Equation, slope-intercept or point-slope form (random choice), 2 variables, random slope with exclusions
         {
             // randomly choose equation form
             final ArrayList<EquationForm> equationForms = new ArrayList<EquationForm>() {{
@@ -137,16 +137,16 @@ class ChallengeFactory5 extends ChallengeFactory {
             // challenge
             final Line line = new Line( x1, y1, x2, y2, Color.BLACK );
             if ( equationForm == EquationForm.SLOPE_INTERCEPT ) {
-                challenges.add( new GTL_Challenge( "random choice of slope-intercept, some excluded slopes",
+                challenges.add( new GraphTheLine( "random choice of slope-intercept, some excluded slopes",
                                                    line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
             }
             else {
-                challenges.add( new GTL_Challenge( "random choice of point-slope, some excluded slopes",
+                challenges.add( new GraphTheLine( "random choice of point-slope, some excluded slopes",
                                                    line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
         }
 
-        // 2 PTP challenges
+        // 2 Place-the-Point challenges
         {
             // ranges of x1,y1,rise,run limited to [-5,5]
             IntegerRange range = new IntegerRange( -5, 5 );
@@ -155,7 +155,7 @@ class ChallengeFactory5 extends ChallengeFactory {
             ArrayList<Integer> riseList = rangeToList( range );
             ArrayList<Integer> runList = rangeToList( range );
 
-            // SI
+            // slope-intercept form, slope and intercept variable
             {
                 final int x1 = integerChooser.choose( xList );
                 final int y1 = integerChooser.choose( yList );
@@ -166,10 +166,10 @@ class ChallengeFactory5 extends ChallengeFactory {
                     run = integerChooser.choose( runList );
                 }
                 final Line line = new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK );
-                challenges.add( new PTP_Challenge( "slope-intercept, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PlaceThePoints( "slope-intercept, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
             }
 
-            // PS
+            // point-slope form, point and slope variable
             {
                 final int x1 = integerChooser.choose( xList );
                 final int y1 = integerChooser.choose( yList );
@@ -180,7 +180,7 @@ class ChallengeFactory5 extends ChallengeFactory {
                     run = integerChooser.choose( runList );
                 }
                 final Line line = new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK );
-                challenges.add( new PTP_Challenge( "point-slope, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PlaceThePoints( "point-slope, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
             }
         }
 

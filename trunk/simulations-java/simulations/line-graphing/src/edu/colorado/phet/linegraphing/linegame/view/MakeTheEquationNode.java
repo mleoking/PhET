@@ -18,7 +18,7 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.EquationForm;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.model.MTE_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.MakeTheEquation;
 import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 import edu.colorado.phet.linegraphing.linegame.model.PlayState;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
@@ -27,12 +27,12 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * View for "Make the Equation" (MTE) challenges.
+ * View for "Make the Equation" challenges.
  * User manipulates an equation on the right, graph is displayed on the left.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MTE_ChallengeNode extends ChallengeNode {
+public class MakeTheEquationNode extends ChallengeNode {
 
     /**
      * Constructor
@@ -41,7 +41,7 @@ public class MTE_ChallengeNode extends ChallengeNode {
      * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
      * @param audioPlayer the audio player, for providing audio feedback during game play
      */
-    public MTE_ChallengeNode( final MTE_Challenge challenge, final LineGameModel model, PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
+    public MakeTheEquationNode( final MakeTheEquation challenge, final LineGameModel model, PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
         super( challenge, model, challengeSize, audioPlayer );
 
         final double boxWidth = 0.4 * challengeSize.getWidth();

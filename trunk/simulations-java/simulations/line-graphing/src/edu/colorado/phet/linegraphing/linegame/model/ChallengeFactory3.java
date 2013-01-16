@@ -49,78 +49,78 @@ class ChallengeFactory3 extends ChallengeFactory {
             add( EquationForm.POINT_SLOPE );
         }};
 
-        // GTL, SI, slope & intercept
+        // Graph-the-Line, slope-intercept form, slope and intercept variable
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
             int yIntercept = integerChooser.chooseFromLists( yInterceptLists, yInterceptListIndices ); // first required y-intercept, unique
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new GTL_Challenge( "1 of 2 required y-intercepts",
+            challenges.add( new GraphTheLine( "1 of 2 required y-intercepts",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
-        // GTL, PS, point & slope
+        // Graph-the-Line, point-slope form, point and slope variable
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeListIndices ); // first required slope, unique
             Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            challenges.add( new GTL_Challenge( "1 of 3 required slopes",
+            challenges.add( new GraphTheLine( "1 of 3 required slopes",
                                                line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
-        // GTL, SI or PS (random choice)
+        // Graph-the-Line, slope-intercept or point-slope form (random choice), 2 variables
         {
             if ( equationFormChooser.choose( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
-                // GTL, SI, slope & intercept
+                // Graph-the-Line, slope-intercept form, slope and intercept variable
                 Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeListIndices ); // second required slope, unique
                 int yIntercept = integerChooser.chooseFromLists( yInterceptLists ); // unique y-intercept
                 Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-                challenges.add( new GTL_Challenge( "random choice of slope-intercept, 2 of 2 required slopes",
+                challenges.add( new GraphTheLine( "random choice of slope-intercept, 2 of 2 required slopes",
                                                    line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
             }
             else {
-                // GTL, PS, point & slope
+                // Graph-the-Line, point-slope form, point and slope variable
                 Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
                 Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-                challenges.add( new GTL_Challenge( "random choice of point-slope",
+                challenges.add( new GraphTheLine( "random choice of point-slope",
                                                    line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
         }
 
-        // MTE, SI, slope & intercept
+        // Make-the-Equation, slope-intercept form, slope and intercept variable
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
             int yIntercept = integerChooser.chooseFromLists( yInterceptLists, yInterceptListIndices ); // second required y-intercept
             Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-            challenges.add( new MTE_Challenge( "2 of 2 required y-intercepts",
+            challenges.add( new MakeTheEquation( "2 of 2 required y-intercepts",
                                                line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
-        // MTE, PS, point & slope
+        // Make-the-Equation, point-slope form, point and slope variable
         {
             Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeListIndices ); // 3rd required slope, unique
             Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-            challenges.add( new MTE_Challenge( "3 of 3 required slopes",
+            challenges.add( new MakeTheEquation( "3 of 3 required slopes",
                                                line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
-        // MTE, SI or PS (whichever wasn't chosen above)
+        // Make-the-Equation, slope-intercept or point-slope form (whichever wasn't chosen above), 2 variables
         {
             if ( equationFormChooser.choose( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
-                // MTE, SI, slope & intercept
+                // Make-the-Equation, slope-intercept, slope and intercept variable
                 Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
                 int yIntercept = integerChooser.chooseFromLists( yInterceptLists ); // unique y-intercept
                 Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
-                challenges.add( new MTE_Challenge( "slope-intercept because GTL uses point-slope",
+                challenges.add( new MakeTheEquation( "slope-intercept because Graph-the-Line uses point-slope",
                                                    line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
             }
             else {
-                // MTE, PS, point & slope
+                // Make-the-Equation, point-slope form, point and slope variable
                 Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
                 Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
-                challenges.add( new MTE_Challenge( "point-slope because GTL uses slope-intercept",
+                challenges.add( new MakeTheEquation( "point-slope because Graph-the-Line uses slope-intercept",
                                                    line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
         }

@@ -31,7 +31,7 @@ public class LineGameModel {
 
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 6 );
-    private static final Challenge DUMMY_CHALLENGE = new GTL_Challenge( "", Line.createSlopeIntercept( 1, 1, 1 ),
+    private static final Challenge DUMMY_CHALLENGE = new GraphTheLine( "", Line.createSlopeIntercept( 1, 1, 1 ),
                                                                         EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE,
                                                                         LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
 

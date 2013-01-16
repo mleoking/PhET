@@ -1,3 +1,5 @@
+1/15/13 clearer documentation for individual challenges in ChallengeFactory hierarchy
+1/15/13 expand abbreviations throughout code (GTE->GraphTheLine, MTE->MakeTheEquation, PTP->PlaceThePoints, etc.)
 1/15/13 factor out duplication in ChallengeFactory hierarchy
 1/15/13 use the same instance of the random number generator for all random parts of a challenge factory
 1/15/13 move static ChallengeFactory.createChallenges to LineGameModel
