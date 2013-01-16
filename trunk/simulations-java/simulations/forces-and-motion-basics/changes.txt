@@ -1,3 +1,4 @@
+# 1.00.05 (71719) Jan 15, 2013
 Added water bucket
 Tweaked scaling to get first tick to line up with 10 m/s/s in accelerometer
 # 1.00.04 (71004) Dec 5, 2012
