@@ -17,10 +17,6 @@ import edu.colorado.phet.linegraphing.common.model.Line;
  */
 class ChallengeFactory2 extends ChallengeFactory {
 
-    public ChallengeFactory2() {
-        super();
-    }
-
     /**
      * Creates challenges for this game level.
      * @param xRange range of the graph's x axis
