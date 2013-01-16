@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
@@ -40,7 +39,6 @@ public abstract class Challenge implements Resettable {
     public final EquationForm equationForm;
     public final ManipulationMode manipulationMode;
     public final PointTool pointTool1, pointTool2;
-    protected final ObservableList<Line> pointToolLines; // lines that are "seen" by the point tools
     protected boolean answerVisible;
 
     /**
@@ -81,14 +79,13 @@ public abstract class Challenge implements Resettable {
         graph = new Graph( xRange, yRange );
 
         // Point tools
-        pointToolLines = new ObservableList<Line>();
-        this.pointTool1 = new PointTool( pointToolLocation1, Orientation.UP, pointToolLines );
-        this.pointTool2 = new PointTool( pointToolLocation2, Orientation.DOWN, pointToolLines );
+        this.pointTool1 = new PointTool( pointToolLocation1, Orientation.UP, graph.lines );
+        this.pointTool2 = new PointTool( pointToolLocation2, Orientation.DOWN, graph.lines );
 
         // When the guess changes, update the lines that are "seen" by the point tools.
         this.guess.addObserver( new SimpleObserver() {
             public void update() {
-                updatePointToolLines();
+                updateGraphLines();
             }
         } );
     }
@@ -117,11 +114,11 @@ public abstract class Challenge implements Resettable {
     // Visibility of the answer affects what is "seen" by the point tools.
     public void setAnswerVisible( boolean visible ) {
         answerVisible = visible;
-        updatePointToolLines();
+        updateGraphLines();
     }
 
-    // Updates the collection of lines that are "seen" by the point tools.
-    protected abstract void updatePointToolLines();
+    // Updates the graph lines, which is the collection of lines that are "seen" by the point tools.
+    protected abstract void updateGraphLines();
 
     // Creates an initial guess, based on the answer and what the user can manipulate..
     private static Line createInitialGuess( Line answer, ManipulationMode manipulationMode ) {

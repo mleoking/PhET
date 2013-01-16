@@ -1,3 +1,4 @@
+1/15/13 use Graph.lines in game
 1/15/13 add Graph.lines, make the point tool observe it [71724]
 1/15/13 cleanup ChallengeFactory subclasses
 1/15/13 delete unnecessary zero-arg constructors in ChallengeFactory subclasses
