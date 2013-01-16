@@ -44,10 +44,10 @@ public class TestEquationNodes {
         // point-slope tests
         PNode pointSlopeParent = new PNode();
         {
-            // model
+            // all equations synchronize with this line
             Property<Line> line = new Property<Line>( Line.createPointSlope( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
 
-            // equations, all combinations of interactivity
+            // equations, various combinations of interactivity
             PointSlopeEquationNode equationNode1 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, true, interactiveFont, staticFont, staticColor );
             PointSlopeEquationNode equationNode2 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true, interactiveFont, staticFont, staticColor );
             PointSlopeEquationNode equationNode3 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false, interactiveFont, staticFont, staticColor );
@@ -72,10 +72,10 @@ public class TestEquationNodes {
         // slope-intercept tests
         PNode slopeInterceptParent = new PNode();
         {
-            // model
+            // all equations synchronize with this line
             Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
 
-            // equations, all combinations of interactivity
+            // equations, various combinations of interactivity
             SlopeInterceptEquationNode equationNode1 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, true, true, interactiveFont, staticFont, staticColor );
             SlopeInterceptEquationNode equationNode2 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, true, false, interactiveFont, staticFont, staticColor );
             SlopeInterceptEquationNode equationNode3 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, false, true, interactiveFont, staticFont, staticColor );
@@ -97,10 +97,10 @@ public class TestEquationNodes {
         // slope tests
         PNode slopeParent = new PNode();
         {
-            // model
+            // all equations synchronize with this line
             Property<Line> line = new Property<Line>( new Line( 1, 3, 2, 4, LGColors.INTERACTIVE_LINE ) );
 
-            // equations
+            // equations, interactive and non-interactive
             SlopeEquationNode equationNode1 = new SlopeEquationNode( line, x1Range, y1Range, interactiveFont, staticFont, staticColor );
             SlopeEquationNode equationNode2 = new SlopeEquationNode( line, staticFont, staticColor );
 
