@@ -1,7 +1,6 @@
 TODO list for line-graphing
 
 HIGH
-- PTP challenges in level=6 should use mismatched forms
 
 MEDIUM
 

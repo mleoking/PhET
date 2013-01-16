@@ -76,7 +76,7 @@ class ChallengeFactory6 extends ChallengeFactory {
             }
         }
 
-        // 3 Graph-the-Line challenges where line forms are different (eg, point-slope equation with slope-intercept manipulators)
+        // 3 Graph-the-Line challenges with mismatched representations (eg, point-slope equation with slope-intercept manipulators)
         {
             // we'll pick 3 from here
             ArrayList<EquationForm> equationForms = new ArrayList<EquationForm>() {{
@@ -95,7 +95,7 @@ class ChallengeFactory6 extends ChallengeFactory {
                 final IntegerRange range = new IntegerRange( -7, 7 );
                 final ArrayList<Integer> xList = rangeToList( range );
                 final ArrayList<Integer> yList = rangeToList( range );
-                final int x1 = ( equationForm == EquationForm.SLOPE_INTERCEPT ) ? 0 : integerChooser.choose( xList );
+                final int x1 = 0; // y-intercept must be an integer since we're mismatching representations
                 final int y1 = integerChooser.choose( yList );
                 int x2 = integerChooser.choose( xList );
                 if ( x2 == x1 ) {
@@ -103,13 +103,13 @@ class ChallengeFactory6 extends ChallengeFactory {
                 }
                 final int y2 = integerChooser.choose( yList );
 
-                // challenge
+                // challenge, with mismatched representations
                 final Line line = new Line( x1, y1, x2, y2, Color.BLACK );
                 if ( equationForm == EquationForm.SLOPE_INTERCEPT ) {
-                    challenges.add( new GraphTheLine( "slope-intercept, Graph-the-Line " + i, line, equationForm, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                    challenges.add( new GraphTheLine( "slope-intercept, Graph-the-Line " + i, line, equationForm, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
                 }
                 else {
-                    challenges.add( new GraphTheLine( "point-slope, Graph-the-Line " + i, line, equationForm, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                    challenges.add( new GraphTheLine( "point-slope, Graph-the-Line " + i, line, equationForm, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
                 }
             }
         }
