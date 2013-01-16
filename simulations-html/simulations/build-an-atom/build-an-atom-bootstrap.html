@@ -48,11 +48,9 @@
 
     <div id="control-panel" class="accordion">
 
-
-        <div id="periodic-table-box" class="widget-box accordian-group">
+        <div class="widget-box accordion-group">
             <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse"
-                   data-target="#periodic-table-container" href="#">
+                <a class="accordion-toggle" data-toggle="collapse" data-target="#periodic-table-container" href="#">
                     <i class="icon-plus"></i> Periodic Table
                 </a>
             </div>
@@ -62,35 +60,39 @@
             </div>
         </div>
 
-        <div id="symbol" class="widget-box accordian-group">
+        <div class="widget-box accordion-group">
             <div class="accordion-heading">
-                <h2>Symbol</h2>
+                <a class="accordion-toggle" data-toggle="collapse" data-target="#detailed-element-symbol-container" href="#">
+                    <i class="icon-plus"></i> Symbol
+                </a>
             </div>
 
-            <div class="accordion-body collapse">
+            <div class="accordion-body collapse" id="detailed-element-symbol-container">
                 <div id="detailed-element-symbol" class="accordion-inner"></div>
             </div>
         </div>
 
-        <div id="mass-number" class="widget-box accordian-group">
+        <div class="widget-box accordion-group">
             <div class="accordion-heading">
-                <h2>Mass Number</h2>
+                <a class="accordion-toggle" data-toggle="collapse" data-target="#mass-number-container" href="#">
+                    <i class="icon-plus"></i> Mass Number
+                </a>
             </div>
 
-            <div class="accordion-body collapse">
-                <div id="mass-number-container" class="accordion-inner"></div>
+            <div class="accordion-body collapse" id="mass-number-container">
+                <div id="mass-number" class="accordion-inner"></div>
             </div>
         </div>
 
-        <div id="net-charge" class="widget-box accordian-group">
+        <div class="widget-box accordion-group">
             <div class="accordion-heading">
-                <h2>Net Charge</h2>
+                <a class="accordion-toggle" data-toggle="collapse" data-target="#net-charge-container" href="#">
+                    <i class="icon-plus"></i> Charge Meter
+                </a>
             </div>
 
-            <div class="accordion-body collapse">
-                <div id="net-charge-container" class="accordion-inner">
-                    <div class="net-charge">0</div>
-                </div>
+            <div class="accordion-body collapse" id="net-charge-container">
+                <div id="net-charge" class="accordion-inner"></div>
             </div>
         </div>
 
