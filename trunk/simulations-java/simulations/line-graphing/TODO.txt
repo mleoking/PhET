@@ -7,7 +7,7 @@ DESIGN
 HIGH
 
 MEDIUM
-- ChallengeFactory and RandomChooser both have "randomIndex" method and "random" field
+- ChallengeFactory and RandomChooser both have "randomIndex" method
 - factor out duplication in ChallengeFactory hierarchy when the dust settles
 
 LOW
