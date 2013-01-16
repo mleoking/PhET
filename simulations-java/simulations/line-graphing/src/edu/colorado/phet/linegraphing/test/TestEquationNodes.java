@@ -52,6 +52,7 @@ public class TestEquationNodes {
             PointSlopeEquationNode equationNode2 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true, interactiveFont, staticFont, staticColor );
             PointSlopeEquationNode equationNode3 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false, interactiveFont, staticFont, staticColor );
             PointSlopeEquationNode equationNode4 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false, interactiveFont, staticFont, staticColor );
+            // add a slope-intercept equation, to exhibit fractional y-intercept
             SlopeInterceptEquationNode equationNode5 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, false, false, interactiveFont, staticFont, staticColor );
 
             // rendering order
