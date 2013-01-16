@@ -1,12 +1,5 @@
 TODO list for line-graphing
 
-HIGH
-
-MEDIUM
-
-LOW
-
-LOOSE ENDS
 - screenshot
 - implementation-notes.txt
 - code review (JB)
