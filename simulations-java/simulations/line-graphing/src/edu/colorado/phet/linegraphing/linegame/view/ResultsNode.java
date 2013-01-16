@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Portion of the scenegraph that corresponds to the "results" game phase. (See GamePhase.RESULTS)
+ * Displays a panel with the game results.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
