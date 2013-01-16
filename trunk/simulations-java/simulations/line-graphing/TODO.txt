@@ -1,5 +1,5 @@
 TODO list for line-graphing
 
-- screenshot
 - implementation-notes.txt
+- screenshot
 - code review (JB)
