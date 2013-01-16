@@ -1,3 +1,4 @@
+1/15/13 incorporate AP's feedback into model.txt
 1/15/13 clearer documentation for individual challenges in ChallengeFactory hierarchy
 1/15/13 expand abbreviations throughout code (GTE->GraphTheLine, MTE->MakeTheEquation, PTP->PlaceThePoints, etc.)
 1/15/13 factor out duplication in ChallengeFactory hierarchy
