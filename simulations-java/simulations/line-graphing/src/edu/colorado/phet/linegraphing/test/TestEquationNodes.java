@@ -20,7 +20,7 @@ import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquation
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Tests simplification and rendering of equations.
+ * Tests the various equations used in this simulation, in their various interactive and non-interactive configurations.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
