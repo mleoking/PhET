@@ -31,7 +31,7 @@ class ChallengeFactory5 extends ChallengeFactory {
 
         ArrayList<Challenge> challenges = new ArrayList<Challenge>();
 
-        // for y-intercept manipulation challenges, one must be positive, one negative
+        // for y-intercept manipulation challenges
         ArrayList<Integer> yIntercepts = rangeToList( new IntegerRange( -10, 10 ) );
 
         // random choosers
