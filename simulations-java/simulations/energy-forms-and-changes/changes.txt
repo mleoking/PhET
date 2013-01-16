@@ -1,3 +1,4 @@
+Changed the thermometer to appear to fill up all the way to the top when the temperature of the measured object exceeds the thermometer's range.
 # 0.00.30 (71651) Jan 11, 2013
 1/11/13 Deploying to dev for testing and review.
 1st tab: Started adding representation for steam when water is at or near boiling point.
