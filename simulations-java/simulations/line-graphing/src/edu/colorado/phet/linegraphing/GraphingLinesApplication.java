@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.slope.SlopeModule;
 import edu.colorado.phet.linegraphing.slopeintercept.SlopeInterceptModule;
 
 /**
- * The "Graphing: Lines" simulation.
+ * The "Graphing Lines" simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
