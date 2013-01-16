@@ -407,7 +407,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         StackableNode man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, manHeight ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), multiScaleToHeight( Images.MAN_HOLDING, manHeight ) );
 
         StackableNode trash = new StackableNode( UserComponents.trash, this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses );
-        bucket = new StackableBucketNode( UserComponents.bucket, this, multiScaleToHeight( Images.WATER_BUCKET, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses, model.acceleration );
+        bucket = new StackableBucketNode( UserComponents.bucket, this, multiScaleToHeight( Images.WATER_BUCKET, (int) ( 150 * 2.0 / 3.0 ) ), 50, 28, showMasses, model.acceleration );
         StackableNode gift = new StackableNode( UserComponents.gift, this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 60 ), 50, 40, showMasses ) {
             @Override protected Pair<Integer, String> getMassDisplayString( final double mass ) {
 
