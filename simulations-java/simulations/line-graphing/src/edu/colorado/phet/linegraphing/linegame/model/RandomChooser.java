@@ -20,11 +20,6 @@ class RandomChooser<T> {
         this.random = random;
     }
 
-    // Gets a random index for a specified list.
-    private int randomIndex( List list ) {
-        return random.nextInt( list.size() );
-    }
-
     // Chooses a value from a list, removes the value from the list.
     public T choose( ArrayList<T> list ) {
         int index = randomIndex( list );
@@ -50,5 +45,10 @@ class RandomChooser<T> {
         ArrayList<T> bin = lists.get( listIndices.get( index ) );
         listIndices.remove( index );
         return choose( bin );
+    }
+
+    // Gets a random index for a specified list.
+    private int randomIndex( List list ) {
+        return random.nextInt( list.size() );
     }
 }
