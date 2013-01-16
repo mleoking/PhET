@@ -17,6 +17,7 @@ class ChallengeFactory4 extends ChallengeFactory {
 
     /**
      * Creates challenges for this game level.
+     *
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
      * @return list of challenges
@@ -32,7 +33,7 @@ class ChallengeFactory4 extends ChallengeFactory {
         // for y-intercept manipulation challenges, one must be positive, one negative
         final IntegerRange yInterceptRange = new IntegerRange( -10, 10 );
         ArrayList<ArrayList<Integer>> yInterceptLists = new ArrayList<ArrayList<Integer>>() {{
-            assert( yInterceptRange.getMin() < 0 && yInterceptRange.getMax() > 0 );
+            assert ( yInterceptRange.getMin() < 0 && yInterceptRange.getMax() > 0 );
             add( rangeToList( new IntegerRange( yInterceptRange.getMin(), -1 ) ) );
             add( rangeToList( new IntegerRange( 1, yInterceptRange.getMax() ) ) );
         }};
@@ -46,58 +47,58 @@ class ChallengeFactory4 extends ChallengeFactory {
 
         // Make-the-Equation, slope-intercept form, slope and intercept variable
         {
-            Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
-            int yIntercept = integerChooser.chooseFromLists( yInterceptLists, yInterceptListIndices ); // first required y-intercept
-            Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
+            final Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
+            final int yIntercept = integerChooser.chooseFromLists( yInterceptLists, yInterceptListIndices ); // first required y-intercept
             challenges.add( new MakeTheEquation( "1 of 2 required y-intercepts",
-                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                                                 Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept ),
+                                                 EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // Make-the-Equation, point-slope form, point and slope variable
         {
-            Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // first required slope
-            Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
-            Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
+            final Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // first required slope
+            final Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             challenges.add( new MakeTheEquation( "1 of 3 required slopes",
-                                               line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                                                 Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator ),
+                                                 EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
         // Make-the-Equation, slope-intercept or point-slope form (random choice)
         {
             if ( equationFormChooser.choose( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
                 // Make-the-Equation, slope-intercept form, slope and intercept variable
-                Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
-                int yIntercept = integerChooser.chooseFromLists( yInterceptLists ); // unique y-intercept
-                Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
+                final Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
+                final int yIntercept = integerChooser.chooseFromLists( yInterceptLists ); // unique y-intercept
                 challenges.add( new MakeTheEquation( "random choice of slope-intercept",
-                                                   line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                                                     Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept ),
+                                                     EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
             }
             else {
                 // Make-the-Equation, point-slope form, point and slope variable
-                Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // second required slope, unique
-                Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
-                Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
+                final Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // second required slope, unique
+                final Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
                 challenges.add( new MakeTheEquation( "2 of 2 required slopes, random choice of point-slope",
-                                                   line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                                                     Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator ),
+                                                     EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
             }
         }
 
         // Graph-the-Line, slope-intercept form, slope and intercept variable
         {
-            Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
-            int yIntercept = integerChooser.chooseFromLists( yInterceptLists, yInterceptListIndices ); // second required y-intercept, unique
-            Line line = Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept );
+            final Fraction slope = fractionChooser.chooseFromLists( slopeLists ); // unique slope
+            final int yIntercept = integerChooser.chooseFromLists( yInterceptLists, yInterceptListIndices ); // second required y-intercept, unique
             challenges.add( new GraphTheLine( "2 of 2 required y-intercepts",
-                                               line, EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
+                                              Line.createSlopeIntercept( slope.numerator, slope.denominator, yIntercept ),
+                                              EquationForm.SLOPE_INTERCEPT, ManipulationMode.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // Graph-the-Line, point-slope form, point and slope variable
         {
-            Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // third required slope, unique
-            Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
-            Line line = Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator );
+            final Fraction slope = fractionChooser.chooseFromLists( slopeLists, slopeBinIndices ); // third required slope, unique
+            final Point2D point = choosePointForSlope( slope, xRange, yRange ); // random point, not necessarily unique
             challenges.add( new GraphTheLine( "3 of 3 required slopes",
-                                               line, EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
+                                              Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator ),
+                                              EquationForm.POINT_SLOPE, ManipulationMode.POINT_SLOPE, xRange, yRange ) );
         }
 
         /*
@@ -118,14 +119,14 @@ class ChallengeFactory4 extends ChallengeFactory {
             if ( equationFormChooser.choose( equationForms ) == EquationForm.SLOPE_INTERCEPT ) {
                 // Graph-the-Line, slope-intercept, 2 points variable
                 challenges.add( new GraphTheLine( "slope-intercept because Make-the-Equation uses point-slope, force slope inversion",
-                                                   Line.createSlopeIntercept( slope.numerator, slope.denominator, point.getY() ),
-                                                   EquationForm.SLOPE_INTERCEPT, ManipulationMode.TWO_POINTS, xRange, yRange ) );
+                                                  Line.createSlopeIntercept( slope.numerator, slope.denominator, point.getY() ),
+                                                  EquationForm.SLOPE_INTERCEPT, ManipulationMode.TWO_POINTS, xRange, yRange ) );
             }
             else {
                 // Graph-the-Line, point-slope, 2 points variable
                 challenges.add( new GraphTheLine( "point-slope because Make-the-Equation uses slope-intercept, force slope inversion",
-                                                   Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator ),
-                                                   EquationForm.POINT_SLOPE, ManipulationMode.TWO_POINTS, xRange, yRange ) );
+                                                  Line.createPointSlope( point.getX(), point.getY(), slope.numerator, slope.denominator ),
+                                                  EquationForm.POINT_SLOPE, ManipulationMode.TWO_POINTS, xRange, yRange ) );
             }
         }
 

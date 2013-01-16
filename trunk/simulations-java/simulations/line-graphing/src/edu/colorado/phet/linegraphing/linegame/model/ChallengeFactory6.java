@@ -29,8 +29,9 @@ class ChallengeFactory6 extends ChallengeFactory {
         // Place-the-Point, slope-intercept form, slope=0 (horizontal line), slope and intercept variable
         {
             final int yIntercept = integerChooser.choose( yIntercepts );
-            Line line = Line.createSlopeIntercept( 0, 1, yIntercept );
-            challenges.add( new PlaceThePoints( "slope=0", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+            challenges.add( new PlaceThePoints( "slope=0",
+                                                Line.createSlopeIntercept( 0, 1, yIntercept ),
+                                                EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
         // 2 Place-the-Point challenges (1 slope-intercept form, 1 point-slope form)
@@ -52,8 +53,9 @@ class ChallengeFactory6 extends ChallengeFactory {
                     // prevent undefined slope
                     run = integerChooser.choose( runList );
                 }
-                final Line line = new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK );
-                challenges.add( new PlaceThePoints( "slope-intercept, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PlaceThePoints( "slope-intercept, random points",
+                                                    new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
+                                                    EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
             }
 
             // point-slope form, point and slope variable
@@ -66,8 +68,9 @@ class ChallengeFactory6 extends ChallengeFactory {
                     // prevent undefined slope
                     run = integerChooser.choose( runList );
                 }
-                final Line line = new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK );
-                challenges.add( new PlaceThePoints( "point-slope, random points", line, EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                challenges.add( new PlaceThePoints( "point-slope, random points",
+                                                    new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
+                                                    EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
             }
         }
 

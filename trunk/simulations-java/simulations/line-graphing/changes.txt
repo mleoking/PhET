@@ -1,3 +1,4 @@
+1/15/13 cleanup ChallengeFactory subclasses
 1/15/13 delete unnecessary zero-arg constructors in ChallengeFactory subclasses
 1/15/13 delete obsolete TestFractionSlopes
 1/15/13 internal documentation touch-up
