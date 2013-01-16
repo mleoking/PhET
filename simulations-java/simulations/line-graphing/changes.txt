@@ -1,3 +1,4 @@
+1/15/13 add Graph.lines, make the point tool observe it
 1/15/13 cleanup ChallengeFactory subclasses
 1/15/13 delete unnecessary zero-arg constructors in ChallengeFactory subclasses
 1/15/13 delete obsolete TestFractionSlopes

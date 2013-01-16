@@ -5,7 +5,6 @@ HIGH
 MEDIUM
 
 LOW
-- order of lines provided to point tool is not related to order of lines rendered on graph, would be nice if they used the same info
 
 LOOSE ENDS
 - screenshot
