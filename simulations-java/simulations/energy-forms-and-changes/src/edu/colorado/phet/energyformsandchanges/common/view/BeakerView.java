@@ -200,8 +200,8 @@ public class BeakerView {
             addChild( liquidWaterBodyNode );
             addChild( liquidWaterTopNode );
             addChild( frozenWaterBodyNode );
-            addChild( iceFleckClipNode );
             addChild( frozenWaterTopNode );
+            addChild( iceFleckClipNode );
             steamNode = new PhetPPath( new Color( 220, 220, 220 ) );
             addChild( steamNode );
 
@@ -298,20 +298,20 @@ public class BeakerView {
             frozenWaterBodyNode.setPathTo( frozenWaterBodyArea );
             frozenWaterTopNode.setPathTo( frozenWaterTopEllipse );
 
-            // Update the place where the ice flecks go.
+            // Update the place where the ice flecks are visible.
             Area iceFleckArea = frozenWaterBodyArea;
             iceFleckArea.add( new Area( frozenWaterTopEllipse ) );
             iceFleckClipNode.setPathTo( iceFleckArea );
 
             // Regenerate ice flecks if freezing has just started.
             if ( !frozenWaterBodyNode.getVisible() && freezeProportion > 0 ) {
-                iceFlecks.clear();
+                iceFleckClipNode.removeAllChildren();
                 // TODO: Make num of flecks a constant if we keep them.
-                for ( int i = 0; i < 100; i++ ) {
+                for ( int i = 0; i < 250; i++ ) {
                     IceFleckNode iceFleck = new IceFleckNode( generateRandomIceFleckColor() );
-                    iceFleck.setOffset( generateRandomLocationInShape( liquidWaterBodyArea ) );
-                    iceFlecks.add( iceFleck );
-                    // TODO: Temp
+                    Area iceFleckTotalArea = new Area( liquidWaterBodyArea );
+                    iceFleckTotalArea.add( new Area( liquidWaterTopEllipse ) );
+                    iceFleck.setOffset( generateRandomLocationInShape( iceFleckTotalArea ) );
                     iceFleckClipNode.addChild( iceFleck );
                 }
             }
@@ -319,6 +319,7 @@ public class BeakerView {
             // Frozen portions only visible if some freezing has occurred.
             frozenWaterBodyNode.setVisible( freezeProportion > 0 );
             frozenWaterTopNode.setVisible( freezeProportion > 0 );
+            iceFleckClipNode.setVisible( freezeProportion > 0 );
 
             // Update the shape of the steam.
             steamNode.setVisible( temperature >= EFACConstants.BOILING_POINT_TEMPERATURE - STEAMING_RANGE );
@@ -444,10 +445,9 @@ public class BeakerView {
     }
 
     private static final List<Color> ICE_FLECK_COLORS = new ArrayList<Color>() {{
-        add( Color.BLACK );
         add( Color.WHITE );
-        add( Color.BLUE );
-        add( Color.LIGHT_GRAY );
+        add( new Color( 250, 250, 255 ) );
+        add( new Color( 240, 240, 245 ) );
     }};
 
     private static final Color generateRandomIceFleckColor() {
@@ -455,7 +455,7 @@ public class BeakerView {
     }
 
     private static class IceFleckNode extends PNode {
-        private static final double DIAMETER = 1;
+        private static final double DIAMETER = 3;
 
         private IceFleckNode( Color color ) {
             addChild( new PhetPPath( new Ellipse2D.Double( -DIAMETER / 2, -DIAMETER / 2, DIAMETER, DIAMETER ), color ) );
