@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Drag handler for an arbitrary point, represented as a Vector2D.
+ * Drag handler for an arbitrary point (Vector2D).
  * Used exclusively in "Place the Points" game challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -38,8 +38,8 @@ public class PointDragHandler extends SimSharingDragHandler {
      * @param mvt             transform between model and view coordinate frames
      * @param point           the point being manipulated
      * @param otherPoints     other points that the manipulated point can't match
-     * @param x1Range
-     * @param y1Range
+     * @param x1Range         range of the x coordinate
+     * @param y1Range         range of the y coordinate
      */
     public PointDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                              LineManipulatorNode manipulatorNode, ModelViewTransform mvt,

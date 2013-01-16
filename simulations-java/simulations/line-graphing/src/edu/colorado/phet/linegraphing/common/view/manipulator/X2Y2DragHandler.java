@@ -30,8 +30,8 @@ public class X2Y2DragHandler extends LineManipulatorDragHandler {
      * @param manipulatorNode the node being manipulated by the user
      * @param mvt             transform between model and view coordinate frames
      * @param line            the line being manipulated
-     * @param x2Range
-     * @param y2Range
+     * @param x2Range         range of the x coordinate
+     * @param y2Range         range of the y coordinate
      */
     public X2Y2DragHandler( IUserComponent userComponent, IUserComponentType componentType,
                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<Line> line,

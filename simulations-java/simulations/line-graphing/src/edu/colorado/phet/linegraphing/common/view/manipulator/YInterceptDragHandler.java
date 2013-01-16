@@ -31,7 +31,7 @@ public class YInterceptDragHandler extends LineManipulatorDragHandler {
      * @param manipulatorNode the node being manipulated by the user
      * @param mvt             transform between model and view coordinate frames
      * @param line            the line being manipulated
-     * @param y1Range
+     * @param y1Range         range of the y-intercept
      */
     public YInterceptDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                                   LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<Line> line,

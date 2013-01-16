@@ -31,8 +31,8 @@ public class X1Y1DragHandler extends LineManipulatorDragHandler {
      * @param manipulatorNode the node being manipulated by the user
      * @param mvt             transform between model and view coordinate frames
      * @param line            the line being manipulated
-     * @param x1Range
-     * @param y1Range
+     * @param x1Range         range of the x coordinate
+     * @param y1Range         range of the y coordinate
      * @param constantSlope   true: slope is constant, false: (x2,y2) is constant
      */
     public X1Y1DragHandler( IUserComponent userComponent, IUserComponentType componentType,
