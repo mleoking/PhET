@@ -27,7 +27,7 @@ public class PointTool implements Resettable {
      * Constructor
      *
      * @param location location of the tool, in model coordinate frame
-     * @param lines    lines that the tool might intersect
+     * @param lines    lines that the tool might intersect, provided in the order that they would be rendered
      */
     public PointTool( Vector2D location, Orientation orientation, ObservableList<Line> lines ) {
 
@@ -59,7 +59,9 @@ public class PointTool implements Resettable {
 
     // Determine which line (if any) the tool is placed on.
     private void updateOnLine() {
-        for ( Line line : lines ) {
+        // Lines are in rendering order, reverse iterate so we get the one that's on top.
+        for ( int i = lines.size() - 1; i >= 0; i-- ) {
+            Line line = lines.get( i );
             if ( isOnLine( line ) ) {
                 onLine.set( line );
                 return;

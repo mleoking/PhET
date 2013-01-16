@@ -49,44 +49,29 @@ public abstract class LineFormsModel implements Resettable {
         this.savedLines = new ObservableList<Line>();
         this.standardLines = new ObservableList<Line>();
 
-        // Observable collection of all lines, required by point tool.
-        final ObservableList<Line> allLines = new ObservableList<Line>();
-        {
-            this.interactiveLine.addObserver( new ChangeObserver<Line>() {
-                public void update( Line newLine, Line oldLine ) {
-                    allLines.remove( oldLine ); // remove first, because on observer registration oldLine == newLine
-                    allLines.add( newLine ); // add interactive line to end, so point tool sees it last
+        // Update the lines seen by the graph.
+        VoidFunction1<Line> updateGraphLines = new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+                graph.lines.clear();
+                // add lines in the order that they would be rendered
+                graph.lines.add( LineFormsModel.this.interactiveLine.get() );
+                for ( Line l : savedLines ) {
+                    graph.lines.add( l );
                 }
-            } );
-
-            savedLines.addElementAddedObserver( new VoidFunction1<Line>() {
-                public void apply( Line line ) {
-                    allLines.add( 0, line ); // add saved lines to front, so the point tool sees them first
+                for ( Line l : standardLines ) {
+                    graph.lines.add( l );
                 }
-            } );
-            savedLines.addElementRemovedObserver( new VoidFunction1<Line>() {
-                public void apply( Line line ) {
-                    boolean removed = allLines.remove( line );
-                    assert ( removed );
-                }
-            } );
-
-            standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
-                public void apply( Line line ) {
-                    allLines.add( 0, line ); // add standard lines to front, so the point tool sees them first
-                }
-            } );
-            standardLines.addElementRemovedObserver( new VoidFunction1<Line>() {
-                public void apply( Line line ) {
-                    boolean removed = allLines.remove( line );
-                    assert ( removed );
-                }
-            } );
-        }
+            }
+        };
+        this.interactiveLine.addObserver( updateGraphLines );
+        savedLines.addElementAddedObserver( updateGraphLines );
+        savedLines.addElementRemovedObserver( updateGraphLines );
+        standardLines.addElementAddedObserver( updateGraphLines );
+        standardLines.addElementRemovedObserver( updateGraphLines );
 
         // point tools
-        this.pointTool1 = new PointTool( new Vector2D( graph.xRange.getMin() + ( 0.35 * graph.xRange.getLength() ), graph.yRange.getMin() - 0.25 ), Orientation.UP, allLines );
-        this.pointTool2 = new PointTool( new Vector2D( graph.xRange.getMin() + ( 0.65 * graph.xRange.getLength() ), graph.yRange.getMin() - 2.75 ), Orientation.DOWN, allLines );
+        this.pointTool1 = new PointTool( new Vector2D( graph.xRange.getMin() + ( 0.35 * graph.xRange.getLength() ), graph.yRange.getMin() - 0.25 ), Orientation.UP, graph.lines );
+        this.pointTool2 = new PointTool( new Vector2D( graph.xRange.getMin() + ( 0.65 * graph.xRange.getLength() ), graph.yRange.getMin() - 2.75 ), Orientation.DOWN, graph.lines );
     }
 
     public void reset() {
