@@ -1,3 +1,4 @@
+1/17/13 fix: in level=5, the PTP challenge with point-slope form is erroneously configured for slope-intercept
 1/17/13 ran IDEA's Analyze->Inspect Code, addressed issues where it made sense to do so
 1/17/13 screenshot
 # 0.00.51 (71745) Jan 16, 2013
