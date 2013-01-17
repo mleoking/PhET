@@ -110,9 +110,9 @@ public class RewardNode extends PhetPNode {
      * @param bounds      images are constrained to motion within these bounds
      * @param population  how many images in the animation
      * @param motionDelta nominal motion delta, may be randomly adjusted for each specific image
-     * @param clockDelay
+     * @param clockDelay  large value causes slower animation
      */
-    public RewardNode( PBounds bounds, int population, int motionDelta, int clockDelay ) {
+    private RewardNode( PBounds bounds, int population, int motionDelta, int clockDelay ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -218,7 +218,7 @@ public class RewardNode extends PhetPNode {
      * Sets the animation parameters based on game difficulty level.
      * Levels 1-5 each have one image; level 6 is all images.
      *
-     * @param level
+     * @param level the game level
      */
     public void setLevel( int level ) {
         assert( level >= 1 && level <= 6 );
@@ -233,7 +233,7 @@ public class RewardNode extends PhetPNode {
      * When this node's bounds are changes, all images are repopulated
      * so that the images are distributed randomly throughout the entire bounds.
      *
-     * @param bounds
+     * @param bounds the bounds that the reward must fill
      */
     @Override public boolean setBounds( Rectangle2D bounds ) {
         if ( bounds.isEmpty() ) {
@@ -402,11 +402,7 @@ public class RewardNode extends PhetPNode {
         return new Point2D.Double( x, y );
     }
 
-    /**
-     * This node plays when it's visible, pauses when it's invisible.
-     *
-     * @param visible
-     */
+    // This node plays when it's visible, pauses when it's invisible.
     @Override
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
@@ -444,12 +440,7 @@ public class RewardNode extends PhetPNode {
      * Interface implemented by all motion strategies.
      */
     public interface IMotionStrategy {
-        /**
-         * Moves a node within the specified bounds.
-         *
-         * @param node
-         * @param bounds
-         */
+        // Moves a node within the specified bounds.
         public void step( MovingImageNode node, PBounds bounds );
     }
 

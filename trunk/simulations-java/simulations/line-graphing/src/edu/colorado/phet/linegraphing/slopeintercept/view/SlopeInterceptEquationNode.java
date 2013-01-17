@@ -57,7 +57,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
     // Nodes that appear in all possible forms of the equation "y = mx + b"
     private final PNode yNode, equalsNode, slopeMinusSignNode, riseNode, runNode, xNode, operatorNode;
     private final PNode yInterceptNode; // used for interactive, integer y-intercept
-    private final PNode yInterceptNumeratorNode, yInterceptDenominatorNode; // used for non-interactive, fractionl y-intercept
+    private final PNode yInterceptNumeratorNode, yInterceptDenominatorNode; // used for non-interactive, fractional y-intercept
     private final PNode yInterceptMinusSignNode; // for "y = -b" case
     private final PPath slopeFractionLineNode, yInterceptFractionLineNode;
 

@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 public class LGConstants {
 
     public static final IntegerRange X_AXIS_RANGE = new IntegerRange( -10, 10 );
-    public static final IntegerRange Y_AXIS_RANGE = X_AXIS_RANGE;
+    public static final IntegerRange Y_AXIS_RANGE = X_AXIS_RANGE; // same as x-axis
 
     public static final int CONTROL_FONT_SIZE = 18;
     public static final PhetFont CONTROL_FONT = new PhetFont( CONTROL_FONT_SIZE );

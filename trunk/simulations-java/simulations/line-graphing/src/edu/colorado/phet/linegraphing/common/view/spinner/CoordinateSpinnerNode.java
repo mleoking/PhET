@@ -43,6 +43,7 @@ public class CoordinateSpinnerNode extends SpinnerNode {
                new Function0<Double>() {
                    public Double apply() {
                        double x1New = x1.get() + 1;
+                       // do explicit unboxing so we don't get a warning about using "==" instead of equals
                        if ( x1New == x2.get().doubleValue() && y1.get().doubleValue() == y2.get().doubleValue() ) { // will points be the same?
                            x1New++;
                            if ( x1New > range.get().getMax() ) { // did we skip too far?
@@ -56,6 +57,7 @@ public class CoordinateSpinnerNode extends SpinnerNode {
                new Function0<Double>() {
                    public Double apply() {
                        double x1New = x1.get() - 1;
+                       // do explicit unboxing so we don't get a warning about using "==" instead of equals
                        if ( x1New == x2.get().doubleValue() && y1.get().doubleValue() == y2.get().doubleValue() ) { // will points be the same?
                            x1New--;
                            if ( x1New < range.get().getMin() ) { // did we skip too far?

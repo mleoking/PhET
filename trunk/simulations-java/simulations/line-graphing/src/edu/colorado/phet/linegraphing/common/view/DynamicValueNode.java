@@ -17,10 +17,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class DynamicValueNode extends PText {
 
-    public DynamicValueNode( Property<Double> value, NumberFormat format, PhetFont font, Color color ) {
-        this( value, format, font, color, false );
-    }
-
     public DynamicValueNode( Property<Double> value, final NumberFormat format, PhetFont font, Color color, final boolean absoluteValue ) {
         setFont( font );
         setTextPaint( color );

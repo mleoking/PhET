@@ -48,13 +48,13 @@ import edu.umd.cs.piccolo.util.PDimension;
 public abstract class ChallengeNode extends PhetPNode {
 
     protected final FaceNode faceNode;
-    protected final PText pointsAwardedNode;
     protected final TextButtonNode checkButton;
     protected final PNode subclassParent; // subclasses should add children to this node, to preserve rendering order
+    private final PText pointsAwardedNode;
 
     /**
      * Constructor
-     * @parma challenge the challenge
+     * @param challenge the challenge
      * @param model the game model
      * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
      * @param audioPlayer the audio player, for providing audio feedback during game play
@@ -70,7 +70,7 @@ public abstract class ChallengeNode extends PhetPNode {
         descriptionNode.setOffset( titleNode.getFullBoundsReference().getCenterX() - ( descriptionNode.getFullBoundsReference().getWidth() / 2 ),
                                    titleNode.getFullBoundsReference().getMaxY() + 2 );
 
-        // smiley/frowny face
+        // smiley/frowning face
         faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR,
                                  new BasicStroke( 1f ), LineGameConstants.FACE_COLOR.darker(), Color.BLACK, Color.BLACK );
 

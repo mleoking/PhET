@@ -55,9 +55,9 @@ public class PointToolNode extends PhetPNode {
      *
      * @param pointTool    the point tool
      * @param mvt          transform between model and view coordinate frames
-     * @param graph
+     * @param graph        the graph that the point tool "sees"
      * @param dragBounds   drag bounds, in view coordinate frame
-     * @param linesVisible
+     * @param linesVisible whether lines are currently visible
      */
     public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final Graph graph, Rectangle2D dragBounds, final Property<Boolean> linesVisible ) {
         this( pointTool.location.get(), pointTool.orientation, LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );

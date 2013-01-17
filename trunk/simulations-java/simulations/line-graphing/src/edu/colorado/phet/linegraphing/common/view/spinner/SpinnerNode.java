@@ -91,7 +91,7 @@ public class SpinnerNode extends PNode {
     /**
      * Fully-specified constructor.
      *
-     * @param userComponent
+     * @param userComponent    user component in data-collection messages
      * @param value            the value property that is being manipulated by the spinner
      * @param range            range of the value
      * @param upButtonImages   images for the "up" button states

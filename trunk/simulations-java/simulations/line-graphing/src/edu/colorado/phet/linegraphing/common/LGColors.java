@@ -28,7 +28,6 @@ public class LGColors {
     public static final Color RESET_ALL_BUTTON = Color.WHITE;
     public static final Color SPINNER_BUTTON_DISABLED = new Color( 190, 190, 190 );
     public static final Color SPINNER_BACKGROUND_DISABLED = new Color( 245, 245, 245 );
-    public static final Color PLOTTED_POINT = Color.LIGHT_GRAY;
 
     public static final Color POINT_TOOL_FOREGROUND_NORMAL_COLOR = Color.BLACK;
     public static final Color POINT_TOOL_BACKGROUND_NORMAL_COLOR = Color.WHITE;

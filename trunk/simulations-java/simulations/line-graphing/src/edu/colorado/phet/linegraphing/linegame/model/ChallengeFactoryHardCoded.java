@@ -22,7 +22,7 @@ class ChallengeFactoryHardCoded {
      * @param level the game level
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
-     * @return
+     * @return list of challenges
      */
     public static ArrayList<Challenge> createChallenges( int level, IntegerRange xRange, IntegerRange yRange ) {
         ArrayList<Challenge> challenges = new ArrayList<Challenge>();

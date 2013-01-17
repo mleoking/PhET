@@ -114,7 +114,7 @@ public class LineNode extends PComposite {
      */
     protected PNode createEquationNode( Line line, PhetFont font, Color color ) {
         return new PNode();
-    };
+    }
 
     public void setEquationVisible( boolean visible ) {
         equationParentNode.setVisible( visible );
