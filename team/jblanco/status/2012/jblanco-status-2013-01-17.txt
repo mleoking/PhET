@@ -1,0 +1,57 @@
+PhET Progress Report, J. Blanco, 1-17-2013
+
+PhET Weekly Progress Report
+John Blanco
+January 17th, 2013
+
+Time period covered: January 10th through January 16th.
+
+Energy Forms and Changes - 20.0 hrs
+
+o	Implemented freezing of water from the top down.
+o	Reviewed the occasional "chunky" behavior of the energy emerging from the burner with Noah P.  He is okay with it, at least for now.
+o	Added gradients and "flecks" to the ice implementation.
+o	Implemented first attempt at steam cloud for boiling.  Discarded it.
+o	Implemented second approach for steam cloud for boiling.
+o	Made thermometer fill to top when temperature range exceeded.
+o	Made thermometer tick marks be controlled in SW.
+o	Made thermometer have one tick mark below freezing, one above boiling, and 10 between boiling and freezing.
+o	Changed background color for first tab to make steam more visible.
+
+Tablet Investigation - Build an Atom Prototype - 5.0 hrs
+
+o	Worked with Sam B to distinguish touch events from mouse events.
+o	Made particles inflate and offset when grabbed via a touch event so that they are not obscured by the user's finger.  Made this NOT happen for mouse events.
+o	Worked on converting collapsible control panel to Bootstrap (from jQuery mobile).
+
+Tablet Investigation - Process Development - 2.5 hrs
+
+o	Phone conversation with Ellen Lerner, who is the new sales person for Competentum.  Discussed history and plans.
+o	Meeting to discuss HTML5 process, issues, plan.
+
+Line Graphing - 0.5 hrs
+
+o	Reviewed during Physics Group Meeting.
+
+Radiating Charge - 0.5 hrs
+
+o	Worked with Mike D to get the sim loaded on to the iPad (more work to be done on this).
+
+New Sim Investigation - 1.0 hrs
+
+o	Discussed design of a potential sim that is based on the unit circle, intended to teach some basic trigonometric concepts.
+
+Customer Support - 6.0 hrs
+
+o	Researched Java security issue, worked with developers to decide upon PhET's recommendation, worked with Jonathan O to get said recommendation posted on the web site.
+
+Meetings, Email, and Other Administrative Overhead - 4.5 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Logged work hours through December.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  0 hrs
+
+
