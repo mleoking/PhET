@@ -198,6 +198,7 @@ public class BeakerView {
             setStroke( null );
         }};
         private final List<SteamBubbleShape> steamBubbleShapes = new ArrayList<SteamBubbleShape>();
+        private final List<PNode> steamBubbles = new ArrayList<PNode>();
         private final PhetPPath steamNode;
 
         private PerspectiveWaterNode( IClock clock, final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
@@ -339,34 +340,30 @@ public class BeakerView {
                     steamingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
                 }
 
-                // Update variables that bound the overall shape of the steam.
-                double steamWidth = beakerOutlineRect.getWidth() * 0.95;
-
                 // Update the position of the existing steam bubbles.
                 double steamBubbleSpeed = STEAM_BUBBLE_SPEED_RANGE.getMin() + steamingProportion * STEAM_BUBBLE_SPEED_RANGE.getLength();
-                for ( SteamBubbleShape steamBubbleShape : new ArrayList<SteamBubbleShape>( steamBubbleShapes ) ) {
-                    steamBubbleShape.setCenterOffset( steamBubbleShape.getCenterX(), steamBubbleShape.getCenterY() + dt * ( -steamBubbleSpeed ) );
-                    if ( beakerOutlineRect.getMinY() - steamBubbleShape.getCenterY() > MAX_STEAM_BUBBLE_HEIGHT ) {
-                        steamBubbleShapes.remove( steamBubbleShape );
+                for ( PNode steamBubble : new ArrayList<PNode>( steamBubbles ) ) {
+                    steamBubble.setOffset( steamBubble.getXOffset(), steamBubble.getYOffset() + dt * ( -steamBubbleSpeed ) );
+                    if ( beakerOutlineRect.getMinY() - steamBubble.getYOffset() > MAX_STEAM_BUBBLE_HEIGHT ) {
+                        steamBubbles.remove( steamBubble );
+                        steamNode.removeChild( steamBubble );
                     }
                 }
 
-                // Temp - add a steam bubble
+                // Add any new steam bubbles.
                 double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
-                double steamBubbleXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
-                steamBubbleShapes.add( new SteamBubbleShape( steamBubbleXPos, beakerOutlineRect.getCenterY(), steamBubbleDiameter ) );
-
-                // Steam cloud body.
-                Area steamShape = new Area();
-                for ( SteamBubbleShape steamBubbleShape : steamBubbleShapes ) {
-                    steamShape.add( new Area( steamBubbleShape ) );
-                }
-                steamNode.setPathTo( steamShape );
+                double steamBubbleCenterXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
+                PNode steamBubble = new PhetPPath( new Ellipse2D.Double( steamBubbleCenterXPos - steamBubbleDiameter / 2,
+                                                                         liquidWaterTopEllipse.getBounds2D().getCenterY() - steamBubbleDiameter / 2,
+                                                                         steamBubbleDiameter,
+                                                                         steamBubbleDiameter ), Color.WHITE );
+                steamBubbles.add( steamBubble );
+                steamNode.addChild( steamBubble );
 
                 // Update the gradient paint used for the steam.
                 int steamAlpha = (int) ( 255 * steamingProportion );
 //                steamNode.setPaint( new Color( 255, 255, 255, steamAlpha ) );
-                steamNode.setPaint( new Color( 255, 255, 255 ) );
+//                steamNode.setPaint( new Color( 255, 255, 255 ) );
             }
         }
 
