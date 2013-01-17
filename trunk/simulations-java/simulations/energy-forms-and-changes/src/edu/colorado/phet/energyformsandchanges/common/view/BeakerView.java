@@ -185,9 +185,10 @@ public class BeakerView {
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
         private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
         private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
-        private static final DoubleRange STEAM_BUBBLE_SPEED_RANGE = new DoubleRange( 100, 500 ); // In screen coords (basically pixels) per second.
+        private static final DoubleRange STEAM_BUBBLE_SPEED_RANGE = new DoubleRange( 50, 75 ); // In screen coords (basically pixels) per second.
         private static final DoubleRange STEAM_BUBBLE_DIAMETER_RANGE = new DoubleRange( 10, 50 ); // In screen coords (basically pixels).
         private static final double MAX_STEAM_BUBBLE_HEIGHT = 100;
+        private static final double STEAM_BUBBLE_PRODUCTION_RATE = 10; // Bubbles per second.
 
         // Nodes that comprise this node.
         private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
@@ -197,17 +198,22 @@ public class BeakerView {
         private final PClip iceFleckClipNode = new PClip() {{
             setStroke( null );
         }};
-        private final List<SteamBubbleShape> steamBubbleShapes = new ArrayList<SteamBubbleShape>();
         private final List<PNode> steamBubbles = new ArrayList<PNode>();
-        private final PhetPPath steamNode;
+        private final PNode steamNode;
 
+        // Miscellaneous other variables.
+        private double bubbleProductionRemainder;
+
+        /*
+         * Constructor.
+         */
         private PerspectiveWaterNode( IClock clock, final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
             addChild( liquidWaterBodyNode );
             addChild( liquidWaterTopNode );
             addChild( frozenWaterBodyNode );
             addChild( frozenWaterTopNode );
             addChild( iceFleckClipNode );
-            steamNode = new PhetPPath( new Color( 220, 220, 220 ) );
+            steamNode = new PNode();
             addChild( steamNode );
 
             // TODO: Propably don't need the next observer since this node is now updating based on the clock.
@@ -248,11 +254,11 @@ public class BeakerView {
 
         private void updateSteamPaint( Rectangle2D beakerOutlineRect, double waterLevel ) {
             double unfilledHeight = beakerOutlineRect.getHeight() * ( 1 - waterLevel );
-            steamNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
-                                                        beakerOutlineRect.getMinY() + unfilledHeight / 2,
-                                                        Color.WHITE,
-                                                        new Point2D.Double( beakerOutlineRect.getCenterX(), beakerOutlineRect.getMinY() ),
-                                                        new Color( 200, 200, 200 ) ) );
+//            steamNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
+//                                                        beakerOutlineRect.getMinY() + unfilledHeight / 2,
+//                                                        Color.WHITE,
+//                                                        new Point2D.Double( beakerOutlineRect.getCenterX(), beakerOutlineRect.getMinY() ),
+//                                                        new Color( 200, 200, 200 ) ) );
         }
 
         private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature, double dt ) {
@@ -330,7 +336,6 @@ public class BeakerView {
 
             // Update the shape of the steam (if active).
             steamNode.setVisible( temperature >= EFACConstants.BOILING_POINT_TEMPERATURE - STEAMING_RANGE );
-            steamNode.setVisible( true ); // TODO: Temp for debug.
             if ( steamNode.getVisible() ) {
 
                 double steamingProportion = 0;
@@ -351,17 +356,24 @@ public class BeakerView {
                 }
 
                 // Add any new steam bubbles.
+                int steamAlpha = (int) ( 200 * steamingProportion );
                 double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
                 double steamBubbleCenterXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
                 PNode steamBubble = new PhetPPath( new Ellipse2D.Double( steamBubbleCenterXPos - steamBubbleDiameter / 2,
                                                                          liquidWaterTopEllipse.getBounds2D().getCenterY() - steamBubbleDiameter / 2,
                                                                          steamBubbleDiameter,
-                                                                         steamBubbleDiameter ), Color.WHITE );
+                                                                         steamBubbleDiameter ),
+                                                   new Color( 255, 255, 255, steamAlpha ) );
                 steamBubbles.add( steamBubble );
                 steamNode.addChild( steamBubble );
 
+                // Make sure steam clip is correct.
+//                steamNode.setPathTo( new Rectangle2D.Double( beakerOutlineRect.getMinX(),
+//                                                             beakerOutlineRect.getMinY(),
+//                                                             beakerOutlineRect.getWidth(),
+//                                                             MAX_STEAM_BUBBLE_HEIGHT) );
+
                 // Update the gradient paint used for the steam.
-                int steamAlpha = (int) ( 255 * steamingProportion );
 //                steamNode.setPaint( new Color( 255, 255, 255, steamAlpha ) );
 //                steamNode.setPaint( new Color( 255, 255, 255 ) );
             }
