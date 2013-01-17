@@ -378,19 +378,6 @@ public class BeakerView {
 //                steamNode.setPaint( new Color( 255, 255, 255 ) );
             }
         }
-
-        private static class SteamBubbleShape extends Ellipse2D.Double {
-            private final double diameter;
-
-            private SteamBubbleShape( double centerX, double centerY, double diameter ) {
-                super( centerX - diameter / 2, centerY - diameter / 2, diameter, diameter );
-                this.diameter = diameter;
-            }
-
-            private void setCenterOffset( double x, double y ) {
-                setFrame( x - diameter / 2, y - diameter / 2, diameter, diameter );
-            }
-        }
     }
 
     // Class that represents water contained within the beaker.
