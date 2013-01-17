@@ -39,6 +39,7 @@ import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 
@@ -334,27 +335,25 @@ public class BeakerView {
             frozenWaterTopNode.setVisible( freezeProportion > 0 );
             iceFleckClipNode.setVisible( freezeProportion > 0 );
 
-            // Update the shape of the steam (if active).
-            steamNode.setVisible( temperature >= EFACConstants.BOILING_POINT_TEMPERATURE - STEAMING_RANGE );
-            if ( steamNode.getVisible() ) {
+            // Update the visual representation of the steam.
+            double steamingProportion = 0;
+            if ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature < STEAMING_RANGE ) {
 
-                double steamingProportion = 0;
-                if ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature < STEAMING_RANGE ) {
+                // Water is emitting some amount of steam.  Set the proportionate amount.
+                steamingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
+            }
 
-                    // Water is emitting some amount of steam.  Set the proportionate amount.
-                    steamingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
+            // Update the position of the existing steam bubbles.
+            double steamBubbleSpeed = STEAM_BUBBLE_SPEED_RANGE.getMin() + steamingProportion * STEAM_BUBBLE_SPEED_RANGE.getLength();
+            for ( PNode steamBubble : new ArrayList<PNode>( steamBubbles ) ) {
+                steamBubble.setOffset( steamBubble.getXOffset(), steamBubble.getYOffset() + dt * ( -steamBubbleSpeed ) );
+                if ( beakerOutlineRect.getMinY() - steamBubble.getYOffset() > MAX_STEAM_BUBBLE_HEIGHT ) {
+                    steamBubbles.remove( steamBubble );
+                    steamNode.removeChild( steamBubble );
                 }
+            }
 
-                // Update the position of the existing steam bubbles.
-                double steamBubbleSpeed = STEAM_BUBBLE_SPEED_RANGE.getMin() + steamingProportion * STEAM_BUBBLE_SPEED_RANGE.getLength();
-                for ( PNode steamBubble : new ArrayList<PNode>( steamBubbles ) ) {
-                    steamBubble.setOffset( steamBubble.getXOffset(), steamBubble.getYOffset() + dt * ( -steamBubbleSpeed ) );
-                    if ( beakerOutlineRect.getMinY() - steamBubble.getYOffset() > MAX_STEAM_BUBBLE_HEIGHT ) {
-                        steamBubbles.remove( steamBubble );
-                        steamNode.removeChild( steamBubble );
-                    }
-                }
-
+            if ( steamingProportion > 0 ){
                 // Add any new steam bubbles.
                 int steamAlpha = (int) ( 200 * steamingProportion );
                 double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
@@ -376,6 +375,11 @@ public class BeakerView {
                 // Update the gradient paint used for the steam.
 //                steamNode.setPaint( new Color( 255, 255, 255, steamAlpha ) );
 //                steamNode.setPaint( new Color( 255, 255, 255 ) );
+            }
+        }
+
+        private static class SteamBubble extends PPath {
+            private SteamBubble( double centerX, double centerY, double initialDiameter, double initialOpacity ) {
             }
         }
     }
