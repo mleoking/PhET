@@ -44,7 +44,7 @@ public class StackableBucketNode extends StackableNode {
         LinearFunction rightLineX = new LinearFunction( 1, 0, 87 * s, 96 * s );
         LinearFunction rightLineY = new LinearFunction( 1, 0, 102 * s, 9 * s );
 
-        double min = 0.3;
+        double min = 0.5; //Water level when acceleration = 0
         double sum = 0.0;
         for ( Double aDouble : history ) {
             sum = sum + aDouble;
