@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**

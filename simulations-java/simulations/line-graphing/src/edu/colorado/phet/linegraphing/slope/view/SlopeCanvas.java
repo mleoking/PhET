@@ -1,10 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.slope.view;
 
-import edu.colorado.phet.linegraphing.slope.model.SlopeModel;
 import edu.colorado.phet.linegraphing.common.view.GraphControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsCanvas;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
+import edu.colorado.phet.linegraphing.slope.model.SlopeModel;
 
 /**
  * Canvas for the "Slope" module.

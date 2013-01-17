@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.linegame.view;
 
 import edu.colorado.phet.linegraphing.linegame.model.Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.ManipulationMode;
 
 /**
  * Challenge graph that initially shows the answer, but not the user's guess.

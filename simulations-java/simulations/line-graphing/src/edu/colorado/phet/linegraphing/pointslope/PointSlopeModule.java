@@ -4,8 +4,8 @@ package edu.colorado.phet.linegraphing.pointslope;
 import edu.colorado.phet.linegraphing.common.LGModule;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeCanvas;
 
 /**

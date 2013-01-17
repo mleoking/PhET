@@ -1,10 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
-import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -12,10 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.SlopeColors;
