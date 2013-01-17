@@ -1,3 +1,4 @@
+Changed the background color.
 Changed the thermometer to appear to fill up all the way to the top when the temperature of the measured object exceeds the thermometer's range.
 Modified the thermometer to have one tick below the freezing point, one tick above the freezing point, and 10 increments between boiling and freezing.
 Added flecks to the ice in an attempt to make it look more ice-like.
