@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -184,7 +185,11 @@ public class BeakerView {
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
         private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
         private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
+        private static final DoubleRange STEAM_BUBBLE_SPEED_RANGE = new DoubleRange( 100, 500 ); // In screen coords (basically pixels) per second.
+        private static final DoubleRange STEAM_BUBBLE_DIAMETER_RANGE = new DoubleRange( 10, 50 ); // In screen coords (basically pixels).
+        private static final double MAX_STEAM_BUBBLE_HEIGHT = 100;
 
+        // Nodes that comprise this node.
         private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
         private final PhetPPath liquidWaterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
         private final PhetPPath frozenWaterTopNode = new PhetPPath( BASIC_ICE_COLOR, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
@@ -192,6 +197,7 @@ public class BeakerView {
         private final PClip iceFleckClipNode = new PClip() {{
             setStroke( null );
         }};
+        private final List<SteamBubbleShape> steamBubbleShapes = new ArrayList<SteamBubbleShape>();
         private final PhetPPath steamNode;
 
         private PerspectiveWaterNode( IClock clock, final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
@@ -203,22 +209,24 @@ public class BeakerView {
             steamNode = new PhetPPath( new Color( 220, 220, 220 ) );
             addChild( steamNode );
 
+            // TODO: Propably don't need the next observer since this node is now updating based on the clock.
+//
+//            temperature.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
+//                }
+//            } );
+
             waterLevel.addObserver( new SimpleObserver() {
                 public void update() {
+                    // Done here rather than at every clock tick so save CPU cycles.
                     updateSteamPaint( beakerOutlineRect, waterLevel.get() );
-                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
-                }
-            } );
-
-            temperature.addObserver( new SimpleObserver() {
-                public void update() {
-                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
                 }
             } );
 
             clock.addClockListener( new ClockAdapter() {
                 @Override public void clockTicked( ClockEvent clockEvent ) {
-                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
+                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get(), clockEvent.getSimulationTimeChange() );
                 }
             } );
 
@@ -246,7 +254,7 @@ public class BeakerView {
                                                         new Color( 200, 200, 200 ) ) );
         }
 
-        private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature ) {
+        private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature, double dt ) {
 
             double freezeProportion = 0;
             if ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE < FREEZING_RANGE ) {
@@ -321,26 +329,57 @@ public class BeakerView {
 
             // Update the shape of the steam (if active).
             steamNode.setVisible( temperature >= EFACConstants.BOILING_POINT_TEMPERATURE - STEAMING_RANGE );
-            steamNode.setVisible( true );
+            steamNode.setVisible( true ); // TODO: Temp for debug.
             if ( steamNode.getVisible() ) {
 
-                double boilingProportion = 0;
+                double steamingProportion = 0;
                 if ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature < STEAMING_RANGE ) {
 
-                    // Water is starting to boil, set the amount of boiling.
-                    boilingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
+                    // Water is emitting some amount of steam.  Set the proportionate amount.
+                    steamingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
                 }
 
-                // Update shape of steam node.
+                // Update variables that bound the overall shape of the steam.
                 double steamWidth = beakerOutlineRect.getWidth() * 0.95;
 
+                // Update the position of the existing steam bubbles.
+                double steamBubbleSpeed = STEAM_BUBBLE_SPEED_RANGE.getMin() + steamingProportion * STEAM_BUBBLE_SPEED_RANGE.getLength();
+                for ( SteamBubbleShape steamBubbleShape : new ArrayList<SteamBubbleShape>( steamBubbleShapes ) ) {
+                    steamBubbleShape.setCenterOffset( steamBubbleShape.getCenterX(), steamBubbleShape.getCenterY() + dt * ( -steamBubbleSpeed ) );
+                    if ( beakerOutlineRect.getMinY() - steamBubbleShape.getCenterY() > MAX_STEAM_BUBBLE_HEIGHT ) {
+                        steamBubbleShapes.remove( steamBubbleShape );
+                    }
+                }
+
+                // Temp - add a steam bubble
+                double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
+                double steamBubbleXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
+                steamBubbleShapes.add( new SteamBubbleShape( steamBubbleXPos, beakerOutlineRect.getCenterY(), steamBubbleDiameter ) );
+
                 // Steam cloud body.
-                Shape steamShape = new Ellipse2D.Double( beakerOutlineRect.getMinX(), beakerOutlineRect.getMinY(), steamWidth, beakerOutlineRect.getHeight() );
+                Area steamShape = new Area();
+                for ( SteamBubbleShape steamBubbleShape : steamBubbleShapes ) {
+                    steamShape.add( new Area( steamBubbleShape ) );
+                }
                 steamNode.setPathTo( steamShape );
 
                 // Update the gradient paint used for the steam.
-                int steamAlpha = (int) ( 255 * boilingProportion );
-                steamNode.setPaint( Color.WHITE );
+                int steamAlpha = (int) ( 255 * steamingProportion );
+//                steamNode.setPaint( new Color( 255, 255, 255, steamAlpha ) );
+                steamNode.setPaint( new Color( 255, 255, 255 ) );
+            }
+        }
+
+        private static class SteamBubbleShape extends Ellipse2D.Double {
+            private final double diameter;
+
+            private SteamBubbleShape( double centerX, double centerY, double diameter ) {
+                super( centerX - diameter / 2, centerY - diameter / 2, diameter, diameter );
+                this.diameter = diameter;
+            }
+
+            private void setCenterOffset( double x, double y ) {
+                setFrame( x - diameter / 2, y - diameter / 2, diameter, diameter );
             }
         }
     }
