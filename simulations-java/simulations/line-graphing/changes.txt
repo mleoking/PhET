@@ -1,3 +1,5 @@
+# 0.00.51 (71745) Jan 16, 2013
+1/16/13 first feature-complete version for testing
 1/16/13 organize imports for all source files
 1/16/13 use Graph.lines in game [71728]
 1/16/13 add Graph.lines, make the point tool observe it [71724]
