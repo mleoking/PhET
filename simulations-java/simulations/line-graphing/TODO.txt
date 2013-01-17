@@ -3,5 +3,4 @@ TODO list for line-graphing
 - IDEA code analysis
 - testing
 - implementation-notes.txt
-- screenshot
 - code review (JB)
