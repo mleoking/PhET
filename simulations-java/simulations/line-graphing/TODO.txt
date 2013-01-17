@@ -1,6 +1,6 @@
 TODO list for line-graphing
 
-- testings
+- testing
 - implementation-notes.txt
 - screenshot
 - code review (JB)
