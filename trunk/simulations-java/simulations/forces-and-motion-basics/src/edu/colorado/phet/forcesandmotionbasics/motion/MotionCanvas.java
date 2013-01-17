@@ -426,9 +426,14 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( girl );
         addChild( man );
         addChild( trashOrBucket );
-        addChild( gift );
 
-        stackableNodes = fj.data.List.list( fridge, crate1, crate2, man, girl, trashOrBucket, gift );
+        stackableNodes = fj.data.List.list( fridge, crate1, crate2, man, girl, trashOrBucket );
+
+        //The bucket is so big that it should replace both the trash can and the gift on the acceleration tab.
+        if ( !accelerometer ) {
+            addChild( gift );
+            stackableNodes.snoc( gift );
+        }
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {

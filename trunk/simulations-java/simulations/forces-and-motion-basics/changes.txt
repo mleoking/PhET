@@ -1,3 +1,4 @@
+The bucket is so big that it should replace both the trash can and the gift on the acceleration tab.
 Moved water level lower so it can be seen better under the arrows
 # 1.00.05 (71719) Jan 15, 2013
 Added water bucket
