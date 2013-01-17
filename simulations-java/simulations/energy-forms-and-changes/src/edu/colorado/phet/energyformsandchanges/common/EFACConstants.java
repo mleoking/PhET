@@ -16,7 +16,8 @@ import edu.colorado.phet.energyformsandchanges.intro.model.Brick;
  */
 public class EFACConstants {
 
-    public static final double ROOM_TEMPERATURE = 296; // In Kelvin.
+//    public static final double ROOM_TEMPERATURE = 296; // In Kelvin.
+    public static final double ROOM_TEMPERATURE = 360.15; // In Kelvin.
     public static final double FREEZING_POINT_TEMPERATURE = 273.15; // In Kelvin.
     public static final double BOILING_POINT_TEMPERATURE = 373.15; // In Kelvin.
 
