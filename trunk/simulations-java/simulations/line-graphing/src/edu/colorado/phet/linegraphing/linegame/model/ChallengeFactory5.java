@@ -177,7 +177,7 @@ class ChallengeFactory5 extends ChallengeFactory {
                 }
                 challenges.add( new PlaceThePoints( "point-slope, random points",
                                                     new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
-                                                    EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+                                                    EquationForm.POINT_SLOPE, xRange, yRange ) );
             }
         }
 
