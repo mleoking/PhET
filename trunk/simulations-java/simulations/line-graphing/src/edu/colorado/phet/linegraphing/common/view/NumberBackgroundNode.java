@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;

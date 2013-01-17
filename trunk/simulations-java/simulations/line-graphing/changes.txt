@@ -1,5 +1,6 @@
-1/15/13 use Graph.lines in game [71728]
-1/15/13 add Graph.lines, make the point tool observe it [71724]
+1/16/13 organize imports for all source files
+1/16/13 use Graph.lines in game [71728]
+1/16/13 add Graph.lines, make the point tool observe it [71724]
 1/15/13 cleanup ChallengeFactory subclasses
 1/15/13 delete unnecessary zero-arg constructors in ChallengeFactory subclasses
 1/15/13 delete obsolete TestFractionSlopes

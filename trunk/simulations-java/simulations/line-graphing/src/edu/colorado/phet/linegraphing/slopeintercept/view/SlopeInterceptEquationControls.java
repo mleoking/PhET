@@ -3,9 +3,9 @@ package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 
 /**
  * Control panel for interacting with a line's equation in slope-intercept form.

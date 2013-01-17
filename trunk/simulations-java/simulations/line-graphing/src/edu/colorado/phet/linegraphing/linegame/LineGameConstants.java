@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.linegame;
 import java.awt.Color;
 import java.awt.Font;
 
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
