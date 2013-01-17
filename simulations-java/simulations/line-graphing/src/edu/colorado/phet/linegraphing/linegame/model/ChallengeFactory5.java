@@ -152,7 +152,7 @@ class ChallengeFactory5 extends ChallengeFactory {
 
             // slope-intercept form, slope and intercept variable
             {
-                final int x1 = integerChooser.choose( xList );
+                final int x1 = 0; // y-intercept must be an integer
                 final int y1 = integerChooser.choose( yList );
                 final int rise = integerChooser.choose( riseList );
                 int run = integerChooser.choose( runList );
