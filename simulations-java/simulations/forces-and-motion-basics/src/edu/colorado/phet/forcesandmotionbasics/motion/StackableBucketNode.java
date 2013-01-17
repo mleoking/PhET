@@ -35,7 +35,7 @@ public class StackableBucketNode extends StackableNode {
     public void stepInTime( final double dt ) {
         double acceleration = this.acceleration.get().get();
         history.add( acceleration );
-        while ( history.size() > 10 ) {
+        while ( history.size() > 7 ) {
             history.remove( 0 );
         }
         //Metrics based on original image size of 98 pixels wide.
