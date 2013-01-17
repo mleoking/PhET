@@ -6,6 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.energyformsandchanges.intro.model.Brick;
 
 /**
@@ -47,6 +48,7 @@ public class EFACConstants {
                                                                                               HIGH_ENERGY_FOR_MAP_FUNCTION,
                                                                                               1,
                                                                                               2 );
+
         public Integer apply( Double energy ) {
             return Math.max( (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) ), 0 );
         }
@@ -64,7 +66,8 @@ public class EFACConstants {
     public static final float NOMINAL_WATER_OPACITY = 0.75f;
     public static final Color WATER_COLOR_OPAQUE = new Color( 175, 238, 238 );
     public static final Color WATER_COLOR_IN_BEAKER = new Color( 175, 238, 238, (int) ( Math.round( NOMINAL_WATER_OPACITY * 255 ) ) );
-    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 245, 246, 247 );
+    //    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 245, 246, 247 );
+    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 238, 232, 170 );
     public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 255, 255, 224 );
 
     // Model-view transform scale factor for Energy Systems tab.
