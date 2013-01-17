@@ -176,7 +176,6 @@ public class BeakerView {
 
     }
 
-    // Class that represents water contained within the beaker.
     private static class PerspectiveWaterNode extends PNode {
 
         private static final Color LIQUID_WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.2 );
@@ -196,6 +195,176 @@ public class BeakerView {
         private final PhetPPath steamNode;
 
         private PerspectiveWaterNode( IClock clock, final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
+            addChild( liquidWaterBodyNode );
+            addChild( liquidWaterTopNode );
+            addChild( frozenWaterBodyNode );
+            addChild( frozenWaterTopNode );
+            addChild( iceFleckClipNode );
+            steamNode = new PhetPPath( new Color( 220, 220, 220 ) );
+            addChild( steamNode );
+
+            waterLevel.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateSteamPaint( beakerOutlineRect, waterLevel.get() );
+                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
+                }
+            } );
+
+            temperature.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
+                }
+            } );
+
+            clock.addClockListener( new ClockAdapter() {
+                @Override public void clockTicked( ClockEvent clockEvent ) {
+                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
+                }
+            } );
+
+            // Set up the gradient used for the frozen water.
+            frozenWaterBodyNode.setPaint( new GradientPaint( (float) beakerOutlineRect.getMinX(),
+                                                             0,
+                                                             BASIC_ICE_COLOR,
+                                                             (float) beakerOutlineRect.getCenterX(),
+                                                             0,
+                                                             ColorUtils.brighterColor( BASIC_ICE_COLOR, 0.85 ),
+                                                             true ) );
+            frozenWaterTopNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
+                                                                 beakerOutlineRect.getCenterY(),
+                                                                 ColorUtils.brighterColor( BASIC_ICE_COLOR, 0.85 ),
+                                                                 new Point2D.Double( 0, beakerOutlineRect.getWidth() / 2 ),
+                                                                 BASIC_ICE_COLOR ) );
+        }
+
+        private void updateSteamPaint( Rectangle2D beakerOutlineRect, double waterLevel ) {
+            double unfilledHeight = beakerOutlineRect.getHeight() * ( 1 - waterLevel );
+            steamNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
+                                                        beakerOutlineRect.getMinY() + unfilledHeight / 2,
+                                                        Color.WHITE,
+                                                        new Point2D.Double( beakerOutlineRect.getCenterX(), beakerOutlineRect.getMinY() ),
+                                                        new Color( 200, 200, 200 ) ) );
+        }
+
+        private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature ) {
+
+            double freezeProportion = 0;
+            if ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE < FREEZING_RANGE ) {
+                // Set the proportion of freezing that is occurring.  Zero
+                // indicates no freezing, 1 indication fully frozen.
+                freezeProportion = MathUtil.clamp( 0, 1 - ( ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE ) / FREEZING_RANGE ), 1 );
+            }
+
+            double totalWaterHeight = beakerOutlineRect.getHeight() * fluidLevel;
+            double frozenWaterHeight = totalWaterHeight * freezeProportion;
+            double liquidWaterHeight = totalWaterHeight - frozenWaterHeight;
+
+            Rectangle2D liquidWaterRect = new Rectangle2D.Double( beakerOutlineRect.getX(),
+                                                                  beakerOutlineRect.getMaxY() - liquidWaterHeight,
+                                                                  beakerOutlineRect.getWidth(),
+                                                                  liquidWaterHeight );
+            Rectangle2D frozenWaterRect = new Rectangle2D.Double( beakerOutlineRect.getX(),
+                                                                  beakerOutlineRect.getMaxY() - totalWaterHeight,
+                                                                  beakerOutlineRect.getWidth(),
+                                                                  frozenWaterHeight );
+            double ellipseWidth = beakerOutlineRect.getWidth();
+            double ellipseHeight = PERSPECTIVE_PROPORTION * ellipseWidth;
+            Shape liquidWaterTopEllipse = new Ellipse2D.Double( liquidWaterRect.getMinX(),
+                                                                liquidWaterRect.getMinY() - ellipseHeight / 2,
+                                                                liquidWaterRect.getWidth(),
+                                                                ellipseHeight );
+            Shape frozenWaterTopEllipse = new Ellipse2D.Double( frozenWaterRect.getMinX(),
+                                                                frozenWaterRect.getMinY() - ellipseHeight / 2,
+                                                                frozenWaterRect.getWidth(),
+                                                                ellipseHeight );
+            Shape bottomEllipse = new Ellipse2D.Double( liquidWaterRect.getMinX(),
+                                                        liquidWaterRect.getMaxY() - ellipseHeight / 2,
+                                                        liquidWaterRect.getWidth(),
+                                                        ellipseHeight );
+
+            // Update shape of the the liquid water.
+            Area liquidWaterBodyArea = new Area( liquidWaterRect );
+            liquidWaterBodyArea.add( new Area( bottomEllipse ) );
+            liquidWaterBodyArea.subtract( new Area( liquidWaterTopEllipse ) );
+            liquidWaterBodyNode.setPathTo( liquidWaterBodyArea );
+            liquidWaterTopNode.setPathTo( liquidWaterTopEllipse );
+
+            // Update shape of frozen water.
+            Area frozenWaterBodyArea = new Area( frozenWaterRect );
+            frozenWaterBodyArea.subtract( new Area( frozenWaterTopEllipse ) );
+            frozenWaterBodyArea.add( new Area( liquidWaterTopEllipse ) );
+            frozenWaterBodyNode.setPathTo( frozenWaterBodyArea );
+            frozenWaterTopNode.setPathTo( frozenWaterTopEllipse );
+
+            // Update the place where the ice flecks are visible.
+            Area iceFleckArea = frozenWaterBodyArea;
+            iceFleckArea.add( new Area( frozenWaterTopEllipse ) );
+            iceFleckClipNode.setPathTo( iceFleckArea );
+
+            // Regenerate ice flecks if freezing has just started.
+            if ( !frozenWaterBodyNode.getVisible() && freezeProportion > 0 ) {
+                iceFleckClipNode.removeAllChildren();
+                // TODO: Make num of flecks a constant if we keep them.
+                for ( int i = 0; i < 250; i++ ) {
+                    IceFleckNode iceFleck = new IceFleckNode( generateRandomIceFleckColor() );
+                    Area iceFleckTotalArea = new Area( liquidWaterBodyArea );
+                    iceFleckTotalArea.add( new Area( liquidWaterTopEllipse ) );
+                    iceFleck.setOffset( generateRandomLocationInShape( iceFleckTotalArea ) );
+                    iceFleckClipNode.addChild( iceFleck );
+                }
+            }
+
+            // Frozen portions only visible if some freezing has occurred.
+            frozenWaterBodyNode.setVisible( freezeProportion > 0 );
+            frozenWaterTopNode.setVisible( freezeProportion > 0 );
+            iceFleckClipNode.setVisible( freezeProportion > 0 );
+
+            // Update the shape of the steam (if active).
+            steamNode.setVisible( temperature >= EFACConstants.BOILING_POINT_TEMPERATURE - STEAMING_RANGE );
+            steamNode.setVisible( true );
+            if ( steamNode.getVisible() ) {
+
+                double boilingProportion = 0;
+                if ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature < STEAMING_RANGE ) {
+
+                    // Water is starting to boil, set the amount of boiling.
+                    boilingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
+                }
+
+                // Update shape of steam node.
+                double steamWidth = beakerOutlineRect.getWidth() * 0.95;
+
+                // Steam cloud body.
+                Shape steamShape = new Ellipse2D.Double( beakerOutlineRect.getMinX(), beakerOutlineRect.getMinY(), steamWidth, beakerOutlineRect.getHeight() );
+                steamNode.setPathTo( steamShape );
+
+                // Update the gradient paint used for the steam.
+                int steamAlpha = (int) ( 255 * boilingProportion );
+                steamNode.setPaint( Color.WHITE );
+            }
+        }
+    }
+
+    // Class that represents water contained within the beaker.
+    private static class PerspectiveWaterNodeBackup extends PNode {
+
+        private static final Color LIQUID_WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.2 );
+        private static final Color FROZEN_WATER_OUTLINE_COLOR = ColorUtils.brighterColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.3 );
+        private static final Color BASIC_ICE_COLOR = new Color( 107, 207, 245 );
+        private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
+        private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
+        private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
+
+        private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
+        private final PhetPPath liquidWaterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
+        private final PhetPPath frozenWaterTopNode = new PhetPPath( BASIC_ICE_COLOR, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
+        private final PhetPPath frozenWaterBodyNode = new PhetPPath( Color.WHITE, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
+        private final PClip iceFleckClipNode = new PClip() {{
+            setStroke( null );
+        }};
+        private final PhetPPath steamNode;
+
+        private PerspectiveWaterNodeBackup( IClock clock, final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
             addChild( liquidWaterBodyNode );
             addChild( liquidWaterTopNode );
             addChild( frozenWaterBodyNode );
