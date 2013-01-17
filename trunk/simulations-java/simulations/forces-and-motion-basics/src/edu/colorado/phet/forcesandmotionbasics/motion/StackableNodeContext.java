@@ -24,4 +24,6 @@ public interface StackableNodeContext {
     void addStackChangeListener( SimpleObserver observer );
 
     int getStackSize();
+
+    boolean isInStack( StackableBucketNode stackableBucketNode );
 }

@@ -20,16 +20,16 @@ public class StackableBucketNode extends StackableNode {
     private final Property<Option<Double>> acceleration;
     private final PhetPPath water;
     private final ArrayList<Double> history = new ArrayList<Double>();
+    private final StackableNodeContext context;
 
     public StackableBucketNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass, final Property<Option<Double>> acceleration ) {
         super( component, context, image, mass, pusherOffset, showMass, false, image, image );
         this.image = image;
         this.acceleration = acceleration;
-//        water = new PhetPPath( new Color( 46, 176, 214 ) );  //Too much like the sky
-//        water = new PhetPPath( new Color( 13, 134, 169 ) );
         water = new PhetPPath( new Color( 9, 125, 159 ) );
         addChild( water );
         water.moveToBack();
+        this.context = context;
     }
 
     public void stepInTime( final double dt ) {
@@ -52,7 +52,7 @@ public class StackableBucketNode extends StackableNode {
             sum = sum + aDouble;
         }
         double composite = sum / history.size();
-        double delta = -composite / 50;
+        double delta = context.isInStack( this ) ? -composite / 50 : 0;
         final DoubleGeneralPath path = new DoubleGeneralPath( leftLineX.evaluate( min + delta ), leftLineY.evaluate( min + delta ) );
         path.lineTo( leftLineX.evaluate( 1 ), leftLineY.evaluate( 1 ) );
         path.lineTo( rightLineX.evaluate( 1 ), rightLineY.evaluate( 1 ) );

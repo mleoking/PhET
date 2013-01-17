@@ -1,3 +1,4 @@
+Fixed: Bucket water shouldn't move while in the toolbox
 Improved the water color
 The bucket is so big that it should replace both the trash can and the gift on the acceleration tab.
 Moved water level lower so it can be seen better under the arrows

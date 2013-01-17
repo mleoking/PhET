@@ -706,6 +706,14 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         } );
     }
 
+    public boolean isInStack( final StackableBucketNode s ) {
+        return stack.get().exists( new F<StackableNode, Boolean>() {
+            @Override public Boolean f( final StackableNode stackableNode ) {
+                return stackableNode == s;
+            }
+        } );
+    }
+
     public void addStackChangeListener( final SimpleObserver observer ) {
         stack.addObserver( observer );
     }
