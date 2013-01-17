@@ -15,7 +15,7 @@ public class GameResults {
 
     public final Property<Integer> score; // how many points the user has earned for the current game
     public boolean isNewBestTime; // is the time for the most-recently-completed game a new best time?
-    public final HashMap<Integer, Long> bestTimes; // best times, maps level to time in ms
+    private final HashMap<Integer, Long> bestTimes; // best times, maps level to time in ms
 
     public GameResults( IntegerRange levelsRange ) {
 

@@ -28,7 +28,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
 
     private static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
 
-    protected final LineFormsModel model;
+    private final LineFormsModel model;
     private final LineFormsViewProperties viewProperties;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, slopeToolNode;
@@ -37,8 +37,8 @@ public abstract class LineFormsGraphNode extends GraphNode {
     /**
      * Constructor
      *
-     * @param model
-     * @param viewProperties
+     * @param model the model
+     * @param viewProperties properties that are specific to the view
      */
     protected LineFormsGraphNode( LineFormsModel model, final LineFormsViewProperties viewProperties ) {
         super( model.graph, model.mvt );

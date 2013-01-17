@@ -31,7 +31,7 @@ public class PlusNode extends PPath {
      *
      * @param width  width of the horizontal bar
      * @param height height of the horizontal bar
-     * @param paint
+     * @param paint  paint used to fill the plus sign
      */
     private PlusNode( double width, double height, Paint paint ) {
         assert ( width > height );
@@ -46,8 +46,8 @@ public class PlusNode extends PPath {
         path.lineTo( width, c1 );
         path.lineTo( width, c2 );
         path.lineTo( c2, c2 );
-        path.lineTo( c2, width );
-        path.lineTo( c1, width );
+        path.lineTo( c2, width ); // yes, use width for y param
+        path.lineTo( c1, width ); // yes, use width for y param
         path.lineTo( c1, c2 );
         path.lineTo( 0, c2 );
         path.lineTo( 0, c1 );

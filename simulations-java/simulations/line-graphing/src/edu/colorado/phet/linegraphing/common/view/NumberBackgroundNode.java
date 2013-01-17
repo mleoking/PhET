@@ -28,14 +28,14 @@ public class NumberBackgroundNode extends PComposite {
     /**
      * Use this constructor if you want to specify a minimum width for the value.
      *
-     * @param value
-     * @param format
-     * @param font
-     * @param textColor
-     * @param backgroundColor
-     * @param xMargin
-     * @param yMargin
-     * @param cornerRadius
+     * @param value the value to display
+     * @param format number format of the value
+     * @param font font used to render the value
+     * @param textColor color of the value
+     * @param backgroundColor background color
+     * @param xMargin margin on left and right
+     * @param yMargin margin on top and bottom
+     * @param cornerRadius radius of the background's corners
      * @param minWidth        the minimum width of the value (xMargin is added to this to determine background width)
      */
     public NumberBackgroundNode( double value, NumberFormat format,

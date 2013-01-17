@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.common.view.manipulator;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -24,7 +25,7 @@ public class PointDragHandler extends SimSharingDragHandler {
     private final LineManipulatorNode manipulatorNode;
     private final ModelViewTransform mvt;
     private final Property<Vector2D> point;
-    private final Property<Vector2D>[] otherPoints;
+    private final ArrayList<Property<Vector2D>> otherPoints;
     private final Property<DoubleRange> x1Range, y1Range;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
@@ -43,7 +44,7 @@ public class PointDragHandler extends SimSharingDragHandler {
     public PointDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                              LineManipulatorNode manipulatorNode, ModelViewTransform mvt,
                              Property<Vector2D> point,
-                             Property<Vector2D>[] otherPoints,
+                             ArrayList<Property<Vector2D>> otherPoints,
                              Property<DoubleRange> x1Range, Property<DoubleRange> y1Range ) {
         super( userComponent, componentType, true /* sendDragMessages */ );
         this.manipulatorNode = manipulatorNode;

@@ -36,7 +36,7 @@ public class MakeTheEquationNode extends ChallengeNode {
 
     /**
      * Constructor
-     * @parma challenge the challenge
+     * @param challenge the challenge
      * @param model the game model
      * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
      * @param audioPlayer the audio player, for providing audio feedback during game play

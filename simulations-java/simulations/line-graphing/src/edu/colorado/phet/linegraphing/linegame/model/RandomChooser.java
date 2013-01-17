@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  */
 class RandomChooser<T> {
 
-    protected final Random random;
+    private final Random random;
 
     public RandomChooser( Random random ) {
         this.random = random;

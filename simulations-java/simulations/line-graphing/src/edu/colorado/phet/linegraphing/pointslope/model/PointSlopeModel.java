@@ -40,9 +40,4 @@ public class PointSlopeModel extends LineFormsModel {
             }
         } );
     }
-
-    @Override public void reset() {
-        super.reset();
-        // no need to reset ranges, they will be reset when interactiveLine is reset
-    }
 }

@@ -73,7 +73,7 @@ public class GraphNode extends PhetPNode {
      * @param graph model element that this node displays
      * @param mvt   transform between model and view coordinate frames
      */
-    public GraphNode( Graph graph, ModelViewTransform mvt ) {
+    protected GraphNode( Graph graph, ModelViewTransform mvt ) {
 
         assert ( graph.contains( new Vector2D( 0, 0 ) ) && graph.contains( new Vector2D( 1, 1 ) ) ); // (0,0) and quadrant 1 is visible
 

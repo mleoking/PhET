@@ -16,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.model.Fraction;
  */
 abstract class ChallengeFactory {
 
-    protected final Random random; // random number generator
+    private final Random random; // random number generator
 
     // random choosers
     protected final RandomChooser<Fraction> fractionChooser;

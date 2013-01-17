@@ -21,13 +21,13 @@ public abstract class SlopeSpinnerNode extends SpinnerNode {
     /**
      * Constructor.
      *
-     * @param userComponent
+     * @param userComponent     user component in data-collection messages
      * @param variableComponent the part of the slope that this spinner is manipulating
      * @param fixedComponent    the part of the slope that this spinner is not manipulating
      * @param variableRange     the variableRange of variableComponent
-     * @param colors
-     * @param font
-     * @param format
+     * @param colors            color scheme for the various states of the spinner
+     * @param font              font used to render the value
+     * @param format            number format of the value
      */
     public SlopeSpinnerNode( IUserComponent userComponent,
                              final Property<Double> variableComponent, final Property<Double> fixedComponent, Property<DoubleRange> variableRange,

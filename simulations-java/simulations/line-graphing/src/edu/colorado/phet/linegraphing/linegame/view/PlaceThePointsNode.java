@@ -24,7 +24,7 @@ public class PlaceThePointsNode extends GraphTheLineNode {
      * @param model         the game model
      * @param challengeSize dimensions of the view rectangle that is available for rendering the challenge
      * @param audioPlayer   the audio player, for providing audio feedback during game play
-     * @parma challenge the challenge
+     * @param challenge the challenge
      */
     public PlaceThePointsNode( final PlaceThePoints challenge, LineGameModel model, PDimension challengeSize, GameAudioPlayer audioPlayer ) {
         super( challenge, model, challengeSize, audioPlayer );
