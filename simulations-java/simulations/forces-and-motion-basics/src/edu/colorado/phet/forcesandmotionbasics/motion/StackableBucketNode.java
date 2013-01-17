@@ -25,7 +25,9 @@ public class StackableBucketNode extends StackableNode {
         super( component, context, image, mass, pusherOffset, showMass, false, image, image );
         this.image = image;
         this.acceleration = acceleration;
-        water = new PhetPPath( Color.blue );
+//        water = new PhetPPath( new Color( 46, 176, 214 ) );  //Too much like the sky
+//        water = new PhetPPath( new Color( 13, 134, 169 ) );
+        water = new PhetPPath( new Color( 9, 125, 159 ) );
         addChild( water );
         water.moveToBack();
     }
