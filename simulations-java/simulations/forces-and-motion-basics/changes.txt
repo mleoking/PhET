@@ -1,3 +1,4 @@
+Changed "0" under accelerometer from 12 point font to 15 point font
 Space things more evenly in the "acceleration" tab
 Added a handle to the water bucket
 # 1.00.06 (71754) Jan 16, 2013

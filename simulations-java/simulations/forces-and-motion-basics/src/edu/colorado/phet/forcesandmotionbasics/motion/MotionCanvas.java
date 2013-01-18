@@ -490,7 +490,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( speedometerNode );
 
-        PNode accelerometerNode = new VBox( 0, new PhetPText( Strings.ACCELERATION, new PhetFont( (int) ( 16 * 1.25 ) ) ), new AccelerometerNode( model.acceleration ), new PhetPText( "0" ) ) {{
+        PNode accelerometerNode = new VBox( 0, new PhetPText( Strings.ACCELERATION, new PhetFont( (int) ( 16 * 1.25 ) ) ), new AccelerometerNode( model.acceleration ), new PhetPText( "0", new PhetFont( 15 ) ) ) {{
             showAccelerometer.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean show ) {
                     setVisible( show );
