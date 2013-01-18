@@ -1,4 +1,3 @@
-# 1.00.07 (71778) Jan 17, 2013
 If the stack is too high (contains 2 objects and one is fridge or man), move the sensors to the side
 Added labels for "-20" "20" under the tickmarks of the accelerometer
 Changed "0" under accelerometer from 12 point font to 15 point font
