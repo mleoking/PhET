@@ -50,6 +50,12 @@ To make this easier, node and canvas constructors typically have this structure:
           // register property observers
       }
 
+The most complicated code in the sim deals with rendering of interactive and non-interactive
+equations. The design team was very particular about the layout and look of these equations,
+and the equations must dynamically change their layout based on what parts of the equation are
+interactive and how the equation would simplify. See EquationNode and its subclasses for details.
+TestEquationNodes provides a standalone test harness.
+
 Challenges are generated using the Factory pattern, with one factory for each game level.
 For example, ChallengeFactory1 handles challenge generation for game level 1.
 
