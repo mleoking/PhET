@@ -120,6 +120,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private int lastNumSpecks = -1;
     private final boolean accelerometer;
     private final WaterBucketNode bucket;
+    private final StackableNode fridge;
+    private final StackableNode man;
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
@@ -386,7 +388,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         timeControls.setOffset( STAGE_SIZE.width / 2 - playPauseButton.getFullBounds().getWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );
 
-        StackableNode fridge = new StackableNode( UserComponents.fridge, this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD, showMasses );
+        fridge = new StackableNode( UserComponents.fridge, this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD, showMasses );
         StackableNode crate1 = new StackableNode( UserComponents.crate1, this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
         StackableNode crate2 = new StackableNode( UserComponents.crate2, this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
 
@@ -402,7 +404,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         //Weight for humans (but remember to round off the values to nearest 10 to make it easier to read): http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
         StackableNode girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), multiScaleToHeight( Images.GIRL_HOLDING, 100 ) );
         final int manHeight = (int) ( 200 / 150.0 * 100.0 );
-        StackableNode man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, manHeight ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), multiScaleToHeight( Images.MAN_HOLDING, manHeight ) );
+        man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, manHeight ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), multiScaleToHeight( Images.MAN_HOLDING, manHeight ) );
 
         StackableNode trash = new StackableNode( UserComponents.trash, this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses );
         bucket = new WaterBucketNode( UserComponents.bucket, this, multiScaleToHeight( Images.WATER_BUCKET, (int) ( 150 * 2.0 / 3.0 ) ), 50, 28, showMasses, model.acceleration );
@@ -507,7 +509,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
             stack.addObserver( new VoidFunction1<List<StackableNode>>() {
                 public void apply( final List<StackableNode> stackableNodes ) {
-                    if ( stackableNodes.length() >= 3 ) {
+
+                    //If the stack is too high, move the sensors to the side
+                    if ( stackableNodes.length() >= 3 || ( stackableNodes.length() == 2 && stackContainsFridgeOrMan() ) ) {
                         animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 2, 1, 0, 200 );
                     }
                     else {
@@ -534,6 +538,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 sendModelMessage( ModelComponents.stack, ModelComponentTypes.modelElement, ModelActions.changed, parameterSet( ParameterKeys.mass, getMassOfObjectsOnSkateboard() ).with( ParameterKeys.items, stackToString( stackableNodes ) ) );
             }
         } );
+    }
+
+    private boolean stackContainsFridgeOrMan() {
+        return isInStack( this.fridge ) || isInStack( this.man );
     }
 
     //Creates the check box for turning the accelerometer on and off, only for the "acceleration" tab.
@@ -694,10 +702,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         } );
     }
 
-    public boolean isInStack( final WaterBucketNode s ) {
+    public boolean isInStack( final StackableNode node ) {
         return stack.get().exists( new F<StackableNode, Boolean>() {
             @Override public Boolean f( final StackableNode stackableNode ) {
-                return stackableNode == s;
+                return stackableNode == node;
             }
         } );
     }
