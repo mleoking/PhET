@@ -215,6 +215,7 @@ public class Burner extends ModelElement {
         energyChunkWanderControllers.clear();
         energyExchangedWithAirSinceLastChunkTransfer = 0;
         energyExchangedWithObjectSinceLastChunkTransfer = 0;
+        heatCoolLevel.reset();
     }
 
     public boolean areAnyOnTop( ThermalEnergyContainer... thermalEnergyContainers ) {
