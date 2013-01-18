@@ -133,6 +133,7 @@ public class EFACIntroModel implements ITemperatureModel {
      * Restore the initial conditions of the model.
      */
     public void reset() {
+        clock.resetSimulationTime();
         energyChunksVisible.reset();
         air.reset();
         leftBurner.reset();
