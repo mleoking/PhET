@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_ht.xml created Wed Jan 16 08:04:18 EST 2013 using: projectile-motion 2.03.00 (52266), translation-utility 2.14.00 (69024) Oct 9, 2012-->
+<SimStrings>
+<string key="dragLabel" value="koyefisyan rezistans lè"/>
+<string key="userChoice" value="chwa itilizatè a"/>
+<string key="altitudeLabel" value="altitid (m)"/>
+<string key="football" value="balon foutbòl Ameriken"/>
+<string key="golfball" value="boul gòlf"/>
+<string key="simTitle" value="Mouvman pwojektil"/>
+<string key="collision" value="Kolizyon!"/>
+<string key="adultHuman" value="granmoun"/>
+<string key="time" value="tan (s)"/>
+<string key="buick" value="Buick"/>
+<string key="diameter" value="dyamèt (m)"/>
+<string key="initSpeed" value="vitès inisyal (m/s)"/>
+<string key="bowlingball" value="boul boling"/>
+<string key="piano" value="pyano"/>
+<string key="sound" value="Son"/>
+<string key="range" value="domèn (m)"/>
+<string key="mass" value="mas (kg)"/>
+<string key="height" value="wotè (m)"/>
+<string key="pumpkin" value="joumou"/>
+<string key="score" value="Gòl!"/>
+<string key="angle" value="ang (degre)"/>
+<string key="baseball" value="boul bizbòl"/>
+<string key="airResistance" value="rezistans lè a"/>
+<string key="fire" value="Tire"/>
+<string key="erase" value="Efase"/>
+<string key="tankshell" value="boulèt kanno"/>
+</SimStrings>
