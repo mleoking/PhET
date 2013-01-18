@@ -13,16 +13,18 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 /**
+ * Piccolo node that shows the water bucket node that has water that responds to acceleration.
+ *
  * @author Sam Reid
  */
-public class StackableBucketNode extends StackableNode {
+public class WaterBucketNode extends StackableNode {
     private final BufferedImage image;
     private final Property<Option<Double>> acceleration;
     private final PhetPPath water;
     private final ArrayList<Double> history = new ArrayList<Double>();
     private final StackableNodeContext context;
 
-    public StackableBucketNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass, final Property<Option<Double>> acceleration ) {
+    public WaterBucketNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass, final Property<Option<Double>> acceleration ) {
         super( component, context, image, mass, pusherOffset, showMass, false, image, image );
         this.image = image;
         this.acceleration = acceleration;
@@ -32,7 +34,7 @@ public class StackableBucketNode extends StackableNode {
         this.context = context;
     }
 
-    public void stepInTime( final double dt ) {
+    public void stepInTime() {
         double acceleration = this.acceleration.get().get();
         history.add( acceleration );
         while ( history.size() > 7 ) {

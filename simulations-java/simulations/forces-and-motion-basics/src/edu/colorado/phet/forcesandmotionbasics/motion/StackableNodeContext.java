@@ -25,5 +25,5 @@ public interface StackableNodeContext {
 
     int getStackSize();
 
-    boolean isInStack( StackableBucketNode stackableBucketNode );
+    boolean isInStack( WaterBucketNode waterBucketNode );
 }
