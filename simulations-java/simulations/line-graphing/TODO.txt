@@ -1,6 +1,5 @@
 TODO list for line-graphing
 
-- more detailed doc for RandomChooser
 - implementation-notes.txt
 - testing
 - code review (JB)
