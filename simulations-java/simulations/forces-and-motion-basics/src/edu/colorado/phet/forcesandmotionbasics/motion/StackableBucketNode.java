@@ -39,12 +39,14 @@ public class StackableBucketNode extends StackableNode {
             history.remove( 0 );
         }
         //Metrics based on original image size of 98 pixels wide.
+        double padX = 4.5;
+        double padY = 9;
         double s = ( (double) image.getWidth() ) / 98.0;
-        LinearFunction leftLineX = new LinearFunction( 0, 1, 1 * s, 10 * s );
-        LinearFunction leftLineY = new LinearFunction( 0, 1, 9 * s, 102 * s );
+        LinearFunction leftLineX = new LinearFunction( 0, 1, ( 1 + padX ) * s, ( 10 + padX ) * s );
+        LinearFunction leftLineY = new LinearFunction( 0, 1, ( 9 - padY ) * s, ( 102 - padY ) * s );
 
-        LinearFunction rightLineX = new LinearFunction( 1, 0, 87 * s, 96 * s );
-        LinearFunction rightLineY = new LinearFunction( 1, 0, 102 * s, 9 * s );
+        LinearFunction rightLineX = new LinearFunction( 1, 0, ( 87 - padX ) * s, ( 96 - padX ) * s );
+        LinearFunction rightLineY = new LinearFunction( 1, 0, ( 102 - padY ) * s, ( 9 - padY ) * s );
 
         double min = 0.5; //Water level when acceleration = 0
         double sum = 0.0;
