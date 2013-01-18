@@ -1,3 +1,4 @@
+1/18/13 use separate image files for point tool body and tip, make tip unpickable so that bounds of point tool doesn't interfere with picking manipulators
 # 0.00.52 (71766) Jan 17, 2013
 1/17/13 bug fixes in levels 5 & 6
 1/17/13 fix: in levels 5 & 6, need to use x1=0 for PTP challenges involving slope-intercept
