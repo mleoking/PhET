@@ -56,7 +56,7 @@
    Graph the Line: given an equation, graph the line
    Place the Points: given an equation, graph 3 points on the corresponding line
 
-   Challenges uses slope-intercept and point-slope forms, sometimes combining them in the same challenge.
+   Challenges use slope-intercept and point-slope forms, sometimes combining them in the same challenge.
 
    Challenges are quasi-randomly generated, following the specification in the design document.
    See the ChallengeFactory class hierarchy for more details on challenge generation.
