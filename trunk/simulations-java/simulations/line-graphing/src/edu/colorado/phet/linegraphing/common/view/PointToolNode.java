@@ -46,7 +46,7 @@ public class PointToolNode extends PhetPNode {
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
 
-    private final PNode bodyNode;
+    private final PNode bodyNode, tipNode;
     private final PPath backgroundNode; // the background behind the displayed value
     private final PText valueNode; // the displayed value
 
@@ -105,35 +105,44 @@ public class PointToolNode extends PhetPNode {
     public PointToolNode( Vector2D point, Orientation orientation, Color background ) {
 
         // tool body
-        bodyNode = new PImage( Images.POINT_TOOL );
+        bodyNode = new PImage( Images.POINT_TOOL_BODY );
+
+        // tip, separate from the body so that we can minimize the effects of the picking rectangle
+        tipNode = new PImage( Images.POINT_TOOL_TIP );
+        tipNode.setPickable( false );
 
         // background behind the displayed value, shows through a transparent hole in the display area portion of the body image
+        final int backgroundMargin = 5;
         backgroundNode = new PPath( new Rectangle2D.Double( 0, 0,
-                                                            bodyNode.getFullBoundsReference().getWidth() - 10,
-                                                            0.55 * bodyNode.getFullBoundsReference().getHeight() ) );
+                                                            bodyNode.getFullBoundsReference().getWidth() - ( 2 * backgroundMargin ),
+                                                            bodyNode.getFullBoundsReference().getHeight() - ( 2 * backgroundMargin ) ) );
         backgroundNode.setStroke( null );
         backgroundNode.setOffset( bodyNode.getOffset() );
+        backgroundNode.setPickable( false );
 
         // displayed value
         valueNode = new PText( "?" );
         valueNode.setFont( new PhetFont( Font.BOLD, 15 ) );
+        valueNode.setPickable( false );
 
         // rendering order
+        addChild( tipNode );
         addChild( backgroundNode );
         addChild( bodyNode );
         addChild( valueNode );
 
         // orientation
         if ( orientation == Orientation.DOWN ) {
-            bodyNode.setOffset( -bodyNode.getFullBoundsReference().getWidth() / 2, -bodyNode.getFullBoundsReference().getHeight() );
-            backgroundNode.setOffset( bodyNode.getXOffset() + 5, bodyNode.getYOffset() + 5 );
+            tipNode.setOffset( -tipNode.getFullBoundsReference().getWidth() / 2, -tipNode.getFullBoundsReference().getHeight() );
+            bodyNode.setOffset( -bodyNode.getFullBoundsReference().getWidth() / 2, tipNode.getFullBoundsReference().getMinY() - bodyNode.getFullBoundsReference().getHeight() );
+            backgroundNode.setOffset( bodyNode.getXOffset() + backgroundMargin, bodyNode.getYOffset() + backgroundMargin );
             valueNode.setOffset( 0, bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
         }
         else {
-            bodyNode.rotate( Math.PI );
-            bodyNode.setOffset( bodyNode.getFullBoundsReference().getWidth() / 2, bodyNode.getFullBoundsReference().getHeight() );
-            backgroundNode.setOffset( bodyNode.getFullBoundsReference().getMinX() + 5,
-                                      bodyNode.getFullBoundsReference().getMaxY() - backgroundNode.getFullBoundsReference().getHeight() - 5 );
+            tipNode.rotate( Math.PI );
+            tipNode.setOffset( tipNode.getFullBoundsReference().getWidth() / 2, tipNode.getFullBoundsReference().getHeight() );
+            bodyNode.setOffset( -bodyNode.getFullBoundsReference().getWidth() / 2, tipNode.getFullBoundsReference().getMaxY() );
+            backgroundNode.setOffset( bodyNode.getFullBoundsReference().getMinX() + backgroundMargin, bodyNode.getFullBoundsReference().getMinY() + backgroundMargin );
             valueNode.setOffset( 0, bodyNode.getFullBoundsReference().getMaxY() - COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
