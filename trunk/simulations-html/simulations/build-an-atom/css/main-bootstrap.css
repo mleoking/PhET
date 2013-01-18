@@ -37,6 +37,25 @@ body {
     border-radius: 10px;
 }
 
+
+#control-panel .widget-box a.collapsed i.icon-plus {
+  display: inline-block;
+}
+
+#control-panel .widget-box a.collapsed i.icon-minus {
+  display: none;
+}
+
+#control-panel .widget-box a i.icon-minus {
+  display: inline-block;
+}
+
+#control-panel .widget-box a i.icon-plus {
+  display: none;
+}
+
+
+
 /* ------------------------------ Periodic Table ------------------------------ */
 
 #periodic-table table {
