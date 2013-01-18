@@ -363,6 +363,8 @@ public class BeakerView {
                 }
                 else if ( steamBubble.getYOffset() < beakerOutlineRect.getMinY() ) {
                     steamBubble.setDiameter( steamBubble.getDiameter() * ( 1 + ( STEAM_BUBBLE_GROWTH_RATE * dt ) ) );
+                    double distanceFromCenterX = steamBubble.getXOffset() - beakerOutlineRect.getCenterX();
+                    steamBubble.setOffset( steamBubble.getXOffset() + ( distanceFromCenterX  * 0.2 * dt), steamBubble.getYOffset() );
                 }
             }
 
