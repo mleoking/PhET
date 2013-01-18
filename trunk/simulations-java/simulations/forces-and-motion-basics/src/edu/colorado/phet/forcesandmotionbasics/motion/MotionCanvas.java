@@ -416,7 +416,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             }
         };
 
-        double spacingX = 18;
+        //Space things more evenly in the "acceleration" tab.
+        double spacingX = accelerometer ? 29 : 18;
         girl.setInitialOffset( rightToolbox.getFullBounds().getX() + spacingX, rightToolbox.getFullBounds().getMaxY() - girl.getFullBounds().getHeight() - 5 );
         man.setInitialOffset( girl.getObjectMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - man.getFullBounds().getHeight() - 5 );
 
