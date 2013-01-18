@@ -1,3 +1,4 @@
+Added a handle to the water bucket
 # 1.00.06 (71754) Jan 16, 2013
 Speed up water responsiveness
 Fixed: Bucket water shouldn't move while in the toolbox
