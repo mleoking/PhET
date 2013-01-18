@@ -237,6 +237,12 @@ public class BeakerView {
                 @Override public void clockTicked( ClockEvent clockEvent ) {
                     updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get(), clockEvent.getSimulationTimeChange() );
                 }
+
+                @Override public void simulationTimeReset( ClockEvent clockEvent ) {
+                    // Get rid of steam when a reset occurs.
+                    steamBubbles.clear();
+                    steamNode.removeAllChildren();
+                }
             } );
 
             // Set up the gradient used for the frozen water.
