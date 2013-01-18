@@ -8,6 +8,7 @@ body {
     width: 60%;
     height: 95%;
     min-height: 95%;
+    left: 0;
 }
 
 /* For debug - uncomment to show border of the canvas. */
