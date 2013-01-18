@@ -76,7 +76,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.*;
@@ -84,7 +83,6 @@ import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOn
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass;
 import static fj.data.Option.some;
 import static fj.function.Doubles.add;
-import static java.awt.geom.AffineTransform.getTranslateInstance;
 
 /**
  * Canvas for tab 2 "Motion" and tab 3 "Friction", shows everything as piccolo nodes (including the control panels).
@@ -602,10 +600,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 return s + ", " + stackableNode.component.toString();
             }
         }, friction ? "ground" : "skateboard" );
-    }
-
-    private void rock( final Graphics2D g2, final BufferedImage im, final int x, final int y, final int width ) {
-        g2.drawRenderedImage( multiScaleToWidth( im, width ), getTranslateInstance( x, y ) );
     }
 
     private PNode indent( final JCheckBox component ) {
