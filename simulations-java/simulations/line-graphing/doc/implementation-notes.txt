@@ -5,9 +5,9 @@ is software developers who need to review, enhance or maintain the simulation.
 
 Before reading this document, it's recommended that you read the model description in model.txt.
 
-The design document probably won't be of much help. With the exception of challenge generation
-for the game, many (most?) parts of the document are stale. If you find differences between the
-implementation and the Google design document (GraphingLines.pdf), the document should be
+The design document (GraphingLines.pdf) probably won't be of much help. With the exception of
+challenge generation for the game, many (most?) parts of the document are stale. If you find
+differences between the implementation and the Google design document, the document should be
 considered suspect.
 
 Package structure under edu.colorado.phet.linegraphing:
