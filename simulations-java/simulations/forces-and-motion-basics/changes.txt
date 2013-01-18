@@ -1,3 +1,4 @@
+Added labels for "-20" "20" under the tickmarks of the accelerometer
 Changed "0" under accelerometer from 12 point font to 15 point font
 Space things more evenly in the "acceleration" tab
 Added a handle to the water bucket

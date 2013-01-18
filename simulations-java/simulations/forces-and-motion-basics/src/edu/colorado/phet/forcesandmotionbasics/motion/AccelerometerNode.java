@@ -6,6 +6,7 @@ import java.awt.GradientPaint;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -19,6 +20,9 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class AccelerometerNode extends PNode {
+
+    public final ArrayList<PNode> ticks = new ArrayList<PNode>();
+
     public AccelerometerNode( final Property<Option<Double>> acceleration ) {
         final double height = 15;
         final double barWidth = 170;
@@ -66,10 +70,15 @@ public class AccelerometerNode extends PNode {
 
         final double majorTickInset = 6;
         final double minorTickInset = 7;
-        addChild( new PhetPPath( new Line2D.Double( barWidth / 2, majorTickInset, barWidth / 2, height - majorTickInset ) ) );
-        addChild( new PhetPPath( new Line2D.Double( 0, majorTickInset, 0, height - majorTickInset ) ) );
-        addChild( new PhetPPath( new Line2D.Double( barWidth, majorTickInset, barWidth, height - majorTickInset ) ) );
-        addChild( new PhetPPath( new Line2D.Double( barWidth / 4, minorTickInset, barWidth / 4, height - minorTickInset ) ) );
-        addChild( new PhetPPath( new Line2D.Double( 3 * barWidth / 4, minorTickInset, 3 * barWidth / 4, height - minorTickInset ) ) );
+        addTick( new PhetPPath( new Line2D.Double( 0, majorTickInset, 0, height - majorTickInset ) ) );
+        addTick( new PhetPPath( new Line2D.Double( barWidth / 4, minorTickInset, barWidth / 4, height - minorTickInset ) ) );
+        addTick( new PhetPPath( new Line2D.Double( barWidth / 2, majorTickInset, barWidth / 2, height - majorTickInset ) ) );
+        addTick( new PhetPPath( new Line2D.Double( 3 * barWidth / 4, minorTickInset, 3 * barWidth / 4, height - minorTickInset ) ) );
+        addTick( new PhetPPath( new Line2D.Double( barWidth, majorTickInset, barWidth, height - majorTickInset ) ) );
+    }
+
+    private void addTick( PhetPPath tick ) {
+        addChild( tick );
+        ticks.add( tick );
     }
 }

@@ -490,24 +490,17 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( speedometerNode );
 
-        PNode accelerometerNode = new VBox( 0, new PhetPText( Strings.ACCELERATION, new PhetFont( (int) ( 16 * 1.25 ) ) ), new AccelerometerNode( model.acceleration ), new PhetPText( "0", new PhetFont( 15 ) ) ) {{
+        PNode accelerometerNode = new PNode() {{
+            final AccelerometerNode a = new AccelerometerNode( model.acceleration );
+            addChild( new VBox( 0, new PhetPText( Strings.ACCELERATION, new PhetFont( (int) ( 16 * 1.25 ) ) ), a ) );
+            addChild( new PhetPText( "-20", new PhetFont( 15 ) ) {{setOffset( a.ticks.get( 0 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );}} );
+            addChild( new PhetPText( "0", new PhetFont( 15 ) ) {{setOffset( a.ticks.get( 2 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );}} );
+            addChild( new PhetPText( "20", new PhetFont( 15 ) ) {{setOffset( a.ticks.get( 4 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );}} );
             showAccelerometer.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean show ) {
                     setVisible( show );
                 }
             } );
-//            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, speedometerNode.getFullBounds().getMaxY() );
-
-//            stack.addObserver( new VoidFunction1<List<StackableNode>>() {
-//                public void apply( final List<StackableNode> stackableNodes ) {
-//                    if ( stackableNodes.length() >= 3 ) {
-//                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 10, 1, 0, 200 );
-//                    }
-//                    else {
-//                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
-//                    }
-//                }
-//            } );
         }};
         addChild( accelerometerNode );
 
