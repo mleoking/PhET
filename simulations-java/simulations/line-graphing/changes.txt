@@ -1,3 +1,4 @@
+1/18/13 remove flavor test-equation-nodes from build.properties
 # 0.00.53 (71794) Jan 18, 2013
 1/18/13 use separate image files for point tool body and tip, make tip unpickable so that bounds of point tool doesn't interfere with picking manipulators
 # 0.00.52 (71766) Jan 17, 2013
