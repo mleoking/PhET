@@ -39,7 +39,6 @@ import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 
@@ -188,8 +187,9 @@ public class BeakerView {
         private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
         private static final DoubleRange STEAM_BUBBLE_SPEED_RANGE = new DoubleRange( 50, 75 ); // In screen coords (basically pixels) per second.
         private static final DoubleRange STEAM_BUBBLE_DIAMETER_RANGE = new DoubleRange( 10, 50 ); // In screen coords (basically pixels).
-        private static final double MAX_STEAM_BUBBLE_HEIGHT = 100;
+        private static final double MAX_STEAM_BUBBLE_HEIGHT = 400;
         private static final double STEAM_BUBBLE_PRODUCTION_RATE = 10; // Bubbles per second.
+        private static final double STEAM_BUBBLE_GROWTH_RATE = 0.2; // Proportion per second.
 
         // Nodes that comprise this node.
         private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
@@ -199,7 +199,7 @@ public class BeakerView {
         private final PClip iceFleckClipNode = new PClip() {{
             setStroke( null );
         }};
-        private final List<PNode> steamBubbles = new ArrayList<PNode>();
+        private final List<SteamBubble> steamBubbles = new ArrayList<SteamBubble>();
         private final PNode steamNode;
 
         // Miscellaneous other variables.
@@ -217,7 +217,7 @@ public class BeakerView {
             steamNode = new PNode();
             addChild( steamNode );
 
-            // TODO: Propably don't need the next observer since this node is now updating based on the clock.
+            // TODO: Probably don't need the next observer since this node is now updating based on the clock.
 //
 //            temperature.addObserver( new SimpleObserver() {
 //                public void update() {
@@ -298,12 +298,20 @@ public class BeakerView {
                                                         liquidWaterRect.getWidth(),
                                                         ellipseHeight );
 
+            //----------------------------------------------------------------
+            // Update the liquid water.
+            //----------------------------------------------------------------
+
             // Update shape of the the liquid water.
             Area liquidWaterBodyArea = new Area( liquidWaterRect );
             liquidWaterBodyArea.add( new Area( bottomEllipse ) );
             liquidWaterBodyArea.subtract( new Area( liquidWaterTopEllipse ) );
             liquidWaterBodyNode.setPathTo( liquidWaterBodyArea );
             liquidWaterTopNode.setPathTo( liquidWaterTopEllipse );
+
+            //----------------------------------------------------------------
+            // Update the ice.
+            //----------------------------------------------------------------
 
             // Update shape of frozen water.
             Area frozenWaterBodyArea = new Area( frozenWaterRect );
@@ -335,51 +343,57 @@ public class BeakerView {
             frozenWaterTopNode.setVisible( freezeProportion > 0 );
             iceFleckClipNode.setVisible( freezeProportion > 0 );
 
-            // Update the visual representation of the steam.
+            //----------------------------------------------------------------
+            // Update the steam.
+            //----------------------------------------------------------------
+
             double steamingProportion = 0;
             if ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature < STEAMING_RANGE ) {
-
                 // Water is emitting some amount of steam.  Set the proportionate amount.
                 steamingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
             }
 
-            // Update the position of the existing steam bubbles.
+            // Update the position and appearance of the existing steam bubbles.
             double steamBubbleSpeed = STEAM_BUBBLE_SPEED_RANGE.getMin() + steamingProportion * STEAM_BUBBLE_SPEED_RANGE.getLength();
-            for ( PNode steamBubble : new ArrayList<PNode>( steamBubbles ) ) {
+            for ( SteamBubble steamBubble : new ArrayList<SteamBubble>( steamBubbles ) ) {
                 steamBubble.setOffset( steamBubble.getXOffset(), steamBubble.getYOffset() + dt * ( -steamBubbleSpeed ) );
                 if ( beakerOutlineRect.getMinY() - steamBubble.getYOffset() > MAX_STEAM_BUBBLE_HEIGHT ) {
                     steamBubbles.remove( steamBubble );
                     steamNode.removeChild( steamBubble );
                 }
+                else if ( steamBubble.getYOffset() < beakerOutlineRect.getMinY() ) {
+                    steamBubble.setDiameter( steamBubble.getDiameter() * ( 1 + ( STEAM_BUBBLE_GROWTH_RATE * dt ) ) );
+                }
             }
 
-            if ( steamingProportion > 0 ){
+            if ( steamingProportion > 0 ) {
                 // Add any new steam bubbles.
-                int steamAlpha = (int) ( 200 * steamingProportion );
                 double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
                 double steamBubbleCenterXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
-                PNode steamBubble = new PhetPPath( new Ellipse2D.Double( steamBubbleCenterXPos - steamBubbleDiameter / 2,
-                                                                         liquidWaterTopEllipse.getBounds2D().getCenterY() - steamBubbleDiameter / 2,
-                                                                         steamBubbleDiameter,
-                                                                         steamBubbleDiameter ),
-                                                   new Color( 255, 255, 255, steamAlpha ) );
+                SteamBubble steamBubble = new SteamBubble( steamBubbleDiameter, steamingProportion );
+                steamBubble.setOffset( steamBubbleCenterXPos, liquidWaterTopEllipse.getBounds2D().getCenterY() );
                 steamBubbles.add( steamBubble );
                 steamNode.addChild( steamBubble );
-
-                // Make sure steam clip is correct.
-//                steamNode.setPathTo( new Rectangle2D.Double( beakerOutlineRect.getMinX(),
-//                                                             beakerOutlineRect.getMinY(),
-//                                                             beakerOutlineRect.getWidth(),
-//                                                             MAX_STEAM_BUBBLE_HEIGHT) );
-
-                // Update the gradient paint used for the steam.
-//                steamNode.setPaint( new Color( 255, 255, 255, steamAlpha ) );
-//                steamNode.setPaint( new Color( 255, 255, 255 ) );
             }
         }
 
-        private static class SteamBubble extends PPath {
-            private SteamBubble( double centerX, double centerY, double initialDiameter, double initialOpacity ) {
+        private static class SteamBubble extends PhetPPath {
+            public SteamBubble( double initialDiameter, double initialOpacity ) {
+                super( new Ellipse2D.Double( -initialDiameter / 2, -initialDiameter / 2, initialDiameter, initialDiameter ),
+                       new Color( 255, 255, 255, (int) ( initialOpacity * 255 ) ) );
+            }
+
+            public void setOpacity( double opacity ) {
+                assert opacity <= 1.0;
+                setPaint( new Color( 255, 255, 255, (int) ( opacity * 255 ) ) );
+            }
+
+            public double getDiameter() {
+                return getFullBoundsReference().getWidth();
+            }
+
+            public void setDiameter( double newDiameter ) {
+                setPathTo( new Ellipse2D.Double( -newDiameter / 2, -newDiameter / 2, newDiameter, newDiameter ) );
             }
         }
     }
