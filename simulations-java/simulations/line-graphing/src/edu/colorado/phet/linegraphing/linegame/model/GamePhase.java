@@ -2,10 +2,10 @@
 package edu.colorado.phet.linegraphing.linegame.model;
 
 /**
-* Phases of a game, mutually exclusive
-*
-* @author Chris Malley (cmalley@pixelzoom.com)
-*/
+ * Phases of a game, mutually exclusive
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public enum GamePhase {
     SETTINGS,  // user is choosing game settings
     PLAY,      // user is playing the game
