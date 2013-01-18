@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
  * For randomly choosing generically-typed values from lists or lists-of-lists.
+ * Use for generating challenges in the game.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
