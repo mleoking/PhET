@@ -65,6 +65,11 @@ body {
     width: 80%;
 }
 
+#periodic-table table tr {
+  text-align: center;
+  vertical-align: middle;
+}
+
 #periodic-table table td {
     border: 1px solid black;
     text-align: center;
