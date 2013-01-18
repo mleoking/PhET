@@ -1,6 +1,6 @@
 /* Copyright 2002-2012, University of Colorado */
 body {
-    background: rgb(255, 255, 153);
+    background: #FDFDD0;
 }
 
 #canvas-container {
@@ -37,6 +37,9 @@ body {
     border-radius: 10px;
 }
 
+#control-panel .widget-box .accordion-inner {
+  border: none;
+}
 
 #control-panel .widget-box a.collapsed i.icon-plus {
   display: inline-block;
@@ -53,8 +56,6 @@ body {
 #control-panel .widget-box a i.icon-plus {
   display: none;
 }
-
-
 
 /* ------------------------------ Periodic Table ------------------------------ */
 
@@ -115,14 +116,14 @@ body {
 
 /* ------------------------------ Detailed Element Symbol ------------------------------ */
 
-#detailed-element-symbol {
+#control-panel .widget-box #detailed-element-symbol {
     border: 2px solid black;
     background: white;
     width: 100px;
     height: 100px;
     position: relative;
     float: left;
-    margin: 5px;
+    margin: 10px;
     font-size: 1.4em;
 }
 
@@ -162,8 +163,8 @@ body {
 
 #mass-number-container {
     position: relative;
-    width: 102px;
     height: 110px;
+    margin: 0 0 10px 10px;
     background: url(../images/atom_builder_scale.png) no-repeat bottom left;
 }
 
@@ -183,7 +184,7 @@ body {
     height: 62px;
     background: url(../images/small_electron_rings.png) no-repeat;
     position: absolute;
-    top: 0px;
+    top: 15px;
     left: 20px;
 }
 
@@ -195,6 +196,7 @@ body {
     background: url(../images/atom_builder_charge_meter_no_window.png) no-repeat;
     position: relative;
     font-size: 1.4em;
+    margin: 10px 0 10px 10px;
 }
 
 #net-charge-container .net-charge {
