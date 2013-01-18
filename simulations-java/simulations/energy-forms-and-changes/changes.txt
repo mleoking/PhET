@@ -1,3 +1,6 @@
+Made steam go away on reset.
+Fixed issues with z-order and steam.
+Changed implementation of steam coming from the beaker when water boils.
 # 0.00.31 (71741) Jan 16, 2013
 1/16/13 Deploying to dev for review by dev team.
 Changed the background color.
