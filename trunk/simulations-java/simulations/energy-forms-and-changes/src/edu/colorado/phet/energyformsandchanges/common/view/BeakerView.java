@@ -190,6 +190,7 @@ public class BeakerView {
         private static final double MAX_STEAM_BUBBLE_HEIGHT = 400;
         private static final double STEAM_BUBBLE_PRODUCTION_RATE = 10; // Bubbles per second.
         private static final double STEAM_BUBBLE_GROWTH_RATE = 0.2; // Proportion per second.
+        private static final double MAX_STEAM_BUBBLE_OPACITY = 0.7; // Proportion, 1 is max.
 
         // Nodes that comprise this node.
         private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
@@ -353,8 +354,20 @@ public class BeakerView {
                 steamingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature ) / STEAMING_RANGE ), 1 );
             }
 
+            if ( steamingProportion > 0 ) {
+                // Add any new steam bubbles.
+                double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
+                double steamBubbleCenterXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
+                SteamBubble steamBubble = new SteamBubble( steamBubbleDiameter, steamingProportion );
+                steamBubble.setOffset( steamBubbleCenterXPos, liquidWaterRect.getMinY() ); // Invisible to start, will fade in.
+                steamBubble.setOpacity( 0 );
+                steamBubbles.add( steamBubble );
+                steamNode.addChild( steamBubble );
+            }
+
             // Update the position and appearance of the existing steam bubbles.
             double steamBubbleSpeed = STEAM_BUBBLE_SPEED_RANGE.getMin() + steamingProportion * STEAM_BUBBLE_SPEED_RANGE.getLength();
+            double unfilledBeakerHeight = beakerOutlineRect.getHeight() - liquidWaterHeight;
             for ( SteamBubble steamBubble : new ArrayList<SteamBubble>( steamBubbles ) ) {
                 steamBubble.setOffset( steamBubble.getXOffset(), steamBubble.getYOffset() + dt * ( -steamBubbleSpeed ) );
                 if ( beakerOutlineRect.getMinY() - steamBubble.getYOffset() > MAX_STEAM_BUBBLE_HEIGHT ) {
@@ -364,18 +377,15 @@ public class BeakerView {
                 else if ( steamBubble.getYOffset() < beakerOutlineRect.getMinY() ) {
                     steamBubble.setDiameter( steamBubble.getDiameter() * ( 1 + ( STEAM_BUBBLE_GROWTH_RATE * dt ) ) );
                     double distanceFromCenterX = steamBubble.getXOffset() - beakerOutlineRect.getCenterX();
-                    steamBubble.setOffset( steamBubble.getXOffset() + ( distanceFromCenterX  * 0.2 * dt), steamBubble.getYOffset() );
+                    steamBubble.setOffset( steamBubble.getXOffset() + ( distanceFromCenterX * 0.2 * dt ), steamBubble.getYOffset() );
+                    // Fade the bubble as it reaches the end of its range.
+                    steamBubble.setOpacity( ( 1 - ( beakerOutlineRect.getMinY() - steamBubble.getYOffset() ) / MAX_STEAM_BUBBLE_HEIGHT ) * MAX_STEAM_BUBBLE_OPACITY );
                 }
-            }
-
-            if ( steamingProportion > 0 ) {
-                // Add any new steam bubbles.
-                double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
-                double steamBubbleCenterXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
-                SteamBubble steamBubble = new SteamBubble( steamBubbleDiameter, steamingProportion );
-                steamBubble.setOffset( steamBubbleCenterXPos, liquidWaterTopEllipse.getBounds2D().getCenterY() );
-                steamBubbles.add( steamBubble );
-                steamNode.addChild( steamBubble );
+                else {
+                    // Fade the bubble in.
+                    double distanceFromWater = liquidWaterRect.getMinY() - steamBubble.getYOffset();
+                    steamBubble.setOpacity( MathUtil.clamp( 0, distanceFromWater / ( unfilledBeakerHeight / 4 ), 1 ) * MAX_STEAM_BUBBLE_OPACITY );
+                }
             }
         }
 
