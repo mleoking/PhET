@@ -183,10 +183,10 @@ public class BeakerView {
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
         private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
         private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
-        private static final DoubleRange STEAM_BUBBLE_SPEED_RANGE = new DoubleRange( 50, 75 ); // In screen coords (basically pixels) per second.
+        private static final DoubleRange STEAM_BUBBLE_SPEED_RANGE = new DoubleRange( 100, 125 ); // In screen coords (basically pixels) per second.
         private static final DoubleRange STEAM_BUBBLE_DIAMETER_RANGE = new DoubleRange( 20, 50 ); // In screen coords (basically pixels).
         private static final double MAX_STEAM_BUBBLE_HEIGHT = 300;
-        private static final DoubleRange STEAM_BUBBLE_PRODUCTION_RATE_RANGE = new DoubleRange( 10, 20 ); // Bubbles per second.
+        private static final DoubleRange STEAM_BUBBLE_PRODUCTION_RATE_RANGE = new DoubleRange( 20, 40 ); // Bubbles per second.
         private static final double STEAM_BUBBLE_GROWTH_RATE = 0.2; // Proportion per second.
         private static final double MAX_STEAM_BUBBLE_OPACITY = 0.7; // Proportion, 1 is max.
 
