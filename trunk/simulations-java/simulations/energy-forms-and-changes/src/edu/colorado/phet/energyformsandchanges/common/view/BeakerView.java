@@ -13,7 +13,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -32,7 +31,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
@@ -186,9 +184,9 @@ public class BeakerView {
         private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
         private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
         private static final DoubleRange STEAM_BUBBLE_SPEED_RANGE = new DoubleRange( 50, 75 ); // In screen coords (basically pixels) per second.
-        private static final DoubleRange STEAM_BUBBLE_DIAMETER_RANGE = new DoubleRange( 10, 50 ); // In screen coords (basically pixels).
-        private static final double MAX_STEAM_BUBBLE_HEIGHT = 400;
-        private static final double STEAM_BUBBLE_PRODUCTION_RATE = 10; // Bubbles per second.
+        private static final DoubleRange STEAM_BUBBLE_DIAMETER_RANGE = new DoubleRange( 20, 50 ); // In screen coords (basically pixels).
+        private static final double MAX_STEAM_BUBBLE_HEIGHT = 300;
+        private static final DoubleRange STEAM_BUBBLE_PRODUCTION_RATE_RANGE = new DoubleRange( 10, 20 ); // Bubbles per second.
         private static final double STEAM_BUBBLE_GROWTH_RATE = 0.2; // Proportion per second.
         private static final double MAX_STEAM_BUBBLE_OPACITY = 0.7; // Proportion, 1 is max.
 
@@ -362,13 +360,22 @@ public class BeakerView {
 
             if ( steamingProportion > 0 ) {
                 // Add any new steam bubbles.
-                double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
-                double steamBubbleCenterXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
-                SteamBubble steamBubble = new SteamBubble( steamBubbleDiameter, steamingProportion );
-                steamBubble.setOffset( steamBubbleCenterXPos, liquidWaterRect.getMinY() ); // Invisible to start, will fade in.
-                steamBubble.setOpacity( 0 );
-                steamBubbles.add( steamBubble );
-                steamNode.addChild( steamBubble );
+                double bubblesToProduceCalc = ( STEAM_BUBBLE_PRODUCTION_RATE_RANGE.getMin() + STEAM_BUBBLE_PRODUCTION_RATE_RANGE.getLength() * steamingProportion ) * dt;
+                int bubblesToProduce = (int) Math.floor( bubblesToProduceCalc );
+                bubbleProductionRemainder += bubblesToProduceCalc - bubblesToProduce;
+                if ( bubbleProductionRemainder >= 1 ) {
+                    bubblesToProduce += Math.floor( bubbleProductionRemainder );
+                    bubbleProductionRemainder -= Math.floor( bubbleProductionRemainder );
+                }
+                for ( int i = 0; i < bubblesToProduce; i++ ) {
+                    double steamBubbleDiameter = STEAM_BUBBLE_DIAMETER_RANGE.getMin() + RAND.nextDouble() * STEAM_BUBBLE_DIAMETER_RANGE.getLength();
+                    double steamBubbleCenterXPos = beakerOutlineRect.getCenterX() + ( RAND.nextDouble() - 0.5 ) * ( beakerOutlineRect.getWidth() - steamBubbleDiameter );
+                    SteamBubble steamBubble = new SteamBubble( steamBubbleDiameter, steamingProportion );
+                    steamBubble.setOffset( steamBubbleCenterXPos, liquidWaterRect.getMinY() ); // Invisible to start, will fade in.
+                    steamBubble.setOpacity( 0 );
+                    steamBubbles.add( steamBubble );
+                    steamNode.addChild( steamBubble );
+                }
             }
 
             // Update the position and appearance of the existing steam bubbles.
