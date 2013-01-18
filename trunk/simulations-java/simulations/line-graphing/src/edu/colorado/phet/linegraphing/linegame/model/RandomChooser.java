@@ -20,7 +20,11 @@ class RandomChooser<T> {
         this.random = random;
     }
 
-    // Chooses a value from a list, removes the value from the list.
+    /**
+     *  Chooses a value from a list, removes the value from the list.
+     *  @param list the list from which the value will be chosen
+     *  @return a value
+     */
     public T choose( ArrayList<T> list ) {
         int index = randomIndex( list );
         final T value = list.get( index );
@@ -28,17 +32,25 @@ class RandomChooser<T> {
         return value;
     }
 
-    // Chooses a value from a list of lists, removes it from the list in which it was found.
+    /**
+     * Chooses a value from a list of lists, removes it from the list in which it was found.
+     * Use this when values are organized into 2 or more sets.
+     *
+     * @param lists lists from which the value may be chosen
+     * @return a value from one of the lists
+     */
     public T chooseFromLists( ArrayList<ArrayList<T>> lists ) {
         return chooseFromLists( lists, ChallengeFactory.rangeToList( new IntegerRange( 0, lists.size() - 1 ) ) );
     }
 
     /**
      * Chooses a value from a list of lists, removes it from the list in which it was found, removes the list from the listIndices.
-     * Use this if you want to exclude sub-lists from further consideration.
+     * Use this when values are organized into 2 or more sets, and a value should be chosen from each set.
+     * By removing an index from listIndices, one of the lists is excluded from further consideration.
      *
      * @param lists lists from which the value may be chosen
      * @param listIndices indices of the lists that will be considered when choosing a value
+     * @return a value from one of the lists
      */
     public T chooseFromLists( ArrayList<ArrayList<T>> lists, ArrayList<Integer> listIndices ) {
         int index = randomIndex( listIndices );
