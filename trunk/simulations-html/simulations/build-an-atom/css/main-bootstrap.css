@@ -199,6 +199,52 @@ body {
     margin: 10px 0 10px 10px;
 }
 
+
+#net-charge-container .dial {
+    position: absolute;
+    width: 94px;
+    height: 50px;
+    overflow: hidden;
+}
+
+#net-charge-container .needle {
+    height: 90px;
+    top: 8px;
+    background: black;
+    margin-top: 8px;
+    width: 3px;
+    display: block;
+    position: absolute;
+    left: 45px;
+
+  -webkit-transition: all 0.3s ease-out; 
+     -moz-transition: all 0.3s ease-out; 
+       -o-transition: all 0.3s ease-out; 
+          transition: all 0.3s ease-out; 
+
+}
+
+#net-charge-container .needle i {
+  position: absolute;
+  top:-12px;
+  left:-5px;
+  display: block;
+}
+
+
+#net-charge-container .dial:hover .needle {
+  -webkit-transform: rotate(45deg); 
+     -moz-transform: rotate(45deg); 
+      -ms-transform: rotate(45deg); 
+       -o-transform: rotate(45deg); 
+          transform: rotate(45deg); 
+}
+
+
+
+
+
+
 #net-charge-container .net-charge {
     width: 60px;
     height: 30px;
