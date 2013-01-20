@@ -1,3 +1,4 @@
+Research Study: Fraction Lab Tab: Made the rectangle the default container in the play area
 # 1.02.02 (71290) Dec 13, 2012
 Made bars default for research application
 # 1.02.01 (71282) Dec 12, 2012
