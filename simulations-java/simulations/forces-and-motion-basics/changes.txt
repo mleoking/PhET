@@ -1,3 +1,4 @@
+# 1.00.08 (71813) Jan 21, 2013
 Improved location of "sum of forces" text location to move it away from the accelerometer
 # 1.00.07 (71780) Jan 17, 2013
 If the stack is too high (contains 2 objects and one is fridge or man), move the sensors to the side
