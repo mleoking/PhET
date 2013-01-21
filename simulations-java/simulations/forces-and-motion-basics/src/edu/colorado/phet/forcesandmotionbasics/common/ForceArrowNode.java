@@ -48,7 +48,8 @@ public class ForceArrowNode extends PNode {
         }
         final double arrowScale = 1.2;
         final Point2D.Double tipLocation = tail.plus( value, 0 ).toPoint2D();
-        final ArrowNode arrowNode = new ArrowNode( tail.toPoint2D(), tipLocation, 30 * arrowScale, 40 * arrowScale, 20 * arrowScale, 0.5, false );
+        final double headWidth = 40 * arrowScale;
+        final ArrowNode arrowNode = new ArrowNode( tail.toPoint2D(), tipLocation, 30 * arrowScale, headWidth, 20 * arrowScale, 0.5, false );
         arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 175 ) : color );
         arrowNode.setStroke( transparent ? new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 6, 4 }, 0 ) : new BasicStroke( 1 ) );
         addChild( arrowNode );
@@ -62,7 +63,7 @@ public class ForceArrowNode extends PNode {
                 }
             }
             else {
-                setOffset( arrowNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, arrowNode.getFullBounds().getY() - getFullBounds().getHeight() - INSET - 2 );
+                setOffset( arrowNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, arrowNode.getFullBounds().getCenterY() - headWidth / 2 - getFullBounds().getHeight() - 4 );
             }
         }};
         addChild( nameNode );
@@ -96,7 +97,7 @@ public class ForceArrowNode extends PNode {
 
     private void showTextOnly( final Vector2D tail ) {
         addChild( new PhetPText( Strings.SUM_OF_FORCES_EQUALS_ZERO, DEFAULT_FONT ) {{
-            centerBoundsOnPoint( tail.x, tail.y - 46 );//Fine tune location so that it shows at the same y location as the text would if there were an arrow
+            centerBoundsOnPoint( tail.x, tail.y - 38 );//Fine tune location so that it shows at the same y location as the text would if there were an arrow
         }} );
     }
 }
