@@ -270,11 +270,16 @@ public class BeakerView {
         private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature, double dt ) {
 
             double freezeProportion = 0;
-            if ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE < FREEZING_RANGE ) {
-                // Set the proportion of freezing that is occurring.  Zero
-                // indicates no freezing, 1 indication fully frozen.
-                freezeProportion = MathUtil.clamp( 0, 1 - ( ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE ) / FREEZING_RANGE ), 1 );
-            }
+            // TODO: Commented out the following code on 1/22/2013, since a
+            // decision was made to try removing feature where the water
+            // freezes and see if the behavior is reasonable.  This should be
+            // removed permanently, along with any freezing related code, if
+            // and when the decision to remove the ice is finalized.
+//            if ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE < FREEZING_RANGE ) {
+//                // Set the proportion of freezing that is occurring.  Zero
+//                // indicates no freezing, 1 indication fully frozen.
+//                freezeProportion = MathUtil.clamp( 0, 1 - ( ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE ) / FREEZING_RANGE ), 1 );
+//            }
 
             double totalWaterHeight = beakerOutlineRect.getHeight() * fluidLevel;
             double frozenWaterHeight = totalWaterHeight * freezeProportion;
