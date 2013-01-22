@@ -270,7 +270,9 @@ public class Burner extends ModelElement {
     }
 
     public double getTemperature() {
-        return EFACConstants.ROOM_TEMPERATURE + heatCoolLevel.get() * 100;
+        // The multiplier is empirically determined for desired behavior. The
+        // low value is limited to the freezing point of water.
+        return Math.max( EFACConstants.ROOM_TEMPERATURE + heatCoolLevel.get() * 100, EFACConstants.FREEZING_POINT_TEMPERATURE );
     }
 
     /**

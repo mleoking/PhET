@@ -1,3 +1,4 @@
+Made temperature of ice in bucket equal the freezing point of water, since now the min temperature is limited to that value.
 Removed freezing of the water.
 Added a production rate and associated calculations for steam so that fast forward will work.
 Made steam go away on reset.
