@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_ta.xml created Sat Jan 19 06:05:23 IST 2013 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.14.00 (69024) Oct 10, 2012--><SimStrings>
+<string key="buoyancy.tab.intro" value="அறிமுகம்"/>
+<string key="properties.mass" value="பருமம்"/>
+<string key="controlPanel.showVectorValues" value="விசை மதிப்புகள்"/>
+<string key="forceArrows.contact" value="தொடர்பு"/>
+<string key="mode.objectsOfSameVolume" value="அதே கனஅளவு "/>
+<string key="mysteryObject.densityColumnHeader" value="அடர்த்தி ({0})"/>
+<string key="material.aluminum" value="அலுமினியம்"/>
+<string key="properties.massKilogram" value="கிலோகிராம்"/>
+<string key="material.air" value="காற்று"/>
+<string key="material.custom" value="என் கட்டங்கள்"/>
+<string key="material.gasoline" value="பெட்ரோல்"/>
+<string key="customObject.material" value="பொருள்"/>
+<string key="mode.mysteryObjects" value="மர்ம"/>
+<string key="customObject.custom" value="என் கட்டங்கள்"/>
+<string key="material.wood" value="மரம்"/>
+<string key="properties.massKilogramValue" value="{0}கிலோகிராம்"/>
+<string key="mode.two" value="இரண்டு"/>
+<string key="material.styrofoam" value="ஸ்டைரோஃபோம்"/>
+<string key="material.honey" value="தேன்"/>
+<string key="material.apple" value="ஆப்பிள்"/>
+<string key="blockName.b" value="2"/>
+<string key="blockName.a" value="1"/>
+<string key="material.ice" value="பனிக்கட்டி"/>
+<string key="translation.credits" value="திலீபன் ஸ்டாலின்&#10;www.stemd4schools.com"/>
+<string key="buoyancy.tab.playground" value="மிதக்கும் தன்மை மைதானம்"/>
+<string key="fluid.controls.intro.label" value="திரவ"/>
+<string key="mode.mysteryObjects.E" value="5"/>
+<string key="mode.mysteryObjects.D" value="4"/>
+<string key="mode.mysteryObjects.C" value="3"/>
+<string key="mode.mysteryObjects.B" value="2"/>
+<string key="material.diamond" value="வைரம்"/>
+<string key="mode.mysteryObjects.A" value="1"/>
+<string key="mode.title" value="கட்டங்களை"/>
+<string key="material.oliveOil" value="ஆலிவ் எண்ணெய்"/>
+<string key="material.lead" value="ஈய"/>
+<string key="forceArrows.buoyancy" value="மிதக்கும் தன்மை"/>
+<string key="properties.fluidDensity" value="திரவ அடர்த்தி"/>
+<string key="mysteryObject.densityUnitsKgL" value="கிலோகிராம்/லிட்டர்"/>
+<string key="customObject.properties" value="பண்புகள்"/>
+<string key="forceArrows.gravity" value="புவி ஈர்ப்பு"/>
+<string key="material.brick" value="செங்கல்"/>
+<string key="mysteryObject.material" value="பொருள்"/>
+<string key="mysteryObject.table.title" value="பல்வேறு பொருள் அடர்த்திகள்"/>
+<string key="properties.weightPoundValue" value="{0} பவுண்ட்"/>
+<string key="material.oil" value="எண்ணெய்"/>
+<string key="properties.volumeLiterValue" value="{0} லிட்டர்"/>
+<string key="mode.objectsOfSameDensity" value="அதே அடர்த்தி"/>
+<string key="density.simTitle" value="அடர்த்தி"/>
+<string key="controlPanel.readouts" value="மதிப்புகள்"/>
+<string key="properties.volumeMilliLiterValue" value="{0} மில்லி லிட்டர்"/>
+<string key="mode.customObject" value="வழக்கம்"/>
+<string key="mode.objectsOfSameMass" value="அதே பருமம்"/>
+<string key="application.resetAll" value="அனைத்து மீட்டமை"/>
+<string key="material.gold" value="தங்கம்"/>
+<string key="properties.densityValue" value="{0}கிலோகிராம்/லிட்டர்"/>
+<string key="forceArrowControlPanelTitle" value="விசை காட்டு"/>
+<string key="properties.weightNewtonValue" value="{0}நியூட்டன்"/>
+<string key="customObject.name" value="பெயர்"/>
+<string key="controlPanel.showMasses" value="பருமம்"/>
+<string key="material.water" value="தண்ணீர்"/>
+<string key="properties.massGramValue" value="{0} கிராம்"/>
+<string key="properties.density" value="அடர்த்தி"/>
+<string key="material.waterBalloon" value="தண்ணீர் பலூன்"/>
+<string key="mysteryObject.table.showTable" value="அட்டவணை காட்டு"/>
+<string key="mode.one" value="ஒன்று"/>
+<string key="properties.volume" value="கனஅளவு "/>
+<string key="buoyancy.simTitle" value="நீரில் மிதக்கும் தன்மை"/>
+<string key="properties.kilogramPerLiter" value="கிலோகிராம்/லிட்டர்"/>
+<string key="properties.volumeLiter" value="லிட்டர்"/>
+</SimStrings>
