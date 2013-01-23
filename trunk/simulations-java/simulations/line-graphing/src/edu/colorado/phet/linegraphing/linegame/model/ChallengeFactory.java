@@ -133,6 +133,7 @@ abstract class ChallengeFactory {
     }
 
     // Shuffles a list of challenges.
+    //REVIEW: Why not use Collections.shuffle?
     protected ArrayList<Challenge> shuffle( ArrayList<Challenge> list ) {
         ArrayList<Challenge> shuffledList = new ArrayList<Challenge>();
         while ( list.size() != 0 ) {
