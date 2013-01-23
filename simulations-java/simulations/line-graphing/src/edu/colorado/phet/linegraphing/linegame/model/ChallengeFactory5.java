@@ -142,6 +142,7 @@ class ChallengeFactory5 extends ChallengeFactory {
         }
 
         // 2 Place-the-Point challenges
+        //REVIEW: This code block is duplicated in ChallengeFactory6.  May make sense, but thought I'd point it out.
         {
             // ranges of x1,y1,rise,run limited to [-5,5]
             IntegerRange range = new IntegerRange( -5, 5 );

@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -16,6 +17,7 @@ class ChallengeFactory6 extends ChallengeFactory {
 
     /**
      * Creates challenges for this game level.
+     *
      * @param xRange range of the graph's x axis
      * @param yRange range of the graph's y axis
      * @return list of challenges

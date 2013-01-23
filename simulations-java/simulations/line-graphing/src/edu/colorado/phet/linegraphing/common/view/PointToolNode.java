@@ -46,7 +46,7 @@ public class PointToolNode extends PhetPNode {
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
 
-    private final PNode bodyNode, tipNode;
+    private final PNode bodyNode, tipNode; //REVIEW: Code inspector says that tipNode doesn't need to be a field (can be local var).
     private final PPath backgroundNode; // the background behind the displayed value
     private final PText valueNode; // the displayed value
 

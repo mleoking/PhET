@@ -102,6 +102,7 @@ public class Line {
      * This occurs when we have a horizontal line, with no rise.
      */
     public double solveX( double y ) {
+        //REVIEW: Suggest also checking for run == 0.  Right now, all usages are protected, but future maintainers might not realize this necessity.
         if ( rise == 0 ) {
             return Double.NaN;
         }
