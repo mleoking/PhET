@@ -98,12 +98,10 @@ public class Line {
 
     /*
      * Given y, solve x = ((y - y1)/m) + x1
-     * Returns Double.NaN if the solution is not unique, or there is no solution (y can't possibly be on the line.)
-     * This occurs when we have a horizontal line, with no rise.
+     * Returns Double.NaN if the solution is not unique (horizontal line) or the slope is undefined (vertical line).
      */
     public double solveX( double y ) {
-        //REVIEW: Suggest also checking for run == 0.  Right now, all usages are protected, but future maintainers might not realize this necessity.
-        if ( rise == 0 ) {
+        if ( rise == 0 || run == 0 ) {
             return Double.NaN;
         }
         else {
