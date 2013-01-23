@@ -49,6 +49,9 @@ public class EFACIntroModel implements ITemperatureModel {
     private static final double BEAKER_WIDTH = 0.085; // In meters.
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 1.1;
 
+    // TODO: Remove this and all related code when performance issues are resolved.
+    private static final boolean ENABLE_INTERNAL_PROFILING = false;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -146,12 +149,31 @@ public class EFACIntroModel implements ITemperatureModel {
         }
     }
 
+    private long previousTime = 0;
+    private int TIME_ARRAY_LENGTH = 100;
+    private long[] times = new long[TIME_ARRAY_LENGTH];
+    private int countUnderMin = 0;
+
     /**
      * Update the state of the model.
      *
      * @param dt Time step.
      */
     private void stepInTime( double dt ) {
+
+        if ( ENABLE_INTERNAL_PROFILING ) {
+            long time = System.currentTimeMillis();
+            times[countUnderMin++] = time - previousTime;
+            if ( previousTime != 0 && time - previousTime > 48 || countUnderMin + 1 >= TIME_ARRAY_LENGTH ) {
+                System.out.println( "----------------------" );
+                for ( int i = 0; i < countUnderMin; i++ ) {
+                    System.out.print( times[i] + " " );
+                }
+                System.out.println();
+                countUnderMin = 0;
+            }
+            previousTime = time;
+        }
 
         // Cause any user-movable model elements that are not supported by a
         // surface to fall (or, in some cases, jump up) towards the nearest
@@ -231,15 +253,15 @@ public class EFACIntroModel implements ITemperatureModel {
         // Exchange energy chunks between burners and non-air energy containers.
         for ( RectangularThermalMovableModelElement thermalModelElement : Arrays.asList( ironBlock, brick, beaker ) ) {
             for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
-                if ( burner.inContactWith( thermalModelElement )){
+                if ( burner.inContactWith( thermalModelElement ) ) {
                     if ( burner.canSupplyEnergyChunk() && ( burner.getEnergyChunkBalanceWithObjects() > 0 || thermalModelElement.getEnergyChunkBalance() < 0 ) ) {
                         // Push an energy chunk into the item on the burner.
                         thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
                     }
-                    else if ( burner.canAcceptEnergyChunk() && ( burner.getEnergyChunkBalanceWithObjects() < 0 || thermalModelElement.getEnergyChunkBalance() > 0 )) {
+                    else if ( burner.canAcceptEnergyChunk() && ( burner.getEnergyChunkBalanceWithObjects() < 0 || thermalModelElement.getEnergyChunkBalance() > 0 ) ) {
                         // Extract an energy chunk from the model element.
                         EnergyChunk ec = thermalModelElement.extractClosestEnergyChunk( burner.getFlameIceRect() );
-                        if ( ec != null ){
+                        if ( ec != null ) {
                             burner.addEnergyChunk( ec );
                         }
                     }
@@ -305,7 +327,7 @@ public class EFACIntroModel implements ITemperatureModel {
                 if ( movableEnergyContainer.getEnergyChunkBalance() > 0 ) {
                     Vector2D pointAbove = new Vector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
                     EnergyChunk ec = movableEnergyContainer.extractClosestEnergyChunk( pointAbove );
-                    if ( ec != null ){
+                    if ( ec != null ) {
                         air.addEnergyChunk( ec );
                     }
                 }
