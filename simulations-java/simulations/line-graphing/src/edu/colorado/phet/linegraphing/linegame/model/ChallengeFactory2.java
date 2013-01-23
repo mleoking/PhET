@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.linegraphing.common.model.Fraction;
@@ -129,7 +130,8 @@ class ChallengeFactory2 extends ChallengeFactory {
         }
 
         // shuffle and return
-        return shuffle( challenges );
+        Collections.shuffle( challenges );
+        return challenges;
     }
 
     // Creates the set of positive fractional slopes that are identified in the design document.

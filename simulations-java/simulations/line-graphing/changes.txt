@@ -1,3 +1,4 @@
+1/23/13 #3487 code review: use Collections.shuffle instead of custom shuffling algorithm (thanks, didn't know about this)
 1/18/13 wrote implementation-notes.txt
 1/18/13 more detailed doc for RandomChooser
 1/18/13 remove flavor test-equation-nodes from build.properties
