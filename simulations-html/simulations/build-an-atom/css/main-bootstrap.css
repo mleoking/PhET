@@ -11,6 +11,16 @@ body {
     left: 0;
 }
 
+/* Over-ride the bootstap default of elminating outlines on hover and active elements */
+a:focus:hover,
+a:focus:active {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+
+
 /* For debug - uncomment to show border of the canvas. */
 /*#atom-construction-canvas {*/
 /*-webkit-box-shadow: inset 0px 0px 6px 0px #000;*/
