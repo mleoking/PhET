@@ -15,7 +15,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class ChallengeFactory1 extends ChallengeFactory {
+public class ChallengeFactory1 extends ChallengeFactory {
 
     /**
      * Creates challenges for this game level.
