@@ -46,7 +46,7 @@ public class PointToolNode extends PhetPNode {
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
 
-    private final PNode bodyNode, tipNode; //REVIEW: Code inspector says that tipNode doesn't need to be a field (can be local var).
+    private final PNode bodyNode; // body (rectangular part) of the tool
     private final PPath backgroundNode; // the background behind the displayed value
     private final PText valueNode; // the displayed value
 
@@ -107,8 +107,13 @@ public class PointToolNode extends PhetPNode {
         // tool body
         bodyNode = new PImage( Images.POINT_TOOL_BODY );
 
-        // tip, separate from the body so that we can minimize the effects of the picking rectangle
-        tipNode = new PImage( Images.POINT_TOOL_TIP );
+        /*
+         * Pointy tip, separate from the body and not pickable.
+         * Because Piccolo's picking bounds are rectangular, making the tip pickable made it difficult
+         * to pick a line manipulator when the tip and manipulator were on the same grid point.
+         * Making the tip non-pickable was determined to be an acceptable and "natural feeling" solution.
+         */
+        PNode tipNode = new PImage( Images.POINT_TOOL_TIP );
         tipNode.setPickable( false );
 
         // background behind the displayed value, shows through a transparent hole in the display area portion of the body image
