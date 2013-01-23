@@ -143,48 +143,59 @@ class ChallengeFactory5 extends ChallengeFactory {
         }
 
         // 2 Place-the-Point challenges
-        //REVIEW: This code block is duplicated in ChallengeFactory6.  May make sense, but thought I'd point it out.
-        {
-            // ranges of x1,y1,rise,run limited to [-5,5]
-            IntegerRange range = new IntegerRange( -5, 5 );
-            ArrayList<Integer> xList = rangeToList( range );
-            ArrayList<Integer> yList = rangeToList( range );
-            ArrayList<Integer> riseList = rangeToList( range );
-            ArrayList<Integer> runList = rangeToList( range );
-
-            // slope-intercept form, slope and intercept variable
-            {
-                final int x1 = 0; // y-intercept must be an integer
-                final int y1 = integerChooser.choose( yList );
-                final int rise = integerChooser.choose( riseList );
-                int run = integerChooser.choose( runList );
-                if ( run == 0 ) {
-                    // prevent undefined slope
-                    run = integerChooser.choose( runList );
-                }
-                challenges.add( new PlaceThePoints( "slope-intercept, random points",
-                                                    new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
-                                                    EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
-            }
-
-            // point-slope form, point and slope variable
-            {
-                final int x1 = integerChooser.choose( xList );
-                final int y1 = integerChooser.choose( yList );
-                final int rise = integerChooser.choose( riseList );
-                int run = integerChooser.choose( runList );
-                if ( run == 0 ) {
-                    // prevent undefined slope
-                    run = integerChooser.choose( runList );
-                }
-                challenges.add( new PlaceThePoints( "point-slope, random points",
-                                                    new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
-                                                    EquationForm.POINT_SLOPE, xRange, yRange ) );
-            }
-        }
+        addPlaceThePointsChallenges( challenges, integerChooser, xRange, yRange );
 
         // shuffle and return
         Collections.shuffle( challenges );
         return challenges;
+    }
+
+    /**
+     * Adds 2 "Place the Point" challenges, 1 slope-intercept form, 1 point-slope form.
+     * Pulled out into a method that can be reused in level=6.
+     *
+     * @param challenges add challenges to this list
+     * @param integerChooser for choosing random integers
+     * @param xRange range of the graph's x axis
+     * @param yRange range of the graph's y axis
+     */
+    public static void addPlaceThePointsChallenges( ArrayList<Challenge> challenges, RandomChooser<Integer> integerChooser, IntegerRange xRange, IntegerRange yRange ) {
+
+        // all ranges limited to [-5,5]
+        IntegerRange range = new IntegerRange( -5, 5 );
+        ArrayList<Integer> xList = rangeToList( range );
+        ArrayList<Integer> yList = rangeToList( range );
+        ArrayList<Integer> riseList = rangeToList( range );
+        ArrayList<Integer> runList = rangeToList( range );
+
+        // slope-intercept form, slope and intercept variable
+        {
+            final int x1 = 0; // y-intercept must be an integer
+            final int y1 = integerChooser.choose( yList );
+            final int rise = integerChooser.choose( riseList );
+            int run = integerChooser.choose( runList );
+            if ( run == 0 ) {
+                // prevent undefined slope
+                run = integerChooser.choose( runList );
+            }
+            challenges.add( new PlaceThePoints( "slope-intercept, random points",
+                                                new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
+                                                EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
+        }
+
+        // point-slope form, point and slope variable
+        {
+            final int x1 = integerChooser.choose( xList );
+            final int y1 = integerChooser.choose( yList );
+            final int rise = integerChooser.choose( riseList );
+            int run = integerChooser.choose( runList );
+            if ( run == 0 ) {
+                // prevent undefined slope
+                run = integerChooser.choose( runList );
+            }
+            challenges.add( new PlaceThePoints( "point-slope, random points",
+                                                new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
+                                                EquationForm.POINT_SLOPE, xRange, yRange ) );
+        }
     }
 }

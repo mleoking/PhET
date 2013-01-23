@@ -35,45 +35,8 @@ class ChallengeFactory6 extends ChallengeFactory {
                                                 EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
         }
 
-        // 2 Place-the-Point challenges (1 slope-intercept form, 1 point-slope form)
-        {
-            // ranges of x1,y1,rise,run limited to [-5,5]
-            IntegerRange range = new IntegerRange( -5, 5 );
-            ArrayList<Integer> xList = rangeToList( range );
-            ArrayList<Integer> yList = rangeToList( range );
-            ArrayList<Integer> riseList = rangeToList( range );
-            ArrayList<Integer> runList = rangeToList( range );
-
-            // slope-intercept form, slope and intercept variable
-            {
-                final int x1 = 0; // y-intercept must be an integer
-                final int y1 = integerChooser.choose( yList );
-                final int rise = integerChooser.choose( riseList );
-                int run = integerChooser.choose( runList );
-                if ( run == 0 ) {
-                    // prevent undefined slope
-                    run = integerChooser.choose( runList );
-                }
-                challenges.add( new PlaceThePoints( "slope-intercept, random points",
-                                                    new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
-                                                    EquationForm.SLOPE_INTERCEPT, xRange, yRange ) );
-            }
-
-            // point-slope form, point and slope variable
-            {
-                final int x1 = integerChooser.choose( xList );
-                final int y1 = integerChooser.choose( yList );
-                final int rise = integerChooser.choose( riseList );
-                int run = integerChooser.choose( runList );
-                if ( run == 0 ) {
-                    // prevent undefined slope
-                    run = integerChooser.choose( runList );
-                }
-                challenges.add( new PlaceThePoints( "point-slope, random points",
-                                                    new Line( x1, y1, x1 + run, y1 + rise, Color.BLACK ),
-                                                    EquationForm.POINT_SLOPE, xRange, yRange ) );
-            }
-        }
+        // 2 Place-the-Point challenges (same as level 5)
+        ChallengeFactory5.addPlaceThePointsChallenges( challenges, integerChooser, xRange, yRange );
 
         // 3 Graph-the-Line challenges with mismatched representations (eg, point-slope equation with slope-intercept manipulators)
         {
