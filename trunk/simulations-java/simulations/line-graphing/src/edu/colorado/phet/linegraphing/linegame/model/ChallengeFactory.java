@@ -131,16 +131,4 @@ abstract class ChallengeFactory {
     protected int randomIndex( List list ) {
         return random.nextInt( list.size() );
     }
-
-    // Shuffles a list of challenges.
-    //REVIEW: Why not use Collections.shuffle?
-    protected ArrayList<Challenge> shuffle( ArrayList<Challenge> list ) {
-        ArrayList<Challenge> shuffledList = new ArrayList<Challenge>();
-        while ( list.size() != 0 ) {
-            int index = randomIndex( list );
-            shuffledList.add( list.get( index ) );
-            list.remove( index );
-        }
-        return shuffledList;
-    }
 }
