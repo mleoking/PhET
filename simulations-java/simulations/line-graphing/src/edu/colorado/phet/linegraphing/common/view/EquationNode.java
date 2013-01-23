@@ -31,6 +31,7 @@ public abstract class EquationNode extends PhetPNode {
     * Zero is vertically centered on the equals sign, positive values move it down, negative move it up.
     * This was created because there was a great deal of discussion and disagreement about where the sign should be placed.
     */
+    //REVIEW: This is assigned a value of 0 below.  Can it be eliminated, or made into a constant?
     protected final double slopeSignYOffset;
 
     // fudge factors for horizontal lines, to vertically center them with equals sign (set by visual inspection)
