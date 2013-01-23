@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.common.model.Fraction;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class ChallengeFactory {
+public abstract class ChallengeFactory {
 
     private final Random random; // random number generator
 
