@@ -106,7 +106,7 @@ public class ChargeIndicatorNode extends PNode {
         };
         atom.addAtomListener( updateArrow );
         updateArrow.configurationChanged();
-        addChild( arrowNode );
+//        addChild( arrowNode );
 
         //+ and - labels on the pie part of the indicator
         addChild( new ShadowPText( "+" ) {{
