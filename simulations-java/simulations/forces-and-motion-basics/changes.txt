@@ -1,4 +1,4 @@
-# 1.00.09 (71847) Jan 24, 2013
+Fixed a bug that prevented the mystery object from moving when it was the single item in a stack
 # 1.00.08 (71813) Jan 21, 2013
 Improved location of "sum of forces" text location to move it away from the accelerometer
 # 1.00.07 (71780) Jan 17, 2013
