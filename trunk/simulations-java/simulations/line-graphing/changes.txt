@@ -1,3 +1,4 @@
+1/23/12 change request: for "Graph the Line" challenges, plot the point if it's not variable
 1/23/12 add test harness for generating massive numbers of challenge sets, to verify that nothing fails
 1/23/12 #3487 code review: address run==0 in Line.solveX
 1/23/12 #3487 code review: factor out a duplicate block of code, reuse in challenge generation for levels 5 & 6
