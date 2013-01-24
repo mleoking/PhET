@@ -1,4 +1,4 @@
 TODO list for line-graphing
 
-- add assertions to test validity of generated challenges (individual challenges and sets), or delete TestChallengeFactories
 - testing
+- interviews
