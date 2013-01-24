@@ -55,6 +55,7 @@ public class GraphTheLineNode extends ChallengeNode {
 
         // Graph
         graphNode = createGraphNode( challenge );
+        graphNode.setGuessPointVisible( challenge.manipulationMode == ManipulationMode.SLOPE ); // plot the point if we're only manipulating slope
 
         // rendering order
         subclassParent.addChild( graphNode );
