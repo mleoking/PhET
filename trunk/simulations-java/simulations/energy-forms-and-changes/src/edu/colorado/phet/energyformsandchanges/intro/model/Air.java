@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
@@ -150,10 +151,12 @@ public class Air implements ThermalEnergyContainer {
         }
     }
 
-    public void addEnergyChunk( EnergyChunk ec ) {
+    public void addEnergyChunk( EnergyChunk ec, Rectangle2D initialWanderConstraint ) {
         ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
-        energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, new Vector2D( ec.position.get().getX(), SIZE.getHeight() ) ) );
+        energyChunkWanderControllers.add( new EnergyChunkWanderController( ec,
+                                                                           new Property<Vector2D>( new Vector2D( ec.position.get().getX(), SIZE.getHeight() ) ),
+                                                                           initialWanderConstraint ) );
     }
 
     public EnergyChunk requestEnergyChunk( Vector2D point ) {

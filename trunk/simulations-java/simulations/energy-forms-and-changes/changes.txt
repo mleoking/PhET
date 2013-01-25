@@ -1,3 +1,4 @@
+Prevented energy chunks from moving through walls of the beaker when emitted from the water.
 Made the energy chunks that are emitted to the air come from a random location towards the top of the energy container, and not always from the center top.
 Added ability to sense the temperature of the steam emitted from the beaker when it is at or near boiling.
 # 0.00.32 (71853) Jan 24, 2013

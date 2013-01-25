@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
@@ -37,18 +38,20 @@ public final class EnergyChunkWanderController {
     private final Property<Vector2D> destination;
     private final MutableVector2D velocity = new MutableVector2D( 0, MAX_VELOCITY );
     private double countdownTimer = 0;
+    private final Rectangle2D initialWanderConstraint;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public EnergyChunkWanderController( EnergyChunk energyChunk, Vector2D destination ) {
-        this( energyChunk, new Property<Vector2D>( destination ) );
+    public EnergyChunkWanderController( EnergyChunk energyChunk, Property<Vector2D> destination ) {
+        this( energyChunk, destination, null );
     }
 
-    public EnergyChunkWanderController( EnergyChunk energyChunk, Property<Vector2D> destination ) {
+    public EnergyChunkWanderController( EnergyChunk energyChunk, Property<Vector2D> destination, Rectangle2D initialWanderConstraint ) {
         this.energyChunk = energyChunk;
         this.destination = destination;
+        this.initialWanderConstraint = initialWanderConstraint;
         resetCountdownTimer();
         changeVelocityVector();
     }
@@ -69,13 +72,20 @@ public final class EnergyChunkWanderController {
             velocity.times( energyChunk.position.get().distance( destination.get() ) * dt );
         }
 
-        if ( velocity.magnitude() > 0 ) {
-            energyChunk.position.set( energyChunk.position.get().plus( velocity.times( dt ) ) );
-            countdownTimer -= dt;
-            if ( countdownTimer <= 0 ) {
-                changeVelocityVector();
-                resetCountdownTimer();
+        // Stay within the horizontal confines of the initial bounds.
+        if ( initialWanderConstraint != null && energyChunk.position.get().getY() < initialWanderConstraint.getMaxY() ){
+            Vector2D proposedPosition = energyChunk.position.get().plus( velocity.times( dt ) );
+            if ( proposedPosition.getX() < initialWanderConstraint.getMinX() || proposedPosition.getX() > initialWanderConstraint.getMaxX() ){
+                // Bounce in the x direction to prevent going outside initial bounds.
+                velocity.setComponents( -velocity.getX(), velocity.getY() );
             }
+        }
+
+        energyChunk.position.set( energyChunk.position.get().plus( velocity.times( dt ) ) );
+        countdownTimer -= dt;
+        if ( countdownTimer <= 0 ) {
+            changeVelocityVector();
+            resetCountdownTimer();
         }
     }
 
@@ -102,7 +112,7 @@ public final class EnergyChunkWanderController {
         return destination.get();
     }
 
-    public boolean destinationReached(){
+    public boolean destinationReached() {
         return destination.get().distance( energyChunk.position.get() ) < 1E-7;
     }
 }
