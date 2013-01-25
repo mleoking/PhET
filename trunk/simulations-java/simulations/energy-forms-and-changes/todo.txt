@@ -1,6 +1,4 @@
 
-Make it possible to measure temperature in the steam cloud, have temperature taper.
-Make E's come from water in random locations on the top, not always from center of top.
 Prevent E's from getting thinned out on surface of water.
 
 Fix performance issues.
@@ -31,6 +29,8 @@ i18n
 Fix flicker when E's are transferred between energy systems
 
 ------------------- D O N E ------------------------------------------
+Make E's come from water in random locations on the top, not always from center of top.
+Make it possible to measure temperature in the steam cloud, have temperature taper.
 Remove ice entirely, try it out.
 No limits on heat and cool on both tab 1 & 2.
 - Due mostly to complexity of interactions with bricks.
