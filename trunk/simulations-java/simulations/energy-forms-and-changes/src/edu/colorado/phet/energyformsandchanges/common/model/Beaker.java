@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.common.model;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -71,6 +72,9 @@ public class Beaker extends RectangularThermalMovableModelElement {
     // 0 is no steam, 1 is the max amount (full boil).
     public double steamingProportion = 0;
 
+    // Max height above water where steam still affects the temperature.
+    private final double maxSteamHeight;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -82,6 +86,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
     public Beaker( ConstantDtClock clock, Vector2D initialPosition, double width, double height, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, width, height, calculateWaterMass( width, height * DEFAULT_INITIAL_FLUID_LEVEL ), WATER_SPECIFIC_HEAT, energyChunksVisible );
         this.initialFluidLevel = DEFAULT_INITIAL_FLUID_LEVEL;
+        this.maxSteamHeight = 2 * height;
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<Vector2D>() {
@@ -182,14 +187,16 @@ public class Beaker extends RectangularThermalMovableModelElement {
      */
     public Rectangle2D getSteamArea() {
         // Height of steam rectangle is based on beaker height and steamingProportion.
+        double liquidWaterHeight = height * fluidLevel.get();
         return new Rectangle2D.Double( position.get().getX() - width / 2,
-                                       position.get().getY() + height * fluidLevel.get(),
+                                       position.get().getY() + liquidWaterHeight,
                                        width,
-                                       height * steamingProportion );
+                                       maxSteamHeight );
     }
 
-    public double getSteamTemperature( double heightAboveWater ){
-        return EFACConstants.BOILING_POINT_TEMPERATURE;
+    public double getSteamTemperature( double heightAboveWater ) {
+        Function.LinearFunction mappingFunction = new Function.LinearFunction( 0, maxSteamHeight * steamingProportion, temperature.get(), EFACConstants.ROOM_TEMPERATURE );
+        return Math.max( mappingFunction.evaluate( heightAboveWater ), EFACConstants.ROOM_TEMPERATURE );
     }
 
     @Override protected void addEnergyChunkSlices() {
