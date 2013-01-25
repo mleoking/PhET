@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -52,6 +53,9 @@ public class EFACIntroModel implements ITemperatureModel {
 
     // TODO: Remove this and all related code when performance issues are resolved.
     private static final boolean ENABLE_INTERNAL_PROFILING = false;
+
+    // For operations that require random behavior.
+    private static final Random RAND = new Random();
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -326,7 +330,8 @@ public class EFACIntroModel implements ITemperatureModel {
             if ( !contactWithOtherMovableElement || ( !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
                 air.exchangeEnergyWith( movableEnergyContainer, dt );
                 if ( movableEnergyContainer.getEnergyChunkBalance() > 0 ) {
-                    Vector2D pointAbove = new Vector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
+                    Vector2D pointAbove = new Vector2D( RAND.nextDouble() * movableEnergyContainer.getRect().getWidth() + movableEnergyContainer.getRect().getMinX(),
+                                                        movableEnergyContainer.getRect().getMaxY() );
                     EnergyChunk ec = movableEnergyContainer.extractClosestEnergyChunk( pointAbove );
                     if ( ec != null ) {
                         air.addEnergyChunk( ec );
@@ -644,7 +649,7 @@ public class EFACIntroModel implements ITemperatureModel {
         if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
             return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR_IN_BEAKER );
         }
-        else if ( beaker.getSteamArea().contains( locationAsPoint )){
+        else if ( beaker.getSteamArea().contains( locationAsPoint ) ) {
             return new TemperatureAndColor( beaker.getSteamTemperature( locationAsPoint.getY() - beaker.getSteamArea().getMinY() ), Color.WHITE );
         }
 
