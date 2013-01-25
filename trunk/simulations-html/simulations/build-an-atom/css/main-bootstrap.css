@@ -135,6 +135,7 @@ a:focus:active {
     float: left;
     margin: 10px;
     font-size: 1.4em;
+    padding: 0;
 }
 
 #detailed-element-symbol h1 {
@@ -263,6 +264,7 @@ a:focus:active {
     background: #fff;
     font-weight: bold;
     text-align: center;
+    line-height: 30px;
 }
 
 /* ------------------------------ Media Queries ------------------------------ */
