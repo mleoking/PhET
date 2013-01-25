@@ -201,23 +201,24 @@ a:focus:active {
 
 /* ------------------------------ Net Charge Widget ------------------------------ */
 
-#net-charge-container {
+#net-charge-container #net-charge-meter {
     width: 94px;
     height: 88px;
     background: url(../images/charge_meter_with_window.png) no-repeat;
     position: relative;
     font-size: 1.4em;
     margin: 10px 0 10px 10px;
+    float: left;
 }
 
-#net-charge-container .dial {
+#net-charge-container #net-charge-meter .dial {
     position: absolute;
     width: 94px;
     height: 50px;
     overflow: hidden;
 }
 
-#net-charge-container .needle {
+#net-charge-container #net-charge-meter .needle {
     height: 90px;
     top: 8px;
     background: black;
@@ -234,7 +235,7 @@ a:focus:active {
 
 }
 
-#net-charge-container .needle i {
+#net-charge-container #net-charge-meter .needle i {
   position: absolute;
   top:-12px;
   left:-5px;
@@ -243,15 +244,12 @@ a:focus:active {
 
 
 #net-charge-container .dial:hover .needle {
-  -webkit-transform: rotate(45deg); 
-     -moz-transform: rotate(45deg); 
-      -ms-transform: rotate(45deg); 
-       -o-transform: rotate(45deg); 
-          transform: rotate(45deg); 
+  -webkit-transform: rotate(45deg);
+     -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+       -o-transform: rotate(45deg);
+          transform: rotate(45deg);
 }
-
-
-
 
 
 
@@ -265,6 +263,33 @@ a:focus:active {
     font-weight: bold;
     text-align: center;
     line-height: 30px;
+}
+
+#net-charge-container #charge-pairing-graph {
+    float: left;
+    list-style: none;
+    margin-top: 2em;
+}
+
+#net-charge-container #charge-pairing-graph li {
+  float: left;
+  border: 1px solid black;
+  border-left: none;
+  border-right: none;
+  text-align: center;
+  height: 42px;
+  width: 20px;
+}
+
+#net-charge-container #charge-pairing-graph li:first-of-type {
+  border-left: 1px solid #000;
+}
+
+#net-charge-container #charge-pairing-graph li.no-border {
+  border: none;
+  border-left: 1px solid #000;
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 
 /* ------------------------------ Media Queries ------------------------------ */

@@ -29,20 +29,31 @@ define( [
 
         var atomCharge = this.atom.getCharge();
         var chargeIndicator = this.atom.getCharge() > 0 ? "+" : "";
-        var color = 'black';
+        var color;
+
         if ( atomCharge > 0 ){
             color = 'red';
-        }
-        else{
+        } else if( atomCharge < 0 ) {
             color = 'blue';
+        } else {
+            color = 'black';
         }
 
-        var template = netChargeTemplate( {
-                                              charge:chargeIndicator + atomCharge,
-                                              fontColor:color
-                                          } );
+        var numberOfPairs = Math.min( this.atom.getNumProtons(), this.atom.getNumElectrons() );
+
+        var template = netChargeTemplate({
+            charge: chargeIndicator + atomCharge,
+            pairs: numberOfPairs
+        });
 
         this.$el.html( template );
+
+        this.$el.find('.net-charge').css('color', color);
+    };
+
+
+    NetChargeView.prototype.renderChargePairingGraph = function(){
+
     };
 
     return NetChargeView;
