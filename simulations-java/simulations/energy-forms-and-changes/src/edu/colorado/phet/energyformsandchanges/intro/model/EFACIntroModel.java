@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.ITemperatureModel;
 import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
@@ -334,7 +335,21 @@ public class EFACIntroModel implements ITemperatureModel {
                                                         movableEnergyContainer.getRect().getMaxY() );
                     EnergyChunk ec = movableEnergyContainer.extractClosestEnergyChunk( pointAbove );
                     if ( ec != null ) {
-                        air.addEnergyChunk( ec );
+                        Rectangle2D ecInitialMotionConstraints = null;
+                        if ( movableEnergyContainer instanceof Beaker ) {
+
+                            // Constrain the energy chunk's motion so that it
+                            // doesn't go through the edges of the beaker.
+                            // There is a bit of a fudge factor in here to
+                            // make sure that the sides of the energy chunk,
+                            // and not just the center, stay in bounds.
+                            double energyChunkWidth = 0.01;
+                            ecInitialMotionConstraints = new Rectangle2D.Double( movableEnergyContainer.getRect().getX() + energyChunkWidth / 2,
+                                                                                 movableEnergyContainer.getRect().getY(),
+                                                                                 movableEnergyContainer.getRect().getWidth() - energyChunkWidth,
+                                                                                 movableEnergyContainer.getRect().getHeight() );
+                        }
+                        air.addEnergyChunk( ec, ecInitialMotionConstraints );
                     }
                 }
                 else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() ) {
@@ -346,7 +361,7 @@ public class EFACIntroModel implements ITemperatureModel {
         // Exchange energy chunks between the air and the burners.
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
             if ( burner.getEnergyChunkCountForAir() > 0 ) {
-                air.addEnergyChunk( burner.extractClosestEnergyChunk( burner.getCenterPoint() ) );
+                air.addEnergyChunk( burner.extractClosestEnergyChunk( burner.getCenterPoint() ), null );
             }
             else if ( burner.getEnergyChunkCountForAir() < 0 ) {
                 burner.addEnergyChunk( air.requestEnergyChunk( burner.getCenterPoint() ) );

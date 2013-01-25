@@ -158,7 +158,7 @@ public class Burner extends ModelElement {
     public void addEnergyChunk( EnergyChunk ec ) {
         ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
-        energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, getEnergyChunkStartEndPoint() ) );
+        energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, new Property<Vector2D>( getEnergyChunkStartEndPoint() ) ) );
         energyExchangedWithAirSinceLastChunkTransfer = 0;
         energyExchangedWithObjectSinceLastChunkTransfer = 0;
     }
