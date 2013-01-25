@@ -1,10 +1,12 @@
 
+Make it possible to measure temperature in the steam cloud, have temperature taper.
+Make E's come from water in random locations on the top, not always from center of top.
+Prevent E's from getting thinned out on surface of water.
+
 Fix performance issues.
 Fix: Long reset time.
 Fix: Jittery E's in beaker
 
-Make E's come from water in random locations on the top, not always from center of top.
-Prevent E's from getting thinned out on surface of water.
 Request from NP that I don't yet understand: "can you put the “dashed E’s” behind the wheel image layer?"
 2nd tab: Allow water temp to reach boiling (verify with NP first, he emailed about this on 1/2/2013).
 
@@ -12,7 +14,6 @@ Fix issues with "systems", i.e. stacks of blocks and so forth.
 
 E's continue into bucket, i.e. don't turn around.
 
-Make it possible to measure temperature in the steam cloud, have temperature taper.
 
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 
