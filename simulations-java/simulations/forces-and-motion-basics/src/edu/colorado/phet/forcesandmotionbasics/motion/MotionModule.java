@@ -16,7 +16,8 @@ public class MotionModule extends SimSharingPiccoloModule implements Resettable 
     private final boolean accelerometer;
 
     public MotionModule( UserComponents component, String title, boolean friction, boolean accelerometer ) {
-        super( component, title, new ConstantDtClock() );
+        //Slow down the clock by a factor of 4 to make extreme forces easier to visualize
+        super( component, title, new ConstantDtClock( ConstantDtClock.DEFAULT_FRAMES_PER_SECOND * 4 ) );
         setSimulationPanel( new MotionCanvas( this, getClock(), friction, accelerometer ) );
         setClockControlPanel( null );
         this.friction = friction;

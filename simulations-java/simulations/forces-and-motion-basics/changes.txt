@@ -1,3 +1,4 @@
+Tabs 2-4: Slow down the clock by a factor of 4 to make extreme forces easier to visualize
 # 1.00.09 (71849) Jan 24, 2013
 Fixed a bug that prevented the mystery object from moving when it was the single item in a stack
 # 1.00.08 (71813) Jan 21, 2013
