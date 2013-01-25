@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.common.model;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -39,6 +40,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final double MATERIAL_THICKNESS = 0.001; // In meters.
     private static final int NUM_SLICES = 6;
     private static final Random RAND = new Random( 1 ); // This is seeded for consistent initial energy chunk distribution.
+    private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is emitted.
 
     // Constants that control the nature of the fluid in the beaker.
     private static final double WATER_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
@@ -64,6 +66,10 @@ public class Beaker extends RectangularThermalMovableModelElement {
 
     // Property that allows temperature changes to be monitored.
     public final Property<Double> temperature = new Property<Double>( EFACConstants.ROOM_TEMPERATURE );
+
+    // Indicator of how much steam is being emitted.  Ranges from 0 to 1, where
+    // 0 is no steam, 1 is the max amount (full boil).
+    public double steamingProportion = 0;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -115,6 +121,11 @@ public class Beaker extends RectangularThermalMovableModelElement {
     @Override protected void stepInTime( double dt ) {
         super.stepInTime( dt );
         temperature.set( getTemperature() );
+        steamingProportion = 0;
+        if ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature.get() < STEAMING_RANGE ) {
+            // Water is emitting some amount of steam.  Set the proportionate amount.
+            steamingProportion = MathUtil.clamp( 0, 1 - ( ( EFACConstants.BOILING_POINT_TEMPERATURE - temperature.get() ) / STEAMING_RANGE ), 1 );
+        }
     }
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
@@ -166,6 +177,21 @@ public class Beaker extends RectangularThermalMovableModelElement {
                                                                height * fluidLevel.get() ), true );
     }
 
+    /*
+     * Get the area where the temperature of the steam can be sensed.
+     */
+    public Rectangle2D getSteamArea() {
+        // Height of steam rectangle is based on beaker height and steamingProportion.
+        return new Rectangle2D.Double( position.get().getX() - width / 2,
+                                       position.get().getY() + height * fluidLevel.get(),
+                                       width,
+                                       height * steamingProportion );
+    }
+
+    public double getSteamTemperature( double heightAboveWater ){
+        return EFACConstants.BOILING_POINT_TEMPERATURE;
+    }
+
     @Override protected void addEnergyChunkSlices() {
         assert slices.size() == 0; // Check that his has not been already called.
         final Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - width / 2,
@@ -203,16 +229,12 @@ public class Beaker extends RectangularThermalMovableModelElement {
         return EnergyFormsAndChangesSimSharing.UserComponents.beaker;
     }
 
-    public double getEnergyBeyondMaxTemperature(){
+    public double getEnergyBeyondMaxTemperature() {
         return Math.max( energy - ( BOILING_POINT_TEMPERATURE * mass * specificHeat ), 0 );
     }
 
     // Limit max temp to the boiling point.
     @Override public double getTemperature() {
         return Math.min( super.getTemperature(), BOILING_POINT_TEMPERATURE );
-    }
-
-    public boolean isBoiling() {
-        return getTemperature() >= BOILING_POINT_TEMPERATURE;
     }
 }

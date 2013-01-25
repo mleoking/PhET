@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -639,9 +640,12 @@ public class EFACIntroModel implements ITemperatureModel {
             }
         }
 
-        // Test if this point is in the beaker.
+        // Test if this point is in the water or steam associated with the beaker.
         if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
             return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR_IN_BEAKER );
+        }
+        else if ( beaker.getSteamArea().contains( locationAsPoint )){
+            return new TemperatureAndColor( beaker.getSteamTemperature( locationAsPoint.getY() - beaker.getSteamArea().getMinY() ), Color.WHITE );
         }
 
         // Test if the point is a burner.
