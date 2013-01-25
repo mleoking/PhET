@@ -1,3 +1,5 @@
+Made the energy chunks that are emitted to the air come from a random location towards the top of the energy container, and not always from the center top.
+Added ability to sense the temperature of the steam emitted from the beaker when it is at or near boiling.
 # 0.00.32 (71853) Jan 24, 2013
 1/24/13 Deploy to dev for review.
 Made temperature of ice in bucket equal the freezing point of water, since now the min temperature is limited to that value.
