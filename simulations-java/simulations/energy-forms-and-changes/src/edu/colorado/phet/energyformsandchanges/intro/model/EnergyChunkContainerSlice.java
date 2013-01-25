@@ -56,4 +56,8 @@ public class EnergyChunkContainerSlice {
     public Shape getShape() {
         return shape;
     }
+
+    public double getZPosition() {
+        return zPosition;
+    }
 }

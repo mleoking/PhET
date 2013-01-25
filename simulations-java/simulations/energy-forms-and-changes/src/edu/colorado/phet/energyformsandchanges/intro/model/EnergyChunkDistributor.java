@@ -204,6 +204,21 @@ public class EnergyChunkDistributor {
         }
     }
 
+    /*
+     * Super simple alternative energy chunk distribution algorithm - just puts
+     * all energy chunks in center of slide.  This is useful for debugging.
+     * Rename it to substitute if for the 'real' algorithm.
+     */
+    public static void updatePositionsDbg( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
+        // Update the positions of the energy chunks.
+        for ( EnergyChunkContainerSlice slice : energyChunkContainerSlices ) {
+            Vector2D sliceCenter = new Vector2D( slice.getShape().getBounds2D().getCenterX(), slice.getShape().getBounds2D().getCenterY() );
+            for ( EnergyChunk energyChunk : slice.energyChunkList ) {
+                energyChunk.position.set( sliceCenter );
+            }
+        }
+    }
+
     public static void updatePositions( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
 
         // Create a map that relates each energy chunk to a point mass.
