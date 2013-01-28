@@ -244,4 +244,51 @@ public class Beaker extends RectangularThermalMovableModelElement {
     @Override public double getTemperature() {
         return Math.min( super.getTemperature(), BOILING_POINT_TEMPERATURE );
     }
+
+    /*
+     * This override handles the case where the point is above the beaker.
+     * In this case, we want to pull from all slices evenly, and not favor
+     * the slices the bump up at the top in order to match the 3D look of the
+     * water surface.
+     */
+    @Override public EnergyChunk extractClosestEnergyChunk( Vector2D point ) {
+        boolean pointIsAboveWaterSurface = true;
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            if ( point.getY() < slice.getShape().getBounds2D().getMaxY() ) {
+                pointIsAboveWaterSurface = false;
+                break;
+            }
+        }
+
+        if ( !pointIsAboveWaterSurface ) {
+            return super.extractClosestEnergyChunk( point );
+        }
+
+        // Point is above water surface.  Identify the slice with the highest
+        // density, since this is where we will get the energy chunk.
+        double maxSliceDensity = 0;
+        EnergyChunkContainerSlice densestSlice = null;
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            double sliceDensity = slice.energyChunkList.size() / ( slice.getShape().getBounds2D().getWidth() * slice.getShape().getBounds2D().getHeight() );
+            if ( sliceDensity > maxSliceDensity ){
+                maxSliceDensity = sliceDensity;
+                densestSlice = slice;
+            }
+        }
+
+        if ( densestSlice.energyChunkList.size() == 0 ){
+            System.out.println( getClass().getName() + " - Warning: No energy chunks in the beaker, can't extract any.");
+            return null;
+        }
+
+        EnergyChunk highestEnergyChunk = densestSlice.energyChunkList.get( 0 );
+        for ( EnergyChunk ec : densestSlice.energyChunkList ){
+            if ( ec.position.get().getY() > highestEnergyChunk.position.get().getY() ){
+                highestEnergyChunk = ec;
+            }
+        }
+
+        removeEnergyChunk( highestEnergyChunk );
+        return highestEnergyChunk;
+    }
 }
