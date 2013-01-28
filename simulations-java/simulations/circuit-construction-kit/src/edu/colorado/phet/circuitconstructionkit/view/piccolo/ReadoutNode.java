@@ -1,19 +1,26 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
-import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;

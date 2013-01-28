@@ -11,12 +11,14 @@
 package edu.colorado.phet.circuitconstructionkit.controls;
 
 
-import java.awt.*;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 

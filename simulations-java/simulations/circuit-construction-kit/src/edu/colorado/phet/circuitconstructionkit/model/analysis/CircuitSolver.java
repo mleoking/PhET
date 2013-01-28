@@ -28,6 +28,8 @@ public abstract class CircuitSolver {
     }
 
     protected void fireCircuitSolved() {
-        for ( CircuitSolutionListener listener : listeners ) { listener.circuitSolverFinished(); }
+        for ( CircuitSolutionListener listener : listeners ) {
+            listener.circuitSolverFinished();
+        }
     }
 }

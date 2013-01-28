@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.mna;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 ///**This is a rewrite of companion mapping to make it simpler to construct and inspect companion models.*/
 public class DynamicCircuit {
@@ -122,7 +126,9 @@ public class DynamicCircuit {
     }
 
     public static double euclideanDistance( double[] x, double[] y ) {
-        if ( x.length != y.length ) { throw new RuntimeException( "Vector length mismatch" ); }
+        if ( x.length != y.length ) {
+            throw new RuntimeException( "Vector length mismatch" );
+        }
         double sumSqDiffs = 0.0;
         for ( int i = 0; i < x.length; i++ ) {
             sumSqDiffs += Math.pow( x[i] - y[i], 2 );
@@ -198,8 +204,12 @@ public class DynamicCircuit {
 
             public double distance( DynamicState a, DynamicState b ) {
                 ArrayList<Double> aCurrents = new ArrayList<Double>();
-                for ( int i = 0; i < a.circuit.capacitors.size(); i++ ) { aCurrents.add( a.circuit.capacitors.get( i ).getCurrent() ); }
-                for ( int i = 0; i < a.circuit.inductors.size(); i++ ) { aCurrents.add( a.circuit.inductors.get( i ).getCurrent() ); }
+                for ( int i = 0; i < a.circuit.capacitors.size(); i++ ) {
+                    aCurrents.add( a.circuit.capacitors.get( i ).getCurrent() );
+                }
+                for ( int i = 0; i < a.circuit.inductors.size(); i++ ) {
+                    aCurrents.add( a.circuit.inductors.get( i ).getCurrent() );
+                }
 
                 ArrayList<Double> bCurrents = new ArrayList<Double>();
                 for ( int i = 0; i < b.circuit.capacitors.size(); i++ ) {
@@ -264,7 +274,9 @@ public class DynamicCircuit {
         }
 
         public double getCurrent( LinearCircuitSolver.Element element ) {
-            if ( currentCompanions.containsKey( element ) ) { return currentCompanions.get( element ).getValue( mnaSolution ); }
+            if ( currentCompanions.containsKey( element ) ) {
+                return currentCompanions.get( element ).getValue( mnaSolution );
+            }
             else { return mnaSolution.getCurrent( element ); }
         }
 

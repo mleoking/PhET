@@ -1,9 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;

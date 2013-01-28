@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;

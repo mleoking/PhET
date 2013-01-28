@@ -5,7 +5,16 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
-import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
+import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Filament;
+import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
+import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
+import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 
 /**
  * This adapter class converts the CCK branch classes to the corresponding MNA variants,
@@ -128,10 +137,18 @@ public class MNAAdapter extends CircuitSolver {
                                                             new ArrayList<DynamicCircuit.DynamicCapacitor>( capacitors ), new ArrayList<DynamicCircuit.DynamicInductor>( inductors ), new ObjectOrientedMNA() );
 
         CircuitResult results = dynamicCircuit.solveWithSudbivisions( new TimestepSubdivisions<DynamicCircuit.DynamicState>( errorThreshold, minDT ), dt );
-        for ( ResistiveBatteryAdapter batteryAdapter : batteries ) { batteryAdapter.applySolution( results ); }
-        for ( ResistorAdapter resistorAdapter : resistors ) { resistorAdapter.applySolution( results ); }
-        for ( CapacitorAdapter capacitorAdapter : capacitors ) { capacitorAdapter.applySolution( results ); }
-        for ( InductorAdapter inductorAdapter : inductors ) { inductorAdapter.applySolution( results ); }
+        for ( ResistiveBatteryAdapter batteryAdapter : batteries ) {
+            batteryAdapter.applySolution( results );
+        }
+        for ( ResistorAdapter resistorAdapter : resistors ) {
+            resistorAdapter.applySolution( results );
+        }
+        for ( CapacitorAdapter capacitorAdapter : capacitors ) {
+            capacitorAdapter.applySolution( results );
+        }
+        for ( InductorAdapter inductorAdapter : inductors ) {
+            inductorAdapter.applySolution( results );
+        }
 
         //zero out currents on open branches
         for ( int i = 0; i < circuit.numBranches(); i++ ) {

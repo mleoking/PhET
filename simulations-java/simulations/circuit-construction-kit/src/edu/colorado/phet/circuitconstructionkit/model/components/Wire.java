@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Shape;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;

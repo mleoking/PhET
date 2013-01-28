@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.*;
+import java.awt.Shape;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.piccolophet.PhetPNode;

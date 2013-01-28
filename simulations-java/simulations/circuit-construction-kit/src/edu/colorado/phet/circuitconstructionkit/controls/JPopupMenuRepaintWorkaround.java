@@ -1,9 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Window;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 

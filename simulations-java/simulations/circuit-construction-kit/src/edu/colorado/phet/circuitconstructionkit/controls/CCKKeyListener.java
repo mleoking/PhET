@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 

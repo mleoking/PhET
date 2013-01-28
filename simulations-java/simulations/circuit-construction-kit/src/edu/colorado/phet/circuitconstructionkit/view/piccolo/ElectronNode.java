@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

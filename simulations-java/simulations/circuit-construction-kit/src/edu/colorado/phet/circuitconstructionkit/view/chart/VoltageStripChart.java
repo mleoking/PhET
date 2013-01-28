@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.chart;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Shape;
 
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -18,10 +19,10 @@ public class VoltageStripChart extends DoubleTerminalFloatingChart.Piccolo {
 
     public VoltageStripChart( CCKSimulationPanel pSwingCanvas, String title, IClock clock, Circuit circuit ) {
         super( pSwingCanvas, title, new TwoTerminalValueReader() {
-                   public double getValue( Shape a, Shape b ) {
-                       return 0;
-                   }
-               }, clock );
+            public double getValue( Shape a, Shape b ) {
+                return 0;
+            }
+        }, clock );
         super.setValueReader( new VoltageStripChart.VoltageReader( circuit ) );
         getStripChartJFCNode().setVerticalRange( -20, 20 );
         getStripChartJFCNode().getXYPlot().getRangeAxis().setLabel( CCKStrings.getString( "voltage-y-axis" ) );

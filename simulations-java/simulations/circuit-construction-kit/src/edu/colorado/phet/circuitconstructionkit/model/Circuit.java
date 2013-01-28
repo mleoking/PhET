@@ -199,7 +199,9 @@ public class Circuit {
     }
 
     private boolean isProblematicLoop( Path loop ) {
-        if ( loop.containsCapacitor() && loop.sumResistance() < 1 ) { return true; }
+        if ( loop.containsCapacitor() && loop.sumResistance() < 1 ) {
+            return true;
+        }
         else { return false; }
     }
 

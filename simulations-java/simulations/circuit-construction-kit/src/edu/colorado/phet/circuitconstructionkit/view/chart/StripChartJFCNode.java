@@ -3,7 +3,9 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.view.chart;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.GradientPaint;
 import java.io.IOException;
 
 import org.jfree.chart.ChartFactory;

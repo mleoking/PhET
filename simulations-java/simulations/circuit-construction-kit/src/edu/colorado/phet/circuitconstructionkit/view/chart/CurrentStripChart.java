@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.chart;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -21,10 +21,10 @@ public class CurrentStripChart extends SingleTerminalFloatingChart.Piccolo {
 
     public CurrentStripChart( PhetPCanvas pSwingCanvas, String title, IClock clock, Circuit circuit, CCKSimulationPanel cckSimulationPanel ) {
         super( pSwingCanvas, title, new ValueReader() {
-                   public double getValue( double x, double y ) {
-                       return 0;
-                   }
-               }, clock, cckSimulationPanel );
+            public double getValue( double x, double y ) {
+                return 0;
+            }
+        }, clock, cckSimulationPanel );
         this.circuit = circuit;
         super.setValueReader( new CurrentStripChart.CurrentReader() );
     }
