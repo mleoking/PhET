@@ -1,6 +1,4 @@
 
-Prevent E's from getting thinned out on surface of water.
-
 Fix performance issues.
 Fix: Long reset time.
 Fix: Jittery E's in beaker
@@ -12,6 +10,11 @@ Fix issues with "systems", i.e. stacks of blocks and so forth.
 
 E's continue into bucket, i.e. don't turn around.
 
+From Noah: Keep the steam the same transparency (if possible) when E's are turned on.
+From Noah: Try the new background color from tab 1 on tab 2.
+
+From Ariel: The three objects if slid horizontally across the floor can "pass through" the heaters.  I think we had discussed making a hard boundary so the objects are only place on the heaters...not a big deal but might be a good finishing touch.
+From Ariel: There is a bit of odd behavior of energy chunks if the water is cooled to "0" and the cooler is left on full throttle.  I think the behavior is easiest to see in "fast forward" mode.  Basically, an energy chunk going to the cooler will sometimes compete with one coming in from the air, bounce around, and reverse direction on occasion.  Whatever fix you came up with for the condition for steaming looks great...energy chunk comes in, energy chunk goes out in a nice equilibrium, but it seems for the near freezing condition there are still some quirks.
 
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 
@@ -29,6 +32,7 @@ i18n
 Fix flicker when E's are transferred between energy systems
 
 ------------------- D O N E ------------------------------------------
+Prevent E's from getting thinned out on surface of water.
 Make E's come from water in random locations on the top, not always from center of top.
 Make it possible to measure temperature in the steam cloud, have temperature taper.
 Remove ice entirely, try it out.

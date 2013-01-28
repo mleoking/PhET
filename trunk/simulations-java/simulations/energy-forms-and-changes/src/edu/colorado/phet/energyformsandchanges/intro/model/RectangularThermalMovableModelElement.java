@@ -189,11 +189,11 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     /*
-     * Extract the closest energy chunk on a randomly chosen energy chunk
-     * slice.  The random part prevents odd situations where all the chunks
-     * get pulled off of one slice.
+     * Extract the closest energy chunk to the provided point.  Compensate
+     * distances for the z-offset so that z-positioning doesn't skew the
+     * results, since the provided point is only 2D.
      *
-     * @param point
+     * @param point Comparison point.
      * @return Energy chunk, null if there are none available.
      */
     public EnergyChunk extractClosestEnergyChunk( Vector2D point ) {
@@ -203,10 +203,10 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
         // Identify the closest energy chunk.
         for ( EnergyChunkContainerSlice slice : slices ) {
-            System.out.println("=========================");
-            System.out.println( "slice.zPosition = " + slice.getZPosition() );
-            System.out.println( "slice.getShape().getBounds2D().getMaxY() = " + slice.getShape().getBounds2D().getMaxY() );
-            System.out.println( "compensated max Y = " + slice.getShape().getBounds2D().getMaxY() + slice.getZPosition() * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
+//            System.out.println("=========================");
+//            System.out.println( "slice.zPosition = " + slice.getZPosition() );
+//            System.out.println( "slice.getShape().getBounds2D().getMaxY() = " + slice.getShape().getBounds2D().getMaxY() );
+//            System.out.println( "compensated max Y = " + slice.getShape().getBounds2D().getMaxY() + slice.getZPosition() * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
 //            for ( EnergyChunk ec : slice.energyChunkList ) {
 //                double distance = ec.position.get().distance( point );
 //                System.out.println("----------------------");
@@ -222,12 +222,12 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             for ( EnergyChunk ec : slice.energyChunkList ) {
                 // Compensate for the Z offset.  Otherwise front chunk will
                 // almost always be chosen.
-                System.out.println("----------------------");
-                System.out.println( "ec.zPosition.get() = " + ec.zPosition.get() );
-                System.out.println("Slice index = " + slices.indexOf( slice ));
+//                System.out.println("----------------------");
+//                System.out.println( "ec.zPosition.get() = " + ec.zPosition.get() );
+//                System.out.println("Slice index = " + slices.indexOf( slice ));
                 Vector2D compensatedEcPosition = ec.position.get().minus( 0, EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER * ec.zPosition.get() );
-                System.out.println( "Raw EC position = " + ec.position.get() );
-                System.out.println( "compensatedEcPosition = " + compensatedEcPosition );
+//                System.out.println( "Raw EC position = " + ec.position.get() );
+//                System.out.println( "compensatedEcPosition = " + compensatedEcPosition );
                 double compensatedDistance = compensatedEcPosition.distance( point );
                 if ( compensatedDistance < closestCompensatedDistance ) {
                     closestEnergyChunk = ec;
@@ -237,9 +237,8 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             }
         }
 
-        System.out.println("Index of chosen slice = " + slices.indexOf( sliceOfResidence ));
+//        System.out.println("Index of chosen slice = " + slices.indexOf( sliceOfResidence ));
 
-        // TODO: If this method can be private, make it so, and make it just find the chunk without removing it.
         removeEnergyChunk( closestEnergyChunk );
         return closestEnergyChunk;
     }

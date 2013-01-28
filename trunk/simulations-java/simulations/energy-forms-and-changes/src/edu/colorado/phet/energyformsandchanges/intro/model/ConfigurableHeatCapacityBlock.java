@@ -68,7 +68,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
                 changeEnergy( ( oldTemperature - newTemperature ) * mass * specificHeat.get() );
 
                 // Add or remove energy chunks so that they match the energy
-                // level.  The chunks are not transferred, the just appear or
+                // level.  The chunks are not transferred, they just appear or
                 // vanish as needed.
                 while ( getEnergyChunkBalance() != 0 ) {
                     if ( getEnergyChunkBalance() > 0 ) {
