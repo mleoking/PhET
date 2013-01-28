@@ -1,42 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--collision-lab-strings_pl.xml created Thu Mar 10 18:13:29 CET 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) lut 9, 2011-->
-<SimStrings>
-<string key="PlayPauseButtons.step" value="Do Przodu"/>
+<!--collision-lab-strings_pl.xml created Thu Jan 24 16:24:16 CET 2013 using: collision-lab 2.01.00 (69163), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
+<string key="ShowValues.velocityCaption" value="Prędkość (m/s)"/>
+<string key="ControlPanel.showValues" value="Pokaż wartości"/>
+<string key="PlayPauseButtons.step" value="Przód"/>
+<string key="DataTable.velocity" value="Prędkość"/>
 <string key="MomentumView.total" value="Suma"/>
+<string key="DataTable.positionWithUnits" value="Pozycja (m)"/>
 <string key="ControlPanel.sound" value="Dźwięk"/>
-<string key="ControlPanel.showMomentumVectors" value="Wektory Pędu"/>
+<string key="ControlPanel.showMomentumVectors" value="Wektory pędu"/>
+<string key="ShowValues.speedCaption" value="Szybkość (m/s)"/>
 <string key="ControlPanel.oneHundredPercent" value="100%"/>
-<string key="DataTable.lessData" value="Mniej Danych"/>
+<string key="DataTable.lessData" value="Mniej danych"/>
+<string key="DataTable.momentumWithUnits" value="Moment (kg m/s)"/>
 <string key="translation.credits" value="Paweł Wiśniewski"/>
-<string key="MomentumView.momenta" value="Moment Siły"/>
-<string key="DataTable.ball" value="piłka"/>
+<string key="MomentumView.momenta" value="Moment siły"/>
+<string key="ControlPanel.elasticityReadout" value="Elastyczność {0}%"/>
+<string key="DataTable.ball" value="Piłka"/>
 <string key="TableView.kineticEnergy" value="Energia Kinetyczna = {0} J"/>
-<string key="ControlPanel.showVelocities" value="Wektory Prędkości"/>
-<string key="ControlPanel.showPaths" value="Pokaż Tory"/>
-<string key="DataTable.mass" value="masa"/>
-<string key="DataTable.addBall" value="Dodaj Piłkę"/>
+<string key="advancedTab" value="Zaawansowane"/>
+<string key="ControlPanel.showVelocities" value="Wektory prędkości"/>
+<string key="ControlPanel.showPaths" value="Pokaż tory"/>
+<string key="DataTable.mass" value="Masa"/>
+<string key="DataTable.addBall" value="Dodaj piłkę"/>
+<string key="DataTable.position" value="Pozycja"/>
 <string key="DataTable.py" value="Py"/>
 <string key="DataTable.px" value="Px"/>
 <string key="PlayPauseButtons.pause" value="Pauza"/>
 <string key="DataTable.vy" value="Vy"/>
 <string key="DataTable.vx" value="Vx"/>
-<string key="ControlPanel.2d" value="2 Wymiary"/>
-<string key="DataTable.moreData" value="Więcej Danych"/>
-<string key="ControlPanel.reflectingBorder" value="Ramka Odbijająca"/>
+<string key="ControlPanel.2d" value="2 wymiary"/>
+<string key="DataTable.moreData" value="Więcej danych"/>
+<string key="ControlPanel.reflectingBorder" value="Ramka odbijająca"/>
 <string key="DataTable.y" value="y"/>
+<string key="DataTable.momentum" value="Moment"/>
 <string key="DataTable.removeBall" value="Usuń Piłkę"/>
 <string key="DataTable.x" value="x"/>
+<string key="ShowValues.momentumCaption" value="Moment (kg m/s)"/>
 <string key="ControlPanel.resetAll" value="Wyczyść "/>
-<string key="ControlPanel.momentaDiagram" value="Wykres Momentów"/>
+<string key="ControlPanel.momentaDiagram" value="Wykres momentów"/>
 <string key="ControlPanel.elasticity" value="Elastyczność"/>
-<string key="ControlPanel.showCenterOfMass" value="Środek Masy"/>
+<string key="ControlPanel.showCenterOfMass" value="Środek masy"/>
 <string key="ControlPanel.zeroPercent" value="0%"/>
+<string key="DataTable.velocityWithUnits" value="Prędkość (m/s)"/>
+<string key="TableView.returnBalls" value="Powrót piłek"/>
+<string key="DataTable.massWithUnits" value="Masa (kg)"/>
+<string key="introductionTab" value="Wprowadzenie"/>
 <string key="TableView.timeRate" value="Tempo"/>
 <string key="simTitle" value="Symulacja Kolizji"/>
 <string key="PlayPauseButtons.play" value="Start"/>
-<string key="PlayPauseButtons.back" value="Do Tyłu"/>
+<string key="ControlPanel.kineticEnergy" value="Energia kinetyczna"/>
 <string key="MomentumView.tipToTail" value="Zaczepione"/>
+<string key="PlayPauseButtons.back" value="Tył"/>
 <string key="TableView.time" value="Czas = {0} s"/>
-<string key="PlayPauseButtons.rewind" value="Początek"/>
-<string key="ControlPanel.1d" value="1 Wymiar"/>
+<string key="ControlPanel.1d" value="1 wymiar"/>
 </SimStrings>
