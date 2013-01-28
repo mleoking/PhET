@@ -3,7 +3,9 @@ package edu.colorado.phet.circuitconstructionkit;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.circuitconstructionkit.controls.OptionsMenu;
 import edu.colorado.phet.common.phetcommon.application.Module;

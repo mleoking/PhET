@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;

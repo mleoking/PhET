@@ -104,7 +104,9 @@ public class FastMNA implements LinearCircuitSolver {
         for ( int i = 0; i < n; i++ ) {
             for ( int k = 0; k < m; k++ ) {
                 double value = 0.0;
-                if ( circuit.getBattery( k ).getNode0() == i + 1 ) { value = -1; }
+                if ( circuit.getBattery( k ).getNode0() == i + 1 ) {
+                    value = -1;
+                }
                 else if ( circuit.getBattery( k ).getNode1() == i + 1 ) {
                     value = +1;//todo: check signs
                 }

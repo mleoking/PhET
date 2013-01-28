@@ -102,7 +102,9 @@ public interface LinearCircuitSolver {
         public double sumConductances( int nodeIndex ) {
             double sum = 0.0;
             for ( Resistor resistor : resistors ) {
-                if ( resistor.containsNode( nodeIndex ) ) { sum += resistor.conductance; }
+                if ( resistor.containsNode( nodeIndex ) ) {
+                    sum += resistor.conductance;
+                }
             }
             return sum;
         }
@@ -111,7 +113,9 @@ public interface LinearCircuitSolver {
             //conductances sum:
             double sum = 0.0;
             for ( Resistor resistor : resistors ) {
-                if ( resistor.containsNode( node1 ) && resistor.containsNode( node2 ) ) { sum += resistor.conductance; }
+                if ( resistor.containsNode( node1 ) && resistor.containsNode( node2 ) ) {
+                    sum += resistor.conductance;
+                }
             }
             return sum;
         }

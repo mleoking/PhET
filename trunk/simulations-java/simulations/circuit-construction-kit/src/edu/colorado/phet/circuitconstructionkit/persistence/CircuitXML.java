@@ -12,7 +12,17 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.components.ACVoltageSource;
+import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
+import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
+import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
+import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
+import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
+import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 
 /**

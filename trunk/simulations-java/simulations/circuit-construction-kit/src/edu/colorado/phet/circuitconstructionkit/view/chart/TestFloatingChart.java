@@ -10,7 +10,7 @@ package edu.colorado.phet.circuitconstructionkit.view.chart;
  *
  */
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

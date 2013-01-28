@@ -6,7 +6,7 @@ package edu.colorado.phet.circuitconstructionkit.controls;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 

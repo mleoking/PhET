@@ -3,14 +3,36 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
-import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.components.ACVoltageSource;
+import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
+import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
+import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
+import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
+import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
+import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.*;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.*;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.ACVoltageSourceNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BatteryNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.CapacitorNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.GrabBagResistorNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.InductorNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.ResistorNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.SeriesAmmeterNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.SwitchNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.WireNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.SchematicACNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.SchematicBatteryNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.SchematicInductorNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.SchematicResistorNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.SchematicSwitchNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.SchematicWireNode;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
