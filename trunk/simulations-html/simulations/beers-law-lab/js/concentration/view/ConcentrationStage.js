@@ -29,11 +29,8 @@ define( [
                 // background that fills the stage
                 var background = new Easel.Shape();
 
-                // frame rate display, upper left
+                // frame rate display
                 this.frameRateDisplay = new FrameRateDisplay( 'black' );
-                //TODO are these new 2 lines necessary?
-                this.frameRateDisplay.x = 20;
-                this.frameRateDisplay.y = 20;
 
                 //TODO create other view components
 
