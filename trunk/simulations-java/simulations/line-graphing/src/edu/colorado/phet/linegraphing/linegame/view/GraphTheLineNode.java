@@ -43,7 +43,14 @@ public class GraphTheLineNode extends ChallengeNode {
     public GraphTheLineNode( final GraphTheLine challenge, final LineGameModel model, final PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
         super( challenge, model, challengeSize, audioPlayer );
 
-        final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
+        // title, possibly scaled for i18n
+        PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
+        final double maxTitleWidth = 0.45 * challengeSize.getWidth();
+        if ( titleNode.getFullBoundsReference().getWidth() > maxTitleWidth ) {
+            titleNode.scale( maxTitleWidth / titleNode.getFullBoundsReference().getWidth() );
+        }
+
+        final PDimension boxSize = new PDimension( 0.4 * challengeSize.getWidth(), 0.3 * challengeSize.getHeight() );
 
         // Answer
         final EquationBoxNode answerBoxNode =
@@ -58,6 +65,7 @@ public class GraphTheLineNode extends ChallengeNode {
         graphNode.setGuessPointVisible( challenge.manipulationMode == ManipulationMode.SLOPE ); // plot the point if we're only manipulating slope
 
         // rendering order
+        subclassParent.addChild( titleNode );
         subclassParent.addChild( graphNode );
         subclassParent.addChild( answerBoxNode );
         subclassParent.addChild( guessBoxNode );
@@ -67,12 +75,16 @@ public class GraphTheLineNode extends ChallengeNode {
             // graphNode is positioned automatically based on mvt's origin offset.
 
             // equation in left half of challenge space
-            answerBoxNode.setOffset( ( challengeSize.getWidth() / 2 ) - answerBoxNode.getFullBoundsReference().getWidth() - 40,
-                                     graphNode.getFullBoundsReference().getMinY() + 70 );
+            answerBoxNode.setOffset( ( challengeSize.getWidth() / 2 ) - answerBoxNode.getFullBoundsReference().getWidth() - 50,
+                                     challenge.mvt.modelToViewY( 0 ) - answerBoxNode.getFullBoundsReference().getHeight() - 10 );
 
             // face centered below equation boxes
             faceNode.setOffset( answerBoxNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
                                 checkButton.getFullBoundsReference().getMaxY() - faceNode.getFullBoundsReference().getHeight() );
+
+            // title above answer equation, left justified
+            titleNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX(),
+                                 answerBoxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 20 );
         }
 
         // Update visibility of the correct/incorrect icons.
@@ -95,7 +107,7 @@ public class GraphTheLineNode extends ChallengeNode {
                 guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, color, boxSize, equationNode );
 
                 // adjust position of guess equation so that it's below the answer
-                guessBoxNode.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
+                guessBoxNode.setOffset( answerBoxNode.getXOffset(), challenge.mvt.modelToViewY( 0 ) + 10 );
                 subclassParent.addChild( guessBoxNode );
                 guessBoxNode.setVisible( model.state.get() == PlayState.NEXT );
 

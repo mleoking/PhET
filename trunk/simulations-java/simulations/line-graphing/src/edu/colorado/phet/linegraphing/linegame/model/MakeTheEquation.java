@@ -32,9 +32,9 @@ public class MakeTheEquation extends Challenge {
     public MakeTheEquation( String description, Line answer, EquationForm equationForm, ManipulationMode manipulationMode, IntegerRange xRange, IntegerRange yRange ) {
         super( createTitle( Strings.MAKE_THE_EQUATION, manipulationMode ), description,
                answer, equationForm, manipulationMode, xRange, yRange,
-               new Point2D.Double( 275, 300 ), // origin offset
-               new Vector2D( xRange.getMin() + ( 0.05 * xRange.getLength() ), yRange.getMin() - 1.5 ), // point tool location 1
-               new Vector2D( xRange.getMin() + ( 0.35 * xRange.getLength() ), yRange.getMin() - 4.5 ) );  // point tool location 2
+               new Point2D.Double( 735, 300 ), // origin offset
+               new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), // point tool location 1
+               new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ) );  // point tool location 2
     }
 
     // Updates the collection of lines that are "seen" by the point tools.

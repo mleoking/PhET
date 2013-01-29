@@ -61,14 +61,9 @@ public abstract class ChallengeNode extends PhetPNode {
      */
     public ChallengeNode( final Challenge challenge, final LineGameModel model, PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
 
-        // title
-        PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
-        titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 10 ); // top center
-
         // description (dev)
-        PNode descriptionNode = new PhetPText( challenge.description, new PhetFont(12), Color.BLACK );
-        descriptionNode.setOffset( titleNode.getFullBoundsReference().getCenterX() - ( descriptionNode.getFullBoundsReference().getWidth() / 2 ),
-                                   titleNode.getFullBoundsReference().getMaxY() + 2 );
+        PNode descriptionNode = new PhetPText( challenge.description, new PhetFont( 12 ), Color.BLACK );
+        descriptionNode.setOffset( 5, 5 );
 
         // smiley/frowning face
         faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR,
@@ -105,7 +100,6 @@ public abstract class ChallengeNode extends PhetPNode {
         // Rendering order
         {
             addChild( subclassParent );
-            addChild( titleNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                addChild( descriptionNode );
             }
