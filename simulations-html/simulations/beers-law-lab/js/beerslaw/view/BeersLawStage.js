@@ -31,9 +31,6 @@ define( [
 
                 // frame rate display, upper left
                 this.frameRateDisplay = new FrameRateDisplay( 'black' );
-                //TODO are these new 2 lines necessary?
-                this.frameRateDisplay.x = 20;
-                this.frameRateDisplay.y = 20;
 
                 // rendering order
                 this.addChild( background );
