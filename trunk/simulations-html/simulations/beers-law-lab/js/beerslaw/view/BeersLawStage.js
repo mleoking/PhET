@@ -32,10 +32,13 @@ define( [
                 // frame rate display, upper left
                 this.frameRateDisplay = new FrameRateDisplay( 'black' );
 
+                //TODO create other view components
+
                 // rendering order
                 this.addChild( background );
                 var rootContainer = new Easel.Container();
                 this.addChild( rootContainer );
+                //TODO add view components to rootContainer
                 rootContainer.addChild( this.frameRateDisplay );
 
                 // resize handler
