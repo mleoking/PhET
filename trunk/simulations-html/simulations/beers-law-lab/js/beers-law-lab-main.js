@@ -1,5 +1,6 @@
 // Copyright 2013, University of Colorado
 
+//TODO This current contains only "Beer's Law" module, add the "Concentration" module.
 /**
  * Main entry point for the "Beer's Law Lab" sim.
  *
