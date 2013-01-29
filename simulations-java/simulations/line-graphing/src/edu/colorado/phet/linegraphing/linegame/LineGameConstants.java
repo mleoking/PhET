@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 public class LineGameConstants {
 
     // fonts
-    public static final PhetFont TITLE_FONT = new PhetFont( Font.PLAIN, 40 );
+    public static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 40 );
     public static final Font BUTTON_FONT = new PhetFont( Font.BOLD, 30 );
     public static final PhetFont INTERACTIVE_EQUATION_FONT = new PhetFont( Font.BOLD, 28 );
     public static final PhetFont STATIC_EQUATION_FONT = new PhetFont( Font.PLAIN, INTERACTIVE_EQUATION_FONT.getSize() );

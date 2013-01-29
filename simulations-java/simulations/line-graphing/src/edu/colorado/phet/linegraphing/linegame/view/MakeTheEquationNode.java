@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -44,17 +45,24 @@ public class MakeTheEquationNode extends ChallengeNode {
     public MakeTheEquationNode( final MakeTheEquation challenge, final LineGameModel model, PDimension challengeSize, final GameAudioPlayer audioPlayer ) {
         super( challenge, model, challengeSize, audioPlayer );
 
-        final double boxWidth = 0.4 * challengeSize.getWidth();
+        // title, possibly scaled for i18n
+        PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
+        final double maxTitleWidth = 0.45 * challengeSize.getWidth();
+        if ( titleNode.getFullBoundsReference().getWidth() > maxTitleWidth ) {
+            titleNode.scale( maxTitleWidth / titleNode.getFullBoundsReference().getWidth() );
+        }
+
+        final PDimension boxSize = new PDimension( 0.4 * challengeSize.getWidth(), 0.3 * challengeSize.getHeight() );
 
         // Answer
         final EquationBoxNode answerBoxNode =
-                new EquationBoxNode( Strings.A_CORRECT_EQUATION, challenge.answer.color, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
+                new EquationBoxNode( Strings.A_CORRECT_EQUATION, challenge.answer.color, boxSize,
                                      createEquationNode( challenge.equationForm, challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
         answerBoxNode.setVisible( false );
 
         // Guess
         final EquationBoxNode guessBoxNode =
-                new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
+                new EquationBoxNode( Strings.YOUR_EQUATION, challenge.guess.get().color, boxSize,
                                      createInteractiveEquationNode( challenge.equationForm, challenge.manipulationMode, challenge.guess, challenge.graph,
                                                                     LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT,
                                                                     challenge.guess.get().color ) );
@@ -63,6 +71,7 @@ public class MakeTheEquationNode extends ChallengeNode {
         final ChallengeGraphNode graphNode = new AnswerGraphNode( challenge );
 
         // rendering order
+        subclassParent.addChild( titleNode );
         subclassParent.addChild( graphNode );
         subclassParent.addChild( answerBoxNode );
         subclassParent.addChild( guessBoxNode );
@@ -71,16 +80,22 @@ public class MakeTheEquationNode extends ChallengeNode {
         {
             // graphNode is positioned automatically based on mvt's origin offset.
 
-            // guess equation in right half of challenge space
-            guessBoxNode.setOffset( ( 0.75 * challengeSize.getWidth() ) - ( guessBoxNode.getFullBoundsReference().getWidth() / 2 ) + 10,
-                                    graphNode.getFullBoundsReference().getMinY() + 50 );
+            // guess equation in left half of challenge space
+            guessBoxNode.setOffset( ( 0.5 * challengeSize.getWidth() ) - ( guessBoxNode.getFullBoundsReference().getWidth() ) - 50,
+                                    challenge.mvt.modelToViewY( 0 ) - guessBoxNode.getFullBoundsReference().getHeight() - 10 );
 
             // answer below guess
-            answerBoxNode.setOffset( guessBoxNode.getXOffset(), guessBoxNode.getFullBoundsReference().getMaxY() + 20 );
+            answerBoxNode.setOffset( guessBoxNode.getXOffset(),
+                                     challenge.mvt.modelToViewY( 0 ) + 10 );
 
             // face centered below equation boxes
             faceNode.setOffset( answerBoxNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
                                 checkButton.getFullBoundsReference().getMaxY() - faceNode.getFullBoundsReference().getHeight() );
+
+            // title above guess equation, left justified
+            titleNode.setOffset( guessBoxNode.getFullBoundsReference().getMinX(),
+                                 guessBoxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 20 );
+
         }
 
         // To reduce brain damage during development, show the answer equation in translucent gray.
