@@ -95,7 +95,7 @@ public class SimSharingConfig {
      * Principal Researcher: Ido Roll.
      * Location: University of British Columbia (UBC), Vancouver, Canada.
      */
-    public static final SimSharingConfig CCK_UBC_FEB_2012 = new SimSharingConfig( "cck-ubc-feb-2012", true, false, true, true );
+    public static final SimSharingConfig CCK_UBC_FEB_2013 = new SimSharingConfig( "cck-ubc-feb-2013", true, false, true, true );
 
     private static final HashMap<String, SimSharingConfig> CONFIG_MAP = new HashMap<String, SimSharingConfig>();
 
@@ -116,7 +116,7 @@ public class SimSharingConfig {
         addConfig( MOLECULE_SHAPED_FEB_2012 );
         addConfig( LOAD_TESTING );
         addConfig( RPAL_APRIL_2012 );
-        addConfig( CCK_UBC_FEB_2012 );
+        addConfig( CCK_UBC_FEB_2013 );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
