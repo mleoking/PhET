@@ -1,1 +1,2 @@
+1/28/13 ported a few model classes from Java to JS
 1/28/13 set up project skeleton
