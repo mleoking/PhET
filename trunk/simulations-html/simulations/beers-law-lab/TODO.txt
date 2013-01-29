@@ -9,6 +9,8 @@ HIGH
 - proper mvt in ConcentrationStage and BeersLawStage
 
 MEDIUM
+- add tick marks to BeakerNode
+- add a unity mvt to Concentration (no mvt in Java version)
 
 LOW
 
