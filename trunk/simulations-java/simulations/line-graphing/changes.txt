@@ -1,6 +1,6 @@
-1/29/13 game change: tweak overall layout of challenges
-1/29/13 game change: put challenge title above equations, on left
-1/29/13 game change: put equations on left for all challenge types
+1/29/13 game change: tweak overall layout of challenges [71894]
+1/29/13 game change: put challenge title above equations, on left [71894]
+1/29/13 game change: put equations on left for all challenge types [71894]
 # 0.00.54 (71845) Jan 23, 2013
 1/23/13 dev version with change requests from 1 interview and code review
 1/23/12 change request: for "Graph the Line" challenges, plot the point if it's not variable
