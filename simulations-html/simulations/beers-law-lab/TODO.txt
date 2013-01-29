@@ -1,0 +1,13 @@
+TODO list for HTML5 implementation of beers-law-lab
+
+DESIGN
+
+HIGH
+
+MEDIUM
+
+LOW
+
+LOWEST
+
+MIGRATE TO COMMON
