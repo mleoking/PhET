@@ -1,5 +1,4 @@
-# 3.20.08 (71893) Jan 29, 2013
-1/29/13 Deploy to dev to test addition of new flavor for UBC study.
+Made UBC study flavor request all permissions.
 Added new flavor for UBC study, targeted for February 2013.
 Removed "goldberg" flavor.
 # 3.20.06 (66288) Jul 26, 2012
