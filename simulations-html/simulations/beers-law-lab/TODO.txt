@@ -6,6 +6,7 @@ DESIGN
 
 HIGH
 - port Concentration model to JS
+- proper mvt in ConcentrationStage and BeersLawStage
 
 MEDIUM
 
