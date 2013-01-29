@@ -11,9 +11,10 @@ define( [
             'phetcommon/math/Point2D',
             'common/model/Inheritance',
             'common/view/FrameRateDisplay',
+            'concentration/view/BeakerNode',
             'i18n!../../../nls/beers-law-lab-strings'
         ],
-        function ( Easel, ModelViewTransform2D, Point2D, Inheritance, FrameRateDisplay, Strings ) {
+        function ( Easel, ModelViewTransform2D, Point2D, Inheritance, FrameRateDisplay, BeakerNode, Strings ) {
 
             function ConcentrationStage( canvas, model ) {
 
@@ -33,12 +34,14 @@ define( [
                 this.frameRateDisplay = new FrameRateDisplay( 'black' );
 
                 //TODO create other view components
+                var beakerNode = new BeakerNode( model.beaker, mvt );
 
                 // rendering order
                 this.addChild( background );
                 var rootContainer = new Easel.Container();
                 this.addChild( rootContainer );
                 //TODO add view components to rootContainer
+                rootContainer.addChild( beakerNode );
                 rootContainer.addChild( this.frameRateDisplay );
 
                 // resize handler
@@ -58,9 +61,9 @@ define( [
                             .beginFill( 'white' )
                             .rect( 0, 0, canvas.width, canvas.height );
 
-                    // move the root node to the center of the canvas, so the origin remains at the center
+                    // move the root node to the bottom center of the canvas, so the origin remains at the bottom center
                     rootContainer.x = canvas.width / 2;
-                    rootContainer.y = canvas.height / 2;
+                    rootContainer.y = canvas.height - 50;
 
                     // frame rate display at upper left
                     that.frameRateDisplay.x = -( canvas.width / 2 ) + 10;

@@ -6,12 +6,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
+        'phetcommon/math/Dimension2D',
+        'phetcommon/math/Point2D',
+        'concentration/model/Beaker'
         ],
-        function ( ) {
+        function ( Dimension2D, Point2D, Beaker ) {
 
             function ConcentrationModel() {
                 // model elements
                 //TODO
+                this.beaker = new Beaker( new Point2D( 400, 550 ), new Dimension2D( 600, 300 ), 1 );
             }
 
             // Resets all model elements
