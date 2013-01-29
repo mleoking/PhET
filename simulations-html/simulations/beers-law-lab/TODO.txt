@@ -1,8 +1,11 @@
 TODO list for HTML5 implementation of beers-law-lab
 
 DESIGN
+- tabs
+- radio buttons
 
 HIGH
+- port Concentration model to JS
 
 MEDIUM
 
