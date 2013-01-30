@@ -1,3 +1,5 @@
+# 1.01.00 (71925) Jan 30, 2013
+1/30/13 Initial deployment to PhET site.
 # 1.00.28 (71923) Jan 30, 2013
 1/30/13 Publication Version
 # 1.00.27 (71500) Jan 3, 2013
