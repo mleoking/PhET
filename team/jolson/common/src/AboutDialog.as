@@ -39,7 +39,7 @@ class AboutDialog {
 		// construct the string of text to show
 		var str : String = "";
 		str += "<b>" + _level0.comStrings.get("PhET", "PhET") + "</b>\n";
-		str += _level0.comStrings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2012"]) + "\n";
+		str += _level0.comStrings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2013"]) + "\n";
 		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved.") + "\n";
 		str += _level0.comStrings.get("Visit", "Visit {0}.", ["<a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>"]) + "\n\n";
 		
@@ -58,7 +58,7 @@ class AboutDialog {
 			"a:visited{color:#0000FF;font-weight:bold;}" +
 			"a:hover{color:#0000FF;text-decoration:underline;font-weight:bold;}" +
 			"a:active{color:#0000FF;font-weight:bold;}"); 
-		
+
 		var textArea = new JTextArea(str);
 		textArea.setHtml(true);
 		textArea.setEditable(false);
