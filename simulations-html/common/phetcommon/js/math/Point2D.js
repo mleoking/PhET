@@ -33,5 +33,10 @@ define( [],
                 return "[Point2D (x=" + this.x + " y=" + this.y + ")]";
             };
 
+            // @return {Boolean}
+            Point2D.prototype.equals = function( object ) {
+                return ( object instanceof Point2D) && ( object.x == this.x ) && ( object.y == this.y );
+            }
+
             return Point2D;
         } );
