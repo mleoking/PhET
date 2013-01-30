@@ -1,3 +1,4 @@
+# 1.05.00 (71917) Jan 30, 2013
 > Added warning dialog for Mac OS X with Java 7
 # 1.04.09 (71903) Jan 29, 2013
 # 1.04.08 (71851) Jan 24, 2013
