@@ -14,6 +14,8 @@
     <string key="duration" value = "XXX"/>
     <string key="showVelocity" value = "XXX  "/>
     <string key="speedOfLight" value = "X"/>
+    <string key="speed" value = "XX"/>
+    <string key="restart" value = "XX"/>
     <string key="reset" value = "XXX"/>
 
     <!--<string key="radiating-charge.simTitle" value = "Radiating Charge"/>-->
@@ -30,6 +32,8 @@
     <!--<string key="duration" value = "duration"/>-->
     <!--<string key="showVelocity" value = "Show velocity  "/>-->
     <!--<string key="speedOfLight" value = "c"/>-->
+    <!--<string key="speed" value = "Speed"/>-->
+    <!--<string key="restart" value = "Restart"/>-->
     <!--<string key="reset" value = "Reset"/>-->
 </SimStrings>
 
