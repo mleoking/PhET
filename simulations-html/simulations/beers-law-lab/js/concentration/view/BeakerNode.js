@@ -3,9 +3,10 @@
 define( [
             'easel',
             'common/model/Inheritance',
+            'common/view/StringUtils',
             'i18n!../../../nls/beers-law-lab-strings'
         ],
-        function ( Easel, Inheritance, Strings ) {
+        function ( Easel, Inheritance, StringUtils, Strings ) {
 
             /**
              * Constructor
@@ -66,7 +67,7 @@ define( [
                         // major tick label
                         var labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
                         if ( labelIndex < MAJOR_TICK_LABELS.length ) {
-                            var label = MAJOR_TICK_LABELS[labelIndex] + " " + Strings.units_liters; //TODO use Strings.pattern_0value_1units
+                            var label = StringUtils.messageFormat( Strings.pattern_0value_1units, [MAJOR_TICK_LABELS[labelIndex], Strings.units_liters] );
                             var textNode = new Easel.Text( label, "24px Arial", 'black' );
                             ticksParent.addChild( textNode );
                             textNode.x = rightX + TICK_LABEL_X_SPACING;
