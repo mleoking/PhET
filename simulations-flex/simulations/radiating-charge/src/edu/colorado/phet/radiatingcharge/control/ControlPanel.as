@@ -292,8 +292,8 @@ public class ControlPanel extends Canvas {
 
 
     private function initializeStrings():void{
-        pause_str = FlexSimStrings.get( "pause", "Pause" );
-        play_str = FlexSimStrings.get( "play", "Play" );
+        //pause_str = FlexSimStrings.get( "pause", "Pause" );
+        //play_str = FlexSimStrings.get( "play", "Play" );
         stop_str = FlexSimStrings.get( "stopCharge", "Stop Charge" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
         reset_str = FlexSimStrings.get("reset", "Reset");
