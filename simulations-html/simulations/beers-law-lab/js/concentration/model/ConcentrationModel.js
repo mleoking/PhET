@@ -6,26 +6,35 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
-        'phetcommon/math/Dimension2D',
-        'phetcommon/math/Point2D',
-        'concentration/model/Beaker'
+            'phetcommon/math/Dimension2D',
+            'phetcommon/math/Point2D',
+            'phetcommon/model/property/Property',
+            'common/model/Rectangle',
+            'concentration/model/Beaker',
+            'concentration/model/Shaker',
+            'concentration/model/DrinkMix'
         ],
-        function ( Dimension2D, Point2D, Beaker ) {
+        function ( Dimension2D, Point2D, Property, Rectangle, Beaker, Shaker, DrinkMix ) {
 
             function ConcentrationModel() {
+
+                // constants
+                var SHAKER_MAX_DISPENSING_RATE = 0.2; // mol/sec
+
                 // model elements
-                //TODO
+                this.soluteProperty = new Property( new DrinkMix() );
                 this.beaker = new Beaker( new Point2D( 400, 550 ), new Dimension2D( 600, 300 ), 1 );
+                this.shaker = new Shaker( new Point2D( 340, 170 ), new Rectangle( 225, 50, 400, 160 ), 0.75 * Math.PI, this.soluteProperty, SHAKER_MAX_DISPENSING_RATE );
             }
 
             // Resets all model elements
             ConcentrationModel.prototype.reset = function () {
-                //TODO
+                this.shaker.reset();
             };
 
             // Animates the model, called by Easel.Ticker
             ConcentrationModel.prototype.tick = function() {
-                //TODO
+                this.shaker.tick();
             };
 
             return ConcentrationModel;

@@ -1,3 +1,5 @@
+1/30/13 add shaker node
+1/30/13 add model types for rgba color, rectangle, solute, solute colorscheme
 1/30/13 implement important bits of Java's MessageFormat for i18n using patterns
 1/30/13 add tick marks to BeakerNode
 1/28/13 add BeakerNode (no ticks yet)
