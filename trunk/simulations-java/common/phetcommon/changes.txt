@@ -1,3 +1,4 @@
+1/30/13 #3243, update copyright to 2013
 11/2/12 #3472, call SimSharingManager.init in test mains in package phetcommon.simsharing.components
 11/2/12 #3472, modify default initialization of SimSharingManager
 10/26/12 add MathUtil.isInteger (initial use in line-graphing)
