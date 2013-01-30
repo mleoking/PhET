@@ -1,3 +1,4 @@
+1/30/13 add tick marks to BeakerNode
 1/28/13 add BeakerNode (no ticks yet)
 1/28/13 i18n of titles
 1/28/13 ported a few model classes from Java to JS
