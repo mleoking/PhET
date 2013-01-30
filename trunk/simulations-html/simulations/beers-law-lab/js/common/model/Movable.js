@@ -15,12 +15,12 @@ define( [ 'phetcommon/model/property/Property' ], function( Property ) {
      * @constructor
      */
     function Movable( location, dragBounds ) {
-        this.location = new Property( location );
+        this.locationProperty = new Property( location );
         this.dragBounds = dragBounds;
     }
 
     Movable.prototype.reset = function() {
-        this.location.reset();
+        this.locationProperty.reset();
     }
 
     return Movable;

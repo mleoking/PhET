@@ -12,9 +12,10 @@ define( [
             'common/model/Inheritance',
             'common/view/FrameRateDisplay',
             'concentration/view/BeakerNode',
+            'concentration/view/ShakerNode',
             'i18n!../../../nls/beers-law-lab-strings'
         ],
-        function ( Easel, ModelViewTransform2D, Point2D, Inheritance, FrameRateDisplay, BeakerNode, Strings ) {
+        function ( Easel, ModelViewTransform2D, Point2D, Inheritance, FrameRateDisplay, BeakerNode, ShakerNode, Strings ) {
 
             function ConcentrationStage( canvas, model ) {
 
@@ -35,6 +36,7 @@ define( [
 
                 //TODO create other view components
                 var beakerNode = new BeakerNode( model.beaker, mvt );
+                var shakerNode = new ShakerNode( model.shaker, mvt );
 
                 // rendering order
                 this.addChild( background );
@@ -42,6 +44,7 @@ define( [
                 this.addChild( rootContainer );
                 //TODO add view components to rootContainer
                 rootContainer.addChild( beakerNode );
+                rootContainer.addChild( shakerNode );
                 rootContainer.addChild( this.frameRateDisplay );
 
                 // resize handler
@@ -60,10 +63,6 @@ define( [
                     background.graphics
                             .beginFill( 'white' )
                             .rect( 0, 0, canvas.width, canvas.height );
-
-                    // move the root node to the bottom center of the canvas, so the origin remains at the bottom center
-                    rootContainer.x = canvas.width / 2;
-                    rootContainer.y = canvas.height - 50;
 
                     // frame rate display at upper left
                     that.frameRateDisplay.x = -( canvas.width / 2 ) + 10;

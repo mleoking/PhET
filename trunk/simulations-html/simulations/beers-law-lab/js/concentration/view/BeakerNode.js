@@ -3,7 +3,7 @@
 define( [
             'easel',
             'common/model/Inheritance',
-            'common/view/StringUtils',
+            'common/util/StringUtils',
             'i18n!../../../nls/beers-law-lab-strings'
         ],
         function ( Easel, Inheritance, StringUtils, Strings ) {
@@ -75,6 +75,10 @@ define( [
                         }
                     }
                 }
+
+                var location = mvt.modelToView( beaker.location );
+                this.x = location.x;
+                this.y = location.y;
             }
 
             // prototype chaining
