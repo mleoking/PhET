@@ -43,7 +43,7 @@ public class VelocityArrowView {
         _speedArrow = new Sprite();
         //_currentSpeedIndicator = new Sprite();
         _velocityArrow = new Sprite();
-        c_str = FlexSimStrings.get( "c", " c " );
+        c_str = FlexSimStrings.get( "speedOfLight", " c " );
         cLabel = new NiceLabel( 15, c_str );
         cLabel.setFontColor( 0xffffff );
         cLabel.setBackgroundColor( 0x000000 );
