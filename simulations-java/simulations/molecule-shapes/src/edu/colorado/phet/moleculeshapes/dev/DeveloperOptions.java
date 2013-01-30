@@ -67,18 +67,18 @@ public class DeveloperOptions {
             } );
         }} );
         developerMenu.add( new JMenuItem( "Show Error Dialog" ) {{
-            addActionListener( new GLActionListener(new Runnable() {
-                public void run() {
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
                     LWJGLUtils.showErrorDialog( frame, new RuntimeException( "This is a test" ) );
                 }
-            } ) );
+            } );
         }} );
         developerMenu.add( new JMenuItem( "Show Mac Java 1.7 Dialog" ) {{
-            addActionListener( new GLActionListener(new Runnable() {
-                public void run() {
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
                     LWJGLUtils.showMacJava7Warning( frame );
                 }
-            } ) );
+            } );
         }} );
     }
 }
