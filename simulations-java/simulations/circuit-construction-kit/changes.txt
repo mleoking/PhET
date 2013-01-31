@@ -1,3 +1,6 @@
+UBC study: Changed study name from "ubc-feb-2013" to "ubc-spring-2013".
+UBC study: Changed configuration to launch DC-only version of sim.
+UBC study: Added prompt for student ID.
 # 3.20.07 (71899) Jan 29, 2013
 1/29/13 Deploying initial version for UBC study to dev for some early testing.
 Made UBC study flavor request all permissions.

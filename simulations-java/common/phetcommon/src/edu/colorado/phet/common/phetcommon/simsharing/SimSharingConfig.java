@@ -91,11 +91,11 @@ public class SimSharingConfig {
     public static final SimSharingConfig RPAL_APRIL_2012 = new SimSharingConfig( "rpal-april-2012", true, false, false, false );
 
     /*
-     * CCK-DC study to be started in February 2012. See #3497.
+     * CCK-DC study to be started in Spring 2013. See #3497.
      * Principal Researcher: Ido Roll.
      * Location: University of British Columbia (UBC), Vancouver, Canada.
      */
-    public static final SimSharingConfig CCK_UBC_FEB_2013 = new SimSharingConfig( "cck-ubc-feb-2013", true, false, true, true );
+    public static final SimSharingConfig CCK_UBC_SPRING_2013 = new SimSharingConfig( "cck-ubc-spring-2013", true, false, true, true, "Please enter your assigned ID:" );
 
     private static final HashMap<String, SimSharingConfig> CONFIG_MAP = new HashMap<String, SimSharingConfig>();
 
@@ -116,7 +116,7 @@ public class SimSharingConfig {
         addConfig( MOLECULE_SHAPED_FEB_2012 );
         addConfig( LOAD_TESTING );
         addConfig( RPAL_APRIL_2012 );
-        addConfig( CCK_UBC_FEB_2013 );
+        addConfig( CCK_UBC_SPRING_2013 );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
