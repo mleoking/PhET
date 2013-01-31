@@ -11,16 +11,17 @@ define( [
         ],
         function( Easel, Inheritance ) {
 
-            function FrameRateDisplay( foreground ) {
-                 Easel.Text.call( this, "?", "bold 20px Arial", foreground ); // constructor stealing
+            function FrameRateNode( foreground ) {
+                Easel.Text.call( this, "?", "bold 20px Arial", foreground ); // constructor stealing
+                Easel.Ticker.addListener( this )
             }
 
-            Inheritance.inheritPrototype( FrameRateDisplay, Easel.Text );
+            Inheritance.inheritPrototype( FrameRateNode, Easel.Text );
 
-            FrameRateDisplay.prototype.tick = function() {
+            FrameRateNode.prototype.tick = function() {
                 this.text = Easel.Ticker.getMeasuredFPS().toFixed(0) + " fps";
             };
 
-            return FrameRateDisplay;
+            return FrameRateNode;
         }
 );

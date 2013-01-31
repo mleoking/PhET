@@ -9,7 +9,6 @@ HIGH
 - proper mvt in ConcentrationStage and BeersLawStage
 
 MEDIUM
-- rename FrameRateDisplay to FrameRateNode
 - add a unity mvt to Concentration (no mvt in Java version)
 
 LOW
