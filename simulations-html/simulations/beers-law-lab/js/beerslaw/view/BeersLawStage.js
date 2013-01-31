@@ -21,10 +21,8 @@ define( [
 
                 this.enableMouseOver();
 
-                // model-view transform
-                var MVT_SCALE = 1; // 1 model unit == 1 view unit
-                var MVT_OFFSET = new Point2D( 0, 0 ); // origin relative to rootContainer
-                var mvt = new ModelViewTransform2D( MVT_SCALE, MVT_OFFSET );
+                // model-view transform (1cm == 125 pixels)
+                var mvt = new ModelViewTransform2D( 125, new Point2D( 0, 0 ) );
 
                 // background that fills the stage
                 var background = new Easel.Shape();

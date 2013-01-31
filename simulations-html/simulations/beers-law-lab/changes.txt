@@ -1,3 +1,4 @@
+1/30/13 set up model-view transforms to match Java implementation
 1/30/13 rename FrameRateDisplay to FrameRateNode
 1/30/13 add shaker node
 1/30/13 add model types for rgba color, rectangle, solute, solute colorscheme
