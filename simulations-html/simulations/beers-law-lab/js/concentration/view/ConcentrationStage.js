@@ -10,12 +10,12 @@ define( [
             'phetcommon/view/ModelViewTransform2D',
             'phetcommon/math/Point2D',
             'common/model/Inheritance',
-            'common/view/FrameRateDisplay',
+            'common/view/FrameRateNode',
             'concentration/view/BeakerNode',
             'concentration/view/ShakerNode',
             'i18n!../../../nls/beers-law-lab-strings'
         ],
-        function ( Easel, ModelViewTransform2D, Point2D, Inheritance, FrameRateDisplay, BeakerNode, ShakerNode, Strings ) {
+        function ( Easel, ModelViewTransform2D, Point2D, Inheritance, FrameRateNode, BeakerNode, ShakerNode, Strings ) {
 
             function ConcentrationStage( canvas, model ) {
 
@@ -31,8 +31,10 @@ define( [
                 // background that fills the stage
                 var background = new Easel.Shape();
 
-                // frame rate display
-                this.frameRateDisplay = new FrameRateDisplay( 'black' );
+                // frame rate display, upper left
+                var frameRateNode = new FrameRateNode( 'black' );
+                frameRateNode.x = 20;
+                frameRateNode.y = 20;
 
                 //TODO create other view components
                 var beakerNode = new BeakerNode( model.beaker, mvt );
@@ -45,7 +47,7 @@ define( [
                 //TODO add view components to rootContainer
                 rootContainer.addChild( beakerNode );
                 rootContainer.addChild( shakerNode );
-                rootContainer.addChild( this.frameRateDisplay );
+                rootContainer.addChild( frameRateNode );
 
                 // resize handler
                 var that = this;
@@ -63,10 +65,6 @@ define( [
                     background.graphics
                             .beginFill( 'white' )
                             .rect( 0, 0, canvas.width, canvas.height );
-
-                    // frame rate display at upper left
-                    that.frameRateDisplay.x = -( canvas.width / 2 ) + 10;
-                    that.frameRateDisplay.y = -( canvas.height / 2 ) + 10;
 
                     // force rendering update
                     that.tick();

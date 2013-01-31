@@ -10,10 +10,10 @@ define( [
             'phetcommon/view/ModelViewTransform2D',
             'phetcommon/math/Point2D',
             'common/model/Inheritance',
-            'common/view/FrameRateDisplay',
+            'common/view/FrameRateNode',
             'i18n!../../../nls/beers-law-lab-strings'
         ],
-        function ( Easel, ModelViewTransform2D, Point2D, Inheritance, FrameRateDisplay, Strings ) {
+        function ( Easel, ModelViewTransform2D, Point2D, Inheritance, FrameRateNode, Strings ) {
 
             function BeersLawStage( canvas, model ) {
 
@@ -30,7 +30,9 @@ define( [
                 var background = new Easel.Shape();
 
                 // frame rate display, upper left
-                this.frameRateDisplay = new FrameRateDisplay( 'black' );
+                var frameRateNode = new FrameRateNode( 'black' );
+                frameRateNode.x = 20;
+                frameRateNode.y = 20;
 
                 //TODO create other view components
 
@@ -39,7 +41,7 @@ define( [
                 var rootContainer = new Easel.Container();
                 this.addChild( rootContainer );
                 //TODO add view components to rootContainer
-                rootContainer.addChild( this.frameRateDisplay );
+                rootContainer.addChild( frameRateNode );
 
                 // resize handler
                 var that = this;
@@ -61,10 +63,6 @@ define( [
                     // move the root node to the center of the canvas, so the origin remains at the center
                     rootContainer.x = canvas.width / 2;
                     rootContainer.y = canvas.height / 2;
-
-                    // frame rate display at upper left
-                    that.frameRateDisplay.x = -( canvas.width / 2 ) + 10;
-                    that.frameRateDisplay.y = -( canvas.height / 2 ) + 10;
 
                     // force rendering update
                     that.tick();
