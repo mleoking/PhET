@@ -7,11 +7,12 @@
  */
 define( [
             'easel',
+            'phetcommon/math/MathUtil',
             'common/model/Inheritance',
             'common/view/DebugOriginNode',
             'image!images/shaker.png'
         ],
-        function ( Easel, Inheritance, DebugOriginNode, shakerImage ) {
+        function ( Easel, MathUtil, Inheritance, DebugOriginNode, shakerImage ) {
 
             /**
              * Constructor
@@ -30,15 +31,28 @@ define( [
                 var imageNode = new Easel.Bitmap( shakerImage );
                 imageNode.scaleX = 0.75;
                 imageNode.scaleY = 0.75;
-                this.addChild( imageNode );
+
+                // label
+                var labelNode = new Easel.Text( "?", "bold 22px Arial", "black" );
+                labelNode.textAlign = 'center';
+                labelNode.textBaseline = 'middle';
+
+                // common parent, to simplify rotation and label alignment.
+                var parentNode = new Easel.Container();
+                this.addChild( parentNode );
+                parentNode.addChild( imageNode );
+                parentNode.addChild( labelNode );
+                parentNode.rotation = MathUtil.toDegrees( shaker.orientation - Math.PI );
+
+                // Manually adjust these values until the origin is in the middle hole of the shaker.
+                parentNode.x = -45;
+                parentNode.y = -30;
 
                 // origin
                 if ( DEBUG_ORIGIN ) {
                     this.addChild( new DebugOriginNode( 'red' ) );
                 }
 
-                //TODO add dynamic label
-                //TODO rotate
                 //TODO add drag handler that changes shaker location
 
                 var that = this;
@@ -52,7 +66,14 @@ define( [
                 // sync visibility with model
                 shaker.visibleProperty.addObserver( function updateVisibility( visible ) {
                     that.visible = visible;
-                } )
+                } );
+
+                // sync solute with model
+                shaker.soluteProperty.addObserver( function updateSolute( solute ) {
+                    labelNode.text = solute.formula;
+                    labelNode.x = 20 + imageNode.scaleX * imageNode.image.width / 2;
+                    labelNode.y = imageNode.scaleY * imageNode.image.height / 2;
+                } );
             }
 
             Inheritance.inheritPrototype( ShakerNode, Easel.Container );
