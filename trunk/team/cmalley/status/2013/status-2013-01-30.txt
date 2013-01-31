@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: January 17-30, 2013
+
+Graphing Lines
+- sim-completion checklist items (screenshot, design doc, etc.)
+- IntelliJ code inspection
+- addressed all code review suggestions
+- changes to the game layout, based on interviews and collaboration with AP
+- latest: http://www.colorado.edu/physics/phet/dev/line-graphing/0.00.55/
+
+Beer's Law Lab (HTML5 port)
+- started on Concentration module
+- enumerated potential usability issues on tablets, with AP
+
+Misc
+- updated copyright to "2013" in About dialogs, #3243
+
+Administrative
+- status meeting
+- HTML5 planning meeting
+
+ISSUES:
+
+- Network Connect is broken, cannot access VPN
+
+WHAT'S NEXT:                                                                         '
+
+- Graphing Lines: publish 1.00
+- HTML5: UI widgets
+
+UNAVAILABLE:
+
+- April 5-21
+
+--
