@@ -16,3 +16,8 @@ LOW
 LOWEST
 
 MIGRATE TO COMMON
+Color
+Inheritance
+Rectangle
+FrameRateNode
+DebugOriginNode
