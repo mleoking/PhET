@@ -1,4 +1,4 @@
-TODO list for HTML5 implementation of beers-law-lab
+TODO list for beers-law-lab (HTML5 port)
 
 DESIGN
 - tabs
