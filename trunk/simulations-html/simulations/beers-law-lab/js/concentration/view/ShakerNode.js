@@ -8,9 +8,10 @@
 define( [
             'easel',
             'common/model/Inheritance',
+            'common/view/DebugOriginNode',
             'image!images/shaker.png'
         ],
-        function ( Easel, Inheritance, shakerImage ) {
+        function ( Easel, Inheritance, DebugOriginNode, shakerImage ) {
 
             /**
              * Constructor
@@ -22,27 +23,35 @@ define( [
 
                 Easel.Container.call( this );
 
+                // constants
+                var DEBUG_ORIGIN = true;
+
+                // shaker image
                 var imageNode = new Easel.Bitmap( shakerImage );
                 imageNode.scaleX = 0.75;
                 imageNode.scaleY = 0.75;
                 this.addChild( imageNode );
 
+                // origin
+                if ( DEBUG_ORIGIN ) {
+                    this.addChild( new DebugOriginNode( 'red' ) );
+                }
+
                 //TODO add dynamic label
                 //TODO rotate
-                //TODO add an origin node for debugging
                 //TODO add drag handler that changes shaker location
 
                 var that = this;
 
                 // sync location with model
                 shaker.locationProperty.addObserver( function updateLocation( location ) {
-                     that.x = mvt.modelToView( location.x );
-                     that.y = mvt.modelToView( location.y );
+                    that.x = mvt.modelToView( location.x );
+                    that.y = mvt.modelToView( location.y );
                 } );
 
                 // sync visibility with model
                 shaker.visibleProperty.addObserver( function updateVisibility( visible ) {
-                     that.visible = visible;
+                    that.visible = visible;
                 } )
             }
 

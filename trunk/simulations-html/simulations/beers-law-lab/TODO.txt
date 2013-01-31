@@ -6,7 +6,6 @@ DESIGN
 
 HIGH
 - port Concentration model to JS
-- proper mvt in ConcentrationStage and BeersLawStage
 
 MEDIUM
 - add a unity mvt to Concentration (no mvt in Java version)
