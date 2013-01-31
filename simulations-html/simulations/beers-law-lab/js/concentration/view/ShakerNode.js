@@ -10,9 +10,10 @@ define( [
             'phetcommon/math/MathUtil',
             'common/model/Inheritance',
             'common/view/DebugOriginNode',
+            'common/view/MovableDragHandler',
             'image!images/shaker.png'
         ],
-        function ( Easel, MathUtil, Inheritance, DebugOriginNode, shakerImage ) {
+        function ( Easel, MathUtil, Inheritance, DebugOriginNode, MovableDragHandler, shakerImage ) {
 
             /**
              * Constructor
@@ -53,8 +54,6 @@ define( [
                     this.addChild( new DebugOriginNode( 'red' ) );
                 }
 
-                //TODO add drag handler that changes shaker location
-
                 var that = this;
 
                 // sync location with model
@@ -73,6 +72,12 @@ define( [
                     labelNode.text = solute.formula;
                     labelNode.x = 20 + imageNode.scaleX * imageNode.image.width / 2;
                     labelNode.y = imageNode.scaleY * imageNode.image.height / 2;
+                } );
+
+                // drag handler
+                //TODO mvt.modelToView(shaker.dragBounds)
+                MovableDragHandler.register( this, shaker.dragBounds, function ( point ) {
+                    shaker.locationProperty.set( mvt.viewToModel( point ) );
                 } );
             }
 
