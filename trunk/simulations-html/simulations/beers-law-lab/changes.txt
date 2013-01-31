@@ -1,3 +1,4 @@
+1/30/13 port particle models (untested)
 1/30/13 drag handler for shaker, with constrained bounds
 1/30/13 rotate and label shaker
 1/30/13 add DebugOriginNode for debugging origins
