@@ -26,7 +26,7 @@ define( [
              * @param {Number} concentration
              * @return {Color} color
              */
-            SoluteColorScheme.prototype.interpolateLinear = function ( concentration ) {
+            SoluteColorScheme.prototype.concentrationToColor = function ( concentration ) {
                 if ( concentration >= this.maxConcentration ) {
                     return this.maxColor;
                 }
