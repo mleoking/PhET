@@ -1,20 +1,45 @@
 TODO list for beers-law-lab (HTML5 port)
 
-DESIGN
+DESIGN ISSUES
 - tabs
 - radio buttons
+- tablet usability issues from 1/29/13 notebook
+- priority of accessibility?
+
+IMPLEMENTATION ISSUES
+- Easel vs JO's scenegraph
+- Bootstrap controls
+- OO/MVC approach
+- workaround for overriding someMethod and calling super.someMethod
 
 HIGH
 - add simple push buttons as placeholders for faucets
-- port Concentration model to JS
+- solution in beaker
+- particles in beaker when saturation is reached
 
 MEDIUM
-- add a unity mvt to Concentration (no mvt in Java version)
+- dropper
+- solute combo box
+- evaporation control
+- solution/solid radio buttons
+- concentration meter
+- "Remove Solute" button
+- "Reset All" button
+- faucets
 
 LOW
-- credits: Ariel (lead), Chris (dev), Noah P, Emily, Kathy, Julia
+- add a unity mvt to Concentration module (no mvt in Java version)
+- Beer's Law module
 
 LOWEST
+
+COMMON FEATURES:
+- Credits: Ariel (lead), Chris (dev), Noah P, Emily, Kathy, Julia
+- About dialog (version info, credits, software agreement)
+- Preferences (updates, privacy)
+- data collection
+- sim update feature
+
 
 MIGRATE TO COMMON
 Color
