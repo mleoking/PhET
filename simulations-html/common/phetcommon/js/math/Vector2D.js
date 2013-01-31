@@ -44,6 +44,14 @@ define( [],
                 return new Vector2D( this.x + vector.x, this.y + vector.y );
             }
 
+            /**
+             * @param {Number} scale
+             * @return {Vector2D}
+             */
+            Vector2D.prototype.times = function( scale ) {
+                return new Vector2D( this.x * scale, this.y * scale );
+            }
+
             // @return {String}
             Vector2D.prototype.toString = function () {
                 return "[Vector2D (x=" + this.x + " y=" + this.y + ")]";

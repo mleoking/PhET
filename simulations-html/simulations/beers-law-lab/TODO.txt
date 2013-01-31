@@ -5,6 +5,7 @@ DESIGN
 - radio buttons
 
 HIGH
+- add simple push buttons as placeholders for faucets
 - port Concentration model to JS
 
 MEDIUM
