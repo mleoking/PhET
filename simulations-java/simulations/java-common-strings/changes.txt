@@ -1,3 +1,4 @@
+# 1.25.00 (71939) Jan 31, 2013
 > Added LWJGL failure notice dialog for Mac OS X with Java 7
 # 1.24.00 (65672) Jul 5, 2012
 deploy with new strings related to sponsor feature, #3166
