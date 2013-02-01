@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -31,6 +32,8 @@ import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbCompon
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbNode;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -227,6 +230,9 @@ public class ToolboxNode extends PhetPNode {
         protected Branch createBranch() {
             Wire wire = new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) );
             wire.setThickness( lifelikeProperty.get() ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS );
+            // TODO: Check with Sam if this is a reasonable place for sim sharing call.
+            // TODO: Need to add an instance count to the wire.
+            SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.wire, UserComponentTypes.sprite, CCKSimSharing.UserActions.createdComponent );
             return wire;
         }
     }
