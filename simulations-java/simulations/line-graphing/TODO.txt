@@ -1,4 +1,3 @@
 TODO list for line-graphing
 
 - game: exclude simplified slopes of 1 and -1 from levels 5 & 6
-- game: prevent 0 slopes except where explicitly desired in levels 5 & 6?
