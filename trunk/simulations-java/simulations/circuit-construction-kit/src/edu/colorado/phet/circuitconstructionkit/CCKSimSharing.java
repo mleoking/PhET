@@ -14,10 +14,10 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class CCKSimSharing {
     public static enum UserComponents implements IUserComponent {
-        battery, wire, lightBulb
+        unspecifiedBranch, battery, wire, lightBulb
     }
 
     public static enum UserActions implements IUserAction {
-        createdComponent, removedComponent, connectionFormed
+        createdComponent, movedComponent, removedComponent, connectionFormed
     }
 }
