@@ -3,6 +3,7 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -20,6 +21,7 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
 
     public ACVoltageSource( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
         super( kl, startJunction, endjJunction, length, height, internalResistance, internalResistanceOn );
+        userComponent = CCKSimSharing.UserComponents.acVoltageSource;
     }
 
     public double getVoltageDrop() {

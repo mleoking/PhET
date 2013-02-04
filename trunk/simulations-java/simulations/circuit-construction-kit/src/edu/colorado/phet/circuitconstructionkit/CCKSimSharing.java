@@ -14,7 +14,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class CCKSimSharing {
     public static enum UserComponents implements IUserComponent {
-        unspecifiedBranch, battery, wire, lightBulb
+        unspecifiedBranch, battery, wire, resistor, grabBagResistor, lightBulb,
+        circuitSwitch, inductor, acVoltageSource, capacitor, seriesAmmeter
     }
 
     public static enum UserActions implements IUserAction {

@@ -1,3 +1,4 @@
+Added user component IDs for all the basic circuit elements that can be added from the tool box.
 Generalized sim sharing message for component creation, moved message sending into Circuit class to avoid creation messages at startup (due to creation of tool box nodes).
 UBC study: Changed study name from "ubc-feb-2013" to "ubc-spring-2013".
 UBC study: Changed configuration to launch DC-only version of sim.
