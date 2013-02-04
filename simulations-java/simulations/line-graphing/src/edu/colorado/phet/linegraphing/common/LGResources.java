@@ -31,7 +31,7 @@ public class LGResources {
         public static final String NEXT = COMMON_RESOURCE.getLocalizedString( "Games.next" );
         public static final String GRAPH_THE_LINE = RESOURCES.getLocalizedString( "graphTheLine" );
         public static final String MAKE_THE_EQUATION = RESOURCES.getLocalizedString( "makeTheEquation" );
-        public static final String PLACE_THE_POINTS = RESOURCES.getLocalizedString( "placeThePoints" );
+        public static final String PUT_POINTS_ON_LINE = RESOURCES.getLocalizedString( "putPointsOnLine" );
         public static final String SET_THE_SLOPE = RESOURCES.getLocalizedString( "setTheSlope" );
         public static final String SET_THE_Y_INTERCEPT = RESOURCES.getLocalizedString( "setTheYIntercept" );
         public static final String SET_THE_POINT = RESOURCES.getLocalizedString( "setThePoint" );

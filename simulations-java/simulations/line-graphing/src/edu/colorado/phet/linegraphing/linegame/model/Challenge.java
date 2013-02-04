@@ -155,7 +155,7 @@ public abstract class Challenge implements Resettable {
             return Strings.SET_THE_POINT;
         }
         else if ( manipulationMode == ManipulationMode.THREE_POINTS ) {
-            return Strings.PLACE_THE_POINTS;
+            return Strings.PUT_POINTS_ON_LINE;
         }
         else {
             return defaultTitle;
