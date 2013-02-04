@@ -63,7 +63,13 @@ public class ChallengeFactory6 extends ChallengeFactory {
                 if ( x2 == x1 ) {
                     x2 = integerChooser.choose( xList ); // prevent undefined slope
                 }
-                final int y2 = integerChooser.choose( yList );
+                int y2 = integerChooser.choose( yList );
+
+                // exclude slopes of +1 and -1
+                final int slope = ( y2 - y1 ) / ( x2 - x1 );
+                if ( slope == 1 || slope == -1 ) {
+                    y2 = integerChooser.choose( yList );
+                }
 
                 // challenge, with mismatched representations
                 final Line line = new Line( x1, y1, x2, y2, Color.BLACK );

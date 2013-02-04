@@ -1,3 +1,4 @@
+2/3/13 change request: exclude simplified slopes of 1 and -1 from game levels 5 & 6
 2/3/13 change request: "Place the Points" -> "Put Points on Line"
 # 0.00.55 (71901) Jan 29, 2013
 1/29/13 dev version with game change requests
