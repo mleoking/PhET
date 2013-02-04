@@ -1,3 +1,4 @@
+2/3/13 change request: "Place the Points" -> "Put Points on Line"
 # 0.00.55 (71901) Jan 29, 2013
 1/29/13 dev version with game change requests
 1/29/13 game change: tweak overall layout of challenges [71894]
