@@ -24,10 +24,10 @@ doc :
    Various documents that apply to the entire project.
 
 ide:
-   file for various IDEs (Eclipse, IntelliJ)
+   files for various IDEs (Eclipse, IntelliJ)
 
 simulations-common:
-   stuff common to all types of simulations such as software agreements
+   stuff common to all types of simulations, such as software agreements
 
 simulations-flash :
    All Flash-based simulations live under here.
@@ -50,7 +50,7 @@ util :
    Various utility programs. Projects that are not simulations live under here.
    
 web :
-    Files related to the PhET website are under here.
+   Files related to the PhET website are under here.
 
 --
 
