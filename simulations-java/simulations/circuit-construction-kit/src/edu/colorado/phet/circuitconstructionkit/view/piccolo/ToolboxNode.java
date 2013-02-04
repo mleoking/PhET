@@ -230,9 +230,6 @@ public class ToolboxNode extends PhetPNode {
         protected Branch createBranch() {
             Wire wire = new Wire( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1.5, 0 ) );
             wire.setThickness( lifelikeProperty.get() ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS );
-            // TODO: Check with Sam if this is a reasonable place for sim sharing call.
-            // TODO: Need to add an instance count to the wire.
-            SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.wire, UserComponentTypes.sprite, CCKSimSharing.UserActions.createdComponent );
             return wire;
         }
     }
