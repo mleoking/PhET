@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.Path;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -17,6 +18,8 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -145,6 +148,9 @@ public class Circuit {
         if ( component == null ) {
             throw new RuntimeException( "Null component." );
         }
+
+        // Send a sim-sharing message indicating that a new branch was added.
+        SimSharingManager.sendUserMessage( component.getUserComponent(), UserComponentTypes.sprite, CCKSimSharing.UserActions.addedComponent );
 
         branches.add( component );
         fireBranchAdded( component );

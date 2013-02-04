@@ -18,6 +18,6 @@ public class CCKSimSharing {
     }
 
     public static enum UserActions implements IUserAction {
-        createdComponent, movedComponent, removedComponent, connectionFormed
+        addedComponent, movedComponent, removedComponent, connectionFormed
     }
 }

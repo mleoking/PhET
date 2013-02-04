@@ -5,6 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.CompositeCircuitChangeListener;
@@ -15,6 +16,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.SimpleObservableDebug;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -42,6 +44,8 @@ public abstract class Branch extends SimpleObservableDebug {
     private double mnaVoltageDrop;//see notes above for mnaCurrent
 
     private static int indexCounter = 0;
+
+    protected IUserComponent userComponent = CCKSimSharing.UserComponents.unspecifiedBranch; // For sim sharing, should be set by subclasses.
 
     protected Branch( CircuitChangeListener listener ) {
         name = toLabel( indexCounter++ );
@@ -382,5 +386,9 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public double getMNAVoltageDrop() {
         return mnaVoltageDrop;
+    }
+
+    public IUserComponent getUserComponent(){
+        return userComponent;
     }
 }

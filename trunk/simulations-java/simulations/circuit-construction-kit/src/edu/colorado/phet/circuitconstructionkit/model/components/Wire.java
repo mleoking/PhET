@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -22,6 +23,7 @@ public class Wire extends Branch {
 
     public Wire( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
         super( listener, startJunction, endJunction );
+        userComponent = CCKSimSharing.UserComponents.wire;
     }
 
     public Shape getShape() {
