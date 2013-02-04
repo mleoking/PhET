@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_nl.xml created Sat Feb 02 12:36:23 CET 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) okt 9, 2012--><SimStrings>
+<string key="duration" value="Duur"/>
+<string key="bump" value="Zetje"/>
+<string key="radiating-charge.simTitle" value="Radiating Charge"/>
+<string key="stopCharge" value="Stop lading"/>
+<string key="sinusoidal" value="Sinusvormig"/>
+<string key="amplitude" value="Omvang"/>
+<string key="speedOfLight" value="c"/>
+<string key="noFrictionManual" value="Geen wrijving"/>
+<string key="frequency" value="Frequentie"/>
+<string key="restart" value="Herstart"/>
+<string key="showVelocity" value="Laat "/>
+<string key="speed" value="Snelheid"/>
+<string key="translation.credits" value="Carlo Smits"/>
+<string key="frictionManual" value="Handmatig"/>
+<string key="linear" value="Lineair"/>
+<string key="paused" value="GEPAUSEERD"/>
+<string key="reset" value="Reset"/>
+<string key="circular" value="Circulair"/>
+</SimStrings>
