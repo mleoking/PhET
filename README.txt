@@ -35,6 +35,9 @@ simulations-flash :
 simulations-flex :
    All Flex-based simulations live under here.
 
+simulations-html :
+   Experimental HTML5-based simulations live under here.
+
 simulations-java :
    All Java-based simulations live under here.
    
