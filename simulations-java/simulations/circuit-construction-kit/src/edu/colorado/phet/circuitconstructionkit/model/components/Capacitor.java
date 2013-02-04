@@ -4,6 +4,7 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
@@ -20,15 +21,9 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
     private double capacitance = DEFAULT_CAPACITANCE;
     private ArrayList listeners = new ArrayList();
 
-    public Capacitor( Point2D start, Vector2D dir, double length, double height, CircuitChangeListener kl ) {
-        super( kl, start, dir, length, height );
-        setKirkhoffEnabled( false );
-        setResistance( CCKModel.MIN_RESISTANCE );
-        setKirkhoffEnabled( true );
-    }
-
     public Capacitor( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
+        userComponent = CCKSimSharing.UserComponents.capacitor;
     }
 
     public Capacitor( double resistance ) {
@@ -39,6 +34,14 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
         setKirkhoffEnabled( false );
         setResistance( resistance );
         setKirkhoffEnabled( true );
+    }
+
+    public Capacitor( Point2D start, Vector2D dir, double length, double height, CircuitChangeListener kl ) {
+        super( kl, start, dir, length, height );
+        setKirkhoffEnabled( false );
+        setResistance( CCKModel.MIN_RESISTANCE );
+        setKirkhoffEnabled( true );
+        userComponent = CCKSimSharing.UserComponents.capacitor;
     }
 
     public double getCapacitance() {

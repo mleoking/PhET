@@ -3,6 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -42,6 +43,7 @@ public class Battery extends CircuitComponent {
         setResistance( internalResistance );
         setInternalResistanceOn( internalResistanceOn );
         setKirkhoffEnabled( true );
+        userComponent = CCKSimSharing.UserComponents.battery;
     }
 
     public Battery( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
@@ -52,6 +54,7 @@ public class Battery extends CircuitComponent {
         setInternalResistance( internalResistance );
         setInternalResistanceOn( internalResistanceOn );
         setKirkhoffEnabled( true );
+        userComponent = CCKSimSharing.UserComponents.battery;
     }
 
     public void setVoltageDrop( double voltageDrop ) {

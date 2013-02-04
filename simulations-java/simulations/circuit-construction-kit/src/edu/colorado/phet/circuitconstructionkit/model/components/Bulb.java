@@ -4,6 +4,7 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.BranchSet;
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -36,6 +37,7 @@ public class Bulb extends CircuitComponent {
         setKirkhoffEnabled( false );
         init( kl );
         setKirkhoffEnabled( true );
+        userComponent = CCKSimSharing.UserComponents.lightBulb;
     }
 
     public Bulb( CircuitChangeListener kl, Junction startJunction, Junction endJunction, double width, double length, double height, boolean schematic ) {
@@ -44,6 +46,7 @@ public class Bulb extends CircuitComponent {
         super.setHeight( height );
         init( kl );
         setSchematic( schematic, null );
+        userComponent = CCKSimSharing.UserComponents.lightBulb;
     }
 
     public static void setHeightScale( double heightScale ) {

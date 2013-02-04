@@ -3,6 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
@@ -15,15 +16,9 @@ import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
  */
 public class Resistor extends CircuitComponent {
 
-    public Resistor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
-        super( kl, start, dir, length, height );
-        setKirkhoffEnabled( false );
-        setResistance( 10 );
-        setKirkhoffEnabled( true );
-    }
-
     public Resistor( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
+        userComponent = CCKSimSharing.UserComponents.resistor;
     }
 
     public Resistor( double resistance ) {
@@ -36,4 +31,11 @@ public class Resistor extends CircuitComponent {
         setKirkhoffEnabled( true );
     }
 
+    public Resistor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
+        super( kl, start, dir, length, height );
+        setKirkhoffEnabled( false );
+        setResistance( 10 );
+        setKirkhoffEnabled( true );
+        userComponent = CCKSimSharing.UserComponents.resistor;
+    }
 }

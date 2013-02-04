@@ -3,6 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
@@ -22,15 +23,9 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
     private static final double DEFAULT_INDUCTANCE = 50;//50 henries makes tau=L/R = 5 sec for default resistor; this saturates in about 5 * tau = 25 sec
     private double inductance = DEFAULT_INDUCTANCE;
 
-    public Inductor( Point2D start, Vector2D dir, double length, double height, CircuitChangeListener kl ) {
-        super( kl, start, dir, length, height );
-        setKirkhoffEnabled( false );
-        setResistance( CCKModel.MIN_RESISTANCE );
-        setKirkhoffEnabled( true );
-    }
-
     public Inductor( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
+        userComponent = CCKSimSharing.UserComponents.inductor;
     }
 
     public Inductor( double resistance ) {
@@ -41,6 +36,14 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
         setKirkhoffEnabled( false );
         setResistance( resistance );
         setKirkhoffEnabled( true );
+    }
+
+    public Inductor( Point2D start, Vector2D dir, double length, double height, CircuitChangeListener kl ) {
+        super( kl, start, dir, length, height );
+        setKirkhoffEnabled( false );
+        setResistance( CCKModel.MIN_RESISTANCE );
+        setKirkhoffEnabled( true );
+        userComponent = CCKSimSharing.UserComponents.inductor;
     }
 
     public void setInductance( double inductance ) {
