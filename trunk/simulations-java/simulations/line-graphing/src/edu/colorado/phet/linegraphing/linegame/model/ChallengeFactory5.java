@@ -65,7 +65,13 @@ public class ChallengeFactory5 extends ChallengeFactory {
             if ( x2 == x1 ) {
                 x2 = integerChooser.choose( xList ); // prevent undefined slope
             }
-            final int y2 = integerChooser.choose( yList );
+            int y2 = integerChooser.choose( yList );
+
+            // exclude slopes of +1 and -1
+            final int slope = ( y2 - y1 ) / ( x2 - x1 );
+            if (  slope == 1 || slope == -1 ) {
+                y2 = integerChooser.choose( yList );
+            }
 
             // challenge
             final Line line = new Line( x1, y1, x2, y2, Color.BLACK );
@@ -168,14 +174,16 @@ public class ChallengeFactory5 extends ChallengeFactory {
         ArrayList<Integer> riseList = rangeToList( range );
         ArrayList<Integer> runList = rangeToList( range );
 
+        riseList.remove( new Integer( 0 ) ); // prevent zero slope
+        runList.remove( new Integer( 0 ) ); // prevent undefined slope
+
         // slope-intercept form, slope and intercept variable
         {
             final int x1 = 0; // y-intercept must be an integer
             final int y1 = integerChooser.choose( yList );
             final int rise = integerChooser.choose( riseList );
             int run = integerChooser.choose( runList );
-            if ( run == 0 ) {
-                // prevent undefined slope
+            if ( Math.abs( rise / run ) == 1 ) { // prevent unit slope
                 run = integerChooser.choose( runList );
             }
             challenges.add( new PlaceThePoints( "slope-intercept, random points",
@@ -189,8 +197,7 @@ public class ChallengeFactory5 extends ChallengeFactory {
             final int y1 = integerChooser.choose( yList );
             final int rise = integerChooser.choose( riseList );
             int run = integerChooser.choose( runList );
-            if ( run == 0 ) {
-                // prevent undefined slope
+            if ( Math.abs( rise / run ) == 1 ) { // prevent unit slope
                 run = integerChooser.choose( runList );
             }
             challenges.add( new PlaceThePoints( "point-slope, random points",
