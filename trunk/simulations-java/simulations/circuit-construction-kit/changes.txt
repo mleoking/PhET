@@ -1,3 +1,4 @@
+Made the check boxes for the voltmeter and the two types of ammeters send up sim sharing notifications.
 Added sim sharing message that indicates when a circuit component (called a 'branch' in the source code) is removed from the play area.
 Added sim sharing message that indicates when a wire segment has been moved by the user.
 Added sim sharing message that indicates when components in the circuit have been moved by the user.

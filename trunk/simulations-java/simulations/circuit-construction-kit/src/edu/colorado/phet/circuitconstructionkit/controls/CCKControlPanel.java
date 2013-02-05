@@ -47,6 +47,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -56,6 +57,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -74,7 +76,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class CCKControlPanel extends ControlPanel {
     private CCKModule module;
-    private JCheckBox seriesAmmeter;
+    private SimSharingJCheckBox seriesAmmeter;
     private JPanel advancedPanel;
     private boolean debugging = false;
 
@@ -146,7 +148,7 @@ public class CCKControlPanel extends ControlPanel {
             ImageIcon nonContactAmmIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/va-thumb.gif" ) );
             ImageIcon ammIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/ammeter60.gif" ) );
 
-            final JCheckBox voltmeter = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.VoltmeterCheckBox" ), false );
+            final SimSharingJCheckBox voltmeter = new SimSharingJCheckBox( CCKSimSharing.UserComponents.voltmeterCheckBox, CCKResources.getString( "CCK3ControlPanel.VoltmeterCheckBox" ), false );
             voltmeter.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setVoltmeterVisible( voltmeter.isSelected() );
@@ -154,13 +156,14 @@ public class CCKControlPanel extends ControlPanel {
                 }
             } );
 
-            final JCheckBox virtualAmmeter = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.NonContactAmmeterCheckBox" ), false );
+            final SimSharingJCheckBox virtualAmmeter = new SimSharingJCheckBox( CCKSimSharing.UserComponents.ammeterCheckBox, CCKResources.getString( "CCK3ControlPanel.NonContactAmmeterCheckBox" ), false );
             virtualAmmeter.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );
                 }
             } );
-            seriesAmmeter = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.AmmeterCheckBox" ), false );
+
+            seriesAmmeter = new SimSharingJCheckBox( CCKSimSharing.UserComponents.seriesAmmeterCheckBox, CCKResources.getString( "CCK3ControlPanel.AmmeterCheckBox" ), false );
             seriesAmmeter.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setSeriesAmmeterVisible( seriesAmmeter.isSelected() );
