@@ -57,7 +57,6 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
 
             public void popupMenuWillBecomeVisible( PopupMenuEvent e ) {
                 boolean readoutVisibleForBranch = module.isReadoutVisible( branch );
-                System.out.println( "readoutVisibleForBranch (" + branch.hashCode() + ")= " + readoutVisibleForBranch );
                 showValue.setSelected( readoutVisibleForBranch );
             }
         } );
