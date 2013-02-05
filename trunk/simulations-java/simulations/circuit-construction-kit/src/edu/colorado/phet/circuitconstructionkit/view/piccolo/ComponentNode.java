@@ -8,9 +8,12 @@ import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -63,6 +66,7 @@ public abstract class ComponentNode extends BranchNode {
                 if ( event.isLeftMouseButton() && dragging ) {
                     circuitInteractionModel.dropBranch( circuitComponent );
                     dragging = false;
+                    SimSharingManager.sendUserMessage( circuitComponent.getUserComponent(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent );
                 }
             }
 
