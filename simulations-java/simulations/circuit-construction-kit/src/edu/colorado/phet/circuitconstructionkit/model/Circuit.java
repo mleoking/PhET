@@ -350,6 +350,7 @@ public class Circuit {
         fireKirkhoffChanged();
         removeIfOrphaned( branch.getStartJunction() );
         removeIfOrphaned( branch.getEndJunction() );
+        SimSharingManager.sendUserMessage( branch.getUserComponent(), UserComponentTypes.sprite, CCKSimSharing.UserActions.removedComponent );
     }
 
     private void removeIfOrphaned( Junction junction ) {
