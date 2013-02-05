@@ -15,6 +15,8 @@ import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.BranchNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.CircuitInteractionModel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.WirePopupMenu;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
@@ -62,6 +64,7 @@ public class WireNode extends BranchNode {
 
             public void mouseReleased( PInputEvent event ) {
                 circuitInteractionModel.dropBranch( wire );
+                SimSharingManager.sendUserMessage( wire.getUserComponent(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent );
             }
 
             public void mousePressed( PInputEvent event ) {
