@@ -1,3 +1,5 @@
+# 3.20.08 (71979) Feb 5, 2013
+2/5/13 Deploying to dev for review and discussion of progress on data logging feature.
 Made the check boxes for the voltmeter and the two types of ammeters send up sim sharing notifications.
 Added sim sharing message that indicates when a circuit component (called a 'branch' in the source code) is removed from the play area.
 Added sim sharing message that indicates when a wire segment has been moved by the user.
