@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class ForcesAndMotionBasicsSimSharing {
     public static enum UserComponents implements IUserComponent {
-        tugOfWarTab, motionTab, frictionTab, accelerationTab,
+        tugOfWarTab, motionTab, frictionTab, accelerationLabTab,
         massCheckBox, valuesCheckBox, sumOfForcesCheckBox, speedCheckBox, accelerometerCheckBox, forcesCheckBox,
         soundCheckBox, goButton, stopButton, returnButton, largeBluePuller, mediumBluePuller, smallBluePuller1, smallBluePuller2,
         largeRedPuller, mediumRedPuller, smallRedPuller1, smallRedPuller2, appliedForceSliderKnob, frictionSliderKnob, fridge, crate1, crate2, girl,

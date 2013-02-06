@@ -23,10 +23,11 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
 
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
         super( config );
+//        PDebug.debugRegionManagement = true;
         addModule( new TugOfWarModule() );
         addModule( new MotionModule( UserComponents.motionTab, Strings.MOTION, false, false ) );
         addModule( new MotionModule( UserComponents.frictionTab, Strings.FRICTION, true, false ) );
-        addModule( new MotionModule( UserComponents.accelerationTab, Strings.ACCELERATION, true, true ) );
+        addModule( new MotionModule( UserComponents.accelerationLabTab, Strings.ACCELERATION_LAB, true, true ) );
     }
 
     public static void main( String[] args ) {
