@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_ja.xml created Wed Feb 06 18:46:12 JST 2013 using: resonance 1.01.00 (54775), translation-utility 2.14.00 (69024) 10 10, 2012--><SimStrings>
+<string key="simSpeed" value="動作速度"/>
+<string key="sameFrequency" value="周期が同じ"/>
+<string key="sameSpring" value="ばね定数 k が同じ"/>
+<string key="slow" value="遅く"/>
+<string key="mixedMAndK" value="初期設定値"/>
+<string key="numberOfResonators" value="共振子の数"/>
+<string key="pause" value="一時停止"/>
+<string key="amplitude" value="振幅"/>
+<string key="frequencyEqualsXHz" value="周波数 = {0} Hz"/>
+<string key="sloMo" value="スローモーション"/>
+<string key="step" value="コマ送り"/>
+<string key="driver" value="駆動装置"/>
+<string key="ruler" value="定規"/>
+<string key="resonance.simTitle" value="共振"/>
+<string key="springConstant" value="ばね定数 (k)"/>
+<string key="frequency" value="周波数"/>
+<string key="resetAll" value="全てリセット"/>
+<string key="mass" value="質量 (m)"/>
+<string key="sameMass" value="質量 m が同じ"/>
+<string key="resonator" value="共振子"/>
+<string key="translation.credits" value="高知工科大学"/>
+<string key="play" value="再生"/>
+<string key="gravityColon" value="重力 :"/>
+<string key="paused" value="停止中"/>
+<string key="dampingConstant" value="減衰定数"/>
+<string key="normal" value="普通"/>
+<string key="selectPreset" value="ユーザー設定"/>
+</SimStrings>
