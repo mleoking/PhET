@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_ja.xml created Wed Feb 06 18:06:52 JST 2013 using: ohms-law 2.03.00 (51206), translation-utility 2.14.00 (69024) 10 10, 2012--><SimStrings>
+<string key="currentEq" value="電流 = "/>
+<string key="resistance" value="抵抗"/>
+<string key="simTitle" value="オームの法則"/>
+<string key="sound" value="音"/>
+<string key="translation.credits" value="高知工科大学"/>
+<string key="voltage" value="電圧"/>
+</SimStrings>
