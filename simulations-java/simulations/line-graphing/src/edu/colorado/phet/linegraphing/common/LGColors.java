@@ -18,7 +18,7 @@ public class LGColors {
     public static final Color Y_EQUALS_NEGATIVE_X = Y_EQUALS_X;
     public static final Color SLOPE = new Color( 117, 217, 255 );
     public static final Color POINT_X1_Y1 = new Color( 255, 125, 255 );
-    public static final Color POINT_X2_Y2 = Color.ORANGE;
+    public static final Color POINT_X2_Y2 = new Color( 210, 255, 0 );
     public static final Color POINT_1 = POINT_X1_Y1;
     public static final Color POINT_2 = POINT_1;
     public static final Color POINT_3 = POINT_1;
