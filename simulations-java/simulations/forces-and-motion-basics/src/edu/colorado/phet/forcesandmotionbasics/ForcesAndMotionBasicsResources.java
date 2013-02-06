@@ -16,6 +16,7 @@ public class ForcesAndMotionBasicsResources {
     //Strings
     public static class Strings {
         public static final String ACCELERATION = RESOURCES.getLocalizedString( "acceleration" );
+        public static final String ACCELERATION_LAB = RESOURCES.getLocalizedString( "accelerationLab" );
         public static final String APPLIED_FORCE = RESOURCES.getLocalizedString( "appliedForce" );
         public static final String BLUE_WINS = RESOURCES.getLocalizedString( "blueWins" );
         public static final String FORCE_READOUT__PATTERN = RESOURCES.getLocalizedString( "forceReadout.pattern" );
