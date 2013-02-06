@@ -1,3 +1,4 @@
+2/6/13 #3502, fix Deuteranope colorblind problem with point (x1,y2)
 2/6/13 #3502, fix Tritanope colorblind problem with point (x2,y2)
 # 0.00.56 (71957) Feb 4, 2013
 2/3/13 change request: exclude simplified slopes of 1 and -1 from game levels 5 & 6
