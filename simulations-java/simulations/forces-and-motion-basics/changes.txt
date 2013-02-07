@@ -1,3 +1,4 @@
+Temporarily remove clouds as a performance test
 # 1.00.10 (71855) Jan 24, 2013
 Tabs 2-4: Slow down the clock by a factor of 4 to make extreme forces easier to visualize
 # 1.00.09 (71849) Jan 24, 2013
