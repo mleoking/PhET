@@ -33,6 +33,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -157,7 +158,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             ) );
         }};
         final Image cloudTexture = clouds.toImage();
-
+        final BufferedImage txtr = BufferedImageUtils.toBufferedImage( cloudTexture );
         PNode terrainLayer = new PNode() {
             {
                 model.position.addObserver( new VoidFunction1<Double>() {
@@ -215,8 +216,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width, -50, STAGE_SIZE.width * 3, cloudTexture.getHeight( null ) );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 10, area.getY(), cloudTexture.getWidth( null ), cloudTexture.getHeight( null ) );
 
-                    //Temporarily remove clouds as a performance test
-//                    addChild( new PhetPPath( area, new TexturePaint( BufferedImageUtils.toBufferedImage( cloudTexture ), anchor ) ) );
+                    addChild( new PhetPPath( area, new TexturePaint( txtr, anchor ) ) );
                 }
 
                 //Show gravel overlay
