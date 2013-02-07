@@ -1,3 +1,4 @@
+2/7/13 approved for 1.00 release
 # 0.00.57 (72040) Feb 6, 2013
 2/6/13 #3502, fix Deuteranope colorblind problem with point (x1,y2)
 2/6/13 #3502, fix Tritanope colorblind problem with point (x2,y2)
