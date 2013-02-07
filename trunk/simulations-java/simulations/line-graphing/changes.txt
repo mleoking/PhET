@@ -1,3 +1,4 @@
+# 1.00.00 (72054) Feb 7, 2013
 2/7/13 approved for 1.00 release
 2/7/13 update screenshot to reflect color changes
 # 0.00.57 (72040) Feb 6, 2013
