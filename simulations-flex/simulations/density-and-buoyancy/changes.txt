@@ -1,3 +1,5 @@
+# 1.05.07 (72060) Feb 7, 2013
+2/7/13 test dev process problem with jarsigning of locale-specific jars
 # 1.05.06 (55945) Aug 30, 2011
 Mass Volume Relationships: Fixed: Wood blocks do not start out with the correct density in "same density" mode
 # 1.05.05 (55936) Aug 30, 2011
