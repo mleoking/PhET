@@ -6,12 +6,7 @@ import fj.P2;
 import fj.data.List;
 import fj.function.Doubles;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.TexturePaint;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -19,7 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -38,7 +33,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -78,7 +72,9 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
-import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.*;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.accelerometerCheckBoxIcon;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.showForcesCheckBoxIcon;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.speedCheckBoxIcon;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass;
 import static fj.data.Option.some;
@@ -218,7 +214,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 {
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width, -50, STAGE_SIZE.width * 3, cloudTexture.getHeight( null ) );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 10, area.getY(), cloudTexture.getWidth( null ), cloudTexture.getHeight( null ) );
-                    addChild( new PhetPPath( area, new TexturePaint( BufferedImageUtils.toBufferedImage( cloudTexture ), anchor ) ) );
+
+                    //Temporarily remove clouds as a performance test
+//                    addChild( new PhetPPath( area, new TexturePaint( BufferedImageUtils.toBufferedImage( cloudTexture ), anchor ) ) );
                 }
 
                 //Show gravel overlay
@@ -493,9 +491,15 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         PNode accelerometerNode = new PNode() {{
             final AccelerometerNode a = new AccelerometerNode( model.acceleration );
             addChild( new VBox( 0, new PhetPText( Strings.ACCELERATION, new PhetFont( (int) ( 16 * 1.25 ) ) ), a ) );
-            addChild( new PhetPText( "-20", new PhetFont( 15 ) ) {{setOffset( a.ticks.get( 0 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );}} );
-            addChild( new PhetPText( "0", new PhetFont( 15 ) ) {{setOffset( a.ticks.get( 2 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );}} );
-            addChild( new PhetPText( "20", new PhetFont( 15 ) ) {{setOffset( a.ticks.get( 4 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );}} );
+            addChild( new PhetPText( "-20", new PhetFont( 15 ) ) {{
+                setOffset( a.ticks.get( 0 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );
+            }} );
+            addChild( new PhetPText( "0", new PhetFont( 15 ) ) {{
+                setOffset( a.ticks.get( 2 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );
+            }} );
+            addChild( new PhetPText( "20", new PhetFont( 15 ) ) {{
+                setOffset( a.ticks.get( 4 ).getGlobalFullBounds().getCenterX() - getFullBounds().getWidth() / 2, a.getGlobalFullBounds().getMaxY() );
+            }} );
             showAccelerometer.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean show ) {
                     setVisible( show );
