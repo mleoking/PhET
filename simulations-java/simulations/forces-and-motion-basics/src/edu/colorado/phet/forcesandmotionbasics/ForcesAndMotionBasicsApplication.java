@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcesandmotionbasics;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -23,7 +23,6 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
 
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
         super( config );
-//        PDebug.debugRegionManagement = true;
         addModule( new TugOfWarModule() );
         addModule( new MotionModule( UserComponents.motionTab, Strings.MOTION, false, false ) );
         addModule( new MotionModule( UserComponents.frictionTab, Strings.FRICTION, true, false ) );
