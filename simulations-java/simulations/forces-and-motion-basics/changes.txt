@@ -1,3 +1,4 @@
+> Added a new tab "Acceleration Lab"
 # 1.00.12 (72049) Feb 7, 2013
 Increased the clock speed by a factor of 4 to undo the problems introduced in 1.00.10
 # 1.00.11 (72044) Feb 7, 2013
