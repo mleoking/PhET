@@ -1,3 +1,5 @@
+# 00.71.00 (72062) Feb 7, 2013
+2/7/13 redeploy per JO, to investigate jarsigning failure
 # 00.70.00 (69195) Oct 13, 2012
 10/3/12 Added recursive support for deploy file uploads
 10/3/12 Initial support for HTML5 apps
