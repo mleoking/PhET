@@ -94,7 +94,7 @@ public class JARGenerator {
         String command = pathToJARUtility + " uf " + newJar.getAbsolutePath() +
                          " -C " + workingDir.getAbsolutePath() + " " + jarLauncherPropertiesFile.getName() +
                          " -C " + workingDir.getAbsolutePath() + " " + simulationPropertiesFile.getName();
-        logger.fine( "Running command: " + command );
+        logger.warning( "Running command: " + command );
         Process p = Runtime.getRuntime().exec( command );
         //TODO: redirect output to console
         p.waitFor();
