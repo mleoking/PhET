@@ -106,7 +106,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private static final double typicalDT = 0.033333333333333215;
 
     //Speed at which the bricks start to look as if they are going backwards.  Meters per second.
-    public static final double STROBE_SPEED = 10.0;
+    public static final double MAX_SPEED = 10.0;
 
     private final BooleanProperty playing = new BooleanProperty( true );
     private final PusherNode pusherNode;
@@ -258,7 +258,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             setFont( DEFAULT_FONT );
         }};
 
-        final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
+        final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( Strings.SPEED, 125, model.speed, MAX_SPEED ) {{
             scale( 0.25 );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
@@ -476,7 +476,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( forcesNode );
 
-        final SpeedometerNode speedometerNode = new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
+        final SpeedometerNode speedometerNode = new SpeedometerNode( Strings.SPEED, 125, model.speed, MAX_SPEED ) {{
             showSpeedometer.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean show ) {
                     setVisible( show );
@@ -623,9 +623,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     }
 
     private void step( double dt ) {
-        final boolean exceedsStrobeSpeedBefore = model.speed.get().get() >= STROBE_SPEED;
+        final boolean exceedsStrobeSpeedBefore = model.speed.get().get() >= MAX_SPEED;
         model.stepInTime( dt );
-        final boolean exceedsStrobeSpeedAfter = model.speed.get().get() >= STROBE_SPEED;
+        final boolean exceedsStrobeSpeedAfter = model.speed.get().get() >= MAX_SPEED;
 
         if ( model.appliedForce.get() == 0.0 || exceedsStrobeSpeedBefore ) {
             final double delta = -model.velocity.get() * dt * 100;
