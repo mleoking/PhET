@@ -1,3 +1,4 @@
+> Changed the simulation speed and max object speed to make extreme forces easier to visualize
 # 1.01.03 (72078) Feb 7, 2013
 Increased the max speed by a factor of 2
 # 1.01.02 (72075) Feb 7, 2013
