@@ -1,4 +1,3 @@
-# 1.01.00 (72056) Feb 7, 2013
 Updated screenshot
 > Added a new tab "Acceleration Lab"
 # 1.00.12 (72049) Feb 7, 2013
