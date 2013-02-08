@@ -1,3 +1,4 @@
+Decreased simulation speed without changing clock rate
 # 1.01.00 (72071) Feb 7, 2013
 Updated screenshot
 > Added a new tab "Acceleration Lab"
