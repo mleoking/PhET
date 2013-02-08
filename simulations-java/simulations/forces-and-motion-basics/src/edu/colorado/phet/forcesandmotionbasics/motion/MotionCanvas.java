@@ -105,8 +105,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     private static final double typicalDT = 0.033333333333333215;
 
-    //Speed at which the bricks start to look as if they are going backwards.  Meters per second.
-    public static final double MAX_SPEED = 10.0;
+    //Speed at which the pusher should fall down, should be not much more than the strobe speed
+    public static final double MAX_SPEED = 10.0 * 2.0;
 
     private final BooleanProperty playing = new BooleanProperty( true );
     private final PusherNode pusherNode;
