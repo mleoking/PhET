@@ -1,3 +1,4 @@
+# 1.01.02 (72075) Feb 7, 2013
 Increased simulation speed from 1/4 to 1/2 of original
 # 1.01.01 (72073) Feb 7, 2013
 Decreased simulation speed without changing clock rate
