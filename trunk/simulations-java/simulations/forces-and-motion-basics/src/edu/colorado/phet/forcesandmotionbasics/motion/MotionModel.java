@@ -12,8 +12,10 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
-import static edu.colorado.phet.forcesandmotionbasics.motion.MotionCanvas.STROBE_SPEED;
-import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
+import static edu.colorado.phet.forcesandmotionbasics.motion.MotionCanvas.MAX_SPEED;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.LEFT_SPEED_EXCEEDED;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.RIGHT_SPEED_EXCEEDED;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.WITHIN_ALLOWED_RANGE;
 
 /**
  * Model for tab 2 "Motion" and tab 3 "Friction", mutable values for the forces, position, velocity, etc.
@@ -85,16 +87,16 @@ class MotionModel {
         }
 
         //Cap at strobe speed.  This is necessary so that a reverse applied force will take effect immediately, without these lines of code the pusher will stutter.
-        if ( newVelocity > STROBE_SPEED ) { newVelocity = STROBE_SPEED; }
-        if ( newVelocity < -STROBE_SPEED ) { newVelocity = -STROBE_SPEED; }
+        if ( newVelocity > MAX_SPEED ) { newVelocity = MAX_SPEED; }
+        if ( newVelocity < -MAX_SPEED ) { newVelocity = -MAX_SPEED; }
 
 //        System.out.println( "sumOfForces = " + sumOfForces + ", ff = " + frictionForce.get() + ", af = " + appliedForce.get() + ", accel = " + acceleration + ", newVelocity = " + newVelocity );
 
         velocity.set( newVelocity );
         position.set( position.get() + velocity.get() * dt );
         speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
-        _speedValue.set( velocity.get() >= STROBE_SPEED ? RIGHT_SPEED_EXCEEDED :
-                         velocity.get() <= -STROBE_SPEED ? LEFT_SPEED_EXCEEDED :
+        _speedValue.set( velocity.get() >= MAX_SPEED ? RIGHT_SPEED_EXCEEDED :
+                         velocity.get() <= -MAX_SPEED ? LEFT_SPEED_EXCEEDED :
                          WITHIN_ALLOWED_RANGE );
 
         if ( _speedValue.get() != WITHIN_ALLOWED_RANGE ) {
