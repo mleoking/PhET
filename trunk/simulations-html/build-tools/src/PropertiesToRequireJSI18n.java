@@ -33,8 +33,8 @@ public class PropertiesToRequireJSI18n {
             Properties p = new Properties() {{
                 load( new FileInputStream( file ) );
             }};
-            String output = "//Conversion from " + file.getAbsolutePath() + "\n" +
-                            "define( {\n";
+            String output = //"//Conversion from " + file.getAbsolutePath() + "\n" +
+                    "define( {\n";
             if ( english ) {
                 output += "            \"root\": {\n";
             }
