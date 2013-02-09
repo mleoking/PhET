@@ -11,6 +11,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="functionaljava" />
+    <orderEntry type="module" module-name="translation-utility" />
   </component>
 </module>
 
