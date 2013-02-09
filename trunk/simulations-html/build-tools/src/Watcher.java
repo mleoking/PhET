@@ -6,6 +6,7 @@ import fj.Ord;
 import fj.data.List;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -65,7 +66,7 @@ public class Watcher {
                         try {
                             runTask( root );
                         }
-                        catch ( Exception e1 ) {
+                        catch( Exception e1 ) {
                             e1.printStackTrace();
                             lastModified = 0;
                         }
@@ -81,7 +82,7 @@ public class Watcher {
                     try {
                         Thread.sleep( 100 );
                     }
-                    catch ( InterruptedException e ) {
+                    catch( InterruptedException e ) {
                         e.printStackTrace();
                     }
                 }
@@ -125,7 +126,12 @@ public class Watcher {
     private static List<File> getAllFiles( final File root ) {
         ArrayList<File> f = new ArrayList<File>();
         if ( root.isDirectory() ) {
-            for ( File child : root.listFiles() ) {
+            FilenameFilter skipNLS = new FilenameFilter() {
+                public boolean accept( File dir, String name ) {
+                    return !name.equals( "nls" ) && !name.equals( ".git" ) && !name.equals( "common" );
+                }
+            };
+            for ( File child : root.listFiles( skipNLS ) ) {
                 f.addAll( getAllFiles( child ).toCollection() );
             }
         }
