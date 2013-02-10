@@ -1,9 +1,10 @@
 package edu.colorado.phet.buildtools.html5;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import edu.colorado.phet.translationutility.simulations.FlashSimulation;
@@ -28,7 +29,18 @@ public class XMLToProperties {
         } ) ) {
             FlashSimulation flash = new FlashSimulation( "jarFileName", "projectName", "simulationName" );
             Properties s = flash.loadStrings( file );
-            s.store( new FileWriter( new File( destination, file.getName().replace( ".xml", ".properties" ).replace( "_en.properties", ".properties" ) ) ), "" );
+            File destFile = new File( destination, file.getName().replace( ".xml", ".properties" ).replace( "_en.properties", ".properties" ) );
+            try {
+                String header = "";
+                // write properties to file
+                OutputStream outputStream = new FileOutputStream( destFile );
+                s.store( outputStream, header );
+                outputStream.close();
+            }
+            catch( IOException e ) {
+                throw new Simulation.SimulationException( e );
+            }
+
         }
     }
 }
