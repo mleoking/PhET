@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
@@ -21,5 +23,13 @@ public class CCKSimSharing {
 
     public static enum UserActions implements IUserAction {
         addedComponent, movedComponent, removedComponent, connectionFormed
+    }
+
+    public static enum ModelComponents implements IModelComponent {
+        circuit
+    }
+
+    public static enum ModelActions implements IModelAction {
+        connectionFormed
     }
 }
