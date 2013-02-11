@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_pl.xml created Sun Feb 10 08:01:09 CET 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
+<string key="stopCharge" value="Zatrzymaj ładunek"/>
+<string key="bump" value="Wstrząs"/>
+<string key="amplitude" value="Amplituda"/>
+<string key="radiating-charge.simTitle" value="Promieniujący ładunek"/>
+<string key="translation.credits" value="Andrzej Batorski"/>
+<string key="speed" value="Prędkość"/>
+<string key="frictionManual" value="Ręcznie"/>
+<string key="duration" value="czas trwania"/>
+<string key="noFrictionManual" value="Bez tarcia"/>
+<string key="linear" value="Jednostajny prostoliniowy"/>
+<string key="reset" value="Wyzeruj"/>
+<string key="frequency" value="Częstotliwość"/>
+<string key="circular" value="Jednostajny po okręgu"/>
+<string key="showVelocity" value="Pokaż prędkość"/>
+<string key="paused" value="PAUZA"/>
+<string key="restart" value="Uruchom ponownie"/>
+<string key="sinusoidal" value="Harmoniczny"/>
+</SimStrings>
