@@ -21,6 +21,7 @@ import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -617,6 +618,9 @@ public class Circuit {
         addJunction( replacement );
         replaceJunction( j1, replacement );
         replaceJunction( j2, replacement );
+
+        // Send a sim sharing message indicating that a new connection was formed.
+        SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.circuit, ModelComponentTypes.modelElement, CCKSimSharing.ModelActions.connectionFormed );
 
         fireKirkhoffChanged();
         fireJunctionsCollapsed( j1, j2, replacement );
