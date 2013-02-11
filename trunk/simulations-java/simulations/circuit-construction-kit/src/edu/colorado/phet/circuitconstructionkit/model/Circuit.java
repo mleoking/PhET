@@ -385,10 +385,10 @@ public class Circuit {
         }
     }
 
-    public void translate( Branch[] branchs, Vector2D vec ) {
-        Junction[] j = getJunctions( branchs );
+    public void translate( Branch[] branches, Vector2D vec ) {
+        Junction[] j = getJunctions( branches );
         translate( j, vec );
-        for ( Branch b : branchs ) {
+        for ( Branch b : branches ) {
             b.notifyObservers();
         }
     }
