@@ -150,7 +150,7 @@ public class Circuit {
         }
 
         // Send a sim-sharing message indicating that a new branch was added.
-        SimSharingManager.sendUserMessage( component.getUserComponent(), UserComponentTypes.sprite, CCKSimSharing.UserActions.addedComponent );
+        SimSharingManager.sendUserMessage( component.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.addedComponent );
 
         branches.add( component );
         fireBranchAdded( component );
@@ -350,7 +350,7 @@ public class Circuit {
         fireKirkhoffChanged();
         removeIfOrphaned( branch.getStartJunction() );
         removeIfOrphaned( branch.getEndJunction() );
-        SimSharingManager.sendUserMessage( branch.getUserComponent(), UserComponentTypes.sprite, CCKSimSharing.UserActions.removedComponent );
+        SimSharingManager.sendUserMessage( branch.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.removedComponent );
     }
 
     private void removeIfOrphaned( Junction junction ) {

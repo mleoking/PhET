@@ -66,7 +66,7 @@ public abstract class ComponentNode extends BranchNode {
                 if ( event.isLeftMouseButton() && dragging ) {
                     circuitInteractionModel.dropBranch( circuitComponent );
                     dragging = false;
-                    SimSharingManager.sendUserMessage( circuitComponent.getUserComponent(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent );
+                    SimSharingManager.sendUserMessage( circuitComponent.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent );
                 }
             }
 

@@ -26,7 +26,7 @@ public class Switch extends CircuitComponent {
         setKirkhoffEnabled( false );
         super.setResistance( OPEN_RESISTANCE );
         setKirkhoffEnabled( true );
-        userComponent = CCKSimSharing.UserComponents.circuitSwitch;
+        setUserComponentID( CCKSimSharing.UserComponents.circuitSwitch );
     }
 
     public Switch( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, boolean closed, double length, double height ) {
@@ -36,7 +36,7 @@ public class Switch extends CircuitComponent {
         setClosed( closed );
         setKirkhoffEnabled( true );
         setHandleAngle( closed ? HANDLE_ANGLE_CLOSED : DEFAULT_HANDLE_ANGLE_OPEN );
-        userComponent = CCKSimSharing.UserComponents.circuitSwitch;
+        setUserComponentID( CCKSimSharing.UserComponents.circuitSwitch );
     }
 
     public boolean isClosed() {

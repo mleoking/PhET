@@ -17,7 +17,7 @@ public class GrabBagResistor extends Resistor {
     public GrabBagResistor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, GrabBagItem itemInfo ) {
         super( start, dir, length, height, kl );
         this.itemInfo = itemInfo;
-        userComponent = CCKSimSharing.UserComponents.grabBagResistor;
+        setUserComponentID( CCKSimSharing.UserComponents.grabBagResistor );
     }
 
     public GrabBagItem getItemInfo() {

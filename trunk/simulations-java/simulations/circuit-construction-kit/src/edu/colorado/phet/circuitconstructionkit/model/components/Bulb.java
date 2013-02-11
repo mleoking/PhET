@@ -37,7 +37,7 @@ public class Bulb extends CircuitComponent {
         setKirkhoffEnabled( false );
         init( kl );
         setKirkhoffEnabled( true );
-        userComponent = CCKSimSharing.UserComponents.lightBulb;
+        setUserComponentID(  CCKSimSharing.UserComponents.lightBulb );
     }
 
     public Bulb( CircuitChangeListener kl, Junction startJunction, Junction endJunction, double width, double length, double height, boolean schematic ) {
@@ -46,7 +46,7 @@ public class Bulb extends CircuitComponent {
         super.setHeight( height );
         init( kl );
         setSchematic( schematic, null );
-        userComponent = CCKSimSharing.UserComponents.lightBulb;
+        setUserComponentID( CCKSimSharing.UserComponents.lightBulb );
     }
 
     public static void setHeightScale( double heightScale ) {

@@ -18,7 +18,7 @@ public class Resistor extends CircuitComponent {
 
     public Resistor( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
-        userComponent = CCKSimSharing.UserComponents.resistor;
+        setUserComponentID( CCKSimSharing.UserComponents.resistor );
     }
 
     public Resistor( double resistance ) {
@@ -36,6 +36,6 @@ public class Resistor extends CircuitComponent {
         setKirkhoffEnabled( false );
         setResistance( 10 );
         setKirkhoffEnabled( true );
-        userComponent = CCKSimSharing.UserComponents.resistor;
+        setUserComponentID( CCKSimSharing.UserComponents.resistor );
     }
 }

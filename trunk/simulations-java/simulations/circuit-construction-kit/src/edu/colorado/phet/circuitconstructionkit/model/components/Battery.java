@@ -43,7 +43,7 @@ public class Battery extends CircuitComponent {
         setResistance( internalResistance );
         setInternalResistanceOn( internalResistanceOn );
         setKirkhoffEnabled( true );
-        userComponent = CCKSimSharing.UserComponents.battery;
+        setUserComponentID( CCKSimSharing.UserComponents.battery );
     }
 
     public Battery( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
@@ -54,7 +54,7 @@ public class Battery extends CircuitComponent {
         setInternalResistance( internalResistance );
         setInternalResistanceOn( internalResistanceOn );
         setKirkhoffEnabled( true );
-        userComponent = CCKSimSharing.UserComponents.battery;
+        setUserComponentID( CCKSimSharing.UserComponents.battery );
     }
 
     public void setVoltageDrop( double voltageDrop ) {

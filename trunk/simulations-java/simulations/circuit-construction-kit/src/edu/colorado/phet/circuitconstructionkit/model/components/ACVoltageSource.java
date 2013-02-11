@@ -21,7 +21,7 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
 
     public ACVoltageSource( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
         super( kl, startJunction, endjJunction, length, height, internalResistance, internalResistanceOn );
-        userComponent = CCKSimSharing.UserComponents.acVoltageSource;
+        setUserComponentID( CCKSimSharing.UserComponents.acVoltageSource );
     }
 
     public double getVoltageDrop() {

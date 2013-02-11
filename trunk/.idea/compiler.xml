@@ -18,11 +18,7 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
     </wildcardResourcePatterns>
-    <annotationProcessing>
-      <profile default="true" name="Default" enabled="true">
-        <processorPath useClasspath="true" />
-      </profile>
-    </annotationProcessing>
+    <annotationProcessing enabled="false" useClasspath="true" />
   </component>
   <component name="JavacSettings">
     <option name="MAXIMUM_HEAP_SIZE" value="512" />
