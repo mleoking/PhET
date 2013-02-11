@@ -389,14 +389,9 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void setUserComponentID( IUserComponent userComponentID ){
-
-        // The user component ID should only be set once (during construction
-        // of subclasses), and the following assertion will fire if it is set
-        // more than that.
-        assert this.userComponentID == CCKSimSharing.UserComponents.unspecifiedBranch;
-
         this.userComponentID = userComponentID;
     }
+
     public IUserComponent getUserComponentID(){
         return userComponentID;
     }

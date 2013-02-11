@@ -7,6 +7,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
@@ -19,6 +21,7 @@ import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -33,6 +36,11 @@ public class Circuit {
     private ArrayList<CircuitListener> listeners = new ArrayList<CircuitListener>();
     private CircuitChangeListener circuitChangeListener;
     private MNAAdapter.CircuitResult solution;//solution from last update, used to look up dynamic circuit properties.
+
+    // The following map keeps track of the number of instances of each
+    // type of component that have been added to the circuit.  This is needed
+    // for the sim sharing feature.
+    private Map<Class, Integer> instanceCounts = new HashMap<Class, Integer>();
 
     public Circuit() {
         this( new CompositeCircuitChangeListener() );
@@ -148,6 +156,14 @@ public class Circuit {
         if ( component == null ) {
             throw new RuntimeException( "Null component." );
         }
+
+        // Set the component ID for this newly added component to have an
+        // instance number.
+        if ( !instanceCounts.containsKey( component.getClass() )){
+            instanceCounts.put( component.getClass(), new Integer( -1 ) );
+        }
+        instanceCounts.put( component.getClass(), new Integer( instanceCounts.get( component.getClass() ) + 1 ) );
+        component.setUserComponentID( UserComponentChain.chain( component.getUserComponentID(), instanceCounts.get( component.getClass() ) ) );
 
         // Send a sim-sharing message indicating that a new branch was added.
         SimSharingManager.sendUserMessage( component.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.addedComponent );

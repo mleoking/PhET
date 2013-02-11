@@ -1,3 +1,4 @@
+Added instance identifiers to the circuit elements.  This is for sim sharing.
 # 3.20.08 (71979) Feb 5, 2013
 2/5/13 Deploying to dev for review and discussion of progress on data logging feature.
 Made the check boxes for the voltmeter and the two types of ammeters send up sim sharing notifications.
