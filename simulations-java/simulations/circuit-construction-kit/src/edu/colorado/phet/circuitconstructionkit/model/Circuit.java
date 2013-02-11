@@ -21,10 +21,18 @@ import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+
+import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.connectionFormed;
+import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponentTypes.connection;
+import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponents.circuit;
 
 /**
  * This is the main class for the CCK model, providing a representation of all the branches and junctions, and a way of updating the physics.
@@ -610,7 +618,7 @@ public class Circuit {
 
     public void collapseJunctions( Junction j1, Junction j2 ) {
         if ( !j1.getPosition().equals( j2.getPosition() ) ) {
-            throw new RuntimeException( "Juncitons Not at same coordinates." );
+            throw new RuntimeException( "Junctions not at same coordinates." );
         }
         removeJunction( j1 );
         removeJunction( j2 );
@@ -620,8 +628,22 @@ public class Circuit {
         replaceJunction( j2, replacement );
 
         // Send a sim sharing message indicating that a new connection was formed.
-        SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.circuit, ModelComponentTypes.modelElement, CCKSimSharing.ModelActions.connectionFormed );
+        ParameterSet simSharingParams = new ParameterSet();
+        for ( Branch branch : branches ) {
+            if ( branch.hasJunction( replacement )){
+                String paramString = branch.getUserComponentID().toString();
+                if ( branch.getStartJunction().equals( replacement )){
+                    paramString = paramString + ".startJunction";
+                }
+                else{
+                    paramString = paramString + ".endJunction";
+                }
+                simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "junction" ), paramString ) );
+            }
+        }
+        SimSharingManager.sendModelMessage( circuit, connection, connectionFormed, simSharingParams );
 
+        // Fire notification events so that any listeners are informed.
         fireKirkhoffChanged();
         fireJunctionsCollapsed( j1, j2, replacement );
     }

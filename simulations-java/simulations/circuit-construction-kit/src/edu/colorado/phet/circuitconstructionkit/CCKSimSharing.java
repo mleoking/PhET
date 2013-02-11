@@ -3,6 +3,7 @@ package edu.colorado.phet.circuitconstructionkit;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
@@ -29,7 +30,11 @@ public class CCKSimSharing {
         circuit
     }
 
+    public static enum ModelComponentTypes implements IModelComponentType {
+        connection
+    }
+
     public static enum ModelActions implements IModelAction {
-        connectionFormed
+        connectionFormed, connectionBroken
     }
 }

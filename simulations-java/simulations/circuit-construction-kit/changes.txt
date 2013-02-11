@@ -1,12 +1,13 @@
-Added instance identifiers to the circuit elements.  This is for sim sharing.
+Sim sharing: Added notification message for the formation of connections.
+Sim sharing: Added instance identifiers to the circuit elements.
 # 3.20.08 (71979) Feb 5, 2013
 2/5/13 Deploying to dev for review and discussion of progress on data logging feature.
-Made the check boxes for the voltmeter and the two types of ammeters send up sim sharing notifications.
-Added sim sharing message that indicates when a circuit component (called a 'branch' in the source code) is removed from the play area.
-Added sim sharing message that indicates when a wire segment has been moved by the user.
-Added sim sharing message that indicates when components in the circuit have been moved by the user.
-Added user component IDs for all the basic circuit elements that can be added from the tool box.
-Generalized sim sharing message for component creation, moved message sending into Circuit class to avoid creation messages at startup (due to creation of tool box nodes).
+Sim sharing: Made the check boxes for the voltmeter and the two types of ammeters send up sim sharing notifications.
+Sim sharing: Added sim sharing message that indicates when a circuit component (called a 'branch' in the source code) is removed from the play area.
+Sim sharing: Added sim sharing message that indicates when a wire segment has been moved by the user.
+Sim sharing: Added sim sharing message that indicates when components in the circuit have been moved by the user.
+Sim sharing: Added user component IDs for all the basic circuit elements that can be added from the tool box.
+Sim sharing: Generalized sim sharing message for component creation, moved message sending into Circuit class to avoid creation messages at startup (due to creation of tool box nodes).
 UBC study: Changed study name from "ubc-feb-2013" to "ubc-spring-2013".
 UBC study: Changed configuration to launch DC-only version of sim.
 UBC study: Added prompt for student ID.
