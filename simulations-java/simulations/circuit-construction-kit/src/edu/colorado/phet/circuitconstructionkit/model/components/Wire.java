@@ -23,7 +23,7 @@ public class Wire extends Branch {
 
     public Wire( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
         super( listener, startJunction, endJunction );
-        userComponent = CCKSimSharing.UserComponents.wire;
+        setUserComponentID(  CCKSimSharing.UserComponents.wire );
     }
 
     public Shape getShape() {

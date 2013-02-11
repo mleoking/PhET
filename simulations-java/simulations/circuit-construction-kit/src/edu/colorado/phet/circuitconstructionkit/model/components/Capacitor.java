@@ -23,7 +23,7 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
 
     public Capacitor( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
-        userComponent = CCKSimSharing.UserComponents.capacitor;
+        setUserComponentID( CCKSimSharing.UserComponents.capacitor );
     }
 
     public Capacitor( double resistance ) {
@@ -41,7 +41,7 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
         setKirkhoffEnabled( false );
         setResistance( CCKModel.MIN_RESISTANCE );
         setKirkhoffEnabled( true );
-        userComponent = CCKSimSharing.UserComponents.capacitor;
+        setUserComponentID( CCKSimSharing.UserComponents.capacitor );
     }
 
     public double getCapacitance() {

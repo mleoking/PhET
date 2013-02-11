@@ -64,7 +64,7 @@ public class WireNode extends BranchNode {
 
             public void mouseReleased( PInputEvent event ) {
                 circuitInteractionModel.dropBranch( wire );
-                SimSharingManager.sendUserMessage( wire.getUserComponent(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent );
+                SimSharingManager.sendUserMessage( wire.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent );
             }
 
             public void mousePressed( PInputEvent event ) {

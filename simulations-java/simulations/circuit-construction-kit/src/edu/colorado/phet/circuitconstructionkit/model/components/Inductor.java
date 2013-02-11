@@ -25,7 +25,7 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
 
     public Inductor( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
-        userComponent = CCKSimSharing.UserComponents.inductor;
+        setUserComponentID( CCKSimSharing.UserComponents.inductor );
     }
 
     public Inductor( double resistance ) {
@@ -43,7 +43,7 @@ public class Inductor extends CircuitComponent implements DynamicBranch {
         setKirkhoffEnabled( false );
         setResistance( CCKModel.MIN_RESISTANCE );
         setKirkhoffEnabled( true );
-        userComponent = CCKSimSharing.UserComponents.inductor;
+        setUserComponentID( CCKSimSharing.UserComponents.inductor );
     }
 
     public void setInductance( double inductance ) {
