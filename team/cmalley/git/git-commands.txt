@@ -1,0 +1,20 @@
+Useful git commands (TODO: convert to IntelliJ commands or shell scripts)
+
+-----
+
+Updating a submodule to HEAD:
+
+cd common/phetcommon
+git pull origin master
+cd ../..
+git submodule status
+git add common/phetcommon
+git commit –m “Updated phetcommon to HEAD”
+git push origin master
+
+
+-----
+
+Update all submodules to HEAD so that changes can be committed (UNTESTED!)
+
+git submodule foreach --recursive 'git pull origin master && git checkout master'
