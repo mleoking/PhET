@@ -1,8 +1,0 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="300" height="150" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="300" height="150" fill="yellow"/>
-    <text x="10" y="50" fill="black" style="font-family:Arial;font-size:32px;">My SVG text</text>
-    <polygon points="200,10 250,190 160,210" style="fill:lime;stroke:purple;stroke-width:1"/>
-</svg>
