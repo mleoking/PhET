@@ -15,6 +15,17 @@ git push origin master
 
 -----
 
-Update all submodules to HEAD so that changes can be committed (UNTESTED!)
+Add a submodule dependency:
+
+cd some_dir
+git submodule add git://github.com/phetsims/myrepo.git myrepo
+git commit -m "add submodule myrepo"
+git push origin master
+
+-----
+
+Update all submodules to HEAD so that changes can be committed: (UNTESTED!)
 
 git submodule foreach --recursive 'git pull origin master && git checkout master'
+
+-----
