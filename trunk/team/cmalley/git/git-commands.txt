@@ -29,3 +29,18 @@ Update all submodules to HEAD so that changes can be committed: (UNTESTED!)
 git submodule foreach --recursive 'git pull origin master && git checkout master'
 
 -----
+
+Delete and re-add a botched submodule:
+
+edit .gitmodules and delete the relevant entry
+edit .git/config and delete the relevant entry
+git -rm --cached submodule_path
+git commit
+git push origin master
+rm -rf submodule_path
+git submodule add --force url submodule_path
+git add submodule_path
+git commit -m "add submodule"
+git push orgin master
+
+-----
