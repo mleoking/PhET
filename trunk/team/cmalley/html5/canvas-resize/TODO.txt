@@ -1,4 +1,0 @@
-Things to investigate:
-
-- scale the scenegraph
-- adjust the model bounds

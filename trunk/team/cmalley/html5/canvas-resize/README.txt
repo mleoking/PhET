@@ -1,1 +1,0 @@
-Testbed for experimenting with window and canvas resize issues.
