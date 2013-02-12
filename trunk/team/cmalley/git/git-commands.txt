@@ -19,6 +19,7 @@ Add a submodule dependency:
 
 cd some_dir
 git submodule add git://github.com/phetsims/myrepo.git myrepo
+git add myrepo
 git commit -m "add submodule myrepo"
 git push origin master
 
