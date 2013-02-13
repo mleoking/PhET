@@ -30,7 +30,7 @@ public class BuildAnAtomModel implements Resettable {
     private static final int DEFAULT_NUM_NEUTRONS = 13;
 
     // Constants that define the size, position, and appearance of the buckets.
-    private static final Dimension2D BUCKET_SIZE = new PDimension( 60, 30 );
+    private static final Dimension2D BUCKET_SIZE = new PDimension( 75, 40 );
     private static final Point2D PROTON_BUCKET_POSITION = new Point2D.Double( -80, -150 );
     private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( 0, -150 );
     private static final Point2D ELECTRON_BUCKET_POSITION = new Point2D.Double( 80, -150 );
@@ -54,7 +54,7 @@ public class BuildAnAtomModel implements Resettable {
 
     // The buckets which can hold the subatomic particles.
     private final SphereBucket<SphericalParticle> electronBucket = new SphereBucket<SphericalParticle>( ELECTRON_BUCKET_POSITION,
-                                                                                                        BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
+                                                                                                        BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.9, -Electron.RADIUS / 2 );
     private final SphereBucket<SphericalParticle> protonBucket = new SphereBucket<SphericalParticle>( PROTON_BUCKET_POSITION,
                                                                                                       BUCKET_SIZE, PhetColorScheme.RED_COLORBLIND, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
     private final SphereBucket<SphericalParticle> neutronBucket = new SphereBucket<SphericalParticle>( NEUTRON_BUCKET_POSITION,
