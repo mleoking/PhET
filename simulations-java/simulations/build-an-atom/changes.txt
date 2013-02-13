@@ -1,3 +1,5 @@
+# 3.02.01 (72138) Feb 13, 2013
+2/13/13 Puslishing to dev for use in touch-based interviews.
 Enlarged all particles so that they are easier to grab when using in touch mode.  This was a special request for some upcoming interviews.
 9/6/12 #3434, change default behavior of "New Game" to no confirmation
 # 3.02.00 (67107) Aug 18, 2012
