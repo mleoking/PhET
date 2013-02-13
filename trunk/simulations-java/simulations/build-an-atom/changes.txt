@@ -1,3 +1,4 @@
+Enlarged all particles so that they are easier to grab when using in touch mode.  This was a special request for some upcoming interviews.
 9/6/12 #3434, change default behavior of "New Game" to no confirmation
 # 3.02.00 (67107) Aug 18, 2012
 > Removed strings, including translated versions, for calcium and potassium.  These were unused, and removed to avoid potential confusion.
