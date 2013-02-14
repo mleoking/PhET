@@ -21,8 +21,6 @@ import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -30,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChai
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
+import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.connectionBroken;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.connectionFormed;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponentTypes.connection;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponents.circuit;
@@ -168,7 +167,7 @@ public class Circuit {
 
         // Set the component ID for this newly added component to have an
         // instance number.
-        if ( !instanceCounts.containsKey( component.getClass() )){
+        if ( !instanceCounts.containsKey( component.getClass() ) ) {
             instanceCounts.put( component.getClass(), new Integer( -1 ) );
         }
         instanceCounts.put( component.getClass(), new Integer( instanceCounts.get( component.getClass() ) + 1 ) );
@@ -249,7 +248,24 @@ public class Circuit {
     }
 
     public Junction[] split( Junction junction ) {
+
+        // Get the set of all branches that are connected at this junction.
         Branch[] adjacentBranches = getAdjacentBranches( junction );
+
+        // Send a sim sharing message indicating that the junction was split.
+        ParameterSet simSharingParams = new ParameterSet();
+        for ( Branch branch : adjacentBranches ) {
+            String paramString = branch.getUserComponentID().toString();
+            if ( branch.getStartJunction().equals( junction ) ) {
+                paramString = paramString + ".startJunction";
+            }
+            else {
+                paramString = paramString + ".endJunction";
+            }
+            simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "junction" ), paramString ) );
+        }
+        SimSharingManager.sendModelMessage( circuit, connection, connectionBroken, simSharingParams );
+
         Junction[] newJunctions = new Junction[adjacentBranches.length];
         for ( int i = 0; i < adjacentBranches.length; i++ ) {
             Branch branch = adjacentBranches[i];
@@ -630,12 +646,12 @@ public class Circuit {
         // Send a sim sharing message indicating that a new connection was formed.
         ParameterSet simSharingParams = new ParameterSet();
         for ( Branch branch : branches ) {
-            if ( branch.hasJunction( replacement )){
+            if ( branch.hasJunction( replacement ) ) {
                 String paramString = branch.getUserComponentID().toString();
-                if ( branch.getStartJunction().equals( replacement )){
+                if ( branch.getStartJunction().equals( replacement ) ) {
                     paramString = paramString + ".startJunction";
                 }
-                else{
+                else {
                     paramString = paramString + ".endJunction";
                 }
                 simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "junction" ), paramString ) );
