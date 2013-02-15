@@ -1,1 +1,28 @@
 Keep track of the dt from each time step to the next to avoid work where possible.
+
+Sim Sharing items:
+
+Top Priority
+
+Instruments (voltmeter, ammeters) connected
+Instruments disconnected
+Checkboxes and buttons
+Instrument reading changed (limit to every 500ms)
+Configured value (battery voltage, resistance) changed (limit to every 500ms)
+Flame message
+Rotation/endpoint movement
+
+
+2nd Priority
+Current change message for each component excluding wires (limit to every 500ms)
+Activate/deactivate messages for the instruments (non-contact ammeter, voltage probes).  Activate on mouse down, deactivate on mouse up.
+Voltmeter/Ammeter - message includes the component or components to which they are connected.
+
+3rd Priority
+Component name from grab bag
+Location on screen
+
+
+
+
+
