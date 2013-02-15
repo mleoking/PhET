@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
@@ -14,6 +15,12 @@ import edu.colorado.phet.circuitconstructionkit.model.Connection;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 /**
  * User: Sam Reid
@@ -73,9 +80,14 @@ public class VoltmeterModel {
 
     private void updateVoltage() {
         double voltage = circuit.getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
-        if ( voltage != this.voltage ) {
+
+        if ( voltage != this.voltage && !( Double.isNaN( this.getVoltage() ) && Double.isNaN( voltage ) ) ) {
             this.voltage = voltage;
             notifyListeners();
+            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterModel,
+                                                ModelComponentTypes.modelElement,
+                                                CCKSimSharing.ModelActions.measuredVoltageChanged,
+                                                new ParameterSet( new Parameter( new ParameterKey( "voltage" ), voltage ) ) );
         }
     }
 

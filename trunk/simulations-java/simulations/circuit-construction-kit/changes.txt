@@ -1,3 +1,4 @@
+Sim sharing: Added messages for changes to the voltage measured by the voltmeter.
 Sim sharing: Added notification message for breaking of connections.
 Sim sharing: Added notification message for the formation of connections.
 Sim sharing: Added instance identifiers to the circuit elements.
