@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_mr.xml created Fri Feb 15 20:01:22 IST 2013 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) Oct 10, 2012--><SimStrings>
+<string key="level" value="पातळी"/>
+<string key="typeAnswer" value="उत्तर भरून ,\n एंटर की दबा"/>
+<string key="clickToSelect" value="योग्य चौकोन निवडण्यासाठी \nक्लिक करा"/>
+<string key="correct" value="बरोबर"/>
+<string key="end" value="शेवट"/>
+<string key="isWrong" value="हे चुक आहे"/>
+<string key="start" value="सुरु"/>
+<string key="simTitle" value="अंकगणित"/>
+<string key="time" value="वेळ(सेकंद)"/>
+<string key="finalTime" value="अतिंम वेळ"/>
+<string key="multiply" value="गूणा"/>
+<string key="tryAgain" value="पुन्हा प्रयत्न करा"/>
+<string key="sound" value="आवाज"/>
+<string key="divide" value="भागा"/>
+<string key="factor" value="गुणक"/>
+<string key="minute" value="मिनिट"/>
+<string key="finalScore" value="अतिंम गूण"/>
+<string key="nbrRight" value="बरोबर अंक"/>
+<string key="mustTypeNbr" value="फक्त अंकच\nभरा"/>
+<string key="score" value="गूण"/>
+<string key="scorePer" value="गूण"/>
+<string key="translation.credits" value="nyogi2004@gmail.com"/>
+<string key="nbrWrong" value="चुकीचा अंक"/>
+<string key="reset" value="मुळ स्थितीत जा"/>
+<string key="clock" value="वेळ"/>
+<string key="title" value="गणित"/>
+</SimStrings>
