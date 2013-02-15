@@ -19,7 +19,7 @@ public class CCKSimSharing {
     public static enum UserComponents implements IUserComponent {
         unspecifiedBranch, battery, wire, resistor, grabBagResistor, lightBulb,
         circuitSwitch, inductor, acVoltageSource, capacitor, voltmeterCheckBox,
-        ammeterCheckBox, seriesAmmeterCheckBox, seriesAmmeter
+        ammeterCheckBox, seriesAmmeterCheckBox, voltmeter, seriesAmmeter
     }
 
     public static enum UserActions implements IUserAction {
@@ -27,7 +27,7 @@ public class CCKSimSharing {
     }
 
     public static enum ModelComponents implements IModelComponent {
-        circuit
+        circuit, voltmeterModel;
     }
 
     public static enum ModelComponentTypes implements IModelComponentType {
@@ -35,6 +35,6 @@ public class CCKSimSharing {
     }
 
     public static enum ModelActions implements IModelAction {
-        connectionFormed, connectionBroken
+        connectionFormed, measuredVoltageChanged, connectionBroken
     }
 }
