@@ -7,11 +7,15 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -28,6 +32,7 @@ public class VirtualAmmeterNode extends PhetPNode {
     private Component panel;
     private CCKModule module;
     private Circuit circuit;
+    private Branch previousBranch = null; // Used to detect changes in connection state.
 
     public VirtualAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
         this( new TargetReadoutToolNode(), panel, circuit, module );
@@ -108,6 +113,16 @@ public class VirtualAmmeterNode extends PhetPNode {
         }
         else {
             resetText();
+        }
+
+        // Send a sim sharing message if the connection state has changed.
+        if ( previousBranch != branch ){
+            IModelAction modelAction = previousBranch == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
+            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.nonContactAmmeterModel,
+                                                ModelComponentTypes.modelElement,
+                                                modelAction
+            );
+            previousBranch = branch;
         }
     }
 

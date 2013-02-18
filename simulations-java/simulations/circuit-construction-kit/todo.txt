@@ -4,9 +4,9 @@ Sim Sharing items:
 
 Top Priority
 
-Instrument reading changed (limit to every 500ms)
 Instruments (voltmeter, ammeters) connected - Do this on the basis of the individual probes.
-Instruments disconnected
+Instruments disconnected - Voltmeter and ammeters.
+Instrument reading changed (limit to every 500ms) - Voltmeter and ammeters.
 Motion messages for voltmeter probes and non-contact ammeter
 Checkboxes and buttons
 Configured value (battery voltage, resistance) changed (limit to every 500ms)
