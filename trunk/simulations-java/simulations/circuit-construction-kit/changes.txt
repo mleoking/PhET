@@ -1,3 +1,4 @@
+Sim sharing: Changed the sim sharing message from the voltmeter to say "undfined" instead of "NaN" when it has no value to show.  This is more consistent with what the non-contact ammeter does.
 Sim sharing: Added messages from non-contact ammeter for changes to current reading.
 Sim sharing: Added messages from non-contact ammeter for connections formed and broken.
 Sim Sharing: Added messages for changes to the connection status of the voltmeter leads.
