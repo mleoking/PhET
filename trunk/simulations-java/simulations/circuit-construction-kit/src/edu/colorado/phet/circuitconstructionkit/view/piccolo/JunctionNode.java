@@ -1,12 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Stroke;
+import java.awt.*;
+import java.awt.geom.Point2D;
 
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -15,6 +13,13 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -34,6 +39,8 @@ public class JunctionNode extends PhetPNode {
     private PPath shapeNode;
     private PPath highlightNode;
     private CircuitInteractionModel circuitInteractionModel;
+    private static int id = 0;
+    private IUserComponent userComponent = new UserComponent( "junction." + ( id++ ) );
 
     public JunctionNode( final CCKModel cckModel, final Junction junction, final CircuitNode circuitNode, Component component ) {
         this.cckModel = cckModel;
@@ -61,7 +68,9 @@ public class JunctionNode extends PhetPNode {
         shapeNode.setStrokePaint( Color.red );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                circuitInteractionModel.dragJunction( junction, event.getPositionRelativeTo( JunctionNode.this ) );
+                Point2D target = event.getPositionRelativeTo( JunctionNode.this );
+                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.x, target.getX() ).with( ParameterKeys.y, target.getY() ) );
+                circuitInteractionModel.dragJunction( junction, target );
             }
 
             public void mousePressed( PInputEvent event ) {
@@ -105,7 +114,7 @@ public class JunctionNode extends PhetPNode {
 
     private Stroke createStroke( double strokeWidth ) {
         float scale = (float) 80.0;
-        float[] dash = new float[] { 3 / scale, 6 / scale };
+        float[] dash = new float[]{3 / scale, 6 / scale};
         return new BasicStroke( (float) strokeWidth, BasicStroke.CAP_SQUARE, BasicStroke.CAP_BUTT, 3, dash, 0 );
     }
 
