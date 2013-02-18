@@ -67,13 +67,19 @@ public class JunctionNode extends PhetPNode {
         } );
         shapeNode.setStrokePaint( Color.red );
         addInputEventListener( new PBasicInputEventHandler() {
+            long lastMessageTime = 0;
+
             public void mouseDragged( PInputEvent event ) {
                 Point2D target = event.getPositionRelativeTo( JunctionNode.this );
-                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.x, target.getX() ).with( ParameterKeys.y, target.getY() ) );
+                if ( lastMessageTime == 0 || System.currentTimeMillis() - lastMessageTime >= 500 ) {
+                    SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.x, target.getX() ).with( ParameterKeys.y, target.getY() ) );
+                    lastMessageTime = System.currentTimeMillis();
+                }
                 circuitInteractionModel.dragJunction( junction, target );
             }
 
             public void mousePressed( PInputEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.startDrag, ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
                 if ( event.isControlDown() ) {
                     junction.setSelected( !junction.isSelected() );
                 }
@@ -84,6 +90,7 @@ public class JunctionNode extends PhetPNode {
 
             public void mouseReleased( PInputEvent event ) {
                 circuitInteractionModel.dropJunction( junction );
+                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.endDrag, ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
             }
         } );
         addInputEventListener( new DynamicPopupMenuHandler( component, new DynamicPopupMenuHandler.JPopupMenuFactory() {
