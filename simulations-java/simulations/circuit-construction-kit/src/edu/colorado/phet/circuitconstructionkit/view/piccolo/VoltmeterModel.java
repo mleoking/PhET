@@ -88,10 +88,11 @@ public class VoltmeterModel {
             notifyListeners();
 
             // Send out sim sharing message indication that voltage has changed.
+            String voltageString = Double.isNaN( voltage ) ? "undefined" : Double.toString( voltage );
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterModel,
                                                 ModelComponentTypes.modelElement,
                                                 CCKSimSharing.ModelActions.measuredVoltageChanged,
-                                                new ParameterSet( new Parameter( new ParameterKey( "voltage" ), voltage ) ) );
+                                                new ParameterSet( new Parameter( new ParameterKey( "voltage" ), voltageString ) ) );
         }
 
         // Send out sim sharing message if connection state of leads has changed.
