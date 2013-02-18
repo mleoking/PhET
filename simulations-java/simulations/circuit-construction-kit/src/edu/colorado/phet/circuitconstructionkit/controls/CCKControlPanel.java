@@ -11,11 +11,7 @@ import net.n3.nanoxml.XMLElement;
 import net.n3.nanoxml.XMLException;
 import net.n3.nanoxml.XMLWriter;
 
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -33,21 +29,14 @@ import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;
 import javax.jnlp.FileSaveService;
 import javax.jnlp.UnavailableServiceException;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -57,6 +46,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -204,7 +194,7 @@ public class CCKControlPanel extends ControlPanel {
                     lhs.gridy++;
                     rhs.gridy++;
                 }
-                catch ( IOException e ) {
+                catch( IOException e ) {
                     e.printStackTrace();
                 }
 
@@ -233,7 +223,7 @@ public class CCKControlPanel extends ControlPanel {
             toolPanel.setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.ToolsPanelBorder" ) ) );
             return toolPanel;
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
@@ -282,7 +272,7 @@ public class CCKControlPanel extends ControlPanel {
         try {
             fos = PhetServiceManager.getFileOpenService( module.getSimulationPanel() );
         }
-        catch ( UnavailableServiceException e ) {
+        catch( UnavailableServiceException e ) {
             e.printStackTrace();
         }
         FileContents open = fos.openFileDialog( null, null );
@@ -339,7 +329,7 @@ public class CCKControlPanel extends ControlPanel {
         try {
             fos = PhetServiceManager.getFileSaveService( module.getSimulationPanel() );
         }
-        catch ( UnavailableServiceException e ) {
+        catch( UnavailableServiceException e ) {
             e.printStackTrace();
         }
 
@@ -360,10 +350,11 @@ public class CCKControlPanel extends ControlPanel {
         final JButton save = new JButton( CCKResources.getString( "CCK3ControlPanel.SaveButton" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.saveButton );
                 try {
                     save();
                 }
-                catch ( IOException e1 ) {
+                catch( IOException e1 ) {
                     e1.printStackTrace();
                 }
             }
@@ -371,10 +362,11 @@ public class CCKControlPanel extends ControlPanel {
         JButton load = new JButton( CCKResources.getString( "CCK3ControlPanel.LoadButton" ) );
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.loadButton );
                 try {
                     load();
                 }
-                catch ( Exception e1 ) {
+                catch( Exception e1 ) {
                     e1.printStackTrace();
                 }
             }
@@ -468,10 +460,10 @@ public class CCKControlPanel extends ControlPanel {
             URL url = new URL( CCKResources.getString( "CCK3ControlPanel.PhETURL" ) );
             bs.showDocument( url );
         }
-        catch ( MalformedURLException e ) {
+        catch( MalformedURLException e ) {
             e.printStackTrace();
         }
-        catch ( UnavailableServiceException e ) {
+        catch( UnavailableServiceException e ) {
             e.printStackTrace();
         }
     }
