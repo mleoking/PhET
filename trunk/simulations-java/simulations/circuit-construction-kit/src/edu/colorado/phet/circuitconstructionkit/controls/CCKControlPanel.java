@@ -48,6 +48,10 @@ import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContent
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -406,6 +410,7 @@ public class CCKControlPanel extends ControlPanel {
                     if ( value <= 0 ) {
                         new RuntimeException( "Illegal resistivity: " + value ).printStackTrace();
                     }
+                    SimSharingManager.sendUserMessage( CCKSimSharingSRR.UserComponents.resistivitySlider, UserComponentTypes.slider, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.value, value ) );
                     module.getResistivityManager().setResistivity( value );
                 }
             } );
@@ -415,8 +420,8 @@ public class CCKControlPanel extends ControlPanel {
                 }
             } );
 
-            hideElectrons = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.HideElectronsCheckBox" ),
-                                           !module.isElectronsVisible() );
+            hideElectrons = new SimSharingJCheckBox( CCKSimSharingSRR.UserComponents.hideElectronsCheckBox, CCKResources.getString( "CCK3ControlPanel.HideElectronsCheckBox" ),
+                                                     !module.isElectronsVisible() );
             hideElectrons.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setElectronsVisible( !hideElectrons.isSelected() );
