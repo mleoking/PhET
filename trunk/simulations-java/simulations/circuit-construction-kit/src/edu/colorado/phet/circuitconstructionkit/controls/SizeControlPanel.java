@@ -1,19 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 /**
@@ -40,19 +39,19 @@ public class SizeControlPanel extends VerticalLayoutPanel {
         zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
 
         ButtonGroup zoomGroup = new ButtonGroup();
-        JRadioButton small = new JRadioButton( CCKResources.getString( "CCK3ControlPanel.SmallRadioButton" ) );
+        JRadioButton small = new SimSharingJRadioButton( CCKSimSharingSRR.UserComponents.smallRadioButton, CCKResources.getString( "CCK3ControlPanel.SmallRadioButton" ) );
         small.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 2 );
             }
         } );
-        JRadioButton medium = new JRadioButton( CCKResources.getString( "CCK3ControlPanel.MediumRadioButton" ) );
+        JRadioButton medium = new SimSharingJRadioButton( CCKSimSharingSRR.UserComponents.mediumRadioButton, CCKResources.getString( "CCK3ControlPanel.MediumRadioButton" ) );
         medium.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 1 );
             }
         } );
-        JRadioButton large = new JRadioButton( CCKResources.getString( "CCK3ControlPanel.LargeRadioButton" ) );
+        JRadioButton large = new SimSharingJRadioButton( CCKSimSharingSRR.UserComponents.largeRadioButton, CCKResources.getString( "CCK3ControlPanel.LargeRadioButton" ) );
         large.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( .5 );
