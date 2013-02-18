@@ -53,7 +53,7 @@ public class HelpPanel extends JPanel {
         miniHelpBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 miniHelpShowing = !miniHelpShowing;
-                SimSharingManager.sendButtonPressed( miniHelpShowing ? UserComponents.showHelpButton : UserComponents.hideHelpButton );
+                SimSharingManager.sendButtonPressed( miniHelpShowing ? UserComponents.helpButton : UserComponents.hideHelpButton );
 
                 // If there is no megahelp, don't show the megahelp button
                 if ( miniHelpShowing ) {
