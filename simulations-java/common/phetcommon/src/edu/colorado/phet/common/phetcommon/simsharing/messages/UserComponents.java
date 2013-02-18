@@ -36,5 +36,8 @@ public enum UserComponents implements IUserComponent {
 
     aboutDialogCloseButton, aboutDialogCreditsButton,
     aboutDialogSoftwareAgreementButton,
-    icon
+    icon,
+
+    helpButton,
+    hideHelpButton
 }
