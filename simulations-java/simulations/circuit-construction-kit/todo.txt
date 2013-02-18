@@ -4,26 +4,21 @@ Sim Sharing items:
 
 Top Priority
 
-Instrument reading changed - Voltmeter and ammeters.
-Fix: Non-contact Ammeter reading changes at junction.
-Motion messages for voltmeter probes and non-contact ammeter
-Checkboxes and buttons
-Configured value (battery voltage, resistance) changed (limit to every 500ms)
-Flame message
-Rotation/endpoint movement
+JB: Instrument reading changed - Voltmeter and ammeters.
+JB: Fix: Non-contact Ammeter reading changes at junction.
+SR: Checkboxes and buttons
+SR: Flame message
+SR: Rotation/endpoint movement
+SR: Configured value (battery voltage, resistance) changed (limit to every 500ms)
+> Maybe defer these to post processing:
 Limit rate of reading changes from the voltmeter and ammeters to one/500ms.  Should be easy to change this rate in the code (a constant).
 Limit rate of value changes from the batteries and resistors to one/500ms.  Should be easy to change this rate in the code (a constant).
 
-2nd Priority
-Activate/deactivate messages for the instruments (non-contact ammeter, voltage probes).  Activate on mouse down, deactivate on mouse up.
-Voltmeter/Ammeter - message includes the component or components to which they are connected.
+2nd Priority (wait until confirming top priority with Ido)
+SR: Activate/deactivate messages for the instruments (non-contact ammeter, voltage probes).  Activate on mouse down, deactivate on mouse up.
+SR: Voltmeter/Ammeter - message includes the component or components to which they are connected.
 Current change message for each component excluding wires (limit to every 500ms) [On hold for now based on 2/15/2013 email from Ido]
 
 3rd Priority
 Component name from grab bag
 Location on screen
-
-
-
-
-
