@@ -16,11 +16,11 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 /**
  * User: Sam Reid
@@ -33,7 +33,9 @@ public class VoltmeterModel {
     private UnitModel unitModel;
     private ArrayList listeners = new ArrayList();
     private LeadModel redLead;
+    private Connection prevRedLeadConnection = null;
     private LeadModel blackLead;
+    private Connection prevBlackLeadConnection = null;
     private double voltage = Double.NaN;
     private CCKModel model;
     private Circuit circuit;
@@ -88,6 +90,28 @@ public class VoltmeterModel {
                                                 ModelComponentTypes.modelElement,
                                                 CCKSimSharing.ModelActions.measuredVoltageChanged,
                                                 new ParameterSet( new Parameter( new ParameterKey( "voltage" ), voltage ) ) );
+        }
+
+        // Send out sim sharing message if connection state of leads has changed.
+        // TODO: The code below serves the desired purpose (sends sim sharing
+        // messages when connections formed and broken) but seems pretty
+        // awkward.  Should be reviewed with Sam R before being finalized.
+        // --jblanco, 2/18/2013.
+        if ( redLead.getConnection() != prevRedLeadConnection && ( redLead.getConnection() == null || prevRedLeadConnection == null ) ) {
+            IModelAction modelAction = prevRedLeadConnection == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
+            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterRedLeadModel,
+                                                ModelComponentTypes.modelElement,
+                                                modelAction
+            );
+            prevRedLeadConnection = redLead.getConnection();
+        }
+        if ( blackLead.getConnection() != prevBlackLeadConnection && ( blackLead.getConnection() == null || prevBlackLeadConnection == null ) ) {
+            IModelAction modelAction = prevBlackLeadConnection == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
+            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterBlackLeadModel,
+                                                ModelComponentTypes.modelElement,
+                                                modelAction
+            );
+            prevBlackLeadConnection = blackLead.getConnection();
         }
     }
 

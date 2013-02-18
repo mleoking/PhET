@@ -27,7 +27,7 @@ public class CCKSimSharing {
     }
 
     public static enum ModelComponents implements IModelComponent {
-        circuit, voltmeterModel;
+        circuit, voltmeterModel, voltmeterRedLeadModel, voltmeterBlackLeadModel, voltmeterBlackckLeadModel;
     }
 
     public static enum ModelComponentTypes implements IModelComponentType {
