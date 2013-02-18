@@ -242,11 +242,13 @@ public class CCKControlPanel extends ControlPanel {
 
         lifelike.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.lifelikeRadioButton );
                 module.setLifelike( true );
             }
         } );
         schematic.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.schematicRadioButton );
                 module.setLifelike( false );
             }
         } );
