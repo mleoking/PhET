@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class CCKSimSharingSRR {
     public static enum UserComponents implements IUserComponent {
-        loadButton, lifelikeRadioButton, schematicRadioButton, showReadoutCheckBox, saveButton
+        loadButton, lifelikeRadioButton, schematicRadioButton, showReadoutCheckBox, smallRadioButton, mediumRadioButton, largeRadioButton, saveButton
     }
 
     public static enum UserActions implements IUserAction {
