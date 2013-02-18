@@ -1,19 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.controls.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.circuitconstructionkit.controls.ResetDynamicsMenuItem;
@@ -155,7 +154,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         public InductorMenu( final Inductor inductor, CCKModule module ) {
             super( inductor, module );
             this.inductor = inductor;
-            editor = new ComponentEditor( module, CCKStrings.getString( "inductance" ), inductor, module.getSimulationPanel(),
+            editor = new ComponentEditor( CCKSimSharingSRR.UserComponents.inductorEditor, module, CCKStrings.getString( "inductance" ), inductor, module.getSimulationPanel(),
                                           CCKStrings.getString( "inductance" ), CCKStrings.getString( "henries" ), Inductor.MIN_INDUCTANCE, Inductor.MAX_INDUCTANCE,
                                           inductor.getInductance(), module.getCircuit() ) {
                 protected void doChange( double value ) {
@@ -190,7 +189,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         public CapacitorMenu( final Capacitor capacitor, CCKModule module ) {
             super( capacitor, module );
             this.capacitor = capacitor;
-            editor = new ComponentEditor( module, CCKStrings.getString( "capacitance" ), capacitor, module.getSimulationPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), Capacitor.DEFAULT_CAPACITANCE / 2, Capacitor.DEFAULT_CAPACITANCE * 2, capacitor.getCapacitance(), module.getCircuit() ) {
+            editor = new ComponentEditor( CCKSimSharingSRR.UserComponents.capacitorEditor, module, CCKStrings.getString( "capacitance" ), capacitor, module.getSimulationPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), Capacitor.DEFAULT_CAPACITANCE / 2, Capacitor.DEFAULT_CAPACITANCE * 2, capacitor.getCapacitance(), module.getCircuit() ) {
                 protected void doChange( double value ) {
                     capacitor.setCapacitanceConstantCharge( value );
                 }
@@ -420,7 +419,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         }
 
         private ComponentEditor createFrequencyEditor( final ACVoltageSource acVoltageSource ) {
-            return new ComponentEditor( getModule(), CCKResources.getString( "ComponentEditor.ACFrequency" ), acVoltageSource, getModule().getSimulationPanel(),
+            return new ComponentEditor( CCKSimSharingSRR.UserComponents.frequencyEditor, getModule(), CCKResources.getString( "ComponentEditor.ACFrequency" ), acVoltageSource, getModule().getSimulationPanel(),
                                         CCKResources.getString( "ComponentEditor.Frequency" ), CCKResources.getString( "ComponentEditor.Hz" ), 0, 2, acVoltageSource.getFrequency(), getModule().getCircuit() ) {
                 protected void doChange( double value ) {
                     acVoltageSource.setFrequency( value );

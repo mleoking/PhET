@@ -1,12 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.Component;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -17,16 +12,13 @@ import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 import java.text.DecimalFormat;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -38,6 +30,13 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -54,8 +53,9 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
     protected ModelSlider slider;
     protected JPanel contentPane;
     private CircuitListener circuitListener;
+    final BooleanProperty constructor = new BooleanProperty( true );
 
-    public ComponentEditor( final CCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
+    public ComponentEditor( final IUserComponent userComponent, final CCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
         if ( startvalue > max ) {
@@ -83,6 +83,11 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         setContentPane( contentPane );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+
+                //Send sim sharing message, but not if the constructor is being called.
+                if ( !constructor.get() ) {
+                    SimSharingManager.sendUserMessage( userComponent, CCKSimSharingSRR.UserComponentType.editor, UserActions.changed, ParameterSet.parameterSet( CCKSimSharingSRR.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
+                }
                 doChange( slider.getValue() );
             }
         } );
@@ -142,6 +147,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
                 validateRepaint();
             }
         } );
+        constructor.set( false );
     }
 
     public void setVisible( boolean b ) {
@@ -171,11 +177,12 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         private static final int MAX_HUGE_BATTERY_VOLTAGE = 100000;
 
         public BatteryEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
-            super( module, CCKResources.getString( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
+            super( CCKSimSharingSRR.UserComponents.voltageEditor, module, CCKResources.getString( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
                    CCKResources.getString( "ComponentEditor.BatteryVoltageName" ),
                    CCKResources.getString( "ComponentEditor.BatteryVoltageUnits" ), 0, MAX_HUGE_BATTERY_VOLTAGE, element.getVoltageDrop(), circuit );
+            constructor.set( true );
             if ( module.getParameters().hugeRangeOnBatteries() ) {
-                final JCheckBox hugeRange = new JCheckBox( CCKResources.getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
+                final JCheckBox hugeRange = new SimSharingJCheckBox( CCKSimSharingSRR.UserComponents.moreVoltsCheckBox, CCKResources.getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         setHugeRange( hugeRange.isSelected() );
@@ -188,6 +195,9 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 
                 super.pack();
             }
+
+            //Workaround for the fact that the above code calls a setter on the model, even though the value hasn't changed
+            constructor.set( false );
         }
 
         private ModelSlider getSlider() {
@@ -219,7 +229,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 
     public static class ResistorEditor extends ComponentEditor {
         public ResistorEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, CCKResources.getString( "ComponentEditor.ResistorResistanceTitle" ),
+            super( CCKSimSharingSRR.UserComponents.resistorEditor, module, CCKResources.getString( "ComponentEditor.ResistorResistanceTitle" ),
                    element, parent, CCKResources.getString( "ComponentEditor.ResistorResistanceName" ),
                    CCKResources.getString( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
         }
@@ -235,7 +245,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 
     public static class BulbResistanceEditor extends ComponentEditor {
         public BulbResistanceEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, CCKResources.getString( "ComponentEditor.BulbResistanceTitle" ),
+            super( CCKSimSharingSRR.UserComponents.bulbResistorEditor, module, CCKResources.getString( "ComponentEditor.BulbResistanceTitle" ),
                    element, parent, CCKResources.getString( "ComponentEditor.BulbResistanceName" ),
                    CCKResources.getString( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
         }
@@ -253,7 +263,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         private Battery battery;
 
         public BatteryResistanceEditor( CCKModule module, Battery element, Component parent, Circuit circuit ) {
-            super( module, CCKResources.getString( "ComponentEditor.BatteryResistanceTitle" ),
+            super( CCKSimSharingSRR.UserComponents.batteryResistanceEditor, module, CCKResources.getString( "ComponentEditor.BatteryResistanceTitle" ),
                    element, parent, CCKResources.getString( "ComponentEditor.BatteryResistanceName" ),
                    CCKResources.getString( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
             this.battery = element;
@@ -277,7 +287,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         private ACVoltageSource branch;
 
         public ACVoltageSourceEditor( CCKModule module, ACVoltageSource branch, JComponent apparatusPanel, Circuit circuit ) {
-            super( module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, branch.getAmplitude(), circuit );
+            super( CCKSimSharingSRR.UserComponents.acVoltageSourceEditor, module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, branch.getAmplitude(), circuit );
             this.branch = branch;
         }
 
