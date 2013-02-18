@@ -83,6 +83,7 @@ public class VoltmeterModel {
     private void updateVoltage() {
         double voltage = circuit.getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
 
+        // Send out sim sharing message if voltage has changed.
         if ( voltage != this.voltage && !( Double.isNaN( this.getVoltage() ) && Double.isNaN( voltage ) ) ) {
             this.voltage = voltage;
             notifyListeners();
