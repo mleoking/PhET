@@ -1,11 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.CompositeCircuitChangeListener;
@@ -16,6 +17,8 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.SimpleObservableDebug;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -189,11 +192,23 @@ public abstract class Branch extends SimpleObservableDebug {
         if ( shouldBeOnFire != isOnFire ) {
             this.isOnFire = shouldBeOnFire;
             if ( isOnFire ) {
+                SimSharingManager.sendModelMessage( new IModelComponent() {
+                    @Override public String toString() {
+                        return userComponentID.toString();
+                    }
+                }, CCKSimSharing.ModelComponentTypes.connection, CCKSimSharingSRR.ModelActions.fireStarted );
+
+                //TODO: this looks buggy, shouldn't it be a flame started?  Likewise, see below.
                 for ( FlameListener flameListener : flameListeners ) {
                     flameListener.flameFinished();
                 }
             }
             else {
+                SimSharingManager.sendModelMessage( new IModelComponent() {
+                    @Override public String toString() {
+                        return userComponentID.toString();
+                    }
+                }, CCKSimSharing.ModelComponentTypes.connection, CCKSimSharingSRR.ModelActions.fireEnded );
                 for ( FlameListener flameListener : flameListeners ) {
                     flameListener.flameStarted();
                 }
@@ -388,11 +403,11 @@ public abstract class Branch extends SimpleObservableDebug {
         return mnaVoltageDrop;
     }
 
-    public void setUserComponentID( IUserComponent userComponentID ){
+    public void setUserComponentID( IUserComponent userComponentID ) {
         this.userComponentID = userComponentID;
     }
 
-    public IUserComponent getUserComponentID(){
+    public IUserComponent getUserComponentID() {
         return userComponentID;
     }
 }

@@ -25,5 +25,6 @@ public class CCKSimSharingSRR {
     }
 
     public static enum ModelActions implements IModelAction {
+        fireStarted, fireEnded
     }
 }
