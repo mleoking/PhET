@@ -4,15 +4,15 @@ Sim Sharing items:
 
 Top Priority
 
-Instruments (voltmeter, ammeters) connected - Do this on the basis of the individual probes.
-Instruments disconnected - Voltmeter and ammeters.
-Instrument reading changed (limit to every 500ms) - Voltmeter and ammeters.
+Instrument reading changed - Voltmeter and ammeters.
+Fix: Non-contact Ammeter reading changes at junction.
 Motion messages for voltmeter probes and non-contact ammeter
 Checkboxes and buttons
 Configured value (battery voltage, resistance) changed (limit to every 500ms)
 Flame message
 Rotation/endpoint movement
-
+Limit rate of reading changes from the voltmeter and ammeters to one/500ms.  Should be easy to change this rate in the code (a constant).
+Limit rate of value changes from the batteries and resistors to one/500ms.  Should be easy to change this rate in the code (a constant).
 
 2nd Priority
 Activate/deactivate messages for the instruments (non-contact ammeter, voltage probes).  Activate on mouse down, deactivate on mouse up.

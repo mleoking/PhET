@@ -109,4 +109,12 @@ public class TargetReadoutToolNode extends PComposite {
         setText( new String[] { text } );
     }
 
+    // Get a copy of the string text.
+    public String[] getText(){
+        String [] retVal = new String[this.text.length];
+        for ( int i = 0; i < text.length; i++ ) {
+            retVal[i] = new String( text[i] );
+        }
+        return retVal;
+    }
 }

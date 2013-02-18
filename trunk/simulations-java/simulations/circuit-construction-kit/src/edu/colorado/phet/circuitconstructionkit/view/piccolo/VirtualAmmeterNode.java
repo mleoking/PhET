@@ -16,6 +16,9 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -103,6 +106,8 @@ public class VirtualAmmeterNode extends PhetPNode {
         targetReadoutToolNode.localToGlobal( target );
         globalToLocal( target );
         localToParent( target );
+        String[] previousText = targetReadoutToolNode.getText();
+
         //check for intersect with circuit.
         Branch branch = circuit.getBranch( target );
         if ( branch != null ) {
@@ -116,13 +121,26 @@ public class VirtualAmmeterNode extends PhetPNode {
         }
 
         // Send a sim sharing message if the connection state has changed.
-        if ( previousBranch != branch ){
+        if ( previousBranch != branch ) {
             IModelAction modelAction = previousBranch == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.nonContactAmmeterModel,
                                                 ModelComponentTypes.modelElement,
                                                 modelAction
             );
             previousBranch = branch;
+        }
+
+        // Send a sim sharing message if the readout has changed.
+        String[] currentText = targetReadoutToolNode.getText();
+        if ( ( previousText.length != currentText.length ) ||
+             ( previousText.length == 1 && currentText.length == 1 && !previousText[0].equals( currentText[0] ) ) ) {
+
+            String currentlyDisplayedText = ( branch == null || currentText.length == 0 ) ? "undefined" : currentText[0];
+            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.nonContactAmmeterModel,
+                                                ModelComponentTypes.modelElement,
+                                                CCKSimSharing.ModelActions.measuredCurrentChanged,
+                                                new ParameterSet( new Parameter( new ParameterKey( "current" ), currentlyDisplayedText ) ) );
+
         }
     }
 
