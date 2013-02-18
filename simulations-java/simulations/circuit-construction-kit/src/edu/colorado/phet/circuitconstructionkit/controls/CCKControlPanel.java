@@ -156,7 +156,7 @@ public class CCKControlPanel extends ControlPanel {
                 }
             } );
 
-            final SimSharingJCheckBox virtualAmmeter = new SimSharingJCheckBox( CCKSimSharing.UserComponents.ammeterCheckBox, CCKResources.getString( "CCK3ControlPanel.NonContactAmmeterCheckBox" ), false );
+            final SimSharingJCheckBox virtualAmmeter = new SimSharingJCheckBox( CCKSimSharing.UserComponents.nonContactAmmeterCheckBox, CCKResources.getString( "CCK3ControlPanel.NonContactAmmeterCheckBox" ), false );
             virtualAmmeter.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );

@@ -19,7 +19,7 @@ public class CCKSimSharing {
     public static enum UserComponents implements IUserComponent {
         unspecifiedBranch, battery, wire, resistor, grabBagResistor, lightBulb,
         circuitSwitch, inductor, acVoltageSource, capacitor, voltmeterCheckBox,
-        ammeterCheckBox, seriesAmmeterCheckBox, voltmeter, seriesAmmeter
+        nonContactAmmeterCheckBox, seriesAmmeterCheckBox, voltmeter, seriesAmmeter
     }
 
     public static enum UserActions implements IUserAction {
