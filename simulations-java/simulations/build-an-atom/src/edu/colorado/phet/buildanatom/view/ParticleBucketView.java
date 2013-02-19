@@ -61,13 +61,18 @@ public class ParticleBucketView extends BucketView{
 
             @Override
             public void mousePressed( PInputEvent event ) {
-                // Extract the closest particle from the bucket.
-                // TBD
                 if ( !bucket.getParticleList().isEmpty() ){
+                    // Extract the particle that is closest to the mouse location.
+                    Vector2D mouseLocation = new Vector2D( mvt.viewToModel( event.getCanvasPosition() ) );
                     particle = bucket.getParticleList().get( 0 );
+                    for ( SphericalParticle bucketParticle : bucket.getParticleList() ) {
+                        if ( bucketParticle.getPosition().distance( mouseLocation ) < particle.getPosition().distance( mouseLocation ) ){
+                            particle = bucketParticle;
+                        }
+                    }
                     bucket.removeParticle( particle );
                     particle.setUserControlled( true );
-                    particle.setPositionAndDestination( new Vector2D( mvt.viewToModel( event.getCanvasPosition() ) ) );
+                    particle.setPositionAndDestination( mouseLocation );
                 }
             }
 
