@@ -10,6 +10,7 @@ import edu.colorado.phet.buildanatom.view.ParticleBucketView;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -30,7 +31,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
     /**
      * Constructor.
      */
-    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform mvt, final Property<OrbitalView> orbitalView ) {
+    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform mvt, PhetPCanvas canvas, final Property<OrbitalView> orbitalView ) {
         super( model.getAtom(), mvt, orbitalView );
 
         this.model = model;
@@ -39,7 +40,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         electronShellLayer.addChild( new CenterMarkerNode( model, mvt ) );
 
         // Add the buckets that hold the sub-atomic particles.
-        BucketView electronBucketNode = new ParticleBucketView( model.getElectronBucket(), mvt );
+        BucketView electronBucketNode = new ParticleBucketView( model.getElectronBucket(), mvt, canvas );
         electronShellLayer.addChild( electronBucketNode.getHoleNode() );
         frontLayer.addChild( electronBucketNode.getFrontNode() );
         for ( SphericalParticle electron : model.getElectronBucket().getParticleList() ) {
@@ -48,7 +49,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // atom later.
             addElectronNode( (Electron) electron );
         }
-        BucketView protonBucketNode = new ParticleBucketView( model.getProtonBucket(), mvt );
+        BucketView protonBucketNode = new ParticleBucketView( model.getProtonBucket(), mvt, canvas );
         electronShellLayer.addChild( protonBucketNode.getHoleNode() );
         frontLayer.addChild( protonBucketNode.getFrontNode() );
         for ( SphericalParticle proton : model.getProtonBucket().getParticleList() ) {
@@ -57,7 +58,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // atom later.
             addProtonNode( (Proton) proton );
         }
-        BucketView neutronBucketNode = new ParticleBucketView( model.getNeutronBucket(), mvt );
+        BucketView neutronBucketNode = new ParticleBucketView( model.getNeutronBucket(), mvt, canvas );
         electronShellLayer.addChild( neutronBucketNode.getHoleNode() );
         frontLayer.addChild( neutronBucketNode.getFrontNode() );
         for ( SphericalParticle neutron : model.getNeutronBucket().getParticleList() ) {

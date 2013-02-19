@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -33,11 +33,14 @@ public class SymbolToSchematicView extends ProblemView {
         symbolIndicatorNode.scale( 2 );
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
-        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock() ) {{reset();}};
+        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock() ) {{
+            reset();
+        }};
         interactiveSchematicAtomNode = new InteractiveSchematicAtomNode( buildAnAtomModel, ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.70 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
                 1.5 ),
+                                                                         canvas,
                                                                          new Property<OrbitalView>( OrbitalView.PARTICLES ) );
         buildAnAtomModel.getAtom().addAtomListener( new AtomListener.Adapter() {
             @Override

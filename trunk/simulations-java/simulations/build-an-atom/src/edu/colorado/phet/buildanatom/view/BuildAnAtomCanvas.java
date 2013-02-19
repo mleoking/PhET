@@ -95,7 +95,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( particleLayer );
 
         // Add the atom, which includes all of the sub-atomic particles and the buckets.
-        particleLayer.addChild( new InteractiveSchematicAtomNode( model, mvt, orbitalViewProperty ) );
+        particleLayer.addChild( new InteractiveSchematicAtomNode( model, mvt, this, orbitalViewProperty ) );
 
         // Show the name of the element.
         ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), showName, false );
