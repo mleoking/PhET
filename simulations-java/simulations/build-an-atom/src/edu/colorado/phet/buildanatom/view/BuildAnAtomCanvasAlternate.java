@@ -155,7 +155,7 @@ public class BuildAnAtomCanvasAlternate extends PhetPCanvas implements Resettabl
 
         // Check boxes that control the visibility of the labels.
         PSwing showNameCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_ELEMENT_NAME, showName );
-        showNameCheckBox.setOffset( chargeWindow.getFullBounds().getMinX(), chargeWindow.getFullBounds().getMaxY() + 5 );
+        showNameCheckBox.setOffset( chargeWindow.getFullBounds().getMinX() + 20, chargeWindow.getFullBounds().getMaxY() + 5 );
         indicatorLayer.addChild( showNameCheckBox );
 
         PSwing showNeutralIonCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_NEUTRAL_ION, showNeutralIon );
@@ -173,12 +173,8 @@ public class BuildAnAtomCanvasAlternate extends PhetPCanvas implements Resettabl
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         indicatorLayer.addChild( resetButtonNode );
 
-        double maxCheckboxX = Collections.max( Arrays.asList( showNameCheckBox.getFullBoundsReference().getMaxX(),
-                                                              showNeutralIonCheckBox.getFullBoundsReference().getMaxX(),
-                                                              showStableUnstableCheckBox.getFullBoundsReference().getMaxX() ) );
-        resetButtonNode.setOffset(
-                ( maxCheckboxX + ( chargeWindow.getFullBounds().getMaxX() - maxCheckboxX ) / 2 ) - resetButtonNode.getFullBoundsReference().width / 2,
-                showNeutralIonCheckBox.getFullBoundsReference().getCenterY() - resetButtonNode.getFullBoundsReference().height / 2 );
+        resetButtonNode.setOffset( chargeWindow.getFullBoundsReference().getMaxX() - resetButtonNode.getFullBoundsReference().width - 20,
+                                   showNeutralIonCheckBox.getFullBoundsReference().getCenterY() - resetButtonNode.getFullBoundsReference().height / 2 );
 
         // Add the Selection control for how to view the orbitals
         final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( orbitalViewProperty );
