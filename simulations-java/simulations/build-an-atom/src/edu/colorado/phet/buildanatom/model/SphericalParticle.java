@@ -34,7 +34,7 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
 
     private final double radius;
     private final Property<Vector2D> position;
-    private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
+    private final Property<Boolean> userControlled = new Property<Boolean>( false ); // True if the particle is being dragged by the user
     private final HashSet<IBucketSphere.Listener<SphericalParticle>> listeners = new HashSet<IBucketSphere.Listener<SphericalParticle>>();
     private Vector2D destination = new Vector2D();
 
