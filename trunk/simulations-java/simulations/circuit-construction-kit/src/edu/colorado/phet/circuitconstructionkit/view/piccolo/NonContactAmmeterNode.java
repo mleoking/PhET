@@ -55,18 +55,33 @@ public class NonContactAmmeterNode extends PhetPNode {
         addChild( targetReadoutTool );
 
         addInputEventListener( new PBasicInputEventHandler() {
+
+            @Override public void mousePressed( PInputEvent event ) {
+                super.mousePressed( event );
+                SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.startDrag,
+                                                   ParameterSet.parameterSet( ParameterKeys.x, getXOffset() ).
+                                                           with( ParameterKeys.y, getYOffset() ) );
+            }
+
             public void mouseDragged( PInputEvent event ) {
                 final PDimension pt = event.getDeltaRelativeTo( NonContactAmmeterNode.this );
                 runner.set( new Runnable() {
                     public void run() {
                         SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.drag,
-                                                           ParameterSet.parameterSet( ParameterKeys.x, getX() + pt.width ).
-                                                                   with( ParameterKeys.y, getY() + pt.height ) );
+                                                           ParameterSet.parameterSet( ParameterKeys.x, getXOffset() + pt.width ).
+                                                                   with( ParameterKeys.y, getYOffset() + pt.height ) );
                     }
                 } );
 
                 translate( pt.width, pt.height );
                 update();
+            }
+
+            @Override public void mouseReleased( PInputEvent event ) {
+                super.mouseReleased( event );
+                SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.endDrag,
+                                                   ParameterSet.parameterSet( ParameterKeys.x, getXOffset() ).
+                                                           with( ParameterKeys.y, getYOffset() ) );
             }
         } );
         addInputEventListener( new CursorHandler() );
