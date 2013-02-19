@@ -70,7 +70,6 @@ public class ParticleBucketView extends BucketView{
                             particle = bucketParticle;
                         }
                     }
-                    bucket.removeParticle( particle );
                     particle.setUserControlled( true );
                     particle.setPositionAndDestination( mouseLocation );
                 }
