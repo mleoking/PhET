@@ -1,3 +1,4 @@
+Turned off confirmation for Reset All button on first tab.
 # 3.02.02 (72193) Feb 19, 2013
 2/19/13 Publishing to dev for touch-based testing.
 Made it possible to extract the particles from the buckets by touching the buckets themselves. This is prototyping for touch-based interface testing.

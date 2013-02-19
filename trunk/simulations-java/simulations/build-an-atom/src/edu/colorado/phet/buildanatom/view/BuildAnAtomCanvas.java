@@ -166,6 +166,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
 
         // "Reset All" button.
         ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
+        resetButtonNode.setConfirmationEnabled( false );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         indicatorLayer.addChild( resetButtonNode );
