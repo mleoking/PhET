@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
@@ -18,7 +18,10 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -36,6 +39,7 @@ public class VirtualAmmeterNode extends PhetPNode {
     private CCKModule module;
     private Circuit circuit;
     private Branch previousBranch = null; // Used to detect changes in connection state.
+    DelayedRunner runner = new DelayedRunner();
 
     public VirtualAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
         this( new TargetReadoutToolNode(), panel, circuit, module );
@@ -52,7 +56,15 @@ public class VirtualAmmeterNode extends PhetPNode {
 
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                PDimension pt = event.getDeltaRelativeTo( VirtualAmmeterNode.this );
+                final PDimension pt = event.getDeltaRelativeTo( VirtualAmmeterNode.this );
+                runner.set( new Runnable() {
+                    public void run() {
+                        SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.ammeter, UserComponentTypes.sprite, UserActions.drag,
+                                                           ParameterSet.parameterSet( ParameterKeys.x, getX() + pt.width ).
+                                                                   with( ParameterKeys.y, getY() + pt.height ) );
+                    }
+                } );
+
                 translate( pt.width, pt.height );
                 update();
             }
@@ -145,7 +157,7 @@ public class VirtualAmmeterNode extends PhetPNode {
     }
 
     private void resetText() {
-        String[] text = new String[] {
+        String[] text = new String[]{
                 CCKResources.getString( "VirtualAmmeter.HelpString1" ),
                 CCKResources.getString( "VirtualAmmeter.HelpString2" )
         };
