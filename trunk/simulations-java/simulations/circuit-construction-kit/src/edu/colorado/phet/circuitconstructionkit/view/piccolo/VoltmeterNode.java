@@ -201,6 +201,13 @@ public class VoltmeterNode extends PhetPNode {
             } );
 
             addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.startDrag,
+                                                       ParameterSet.parameterSet( ParameterKeys.x, leadModel.getTipLocation().getX() ).
+                                                               with( ParameterKeys.y, leadModel.getTipLocation().getY() ) );
+                    super.mousePressed( event );    //To change body of overridden methods use File | Settings | File Templates.
+                }
+
                 public void mouseDragged( PInputEvent event ) {
                     final PDimension pt = event.getDeltaRelativeTo( LeadNode.this.getParent() );
                     runner.set( new Runnable() {
@@ -211,6 +218,14 @@ public class VoltmeterNode extends PhetPNode {
                         }
                     } );
                     leadModel.translate( pt.width, pt.height );
+                }
+
+                @Override public void mouseReleased( PInputEvent event ) {
+                    SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.endDrag,
+                                                       ParameterSet.parameterSet( ParameterKeys.x, leadModel.getTipLocation().getX() ).
+                                                               with( ParameterKeys.y, leadModel.getTipLocation().getY() ) );
+                    runner.terminate();
+                    super.mouseReleased( event );    //To change body of overridden methods use File | Settings | File Templates.
                 }
             } );
             addInputEventListener( new CursorHandler() );

@@ -79,6 +79,7 @@ public class NonContactAmmeterNode extends PhetPNode {
 
             @Override public void mouseReleased( PInputEvent event ) {
                 super.mouseReleased( event );
+                runner.terminate();
                 SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.endDrag,
                                                    ParameterSet.parameterSet( ParameterKeys.x, getXOffset() ).
                                                            with( ParameterKeys.y, getYOffset() ) );

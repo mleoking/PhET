@@ -30,4 +30,10 @@ public class DelayedRunner {
             timer.start();
         }
     }
+
+    //Dragging ended, so don't send any more messages (even if one stored up)
+    public void terminate() {
+        timer.stop();
+        runnable = null;
+    }
 }
