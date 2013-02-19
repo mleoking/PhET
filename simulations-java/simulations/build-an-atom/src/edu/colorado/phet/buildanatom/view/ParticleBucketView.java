@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.SphereBucket;
@@ -30,14 +31,21 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class ParticleBucketView extends BucketView{
 
+    private final ModelViewTransform mvt;
+
+    // Canvas, needed for view-to-model coordinate transformations.
+    private final PhetPCanvas canvas;
+
     // Particle being controlled, null if no particle currently under control.
     private SphericalParticle particle = null;
 
     /*
      * Constructor.
      */
-    public ParticleBucketView( final SphereBucket<SphericalParticle> bucket, final ModelViewTransform mvt ) {
+    public ParticleBucketView( final SphereBucket<SphericalParticle> bucket, final ModelViewTransform mvt, PhetPCanvas canvas ) {
         super( bucket, mvt );
+        this.mvt = mvt;
+        this.canvas = canvas;
 
         // Add an invisible shape to the top of the bucket that will watch for
         // mouse events and grab particles in response.  This makes it possible
@@ -64,7 +72,7 @@ public class ParticleBucketView extends BucketView{
             public void mousePressed( PInputEvent event ) {
                 if ( !bucket.getParticleList().isEmpty() ){
                     // Extract the particle that is closest to the mouse location.
-                    Vector2D mouseLocation = new Vector2D( mvt.viewToModel( event.getCanvasPosition() ) );
+                    Point2D mouseLocation = getModelPosition( event.getCanvasPosition() );
                     particle = bucket.getParticleList().get( 0 );
                     for ( SphericalParticle bucketParticle : bucket.getParticleList() ) {
                         if ( bucketParticle.getPosition().distance( mouseLocation ) < particle.getPosition().distance( mouseLocation ) ){
@@ -79,7 +87,7 @@ public class ParticleBucketView extends BucketView{
             @Override
             public void mouseDragged( PInputEvent event ) {
                 if ( particle != null ){
-                    particle.setPositionAndDestination( new Vector2D( mvt.viewToModel( event.getCanvasPosition() ) ) );
+                    particle.setPositionAndDestination( getModelPosition( event.getCanvasPosition() ) );
                 }
             }
 
@@ -92,5 +100,15 @@ public class ParticleBucketView extends BucketView{
                 }
             }
         }  );
+    }
+
+    /**
+     * Convert the canvas position to the corresponding location in the model.
+     */
+    private Point2D getModelPosition( Point2D canvasPos ) {
+        Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
+        canvas.getPhetRootNode().screenToWorld( worldPos );
+        worldPos = new MutableVector2D( worldPos ).toPoint2D();
+        return mvt.viewToModel( worldPos );
     }
 }
