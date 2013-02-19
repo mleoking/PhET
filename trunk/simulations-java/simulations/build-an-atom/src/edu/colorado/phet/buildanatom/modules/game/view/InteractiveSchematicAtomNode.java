@@ -48,7 +48,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // atom later.
             addElectronNode( (Electron) electron );
         }
-        BucketView protonBucketNode = new BucketView( model.getProtonBucket(), mvt );
+        BucketView protonBucketNode = new ParticleBucketView( model.getProtonBucket(), mvt );
         electronShellLayer.addChild( protonBucketNode.getHoleNode() );
         frontLayer.addChild( protonBucketNode.getFrontNode() );
         for ( SphericalParticle proton : model.getProtonBucket().getParticleList() ) {
@@ -57,7 +57,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // atom later.
             addProtonNode( (Proton) proton );
         }
-        BucketView neutronBucketNode = new BucketView( model.getNeutronBucket(), mvt );
+        BucketView neutronBucketNode = new ParticleBucketView( model.getNeutronBucket(), mvt );
         electronShellLayer.addChild( neutronBucketNode.getHoleNode() );
         frontLayer.addChild( neutronBucketNode.getFrontNode() );
         for ( SphericalParticle neutron : model.getNeutronBucket().getParticleList() ) {
