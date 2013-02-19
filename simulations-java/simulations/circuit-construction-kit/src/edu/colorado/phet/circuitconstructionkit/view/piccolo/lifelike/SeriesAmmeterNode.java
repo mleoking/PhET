@@ -24,6 +24,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponen
 import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -55,6 +56,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private SimpleObserver simpleObserver;
     private CircuitSolutionListener circuitSolutionListener;
     private int numWindows = 3;
+    private double previouslyReportedCurrent = 0;
 
     private PhetPPath blackGraphic;
     private PhetPPath[] windowGraphics = new PhetPPath[numWindows];
@@ -167,13 +169,16 @@ public class SeriesAmmeterNode extends ComponentNode {
         textGraphic.setOffset( textLoc.getX(), textLoc.getY() );
         textGraphic.rotate( angle );
 
-        // Send sim sharing message if reading has changed.
-        if ( !msg.equals( oldMsg ) ) {
+        // Send sim sharing message if reading has changed. Thresholding was
+        // necessary to avoid spurious messages.
+        // TODO: This doesn't report instance.  Need to discuss with Sam R. Should it be a user component message instead?
+        if ( Math.abs( component.getCurrent() - previouslyReportedCurrent ) > 1E-5 ) {
             DecimalFormat df = new DecimalFormat( "0.00" );
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.seriesAmmeterModel,
                                                 ModelComponentTypes.modelElement,
                                                 CCKSimSharing.ModelActions.measuredCurrentChanged,
                                                 new ParameterSet( new Parameter( new ParameterKey( "current" ), df.format( component.getCurrent() ) ) ) );
+            previouslyReportedCurrent = component.getCurrent();
         }
     }
 
