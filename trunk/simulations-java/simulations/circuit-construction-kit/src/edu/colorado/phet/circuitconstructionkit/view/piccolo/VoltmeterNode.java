@@ -1,20 +1,24 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -48,8 +52,8 @@ public class VoltmeterNode extends PhetPNode {
     public VoltmeterNode( final VoltmeterModel voltmeterModel ) {
         this.voltmeterModel = voltmeterModel;
         unitImageNode = new UnitNode( voltmeterModel );
-        redProbe = new LeadNode( "circuit-construction-kit/images/probeRed.gif", voltmeterModel.getRedLeadModel() );
-        blackProbe = new LeadNode( "circuit-construction-kit/images/probeBlack.gif", voltmeterModel.getBlackLeadModel() );
+        redProbe = new LeadNode( CCKSimSharing.UserComponents.redProbe, "circuit-construction-kit/images/probeRed.gif", voltmeterModel.getRedLeadModel() );
+        blackProbe = new LeadNode( CCKSimSharing.UserComponents.blackProbe, "circuit-construction-kit/images/probeBlack.gif", voltmeterModel.getBlackLeadModel() );
 
         addChild( unitImageNode );
 
@@ -181,8 +185,9 @@ public class VoltmeterNode extends PhetPNode {
         private VoltmeterModel.LeadModel leadModel;
         private PImage imageNode;
         private PhetPPath tipPath;
+        private final DelayedRunner runner = new DelayedRunner();
 
-        public LeadNode( String imageLocation, final VoltmeterModel.LeadModel leadModel ) {
+        public LeadNode( final IUserComponent userComponent, String imageLocation, final VoltmeterModel.LeadModel leadModel ) {
             this.leadModel = leadModel;
 
             imageNode = PImageFactory.create( imageLocation );
@@ -197,7 +202,14 @@ public class VoltmeterNode extends PhetPNode {
 
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    PDimension pt = event.getDeltaRelativeTo( LeadNode.this.getParent() );
+                    final PDimension pt = event.getDeltaRelativeTo( LeadNode.this.getParent() );
+                    runner.set( new Runnable() {
+                        public void run() {
+                            SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag,
+                                                               ParameterSet.parameterSet( ParameterKeys.x, leadModel.getTipLocation().getX() + pt.width ).
+                                                                       with( ParameterKeys.y, leadModel.getTipLocation().getY() + pt.height ) );
+                        }
+                    } );
                     leadModel.translate( pt.width, pt.height );
                 }
             } );
