@@ -12,6 +12,7 @@ JB: As Kathy said, we are mainly concerned with finding out that current changed
 
 2nd Priority (wait until confirming top priority with Ido)
 SR: Activate/deactivate messages for dragging the instruments (non-contact ammeter, voltage probes).  Activate on mouse down, deactivate on mouse up.
+    > For ammeter and voltmeter probes, I am just sending a "drag" message every 500ms, not separate start/drag/end messages.  We will have to see if it is good enough.
 SR: Voltmeter/Ammeter - message includes the component or components to which they are connected.  It already sends a connection message, we just need to send which component connected to.  May be a junction though, so may be a list of connections.
 Current change message for each component excluding wires (limit to every 500ms) [On hold for now based on 2/15/2013 email from Ido]
 
