@@ -50,15 +50,10 @@
   <option name="FOR_BRACE_FORCE" value="3" />
   <ECMA4CodeStyleSettings>
     <option name="SPACES_NEAR_TYPE" value="2" />
-    <option name="SPACE_AFTER_PROPERTY_COLON" value="true" />
   </ECMA4CodeStyleSettings>
   <JSCodeStyleSettings>
     <option name="SPACES_NEAR_TYPE" value="2" />
-    <option name="SPACE_AFTER_PROPERTY_COLON" value="true" />
   </JSCodeStyleSettings>
-  <ScalaCodeStyleSettings>
-    <option name="KEEP_XML_FORMATTING" value="true" />
-  </ScalaCodeStyleSettings>
   <XML>
     <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
   </XML>
@@ -122,6 +117,13 @@
     <option name="WHILE_BRACE_FORCE" value="3" />
     <option name="FOR_BRACE_FORCE" value="3" />
     <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+  </codeStyleSettings>
+  <codeStyleSettings language="HTML">
+    <indentOptions>
+      <option name="INDENT_SIZE" value="2" />
+      <option name="CONTINUATION_INDENT_SIZE" value="4" />
+      <option name="TAB_SIZE" value="2" />
+    </indentOptions>
   </codeStyleSettings>
   <codeStyleSettings language="JAVA">
     <option name="ELSE_ON_NEW_LINE" value="true" />
