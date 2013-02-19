@@ -49,7 +49,8 @@ public class ParticleBucketView extends BucketView{
                                                         -holeBounds.getHeight() / 2,
                                                         frontBounds.getWidth(),
                                                         frontBounds.getHeight() + holeBounds.getHeight() / 2 );
-        PNode particleGrabNode = new PhetPPath( touchArea, new Color( 200, 200, 200, 10 ) );
+        PNode particleGrabNode = new PhetPPath( touchArea, new Color( 200, 200, 200 ) );
+        particleGrabNode.setTransparency( 0.0f ); // This can be changed during debug to see grab area.
         getFrontNode().addChild( particleGrabNode );
 
         // Add cursor handler to change cursor when hovering over this.
