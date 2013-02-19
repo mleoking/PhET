@@ -6,6 +6,7 @@ import java.awt.*;
 
 import edu.colorado.phet.buildanatom.model.*;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
+import edu.colorado.phet.buildanatom.view.ParticleBucketView;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -38,7 +39,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         electronShellLayer.addChild( new CenterMarkerNode( model, mvt ) );
 
         // Add the buckets that hold the sub-atomic particles.
-        BucketView electronBucketNode = new BucketView( model.getElectronBucket(), mvt );
+        BucketView electronBucketNode = new ParticleBucketView( model.getElectronBucket(), mvt );
         electronShellLayer.addChild( electronBucketNode.getHoleNode() );
         frontLayer.addChild( electronBucketNode.getFrontNode() );
         for ( SphericalParticle electron : model.getElectronBucket().getParticleList() ) {
