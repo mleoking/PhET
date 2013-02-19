@@ -1,3 +1,4 @@
+# 3.02.03 (72195) Feb 19, 2013
 Turned off confirmation for Reset All button on first tab.
 # 3.02.02 (72193) Feb 19, 2013
 2/19/13 Publishing to dev for touch-based testing.
