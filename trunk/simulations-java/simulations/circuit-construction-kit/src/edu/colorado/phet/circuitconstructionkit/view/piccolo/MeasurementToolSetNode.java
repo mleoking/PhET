@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.Cursor;
+import java.awt.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.controls.StopwatchDecorator;
@@ -22,15 +22,15 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class MeasurementToolSetNode extends PhetPNode {
     private VoltmeterNode voltmeterNode;
-    private VirtualAmmeterNode virtualAmmeterNode;
+    private NonContactAmmeterNode nonContactAmmeterNode;
     private PNode stopwatchNode;
 
     public MeasurementToolSetNode( CCKModel model, PSwingCanvas pSwingCanvas, CCKModule module, VoltmeterModel voltmeterModel, IClock clock ) {
         voltmeterNode = new VoltmeterNode( voltmeterModel );
         addChild( voltmeterNode );
-        this.virtualAmmeterNode = new VirtualAmmeterNode( model.getCircuit(), pSwingCanvas, module );
-        virtualAmmeterNode.setVisible( false );
-        addChild( virtualAmmeterNode );
+        this.nonContactAmmeterNode = new NonContactAmmeterNode( model.getCircuit(), pSwingCanvas, module );
+        nonContactAmmeterNode.setVisible( false );
+        addChild( nonContactAmmeterNode );
 
         stopwatchNode = new PhetPNode( new PSwing( new StopwatchDecorator( clock, 1, "s" ) ) );
         stopwatchNode.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
@@ -46,7 +46,7 @@ public class MeasurementToolSetNode extends PhetPNode {
     }
 
     public void setVirtualAmmeterVisible( boolean selected ) {
-        virtualAmmeterNode.setVisible( selected );
+        nonContactAmmeterNode.setVisible( selected );
     }
 
     public void setStopwatchVisible( boolean selected ) {
