@@ -20,7 +20,8 @@ public class BuildAnAtomModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private final BuildAnAtomModel model;
-    private final BuildAnAtomCanvasAlternate canvas;
+    private final BuildAnAtomCanvas canvas;
+//    private final BuildAnAtomCanvasAlternate canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -35,7 +36,8 @@ public class BuildAnAtomModule extends PiccoloModule {
         model = new BuildAnAtomModel( clock );
 
         // Canvas
-        canvas = new BuildAnAtomCanvasAlternate( model );
+        canvas = new BuildAnAtomCanvas( model );
+//        canvas = new BuildAnAtomCanvasAlternate( model );
         setSimulationPanel( canvas );
 
         // Help
