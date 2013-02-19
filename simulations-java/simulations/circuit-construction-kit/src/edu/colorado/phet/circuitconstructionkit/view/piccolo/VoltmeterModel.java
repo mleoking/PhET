@@ -96,10 +96,6 @@ public class VoltmeterModel {
         }
 
         // Send out sim sharing message if connection state of leads has changed.
-        // TODO: The code below serves the desired purpose (sends sim sharing
-        // messages when connections formed and broken) but seems pretty
-        // awkward.  Should be reviewed with Sam R before being finalized.
-        // --jblanco, 2/18/2013.
         if ( redLead.getConnection() != prevRedLeadConnection && ( redLead.getConnection() == null || prevRedLeadConnection == null ) ) {
             IModelAction modelAction = prevRedLeadConnection == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterRedLeadModel,
