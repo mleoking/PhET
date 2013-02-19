@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Date: Jun 14, 2004
  * Time: 7:56:28 PM
  */
-public class VirtualAmmeterNode extends PhetPNode {
+public class NonContactAmmeterNode extends PhetPNode {
     private TargetReadoutToolNode targetReadoutToolNode;
     private Component panel;
     private CCKModule module;
@@ -41,11 +41,11 @@ public class VirtualAmmeterNode extends PhetPNode {
     private Branch previousBranch = null; // Used to detect changes in connection state.
     DelayedRunner runner = new DelayedRunner();
 
-    public VirtualAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
+    public NonContactAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
         this( new TargetReadoutToolNode(), panel, circuit, module );
     }
 
-    public VirtualAmmeterNode( TargetReadoutToolNode targetReadoutTool, final Component panel, Circuit circuit, final CCKModule module ) {
+    public NonContactAmmeterNode( TargetReadoutToolNode targetReadoutTool, final Component panel, Circuit circuit, final CCKModule module ) {
         this.targetReadoutToolNode = targetReadoutTool;
         this.panel = panel;
         this.module = module;
@@ -56,10 +56,10 @@ public class VirtualAmmeterNode extends PhetPNode {
 
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                final PDimension pt = event.getDeltaRelativeTo( VirtualAmmeterNode.this );
+                final PDimension pt = event.getDeltaRelativeTo( NonContactAmmeterNode.this );
                 runner.set( new Runnable() {
                     public void run() {
-                        SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.ammeter, UserComponentTypes.sprite, UserActions.drag,
+                        SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.drag,
                                                            ParameterSet.parameterSet( ParameterKeys.x, getX() + pt.width ).
                                                                    with( ParameterKeys.y, getY() + pt.height ) );
                     }
