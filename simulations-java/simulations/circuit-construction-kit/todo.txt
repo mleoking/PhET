@@ -5,10 +5,6 @@ Sim Sharing items:
 Top Priority
 
 JB: Fix: Non-contact Ammeter reading changes at junction.
-SR: Checkboxes and buttons
-SR: Flame message
-SR: Rotation/endpoint movement
-SR: Configured value (battery voltage, resistance) changed (limit to every 500ms)
 SR and JB: Go over TODOs added by JB.
 > Maybe defer these to post processing:
 Limit rate of reading changes from the voltmeter and ammeters to one/500ms.  Should be easy to change this rate in the code (a constant).
