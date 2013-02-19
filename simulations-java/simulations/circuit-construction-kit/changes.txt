@@ -1,3 +1,4 @@
+Sim Sharing: Added messages for moving the ammeter probe (limit to every 500ms), see #3497
 Sim Sharing: Added messages for moving the voltmeter probe nodes (limit to every 500ms), see #3497
 Sim Sharing: Added messages for all components on the control panel
 Sim Sharing: Added messages for flames turning off and on
