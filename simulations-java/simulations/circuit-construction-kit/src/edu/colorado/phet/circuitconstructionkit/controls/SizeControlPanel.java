@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
@@ -39,19 +39,19 @@ public class SizeControlPanel extends VerticalLayoutPanel {
         zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
 
         ButtonGroup zoomGroup = new ButtonGroup();
-        JRadioButton small = new SimSharingJRadioButton( CCKSimSharingSRR.UserComponents.smallRadioButton, CCKResources.getString( "CCK3ControlPanel.SmallRadioButton" ) );
+        JRadioButton small = new SimSharingJRadioButton( CCKSimSharing.UserComponents.smallRadioButton, CCKResources.getString( "CCK3ControlPanel.SmallRadioButton" ) );
         small.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 2 );
             }
         } );
-        JRadioButton medium = new SimSharingJRadioButton( CCKSimSharingSRR.UserComponents.mediumRadioButton, CCKResources.getString( "CCK3ControlPanel.MediumRadioButton" ) );
+        JRadioButton medium = new SimSharingJRadioButton( CCKSimSharing.UserComponents.mediumRadioButton, CCKResources.getString( "CCK3ControlPanel.MediumRadioButton" ) );
         medium.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 1 );
             }
         } );
-        JRadioButton large = new SimSharingJRadioButton( CCKSimSharingSRR.UserComponents.largeRadioButton, CCKResources.getString( "CCK3ControlPanel.LargeRadioButton" ) );
+        JRadioButton large = new SimSharingJRadioButton( CCKSimSharing.UserComponents.largeRadioButton, CCKResources.getString( "CCK3ControlPanel.LargeRadioButton" ) );
         large.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( .5 );

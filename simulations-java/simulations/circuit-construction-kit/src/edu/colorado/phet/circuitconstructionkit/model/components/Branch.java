@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
-import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.CompositeCircuitChangeListener;
@@ -196,7 +195,7 @@ public abstract class Branch extends SimpleObservableDebug {
                     @Override public String toString() {
                         return userComponentID.toString();
                     }
-                }, CCKSimSharing.ModelComponentTypes.connection, CCKSimSharingSRR.ModelActions.fireStarted );
+                }, CCKSimSharing.ModelComponentTypes.connection, CCKSimSharing.ModelActions.fireStarted );
 
                 //TODO: this looks buggy, shouldn't it be a flame started?  Likewise, see below.
                 for ( FlameListener flameListener : flameListeners ) {
@@ -208,7 +207,7 @@ public abstract class Branch extends SimpleObservableDebug {
                     @Override public String toString() {
                         return userComponentID.toString();
                     }
-                }, CCKSimSharing.ModelComponentTypes.connection, CCKSimSharingSRR.ModelActions.fireEnded );
+                }, CCKSimSharing.ModelComponentTypes.connection, CCKSimSharing.ModelActions.fireEnded );
                 for ( FlameListener flameListener : flameListeners ) {
                     flameListener.flameStarted();
                 }
