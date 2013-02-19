@@ -53,7 +53,11 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
     protected ModelSlider slider;
     protected JPanel contentPane;
     private CircuitListener circuitListener;
+
+    //For a sim sharing workaround
     final BooleanProperty constructor = new BooleanProperty( true );
+    //For sim sharing
+    final DelayedRunner nextRunnable = new DelayedRunner();
 
     public ComponentEditor( final IUserComponent userComponent, final CCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
@@ -85,9 +89,14 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
             public void stateChanged( ChangeEvent e ) {
 
                 //Send sim sharing message, but not if the constructor is being called.  Works around a problem that this listener gets called in the battery editor constructor.
-                if ( !constructor.get() ) {
-                    SimSharingManager.sendUserMessage( userComponent, CCKSimSharingSRR.UserComponentType.editor, UserActions.changed, ParameterSet.parameterSet( CCKSimSharingSRR.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
-                }
+                Runnable r = new Runnable() {
+                    public void run() {
+                        if ( !constructor.get() ) {
+                            SimSharingManager.sendUserMessage( userComponent, CCKSimSharingSRR.UserComponentType.editor, UserActions.changed, ParameterSet.parameterSet( CCKSimSharingSRR.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
+                        }
+                    }
+                };
+                nextRunnable.set( r );
                 doChange( slider.getValue() );
             }
         } );
