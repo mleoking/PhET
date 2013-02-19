@@ -1,3 +1,5 @@
+# 3.02.02 (72193) Feb 19, 2013
+2/19/13 Publishing to dev for touch-based testing.
 Made it possible to extract the particles from the buckets by touching the buckets themselves. This is prototyping for touch-based interface testing.
 # 3.02.01 (72138) Feb 13, 2013
 2/13/13 Publishing to dev for use in touch-based interviews.
