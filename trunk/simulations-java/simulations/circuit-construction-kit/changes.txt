@@ -1,3 +1,7 @@
+Sim Sharing: Added messages for all components on the control panel
+Sim Sharing: Added messages for flames turning off and on
+Sim Sharing: Added messages for rotation/endpoint movement (limit to every 500ms)
+Sim Sharing: Added message for: Configured value (battery voltage, resistance) changed (limit to every 500ms)
 Sim sharing: Added sim sharing message for changes of current detected by series ammeter.
 Sim sharing: Changed the sim sharing message from the voltmeter to say "undfined" instead of "NaN" when it has no value to show.  This is more consistent with what the non-contact ammeter does.
 Sim sharing: Added messages from non-contact ammeter for changes to current reading.
