@@ -7,6 +7,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.view.BuildAnAtomCanvas;
+import edu.colorado.phet.buildanatom.view.BuildAnAtomCanvasAlternate;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
@@ -19,7 +20,7 @@ public class BuildAnAtomModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private final BuildAnAtomModel model;
-    private final BuildAnAtomCanvas canvas;
+    private final BuildAnAtomCanvasAlternate canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -34,7 +35,7 @@ public class BuildAnAtomModule extends PiccoloModule {
         model = new BuildAnAtomModel( clock );
 
         // Canvas
-        canvas = new BuildAnAtomCanvas( model );
+        canvas = new BuildAnAtomCanvasAlternate( model );
         setSimulationPanel( canvas );
 
         // Help
