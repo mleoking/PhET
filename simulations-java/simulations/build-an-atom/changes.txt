@@ -1,3 +1,4 @@
+Added an alternative canvas layout where widgets are positioned on the left, rather than the right.  This layout is used in this version.
 # 3.02.03 (72195) Feb 19, 2013
 Turned off confirmation for Reset All button on first tab.
 # 3.02.02 (72193) Feb 19, 2013
