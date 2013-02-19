@@ -18,6 +18,7 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
@@ -25,6 +26,11 @@ import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -155,10 +161,20 @@ public class SeriesAmmeterNode extends ComponentNode {
             msg = fixedMessage;
         }
         textGraphic.setTransform( new AffineTransform() );
+        String oldMsg = textGraphic.getText();
         textGraphic.setText( msg );
         textGraphic.scale( SCALE );
         textGraphic.setOffset( textLoc.getX(), textLoc.getY() );
         textGraphic.rotate( angle );
+
+        // Send sim sharing message if reading has changed.
+        if ( !msg.equals( oldMsg ) ) {
+            DecimalFormat df = new DecimalFormat( "0.00" );
+            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.seriesAmmeterModel,
+                                                ModelComponentTypes.modelElement,
+                                                CCKSimSharing.ModelActions.measuredCurrentChanged,
+                                                new ParameterSet( new Parameter( new ParameterKey( "current" ), df.format( component.getCurrent() ) ) ) );
+        }
     }
 
     public CircuitComponent getCircuitComponent() {
