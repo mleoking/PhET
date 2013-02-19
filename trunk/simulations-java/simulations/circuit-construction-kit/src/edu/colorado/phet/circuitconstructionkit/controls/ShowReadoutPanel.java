@@ -5,7 +5,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 
 /**
@@ -15,6 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
  */
 public class ShowReadoutPanel extends JPanel {
     public ShowReadoutPanel( final CCKModule module ) {
-        add( new PropertyCheckBox( CCKSimSharingSRR.UserComponents.showReadoutCheckBox, CCKResources.getString( "CCK3ControlPanel.ShowValuesCheckBox" ), module.getCCKViewState().getReadoutsVisibleProperty() ) );
+        add( new PropertyCheckBox( CCKSimSharing.UserComponents.showReadoutCheckBox, CCKResources.getString( "CCK3ControlPanel.ShowValuesCheckBox" ), module.getCCKViewState().getReadoutsVisibleProperty() ) );
     }
 }

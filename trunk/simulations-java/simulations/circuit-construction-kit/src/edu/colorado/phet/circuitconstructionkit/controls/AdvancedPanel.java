@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
@@ -45,7 +45,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         showButton = new JButton( show );
         showButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.showAdvancedControlsButton );
+                SimSharingManager.sendButtonPressed( CCKSimSharing.UserComponents.showAdvancedControlsButton );
                 showAdvanced();
             }
         } );
@@ -53,7 +53,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         hideButton = new JButton( hide );
         hideButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.hideAdvancedControlsButton );
+                SimSharingManager.sendButtonPressed( CCKSimSharing.UserComponents.hideAdvancedControlsButton );
                 hideAdvanced();
             }
         } );

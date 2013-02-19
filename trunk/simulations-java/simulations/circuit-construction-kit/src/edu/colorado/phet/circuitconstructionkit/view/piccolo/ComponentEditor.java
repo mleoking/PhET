@@ -18,7 +18,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -92,7 +92,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
                 Runnable r = new Runnable() {
                     public void run() {
                         if ( !constructor.get() ) {
-                            SimSharingManager.sendUserMessage( userComponent, CCKSimSharingSRR.UserComponentType.editor, UserActions.changed, ParameterSet.parameterSet( CCKSimSharingSRR.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
+                            SimSharingManager.sendUserMessage( userComponent, CCKSimSharing.UserComponentType.editor, UserActions.changed, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
                         }
                     }
                 };
@@ -186,12 +186,12 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         private static final int MAX_HUGE_BATTERY_VOLTAGE = 100000;
 
         public BatteryEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
-            super( CCKSimSharingSRR.UserComponents.voltageEditor, module, CCKResources.getString( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
+            super( CCKSimSharing.UserComponents.voltageEditor, module, CCKResources.getString( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
                    CCKResources.getString( "ComponentEditor.BatteryVoltageName" ),
                    CCKResources.getString( "ComponentEditor.BatteryVoltageUnits" ), 0, MAX_HUGE_BATTERY_VOLTAGE, element.getVoltageDrop(), circuit );
             constructor.set( true );
             if ( module.getParameters().hugeRangeOnBatteries() ) {
-                final JCheckBox hugeRange = new SimSharingJCheckBox( CCKSimSharingSRR.UserComponents.moreVoltsCheckBox, CCKResources.getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
+                final JCheckBox hugeRange = new SimSharingJCheckBox( CCKSimSharing.UserComponents.moreVoltsCheckBox, CCKResources.getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         setHugeRange( hugeRange.isSelected() );
@@ -238,7 +238,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 
     public static class ResistorEditor extends ComponentEditor {
         public ResistorEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( CCKSimSharingSRR.UserComponents.resistorEditor, module, CCKResources.getString( "ComponentEditor.ResistorResistanceTitle" ),
+            super( CCKSimSharing.UserComponents.resistorEditor, module, CCKResources.getString( "ComponentEditor.ResistorResistanceTitle" ),
                    element, parent, CCKResources.getString( "ComponentEditor.ResistorResistanceName" ),
                    CCKResources.getString( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
         }
@@ -254,7 +254,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
 
     public static class BulbResistanceEditor extends ComponentEditor {
         public BulbResistanceEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( CCKSimSharingSRR.UserComponents.bulbResistorEditor, module, CCKResources.getString( "ComponentEditor.BulbResistanceTitle" ),
+            super( CCKSimSharing.UserComponents.bulbResistorEditor, module, CCKResources.getString( "ComponentEditor.BulbResistanceTitle" ),
                    element, parent, CCKResources.getString( "ComponentEditor.BulbResistanceName" ),
                    CCKResources.getString( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
         }
@@ -272,7 +272,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         private Battery battery;
 
         public BatteryResistanceEditor( CCKModule module, Battery element, Component parent, Circuit circuit ) {
-            super( CCKSimSharingSRR.UserComponents.batteryResistanceEditor, module, CCKResources.getString( "ComponentEditor.BatteryResistanceTitle" ),
+            super( CCKSimSharing.UserComponents.batteryResistanceEditor, module, CCKResources.getString( "ComponentEditor.BatteryResistanceTitle" ),
                    element, parent, CCKResources.getString( "ComponentEditor.BatteryResistanceName" ),
                    CCKResources.getString( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
             this.battery = element;
@@ -296,7 +296,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         private ACVoltageSource branch;
 
         public ACVoltageSourceEditor( CCKModule module, ACVoltageSource branch, JComponent apparatusPanel, Circuit circuit ) {
-            super( CCKSimSharingSRR.UserComponents.acVoltageSourceEditor, module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, branch.getAmplitude(), circuit );
+            super( CCKSimSharing.UserComponents.acVoltageSourceEditor, module, CCKStrings.getString( "ac.voltage.source.editor" ), branch, apparatusPanel, CCKStrings.getString( "BranchSource.AC" ), CCKStrings.getString( "ReadoutGraphic.ACVolts" ), 0, 100, branch.getAmplitude(), circuit );
             this.branch = branch;
         }
 

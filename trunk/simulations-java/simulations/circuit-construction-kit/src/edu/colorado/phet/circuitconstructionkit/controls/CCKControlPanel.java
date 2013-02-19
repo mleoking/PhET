@@ -36,7 +36,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
-import edu.colorado.phet.circuitconstructionkit.CCKSimSharingSRR;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -246,13 +245,13 @@ public class CCKControlPanel extends ControlPanel {
 
         lifelike.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.lifelikeRadioButton );
+                SimSharingManager.sendButtonPressed( CCKSimSharing.UserComponents.lifelikeRadioButton );
                 module.setLifelike( true );
             }
         } );
         schematic.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.schematicRadioButton );
+                SimSharingManager.sendButtonPressed( CCKSimSharing.UserComponents.schematicRadioButton );
                 module.setLifelike( false );
             }
         } );
@@ -356,7 +355,7 @@ public class CCKControlPanel extends ControlPanel {
         final JButton save = new JButton( CCKResources.getString( "CCK3ControlPanel.SaveButton" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.saveButton );
+                SimSharingManager.sendButtonPressed( CCKSimSharing.UserComponents.saveButton );
                 try {
                     save();
                 }
@@ -368,7 +367,7 @@ public class CCKControlPanel extends ControlPanel {
         JButton load = new JButton( CCKResources.getString( "CCK3ControlPanel.LoadButton" ) );
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingManager.sendButtonPressed( CCKSimSharingSRR.UserComponents.loadButton );
+                SimSharingManager.sendButtonPressed( CCKSimSharing.UserComponents.loadButton );
                 try {
                     load();
                 }
@@ -410,7 +409,7 @@ public class CCKControlPanel extends ControlPanel {
                     if ( value <= 0 ) {
                         new RuntimeException( "Illegal resistivity: " + value ).printStackTrace();
                     }
-                    SimSharingManager.sendUserMessage( CCKSimSharingSRR.UserComponents.resistivitySlider, UserComponentTypes.slider, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.value, value ) );
+                    SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.resistivitySlider, UserComponentTypes.slider, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.value, value ) );
                     module.getResistivityManager().setResistivity( value );
                 }
             } );
@@ -420,7 +419,7 @@ public class CCKControlPanel extends ControlPanel {
                 }
             } );
 
-            hideElectrons = new SimSharingJCheckBox( CCKSimSharingSRR.UserComponents.hideElectronsCheckBox, CCKResources.getString( "CCK3ControlPanel.HideElectronsCheckBox" ),
+            hideElectrons = new SimSharingJCheckBox( CCKSimSharing.UserComponents.hideElectronsCheckBox, CCKResources.getString( "CCK3ControlPanel.HideElectronsCheckBox" ),
                                                      !module.isElectronsVisible() );
             hideElectrons.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
