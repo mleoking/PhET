@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -174,7 +174,7 @@ public class Circuit {
         component.setUserComponentID( UserComponentChain.chain( component.getUserComponentID(), instanceCounts.get( component.getClass() ) ) );
 
         // Send a sim-sharing message indicating that a new branch was added.
-        SimSharingManager.sendUserMessage( component.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.addedComponent );
+        SimSharingManager.sendUserMessage( component.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.addedComponent );//TODO: Could add grab bag component type here by casting to GrabBagResistor and getting info
 
         branches.add( component );
         fireBranchAdded( component );

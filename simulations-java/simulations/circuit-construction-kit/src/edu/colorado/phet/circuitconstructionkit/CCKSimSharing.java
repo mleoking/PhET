@@ -27,7 +27,8 @@ public class CCKSimSharing {
         hideAdvancedControlsButton, hideElectronsCheckBox, resistivitySlider,
         resistorEditor, bulbResistorEditor, voltageEditor, moreVoltsCheckBox,
         batteryResistanceEditor, acVoltageSourceEditor, inductorEditor, capacitorEditor,
-        frequencyEditor, saveButton, redProbe, blackProbe, grabBagButton, nonContactAmmeter
+        frequencyEditor, saveButton, redProbe, blackProbe, grabBagButton, nonContactAmmeter,
+        grabBagItemButton
     }
 
     public static enum UserComponentType implements IUserComponentType {
