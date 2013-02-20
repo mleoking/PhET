@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.*;

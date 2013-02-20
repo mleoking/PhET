@@ -8,14 +8,12 @@ Voltage editor dialog window activated/deactivated.
 Make the log voltage match the voltmeter voltage by using a number formatter.
 Time limit voltage messages from voltmeter.
 Time limit current messages from ammeters.
-Series ammeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
 Voltmeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
-Voltmeter - Model messages use same ID as user messages.
 Non-contact ammeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
-Series ammeter - Make the model ID match the user ID (there is a method for getting model ID on the Branch class now).
 Switch open/closure messages.
 Under the "Advanced" controls: Wire resistivity - Instrument as done for the other sliders, i.e. need start drag, drag (time limited), and end drag.
 Location on screen where components are moved to as a parameter of the "moved" message (only do if easy)
+Get rid of message about nonContactAmmeter reported at startup.
 
 Sighting: Odd behavior from the non-contact ammeter. We seemed to see messages from it when it wasn't in the circuit.
 
