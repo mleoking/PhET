@@ -1,3 +1,5 @@
+# 1.06.01 (72209) Feb 19, 2013
+2/19/13 #3511, dev version to test fix
 2/19/13 #3511, use our own listener class in EventChannel instead of javax.swing.event.ChangeListener
 # 1.06.00 (52280) May 21, 2011
 5/21/11 > added new translation credits features
