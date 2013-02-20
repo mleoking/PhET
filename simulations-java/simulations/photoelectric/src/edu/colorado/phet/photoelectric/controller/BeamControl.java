@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,8 +102,12 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     private boolean selfUpdating;
     private Mode mode;
 
-    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    public interface BeamChangeListener extends EventListener {
+        void stateChanged(ChangeEvent e);
+    }
+
+    private EventChannel changeEventChannel = new EventChannel( BeamChangeListener.class );
+    private BeamChangeListener changeListenerProxy = (BeamChangeListener)changeEventChannel.getListenerProxy();
 
     private Dimension orgAppPanelSize;
     private AffineTransform intensitySliderAtx = new AffineTransform();
@@ -247,11 +252,11 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
         return mode;
     }
 
-    public void addChangeListener( ChangeListener listener ) {
+    public void addChangeListener( BeamChangeListener listener ) {
         changeEventChannel.addListener( listener );
     }
 
-    public void removeChangeListener( ChangeListener listener ) {
+    public void removeChangeListener( BeamChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
 
