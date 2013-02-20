@@ -2,6 +2,7 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -109,6 +110,7 @@ public class Battery extends CircuitComponent {
         return internalResistanceOn;
     }
 
+    private static final DecimalFormat currentFormat = new DecimalFormat( "0.00" );
     @Override public void setCurrent( final double current ) {
         super.setCurrent( current );
         if ( Math.abs( previousCurrent - current ) > CURRENT_CHANGE_THRESHOLD ) {
@@ -117,12 +119,10 @@ public class Battery extends CircuitComponent {
             // frequently.
             nextRunnable.set( new Runnable() {
                 public void run() {
-                    SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.batteryModel,
+                    SimSharingManager.sendModelMessage( getModelComponentID(),
                                                         ModelComponentTypes.modelElement,
                                                         CCKSimSharing.ModelActions.currentChanged,
-                                                        new ParameterSet( new Parameter[] {
-                                                                new Parameter( new ParameterKey( "current" ), Double.toString( current ) ),
-                                                                new Parameter( new ParameterKey( "instance" ), getInstanceNumber() ) } ) );
+                                                        new ParameterSet( new Parameter( new ParameterKey( "current" ), currentFormat.format( current ) ) ) );
                 }
             } );
             previousCurrent = current;
