@@ -6,11 +6,15 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
- * Send sim sharing messages, but not too often and don't forget the last one (it is important)
+ * Send sim sharing messages, but not too often and don't forget the last one
+ * (it is important)
  */
 public class DelayedRunner {
+
+    private static final int MINIMUM_INTER_MESSAGE_DELAY = 500; // In milliseconds.
+
     private Runnable runnable;
-    private Timer timer = new Timer( 500, new ActionListener() {
+    private Timer timer = new Timer( MINIMUM_INTER_MESSAGE_DELAY, new ActionListener() {
         public void actionPerformed( ActionEvent e ) {
             if ( runnable != null ) {
                 runnable.run();

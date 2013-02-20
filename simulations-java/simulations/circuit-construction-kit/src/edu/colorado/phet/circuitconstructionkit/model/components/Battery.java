@@ -7,6 +7,7 @@ import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.DelayedRunner;
 import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTyp
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 /**
  * User: Sam Reid
@@ -27,6 +27,9 @@ public class Battery extends CircuitComponent {
     private boolean internalResistanceOn;
     public static final double DEFAULT_INTERNAL_RESISTANCE = 0.001;
     private double previousCurrent = 0;
+
+    //For sim sharing
+    final DelayedRunner nextRunnable = new DelayedRunner();
 
     public Battery( double voltage, double internalResistance ) {
         this( new Point2D.Double(), new Vector2D(), 1, 1, new CircuitChangeListener() {
@@ -106,14 +109,20 @@ public class Battery extends CircuitComponent {
         return internalResistanceOn;
     }
 
-    @Override public void setCurrent( double current ) {
+    @Override public void setCurrent( final double current ) {
         super.setCurrent( current );
-        if ( Math.abs( previousCurrent - current ) > CURRENT_CHANGE_THRESHOLD ){
-            // Send sim sharing message indicating that current change.
-            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.batteryModel,
-                                                ModelComponentTypes.modelElement,
-                                                CCKSimSharing.ModelActions.currentChanged,
-                                                new ParameterSet( new Parameter( new ParameterKey( "current" ), Double.toString( current ) ) ) );
+        if ( Math.abs( previousCurrent - current ) > CURRENT_CHANGE_THRESHOLD ) {
+            // Send a sim sharing message indicating that the current has
+            // changed, but prevent such messages from being sent too
+            // frequently.
+            nextRunnable.set( new Runnable() {
+                public void run() {
+                    SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.batteryModel,
+                                                        ModelComponentTypes.modelElement,
+                                                        CCKSimSharing.ModelActions.currentChanged,
+                                                        new ParameterSet( new Parameter( new ParameterKey( "current" ), Double.toString( current ) ) ) );
+                }
+            } );
             previousCurrent = current;
         }
     }
