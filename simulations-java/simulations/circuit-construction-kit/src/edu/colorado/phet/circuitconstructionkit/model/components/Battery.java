@@ -120,7 +120,9 @@ public class Battery extends CircuitComponent {
                     SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.batteryModel,
                                                         ModelComponentTypes.modelElement,
                                                         CCKSimSharing.ModelActions.currentChanged,
-                                                        new ParameterSet( new Parameter( new ParameterKey( "current" ), Double.toString( current ) ) ) );
+                                                        new ParameterSet( new Parameter[] {
+                                                                new Parameter( new ParameterKey( "current" ), Double.toString( current ) ),
+                                                                new Parameter( new ParameterKey( "instance" ), getInstanceNumber() ) } ) );
                 }
             } );
             previousCurrent = current;
