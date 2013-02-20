@@ -23,6 +23,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Ron LeMaster
  * @version $Revision$
+ * @deprecated DO NOT USE! This inherits from EventChannel, which has security issues when run under Java Web Start, see #3511.
  */
 public class ModelEventChannel extends EventChannel {
 
