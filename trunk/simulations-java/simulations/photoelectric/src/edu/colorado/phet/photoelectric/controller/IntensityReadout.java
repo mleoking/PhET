@@ -21,7 +21,6 @@ import java.text.DecimalFormat;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -30,6 +29,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.photoelectric.PhotoelectricResources;
+import edu.colorado.phet.photoelectric.controller.BeamControl.BeamChangeListener;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 
 /**
@@ -38,7 +38,7 @@ import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class IntensityReadout extends GraphicLayerSet implements Beam.RateChangeListener, ChangeListener {
+public class IntensityReadout extends GraphicLayerSet implements Beam.RateChangeListener, BeamChangeListener {
 
     private Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private DecimalFormat format = new DecimalFormat( "#0%" );
