@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
+import java.util.EventListener;
+
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * EnergyProfile
@@ -80,6 +81,11 @@ public class EnergyProfile {
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
     //--------------------------------------------------------------------------------------------------
+
+    public interface ChangeListener extends EventListener {
+        void stateChanged(ChangeEvent e);
+    }
+
     EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 

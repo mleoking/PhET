@@ -338,7 +338,7 @@ class EnergyProfileGraphic extends PNode {
     /**
      * Hanldes changes in the model
      */
-    private class EnergyProfileChangeListener implements ChangeListener {
+    private class EnergyProfileChangeListener implements EnergyProfile.ChangeListener {
         public void stateChanged( ChangeEvent e ) {
             EnergyProfile energyProfile = (EnergyProfile)e.getSource();
             update( energyProfile );
