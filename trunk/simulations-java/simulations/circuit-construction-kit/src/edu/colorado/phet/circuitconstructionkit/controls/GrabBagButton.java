@@ -17,6 +17,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBag;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagItem;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -70,6 +71,7 @@ public class GrabBagButton extends JButton {
             panel.add( jb );
             jb.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
+                    SimSharingManager.sendButtonPressed( UserComponentChain.chain( CCKSimSharing.UserComponents.grabBagItemButton, it.getName() ) );
                     showItem( it );
                 }
             } );
