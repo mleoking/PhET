@@ -1,3 +1,4 @@
+Sim Sharing: send message when grab bag button pressed, see #3497
 Sim Sharing: send message about connections to ammeter, see #3497
 Sim Sharing: send message about connections to voltmeter probes, see #3497
 Sim Sharing: send startDrag/endDrag for resistance/voltage sliders, see #3497
