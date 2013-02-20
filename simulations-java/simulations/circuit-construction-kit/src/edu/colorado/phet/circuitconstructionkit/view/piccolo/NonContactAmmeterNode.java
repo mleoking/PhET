@@ -153,7 +153,7 @@ public class NonContactAmmeterNode extends PhetPNode {
             IModelAction modelAction = previousBranch == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.nonContactAmmeterModel,
                                                 ModelComponentTypes.modelElement,
-                                                modelAction
+                                                modelAction, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, branch == null ? "none" : branch.getUserComponentID().toString() )
             );
             previousBranch = branch;
         }
