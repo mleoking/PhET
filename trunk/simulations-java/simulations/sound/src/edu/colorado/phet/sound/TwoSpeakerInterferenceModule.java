@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
@@ -22,7 +21,14 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.model.SoundListener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
-import edu.colorado.phet.sound.view.*;
+import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
+import edu.colorado.phet.sound.view.InteractiveSpeakerGraphic;
+import edu.colorado.phet.sound.view.InteractiveSpeakerGraphic.InteractiveSpeakerChangeListener;
+import edu.colorado.phet.sound.view.InterferenceListenerGraphic;
+import edu.colorado.phet.sound.view.ListenerGraphic;
+import edu.colorado.phet.sound.view.SoundApparatusPanel;
+import edu.colorado.phet.sound.view.SpeakerGraphic;
+import edu.colorado.phet.sound.view.TwoSourceInterferenceControlPanel;
 
 public class TwoSpeakerInterferenceModule extends SoundModule {
 
@@ -77,7 +83,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
         InteractiveSpeakerGraphic iSpeakerGraphicA = new InteractiveSpeakerGraphic( speakerGraphicA, wgA );
 
-        iSpeakerGraphicA.addChangeListener( new ChangeListener() {
+        iSpeakerGraphicA.addChangeListener( new InteractiveSpeakerChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 InteractiveSpeakerGraphic isg = (InteractiveSpeakerGraphic)e.getSource();
                 audioSourceA.setLocation( isg.getAudioSourceLocation() );

@@ -10,6 +10,7 @@ package edu.colorado.phet.sound.view;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.EventListener;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -22,11 +23,16 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGrap
 import edu.colorado.phet.sound.SoundConfig;
 
 public class InteractiveSpeakerGraphic extends CompositePhetGraphic {
+
+    public interface InteractiveSpeakerChangeListener extends EventListener {
+        void stateChanged(ChangeEvent e);
+    }
+
     private SpeakerGraphic speakerGraphic;
     private BufferedWaveMediumGraphic waveMediumGraphic;
     private ArrayList mouseReleaseListeners = new ArrayList();
-    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private EventChannel changeEventChannel = new EventChannel( InteractiveSpeakerChangeListener.class );
+    private InteractiveSpeakerChangeListener changeListenerProxy = (InteractiveSpeakerChangeListener)changeEventChannel.getListenerProxy();
 
     public InteractiveSpeakerGraphic( SpeakerGraphic speakerGraphic,
                                       BufferedWaveMediumGraphic waveMediumGraphic ) {
@@ -53,7 +59,7 @@ public class InteractiveSpeakerGraphic extends CompositePhetGraphic {
         }
     }
 
-    public void addChangeListener( ChangeListener changeListener ) {
+    public void addChangeListener( InteractiveSpeakerChangeListener changeListener ) {
         changeEventChannel.addListener( changeListener );
     }
 
