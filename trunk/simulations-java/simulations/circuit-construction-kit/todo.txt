@@ -14,5 +14,5 @@ JB: As Kathy said, we are mainly concerned with finding out that current changed
 Current change message for each component excluding wires (limit to every 500ms) [On hold for now based on 2/15/2013 email from Ido]
 
 3rd Priority
-Component name from grab bag
+Component name from grab bag is sending duplicate "user" message, could be fixed in Circuit if necessary, see this todo: //TODO: Could add grab bag component type here by casting to GrabBagResistor and getting info
 Location on screen
