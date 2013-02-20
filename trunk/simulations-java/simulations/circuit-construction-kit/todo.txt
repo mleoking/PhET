@@ -4,6 +4,19 @@ Sim Sharing items:
 
 Top Priority
 
+Would like: Voltage editor activated/deactivated.
+Make the log voltage match the voltmeter voltage
+Time limit voltage messages from voltmeter.
+Time limit current messages from ammeter.
+Series ammeter - thresholding, instance ID, correct identifier, time limit messages.
+Switch open/closure messages.
+Comparison should be at 2 digits.
+Wire resistivity - Instrument as done for the other sliders.
+
+Siting: Odd behavior from the non-contact ammeter.
+
+
+
 JB: Fix: Non-contact Ammeter reading changes at junction.
 > Maybe defer these to post processing:
 Limit rate of reading changes from the voltmeter and ammeters to one/500ms.  Should be easy to change this rate in the code (a constant).

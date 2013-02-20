@@ -412,19 +412,12 @@ public abstract class Branch extends SimpleObservableDebug {
         return userComponentID;
     }
 
-    /*
-     * Get the instance number for this particular branch. This is used for
-     * sim sharing.  The instance is extracted from the user componented ID,
-     * and -1 is returned if no instance was set.
-     */
-    public int getInstanceNumber (){
-        String uidString = userComponentID.toString();
-        if ( uidString.contains( "." ) ){
-            String instanceString = uidString.substring( uidString.indexOf( '.' ) + 1 );
-            if ( instanceString != null ){
-                return Integer.parseInt( instanceString );
+    // The model component ID is the same as the user component.  User component must be set for this to work correctly.
+    public IModelComponent getModelComponentID() {
+        return new IModelComponent() {
+            @Override public String toString() {
+                return userComponentID.toString();
             }
-        }
-        return -1;
+        };
     }
 }
