@@ -4,28 +4,19 @@ Sim Sharing items:
 
 Top Priority
 
-Would like: Voltage editor activated/deactivated.
-Make the log voltage match the voltmeter voltage
+Voltage editor dialog window activated/deactivated.
+Make the log voltage match the voltmeter voltage by using a number formatter.
 Time limit voltage messages from voltmeter.
-Time limit current messages from ammeter.
-Series ammeter - thresholding, instance ID, correct identifier, time limit messages.
+Time limit current messages from ammeters.
+Series ammeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
+Voltmeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
+Non-contact ammeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
+Series ammeter - Make the model ID match the user ID (there is a method for getting model ID on the Branch class now).
 Switch open/closure messages.
-Comparison should be at 2 digits.
-Wire resistivity - Instrument as done for the other sliders.
+Under the "Advanced" controls: Wire resistivity - Instrument as done for the other sliders, i.e. need start drag, drag (time limited), and end drag.
+Location on screen where components are moved to as a parameter of the "moved" message (only do if easy)
 
-Siting: Odd behavior from the non-contact ammeter.
-
-
+Sighting: Odd behavior from the non-contact ammeter. We seemed to see messages from it when it wasn't in the circuit.
 
 JB: Fix: Non-contact Ammeter reading changes at junction.
-> Maybe defer these to post processing:
-Limit rate of reading changes from the voltmeter and ammeters to one/500ms.  Should be easy to change this rate in the code (a constant).
-Limit rate of value changes from the batteries and resistors to one/500ms.  Should be easy to change this rate in the code (a constant).
-JB: As Kathy said, we are mainly concerned with finding out that current changed. Every change in the circuit will imply a current change in the battery. Then, perhaps it is not crucial to know which component changed its current - most likely, all connected components do. Thus, logging current change on the battery seems sufficient. Does this make sense?
-
-2nd Priority (wait until confirming top priority with Ido)
-Current change message for each component excluding wires (limit to every 500ms) [On hold for now based on 2/15/2013 email from Ido]
-
-3rd Priority
-Component name from grab bag is sending duplicate "user" message, could be fixed in Circuit if necessary, see this todo: //TODO: Could add grab bag component type here by casting to GrabBagResistor and getting info
-Location on screen
+> Maybe defer these to post processing.
