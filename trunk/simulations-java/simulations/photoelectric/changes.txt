@@ -1,3 +1,5 @@
+# 1.10.00 (72226) Feb 20, 2013
+2/20/13 >Fixed bug that could prevent launches under some versions of Java 7.
 # 1.09.02 (72214) Feb 19, 2013
 2/19/13 #3511, dev version to test fix
 2/19/13 #3511, use our own listener class in EventChannel instead of javax.swing.event.ChangeListener
