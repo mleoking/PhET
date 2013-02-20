@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
@@ -37,6 +39,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -78,6 +81,16 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         slider.getTextField().addFocusListener( new FocusAdapter() {
             public void focusLost( FocusEvent e ) {
                 slider.testCommit();
+            }
+        } );
+        slider.getSlider().addMouseListener( new MouseAdapter() {
+            @Override public void mousePressed( MouseEvent e ) {
+                SimSharingManager.sendUserMessage( UserComponentChain.chain( userComponent, "slider" ), CCKSimSharing.UserComponentType.editor, UserActions.startDrag, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
+            }
+
+            @Override public void mouseReleased( MouseEvent e ) {
+                SimSharingManager.sendUserMessage( UserComponentChain.chain( userComponent, "slider" ), CCKSimSharing.UserComponentType.editor, UserActions.endDrag, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
+                nextRunnable.terminate();
             }
         } );
         slider.setTitleFont( slider.getTitleLabel().getFont().deriveFont( 24.0f ) );
