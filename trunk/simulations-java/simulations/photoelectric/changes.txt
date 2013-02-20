@@ -1,3 +1,5 @@
+# 1.09.02 (72214) Feb 19, 2013
+2/19/13 #3511, dev version to test fix
 2/19/13 #3511, use our own listener class in EventChannel instead of javax.swing.event.ChangeListener
 # 1.09.01 (62578) Mar 15, 2012
 3/15/12 #3281, fix for non-zero current readings when no electrons are reaching the anode
