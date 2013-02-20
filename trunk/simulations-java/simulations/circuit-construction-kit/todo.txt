@@ -11,7 +11,6 @@ Limit rate of value changes from the batteries and resistors to one/500ms.  Shou
 JB: As Kathy said, we are mainly concerned with finding out that current changed. Every change in the circuit will imply a current change in the battery. Then, perhaps it is not crucial to know which component changed its current - most likely, all connected components do. Thus, logging current change on the battery seems sufficient. Does this make sense?
 
 2nd Priority (wait until confirming top priority with Ido)
-SR: Voltmeter/Ammeter - message includes the component or components to which they are connected.  It already sends a connection message, we just need to send which component connected to.  May be a junction though, so may be a list of connections.
 Current change message for each component excluding wires (limit to every 500ms) [On hold for now based on 2/15/2013 email from Ido]
 
 3rd Priority
