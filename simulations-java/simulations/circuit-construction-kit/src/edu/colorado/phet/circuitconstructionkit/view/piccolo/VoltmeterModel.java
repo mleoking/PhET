@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -100,7 +100,7 @@ public class VoltmeterModel {
             IModelAction modelAction = prevRedLeadConnection == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterRedLeadModel,
                                                 ModelComponentTypes.modelElement,
-                                                modelAction
+                                                modelAction, getConnectionMessage( redLead )
             );
             prevRedLeadConnection = redLead.getConnection();
         }
@@ -108,10 +108,40 @@ public class VoltmeterModel {
             IModelAction modelAction = prevBlackLeadConnection == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterBlackLeadModel,
                                                 ModelComponentTypes.modelElement,
-                                                modelAction
+                                                modelAction, getConnectionMessage( blackLead )
             );
             prevBlackLeadConnection = blackLead.getConnection();
         }
+    }
+
+    //Output the connections formed by the voltmeter probes, including adjacent branches, see #3497
+    private ParameterSet getConnectionMessage( LeadModel probe ) {
+        Connection c = probe.getConnection();
+        String text = "";
+        if ( c == null ) {
+            text = "none";
+        }
+        else if ( c instanceof Connection.BranchConnection ) {
+            Connection.BranchConnection b = (Connection.BranchConnection) c;
+            text = "branch: " + b.getBranch().getUserComponentID().toString();
+        }
+        else if ( c instanceof Connection.JunctionConnection ) {
+            Connection.JunctionConnection jc = (Connection.JunctionConnection) c;
+            Branch[] branches = this.model.getCircuit().getAdjacentBranches( jc.getJunction() );
+            String branchesString = "";
+            for ( int i = 0; i < branches.length; i++ ) {
+                Branch branch = branches[i];
+                if ( i == 0 ) {
+                    branchesString = branch.getUserComponentID().toString();
+                }
+                else {
+                    branchesString = branchesString + ", " + branch.getUserComponentID().toString();
+                }
+            }
+            text = "junction: " + jc.getJunction().getLabel() + ", branches: " + branchesString;
+        }
+        ParameterSet originalSet = ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.connections, text );
+        return c == null ? originalSet : originalSet.with( CCKSimSharing.ParameterKeys.voltageAddon, c.getVoltageAddon() );
     }
 
     public boolean isVisible() {

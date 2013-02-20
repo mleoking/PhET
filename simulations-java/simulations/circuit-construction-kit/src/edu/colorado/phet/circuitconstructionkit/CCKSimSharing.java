@@ -53,6 +53,6 @@ public class CCKSimSharing {
     }
 
     public static enum ParameterKeys implements IParameterKey {
-        component
+        component, connections, voltageAddon;
     }
 }
