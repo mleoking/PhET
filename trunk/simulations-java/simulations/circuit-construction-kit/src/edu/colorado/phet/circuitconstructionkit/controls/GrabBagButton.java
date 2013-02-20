@@ -1,25 +1,22 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBag;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagItem;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -40,12 +37,13 @@ public class GrabBagButton extends JButton {
         try {
             setIcon( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/bag.gif" ), 45 ) ) );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
         this.module = module;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                SimSharingManager.sendButtonPressed( CCKSimSharing.UserComponents.grabBagButton );
                 showGrabBag();
             }
         } );
@@ -89,7 +87,7 @@ public class GrabBagButton extends JButton {
         dialog.setVisible( false );
         Resistor b = it.createBranch( module );
         module.getCircuit().addBranch( b );
-        module.layoutElectrons( new Branch[] { b } );
+        module.layoutElectrons( new Branch[]{b} );
         module.getSimulationPanel().repaint();
     }
 
