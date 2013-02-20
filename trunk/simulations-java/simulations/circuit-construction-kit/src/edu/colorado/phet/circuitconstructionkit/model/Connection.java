@@ -52,6 +52,10 @@ public abstract class Connection {
             return branch.getStartJunction();
         }
 
+        public Branch getBranch() {
+            return branch;
+        }
+
         public double getVoltageAddon() {
             double resistance = branch.getResistance();
             double length = branch.getLength();
