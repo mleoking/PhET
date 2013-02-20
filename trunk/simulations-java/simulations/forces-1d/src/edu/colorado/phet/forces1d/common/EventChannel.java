@@ -63,6 +63,7 @@ import java.util.List;
  *
  * @author Ron LeMaster
  * @version $Revision$
+ * @deprecated DO NOT USE! This implementation causes security issues when run under Java Web Start, see #3511.
  */
 public class EventChannel implements InvocationHandler {
 
@@ -72,16 +73,17 @@ public class EventChannel implements InvocationHandler {
 
     /**
      * Creates a proxy for a list of objects that implement a specified interface
+     * WARNING! If theClass is not already loaded, this will fail when running under Java Web Start, see #3511.
      *
-     * @param interf
+     * @param theClass
      */
-    public EventChannel( Class interf ) {
-        if ( !EventListener.class.isAssignableFrom( interf ) ) {
-            throw new RuntimeException( "Attempt to create proxy for an interface that is not an EventListener" );
+    public EventChannel( Class theClass ) {
+        if ( !EventListener.class.isAssignableFrom( theClass ) ) {
+            throw new RuntimeException( "Attempt to create proxy for a class that is not an EventListener" );
         }
-        targetInterface = interf;
-        proxy = Proxy.newProxyInstance( interf.getClassLoader(),
-                                        new Class[]{interf}, this );
+        targetInterface = theClass;
+        proxy = Proxy.newProxyInstance( theClass.getClassLoader(),
+                                        new Class[]{theClass}, this );
     }
 
     /**
