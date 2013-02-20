@@ -12,7 +12,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -21,6 +20,7 @@ import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
 import edu.colorado.phet.sound.model.SoundListener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
+import edu.colorado.phet.sound.view.InteractiveSpeakerGraphic.InteractiveSpeakerChangeListener;
 
 public class InterferenceListenerGraphic extends ListenerGraphic {
 
@@ -57,7 +57,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
         } );
 
         // If the moveable speaker moves, we need to update the amplitude
-        moveableSpeaker.addChangeListener( new ChangeListener() {
+        moveableSpeaker.addChangeListener( new InteractiveSpeakerChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateAmplitude();
             }
