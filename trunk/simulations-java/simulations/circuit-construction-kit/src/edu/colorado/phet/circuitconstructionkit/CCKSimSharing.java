@@ -40,7 +40,7 @@ public class CCKSimSharing {
 
     public static enum ModelComponents implements IModelComponent {
         circuit, voltmeterModel, voltmeterRedLeadModel, voltmeterBlackLeadModel,
-        nonContactAmmeterModel, seriesAmmeterModel;
+        nonContactAmmeterModel, seriesAmmeterModel, batteryModel;
     }
 
     public static enum ModelComponentTypes implements IModelComponentType {
@@ -49,7 +49,7 @@ public class CCKSimSharing {
 
     public static enum ModelActions implements IModelAction {
         connectionFormed, measuredVoltageChanged, measuredCurrentChanged,
-        connectionBroken, fireStarted, fireEnded
+        connectionBroken, fireStarted, currentChanged, fireEnded
     }
 
     public static enum ParameterKeys implements IParameterKey {

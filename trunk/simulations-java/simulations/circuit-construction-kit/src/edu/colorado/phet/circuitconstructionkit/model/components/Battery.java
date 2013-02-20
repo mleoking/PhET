@@ -9,6 +9,12 @@ import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 /**
  * User: Sam Reid
@@ -16,9 +22,11 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
  * Time: 1:11:39 PM
  */
 public class Battery extends CircuitComponent {
+    private static final double CURRENT_CHANGE_THRESHOLD = 1E-5;
     private double internalResistance;
     private boolean internalResistanceOn;
     public static final double DEFAULT_INTERNAL_RESISTANCE = 0.001;
+    private double previousCurrent = 0;
 
     public Battery( double voltage, double internalResistance ) {
         this( new Point2D.Double(), new Vector2D(), 1, 1, new CircuitChangeListener() {
@@ -96,5 +104,17 @@ public class Battery extends CircuitComponent {
 
     public boolean isInternalResistanceOn() {
         return internalResistanceOn;
+    }
+
+    @Override public void setCurrent( double current ) {
+        super.setCurrent( current );
+        if ( Math.abs( previousCurrent - current ) > CURRENT_CHANGE_THRESHOLD ){
+            // Send sim sharing message indicating that current change.
+            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.batteryModel,
+                                                ModelComponentTypes.modelElement,
+                                                CCKSimSharing.ModelActions.currentChanged,
+                                                new ParameterSet( new Parameter( new ParameterKey( "current" ), Double.toString( current ) ) ) );
+            previousCurrent = current;
+        }
     }
 }
