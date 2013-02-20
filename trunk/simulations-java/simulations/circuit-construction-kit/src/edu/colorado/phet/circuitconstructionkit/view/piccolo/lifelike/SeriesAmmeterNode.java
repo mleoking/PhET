@@ -45,6 +45,7 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
  * Time: 12:57:37 AM
  */
 public class SeriesAmmeterNode extends ComponentNode {
+    private static final DecimalFormat DF = new DecimalFormat( "0.00" );
     private SeriesAmmeter component;
     private CCKModule module;
     private static final double SCALE = 1.0 / 60.0;
@@ -82,8 +83,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         component.addObserver( simpleObserver );
         circuitSolutionListener = new CircuitSolutionListener() {
             public void circuitSolverFinished() {
-                DecimalFormat df = new DecimalFormat( "0.00" );
-                String form = df.format( Math.abs( component.getCurrent() ) );
+                String form = DF.format( Math.abs( component.getCurrent() ) );
                 text = "" + form + " " + CCKResources.getString( "SeriesAmmeterGraphic.Amps" );
                 changed();
             }
@@ -171,13 +171,11 @@ public class SeriesAmmeterNode extends ComponentNode {
 
         // Send sim sharing message if reading has changed. Thresholding was
         // necessary to avoid spurious messages.
-        // TODO: This doesn't report instance.  Need to discuss with Sam R. Should it be a user component message instead?
-        if ( Math.abs( component.getCurrent() - previouslyReportedCurrent ) > 1E-5 ) {
-            DecimalFormat df = new DecimalFormat( "0.00" );
-            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.seriesAmmeterModel,
+        if ( Math.abs( component.getCurrent() - previouslyReportedCurrent ) > 0.01 ) {
+            SimSharingManager.sendModelMessage( getBranch().getModelComponentID(),
                                                 ModelComponentTypes.modelElement,
                                                 CCKSimSharing.ModelActions.measuredCurrentChanged,
-                                                new ParameterSet( new Parameter( new ParameterKey( "current" ), df.format( component.getCurrent() ) ) ) );
+                                                new ParameterSet( new Parameter( new ParameterKey( "current" ), DF.format( component.getCurrent() ) ) ) );
             previouslyReportedCurrent = component.getCurrent();
         }
     }
