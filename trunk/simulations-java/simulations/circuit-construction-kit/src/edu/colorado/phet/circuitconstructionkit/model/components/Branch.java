@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import javax.naming.NameNotFoundException;
+
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
@@ -408,5 +410,21 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public IUserComponent getUserComponentID() {
         return userComponentID;
+    }
+
+    /*
+     * Get the instance number for this particular branch. This is used for
+     * sim sharing.  The instance is extracted from the user componented ID,
+     * and -1 is returned if no instance was set.
+     */
+    public int getInstanceNumber (){
+        String uidString = userComponentID.toString();
+        if ( uidString.contains( "." ) ){
+            String instanceString = uidString.substring( uidString.indexOf( '.' ) + 1 );
+            if ( instanceString != null ){
+                return Integer.parseInt( instanceString );
+            }
+        }
+        return -1;
     }
 }
