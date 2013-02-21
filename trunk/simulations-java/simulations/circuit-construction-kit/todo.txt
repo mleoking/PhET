@@ -4,7 +4,6 @@ Sim Sharing items:
 
 Top Priority
 
-Voltage editor dialog window activated/deactivated.
 Make the log voltage match the voltmeter voltage by using a number formatter.
 Time limit voltage messages from voltmeter.
 Time limit current messages from ammeters.
