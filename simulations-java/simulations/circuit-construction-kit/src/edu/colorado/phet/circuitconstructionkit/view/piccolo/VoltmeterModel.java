@@ -39,6 +39,7 @@ public class VoltmeterModel {
     private double voltage = Double.NaN;
     private CCKModel model;
     private Circuit circuit;
+    private String voltageString = "";
 
     public VoltmeterModel( CCKModel model, Circuit circuit ) {
         this.model = model;
@@ -85,15 +86,21 @@ public class VoltmeterModel {
     private void updateVoltage() {
         final double voltage = circuit.getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
 
-        if ( voltage != this.voltage && !( Double.isNaN( this.getVoltage() ) && Double.isNaN( voltage ) ) ) {
+        boolean voltageValueChanged = voltage != this.voltage;
+        final String voltageString = Double.isNaN( voltage ) ? "undefined" : VoltmeterNode.UnitNode.decimalFormat.format( voltage );
+        boolean voltageStringChanged = !this.voltageString.equals( voltageString );
+
+        if ( voltageValueChanged ) {
             this.voltage = voltage;
+            this.voltageString = voltageString;
             notifyListeners();
+        }
+        if ( voltageStringChanged && !( Double.isNaN( this.getVoltage() ) && Double.isNaN( voltage ) ) ) {
 
             //Limit messages to every 500ms
             runner.set( new Runnable() {
                 public void run() {
                     // Send out sim sharing message indication that voltage has changed.
-                    String voltageString = Double.isNaN( voltage ) ? "undefined" : VoltmeterNode.UnitNode.decimalFormat.format( voltage );
                     SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterModel,
                                                         ModelComponentTypes.modelElement,
                                                         CCKSimSharing.ModelActions.measuredVoltageChanged,
