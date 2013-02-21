@@ -41,6 +41,7 @@ public class NonContactAmmeterNode extends PhetPNode {
     private Branch previousBranch = null; // Used to detect changes in connection state.
     DelayedRunner dragRunner = new DelayedRunner();
     DelayedRunner valueRunner = new DelayedRunner();
+    private boolean constructor = true;
 
     public NonContactAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
         this( new TargetReadoutToolNode(), panel, circuit, module );
@@ -128,6 +129,7 @@ public class NonContactAmmeterNode extends PhetPNode {
 
         } );
         update();
+        constructor = false;
     }
 
     public void update() {
@@ -150,7 +152,7 @@ public class NonContactAmmeterNode extends PhetPNode {
         }
 
         // Send a sim sharing message if the connection state has changed.
-        if ( previousBranch != branch ) {
+        if ( previousBranch != branch && !constructor ) {
             IModelAction modelAction = previousBranch == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.nonContactAmmeterModel,
                                                 ModelComponentTypes.modelElement,
@@ -161,7 +163,7 @@ public class NonContactAmmeterNode extends PhetPNode {
 
         // Send a sim sharing message if the readout has changed.
         String[] currentText = targetReadoutToolNode.getText();
-        if ( ( previousText.length != currentText.length ) ||
+        if ( ( previousText.length != currentText.length && !constructor ) ||
              ( previousText.length == 1 && currentText.length == 1 && !previousText[0].equals( currentText[0] ) ) ) {
 
             final String currentlyDisplayedText = ( branch == null || currentText.length == 0 ) ? "undefined" : currentText[0];
