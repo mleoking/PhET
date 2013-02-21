@@ -4,8 +4,11 @@ Sim Sharing items:
 
 Top Priority
 
+When battery right click menu appears, it was sending user voltageEditor message.  It would be ok if that happened when editor shows, but not just when the right click menu.
+When "more volts" gets checked it should not send "user voltageEditor" changed message.
 Location on screen where components are moved to as a parameter of the "moved" message (only do if easy)
 Get rid of message about nonContactAmmeter reported at startup.
+nonContactAmmeterModel measuredCurrent changed even when non contact ammeter not present, seems to give extra messages
 
 Sighting: Odd behavior from the non-contact ammeter. We seemed to see messages from it when it wasn't in the circuit.
 
