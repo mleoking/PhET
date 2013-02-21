@@ -156,7 +156,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         mountainGraphics.dispose();
 
         //Development flag for testing performance with and without clouds
-        final boolean showClouds = false;
+        final boolean showClouds = true;
         if ( showClouds ) {
             PNode clouds = new PNode() {{
                 addChild( new HBox( 245, new PImage( Images.CLOUD1 ) {{
