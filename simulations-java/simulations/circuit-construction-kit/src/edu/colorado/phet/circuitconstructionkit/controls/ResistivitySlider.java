@@ -1,10 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import java.awt.Font;
+import java.awt.*;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
@@ -34,6 +33,10 @@ public class ResistivitySlider extends JPanel {//TODO: this should probably be o
         control.addTickLabel( ResistivityManager.DEFAULT_RESISTIVITY, lowLabel );
         control.addTickLabel( 1, highLabel );
         control.setTextFieldVisible( false );
+    }
+
+    public JSlider getSlider() {
+        return control.getSlider();
     }
 
     public double getValue() {

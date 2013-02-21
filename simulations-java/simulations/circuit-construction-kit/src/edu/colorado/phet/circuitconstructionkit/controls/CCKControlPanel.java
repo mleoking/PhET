@@ -14,6 +14,8 @@ import net.n3.nanoxml.XMLWriter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -41,6 +43,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.persistence.CircuitXML;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.BranchNodeFactory;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.DelayedRunner;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
@@ -72,6 +75,7 @@ public class CCKControlPanel extends ControlPanel {
     private SimSharingJCheckBox seriesAmmeter;
     private JPanel advancedPanel;
     private boolean debugging = false;
+    private static DelayedRunner runner = new DelayedRunner();
 
     public CCKControlPanel( final CCKModule module, Module m ) {
         this.module = module;
@@ -403,13 +407,27 @@ public class CCKControlPanel extends ControlPanel {
             resistivitySlider = new ResistivitySlider();
 
             addControl( resistivitySlider );
+            resistivitySlider.getSlider().addMouseListener( new MouseAdapter() {
+                @Override public void mousePressed( MouseEvent e ) {
+                    SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.resistivitySlider, UserComponentTypes.slider, UserActions.startDrag, ParameterSet.parameterSet( ParameterKeys.value, resistivitySlider.getValue() ) );
+                }
+
+                @Override public void mouseReleased( MouseEvent e ) {
+                    SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.resistivitySlider, UserComponentTypes.slider, UserActions.endDrag, ParameterSet.parameterSet( ParameterKeys.value, resistivitySlider.getValue() ) );
+                    runner.terminate();
+                }
+            } );
             resistivitySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    double value = resistivitySlider.getValue();
+                    final double value = resistivitySlider.getValue();
                     if ( value <= 0 ) {
                         new RuntimeException( "Illegal resistivity: " + value ).printStackTrace();
                     }
-                    SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.resistivitySlider, UserComponentTypes.slider, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.value, value ) );
+                    runner.set( new Runnable() {
+                        public void run() {
+                            SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.resistivitySlider, UserComponentTypes.slider, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.value, value ) );
+                        }
+                    } );
                     module.getResistivityManager().setResistivity( value );
                 }
             } );
