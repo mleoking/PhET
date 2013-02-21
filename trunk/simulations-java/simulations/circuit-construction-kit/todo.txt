@@ -4,9 +4,5 @@ Sim Sharing items:
 
 Top Priority
 
-nonContactAmmeterModel measuredCurrent changed even when non contact ammeter not present, seems to give extra messages
-
-Sighting: Odd behavior from the non-contact ammeter. We seemed to see messages from it when it wasn't in the circuit.
-
 JB: Fix: Non-contact Ammeter reading changes at junction.
 > Maybe defer these to post processing.
