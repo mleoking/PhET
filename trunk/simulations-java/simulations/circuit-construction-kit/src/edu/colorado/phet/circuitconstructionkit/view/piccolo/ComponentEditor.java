@@ -101,15 +101,16 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
 
-                //Send sim sharing message, but not if the constructor is being called.  Works around a problem that this listener gets called in the battery editor constructor.
-                Runnable r = new Runnable() {
-                    public void run() {
-                        if ( !constructor.get() ) {
+                if ( !constructor.get() ) {
+                    //Send sim sharing message, but not if the constructor is being called.  Works around a problem that this listener gets called in the battery editor constructor.
+                    Runnable r = new Runnable() {
+                        public void run() {
                             SimSharingManager.sendUserMessage( userComponent, CCKSimSharing.UserComponentType.editor, UserActions.changed, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
                         }
-                    }
-                };
-                nextRunnable.set( r );
+                    };
+                    nextRunnable.set( r );
+                }
+
                 doChange( slider.getValue() );
             }
         } );
