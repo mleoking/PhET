@@ -26,5 +26,5 @@ public enum ParameterKeys implements IParameterKey {
     mountainTime,
     errorType,
     commitAction,
-    wavelength
+    x2, y2, wavelength
 }

@@ -1,11 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 
-import javax.swing.JComponent;
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
@@ -66,7 +64,7 @@ public abstract class ComponentNode extends BranchNode {
                 if ( event.isLeftMouseButton() && dragging ) {
                     circuitInteractionModel.dropBranch( circuitComponent );
                     dragging = false;
-                    SimSharingManager.sendUserMessage( circuitComponent.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent );
+                    SimSharingManager.sendUserMessage( circuitComponent.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent, getPositionParameterSet() );
                 }
             }
 
