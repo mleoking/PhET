@@ -4,7 +4,6 @@ Sim Sharing items:
 
 Top Priority
 
-Switch open/closure messages.
 Under the "Advanced" controls: Wire resistivity - Instrument as done for the other sliders, i.e. need start drag, drag (time limited), and end drag.
 Location on screen where components are moved to as a parameter of the "moved" message (only do if easy)
 Get rid of message about nonContactAmmeter reported at startup.

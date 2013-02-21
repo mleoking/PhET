@@ -8,6 +8,8 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 /**
  * User: Sam Reid
@@ -46,6 +48,7 @@ public class Switch extends CircuitComponent {
     public void setClosed( boolean closed ) {
         if ( closed != this.closed ) {
             this.closed = closed;
+            SimSharingManager.sendUserMessage( getUserComponentID(), UserComponentTypes.sprite, closed ? CCKSimSharing.UserActions.switchClosed : CCKSimSharing.UserActions.switchOpened );
             if ( closed ) {
                 super.setResistance( CCKModel.MIN_RESISTANCE ); //a resistance change fires a kirkhoff update.
             }
