@@ -4,7 +4,6 @@ Sim Sharing items:
 
 Top Priority
 
-When "more volts" gets checked it should not send "user voltageEditor" changed message.
 Location on screen where components are moved to as a parameter of the "moved" message (only do if easy)
 Get rid of message about nonContactAmmeter reported at startup.
 nonContactAmmeterModel measuredCurrent changed even when non contact ammeter not present, seems to give extra messages
