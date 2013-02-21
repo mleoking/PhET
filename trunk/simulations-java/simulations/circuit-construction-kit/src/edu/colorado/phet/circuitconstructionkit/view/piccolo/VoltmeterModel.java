@@ -88,7 +88,7 @@ public class VoltmeterModel {
             notifyListeners();
 
             // Send out sim sharing message indication that voltage has changed.
-            String voltageString = Double.isNaN( voltage ) ? "undefined" : Double.toString( voltage );
+            String voltageString = Double.isNaN( voltage ) ? "undefined" : VoltmeterNode.UnitNode.decimalFormat.format( voltage );
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterModel,
                                                 ModelComponentTypes.modelElement,
                                                 CCKSimSharing.ModelActions.measuredVoltageChanged,

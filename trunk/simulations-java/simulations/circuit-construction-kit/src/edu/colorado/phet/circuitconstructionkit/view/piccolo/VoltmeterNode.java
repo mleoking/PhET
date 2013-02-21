@@ -88,7 +88,7 @@ public class VoltmeterNode extends PhetPNode {
     static class UnitNode extends PhetPNode {
         private VoltmeterModel voltmeterModel;
         private PText textNode;
-        private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
+        public static DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private final String UNKNOWN_VOLTS = CCKResources.getString( "VoltmeterGraphic.UnknownVolts" );
 
         public UnitNode( final VoltmeterModel voltmeterModel ) {
