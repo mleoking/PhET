@@ -1,3 +1,4 @@
+# 3.20.11 (72254) Feb 21, 2013
 # 3.20.10 (72253) Feb 21, 2013
 Sim Sharing: Fixed: nonContactAmmeter was sending messages when it was unchecked, see #3497
 Sim Sharing: Removed message about nonContactAmmeter reported at startup, see #3497
