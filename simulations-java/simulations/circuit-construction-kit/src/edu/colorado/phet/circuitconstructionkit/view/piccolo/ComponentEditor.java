@@ -61,6 +61,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
     final BooleanProperty constructor = new BooleanProperty( true );
     //For sim sharing
     final DelayedRunner nextRunnable = new DelayedRunner();
+    double valueForLastMessage = Double.NaN;
 
     public ComponentEditor( final IUserComponent userComponent, final CCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
@@ -73,6 +74,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
             System.out.println( "StartValue too low: " + startvalue + "/" + min );
             startvalue = min;
         }
+        this.valueForLastMessage = startvalue;
         this.module = module;
         this.circuitComponent = element;
         this.circuit = circuit;
@@ -86,10 +88,12 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         slider.getSlider().addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
                 SimSharingManager.sendUserMessage( UserComponentChain.chain( userComponent, "slider" ), CCKSimSharing.UserComponentType.editor, UserActions.startDrag, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
+                valueForLastMessage = slider.getValue();
             }
 
             @Override public void mouseReleased( MouseEvent e ) {
                 SimSharingManager.sendUserMessage( UserComponentChain.chain( userComponent, "slider" ), CCKSimSharing.UserComponentType.editor, UserActions.endDrag, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
+                valueForLastMessage = slider.getValue();
                 nextRunnable.terminate();
             }
         } );
@@ -100,12 +104,13 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         setContentPane( contentPane );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-
-                if ( !constructor.get() ) {
+                final double value = slider.getValue();
+                if ( !constructor.get() && value != valueForLastMessage ) {
                     //Send sim sharing message, but not if the constructor is being called.  Works around a problem that this listener gets called in the battery editor constructor.
                     Runnable r = new Runnable() {
                         public void run() {
-                            SimSharingManager.sendUserMessage( userComponent, CCKSimSharing.UserComponentType.editor, UserActions.changed, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, slider.getValue() ) );
+                            SimSharingManager.sendUserMessage( userComponent, CCKSimSharing.UserComponentType.editor, UserActions.changed, ParameterSet.parameterSet( CCKSimSharing.ParameterKeys.component, circuitComponent.getUserComponentID().toString() ).with( ParameterKeys.value, value ) );
+                            valueForLastMessage = value;
                         }
                     };
                     nextRunnable.set( r );

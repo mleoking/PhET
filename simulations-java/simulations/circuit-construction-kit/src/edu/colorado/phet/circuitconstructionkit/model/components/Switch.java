@@ -22,6 +22,7 @@ public class Switch extends CircuitComponent {
     public static final double DEFAULT_HANDLE_ANGLE_OPEN = 5;
     public static final double HANDLE_ANGLE_CLOSED = Math.PI;
     private double handleAngle = DEFAULT_HANDLE_ANGLE_OPEN;
+    private boolean sendMessage = false;
 
     public Switch( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
@@ -29,6 +30,7 @@ public class Switch extends CircuitComponent {
         super.setResistance( OPEN_RESISTANCE );
         setKirkhoffEnabled( true );
         setUserComponentID( CCKSimSharing.UserComponents.circuitSwitch );
+        sendMessage = true;
     }
 
     public Switch( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, boolean closed, double length, double height ) {
@@ -36,6 +38,7 @@ public class Switch extends CircuitComponent {
         setKirkhoffEnabled( false );
         this.closed = !closed;//to guarantee a change in setClosed.
         setClosed( closed );
+        sendMessage = true;
         setKirkhoffEnabled( true );
         setHandleAngle( closed ? HANDLE_ANGLE_CLOSED : DEFAULT_HANDLE_ANGLE_OPEN );
         setUserComponentID( CCKSimSharing.UserComponents.circuitSwitch );
@@ -48,7 +51,10 @@ public class Switch extends CircuitComponent {
     public void setClosed( boolean closed ) {
         if ( closed != this.closed ) {
             this.closed = closed;
-            SimSharingManager.sendUserMessage( getUserComponentID(), UserComponentTypes.sprite, closed ? CCKSimSharing.UserActions.switchClosed : CCKSimSharing.UserActions.switchOpened );
+            //Send open/close message, but not during startup
+            if ( sendMessage ) {
+                SimSharingManager.sendUserMessage( getUserComponentID(), UserComponentTypes.sprite, closed ? CCKSimSharing.UserActions.switchClosed : CCKSimSharing.UserActions.switchOpened );
+            }
             if ( closed ) {
                 super.setResistance( CCKModel.MIN_RESISTANCE ); //a resistance change fires a kirkhoff update.
             }

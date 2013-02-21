@@ -1,3 +1,4 @@
+Sim Sharing: Fixed: When "more volts" gets checked it should not send "user voltageEditor" changed message, see #3497
 Sim Sharing: Fixed: When battery right click menu appears, it was sending user voltageEditor message, see #3497
 Sim Sharing: Under the "Advanced" controls: Wire resistivity - Instrument as done for the other sliders, i.e. need start drag, drag (time limited), and end drag.
 Sim Sharing: Send messages when switches are opened or closed
