@@ -152,7 +152,7 @@ public class NonContactAmmeterNode extends PhetPNode {
         }
 
         // Send a sim sharing message if the connection state has changed.
-        if ( previousBranch != branch && !constructor ) {
+        if ( previousBranch != branch && !constructor && getVisible() ) {
             IModelAction modelAction = previousBranch == null ? CCKSimSharing.ModelActions.connectionFormed : CCKSimSharing.ModelActions.connectionBroken;
             SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.nonContactAmmeterModel,
                                                 ModelComponentTypes.modelElement,
@@ -163,8 +163,9 @@ public class NonContactAmmeterNode extends PhetPNode {
 
         // Send a sim sharing message if the readout has changed.
         String[] currentText = targetReadoutToolNode.getText();
-        if ( ( previousText.length != currentText.length && !constructor ) ||
-             ( previousText.length == 1 && currentText.length == 1 && !previousText[0].equals( currentText[0] ) ) ) {
+        boolean change = ( previousText.length != currentText.length && !constructor ) ||
+                         ( previousText.length == 1 && currentText.length == 1 && !previousText[0].equals( currentText[0] ) );
+        if ( change && getVisible() ) {
 
             final String currentlyDisplayedText = ( branch == null || currentText.length == 0 ) ? "undefined" : currentText[0];
             valueRunner.set( new Runnable() {
