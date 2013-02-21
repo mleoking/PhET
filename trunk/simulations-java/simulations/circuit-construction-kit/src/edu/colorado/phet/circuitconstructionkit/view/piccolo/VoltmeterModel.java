@@ -80,19 +80,26 @@ public class VoltmeterModel {
         }
     }
 
+    DelayedRunner runner = new DelayedRunner();
+
     private void updateVoltage() {
-        double voltage = circuit.getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
+        final double voltage = circuit.getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
 
         if ( voltage != this.voltage && !( Double.isNaN( this.getVoltage() ) && Double.isNaN( voltage ) ) ) {
             this.voltage = voltage;
             notifyListeners();
 
-            // Send out sim sharing message indication that voltage has changed.
-            String voltageString = Double.isNaN( voltage ) ? "undefined" : VoltmeterNode.UnitNode.decimalFormat.format( voltage );
-            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterModel,
-                                                ModelComponentTypes.modelElement,
-                                                CCKSimSharing.ModelActions.measuredVoltageChanged,
-                                                new ParameterSet( new Parameter( new ParameterKey( "voltage" ), voltageString ) ) );
+            //Limit messages to every 500ms
+            runner.set( new Runnable() {
+                public void run() {
+                    // Send out sim sharing message indication that voltage has changed.
+                    String voltageString = Double.isNaN( voltage ) ? "undefined" : VoltmeterNode.UnitNode.decimalFormat.format( voltage );
+                    SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.voltmeterModel,
+                                                        ModelComponentTypes.modelElement,
+                                                        CCKSimSharing.ModelActions.measuredVoltageChanged,
+                                                        new ParameterSet( new Parameter( new ParameterKey( "voltage" ), voltageString ) ) );
+                }
+            } );
         }
 
         // Send out sim sharing message if connection state of leads has changed.
