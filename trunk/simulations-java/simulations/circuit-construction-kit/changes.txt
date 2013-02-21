@@ -1,3 +1,4 @@
+Sim Sharing: Voltmeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes
 Sim Sharing: Time limit current messages from ammeters
 Sim Sharing: Time limit voltage messages from voltmeter
 Sim Sharing: Made the log voltage match the voltmeter voltage by rounding to the same number of digits
