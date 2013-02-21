@@ -4,7 +4,6 @@ Sim Sharing items:
 
 Top Priority
 
-Get rid of message about nonContactAmmeter reported at startup.
 nonContactAmmeterModel measuredCurrent changed even when non contact ammeter not present, seems to give extra messages
 
 Sighting: Odd behavior from the non-contact ammeter. We seemed to see messages from it when it wasn't in the circuit.
