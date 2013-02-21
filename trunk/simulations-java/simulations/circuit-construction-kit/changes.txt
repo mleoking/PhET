@@ -1,3 +1,4 @@
+Sim Sharing: Send messages when switches are opened or closed
 Sim Sharing: Voltmeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes
 Sim Sharing: Time limit current messages from ammeters
 Sim Sharing: Time limit voltage messages from voltmeter
