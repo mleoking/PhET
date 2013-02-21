@@ -1,20 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
@@ -23,8 +16,8 @@ import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionLi
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.DelayedRunner;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -64,11 +57,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private PhetPPath areaGraphic;
     private PText textGraphic;
     private Area area;
-
-    public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, CCKModule module, String fixedMessage ) {
-        this( parent, component, module );
-        this.fixedMessage = fixedMessage;
-    }
+    private final DelayedRunner runner = new DelayedRunner();
 
     public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, final CCKModule module ) {
         super( module.getCCKModel(), component, parent, module );
@@ -163,7 +152,6 @@ public class SeriesAmmeterNode extends ComponentNode {
             msg = fixedMessage;
         }
         textGraphic.setTransform( new AffineTransform() );
-        String oldMsg = textGraphic.getText();
         textGraphic.setText( msg );
         textGraphic.scale( SCALE );
         textGraphic.setOffset( textLoc.getX(), textLoc.getY() );
@@ -172,11 +160,15 @@ public class SeriesAmmeterNode extends ComponentNode {
         // Send sim sharing message if reading has changed. Thresholding was
         // necessary to avoid spurious messages.
         if ( Math.abs( component.getCurrent() - previouslyReportedCurrent ) > 0.01 ) {
-            SimSharingManager.sendModelMessage( getBranch().getModelComponentID(),
-                                                ModelComponentTypes.modelElement,
-                                                CCKSimSharing.ModelActions.measuredCurrentChanged,
-                                                new ParameterSet( new Parameter( new ParameterKey( "current" ), DF.format( component.getCurrent() ) ) ) );
-            previouslyReportedCurrent = component.getCurrent();
+            runner.set( new Runnable() {
+                public void run() {
+                    SimSharingManager.sendModelMessage( getBranch().getModelComponentID(),
+                                                        ModelComponentTypes.modelElement,
+                                                        CCKSimSharing.ModelActions.measuredCurrentChanged,
+                                                        new ParameterSet( new Parameter( new ParameterKey( "current" ), DF.format( component.getCurrent() ) ) ) );
+                    previouslyReportedCurrent = component.getCurrent();
+                }
+            } );
         }
     }
 

@@ -4,7 +4,6 @@ Sim Sharing items:
 
 Top Priority
 
-Time limit current messages from ammeters.
 Voltmeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
 Non-contact ammeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
 Switch open/closure messages.

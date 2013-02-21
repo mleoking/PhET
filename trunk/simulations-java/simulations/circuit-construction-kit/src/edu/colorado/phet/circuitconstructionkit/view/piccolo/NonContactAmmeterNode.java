@@ -39,7 +39,8 @@ public class NonContactAmmeterNode extends PhetPNode {
     private CCKModule module;
     private Circuit circuit;
     private Branch previousBranch = null; // Used to detect changes in connection state.
-    DelayedRunner runner = new DelayedRunner();
+    DelayedRunner dragRunner = new DelayedRunner();
+    DelayedRunner valueRunner = new DelayedRunner();
 
     public NonContactAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
         this( new TargetReadoutToolNode(), panel, circuit, module );
@@ -65,7 +66,7 @@ public class NonContactAmmeterNode extends PhetPNode {
 
             public void mouseDragged( PInputEvent event ) {
                 final PDimension pt = event.getDeltaRelativeTo( NonContactAmmeterNode.this );
-                runner.set( new Runnable() {
+                dragRunner.set( new Runnable() {
                     public void run() {
                         SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.drag,
                                                            ParameterSet.parameterSet( ParameterKeys.x, getXOffset() + pt.width ).
@@ -79,7 +80,7 @@ public class NonContactAmmeterNode extends PhetPNode {
 
             @Override public void mouseReleased( PInputEvent event ) {
                 super.mouseReleased( event );
-                runner.terminate();
+                dragRunner.terminate();
                 SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.endDrag,
                                                    ParameterSet.parameterSet( ParameterKeys.x, getXOffset() ).
                                                            with( ParameterKeys.y, getYOffset() ) );
@@ -163,11 +164,15 @@ public class NonContactAmmeterNode extends PhetPNode {
         if ( ( previousText.length != currentText.length ) ||
              ( previousText.length == 1 && currentText.length == 1 && !previousText[0].equals( currentText[0] ) ) ) {
 
-            String currentlyDisplayedText = ( branch == null || currentText.length == 0 ) ? "undefined" : currentText[0];
-            SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.nonContactAmmeterModel,
-                                                ModelComponentTypes.modelElement,
-                                                CCKSimSharing.ModelActions.measuredCurrentChanged,
-                                                new ParameterSet( new Parameter( new ParameterKey( "current" ), currentlyDisplayedText ) ) );
+            final String currentlyDisplayedText = ( branch == null || currentText.length == 0 ) ? "undefined" : currentText[0];
+            valueRunner.set( new Runnable() {
+                public void run() {
+                    SimSharingManager.sendModelMessage( CCKSimSharing.ModelComponents.nonContactAmmeterModel,
+                                                        ModelComponentTypes.modelElement,
+                                                        CCKSimSharing.ModelActions.measuredCurrentChanged,
+                                                        new ParameterSet( new Parameter( new ParameterKey( "current" ), currentlyDisplayedText ) ) );
+                }
+            } );
 
         }
     }
