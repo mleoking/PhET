@@ -136,10 +136,16 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         } );
         addWindowListener( new WindowAdapter() {
             public void windowActivated( WindowEvent e ) {
+                SimSharingManager.sendUserMessage( userComponent, CCKSimSharing.UserComponentType.editor, UserActions.activated );
                 circuitComponent.setEditing( true );
             }
 
+            @Override public void windowDeactivated( WindowEvent e ) {
+                SimSharingManager.sendUserMessage( userComponent, CCKSimSharing.UserComponentType.editor, UserActions.deactivated );
+            }
+
             public void windowClosing( WindowEvent e ) {
+                SimSharingManager.sendUserMessage( userComponent, CCKSimSharing.UserComponentType.editor, UserActions.windowClosing );
                 circuitComponent.setEditing( false );
             }
         } );
