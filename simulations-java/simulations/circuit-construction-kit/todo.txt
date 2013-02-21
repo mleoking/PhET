@@ -4,7 +4,6 @@ Sim Sharing items:
 
 Top Priority
 
-Make the log voltage match the voltmeter voltage by using a number formatter.
 Time limit voltage messages from voltmeter.
 Time limit current messages from ammeters.
 Voltmeter - value thresholding so that sim sharing messages are only sent when the readout seen by the user changes.
