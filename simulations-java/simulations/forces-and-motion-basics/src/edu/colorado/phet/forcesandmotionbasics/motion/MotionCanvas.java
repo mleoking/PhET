@@ -120,6 +120,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final StackableNode fridge;
     private final StackableNode man;
 
+    //For clouds
+    private Image cloudTexture;
+    private BufferedImage txtr;
+
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
                          //True if tab 3 "friction"
@@ -151,14 +155,18 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         mountainGraphics.drawRenderedImage( Images.MOUNTAINS, new AffineTransform() );
         mountainGraphics.dispose();
 
-        PNode clouds = new PNode() {{
-            addChild( new HBox( 245, new PImage( Images.CLOUD1 ) {{
-                scale( 0.6 );
-            }}, new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) {{setVisible( false );}}
-            ) );
-        }};
-        final Image cloudTexture = clouds.toImage();
-        final BufferedImage txtr = BufferedImageUtils.toBufferedImage( cloudTexture );
+        //Development flag for testing performance with and without clouds
+        final boolean showClouds = false;
+        if ( showClouds ) {
+            PNode clouds = new PNode() {{
+                addChild( new HBox( 245, new PImage( Images.CLOUD1 ) {{
+                    scale( 0.6 );
+                }}, new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) {{setVisible( false );}}
+                ) );
+            }};
+            cloudTexture = clouds.toImage();
+            txtr = BufferedImageUtils.toBufferedImage( cloudTexture );
+        }
         PNode terrainLayer = new PNode() {
             {
                 model.position.addObserver( new VoidFunction1<Double>() {
@@ -212,7 +220,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
 
                 //Show clouds
-                {
+                if ( showClouds ) {
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width, -50, STAGE_SIZE.width * 3, cloudTexture.getHeight( null ) );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 10, area.getY(), cloudTexture.getWidth( null ), cloudTexture.getHeight( null ) );
 
