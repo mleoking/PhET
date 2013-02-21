@@ -1,3 +1,4 @@
+Sim Sharing: Send messages when voltage/resistance editor window activated/deactivated/closed
 Sim Sharing: Made the model ID match the user ID for sim sharing messages from the series ammeter.
 Sim Sharing: Improved value thresholding for series ammeter so that sim sharing messages are only sent when the readout seen by the user changes.
 # 3.20.09 (72232) Feb 20, 2013
