@@ -1,3 +1,4 @@
+Sim Sharing: Time limit voltage messages from voltmeter
 Sim Sharing: Made the log voltage match the voltmeter voltage by rounding to the same number of digits
 Sim Sharing: Send messages when voltage/resistance editor window activated/deactivated/closed
 Sim Sharing: Made the model ID match the user ID for sim sharing messages from the series ammeter.
