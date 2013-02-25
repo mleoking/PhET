@@ -29,6 +29,9 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBoxMenuItem;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 
 public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     protected CCKModule module;
@@ -46,7 +49,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     }
 
     protected JCheckBoxMenuItem createShowValueButton( JPopupMenuRepaintWorkaround menu, final CCKModule module, final Branch branch ) {
-        final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
+        final JCheckBoxMenuItem showValue = new SimSharingJCheckBoxMenuItem( UserComponentChain.chain( branch.getUserComponentID(), CCKSimSharing.UserComponents.showValueCheckBoxItem ), CCKResources.getString( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
         menu.addPopupMenuListener( new PopupMenuListener() {
             public void popupMenuCanceled( PopupMenuEvent e ) {
             }
@@ -231,7 +234,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
                 }
             } );
             add( edit );
-            flip = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
+            flip = new SimSharingJMenuItem( UserComponentChain.chain( bulb.getUserComponentID(), CCKSimSharing.UserComponents.showConnectionAtOtherSideMenuItem ), CCKResources.getString( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
             flip.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     bulb.flip( module.getCircuit() );
@@ -327,7 +330,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             } );
             add( editInternal );
 
-            JMenuItem reverse = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.ReverseMenuItem" ) );
+            JMenuItem reverse = new SimSharingJMenuItem( UserComponentChain.chain( branch.getUserComponentID(), CCKSimSharing.UserComponents.reverseMenuItem ), CCKResources.getString( "CircuitComponentInteractiveGraphic.ReverseMenuItem" ) );
             reverse.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     reverse( branch );
