@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTyp
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
  * User: Sam Reid
@@ -23,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
  * Time: 1:11:39 PM
  */
 public class Battery extends CircuitComponent {
-    private static final double CURRENT_CHANGE_THRESHOLD = 1E-5;
+    private static final double CURRENT_CHANGE_THRESHOLD = 0.01;
     private double internalResistance;
     private boolean internalResistanceOn;
     public static final double DEFAULT_INTERNAL_RESISTANCE = 0.001;
@@ -110,7 +111,7 @@ public class Battery extends CircuitComponent {
         return internalResistanceOn;
     }
 
-    private static final DecimalFormat currentFormat = new DecimalFormat( "0.00" );
+    private static final DecimalFormat currentFormat = new DefaultDecimalFormat( "0.00" );
     @Override public void setCurrent( final double current ) {
         super.setCurrent( current );
         if ( Math.abs( previousCurrent - current ) > CURRENT_CHANGE_THRESHOLD ) {
