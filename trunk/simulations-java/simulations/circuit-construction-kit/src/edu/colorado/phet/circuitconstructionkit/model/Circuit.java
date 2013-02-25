@@ -645,6 +645,7 @@ public class Circuit {
 
         // Send a sim sharing message indicating that a new connection was formed.
         ParameterSet simSharingParams = new ParameterSet();
+        simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "id" ), replacement.id ) );
         for ( Branch branch : branches ) {
             if ( branch.hasJunction( replacement ) ) {
                 String paramString = branch.getUserComponentID().toString();
