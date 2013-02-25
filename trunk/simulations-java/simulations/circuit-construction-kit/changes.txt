@@ -1,3 +1,4 @@
+Sim Sharing: Changed the messages for formation and removal of junctions to include the junction identifier.
 Sim Sharing: Added "reverse light bulb" message, see #3497
 Sim Sharing: Added "reverse battery" message, see #3497
 Sim Sharing: Added "show value" message for all component types, see #3497
