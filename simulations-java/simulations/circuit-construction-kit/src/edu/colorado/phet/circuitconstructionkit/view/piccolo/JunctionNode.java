@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
@@ -19,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -39,13 +41,13 @@ public class JunctionNode extends PhetPNode {
     private PPath shapeNode;
     private PPath highlightNode;
     private CircuitInteractionModel circuitInteractionModel;
-    private static int id = 0;
-    private IUserComponent userComponent = new UserComponent( "junction." + ( id++ ) );
+    private final IUserComponent userComponent;
 
     public JunctionNode( final CCKModel cckModel, final Junction junction, final CircuitNode circuitNode, Component component ) {
         this.cckModel = cckModel;
         this.junction = junction;
         this.circuitInteractionModel = new CircuitInteractionModel( cckModel );
+        userComponent = UserComponentChain.chain( CCKSimSharing.UserComponents.junction, junction.id );
         shapeNode = new PPath();
         Stroke shapeStroke = new BasicStroke( 2 );
         shapeNode.setStroke( shapeStroke );
