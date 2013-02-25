@@ -1,3 +1,5 @@
+# 3.20.12 (72278) Feb 25, 2013
+2/25/13 Publishing to dev for review of sim sharing changes.
 Sim Sharing: Fixed an issue where battery current could report current changes when the change was below the resolution of the message, resulting it what looked like redundant messages.
 Sim Sharing: Fixed an issue where battery current could be reported as -0.00.
 Sim Sharing: Made junction move messages include the components that are included in the junction.
