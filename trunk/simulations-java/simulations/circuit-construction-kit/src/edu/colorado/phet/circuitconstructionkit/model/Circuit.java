@@ -263,7 +263,7 @@ public class Circuit {
             else {
                 paramString = paramString + ".endJunction";
             }
-            simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "connector" ), paramString ) );
+            simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "component" ), paramString ) );
         }
         SimSharingManager.sendModelMessage( junction.getModelComponentID(),
                                             CCKSimSharing.ModelComponentTypes.junction,
@@ -658,7 +658,7 @@ public class Circuit {
                 else {
                     paramString = paramString + ".endJunction";
                 }
-                simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "connector" ), paramString ) );
+                simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "component" ), paramString ) );
             }
         }
         SimSharingManager.sendModelMessage( replacement.getModelComponentID(), junction, CCKSimSharing.ModelActions.junctionFormed, simSharingParams );

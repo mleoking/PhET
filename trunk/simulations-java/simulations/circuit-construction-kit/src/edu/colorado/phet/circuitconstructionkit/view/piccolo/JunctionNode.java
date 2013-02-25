@@ -102,7 +102,7 @@ public class JunctionNode extends PhetPNode {
                             else {
                                 paramString = paramString + ".endJunction";
                             }
-                            simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "connector" ), paramString ) );
+                            simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "component" ), paramString ) );
                         }
                     }
 
