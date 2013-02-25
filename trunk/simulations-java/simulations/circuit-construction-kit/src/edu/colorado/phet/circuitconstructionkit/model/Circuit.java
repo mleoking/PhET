@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -29,7 +29,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.connectionBroken;
-import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.connectionFormed;
+import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.junctionFormed;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponentTypes.connection;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponentTypes.junction;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponents.circuit;
@@ -263,9 +263,12 @@ public class Circuit {
             else {
                 paramString = paramString + ".endJunction";
             }
-            simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "junction" ), paramString ) );
+            simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "connector" ), paramString ) );
         }
-        SimSharingManager.sendModelMessage( circuit, connection, connectionBroken, simSharingParams );
+        SimSharingManager.sendModelMessage( junction.getModelComponentID(),
+                                            CCKSimSharing.ModelComponentTypes.junction,
+                                            CCKSimSharing.ModelActions.junctionSplit,
+                                            simSharingParams );
 
         Junction[] newJunctions = new Junction[adjacentBranches.length];
         for ( int i = 0; i < adjacentBranches.length; i++ ) {

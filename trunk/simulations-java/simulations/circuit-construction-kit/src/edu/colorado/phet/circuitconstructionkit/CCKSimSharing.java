@@ -53,7 +53,7 @@ public class CCKSimSharing {
     public static enum ModelActions implements IModelAction {
         connectionFormed, measuredVoltageChanged, measuredCurrentChanged,
         connectionBroken, fireStarted, currentChanged, fireEnded,
-        junctionFormed
+        junctionSplit, junctionFormed
     }
 
     public static enum ParameterKeys implements IParameterKey {
