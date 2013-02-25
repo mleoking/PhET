@@ -38,7 +38,7 @@ public class CCKSimSharing {
 
     public static enum UserActions implements IUserAction {
         addedComponent, movedComponent, removedComponent, switchClosed,
-        switchOpened
+        movedJunction, switchOpened
     }
 
     public static enum ModelComponents implements IModelComponent {
