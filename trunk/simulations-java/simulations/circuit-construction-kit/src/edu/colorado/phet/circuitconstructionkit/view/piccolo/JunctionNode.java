@@ -41,13 +41,11 @@ public class JunctionNode extends PhetPNode {
     private PPath shapeNode;
     private PPath highlightNode;
     private CircuitInteractionModel circuitInteractionModel;
-    private final IUserComponent userComponent;
 
     public JunctionNode( final CCKModel cckModel, final Junction junction, final CircuitNode circuitNode, Component component ) {
         this.cckModel = cckModel;
         this.junction = junction;
         this.circuitInteractionModel = new CircuitInteractionModel( cckModel );
-        userComponent = UserComponentChain.chain( CCKSimSharing.UserComponents.junction, junction.id );
         shapeNode = new PPath();
         Stroke shapeStroke = new BasicStroke( 2 );
         shapeNode.setStroke( shapeStroke );
@@ -74,14 +72,14 @@ public class JunctionNode extends PhetPNode {
             public void mouseDragged( PInputEvent event ) {
                 Point2D target = event.getPositionRelativeTo( JunctionNode.this );
                 if ( lastMessageTime == 0 || System.currentTimeMillis() - lastMessageTime >= 500 ) {
-                    SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.x, target.getX() ).with( ParameterKeys.y, target.getY() ) );
+                    SimSharingManager.sendUserMessage( junction.getUserComponentID(), UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.x, target.getX() ).with( ParameterKeys.y, target.getY() ) );
                     lastMessageTime = System.currentTimeMillis();
                 }
                 circuitInteractionModel.dragJunction( junction, target );
             }
 
             public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.startDrag, ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
+                SimSharingManager.sendUserMessage( junction.getUserComponentID(), UserComponentTypes.sprite, UserActions.startDrag, ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
                 if ( event.isControlDown() ) {
                     junction.setSelected( !junction.isSelected() );
                 }
@@ -92,7 +90,7 @@ public class JunctionNode extends PhetPNode {
 
             public void mouseReleased( PInputEvent event ) {
                 circuitInteractionModel.dropJunction( junction );
-                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.endDrag, ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
+                SimSharingManager.sendUserMessage( junction.getUserComponentID(), UserComponentTypes.sprite, UserActions.endDrag, ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
             }
         } );
         addInputEventListener( new DynamicPopupMenuHandler( component, new DynamicPopupMenuHandler.JPopupMenuFactory() {

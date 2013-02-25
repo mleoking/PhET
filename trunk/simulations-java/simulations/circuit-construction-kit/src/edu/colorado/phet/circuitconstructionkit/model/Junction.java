@@ -5,6 +5,11 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+
 /**
  * User: Sam Reid
  * Date: May 24, 2004
@@ -17,8 +22,8 @@ public class Junction extends SimpleObservableDebug {
     private static int nextLabel = 0;
     private boolean selected = false;
     private double voltage;//voltage relative to reference node.  To be used in computing potential drops, to avoid graph traversal.
-    private static int idCounter = 0;
-    public final int id = idCounter++; // Used by sim sharing to uniquely identify each junction.
+    private static int instanceCount = 0;
+    private final IUserComponent userComponent = UserComponentChain.chain( CCKSimSharing.UserComponents.junction, instanceCount++ ); // For sim sharing.
 
     public Junction( double x, double y ) {
         this.x = x;
@@ -108,5 +113,18 @@ public class Junction extends SimpleObservableDebug {
         Ellipse2D.Double circle = new Ellipse2D.Double();
         circle.setFrameFromCenter( getX(), getY(), getX() + radius, getY() + radius );
         return circle;
+    }
+
+    public IUserComponent getUserComponentID() {
+        return userComponent;
+    }
+
+    // The model component ID is the same as the user component.  User component must be set for this to work correctly.
+    public IModelComponent getModelComponentID() {
+        return new IModelComponent() {
+            @Override public String toString() {
+                return getUserComponentID().toString();
+            }
+        };
     }
 }

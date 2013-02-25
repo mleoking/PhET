@@ -37,7 +37,8 @@ public class CCKSimSharing {
     }
 
     public static enum UserActions implements IUserAction {
-        addedComponent, movedComponent, removedComponent, switchClosed, switchOpened, connectionFormed
+        addedComponent, movedComponent, removedComponent, switchClosed,
+        switchOpened
     }
 
     public static enum ModelComponents implements IModelComponent {
@@ -46,12 +47,13 @@ public class CCKSimSharing {
     }
 
     public static enum ModelComponentTypes implements IModelComponentType {
-        connection
+        junction, connection
     }
 
     public static enum ModelActions implements IModelAction {
         connectionFormed, measuredVoltageChanged, measuredCurrentChanged,
-        connectionBroken, fireStarted, currentChanged, fireEnded
+        connectionBroken, fireStarted, currentChanged, fireEnded,
+        junctionFormed
     }
 
     public static enum ParameterKeys implements IParameterKey {

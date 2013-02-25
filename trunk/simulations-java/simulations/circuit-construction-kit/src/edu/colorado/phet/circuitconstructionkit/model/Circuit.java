@@ -31,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.connectionBroken;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.connectionFormed;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponentTypes.connection;
+import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponentTypes.junction;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponents.circuit;
 
 /**
@@ -645,7 +646,6 @@ public class Circuit {
 
         // Send a sim sharing message indicating that a new connection was formed.
         ParameterSet simSharingParams = new ParameterSet();
-        simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "id" ), replacement.id ) );
         for ( Branch branch : branches ) {
             if ( branch.hasJunction( replacement ) ) {
                 String paramString = branch.getUserComponentID().toString();
@@ -655,10 +655,10 @@ public class Circuit {
                 else {
                     paramString = paramString + ".endJunction";
                 }
-                simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "junction" ), paramString ) );
+                simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "connector" ), paramString ) );
             }
         }
-        SimSharingManager.sendModelMessage( circuit, connection, connectionFormed, simSharingParams );
+        SimSharingManager.sendModelMessage( replacement.getModelComponentID(), junction, CCKSimSharing.ModelActions.junctionFormed, simSharingParams );
 
         // Fire notification events so that any listeners are informed.
         fireKirkhoffChanged();
