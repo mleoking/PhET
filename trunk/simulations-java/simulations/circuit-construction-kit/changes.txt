@@ -1,3 +1,4 @@
+Sim Sharing: Made junction move messages include the components that are included in the junction.
 Sim Sharing: Made the moving of a junction only send out a message when movement is complete.
 Sim Sharing: Changed the messages for formation and removal of junctions to include the junction identifier.
 Sim Sharing: Added "reverse light bulb" message, see #3497
