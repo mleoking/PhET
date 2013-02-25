@@ -16,6 +16,8 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
@@ -89,10 +91,25 @@ public class JunctionNode extends PhetPNode {
             public void mouseReleased( PInputEvent event ) {
                 circuitInteractionModel.dropJunction( junction );
                 if ( dragged ){
+                    // Send sim sharing message indicating that this junction was dragged.
+                    ParameterSet simSharingParams = ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() );
+                    for ( Branch branch : cckModel.getCircuit().getBranches() ) {
+                        if ( branch.hasJunction( junction )){
+                            String paramString = branch.getUserComponentID().toString();
+                            if ( branch.getStartJunction().equals( junction ) ) {
+                                paramString = paramString + ".startJunction";
+                            }
+                            else {
+                                paramString = paramString + ".endJunction";
+                            }
+                            simSharingParams = simSharingParams.with( new Parameter( new ParameterKey( "connector" ), paramString ) );
+                        }
+                    }
+
                     SimSharingManager.sendUserMessage( junction.getUserComponentID(),
                                                        UserComponentTypes.sprite,
                                                        CCKSimSharing.UserActions.movedJunction,
-                                                       ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
+                                                       simSharingParams );
                 }
             }
         } );
