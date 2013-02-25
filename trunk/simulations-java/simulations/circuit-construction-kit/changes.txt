@@ -1,3 +1,6 @@
+Sim Sharing: Added "reverse light bulb" message, see #3497
+Sim Sharing: Added "reverse battery" message, see #3497
+Sim Sharing: Added "show value" message for all component types, see #3497
 # 3.20.11 (72254) Feb 21, 2013
 # 3.20.10 (72253) Feb 21, 2013
 Sim Sharing: Fixed: nonContactAmmeter was sending messages when it was unchecked, see #3497

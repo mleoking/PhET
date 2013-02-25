@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
  * @author Sam Reid
  */
 public class CCKSimSharing {
+
     public static enum UserComponents implements IUserComponent {
         unspecifiedBranch, battery, wire, resistor, grabBagResistor, lightBulb,
         circuitSwitch, inductor, acVoltageSource, capacitor, voltmeterCheckBox,
@@ -28,7 +29,7 @@ public class CCKSimSharing {
         resistorEditor, bulbResistorEditor, voltageEditor, moreVoltsCheckBox,
         batteryResistanceEditor, acVoltageSourceEditor, inductorEditor, capacitorEditor,
         frequencyEditor, saveButton, redProbe, blackProbe, grabBagButton, nonContactAmmeter,
-        grabBagItemButton
+        showValueCheckBoxItem, reverseMenuItem, grabBagItemButton, showConnectionAtOtherSideMenuItem
     }
 
     public static enum UserComponentType implements IUserComponentType {
