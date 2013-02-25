@@ -68,29 +68,32 @@ public class JunctionNode extends PhetPNode {
         shapeNode.setStrokePaint( Color.red );
         addInputEventListener( new PBasicInputEventHandler() {
             long lastMessageTime = 0;
+            boolean dragged = false;
 
             public void mouseDragged( PInputEvent event ) {
                 Point2D target = event.getPositionRelativeTo( JunctionNode.this );
-                if ( lastMessageTime == 0 || System.currentTimeMillis() - lastMessageTime >= 500 ) {
-                    SimSharingManager.sendUserMessage( junction.getUserComponentID(), UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.x, target.getX() ).with( ParameterKeys.y, target.getY() ) );
-                    lastMessageTime = System.currentTimeMillis();
-                }
                 circuitInteractionModel.dragJunction( junction, target );
+                dragged = true;
             }
 
             public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendUserMessage( junction.getUserComponentID(), UserComponentTypes.sprite, UserActions.startDrag, ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
                 if ( event.isControlDown() ) {
                     junction.setSelected( !junction.isSelected() );
                 }
                 else {
                     getCircuit().setSelection( junction );
                 }
+                dragged = false;
             }
 
             public void mouseReleased( PInputEvent event ) {
                 circuitInteractionModel.dropJunction( junction );
-                SimSharingManager.sendUserMessage( junction.getUserComponentID(), UserComponentTypes.sprite, UserActions.endDrag, ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
+                if ( dragged ){
+                    SimSharingManager.sendUserMessage( junction.getUserComponentID(),
+                                                       UserComponentTypes.sprite,
+                                                       CCKSimSharing.UserActions.movedJunction,
+                                                       ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() ) );
+                }
             }
         } );
         addInputEventListener( new DynamicPopupMenuHandler( component, new DynamicPopupMenuHandler.JPopupMenuFactory() {
