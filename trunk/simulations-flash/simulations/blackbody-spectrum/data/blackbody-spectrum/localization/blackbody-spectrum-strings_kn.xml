@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--blackbody-spectrum-strings_kn.xml created Tue Nov 08 13:20:30 IST 2011 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<!--blackbody-spectrum-strings_kn.xml created Tue Feb 26 20:05:20 IST 2013 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.14.00 (69024) Oct 10, 2012-->
 <SimStrings>
+<string key="translation.credits" value="&lt;html&gt; ರಾಮಕೃಷ್ಣ ಮಿಷನ್, ಶಿವನಹಳ್ಳಿ &lt;br&gt;http://www.rkmission-shivanahalli.org&lt;/html&gt;"/>
 <string key="zoomIn" value="ಹಿಗ್ಗಿಸು"/>
 <string key="zoomOut" value="ಕುಗ್ಗಿಸು"/>
 <string key="clear" value="ಅಳಿಸು"/>
