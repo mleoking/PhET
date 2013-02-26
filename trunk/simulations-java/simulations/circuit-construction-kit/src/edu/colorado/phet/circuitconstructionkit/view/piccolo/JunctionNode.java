@@ -89,7 +89,6 @@ public class JunctionNode extends PhetPNode {
             }
 
             public void mouseReleased( PInputEvent event ) {
-                circuitInteractionModel.dropJunction( junction );
                 if ( dragged ){
                     // Send sim sharing message indicating that this junction was dragged.
                     ParameterSet simSharingParams = ParameterSet.parameterSet( ParameterKeys.x, junction.getX() ).with( ParameterKeys.y, junction.getY() );
@@ -111,6 +110,7 @@ public class JunctionNode extends PhetPNode {
                                                        CCKSimSharing.UserActions.movedJunction,
                                                        simSharingParams );
                 }
+                circuitInteractionModel.dropJunction( junction );
             }
         } );
         addInputEventListener( new DynamicPopupMenuHandler( component, new DynamicPopupMenuHandler.JPopupMenuFactory() {
