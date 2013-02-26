@@ -55,16 +55,21 @@ public class WireNode extends BranchNode {
         addChild( wirePPath );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
+            boolean dragged = false;
             public void mouseDragged( PInputEvent event ) {
+                dragged = true;
                 circuitInteractionModel.translate( wire, event.getPositionRelativeTo( WireNode.this.getParent() ) );
             }
 
             public void mouseReleased( PInputEvent event ) {
                 circuitInteractionModel.dropBranch( wire );
-                SimSharingManager.sendUserMessage( wire.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent, getPositionParameterSet() );
+                if ( dragged ){
+                    SimSharingManager.sendUserMessage( wire.getUserComponentID(), UserComponentTypes.sprite, CCKSimSharing.UserActions.movedComponent, getPositionParameterSet() );
+                }
             }
 
             public void mousePressed( PInputEvent event ) {
+                dragged = false;
                 if ( event.isControlDown() ) {
                     wire.setSelected( !wire.isSelected() );
                 }

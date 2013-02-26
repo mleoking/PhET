@@ -1,3 +1,4 @@
+Sim Sharing: Fixed an issue where with wire was reporting a "moved" message when the user just clicked on it.
 # 3.20.12 (72278) Feb 25, 2013
 2/25/13 Publishing to dev for review of sim sharing changes.
 Sim Sharing: Fixed an issue where battery current could report current changes when the change was below the resolution of the message, resulting it what looked like redundant messages.
