@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_kn.xml created Wed Feb 13 10:52:32 IST 2013 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) Oct 10, 2012-->
+<SimStrings>
+<string key="draggableScreen" value="ಚಲಿಸಬಲ್ಲ ಪರದೆ"/>
+<string key="draggableLens" value="ಚಲಿಸಬಲ್ಲ ಮಸೂರ"/>
+<string key="screen" value="ಪರದೆ"/>
+<string key="draggableRuler" value="ಚಲಿಸಬಲ್ಲ ಅಳತೆಪಟ್ಟಿ"/>
+<string key="simTitle" value="ದ್ಯುತಿ ವಿಜ್ಞಾನ"/>
+<string key="showHelp" value="ಸಹಾಯ ತೋರಿಸು"/>
+<string key="moveMe" value="ನನ್ನನ್ನು ಎಳೆ!"/>
+<string key="showGuides" value="ಗೆರೆ ತೋರಿಸು"/>
+<string key="diameter" value="ವ್ಯಾಸ (m)"/>
+<string key="ruler" value="ಅಳತೆಪಟ್ಟಿ"/>
+<string key="focalPoint" value="ಸಂಗಮ ಬಿಂದು(ಫೋಕಲ್ ಪಾಯಿಂಟ್)"/>
+<string key="curvatureRadius" value="ವಕ್ರತೆಯ ತ್ರಿಜ್ಯ"/>
+<string key="changeObject" value="ವಸ್ತುವನ್ನು ಬದಲಿಸು"/>
+<string key="principalRays" value="ಪ್ರಧಾನ ಕಿರಣ"/>
+<string key="marginalRays" value="ಅಂಚಿನ ಕಿರಣಗಳು"/>
+<string key="virtualImage" value="ಮಿಥ್ಯಾ ಪ್ರತಿಬಿಂಬ(ವರ್ಚುಯಲ್)"/>
+<string key="noRays" value="ಕಿರಣವಿಲ್ಲದ"/>
+<string key="secondSource" value="2ನೇ ಬಿಂದು "/>
+<string key="hideHelp" value="ಸಹಾಯ ಬೇಡ"/>
+<string key="refractiveIndex" value="ವಕ್ರೀಭವನಾಂಕ(ರಿಫ್ರಾಕ್ಟಿವ್ ಇಂಡೆಕ್ಸ್)"/>
+<string key="translation.credits" value="&lt;html&gt; ರಾಮಕೃಷ್ಣ ಮಿಷನ್, ಶಿವನಹಳ್ಳಿ &lt;br&gt;http://www.rkmission-shivanahalli.org&lt;/html&gt;"/>
+<string key="manyRays" value="ಕಿರಣಗಳು"/>
+</SimStrings>
