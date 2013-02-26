@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--collision-lab-strings_kn.xml created Tue Nov 08 21:59:50 IST 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<!--collision-lab-strings_kn.xml created Wed Feb 13 10:09:59 IST 2013 using: collision-lab 0.01.00 (45337), translation-utility 2.14.00 (69024) Oct 10, 2012-->
 <SimStrings>
-<string key="ControlPanel.reflectingBorder" value="ಪತಿಫಲಕ"/>
-<string key="MomentumView.tipToTail" value="ತುದಿಯಿಂದ ಕೊನೆಯವರೆಗೂ"/>
-<string key="PlayPauseButtons.pause" value="ನಿಲ್ಲಿಸು"/>
+<string key="ControlPanel.reflectingBorder" value="ಪ್ರತಿಫಲನದ ಗಡಿ"/>
+<string key="MomentumView.tipToTail" value="ಮೇಲಿಂದ ತುದಿಗೆ"/>
+<string key="PlayPauseButtons.pause" value="ನಿಲ್ಲು "/>
 <string key="PlayPauseButtons.rewind" value="ಹಿಂದಕ್ಕೆ"/>
-<string key="PlayPauseButtons.step" value="ನಿಧಾನವಾಗಿ"/>
-<string key="simTitle" value="ಡಿಕ್ಕಿ ಲ್ಯಾಬ್"/>
-<string key="ControlPanel.momentaDiagram" value="ಚಲನಾಪರಿಮಾಣ ಚಿತ್ರ"/>
+<string key="PlayPauseButtons.step" value="ಸ್ಟೆಪ್"/>
+<string key="simTitle" value=" ಡಿಕ್ಕಿ ಲ್ಯಾಬ್ "/>
+<string key="ControlPanel.momentaDiagram" value="ಸಂವೇಗ ನಕ್ಷೆ"/>
 <string key="DataTable.mass" value="ದ್ರವ್ಯರಾಶಿ"/>
 <string key="DataTable.lessData" value="ಕಡಿಮೆ ಮಾಹಿತಿ"/>
-<string key="DataTable.removeBall" value="ಚೆಂಡನ್ನು ತೆಗೆ"/>
-<string key="ControlPanel.1d" value="1 ಆಯಾಮ"/>
+<string key="DataTable.removeBall" value="ಚೆಂಡು ತೆಗೆ"/>
 <string key="DataTable.moreData" value="ಹೆಚ್ಚು ಮಾಹಿತಿ"/>
 <string key="DataTable.ball" value="ಚೆಂಡು"/>
-<string key="ControlPanel.showMomentumVectors" value="ಚಲನಾಪರಿಮಾಣ ವೆಕ್ಟರ್"/>
-<string key="TableView.kineticEnergy" value="ಚಲನ ಶಕ್ತಿ(ಕೈನೆಟಿಕ್ ಎನರ್ಜಿ) = {0} J"/>
-<string key="MomentumView.momenta" value="ಚಲನಾಪರಿಮಾಣ(ಮುಮೆಂಟಾ)"/>
-<string key="ControlPanel.showPaths" value="ಪಥವನ್ನು ತೋರಿಸು"/>
-<string key="TableView.timeRate" value="ಕಾಲ ಪ್ರಮಾಣ"/>
-<string key="DataTable.addBall" value="ಚೆಂಡು ಸೇರಿಸು"/>
+<string key="ControlPanel.showMomentumVectors" value="ಸಂವೇಗ ವೆಕ್ಟರ್ "/>
+<string key="TableView.kineticEnergy" value="ಚಲನ ಶಕ್ತಿ = {0}J"/>
+<string key="MomentumView.momenta" value="ಸಂವೇಗ"/>
+<string key="TableView.timeRate" value="ಸಮಯ "/>
+<string key="ControlPanel.showPaths" value="ಪಥ ತೋರಿಸು"/>
+<string key="DataTable.addBall" value="ಚೆಂಡು"/>
+<string key="ControlPanel.elasticity" value="ಸ್ಥಿತಿಸ್ಥಾಪಕತೆ"/>
 <string key="PlayPauseButtons.back" value="ಹಿಂದೆ"/>
-<string key="ControlPanel.2d" value="2 ಆಯಾಮ"/>
 <string key="ControlPanel.showVelocities" value="ವೇಗದ ವೆಕ್ಟರ್"/>
 <string key="ControlPanel.sound" value="ಶಬ್ಧ"/>
-<string key="ControlPanel.resetAll" value="ಪುನರಾರಂಭಿಸು"/>
+<string key="ControlPanel.resetAll" value="ಎಲ್ಲಾ ಪುನರಾರಂಭಿಸು"/>
 <string key="PlayPauseButtons.play" value="ಶುರು"/>
-<string key="ControlPanel.showCenterOfMass" value="ದ್ರವ್ಯರಾಶಿಯ ಕೇಂದ್ರ"/>
+<string key="translation.credits" value="&lt;html&gt; ರಾಮಕೃಷ್ಣ ಮಿಷನ್, ಶಿವನಹಳ್ಳಿ &lt;br&gt;http://www.rkmission-shivanahalli.org&lt;/html&gt;"/>
+<string key="ControlPanel.showCenterOfMass" value="ದ್ರವ್ಯರಾಶಿಕೇಂದ್ರ"/>
 </SimStrings>
