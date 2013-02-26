@@ -42,7 +42,6 @@ public class PopupMenuHandler extends PBasicInputEventHandler {
 
     private void handlePopup( PInputEvent event ) {
         if ( event.isPopupTrigger() ) {
-            SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.popup, popupTriggered );
             popupMenu.show( parent, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
         }
     }
