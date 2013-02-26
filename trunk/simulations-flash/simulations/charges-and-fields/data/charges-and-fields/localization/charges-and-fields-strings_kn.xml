@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--charges-and-fields-strings_kn.xml created Tue Nov 08 14:55:02 IST 2011 using: charges-and-fields 2.04.00 (52655), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<!--charges-and-fields-strings_kn.xml created Tue Feb 12 19:34:57 IST 2013 using: charges-and-fields 2.04.00 (52655), translation-utility 2.14.00 (69024) Oct 10, 2012-->
 <SimStrings>
-<string key="showLoRes" value="ಕಡಿಮೆ ಸ್ಪಷ್ಟತೆ V"/>
+<string key="showLoRes" value="ನೋಡಲು"/>
 <string key="grid" value="ಜಾಲರಿ"/>
-<string key="EFieldSensors" value="ವಿದ್ಯುತ್ ಕ್ಷೇತ್ರದ ಸೆನ್ಸರ್ "/>
+<string key="EFieldSensors" value="ವಿದ್ಯುತ್ ಕ್ಷೇತ್ರದ ಗ್ರಾಹಕ"/>
 <string key="equipotential" value="ಸಮಪ್ರಚ್ಛನ್ನ"/>
-<string key="voltage" value="ವೋಲ್ಟೇಜ್"/>
-<string key="moreSpeedLessRes" value="ಹೆಚ್ಚು ವೇಗ/ ಕಡಿಮೆ ಸ್ಪಷ್ಟತೆ"/>
-<string key="simTitle" value="ವಿದ್ಯುತ್ ಕ್ಷೇತ್ರ ಮತ್ತು ಆವೇಶ"/>
+<string key="translation.credits" value="&lt;html&gt;ರಾಮಕೃಷ್ಣ ಮಿಷನ್ , ಶಿವನಹಳ್ಳಿ, www.rkmission-shivanahalli.org&lt;/html&gt;"/>
+<string key="voltage" value="ವೋಲ್ಟೇಜು"/>
+<string key="moreSpeedLessRes" value="ಹೆಚ್ಚು ವೇಗ / ಕಡಿಮೆ"/>
+<string key="simTitle" value="ವಿದ್ಯುತ್ ಕ್ಷೇತ್ರ ಮತ್ತು ಚಾರ್ಜ್ "/>
 <string key="tapeMeasure" value="ಅಳತೆ ಮಾಡು"/>
 <string key="clear" value="ಅಳಿಸು"/>
 <string key="clearAll" value="ಎಲ್ಲವನ್ನು ಅಳಿಸು"/>
@@ -15,5 +16,5 @@
 <string key="showEField" value="ವಿದ್ಯುತ್ ಕ್ಷೇತ್ರ ತೋರಿಸು"/>
 <string key="directionOnly" value="ದಿಕ್ಕು ಮಾತ್ರ"/>
 <string key="showNumbers" value="ಸಂಖ್ಯೆ ತೋರಿಸು"/>
-<string key="showHiRes" value="ಹೆಚ್ಚು ಸ್ಪಷ್ಟತೆ V"/>
+<string key="showHiRes" value="ಚೆನ್ನಾಗಿ ನೋಡಲು "/>
 </SimStrings>
