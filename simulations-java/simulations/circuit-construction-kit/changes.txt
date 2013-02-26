@@ -1,3 +1,4 @@
+Sim Sharing: Removed message sent when popup triggered for wire. This is more consistent with handling of popup menus for other components.
 Sim Sharing: Fixed issue where move message for junction is sent after junction is replaced, so it is no longer attached to anything.
 Sim Sharing: Fixed an issue where with wire was reporting a "moved" message when the user just clicked on it.
 # 3.20.12 (72278) Feb 25, 2013
