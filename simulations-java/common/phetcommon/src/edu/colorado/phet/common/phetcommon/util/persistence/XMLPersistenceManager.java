@@ -62,8 +62,6 @@ public class XMLPersistenceManager {
 
     /**
      * Sole constructor.
-     *
-     * @param app
      */
     public XMLPersistenceManager( Frame parentFrame ) {
         if ( wasWebStarted() ) {
