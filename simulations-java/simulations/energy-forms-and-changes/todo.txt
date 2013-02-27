@@ -10,7 +10,7 @@ Fix issues with "systems", i.e. stacks of blocks and so forth.
 
 E's continue into bucket, i.e. don't turn around.
 
-From Noah: Keep the steam the same transparency (if possible) when E's are turned on.
+From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority)
 From Noah: Try the new background color from tab 1 on tab 2.
 
 From Ariel: The three objects if slid horizontally across the floor can "pass through" the heaters.  I think we had discussed making a hard boundary so the objects are only place on the heaters...not a big deal but might be a good finishing touch.
@@ -18,14 +18,14 @@ From Ariel: There is a bit of odd behavior of energy chunks if the water is cool
 
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 
-Improve steam shape for tea pot
+Make E's not cluster in the wires leading from solar panel.
+Make E's not cluster in the output (spout) of the tea pot.
 
 Profile, have Chris test on Mac
 
 --> Start interviews?
 
-Make E's not cluster in the wires leading from solar panel.
-Make E's not cluster in the output (spout) of the tea pot.
+Improve steam shape for tea pot
 Fix: 1st tab, weird interaction between beaker and thermometer control panel. Just put panel at very back.
 Internationalize E's (will need blank E's from NP).
 i18n
