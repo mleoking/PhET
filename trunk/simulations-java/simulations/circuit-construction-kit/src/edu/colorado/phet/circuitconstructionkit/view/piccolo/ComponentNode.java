@@ -62,12 +62,15 @@ public abstract class ComponentNode extends BranchNode {
 
             public void mouseReleased( PInputEvent event ) {
                 if ( event.isLeftMouseButton() && dragging ) {
-                    circuitInteractionModel.dropBranch( circuitComponent );
-                    dragging = false;
                     SimSharingManager.sendUserMessage( circuitComponent.getUserComponentID(),
                                                        UserComponentTypes.sprite,
                                                        CCKSimSharing.UserActions.movedComponent,
                                                        getPositionParameterSet() );
+
+                    // Drop this branch, which will check to see if any new
+                    // connections are formed or other changes to the circuit.
+                    circuitInteractionModel.dropBranch( circuitComponent );
+                    dragging = false;
                 }
             }
 
