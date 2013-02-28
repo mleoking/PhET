@@ -1,3 +1,5 @@
+# 2.04.00 (72347) Feb 27, 2013
+2/27/13 Removed NASA logo from help page.
 # 2.03.03 (72346) Feb 27, 2013
 2/27/13 Removed NASA logo from help page.
 # 2.03.00 (52285) May 21, 2011
