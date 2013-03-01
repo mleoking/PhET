@@ -21,6 +21,9 @@ public class MotionModule extends SimSharingPiccoloModule implements Resettable 
         setClockControlPanel( null );
         this.friction = friction;
         this.accelerometer = accelerometer;
+
+        setLogoPanel( null );
+        setControlPanel( null );
     }
 
     @Override public void reset() {
