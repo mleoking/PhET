@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_pt.xml created Sat Feb 26 16:28:52 GMT 2011 using: ohms-law 2.01.00 (37318), translation-utility 2.10.00 (48775) Fev 9, 2011-->
-<SimStrings>
-<string key="currentEq" value="Corrente"/>
-<string key="resistance" value="Resistência"/>
-<string key="simTitle" value="Lei de Ohm"/>
-<string key="sound" value="Som"/>
-<string key="voltage" value="Tensão"/>
-</SimStrings>

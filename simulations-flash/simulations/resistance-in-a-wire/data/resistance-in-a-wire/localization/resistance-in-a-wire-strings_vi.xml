@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_vi.xml created Wed Oct 07 19:54:43 ICT 2009 using: resistance-in-a-wire 2.00.00 (30671), translation-utility 2.02.00 (34911) thg 9 9, 2009-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="Điện trở ="/>
-<string key="ohm" value="Ohm"/>
-<string key="simTitle" value="Điện trở của một dây dẫn"/>
-</SimStrings>

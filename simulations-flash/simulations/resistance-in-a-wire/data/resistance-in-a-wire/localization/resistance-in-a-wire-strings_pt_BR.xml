@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_pt_BR.xml created Tue Oct 26 14:58:12 BRST 2010 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.09.00 (44031) Set 13, 2010-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="resistência ="/>
-<string key="ohm" value="ohm"/>
-<string key="simTitle" value="Resistência em um Fio"/>
-</SimStrings>

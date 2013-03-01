@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_fa.xml created Wed Mar 02 22:47:13 IRST 2011 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.10.00 (48775) Feb 9, 2011-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value=" مقاومت = "/>
-<string key="ohm" value="اهم"/>
-<string key="simTitle" value="مقاومت درون سیم"/>
-</SimStrings>

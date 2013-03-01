@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_zh_TW.xml created Wed Jul 22 17:34:08 CST 2009 using: ohms-law 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
-<SimStrings>
-<string key="currentEq" value="現在的電流="/>
-<string key="resistance" value="電阻"/>
-<string key="simTitle" value="歐姆定律"/>
-<string key="sound" value="聲音"/>
-<string key="voltage" value="電壓"/>
-</SimStrings>

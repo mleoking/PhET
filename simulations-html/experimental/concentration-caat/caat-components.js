@@ -1,4 +1,0 @@
-//define( ["caat-components"], function () {
-//
-//
-//} );
