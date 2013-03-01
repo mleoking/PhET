@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -17,7 +17,8 @@ import edu.colorado.phet.common.phetcommon.view.ModulePanel;
  * <p/>
  * This class depends on PhetTabbedPane and Piccolo.
  *
- * @author Sam and Ron
+ * @author Sam Reid
+ * @author Ron LeMaster
  */
 public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedModulePane {
     private Module current;
