@@ -3,6 +3,7 @@ package edu.colorado.phet.forcesandmotionbasics.touch;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
@@ -11,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication;
-import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -33,7 +33,10 @@ public class LevelSelectionScreen extends AbstractForcesAndMotionBasicsCanvas {
                                           new LevelNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 200, 200 ), Color.green ), "Acceleration Lab", listener( 3 ) ) ) ) {{
                 setOffset( 0, 50 );
             }} );
-            addChild( new HBox( new PhetPText( "PhET", new PhetFont( 20, true ), Color.yellow ), new HTMLImageButtonNode( BufferedImageUtils.multiScaleToHeight( ForcesAndMotionBasicsResources.Images.MENU_ICON, 20 ) ) ) );
+        }} );
+        addScreenChild( new HBox( new PhetPText( "PhET", new PhetFont( 20, true ), Color.yellow ), new HTMLImageButtonNode( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon.png" ), 20 ) ) ) {{
+            scale( 2 );
+            setOffset( 10, 10 );
         }} );
     }
 
