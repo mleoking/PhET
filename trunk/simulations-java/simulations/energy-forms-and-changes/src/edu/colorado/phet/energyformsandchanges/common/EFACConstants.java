@@ -66,9 +66,9 @@ public class EFACConstants {
     public static final float NOMINAL_WATER_OPACITY = 0.75f;
     public static final Color WATER_COLOR_OPAQUE = new Color( 175, 238, 238 );
     public static final Color WATER_COLOR_IN_BEAKER = new Color( 175, 238, 238, (int) ( Math.round( NOMINAL_WATER_OPACITY * 255 ) ) );
-    //    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 245, 246, 247 );
     public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 238, 232, 170 );
-    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 255, 255, 224 );
+    public static final Color SECOND_TAB_BACKGROUND_COLOR = FIRST_TAB_BACKGROUND_COLOR;
+    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 250, 250, 224 );
 
     // Model-view transform scale factor for Energy Systems tab.
     public static final double ENERGY_SYSTEMS_MVT_SCALE_FACTOR = 2200;
