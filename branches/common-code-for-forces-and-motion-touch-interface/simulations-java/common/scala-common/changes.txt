@@ -1,0 +1,1 @@
+5-26-2010: Renamed Vector2D.getAngle() to Vector2D.angle and other minor misc fixes

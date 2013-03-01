@@ -1,0 +1,13 @@
+9/6/12 #3434, change default behavior of "New Game" to no confirmation
+7/17/12 add GameOverNode constructor for setting button color
+4/18/12 Replaced PSwing(JButton) with HTMLImageButtonNode, resolves #3310
+1/23/12 #3221, restore broken data collection (sim-sharing)
+10/28/11 Added event reporting when game starts or settings change, see #3136
+10/28/11 Added event reporting for end of game, see #3136
+10/20/11 make game "Start" button color configurable, so that sims can use a consistent "attention" color throughout game
+10/19/11 Changed the GameSettingsPanel start button from a swing button to a piccolo button
+2/10/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
+2/10/11 #2727, add GameSettings model class, and GameSettingsPanel constructor to wire it up
+10/23/10 migrated audio from RPAL
+10/19/10 #2547, migrate user-interface components from reactants-products-and-leftovers
+10/19/10 games package created

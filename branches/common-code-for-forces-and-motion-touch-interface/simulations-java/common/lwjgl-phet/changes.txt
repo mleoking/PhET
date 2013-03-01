@@ -1,0 +1,2 @@
+Added alternative ThreadedPlanarPiccoloNode with its PiccoloImage texture handling to avoid the Swing EDT entirely for Piccolo rendering in planar contexts
+Added bugfix for testing for the presence of the LWJGL render thread
