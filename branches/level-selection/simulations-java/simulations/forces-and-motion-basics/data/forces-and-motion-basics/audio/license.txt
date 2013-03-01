@@ -1,0 +1,1 @@
+golf-clap.wav source=http://www.pdsounds.org/sounds/clapping_hurray notes=edited by NP and SR license=public domain

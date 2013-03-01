@@ -1,0 +1,14 @@
+Tab 1: Tug of War
+
+The model is very simple, based on Newton's 2nd Law: Sum of forces = sum of masses * acceleration.
+Euler updates are used to compute the velocity and position changes.
+
+Tab 2: Motion
+
+The same model is used for tab 2-3, with a boolean flag determining whether friction is enabled (for tab 3) or disabled (for tab 2).
+Newton's law (sum of forces = sum of masses * acceleration) is used to drive the system, and euler updates are used to compute the change in velocity and change in position.
+
+Tab 3: Friction
+
+See above.  The magnitude of the friction force is equal to the applied force until the applied force overcomes the maximum friction force Ff = mu_k * N.
+Here mu_k is the coefficient of friction (taken to be the same as mu_s, the coefficient of static friction).

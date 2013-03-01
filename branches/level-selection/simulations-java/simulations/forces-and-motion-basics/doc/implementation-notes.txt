@@ -1,0 +1,18 @@
+All units are in SI unless stated otherwise in the code.
+
+There are several image sequences that are loaded with dynamically created strings--hence the images will appear unused in the ForcesAndMotionBasicsResources.java file,
+even though the images are used.
+
+Tab 1: Tug of War
+
+The most important class for this tab is TugOfWarCanvas.  All of the physics and model is implemented in this class, because it is very simple.
+Reset is implemented by creating a new canvas and discarding the old one.
+
+Tab 2: Motion
+
+Tabs 2-3 are all implemented using the same codebase in the "motion" package, with a boolean setting to indicate whether it is the 2nd tab or 3rd tab.
+Reset is implemented by creating a new canvas and discarding the old one.
+
+Tab 3: Friction
+
+See above.

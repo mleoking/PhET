@@ -1,0 +1,250 @@
+Re-enabled clouds for next deploy
+# 1.02.01 (72256) Feb 21, 2013
+Created a development version without clouds
+# 1.02.00 (72090) Feb 8, 2013
+> Changed the simulation speed and max object speed to make extreme forces easier to visualize
+# 1.01.03 (72078) Feb 7, 2013
+Increased the max speed by a factor of 2
+# 1.01.02 (72075) Feb 7, 2013
+Increased simulation speed from 1/4 to 1/2 of original
+# 1.01.01 (72073) Feb 7, 2013
+Decreased simulation speed without changing clock rate
+# 1.01.00 (72071) Feb 7, 2013
+Updated screenshot
+> Added a new tab "Acceleration Lab"
+# 1.00.12 (72049) Feb 7, 2013
+Increased the clock speed by a factor of 4 to undo the problems introduced in 1.00.10
+# 1.00.11 (72044) Feb 7, 2013
+Temporarily remove clouds as a performance test
+# 1.00.10 (71855) Jan 24, 2013
+Tabs 2-4: Slow down the clock by a factor of 4 to make extreme forces easier to visualize
+# 1.00.09 (71849) Jan 24, 2013
+Fixed a bug that prevented the mystery object from moving when it was the single item in a stack
+# 1.00.08 (71813) Jan 21, 2013
+Improved location of "sum of forces" text location to move it away from the accelerometer
+# 1.00.07 (71780) Jan 17, 2013
+If the stack is too high (contains 2 objects and one is fridge or man), move the sensors to the side
+Added labels for "-20" "20" under the tickmarks of the accelerometer
+Changed "0" under accelerometer from 12 point font to 15 point font
+Space things more evenly in the "acceleration" tab
+Added a handle to the water bucket
+# 1.00.06 (71754) Jan 16, 2013
+Speed up water responsiveness
+Fixed: Bucket water shouldn't move while in the toolbox
+Improved the water color
+The bucket is so big that it should replace both the trash can and the gift on the acceleration tab.
+Moved water level lower so it can be seen better under the arrows
+# 1.00.05 (71719) Jan 15, 2013
+Added water bucket
+Tweaked scaling to get first tick to line up with 10 m/s/s in accelerometer
+# 1.00.04 (71004) Dec 5, 2012
+# 1.00.03 (70999) Dec 5, 2012
+# 1.00.02 (70997) Dec 5, 2012
+# 1.00.01 (70978) Dec 5, 2012
+Added accelerometer tab and check box
+# 1.00.00 (69441) Oct 23, 2012
+Updated screenshot again to remove developer menu and added credits
+Updated screenshot
+Removed unused rocks images and code
+# 0.00.56 (69194) Oct 13, 2012
+Tab 3: Only show the gravel specks within the brown surface stroke
+# 0.00.55 (69192) Oct 13, 2012
+Tab 3: Made 15% more gravel specks at max and 0 at 10% of max friction
+# 0.00.54 (69185) Oct 12, 2012
+Tab 3: Made the gravel specks 1x1 pixel
+# 0.00.53 (69183) Oct 12, 2012
+Tab 3: Moved the gravel up a bit so they are slightly above ground
+Tab 3: Added white gravel specks in a ratio of about 1:5 to the other specks
+# 0.00.52 (69178) Oct 12, 2012
+Tab 2-3: Fixed: the puller doesn't fall down when hitting max speed moving to the right
+# 0.00.51 (69176) Oct 12, 2012
+Tab 2-3: Fixed scaling of force arrow icon in the control panel
+Tab 2-3: Fixed: place object > pause > apply force > play > get up to some speed > pause > remove object. The speedometer stays at the last speed, but should go to zero
+Tab 2-3: Updated bounds for slider when partly grayed out
+# 0.00.50 (69172) Oct 12, 2012
+Tab 1: Increased cart weight by a factor of 10
+Tab 1: Increased puller forces from by a factor of 5
+Tab 1: Increased puller masses from {200,400,600} to {400,600,1000} Newtons
+Tab 1-3: Reduced force arrow nodes by a factor of about 5
+Tab 3: Added gravel texture as a function of friction
+# 0.00.49 (69169) Oct 12, 2012
+Tab 2-3: Changed max speed from 9.5 m/s to 10 m/s
+Tab 2-3: Changed max applied force to 500N
+Tab 2-3: Added factor of gravity with g=10.0 m/s/s
+# 0.00.48 (69148) Oct 12, 2012
+Tab 2-3: Always show pusher
+# 0.00.47 (69125) Oct 11, 2012
+Tab 2-3: Fixed: Bug with force slider. Place object > pause sim > move force slider > play sim > remove object. The force slider will stay in place. It should go to zero.
+Tab 3: Moved "sum of forces" above "values"
+# 0.00.46 (69120) Oct 11, 2012
+Tab 2-3: Added half ticks between major ticks
+Tab 2-3: Label min/max as "-100" and "100"
+Tab 2-3: Get rid of "step" button
+Tab 2-3: Start with "forces" on by default
+Tab 2: Renamed "forces" to "force"
+Tab 2-3: Only show the pusher if the user has changed the slider control once
+Tab 1: Moved "sum of forces" to the top of the control panel
+Tab 2-3: Dropping an object above ground moves it to the center
+# 0.00.45 (69094) Oct 10, 2012
+Tab 2: Background motion stops when all items removed from skateboard
+# 0.00.44 (69092) Oct 10, 2012
+Tab 1: Extend the grass even when the window is at an extremely wide aspect ratio
+Tab 2-3: Removed icon for "sum of forces" checkbox
+Tab 2-3: Added arrow icons next to force and sum of forces checkboxes
+Tab 2-3: Removed the rewind button
+Tab 3: Stop the background motion if all items removed from the stack
+# 0.00.43 (69006) Oct 8, 2012
+Tab 2-3: Made clouds repeat indefinitely
+# 0.00.42 (69004) Oct 8, 2012
+Tab 2-3: Fixed: Sum of forces doesn't update when paused and changing the applied force
+# 0.00.41 (68987) Oct 8, 2012
+Tab 2-3: Fixed: Pusher can push into blocks if you: Apply force until pusher falls down > pause sim > move force slider into white area > press play.
+# 0.00.40 (68980) Oct 8, 2012
+Tab 2-3: Prevent objects from sinking into the skateboard or previous object if moved quickly onto the stack
+# 0.00.39 (68978) Oct 8, 2012
+Tab 2: Show pusher as standing if he is in the way of the skateboard
+# 0.00.38 (68974) Oct 8, 2012
+Tab 1: Make pullers stay in pulling position when paused
+Tab 1: Changed "stop" to "pause"
+# 0.00.37 (68922) Oct 7, 2012
+Tab 2-3: Only enable the step button when the sim is paused
+Tab 2-3: Fixed: Applied force slider doesn't always become enabled when it should
+# 0.00.36 (68696) Oct 2, 2012
+Tab 2-3: Moved gift ribbon to the side
+Tab 2-3: Characters raise their hands when something can be stacked on them
+# 0.00.35 (68679) Oct 2, 2012
+Tab 2-3: Allow stacking any objects on each other
+# 0.00.34 (68674) Oct 1, 2012
+Tab 2-3: If the user changes the applied force slider using the knob while paused, the value won't reset when unpaused
+Added sim sharing messages
+Tab 2-3: Made it so that clicking on the speedometer icon in the control panel toggles the checkbox as well
+# 0.00.33 (68646) Oct 1, 2012
+Accommodate larger text for other languages
+Resize "Blue Wins!" and "Red Wins!" text if it is too big in other languages
+Tab 1-3: Added internationalization
+# 0.00.32 (68636) Oct 1, 2012
+Tab 2-3: Removed the rocks
+Tab 3: Made it so that the friction vector does not move its tail end to the center
+# 0.00.31 (68632) Oct 1, 2012
+Tab 2: Fixed: when you apply force to slow the skateboard down and then let go, the little figure goes behind whatever is on the skateboard but in front of the skateboard itself
+Tab 2-3: When friction force arrow overlaps applied force arrow, show the friction arrow text below the friction arrow
+# 0.00.30 (68627) Oct 1, 2012
+Tab 2-3: Move the force arrow text when it intersects
+Tab 2-3: Moved "Masses" check box above "Speed" checkbox
+Tab 2-3: Added mountains back in
+# 0.00.29 (68619) Oct 1, 2012
+Tab 2-3: Temporarily removed mountains
+# 0.00.28 (68614) Oct 1, 2012
+Tab 2-3: Moved all rocks to above the toolboxes
+# 0.00.27 (68612) Oct 1, 2012
+Tab 2-3: Added mountains
+# 0.00.26 (68607) Oct 1, 2012
+Tab 3: Fixed: No longer can move object to the left.  Flicker is happening there too.
+Tab 2-3: Made rocks smaller and more faded out
+# 0.00.25 (68600) Sep 29, 2012
+Tab 3: Fixed: The fallen pusher doesn't always stay fallen long enough
+Tab 3: Update the friction force while changing mass or slider value while paused
+Tab 3: Fixed: Force arrows flicker when friction > applied force for a moving object
+Tab 3: Reduced coefficient of friction so that the fridge can be moved at the default setting
+Tab 2-3: Fixed: When entering text, the slider knob doesn't move
+# 0.00.24 (68590) Sep 29, 2012
+Tab 2-3: Moved rocks underground and randomized size and locations
+# 0.00.23 (68587) Sep 28, 2012
+Tab 2-3: make it so rock doesn't overlap the character on startup
+Tab 2-3: Fixed: The force slider does not snap back to zero. The force does go to zero, but the handle doesn't snap back
+Tab 2-3: Added rocks to the background
+Tab 1: Added a sound checkbox
+Tab 1: Fixed: Return button should disappear after being pressed
+Tab 2: Moved up objects so they sit on the skateboard without overlapping it too much
+Tab 1: Added golf clap audio
+# 0.00.22 (68548) Sep 28, 2012
+Tab 2-3: Add some padding on either side of the "?" for the gift to make it easier to read
+Tab 2-3: Don't allow stacking on garbage can or gift
+Tab 2: Fixed: pusher's hands press into the man by 20px or so
+Tab 3: Made "Sum of Forces" unchecked by default
+Tab 2-3: Brightened the pusher images to help "friction force" text be more readable against the pusher.
+Tab 2-3: Added new crate image
+Tab 2-3: Made the friction slider change the coefficient of friction instead of the friction force
+# 0.00.21 (68535) Sep 27, 2012
+Tab 2-3: indent force-related items, like "values" and "sum of forces"
+Tab 2-3: Increased font size and look for mass readouts
+Tab 2-3: Rounded off object masses
+Tab 1: Changed "Restart" to "Return"
+Tab 2-3: Gray out the inaccessible part of the slider for at least 1 second, to prevent flickering behavior especially on Tab 3
+Tab 2-3: Gray out the part of the slider that is inaccessible
+Tab 2-3: Fixed: Correctly show fallen pusher when velocity exceeded
+Tab 2-3: Clamp slider knob when value exceeded
+# 0.00.20 (68501) Sep 27, 2012
+Tab 2-3: Show "?" for mystery mass
+Tab 2-3: Show masses for objects
+Tab 1-3: Removed "Show" from control panel titles
+Tab 2-3: Only allow to stack on items with a flat top
+Tab 2-3: Limit stack size to 3 things
+Tab 2-3: Removed boy character and replaced with man
+Tab 2-3: Fixed: pusher looks fallen sometimes when he should be standing facing front
+Tab 2-3: Updated image for fallen pusher
+# 0.00.19 (68488) Sep 26, 2012
+Tab 2-3: Have the characters stand in the toolbox and sit in the play area
+Tab 2-3: fixed: not all objects should face the direction of applied force
+# 0.00.18 (68484) Sep 26, 2012
+Tab 2-3: Sitting characters face the direction of the applied force
+# 0.00.17 (68481) Sep 26, 2012
+Tab 2-3: Switched to sitting characters
+Tab 2-3: Made garbage can 2/3 of its original size
+Tab 3: Gray out "sum of forces" checkbox when "forces" not selected
+Tab 2-3: Rescaled speedometer velocity to align with max velocity due to strobe effect
+# 0.00.16 (68476) Sep 26, 2012
+Tab 2-3: Fixed: Speedometer size changes when first object dropped on stack.
+Tab 2-3: To make sure pusher hands reach the crate: made 20% larger crate, 10% smaller pusher
+Tab 2-3: Added more objects: characters from balancing act, trash can, gift-wrapped present
+Tab 2-3: Added an (empty) toolbox on the right
+Tab 2-3: Wired up play/pause/rewind/step buttons
+Tab 2-3: Show the pusher as fallen over when strobe speed exceeded
+Tab 1-3: For single character text (9N and lower), show vector value below the name
+Tab 1-3: Reduced the arrow font slightly so that "10N" will fit inside the arrow, also changed the location slightly
+Tab 1-3: Rescale the vectors so that they use the same scale factor in all tabs, and fit on the screen on tab 3
+Tab 1: Play a victory sound when a flag is shown
+Tab 1-3: Changed Applied force and Sum of forces colors based on NP recommendation
+Tab 3: Fixed: friction force should not be able to make the object move backwards
+Tab 3: separate arrow tails for friction vs applied
+Tab 3: Added friction to model
+Tab 3: Object has to overcome friction before starting to move
+Tab 3: Show friction force and sum of forces
+# 0.00.15 (68451) Sep 25, 2012
+Tab 1: Make flag wave
+Tab 1: Moved the vectors and labels all down by 25px to make room for the flag at the top center
+Tab 1: Made force vector colors slightly brighter and bolder
+Tab 1: Move toolboxes so they are vertically centered in the earth
+# 0.00.14 (68378) Sep 25, 2012
+Tab 1: Fixed: When attaching a puller while the rope is moving, they do not change their pose.
+Tab 1: Show a flag after game complete
+Tab 1: Allow addition/removal of pullers after pressing "go"
+Tab 1: Added toolboxes and brown earth
+# 0.00.13 (68350) Sep 25, 2012
+# 0.00.12 (68335) Sep 25, 2012
+# 0.00.11 (68288) Sep 24, 2012
+Added new images for buttons
+# 0.00.10 (68055) Sep 17, 2012
+Fixed: Dragging doesn't work when screen resized
+Show "Sum of forces = 0" instead of blank
+Align the images when below the grass.
+Adjusted vertical position of the pullers with respect to the grass
+# 0.00.09 (68047) Sep 17, 2012
+Fixed: puller nodes weren't always draggable after "restart"
+Increased cart speed
+leave "restart" button showing after "stop" pressed
+# 0.00.08 (68043) Sep 17, 2012
+Don't allow dragging if the system is moving or completed
+make the force vectors transparent if in "complete" mode
+# 0.00.07 (68041) Sep 17, 2012
+# 0.00.06 (64706) Jun 6, 2012
+# 0.00.05 (64649) Jun 4, 2012
+# 0.00.04 (64645) Jun 4, 2012
+Flattened atan in mode3
+# 0.00.03 (64629) Jun 4, 2012
+Increased acceleration
+Added mode 4
+# 0.00.02 (64614) Jun 4, 2012
+Started mode 2 motion
+# 0.00.01 (64605) Jun 4, 2012
+Added project for forces-and-motion-basics
