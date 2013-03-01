@@ -2,30 +2,16 @@
 
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -40,15 +26,18 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -70,12 +59,12 @@ public class PhetTabbedPane extends JPanel {
     public static final String IMAGE_PHET_LOGO = LogoPanel.IMAGE_PHET_LOGO;
 
     /* Default property values */
-    public static final Font DEFAULT_TAB_FONT = new PhetFont( 16, true /* bold */ );
+    public static final Font DEFAULT_TAB_FONT = new PhetFont( 24, true /* bold */ );
     public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 240, 240, 240 );
-    public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 180, 205, 255 );
-    public static final Color DEFAULT_UNSELECTED_TAB_COLOR = new Color( 100, 125, 255 );
-    public static final Color DEFAULT_SELECTED_TEXT_COLOR = Color.BLACK;
-    public static final Color DEFAULT_UNSELECTED_TEXT_COLOR = new Color( 40, 40, 40 );
+    public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 177, 179, 181 );
+    public static final Color DEFAULT_UNSELECTED_TAB_COLOR = new Color( 156, 158, 161 );
+    public static final Color DEFAULT_SELECTED_TEXT_COLOR = new Color( 255, 249, 175 );
+    public static final Color DEFAULT_UNSELECTED_TEXT_COLOR = new Color( 109, 110, 112 );
 
     private TabPane tabPane;
     private JComponent component;
@@ -89,7 +78,7 @@ public class PhetTabbedPane extends JPanel {
      */
     public PhetTabbedPane() {
         super( new BorderLayout() );
-        setBackground( DEFAULT_BACKGROUND_COLOR );
+        setBackground( Color.BLACK );
 
         this.tabFont = DEFAULT_TAB_FONT;
         this.selectedTabColor = DEFAULT_SELECTED_TAB_COLOR;
@@ -98,7 +87,7 @@ public class PhetTabbedPane extends JPanel {
         this.unselectedTextColor = DEFAULT_UNSELECTED_TEXT_COLOR;
 
         tabPane = new TabPane( selectedTabColor, unselectedTabColor );
-        add( tabPane, BorderLayout.NORTH );
+        add( tabPane, BorderLayout.SOUTH );
         ComponentListener relayoutHandler = new ComponentListener() {
             public void componentHidden( ComponentEvent e ) {
             }
@@ -487,7 +476,7 @@ public class PhetTabbedPane extends JPanel {
             background.setPathTo( createTabShape( textNode.getFullBounds().getWidth(), tabHeight ) );
             outlineNode.setPathTo( createTabTopBorder( textNode.getFullBounds().getWidth(), tabHeight ) );
             if ( textIsCentered ) {
-                textNode.setOffset( 0, tabHeight / 2 - textNode.getHeight() / 2 );
+                textNode.setOffset( background.getFullBounds().getWidth() / 2 - textNode.getFullBounds().getWidth() / 2, background.getFullBounds().getHeight() / 2 - textNode.getHeight() / 2 );
             }
         }
 
@@ -498,13 +487,8 @@ public class PhetTabbedPane extends JPanel {
          * @param textHeight
          * @return the path.
          */
-        private GeneralPath createTabTopBorder( double textWidth, double textHeight ) {
-            GeneralPath outline = new GeneralPath();
-            outline.moveTo( -tabInsets.left, (float) ( textHeight + tabInsets.bottom ) );
-            outline.lineTo( -tabInsets.left, -tabInsets.top );
-            outline.lineTo( (float) ( textWidth + tabInsets.right ), -tabInsets.top );
-            outline.lineTo( (float) textWidth + tabInsets.right + tiltWidth, (float) ( textHeight + tabInsets.bottom ) );
-            return outline;
+        private Shape createTabTopBorder( double textWidth, double textHeight ) {
+            return new RoundRectangle2D.Double( 0, 0, textWidth + 20, 48, 20, 20 );
         }
 
         /**
@@ -514,14 +498,9 @@ public class PhetTabbedPane extends JPanel {
          * @param textHeight
          * @return the path.
          */
-        private GeneralPath createTabShape( double textWidth, double textHeight ) {
-            GeneralPath path = new GeneralPath();
-            path.moveTo( -tabInsets.left, -tabInsets.top );
-            path.lineTo( (float) ( textWidth + tabInsets.right ), -tabInsets.top );
-            path.lineTo( (float) textWidth + tabInsets.right + tiltWidth, (float) ( textHeight + tabInsets.bottom ) );
-            path.lineTo( -tabInsets.left, (float) ( textHeight + tabInsets.bottom ) );
-            path.closePath();
-            return path;
+        private Shape createTabShape( double textWidth, double textHeight ) {
+            return createTabTopBorder( textWidth, textHeight );
+//            return new Rectangle2D.Double(0,0,textWidth+20, 48);
         }
 
         /**
@@ -542,7 +521,8 @@ public class PhetTabbedPane extends JPanel {
             this.selected = selected;
             background.setStroke( getBorderStroke() );
             outlineNode.setVisible( selected );
-            outlineNode.setStroke( selected ? new BasicStroke( 1.2f ) : new BasicStroke( 1 ) );
+            outlineNode.setStroke( selected ? new BasicStroke( 3f ) : new BasicStroke( 1 ) );
+            outlineNode.setStrokePaint( selected ? new Color( 255, 249, 175 ) : Color.black );
             updatePaint();
         }
 
@@ -676,21 +656,23 @@ public class PhetTabbedPane extends JPanel {
      */
     private static class TabPane extends PSwingCanvas {
         private ArrayList tabs = new ArrayList();
-        private double distBetweenTabs = -6;
+        private double distBetweenTabs = 6;
         private TabBase tabBase;
         private int tabTopInset = 3;
-        private PImage logo;
+        private PNode logo;
         private AbstractTabNode selectedTab;
-        private static final int LEFT_TAB_INSET = 10;
+        private static final int LEFT_TAB_INSET = 100;
         private boolean logoObscured = false;
         private boolean logoVisible = true;
+        PhetFont labelFont = new PhetFont( 40, true );
+        private final PhetPText tabLabel;
 
         public TabPane( Color selectedTabColor, Color unselectedTabColor ) {
-            Image image = PhetCommonResources.getInstance().getImage( IMAGE_PHET_LOGO );
-            logo = new PImage( image );
-            logo.addInputEventListener( new CursorHandler() );
-            logo.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
-            logo.addInputEventListener( new PBasicInputEventHandler() {
+            PhetPText phetText = new PhetPText( "PhET", labelFont, Color.yellow );
+            logo = new HBox( new HTMLImageButtonNode( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon.png" ), 20 ) ), phetText );
+            phetText.addInputEventListener( new CursorHandler() );
+            phetText.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
+            phetText.addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     PhetServiceManager.showPhetPage();
                 }
@@ -701,7 +683,10 @@ public class PhetTabbedPane extends JPanel {
             setOpaque( false );
 
             getLayer().addChild( logo );
-            getLayer().addChild( tabBase );
+            tabLabel = new PhetPText( "Tug of War", labelFont, Color.white ) {{
+            }};
+            getLayer().addChild( tabLabel );
+//            getLayer().addChild( tabBase );
             relayout();
         }
 
@@ -729,7 +714,15 @@ public class PhetTabbedPane extends JPanel {
 
         private void relayout() {
             tabBase.setTabBaseWidth( getWidth() );
-            int x = AbstractTabNode.tabInsets.left + LEFT_TAB_INSET;
+
+            double spaceForTabs = 0;
+            for ( int i = 0; i < tabs.size(); i++ ) {
+                AbstractTabNode tabNode = (AbstractTabNode) tabs.get( i );
+                spaceForTabs += tabNode.getFullBounds().getWidth() + distBetweenTabs;
+            }
+
+            double x = getWidth() / 2 - spaceForTabs / 2;//center the tabs
+
             double maxTabTextHeight = getMaxTabTextHeight();
             for ( int i = 0; i < tabs.size(); i++ ) {
                 AbstractTabNode tabNode = (AbstractTabNode) tabs.get( i );
@@ -747,13 +740,13 @@ public class PhetTabbedPane extends JPanel {
         }
 
         private void relayoutLogo( double tabBaseY ) {
-            if ( logo.getImage().getHeight( null ) > getHeight() ) {
-                double scale = ( getHeight() - 5.0 ) / ( (double) logo.getImage().getHeight( null ) );
-                logo.setScale( Math.max( scale, 0.5 ) );
-            }
-            else {
-                logo.setScale( 1 );
-            }
+//            if ( logo.getImage().getHeight( null ) > getHeight() ) {
+//                double scale = ( getHeight() - 5.0 ) / ( (double) logo.getImage().getHeight( null ) );
+//                logo.setScale( Math.max( scale, 0.5 ) );
+//            }
+//            else {
+//                logo.setScale( 1 );
+//            }
             logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), tabBaseY / 2 - logo.getFullBounds().getHeight() / 2 );
 
             if ( tabs.size() > 0 ) {
@@ -771,7 +764,7 @@ public class PhetTabbedPane extends JPanel {
 
         public Dimension getPreferredSize() {
             relayout();
-            int h = getMaxTabHeight();
+            int h = 50;//44px high recommended by apple for being a touchable button
             int width = (int) getLayer().getFullBounds().getWidth();
             width = Math.max( width, super.getPreferredSize().width );
             return new Dimension( width, (int) ( h + tabBase.getFullBounds().getHeight() ) );
@@ -832,10 +825,11 @@ public class PhetTabbedPane extends JPanel {
                 }
             }
             /*Then show the TabBase*/
-            getLayer().removeChild( tabBase );
-            getLayer().addChild( tabBase );
+//            getLayer().removeChild( tabBase );
+//            getLayer().addChild( tabBase );
             /**Last, show the selected tab on top.*/
             getLayer().addChild( tab );
+            tabLabel.setText( tab.getText() );
         }
 
         public int getSelectedIndex() {
