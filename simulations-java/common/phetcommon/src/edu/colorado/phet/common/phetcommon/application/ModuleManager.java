@@ -53,6 +53,10 @@ class ModuleManager {
         return activeModule;
     }
 
+    public int getActiveModuleIndex() {
+        return modules.indexOf( activeModule );
+    }
+
     /**
      * Gets the number of modules.
      *
