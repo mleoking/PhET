@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_sq.xml created Mon Jun 01 11:57:43 CEST 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.01.00 (31673) mag 14, 2009-->
-<SimStrings>
-<string key="showYEq" value="shfaq y ="/>
-<string key="erase" value="fshij"/>
-<string key="save" value="ruaj"/>
-<string key="zero" value="zero"/>
-<string key="simTitle" value="grafiku i ekuacionit"/>
-</SimStrings>

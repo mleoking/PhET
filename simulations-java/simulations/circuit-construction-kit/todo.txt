@@ -1,9 +1,0 @@
-Keep track of the dt from each time step to the next to avoid work where possible.
-
-Sim Sharing items:
-
-Top Priority
-
-JB: Fix: Non-contact Ammeter reading changes at junction.
-> Maybe defer these to post processing.
-    SR: Non-contact ammeter only gives readings on wires, not on junctions.  If moving from one wire to another, there is a chance it will be connectionBroken=>connectionFormed

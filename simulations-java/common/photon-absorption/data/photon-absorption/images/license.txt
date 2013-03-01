@@ -1,9 +1,0 @@
-###################################
-# License info for greenhouse
-# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
-###################################
-
-flashlight2.png author=PhET
-heat-lamp.png author=PhET
-microwave-transmitter.png author=PhET
-uv-light_2.png author=PhET

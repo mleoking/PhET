@@ -1,9 +1,0 @@
-{
-    "name": "energy-skate-park-basics-jquerymobile",
-    "version": "0.0.0",
-    "license": "BSD",
-    "dependencies": {
-        "grunt": "~0.3.17",
-        "grunt-contrib-requirejs": "~0.3.3"
-    }
-}

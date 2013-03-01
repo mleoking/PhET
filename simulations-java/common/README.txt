@@ -1,1 +1,0 @@
-This directory contains common software for PhET simulations.

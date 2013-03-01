@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_iw.xml created Mon Oct 17 14:38:21 MDT 2011 using: calculus-grapher 2.08.00 (55025), translation-utility 2.12.00 (57171) Oct 3, 2011-->
-<SimStrings>
-<string key="smooth" value="החלק"/>
-<string key="undo" value="חזור"/>
-<string key="zero" value="אפס"/>
-<string key="simTitle" value="תצוגת גרפים בחשבון דיפרנציאלי"/>
-<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
-</SimStrings>

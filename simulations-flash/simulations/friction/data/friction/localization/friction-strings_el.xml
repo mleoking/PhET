@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_el.xml created Tue Nov 10 12:51:01 EET 2009 using: friction 2.00.00 (30671), translation-utility 2.03.00 (36202) Οκτ 29, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="Να ολισθήσετε το πάνω βιβλίο στο κάτω βιβλίο"/>
-<string key="physics" value="Φυσική"/>
-<string key="reset" value="Επαναφορά"/>
-<string key="simTitle" value="Τριβή"/>
-<string key="chemistry" value="Χημεία"/>
-</SimStrings>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_in.xml created Sat May 28 12:06:03 ICT 2011 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.10.00 (48775) Feb 9, 2011-->
-<SimStrings>
-<string key="resistanceEq" value="Resistansi = "/>
-<string key="simTitle" value="Resistansi Konduktor"/>
-<string key="translation.credits" value="&lt;html&gt;&#10;Josef B. Dwiyono &lt;br&gt;&#10;Mail : jbdwiyono@gmail.com&lt;br&gt;&#10;Blog : oomyon.blogspot.com&lt;br&gt;&#10;F/B : facebook.com/jb.dwiyono&#10;&lt;/html&gt;&#10;"/>
-</SimStrings>

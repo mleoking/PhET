@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_hr.xml created Sun May 03 14:54:50 CEST 2009 using: friction 2.00.00 (30671), translation-utility 2.00.00 (31012) tra 28, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="Protrljaj žute atome \npo zelemim"/>
-<string key="physics" value="Fizika"/>
-<string key="reset" value="Ponovo"/>
-<string key="simTitle" value="Trenje"/>
-<string key="chemistry" value="Kemija"/>
-</SimStrings>

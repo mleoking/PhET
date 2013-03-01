@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_kn.xml created Fri Feb 15 17:37:59 IST 2013 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.14.00 (69024) Oct 10, 2012-->
-<SimStrings>
-<string key="resistanceEq" value="ರೋಧಕತೆ="/>
-<string key="simTitle" value="ವೈರಿನ ರೋಧಕತೆ"/>
-<string key="translation.credits" value="&lt;html&gt; ರಾಮಕೃಷ್ಣ ಮಿಷನ್, ಶಿವನಹಳ್ಳಿ &lt;br&gt;http://www.rkmission-shivanahalli.org&lt;/html&gt;"/>
-</SimStrings>
