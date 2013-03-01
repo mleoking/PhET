@@ -2,6 +2,7 @@
 package edu.colorado.phet.forcesandmotionbasics;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
@@ -24,7 +25,7 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
     public static final Color BROWN = new Color( 197, 154, 91 );
     public static final Color TOOLBOX_COLOR = new Color( 231, 232, 233 );
     private final Container modulePane;
-    private final LevelSelectionScreen contentPane;
+    private final LevelSelectionScreen levelSelectionScreen;
     public static ForcesAndMotionBasicsApplication app;
 
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
@@ -40,10 +41,22 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
         addModule( new MotionModule( UserComponents.frictionTab, Strings.FRICTION, true, false ) );
         addModule( new MotionModule( UserComponents.accelerationLabTab, Strings.ACCELERATION_LAB, true, true ) );
         modulePane = getPhetFrame().getContentPane();
-        contentPane = new LevelSelectionScreen( this );
+        levelSelectionScreen = new LevelSelectionScreen( this );
 
-        getPhetFrame().setContentPane( contentPane );
+        getPhetFrame().setContentPane( levelSelectionScreen );
+        getPhetFrame().setJMenuBar( null );
         app = this;
+
+        //Exit on escape key
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventDispatcher( new KeyEventDispatcher() {
+            public boolean dispatchKeyEvent( KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
+                    System.exit( 0 );
+                }
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        } );
     }
 
     public static void main( String[] args ) {
