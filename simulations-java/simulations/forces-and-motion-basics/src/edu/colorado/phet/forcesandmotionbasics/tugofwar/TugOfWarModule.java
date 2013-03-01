@@ -16,6 +16,8 @@ public class TugOfWarModule extends SimSharingPiccoloModule implements Resettabl
         super( UserComponents.tugOfWarTab, Strings.TUG_OF_WAR, new ConstantDtClock() );
         setSimulationPanel( new TugOfWarCanvas( this, getClock() ) );
         setClockControlPanel( null );
+        setLogoPanel( null );
+        setControlPanel( null );
     }
 
     @Override public void reset() {

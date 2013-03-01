@@ -3,12 +3,15 @@ package edu.colorado.phet.forcesandmotionbasics;
 
 import java.awt.*;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.forcesandmotionbasics.motion.MotionModule;
+import edu.colorado.phet.forcesandmotionbasics.touch.LevelSelectionScreen;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarModule;
 
 /**
@@ -20,16 +23,40 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
 
     public static final Color BROWN = new Color( 197, 154, 91 );
     public static final Color TOOLBOX_COLOR = new Color( 231, 232, 233 );
+    private final Container modulePane;
+    private final LevelSelectionScreen contentPane;
+    public static ForcesAndMotionBasicsApplication app;
 
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
         super( config );
+
+        JFrame frame = getPhetFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE ); // Already there
+        frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
+        frame.setUndecorated( true );
+
         addModule( new TugOfWarModule() );
         addModule( new MotionModule( UserComponents.motionTab, Strings.MOTION, false, false ) );
         addModule( new MotionModule( UserComponents.frictionTab, Strings.FRICTION, true, false ) );
         addModule( new MotionModule( UserComponents.accelerationLabTab, Strings.ACCELERATION_LAB, true, true ) );
+        modulePane = getPhetFrame().getContentPane();
+        contentPane = new LevelSelectionScreen( this );
+
+        getPhetFrame().setContentPane( contentPane );
+        app = this;
     }
 
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, ForcesAndMotionBasicsResources.PROJECT_NAME, ForcesAndMotionBasicsApplication.class );
+        GraphicsDevice defaultScreen = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    }
+
+    public void showModule( int i ) {
+        setActiveModule( i );
+        getPhetFrame().setContentPane( modulePane );
+
+        //http://stackoverflow.com/questions/6010915/change-contentpane-of-frame-after-button-clicked
+        getPhetFrame().revalidate();
+        getPhetFrame().repaint();
     }
 }
