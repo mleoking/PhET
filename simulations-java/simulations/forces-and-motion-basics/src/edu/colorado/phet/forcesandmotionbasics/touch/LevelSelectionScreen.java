@@ -21,16 +21,17 @@ import edu.umd.cs.piccolo.event.PInputEventListener;
 public class LevelSelectionScreen extends AbstractForcesAndMotionBasicsCanvas {
     private final ForcesAndMotionBasicsApplication application;
 
-    public LevelSelectionScreen( ForcesAndMotionBasicsApplication application ) {
+    public LevelSelectionScreen( final ForcesAndMotionBasicsApplication application ) {
         this.application = application;
         setBackground( Color.black );
         addWorldChild( new PNode() {{
+            int index = application.getActiveModuleIndex();
             addChild( new VBox( new PhetPText( "Forces and Motion: Basics", new PhetFont( 48, true ), Color.white ),
                                 new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ), null, null ),//spacing
-                                new HBox( new LevelNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 300, 300 ), Color.green ), "Tug of War", listener( 0 ) ),
-                                          new LevelNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 200, 200 ), Color.green ), "Motion", listener( 1 ) ),
-                                          new LevelNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 200, 200 ), Color.green ), "Friction", listener( 2 ) ),
-                                          new LevelNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 200, 200 ), Color.green ), "Acceleration Lab", listener( 3 ) ) ) ) {{
+                                new HBox( new LevelNode( createIcon( index == 0 || index == -1 ), "Tug of War", listener( 0 ) ),//-1 means not inited yet, so use 1st module
+                                          new LevelNode( createIcon( index == 1 ), "Motion", listener( 1 ) ),
+                                          new LevelNode( createIcon( index == 2 ), "Friction", listener( 2 ) ),
+                                          new LevelNode( createIcon( index == 3 ), "Acceleration Lab", listener( 3 ) ) ) ) {{
                 setOffset( 0, 50 );
             }} );
         }} );
@@ -38,6 +39,11 @@ public class LevelSelectionScreen extends AbstractForcesAndMotionBasicsCanvas {
             scale( 2 );
             setOffset( 10, 10 );
         }} );
+    }
+
+    private PhetPPath createIcon( boolean isSelected ) {
+        int dim = isSelected ? 300 : 200;
+        return new PhetPPath( new Rectangle2D.Double( 0, 0, dim, dim ), Color.green );
     }
 
     private PInputEventListener listener( final int i ) {
