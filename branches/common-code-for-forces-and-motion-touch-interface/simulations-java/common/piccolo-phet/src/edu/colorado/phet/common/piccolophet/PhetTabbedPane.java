@@ -38,6 +38,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -55,7 +56,11 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  */
 
 public class PhetTabbedPane extends JPanel {
-
+    public static Runnable homeButtonListener = new Runnable() {
+        public void run() {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+    };
     public static final String IMAGE_PHET_LOGO = LogoPanel.IMAGE_PHET_LOGO;
 
     /* Default property values */
@@ -666,10 +671,11 @@ public class PhetTabbedPane extends JPanel {
         private boolean logoVisible = true;
         PhetFont labelFont = new PhetFont( 40, true );
         private final PhetPText tabLabel;
+        private final PImage homeIcon;
 
         public TabPane( Color selectedTabColor, Color unselectedTabColor ) {
             PhetPText phetText = new PhetPText( "PhET", labelFont, Color.yellow );
-            logo = new HBox( new HTMLImageButtonNode( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon.png" ), 20 ) ), phetText );
+            logo = new HBox( new HTMLImageButtonNode( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon.png" ), 40 ) ), phetText );
             phetText.addInputEventListener( new CursorHandler() );
             phetText.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
             phetText.addInputEventListener( new PBasicInputEventHandler() {
@@ -683,7 +689,17 @@ public class PhetTabbedPane extends JPanel {
             setOpaque( false );
 
             getLayer().addChild( logo );
+            homeIcon = new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-icon.png" ), 48 ) ) {{
+                setOffset( 1, 1 );
+                addInputEventListener( new PBasicInputEventHandler() {
+                    @Override public void mousePressed( PInputEvent event ) {
+                        homeButtonListener.run();
+                    }
+                } );
+            }};
+            getLayer().addChild( homeIcon );
             tabLabel = new PhetPText( "Tug of War", labelFont, Color.white ) {{
+//                setOffset( homeIcon.getFullBounds().getMaxX() + 5, 0 );
             }};
             getLayer().addChild( tabLabel );
 //            getLayer().addChild( tabBase );
@@ -722,6 +738,7 @@ public class PhetTabbedPane extends JPanel {
             }
 
             double x = getWidth() / 2 - spaceForTabs / 2;//center the tabs
+            double initTaxX = x;
 
             double maxTabTextHeight = getMaxTabTextHeight();
             for ( int i = 0; i < tabs.size(); i++ ) {
@@ -737,6 +754,8 @@ public class PhetTabbedPane extends JPanel {
                 getTab( i ).updatePaint();
             }
             tabBase.updatePaint();
+
+            homeIcon.setOffset( initTaxX - homeIcon.getFullBounds().getWidth() - 60, 4 );
         }
 
         private void relayoutLogo( double tabBaseY ) {
