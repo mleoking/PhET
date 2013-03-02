@@ -1,3 +1,4 @@
+# 1.02.03 (72374) Mar 1, 2013
 Home screen improvements
 # 1.02.02 (72362) Mar 1, 2013
 Switched to a branch for level-selection & tab mockup development for mobile/touch devices
