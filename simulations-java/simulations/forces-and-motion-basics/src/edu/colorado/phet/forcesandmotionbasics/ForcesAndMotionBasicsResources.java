@@ -19,8 +19,8 @@ public class ForcesAndMotionBasicsResources {
         public static final String ACCELERATION_LAB = RESOURCES.getLocalizedString( "accelerationLab" );
         public static final String APPLIED_FORCE = RESOURCES.getLocalizedString( "appliedForce" );
         public static final String BLUE_WINS = RESOURCES.getLocalizedString( "blueWins" );
-        public static final String FORCE_READOUT__PATTERN = RESOURCES.getLocalizedString( "forceReadout.pattern" );
         public static final String FORCE = RESOURCES.getLocalizedString( "force" );
+        public static final String FORCE_READOUT__PATTERN = RESOURCES.getLocalizedString( "forceReadout.pattern" );
         public static final String FORCES = RESOURCES.getLocalizedString( "forces" );
         public static final String FRICTION = RESOURCES.getLocalizedString( "friction" );
         public static final String FRICTION_FORCE = RESOURCES.getLocalizedString( "frictionForce" );
@@ -48,10 +48,14 @@ public class ForcesAndMotionBasicsResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage ACCELERATION_ICON = RESOURCES.getImage( "Acceleration_Icon.png" );
+        public static final BufferedImage ACCELERATION_SCREENSHOT = RESOURCES.getImage( "Acceleration_screenshot.png" );
         public static final BufferedImage BRICK_TILE = RESOURCES.getImage( "brick-tile.png" );
         public static final BufferedImage CART = RESOURCES.getImage( "cart.png" );
         public static final BufferedImage CLOUD1 = RESOURCES.getImage( "cloud1.png" );
         public static final BufferedImage CRATE = RESOURCES.getImage( "crate.png" );
+        public static final BufferedImage FRICTION_ICON = RESOURCES.getImage( "Friction_Icon.png" );
+        public static final BufferedImage FRICTION_SCREENSHOT = RESOURCES.getImage( "Friction_screenshot.png" );
         public static final BufferedImage FRIDGE = RESOURCES.getImage( "fridge.png" );
         public static final BufferedImage GIRL_HOLDING = RESOURCES.getImage( "girl-holding.png" );
         public static final BufferedImage GIRL_SITTING = RESOURCES.getImage( "girl-sitting.png" );
@@ -64,6 +68,8 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage MAN_HOLDING = RESOURCES.getImage( "man-holding.png" );
         public static final BufferedImage MAN_SITTING = RESOURCES.getImage( "man-sitting.png" );
         public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
+        public static final BufferedImage MOTION_ICON = RESOURCES.getImage( "Motion_icon.png" );
+        public static final BufferedImage MOTION_SCREENSHOT = RESOURCES.getImage( "Motion_screenshot.png" );
         public static final BufferedImage MOUNTAINS = RESOURCES.getImage( "mountains.png" );
         public static final BufferedImage MYSTERY_OBJECT_01 = RESOURCES.getImage( "mystery-object-01.png" );
         public static final BufferedImage PULL_FIGURE_BLUE_0 = RESOURCES.getImage( "pull_figure_BLUE_0.png" );
@@ -108,11 +114,14 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage PUSHER_FALL_DOWN = RESOURCES.getImage( "pusher_fall_down.png" );
         public static final BufferedImage PUSHER_STRAIGHT_ON = RESOURCES.getImage( "pusher_straight_on.png" );
         public static final BufferedImage ROPE = RESOURCES.getImage( "rope.png" );
+        public static final BufferedImage SCREENSHOT_FRAME = RESOURCES.getImage( "Screenshot_frame.png" );
         public static final BufferedImage SKATEBOARD = RESOURCES.getImage( "skateboard.png" );
         public static final BufferedImage STOP_HOVER = RESOURCES.getImage( "stop_hover.png" );
         public static final BufferedImage STOP_PRESSED = RESOURCES.getImage( "stop_pressed.png" );
         public static final BufferedImage STOP_UP = RESOURCES.getImage( "stop_up.png" );
         public static final BufferedImage TRASH_CAN = RESOURCES.getImage( "trash-can.png" );
+        public static final BufferedImage TUG_ICON = RESOURCES.getImage( "Tug_Icon.png" );
+        public static final BufferedImage TUG_SCREENSHOT = RESOURCES.getImage( "Tug_screenshot.png" );
         public static final BufferedImage WATER_BUCKET = RESOURCES.getImage( "water-bucket.png" );
     }
 }
