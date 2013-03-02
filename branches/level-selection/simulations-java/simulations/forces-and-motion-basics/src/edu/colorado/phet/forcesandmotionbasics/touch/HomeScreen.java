@@ -52,6 +52,12 @@ public class HomeScreen extends AbstractForcesAndMotionBasicsCanvas {
         int height = isSelected ? 276 : 276 / 2;
         Image icon = BufferedImageUtils.multiScaleToHeight( x, height );
         PImage node = new PImage( icon );
+        if ( isSelected ) {
+            PImage node2 = new PImage( BufferedImageUtils.multiScaleToHeight( Images.SCREENSHOT_FRAME, height + 40 ) );
+            node.setOffset( 20, 20 );
+            node2.addChild( node );
+            return node2;
+        }
         return node;
     }
 
