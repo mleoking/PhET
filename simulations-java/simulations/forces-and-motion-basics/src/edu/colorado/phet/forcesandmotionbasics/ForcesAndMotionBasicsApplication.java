@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.forcesandmotionbasics.motion.MotionModule;
-import edu.colorado.phet.forcesandmotionbasics.touch.LevelSelectionScreen;
+import edu.colorado.phet.forcesandmotionbasics.touch.HomeScreen;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarModule;
 
 /**
@@ -42,7 +42,7 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
         addModule( new MotionModule( UserComponents.accelerationLabTab, Strings.ACCELERATION_LAB, true, true ) );
         modulePane = getPhetFrame().getContentPane();
 
-        getPhetFrame().setContentPane( new LevelSelectionScreen( this ) );
+        getPhetFrame().setContentPane( new HomeScreen( this ) );
         getPhetFrame().setJMenuBar( null );
         app = this;
 
@@ -58,7 +58,7 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
         } );
         PhetTabbedPane.homeButtonListener = new Runnable() {
             public void run() {
-                getPhetFrame().setContentPane( new LevelSelectionScreen( ForcesAndMotionBasicsApplication.this ) );
+                getPhetFrame().setContentPane( new HomeScreen( ForcesAndMotionBasicsApplication.this ) );
                 //http://stackoverflow.com/questions/6010915/change-contentpane-of-frame-after-button-clicked
                 getPhetFrame().revalidate();
                 getPhetFrame().repaint();

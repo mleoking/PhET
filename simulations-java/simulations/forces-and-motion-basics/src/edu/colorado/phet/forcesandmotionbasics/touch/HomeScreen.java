@@ -18,10 +18,10 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
 
-public class LevelSelectionScreen extends AbstractForcesAndMotionBasicsCanvas {
+public class HomeScreen extends AbstractForcesAndMotionBasicsCanvas {
     private final ForcesAndMotionBasicsApplication application;
 
-    public LevelSelectionScreen( final ForcesAndMotionBasicsApplication application ) {
+    public HomeScreen( final ForcesAndMotionBasicsApplication application ) {
         this.application = application;
         setBackground( Color.black );
         addWorldChild( new PNode() {{
