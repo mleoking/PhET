@@ -51,6 +51,7 @@ public class HomeScreen extends AbstractForcesAndMotionBasicsCanvas {
 
     static BufferedImage[] icons = new BufferedImage[]{Images.TUG_ICON, Images.MOTION_ICON, Images.FRICTION_ICON, Images.ACCELERATION_ICON};
     static BufferedImage[] screenshots = new BufferedImage[]{Images.TUG_SCREENSHOT, Images.MOTION_SCREENSHOT, Images.FRICTION_SCREENSHOT, Images.ACCELERATION_SCREENSHOT};
+//    static BufferedImage[] screenshots = new BufferedImage[]{Images.TUG_SCREENSHOT, Images.TUG_SCREENSHOT, Images.TUG_SCREENSHOT, Images.TUG_SCREENSHOT};
 
     static private PNode createIcon( int index, boolean isSelected ) {
         BufferedImage x = ( screenshots )[index];
@@ -86,7 +87,7 @@ public class HomeScreen extends AbstractForcesAndMotionBasicsCanvas {
     private static class LevelNode extends PNode {
         private LevelNode( int index, boolean selected, String text, PInputEventListener listener ) {
             addChild( new VBox( VBox.LEFT_ALIGNED, createIcon( index, selected ),
-                                new PhetPText( text, selected ? boldFont( 35 ) : plainFont( 25 ), selected ? new Color( 252, 247, 106 ) : Color.white ) ) );
+                                new PhetPText( text, selected ? boldFont( 35 ) : plainFont( 23 ), selected ? new Color( 252, 247, 106 ) : Color.white ) ) );
             addInputEventListener( listener );
             if ( !selected ) {
                 setTransparency( 0.6f );
