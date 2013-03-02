@@ -78,4 +78,11 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
         getPhetFrame().revalidate();
         getPhetFrame().repaint();
     }
+
+    public void showHomeScreenForSelection( int i ) {
+        getPhetFrame().setContentPane( new HomeScreen( ForcesAndMotionBasicsApplication.this, i ) );
+        //http://stackoverflow.com/questions/6010915/change-contentpane-of-frame-after-button-clicked
+        getPhetFrame().revalidate();
+        getPhetFrame().repaint();
+    }
 }
