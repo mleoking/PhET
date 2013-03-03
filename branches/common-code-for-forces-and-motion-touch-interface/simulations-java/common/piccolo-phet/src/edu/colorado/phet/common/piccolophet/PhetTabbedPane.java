@@ -30,7 +30,6 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -69,7 +68,7 @@ public class PhetTabbedPane extends JPanel {
     public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 177, 179, 181 );
     public static final Color DEFAULT_UNSELECTED_TAB_COLOR = new Color( 156, 158, 161 );
     public static final Color DEFAULT_SELECTED_TEXT_COLOR = new Color( 255, 249, 175 );
-    public static final Color DEFAULT_UNSELECTED_TEXT_COLOR = new Color( 109, 110, 112 );
+    public static final Color DEFAULT_UNSELECTED_TEXT_COLOR = new Color( 101, 102, 104 );
 
     private TabPane tabPane;
     private JComponent component;
@@ -83,7 +82,7 @@ public class PhetTabbedPane extends JPanel {
      */
     public PhetTabbedPane() {
         super( new BorderLayout() );
-        setBackground( Color.BLACK );
+        setBackground( new Color( 60, 60, 62 ) );
 
         this.tabFont = DEFAULT_TAB_FONT;
         this.selectedTabColor = DEFAULT_SELECTED_TAB_COLOR;
@@ -527,7 +526,7 @@ public class PhetTabbedPane extends JPanel {
             background.setStroke( getBorderStroke() );
             outlineNode.setVisible( selected );
             outlineNode.setStroke( selected ? new BasicStroke( 3f ) : new BasicStroke( 1 ) );
-            outlineNode.setStrokePaint( selected ? new Color( 255, 249, 175 ) : Color.black );
+            outlineNode.setStrokePaint( selected ? new Color( 187, 182, 132 ) : Color.black );
             updatePaint();
         }
 
@@ -671,11 +670,16 @@ public class PhetTabbedPane extends JPanel {
         private boolean logoVisible = true;
         PhetFont labelFont = new PhetFont( 40, true );
         private final PhetPText tabLabel;
-        private final PImage homeIcon;
 
         public TabPane( Color selectedTabColor, Color unselectedTabColor ) {
             PhetPText phetText = new PhetPText( "PhET", labelFont, Color.yellow );
-            logo = new HBox( new HTMLImageButtonNode( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon.png" ), 40 ) ), phetText );
+            logo = new HBox( new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-gray.png" ), 45 ) ) {{
+                addInputEventListener( new PBasicInputEventHandler() {
+                    @Override public void mousePressed( PInputEvent event ) {
+                        homeButtonListener.run();
+                    }
+                } );
+            }}, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-gray.png" ), 45 ) ), phetText );
             phetText.addInputEventListener( new CursorHandler() );
             phetText.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
             phetText.addInputEventListener( new PBasicInputEventHandler() {
@@ -689,17 +693,11 @@ public class PhetTabbedPane extends JPanel {
             setOpaque( false );
 
             getLayer().addChild( logo );
-            homeIcon = new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-icon.png" ), 48 ) ) {{
-                setOffset( 1, 1 );
-                addInputEventListener( new PBasicInputEventHandler() {
-                    @Override public void mousePressed( PInputEvent event ) {
-                        homeButtonListener.run();
-                    }
-                } );
-            }};
-            getLayer().addChild( homeIcon );
+
+//            getLayer().addChild( homeIcon );
             tabLabel = new PhetPText( "Tug of War", labelFont, Color.white ) {{
 //                setOffset( homeIcon.getFullBounds().getMaxX() + 5, 0 );
+                setVisible( false );
             }};
             getLayer().addChild( tabLabel );
 //            getLayer().addChild( tabBase );
@@ -755,7 +753,7 @@ public class PhetTabbedPane extends JPanel {
             }
             tabBase.updatePaint();
 
-            homeIcon.setOffset( initTaxX - homeIcon.getFullBounds().getWidth() - 60, 4 );
+//            homeIcon.setOffset( initTaxX - homeIcon.getFullBounds().getWidth() - 60, 4 );
         }
 
         private void relayoutLogo( double tabBaseY ) {
