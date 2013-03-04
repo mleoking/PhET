@@ -1,3 +1,4 @@
+# 1.02.12 (72410) Mar 4, 2013
 Increased font for popup menu
 # 1.02.11 (72408) Mar 4, 2013
 Made the menu button larger on the homescreen, and better aligned with PhET text
