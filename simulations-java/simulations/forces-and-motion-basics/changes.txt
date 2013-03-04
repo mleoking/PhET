@@ -1,3 +1,4 @@
+Clamp max acceleration to 500N when dragging the pusher figure
 # 1.02.07 (72394) Mar 4, 2013
 Made the pusher draggable
 In the tab bar with thumbnails, increased the left padding of the tab name from 10px to 15px
