@@ -156,8 +156,9 @@ class AppliedForceSliderControl extends PNode {
                 }
             } );
         }};
-        VBox box = new VBox( -3, new EnablePhetPText( Strings.APPLIED_FORCE, DEFAULT_FONT, enabled ),
+        VBox box = new VBox( -20, new EnablePhetPText( Strings.APPLIED_FORCE, DEFAULT_FONT, enabled ),
                              sliderNode,
+                             new PhetPPath( new Rectangle2D.Double( 0, 0, 10, 40 ), new Color( 0, 0, 0, 0 ) ),
                              new HBox( new PhetPText( unitsString, DEFAULT_FONT ) {{
                                  setTransparency( 0.0f );
                              }},

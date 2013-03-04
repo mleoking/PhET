@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.*;
@@ -19,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -189,7 +189,11 @@ public class KnobNode extends PNode {
         }};
 
         //Expand the hit area for the slider
-        final PhetPPath hitArea = new PhetPPath( RectangleUtils.expand( background.getPathBoundsWithStroke(), 20, 20 ), new Color( 0, 0, 0, 0 ) );
+//        final PhetPPath hitArea = new PhetPPath( RectangleUtils.expand( , 20, 20 ), new Color( 0, 0, 0, 0 ) );
+        Rectangle2D b = background.getPathBoundsWithStroke();
+        double dw = 30;
+        double dh = 20;
+        final PhetPPath hitArea = new PhetPPath( new Rectangle2D.Double( b.getX() - dw, b.getY() - dh, b.getWidth() + dw * 2, b.getHeight() + dh * 2 ), new Color( 0, 0, 0, 128 ) );
         addChild( hitArea );
         addChild( background );
 

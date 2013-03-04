@@ -1,3 +1,4 @@
+Fixed the slider title layout while keeping a large hit area for the knob
 Made tab bar black for text tabs
 Wired up the slider to pusher drags
 Clamp max acceleration to 500N when dragging the pusher figure
