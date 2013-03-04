@@ -64,7 +64,7 @@ public class PhetTabbedPane extends JPanel {
 
     /* Default property values */
     public static final Font DEFAULT_TAB_FONT = new PhetFont( 24, true /* bold */ );
-    public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 240, 240, 240 );
+    public static final Color DEFAULT_BACKGROUND_COLOR = Color.black;
     public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 177, 179, 181 );
     public static final Color DEFAULT_UNSELECTED_TAB_COLOR = new Color( 156, 158, 161 );
     public static final Color DEFAULT_SELECTED_TEXT_COLOR = new Color( 255, 249, 175 );
@@ -82,7 +82,7 @@ public class PhetTabbedPane extends JPanel {
      */
     public PhetTabbedPane() {
         super( new BorderLayout() );
-        setBackground( new Color( 60, 60, 62 ) );
+        setBackground( DEFAULT_BACKGROUND_COLOR );
 
         this.tabFont = DEFAULT_TAB_FONT;
         this.selectedTabColor = DEFAULT_SELECTED_TAB_COLOR;

@@ -1,3 +1,4 @@
+Made tab bar black for text tabs
 Wired up the slider to pusher drags
 Clamp max acceleration to 500N when dragging the pusher figure
 # 1.02.07 (72394) Mar 4, 2013
