@@ -1,3 +1,5 @@
+Made the menu button larger on the homescreen, and better aligned with PhET text
+Moved the home button to the right, away from the tab thumbnails
 # 1.02.10 (72406) Mar 4, 2013
 Switched to buttonless home/menu buttons
 # 1.02.09 (72404) Mar 4, 2013
