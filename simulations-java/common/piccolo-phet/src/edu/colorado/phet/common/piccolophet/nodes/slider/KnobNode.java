@@ -193,7 +193,7 @@ public class KnobNode extends PNode {
         Rectangle2D b = background.getPathBoundsWithStroke();
         double dw = 30;
         double dh = 20;
-        final PhetPPath hitArea = new PhetPPath( new Rectangle2D.Double( b.getX() - dw, b.getY() - dh, b.getWidth() + dw * 2, b.getHeight() + dh * 2 ), new Color( 0, 0, 0, 128 ) );
+        final PhetPPath hitArea = new PhetPPath( new Rectangle2D.Double( b.getX() - dw, b.getY() - dh, b.getWidth() + dw * 2, b.getHeight() + dh * 2 ), new Color( 0, 0, 0, 0 ) );
         addChild( hitArea );
         addChild( background );
 
