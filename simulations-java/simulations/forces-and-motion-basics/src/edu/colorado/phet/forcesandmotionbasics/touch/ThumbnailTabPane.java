@@ -685,16 +685,20 @@ public class ThumbnailTabPane extends JPanel {
         private boolean logoVisible = true;
         PhetFont labelFont = new PhetFont( 40, true );
         private final PhetPText tabLabel;
+        private final PImage homeButton;
 
         public TabPane( Color selectedTabColor, Color unselectedTabColor ) {
             PhetPText phetText = new PhetPText( "PhET", labelFont, Color.yellow );
-            logo = new HBox( new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-gray.png" ), 45 ) ) {{
+
+            homeButton = new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-icon-blue.png" ), 60 ) ) {{
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         homeButtonListener.run();
                     }
                 } );
-            }}, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-gray.png" ), 45 ) ), phetText );
+            }};
+            getLayer().addChild( homeButton );
+            logo = new HBox( phetText, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon-blue.png" ), 60 ) ) );
             phetText.addInputEventListener( new CursorHandler() );
             phetText.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
             phetText.addInputEventListener( new PBasicInputEventHandler() {
@@ -768,7 +772,7 @@ public class ThumbnailTabPane extends JPanel {
             }
             tabBase.updatePaint();
 
-//            homeIcon.setOffset( initTaxX - homeIcon.getFullBounds().getWidth() - 60, 4 );
+            homeButton.setOffset( x, 4 );
         }
 
         private void relayoutLogo( double tabBaseY ) {
