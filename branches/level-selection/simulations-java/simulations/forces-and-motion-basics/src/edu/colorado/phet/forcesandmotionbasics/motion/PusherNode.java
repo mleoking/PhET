@@ -141,6 +141,10 @@ class PusherNode extends PNode {
                     }
                 }
             }
+
+            @Override public void mouseReleased( PInputEvent event ) {
+                appliedForce.set( 0.0 );
+            }
         } );
     }
 

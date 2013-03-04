@@ -1,3 +1,4 @@
+Set the force to zero when releasing mouse on pusher
 Fixed the slider title layout while keeping a large hit area for the knob
 Made tab bar black for text tabs
 Wired up the slider to pusher drags
