@@ -64,8 +64,8 @@ public class ThumbnailTabPane extends JPanel {
     public static final String IMAGE_PHET_LOGO = LogoPanel.IMAGE_PHET_LOGO;
 
     /* Default property values */
-    public static final Font DEFAULT_TAB_FONT = new PhetFont( 99, true /* bold */ );
-    public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 240, 240, 240 );
+    public static final Font DEFAULT_TAB_FONT = new PhetFont( 24, true /* bold */ );
+    public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 2, 2, 2 );
     public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 177, 179, 181 );
     public static final Color DEFAULT_UNSELECTED_TAB_COLOR = new Color( 156, 158, 161 );
     public static final Color DEFAULT_SELECTED_TEXT_COLOR = new Color( 255, 249, 175 );
@@ -83,7 +83,7 @@ public class ThumbnailTabPane extends JPanel {
      */
     public ThumbnailTabPane() {
         super( new BorderLayout() );
-        setBackground( new Color( 60, 60, 62 ) );
+        setBackground( DEFAULT_BACKGROUND_COLOR );
 
         this.tabFont = DEFAULT_TAB_FONT;
         this.selectedTabColor = DEFAULT_SELECTED_TAB_COLOR;
@@ -697,8 +697,8 @@ public class ThumbnailTabPane extends JPanel {
 
 //            getLayer().addChild( homeIcon );
             tabLabel = new PhetPText( "Tug of War", labelFont, Color.white ) {{
-//                setOffset( homeIcon.getFullBounds().getMaxX() + 5, 0 );
-                setVisible( false );
+                setOffset( 10, 3 );
+//                setVisible( false );
             }};
             getLayer().addChild( tabLabel );
 //            getLayer().addChild( tabBase );
