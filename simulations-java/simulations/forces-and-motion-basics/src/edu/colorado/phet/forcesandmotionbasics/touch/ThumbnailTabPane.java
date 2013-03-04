@@ -34,6 +34,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -443,6 +444,8 @@ public class ThumbnailTabPane extends JPanel {
         private boolean textIsCentered = true;
 
         private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );/* Insets for the text in the tab.*/
+        private final PImage iconNode;
+        private final PImage frameNode;
 
         public AbstractTabNode( IUserComponent userComponent, String text, JComponent component, Color selectedTabColor, Color unselectedTabColor, Color selectedTextColor, Color unselectedTextColor, Font tabFont ) {
             this.userComponent = userComponent;
@@ -459,9 +462,18 @@ public class ThumbnailTabPane extends JPanel {
             outlineNode = new PPath( createTabTopBorder( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
             background = new PhetPPath( createTabShape( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
             background.setStroke( null );
-            addChild( background );
-            addChild( textNode );
-            addChild( outlineNode );
+//            addChild( background );
+//            addChild( textNode );
+//            addChild( outlineNode );
+            frameNode = new PImage( BufferedImageUtils.multiScaleToHeight( ForcesAndMotionBasicsResources.Images.SCREENSHOT_FRAME, 58 ) );
+            iconNode = new PImage( BufferedImageUtils.multiScaleToHeight( text.equals( "Tug of War" ) ? ForcesAndMotionBasicsResources.Images.TUG_ICON :
+                                                                          text.equals( "Motion" ) ? ForcesAndMotionBasicsResources.Images.MOTION_ICON :
+                                                                          text.equals( "Friction" ) ? ForcesAndMotionBasicsResources.Images.FRICTION_ICON :
+                                                                          ForcesAndMotionBasicsResources.Images.ACCELERATION_ICON, 50 ) ) {{
+                setOffset( 3, 3 );
+            }};
+            addChild( frameNode );
+            addChild( iconNode );
         }
 
         protected Color getSelectedTextColor() {
@@ -544,6 +556,8 @@ public class ThumbnailTabPane extends JPanel {
             background.setPaint( getBackgroundPaint() );
             background.setStrokePaint( getBorderStrokePaint() );
             updateTextNode();
+            iconNode.setTransparency( isSelected() ? 1.0f : 0.4f );
+            frameNode.setVisible( isSelected() );
         }
 
         private Paint getBorderStrokePaint() {
@@ -782,7 +796,7 @@ public class ThumbnailTabPane extends JPanel {
 
         public Dimension getPreferredSize() {
             relayout();
-            int h = 50;//44px high recommended by apple for being a touchable button
+            int h = 55;//44px high recommended by apple for being a touchable button
             int width = (int) getLayer().getFullBounds().getWidth();
             width = Math.max( width, super.getPreferredSize().width );
             return new Dimension( width, (int) ( h + tabBase.getFullBounds().getHeight() ) );
