@@ -1,3 +1,4 @@
+Made the applied force knob hit area larger (which changed the controls layout a little bit)
 Made the PhET Logo non-clickable and added "PhET Homepage" to the popup menu 
 # 1.02.06 (72389) Mar 4, 2013
 # 1.02.05 (72381) Mar 3, 2013

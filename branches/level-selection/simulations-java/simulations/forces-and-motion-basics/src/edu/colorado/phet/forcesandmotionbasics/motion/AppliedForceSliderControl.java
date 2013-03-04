@@ -3,8 +3,7 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import fj.data.List;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -13,7 +12,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -43,7 +42,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.DEFAULT_TRACK_THICKNESS;
 import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.DEFAULT_FONT;
-import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.LEFT_SPEED_EXCEEDED;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.RIGHT_SPEED_EXCEEDED;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.WITHIN_ALLOWED_RANGE;
 
 /**
  * Set of controls (featuring a slider) used to view and set the applied force.  If the user releases the knob, the force should go back to zero.
@@ -148,7 +149,7 @@ class AppliedForceSliderControl extends PNode {
                 }
             } );
         }};
-        VBox box = new VBox( 5, new EnablePhetPText( Strings.APPLIED_FORCE, DEFAULT_FONT, enabled ),
+        VBox box = new VBox( -3, new EnablePhetPText( Strings.APPLIED_FORCE, DEFAULT_FONT, enabled ),
                              sliderNode,
                              new HBox( new PhetPText( unitsString, DEFAULT_FONT ) {{
                                  setTransparency( 0.0f );
@@ -191,7 +192,7 @@ class AppliedForceSliderControl extends PNode {
                                                    appliedForce.set( value );
                                                    appliedForceSliderModel.set( appliedForce.get() );
                                                }
-                                               catch ( ParseException e1 ) {
+                                               catch( ParseException e1 ) {
                                                    setText( format.format( appliedForce.get() ) );
                                                }
                                            }

@@ -1,16 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.slider;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.GradientPaint;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -22,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -189,6 +187,10 @@ public class KnobNode extends PNode {
                 }
             }.observe( enabled, focused );
         }};
+
+        //Expand the hit area for the slider
+        final PhetPPath hitArea = new PhetPPath( RectangleUtils.expand( background.getPathBoundsWithStroke(), 20, 20 ), new Color( 0, 0, 0, 0 ) );
+        addChild( hitArea );
         addChild( background );
 
         /*---------------------------------------------------------------------------*
