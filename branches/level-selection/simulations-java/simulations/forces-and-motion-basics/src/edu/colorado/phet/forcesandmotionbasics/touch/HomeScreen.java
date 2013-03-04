@@ -46,7 +46,7 @@ public class HomeScreen extends AbstractForcesAndMotionBasicsCanvas {
         }} );
         addScreenChild( new HBox( -3, new PhetPText( "PhET ", new Font( "Trebuchet MS", Font.BOLD, 26 ), Color.yellow ),
                                   new VBox( 4, new PhetPPath( new Rectangle( 1, 1 ), new Color( 0, 0, 0, 0 ) ),
-                                            new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon-blue.png" ), 33 ) ) {{
+                                            new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-gray.png" ), 33 ) ) {{
                                                 addInputEventListener( new PBasicInputEventHandler() {
                                                     @Override public void mousePressed( PInputEvent event ) {
                                                         PhetTabbedPane.showMenuPopup( HomeScreen.this, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
