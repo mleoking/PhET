@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -43,7 +44,15 @@ public class HomeScreen extends AbstractForcesAndMotionBasicsCanvas {
                 centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, 400 );
             }} );
         }} );
-        addScreenChild( new HBox( -3, new PhetPText( "PhET ", new Font( "Trebuchet MS", Font.BOLD, 26 ), Color.yellow ), new VBox( 4, new PhetPPath( new Rectangle( 1, 1 ), new Color( 0, 0, 0, 0 ) ), new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon-blue.png" ), 33 ) ) {{}} ) ) {{
+        addScreenChild( new HBox( -3, new PhetPText( "PhET ", new Font( "Trebuchet MS", Font.BOLD, 26 ), Color.yellow ),
+                                  new VBox( 4, new PhetPPath( new Rectangle( 1, 1 ), new Color( 0, 0, 0, 0 ) ),
+                                            new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon-blue.png" ), 33 ) ) {{
+                                                addInputEventListener( new PBasicInputEventHandler() {
+                                                    @Override public void mousePressed( PInputEvent event ) {
+                                                        PhetTabbedPane.showMenuPopup( HomeScreen.this, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
+                                                    }
+                                                } );
+                                            }} ) ) {{
             scale( 2 );
             setOffset( 10, 10 );
         }} );

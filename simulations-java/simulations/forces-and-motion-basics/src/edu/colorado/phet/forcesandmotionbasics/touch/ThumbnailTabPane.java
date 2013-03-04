@@ -28,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -698,7 +699,13 @@ public class ThumbnailTabPane extends JPanel {
                 } );
             }};
             getLayer().addChild( homeButton );
-            logo = new HBox( phetText, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon-blue.png" ), 60 ) ) );
+            logo = new HBox( phetText, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon-blue.png" ), 60 ) ) {{
+                addInputEventListener( new PBasicInputEventHandler() {
+                    @Override public void mousePressed( PInputEvent event ) {
+                        PhetTabbedPane.showMenuPopup( TabPane.this, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
+                    }
+                } );
+            }} );
             phetText.addInputEventListener( new CursorHandler() );
             phetText.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
             phetText.addInputEventListener( new PBasicInputEventHandler() {
