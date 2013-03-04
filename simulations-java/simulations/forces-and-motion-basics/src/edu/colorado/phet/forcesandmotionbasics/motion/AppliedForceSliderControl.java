@@ -84,6 +84,13 @@ class AppliedForceSliderControl extends PNode {
                         set( get() );
                     }
                 } );
+
+                //Wire up the slider to pusher drags
+                appliedForce.addObserver( new VoidFunction1<Double>() {
+                    public void apply( Double aDouble ) {
+                        set( get() );
+                    }
+                } );
             }
         };
 
