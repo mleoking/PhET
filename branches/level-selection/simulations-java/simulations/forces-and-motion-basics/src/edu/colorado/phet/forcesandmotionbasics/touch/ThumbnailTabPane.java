@@ -719,7 +719,7 @@ public class ThumbnailTabPane extends JPanel {
 
 //            getLayer().addChild( homeIcon );
             tabLabel = new PhetPText( "Tug of War", labelFont, Color.white ) {{
-                setOffset( 10, 3 );
+                setOffset( 15, 3 );
 //                setVisible( false );
             }};
             getLayer().addChild( tabLabel );
