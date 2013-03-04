@@ -30,8 +30,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -689,13 +687,13 @@ public class PhetTabbedPane extends JPanel {
                 } );
             }}, phetText
             );
-            phetText.addInputEventListener( new CursorHandler() );
-            phetText.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
-            phetText.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    PhetServiceManager.showPhetPage();
-                }
-            } );
+//            phetText.addInputEventListener( new CursorHandler() );
+//            phetText.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
+//            phetText.addInputEventListener( new PBasicInputEventHandler() {
+//                public void mousePressed( PInputEvent event ) {
+//                    PhetServiceManager.showPhetPage();
+//                }
+//            } );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
             setZoomEventHandler( null );
@@ -930,6 +928,14 @@ public class PhetTabbedPane extends JPanel {
 
     public static void showMenuPopup( Component c, int x, int y ) {
         JPopupMenu menu = new JPopupMenu() {{
+            add( new JMenuItem( "PhET Homepage" ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        PhetServiceManager.showPhetPage();
+                    }
+                } );
+            }} );
+            addSeparator();
             add( new JMenuItem( "Exit" ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
