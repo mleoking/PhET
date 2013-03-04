@@ -1,3 +1,4 @@
+# 1.02.10 (72406) Mar 4, 2013
 Switched to buttonless home/menu buttons
 # 1.02.09 (72404) Mar 4, 2013
 Make non-selected tab thumbnails smaller
