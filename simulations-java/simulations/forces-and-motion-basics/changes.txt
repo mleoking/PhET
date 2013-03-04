@@ -1,3 +1,4 @@
+Made the pusher draggable
 In the tab bar with thumbnails, increased the left padding of the tab name from 10px to 15px
 Made the applied force knob hit area larger (which changed the controls layout a little bit)
 Made the PhET Logo non-clickable and added "PhET Homepage" to the popup menu 
