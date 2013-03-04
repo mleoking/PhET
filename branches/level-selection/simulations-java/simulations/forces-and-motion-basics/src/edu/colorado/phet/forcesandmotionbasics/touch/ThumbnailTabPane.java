@@ -779,7 +779,7 @@ public class ThumbnailTabPane extends JPanel {
             }
             tabBase.updatePaint();
 
-            homeButton.setOffset( x, 4 );
+            homeButton.setOffset( x + distBetweenTabs * 3, 4 );
         }
 
         private void relayoutLogo( double tabBaseY ) {
