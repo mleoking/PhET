@@ -6,10 +6,14 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.forcesandmotionbasics.motion.MotionModule;
@@ -28,8 +32,8 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
     private final Container modulePane;
     public static ForcesAndMotionBasicsApplication app;
 
-    public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
-        super( config );
+    public ForcesAndMotionBasicsApplication( PhetApplicationConfig config, ITabbedModulePane tabbedModulePanePiccolo ) {
+        super( config, tabbedModulePanePiccolo );
 
         JFrame frame = getPhetFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE ); // Already there
@@ -67,7 +71,11 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, ForcesAndMotionBasicsResources.PROJECT_NAME, ForcesAndMotionBasicsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, ForcesAndMotionBasicsResources.PROJECT_NAME, new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new ForcesAndMotionBasicsApplication( config, new TabbedModulePanePiccolo() );
+            }
+        } );
     }
 
     public void showModule( int i ) {
