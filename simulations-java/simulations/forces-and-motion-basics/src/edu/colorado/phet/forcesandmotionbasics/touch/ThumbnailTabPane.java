@@ -688,7 +688,7 @@ public class ThumbnailTabPane extends JPanel {
         public TabPane( Color selectedTabColor, Color unselectedTabColor ) {
             PhetPText phetText = new PhetPText( "PhET", labelFont, Color.yellow );
 
-            homeButton = new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-icon-blue.png" ), 60 ) ) {{
+            homeButton = new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-gray.png" ), 50 ) ) {{
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         homeButtonListener.run();
@@ -696,7 +696,7 @@ public class ThumbnailTabPane extends JPanel {
                 } );
             }};
             getLayer().addChild( homeButton );
-            logo = new HBox( phetText, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-icon-blue.png" ), 60 ) ) {{
+            logo = new HBox( phetText, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-gray.png" ), 60 ) ) {{
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         PhetTabbedPane.showMenuPopup( TabPane.this, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
