@@ -928,7 +928,9 @@ public class PhetTabbedPane extends JPanel {
 
     public static void showMenuPopup( Component c, int x, int y ) {
         JPopupMenu menu = new JPopupMenu() {{
+            final PhetFont font = new PhetFont( 32, true );
             add( new JMenuItem( "PhET Homepage" ) {{
+                setFont( font );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         PhetServiceManager.showPhetPage();
@@ -937,6 +939,7 @@ public class PhetTabbedPane extends JPanel {
             }} );
             addSeparator();
             add( new JMenuItem( "Exit" ) {{
+                setFont( font );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         System.exit( 0 );
