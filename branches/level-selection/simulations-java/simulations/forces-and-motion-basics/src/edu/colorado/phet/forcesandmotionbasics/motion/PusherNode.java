@@ -3,6 +3,7 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import fj.data.List;
 
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -11,13 +12,18 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.PUSHER_STRAIGHT_ON;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.RESOURCES;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.RIGHT_SPEED_EXCEEDED;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.WITHIN_ALLOWED_RANGE;
 import static java.lang.Math.round;
 
 /**
@@ -105,6 +111,35 @@ class PusherNode extends PNode {
         speedValue.addObserver( update );
         fallen.addObserver( update );
         playing.addObserver( update );
+
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public Point2D touchPoint = null;
+
+            @Override public void mousePressed( PInputEvent event ) {
+                touchPoint = event.getPositionRelativeTo( PusherNode.this.getParent() );
+            }
+
+            @Override public void mouseDragged( PInputEvent event ) {
+                if ( touchPoint == null ) {
+                    mousePressed( event );
+                }
+                Point2D currentPoint = event.getPositionRelativeTo( PusherNode.this.getParent() );
+                double dx = currentPoint.getX() - touchPoint.getX();
+                double force = dx * 1.2;
+                //make sure there is something in the stack and that it is not exceeding max speed
+                if ( stack.get().length() > 0 ) {
+                    double value = force;
+                    if ( speedValue.get() == WITHIN_ALLOWED_RANGE ) {
+                        appliedForce.set( value );
+                    }
+                    else if ( speedValue.get() == RIGHT_SPEED_EXCEEDED ) {
+                        appliedForce.set( MathUtil.clamp( -AppliedForceSliderControl.MAX_APPLIED_FORCE, value, 0 ) );
+                    }
+                    else { appliedForce.set( MathUtil.clamp( 0, value, AppliedForceSliderControl.MAX_APPLIED_FORCE ) ); }
+                }
+            }
+        } );
     }
 
     private int getImageIndex( final Double appliedForce ) {
