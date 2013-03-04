@@ -18,6 +18,7 @@ import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.St
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.forcesandmotionbasics.motion.MotionModule;
 import edu.colorado.phet.forcesandmotionbasics.touch.HomeScreen;
+import edu.colorado.phet.forcesandmotionbasics.touch.ThumbnailTabPane;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarModule;
 
 /**
@@ -60,7 +61,7 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
                 return false;  //To change body of implemented methods use File | Settings | File Templates.
             }
         } );
-        PhetTabbedPane.homeButtonListener = new Runnable() {
+        Runnable listener = new Runnable() {
             public void run() {
                 getPhetFrame().setContentPane( new HomeScreen( ForcesAndMotionBasicsApplication.this ) );
                 //http://stackoverflow.com/questions/6010915/change-contentpane-of-frame-after-button-clicked
@@ -68,6 +69,8 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
                 getPhetFrame().repaint();
             }
         };
+        PhetTabbedPane.homeButtonListener = listener;
+        ThumbnailTabPane.homeButtonListener = listener;
     }
 
     public static void main( String[] args ) {
