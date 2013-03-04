@@ -3,6 +3,8 @@
 package edu.colorado.phet.common.piccolophet;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.RoundRectangle2D;
@@ -679,7 +681,14 @@ public class PhetTabbedPane extends JPanel {
                         homeButtonListener.run();
                     }
                 } );
-            }}, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-gray.png" ), 45 ) ), phetText );
+            }}, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-gray.png" ), 45 ) ) {{
+                addInputEventListener( new PBasicInputEventHandler() {
+                    @Override public void mousePressed( PInputEvent event ) {
+                        PhetTabbedPane.showMenuPopup( TabPane.this, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
+                    }
+                } );
+            }}, phetText
+            );
             phetText.addInputEventListener( new CursorHandler() );
             phetText.addInputEventListener( new ToolTipHandler( PhetCommonResources.getInstance().getLocalizedString( "Common.About.WebLink" ), this ) );
             phetText.addInputEventListener( new PBasicInputEventHandler() {
@@ -917,7 +926,19 @@ public class PhetTabbedPane extends JPanel {
         private void updateLogoVisible() {
             logo.setVisible( logoVisible && !logoObscured );
         }
+    }
 
+    public static void showMenuPopup( Component c, int x, int y ) {
+        JPopupMenu menu = new JPopupMenu() {{
+            add( new JMenuItem( "Exit" ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        System.exit( 0 );
+                    }
+                } );
+            }} );
+        }};
+        menu.show( c, x, y );
     }
 
     /**
