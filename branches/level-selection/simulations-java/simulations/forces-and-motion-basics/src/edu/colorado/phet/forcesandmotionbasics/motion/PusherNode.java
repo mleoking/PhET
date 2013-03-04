@@ -131,12 +131,14 @@ class PusherNode extends PNode {
                 if ( stack.get().length() > 0 ) {
                     double value = force;
                     if ( speedValue.get() == WITHIN_ALLOWED_RANGE ) {
-                        appliedForce.set( value );
+                        appliedForce.set( MathUtil.clamp( -AppliedForceSliderControl.MAX_APPLIED_FORCE, value, AppliedForceSliderControl.MAX_APPLIED_FORCE ) );
                     }
                     else if ( speedValue.get() == RIGHT_SPEED_EXCEEDED ) {
                         appliedForce.set( MathUtil.clamp( -AppliedForceSliderControl.MAX_APPLIED_FORCE, value, 0 ) );
                     }
-                    else { appliedForce.set( MathUtil.clamp( 0, value, AppliedForceSliderControl.MAX_APPLIED_FORCE ) ); }
+                    else {
+                        appliedForce.set( MathUtil.clamp( 0, value, AppliedForceSliderControl.MAX_APPLIED_FORCE ) );
+                    }
                 }
             }
         } );
