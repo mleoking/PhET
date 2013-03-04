@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 
 /**
  * PiccoloPhetApplication
@@ -25,10 +26,10 @@ public class PiccoloPhetApplication extends PhetApplication {
         this( config, new TabbedModulePanePiccolo() );
     }
 
-    public PiccoloPhetApplication( PhetApplicationConfig config, TabbedModulePanePiccolo tabbedModulePane ) {
+    public PiccoloPhetApplication( PhetApplicationConfig config, ITabbedModulePane tabbedModulePane ) {
         super( config, tabbedModulePane );
 
         // Add Piccolo-specific items to the developer menu
-        getPhetFrame().getDeveloperMenu().add( new TabbedPanePropertiesMenuItem( getPhetFrame(), tabbedModulePane ) );
+//        getPhetFrame().getDeveloperMenu().add( new TabbedPanePropertiesMenuItem( getPhetFrame(), tabbedModulePane ) );
     }
 }
