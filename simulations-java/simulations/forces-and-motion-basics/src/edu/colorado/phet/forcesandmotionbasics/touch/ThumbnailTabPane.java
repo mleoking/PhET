@@ -766,6 +766,9 @@ public class ThumbnailTabPane extends JPanel {
                 AbstractTabNode tabNode = (AbstractTabNode) tabs.get( i );
                 tabNode.setOffset( x, tabTopInset );
                 tabNode.setTabTextHeight( maxTabTextHeight );
+
+                //make non-selected tab thumbnails smaller
+                tabNode.setScale( tabNode.isSelected() ? 1.0 : 0.9 );
                 x += tabNode.getFullBounds().getWidth() + distBetweenTabs;
             }
             double tabBaseY = getHeight() - tabBase.getFullBounds().getHeight();
