@@ -1,11 +1,14 @@
 
 2nd tab: Allow water temp to reach boiling on thermometer (2nd highest tick).
-Fix: Reset on 2nd tab should eliminate the steam right away (if it's steaming).
+Fix: Reset on 2nd tab should eliminate the steam right away (if the beaker is steaming).
+Make E's not cluster in the wires leading from solar panel.
+Make E's not cluster in the output (spout) of the tea pot.
+Fix: Jittery E's in beaker
+
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
 Fix: Long reset time.
-Fix: Jittery E's in beaker
 
 Fix issues with "systems", i.e. stacks of blocks and so forth.
 E's continue into bucket, i.e. don't turn around.
@@ -15,8 +18,6 @@ From Ariel: There is a bit of odd behavior of energy chunks if the water is cool
 
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 
-Make E's not cluster in the wires leading from solar panel.
-Make E's not cluster in the output (spout) of the tea pot.
 
 Profile, have Chris test on Mac
 
