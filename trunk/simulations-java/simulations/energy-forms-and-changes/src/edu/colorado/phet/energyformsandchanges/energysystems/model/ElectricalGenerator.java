@@ -225,6 +225,7 @@ public class ElectricalGenerator extends EnergyConverter {
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();
         electricalEnergyChunks.clear();
+        hiddenEnergyChunks.clear();
         energyChunkMovers.clear();
     }
 
