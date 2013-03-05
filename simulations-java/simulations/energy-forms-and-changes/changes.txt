@@ -1,3 +1,4 @@
+Fixed issue where the "hidden" energy chunks were not being removed from generator on deactivation or reset.
 Fixed issue where reset on 2nd tab wasn't clearing steam from beaker.
 Fixed an issue where the beaker on the 2nd tab was unable to make it all the way to the boiling point.
 Changed the background colors to be consistent on both tabs.
