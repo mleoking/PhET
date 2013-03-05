@@ -40,7 +40,7 @@ public class TeaPot extends EnergySource {
     private static final Vector2D SPOUT_BOTTOM_OFFSET = new Vector2D( 0.03, 0.02 );
     private static final Vector2D SPOUT_TIP_OFFSET = new Vector2D( 0.25, 0.3 );
     private static final Vector2D DISTANT_TARGET_OFFSET = new Vector2D( 1, 1 );
-    private static final double THERMAL_ENERGY_CHUNK_TRAVEL_DISTANCE = 0.05; // In meters.
+    private static final double WATER_SURFACE_HEIGHT_OFFSET = 0; // From teapot position, in meters.
     private static final double THERMAL_ENERGY_CHUNK_Y_ORIGIN = -0.05; // In meters, must be coordinated with heater position.
     private static final DoubleRange THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE = new DoubleRange( -0.015, 0.015 ); // In meters, must be coordinated with heater position.
 
@@ -51,6 +51,7 @@ public class TeaPot extends EnergySource {
     public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 100; // In joules, but empirically determined.
     private static final DoubleRange ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE = new DoubleRange( 0.12, 0.15 );
     private static final Random RAND = new Random();
+    private static final double ENERGY_CHUNK_WATER_TO_SPOUT_TIME = 0.7; // Used to keep chunks evenly spaced.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -109,26 +110,34 @@ public class TeaPot extends EnergySource {
                 EnergyChunk energyChunk = new EnergyChunk( EnergyType.THERMAL, initialPosition, energyChunksVisible );
                 energyChunkList.add( energyChunk );
                 heatEnergyProducedSinceLastChunk -= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT;
-                energyChunkMovers.add( new EnergyChunkPathMover( energyChunk, createThermalEnergyChunkPath( initialPosition ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                 createThermalEnergyChunkPath( initialPosition, getPosition() ),
+                                                                 EFACConstants.ENERGY_CHUNK_VELOCITY ) );
             }
 
             // Move all energy chunks that are under this element's control.
-            Rectangle2D teapotBounds = new Rectangle2D.Double( getPosition().getX() + TEAPOT_OFFSET.getX() - TEAPOT_IMAGE.getWidth() / 2,
-                                                               getPosition().getY() + TEAPOT_OFFSET.getY() - TEAPOT_IMAGE.getHeight() / 2,
-                                                               TEAPOT_IMAGE.getWidth(),
-                                                               TEAPOT_IMAGE.getHeight() );
             for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
                 energyChunkMover.moveAlongPath( dt );
                 EnergyChunk energyChunk = energyChunkMover.energyChunk;
                 if ( energyChunkMover.isPathFullyTraversed() ) {
                     energyChunkMovers.remove( energyChunkMover );
-                    if ( teapotBounds.contains( energyChunkMover.energyChunk.position.get().toPoint2D() ) ) {
+                    if ( energyChunk.position.get().getY() == getPosition().getY() + WATER_SURFACE_HEIGHT_OFFSET ) {
+                        // This is a thermal chunk that is coming out of the water.
                         if ( RAND.nextDouble() > 0.2 ) {
                             // Turn the chunk into mechanical energy.
                             energyChunk.energyType.set( EnergyType.MECHANICAL );
                         }
-                        // Set this chunk on a path out of the tea pot.
-                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk, createMechanicalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        // Set this chunk on a path to the base of the spout.
+                        double travelDistance = energyChunk.position.get().distance( getPosition().plus( SPOUT_BOTTOM_OFFSET ) );
+                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                         createPathToSpoutBottom( getPosition() ),
+                                                                         travelDistance / ENERGY_CHUNK_WATER_TO_SPOUT_TIME ) );
+                    }
+                    else if ( energyChunk.position.get().equals( getPosition().plus( SPOUT_BOTTOM_OFFSET ) )){
+                        // The chunk is moving out of the spout.
+                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                         createSpoutExitPath( getPosition() ),
+                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
                         // This chunk is out of view, and we are done with it.
@@ -166,15 +175,28 @@ public class TeaPot extends EnergySource {
         return new Energy( EnergyType.MECHANICAL, energyProductionRate.get() * dt, Math.PI / 2 );
     }
 
-    private static List<Vector2D> createThermalEnergyChunkPath( final Vector2D startPosition ) {
+    private static List<Vector2D> createThermalEnergyChunkPath( final Vector2D startPosition, final Vector2D teapotPosition ) {
         return new ArrayList<Vector2D>() {{
-            add( startPosition.plus( 0, THERMAL_ENERGY_CHUNK_TRAVEL_DISTANCE ) );
+            add( new Vector2D( startPosition.getX(), teapotPosition.getY() + WATER_SURFACE_HEIGHT_OFFSET ) );
         }};
     }
 
     private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D parentElementPosition ) {
         return new ArrayList<Vector2D>() {{
             add( parentElementPosition.plus( SPOUT_BOTTOM_OFFSET ) );
+            add( parentElementPosition.plus( SPOUT_TIP_OFFSET ) );
+            add( parentElementPosition.plus( DISTANT_TARGET_OFFSET ) );
+        }};
+    }
+
+    private static List<Vector2D> createPathToSpoutBottom( final Vector2D parentElementPosition ) {
+        return new ArrayList<Vector2D>() {{
+            add( parentElementPosition.plus( SPOUT_BOTTOM_OFFSET ) );
+        }};
+    }
+
+    private static List<Vector2D> createSpoutExitPath( final Vector2D parentElementPosition ) {
+        return new ArrayList<Vector2D>() {{
             add( parentElementPosition.plus( SPOUT_TIP_OFFSET ) );
             add( parentElementPosition.plus( DISTANT_TARGET_OFFSET ) );
         }};
