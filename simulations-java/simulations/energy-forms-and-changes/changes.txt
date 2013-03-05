@@ -1,3 +1,4 @@
+Fixed issue where reset on 2nd tab wasn't clearing steam from beaker.
 Fixed an issue where the beaker on the 2nd tab was unable to make it all the way to the boiling point.
 Changed the background colors to be consistent on both tabs.
 Fixed an issue where energy chunks would appear to "thin out" at the surface of the water when boiling occurred.

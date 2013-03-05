@@ -1,5 +1,4 @@
 
-2nd tab: Allow water temp to reach boiling on thermometer (2nd highest tick).
 Fix: Reset on 2nd tab should eliminate the steam right away (if the beaker is steaming).
 Make E's not cluster in the wires leading from solar panel.
 Make E's not cluster in the output (spout) of the tea pot.
@@ -34,6 +33,7 @@ Fix flicker when E's are transferred between energy systems. (NP and JB aren't b
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
 
 ------------------- D O N E ------------------------------------------
+2nd tab: Allow water temp to reach boiling on thermometer (2nd highest tick).
 Prevent E's from getting thinned out on surface of water.
 Make E's come from water in random locations on the top, not always from center of top.
 Make it possible to measure temperature in the steam cloud, have temperature taper.
