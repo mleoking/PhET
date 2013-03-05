@@ -67,7 +67,7 @@ public class BeakerHeater extends EnergyUser {
     private static final Vector2D THERMOMETER_OFFSET = new Vector2D( 0.033, 0.035 );
     private static final double HEATING_ELEMENT_ENERGY_CHUNK_VELOCITY = 0.0075; // In meters/sec, quite slow.
     private static final double HEATER_ELEMENT_2D_HEIGHT = HEATER_ELEMENT_OFF_IMAGE.getHeight();
-    private static final double MAX_HEAT_GENERATION_RATE = 3000; // Joules/sec, not connected to incoming energy.
+    private static final double MAX_HEAT_GENERATION_RATE = 5000; // Joules/sec, not connected to incoming energy.
     private static final double RADIATED_ENERGY_CHUNK_TRAVEL_DISTANCE = 0.2; // In meters.
 
     //-------------------------------------------------------------------------
@@ -184,18 +184,13 @@ public class BeakerHeater extends EnergyUser {
             // surrounding air.
             double temperatureGradient = beaker.getTemperature() - ROOM_TEMPERATURE;
             if ( Math.abs( temperatureGradient ) > EFACConstants.TEMPERATURES_EQUAL_THRESHOLD ) {
-                double halfwayPoint = ROOM_TEMPERATURE + ( BOILING_POINT_TEMPERATURE - ROOM_TEMPERATURE ) / 2;
-                double heatExchangeConstant = HeatTransferConstants.WATER_AIR_HEAT_TRANSFER_FACTOR.get();
-                if ( beaker.getTemperature() > halfwayPoint ) {
-                    // Prevent the beaker from ever reaching the boiling point
-                    // by asymptotically increasing the heat exchange rate as
-                    // the temperature approaches boiling.
-                    double adder = BOILING_POINT_TEMPERATURE * ( ( 1 / ( BOILING_POINT_TEMPERATURE - beaker.getTemperature() ) - ( 1 / ( BOILING_POINT_TEMPERATURE - halfwayPoint ) ) ) );
-                    heatExchangeConstant += adder;
-                }
                 double thermalContactArea = ( beaker.getRawOutlineRect().getWidth() * 2 ) + ( beaker.getRawOutlineRect().getHeight() * 2 ) * beaker.fluidLevel.get();
-                double thermalEnergyLost = temperatureGradient * heatExchangeConstant * thermalContactArea * dt;
+                double thermalEnergyLost = temperatureGradient * HeatTransferConstants.WATER_AIR_HEAT_TRANSFER_FACTOR.get() * thermalContactArea * dt;
                 beaker.changeEnergy( -thermalEnergyLost );
+                if ( beaker.getEnergyBeyondMaxTemperature() > 0 ){
+                    // Prevent the water from going beyond the boiling point.
+                    beaker.changeEnergy( -beaker.getEnergyBeyondMaxTemperature() );
+                }
             }
 
             if ( beaker.getEnergyChunkBalance() > 0 ) {
