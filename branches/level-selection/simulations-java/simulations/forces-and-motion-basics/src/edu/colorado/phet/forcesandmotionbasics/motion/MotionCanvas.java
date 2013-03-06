@@ -44,7 +44,6 @@ import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ModelComponents;
@@ -357,42 +356,42 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         addChild( skateboard );
 
-        final PlayPauseButton playPauseButton = new PlayPauseButton( 70 ) {{
-            addListener( new Listener() {
-                public void playbackStateChanged() {
-                    MotionCanvas.this.playbackStateChanged( isPlaying() );
-                }
-            } );
-        }};
-        HBox timeControls = new HBox( -3,
-
-
-//        new RewindButton( 60 ) {{
+//        final PlayPauseButton playPauseButton = new PlayPauseButton( 70 ) {{
 //            addListener( new Listener() {
-//                public void buttonPressed() {
-//                    rewind();
+//                public void playbackStateChanged() {
+//                    MotionCanvas.this.playbackStateChanged( isPlaying() );
 //                }
 //            } );
-//        }},
-
-                                      playPauseButton
-//                , new StepButton( 60 ) {{
-//            addListener( new Listener() {
-//                public void buttonPressed() {
-//                    step( typicalDT * 5 );
-//                }
-//            } );
+//        }};
+//        HBox timeControls = new HBox( -3,
 //
-//            //Only enable the step button when the sim is paused
-//            playing.addObserver( new VoidFunction1<Boolean>() {
-//                public void apply( final Boolean playing ) {
-//                    setEnabled( !playing );
-//                }
-//            } );
-//        }}
-        );
-        timeControls.setOffset( STAGE_SIZE.width / 2 - playPauseButton.getFullBounds().getWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
-        addChild( timeControls );
+//
+////        new RewindButton( 60 ) {{
+////            addListener( new Listener() {
+////                public void buttonPressed() {
+////                    rewind();
+////                }
+////            } );
+////        }},
+//
+//                                      playPauseButton
+////                , new StepButton( 60 ) {{
+////            addListener( new Listener() {
+////                public void buttonPressed() {
+////                    step( typicalDT * 5 );
+////                }
+////            } );
+////
+////            //Only enable the step button when the sim is paused
+////            playing.addObserver( new VoidFunction1<Boolean>() {
+////                public void apply( final Boolean playing ) {
+////                    setEnabled( !playing );
+////                }
+////            } );
+////        }}
+//        );
+//        timeControls.setOffset( STAGE_SIZE.width / 2 - playPauseButton.getFullBounds().getWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
+//        addChild( timeControls );
 
         fridge = new StackableNode( UserComponents.fridge, this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD, showMasses );
         StackableNode crate1 = new StackableNode( UserComponents.crate1, this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
