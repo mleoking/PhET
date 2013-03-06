@@ -36,7 +36,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PTransformActivity;
+import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -859,7 +859,7 @@ public class ThumbnailTabPane extends JPanel {
          *
          * @param tab
          */
-        public void setSelectedTab( AbstractTabNode tab ) {
+        public void setSelectedTab( final AbstractTabNode tab ) {
             this.selectedTab = tab;
             /*Ensure the tabs appear in the z-order in which they are listed.*/
             for ( int i = 0; i < getTabs().length; i++ ) {
@@ -879,14 +879,21 @@ public class ThumbnailTabPane extends JPanel {
             getLayer().addChild( tab );
 
             if ( !tabLabel.getText().equals( tab.getText() ) ) {
-                tabLabel.setText( tab.getText() );
-                tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3 );
-                PTransformActivity activity = tabLabel.animateToPositionScaleRotation( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3, 1.2, 0, 100 );
-                activity.setDelegate( new PActivityDelegateAdapter() {
-                    @Override public void activityFinished( PActivity activity ) {
-                        tabLabel.animateToPositionScaleRotation( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3, 1.0, 0, 100 );
-                    }
-                } );
+                if ( isShowing() ) {
+                    PInterpolatingActivity activity = tabLabel.animateToTransparency( 0, 100 );
+                    activity.setDelegate( new PActivityDelegateAdapter() {
+                        @Override public void activityFinished( PActivity activity ) {
+                            tabLabel.setText( tab.getText() );
+                            tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3 );
+                            tabLabel.animateToTransparency( 1, 200 );
+                        }
+                    } );
+                }
+                else {
+                    tabLabel.setText( tab.getText() );
+                    tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3 );
+                }
+
             }
         }
 

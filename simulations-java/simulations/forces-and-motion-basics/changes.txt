@@ -1,3 +1,4 @@
+Fade out/in tab title text
 # 1.02.13 (72424) Mar 6, 2013
 Center the tab title between the left side of the screen and the thumbnail icons
 For "icon thumbnail" tabs, moved the home button to the left of the icons.
