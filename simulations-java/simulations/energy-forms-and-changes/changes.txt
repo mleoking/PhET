@@ -1,3 +1,4 @@
+Added algorithm to prevent clumping of energy chunks in the solar panel.
 Fixed issue where the energy chunks would clump up as they emerged from the teapot.
 Fixed issue where the "hidden" energy chunks were not being removed from generator on deactivation or reset.
 Fixed issue where reset on 2nd tab wasn't clearing steam from beaker.

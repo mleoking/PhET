@@ -1,13 +1,16 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
@@ -16,7 +19,11 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.CONNECTOR;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.SOLAR_PANEL;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.SOLAR_PANEL_GEN;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.SOLAR_PANEL_POST_2;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.WIRE_BLACK_LEFT;
 
 /**
  * Class that represents a solar panel in the view.
@@ -47,18 +54,27 @@ public class SolarPanel extends EnergyConverter {
     private static final Vector2D OFFSET_TO_THIRD_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX() + 0.015, CONNECTOR_IMAGE_OFFSET.getY() );
     private static final Vector2D OFFSET_TO_CONNECTOR_CENTER = CONNECTOR_IMAGE_OFFSET;
 
+    private static final double MIN_INTER_CHUNK_TIME = 0.5; // In seconds, used to keep electrical energy chunks from clumping up.
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
 
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final IClock simulationClock;
+
+    // Map of energy chunks to the simulation time at which they will arrive
+    // at the bottom of the panel.  This is used to prevent the energy chunks
+    // from clumping up as they travel through the converter.
+    private Map<EnergyChunk, Double> mapEnergyChunkToPanelBottomTime = new HashMap<EnergyChunk, Double>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected SolarPanel() {
+    protected SolarPanel( IClock simulationClock ) {
         super( EnergyFormsAndChangesResources.Images.SOLAR_PANEL_ICON );
+        this.simulationClock = simulationClock;
     }
 
     //-------------------------------------------------------------------------
@@ -80,8 +96,8 @@ public class SolarPanel extends EnergyConverter {
                         // And a "mover" that will move this energy chunk
                         // through the solar panel and the wire.
                         energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
-                                                                         getEnergyChunkPath( getPosition() ),
-                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                                                                         createPathToPanelBottom( getPosition() ),
+                                                                         chooseInitialChunkVelocity( incomingEnergyChunk ) ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.
@@ -95,11 +111,20 @@ public class SolarPanel extends EnergyConverter {
             for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
-                    // The energy chunk has traveled across the panel and the wire,
-                    // so pass it off to the next element in the system.
-                    outgoingEnergyChunks.add( energyChunkMover.energyChunk );
-                    energyChunkList.remove( energyChunkMover.energyChunk );
                     energyChunkMovers.remove( energyChunkMover );
+                    if ( energyChunkMover.energyChunk.position.get().equals( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) ) ) {
+                        // Energy chunk has reached the bottom of the panel and now needs to move through the converter.
+                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                         createPathThroughConverter( getPosition() ),
+                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        mapEnergyChunkToPanelBottomTime.remove( energyChunkMover.energyChunk );
+                    }
+                    else {
+                        // The energy chunk has traveled across the panel and through
+                        // the converter, so pass it off to the next element in the system.
+                        outgoingEnergyChunks.add( energyChunkMover.energyChunk );
+                        energyChunkList.remove( energyChunkMover.energyChunk );
+                    }
                 }
             }
         }
@@ -112,14 +137,53 @@ public class SolarPanel extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
 
+    // Choose an initial velocity for an energy chunk such that it will not
+    // clump up with other chunks at the bottom of the panel.
+    private double chooseInitialChunkVelocity( EnergyChunk incomingEnergyChunk ) {
+
+        // Start with default velocity.
+        double chunkVelocity = EFACConstants.ENERGY_CHUNK_VELOCITY;
+
+        double distanceToConvergencePoint = incomingEnergyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) );
+        double travelTime = distanceToConvergencePoint / chunkVelocity;
+        double projectedArrivalTime = simulationClock.getSimulationTime() + travelTime;
+
+        EnergyChunk conflictingEnergyChunk = getChunkWithOverlappingArrivalWindow( projectedArrivalTime );
+        while ( conflictingEnergyChunk != null ) {
+            // Move the arrival time past the current overlap.
+            projectedArrivalTime = mapEnergyChunkToPanelBottomTime.get( conflictingEnergyChunk ) + MIN_INTER_CHUNK_TIME;
+            conflictingEnergyChunk = getChunkWithOverlappingArrivalWindow( projectedArrivalTime );
+            System.out.println( "Adjusting arrival time to avoid clumping." );
+        }
+        mapEnergyChunkToPanelBottomTime.put( incomingEnergyChunk, projectedArrivalTime );
+
+        return distanceToConvergencePoint / ( projectedArrivalTime - simulationClock.getSimulationTime() );
+    }
+
+    // Get an energy chunk, if any exist, whose arrival window overlaps with
+    // the proposed arrival time.
+    private EnergyChunk getChunkWithOverlappingArrivalWindow( double arrivalTime ) {
+        for ( EnergyChunk ec : mapEnergyChunkToPanelBottomTime.keySet() ) {
+            if ( Math.abs( arrivalTime - mapEnergyChunkToPanelBottomTime.get( ec ) ) < MIN_INTER_CHUNK_TIME ) {
+                return ec;
+            }
+        }
+        return null;
+    }
+
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();
         energyChunkMovers.clear();
     }
 
-    private static List<Vector2D> getEnergyChunkPath( final Vector2D panelPosition ) {
+    private static List<Vector2D> createPathToPanelBottom( final Vector2D panelPosition ) {
         return new ArrayList<Vector2D>() {{
             add( panelPosition.plus( OFFSET_TO_CONVERGENCE_POINT ) );
+        }};
+    }
+
+    private static List<Vector2D> createPathThroughConverter( final Vector2D panelPosition ) {
+        return new ArrayList<Vector2D>() {{
             add( panelPosition.plus( OFFSET_TO_FIRST_CURVE_POINT ) );
             add( panelPosition.plus( OFFSET_TO_SECOND_CURVE_POINT ) );
             add( panelPosition.plus( OFFSET_TO_THIRD_CURVE_POINT ) );
