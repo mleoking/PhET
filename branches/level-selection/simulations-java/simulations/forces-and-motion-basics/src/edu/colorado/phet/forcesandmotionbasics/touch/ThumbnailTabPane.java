@@ -28,12 +28,15 @@ import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -749,13 +752,7 @@ public class ThumbnailTabPane extends JPanel {
         private void relayout() {
             tabBase.setTabBaseWidth( getWidth() );
 
-            double spaceForTabs = 0;
-            for ( int i = 0; i < tabs.size(); i++ ) {
-                AbstractTabNode tabNode = (AbstractTabNode) tabs.get( i );
-                spaceForTabs += tabNode.getFullBounds().getWidth() + distBetweenTabs;
-            }
-
-            double x = getWidth() / 2 - spaceForTabs / 2;//center the tabs
+            double x = getInitialTabX();
             double initTabX = x;
 
             double maxTabTextHeight = getMaxTabTextHeight();
@@ -778,6 +775,16 @@ public class ThumbnailTabPane extends JPanel {
 
             homeButton.setOffset( initTabX - homeButton.getFullBounds().getWidth() - distBetweenTabs * 3, 4 );
             tabLabel.setOffset( initTabX / 2 - tabLabel.getFullWidth() / 2, 3 );
+        }
+
+        private double getInitialTabX() {
+            double spaceForTabs = 0;
+            for ( int i = 0; i < tabs.size(); i++ ) {
+                AbstractTabNode tabNode = (AbstractTabNode) tabs.get( i );
+                spaceForTabs += tabNode.getFullBounds().getWidth() + distBetweenTabs;
+            }
+
+            return getWidth() / 2 - spaceForTabs / 2;
         }
 
         private void relayoutLogo( double tabBaseY ) {
@@ -870,7 +877,17 @@ public class ThumbnailTabPane extends JPanel {
 //            getLayer().addChild( tabBase );
             /**Last, show the selected tab on top.*/
             getLayer().addChild( tab );
-            tabLabel.setText( tab.getText() );
+
+            if ( !tabLabel.getText().equals( tab.getText() ) ) {
+                tabLabel.setText( tab.getText() );
+                tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3 );
+                PTransformActivity activity = tabLabel.animateToPositionScaleRotation( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3, 1.2, 0, 100 );
+                activity.setDelegate( new PActivityDelegateAdapter() {
+                    @Override public void activityFinished( PActivity activity ) {
+                        tabLabel.animateToPositionScaleRotation( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3, 1.0, 0, 100 );
+                    }
+                } );
+            }
         }
 
         public int getSelectedIndex() {
