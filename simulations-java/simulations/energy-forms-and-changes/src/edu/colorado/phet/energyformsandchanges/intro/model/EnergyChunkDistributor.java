@@ -18,7 +18,7 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 /**
  * A class that contains static methods for redistributing a set of energy
- * chunks.
+ * chunks within a shape.
  *
  * @author John Blanco
  */
@@ -27,83 +27,6 @@ public class EnergyChunkDistributor {
     private static final double OUTSIDE_CONTAINER_FORCE = 2.5; // In Newtons, empirically determined.
     private static final double MAX_TIME_STEP = 5E-3; // In seconds, for algorithm that moves the points.
     private static final Random RAND = new Random( 2 ); // Seeded for greater consistency.
-
-    public static void updatePositions( List<EnergyChunk> energyChunkList, Rectangle2D enclosingRect, double dt ) {
-
-        // Create a map that relates each energy chunk to a point mass.
-        Map<EnergyChunk, PointMass> map = new HashMap<EnergyChunk, PointMass>();
-        for ( EnergyChunk energyChunk : energyChunkList ) {
-            map.put( energyChunk, new PointMass( energyChunk.position.get(), enclosingRect ) );
-        }
-
-        // Determine the force constant to use for the repulsive algorithm that
-        // positions the energy chunks.  Formula was made up and has some
-        // tweak factors, so it may require some adjustments.
-        double forceConstant = ( enclosingRect.getWidth() * enclosingRect.getHeight() / energyChunkList.size() ) * 0.5;
-
-        int numSteps = (int) ( dt / MAX_TIME_STEP );
-        double extraTime = dt - numSteps * MAX_TIME_STEP;
-
-        for ( int i = 0; i <= numSteps; i++ ) {
-            double timeStep = i < numSteps ? MAX_TIME_STEP : extraTime;
-            // Update the forces acting on each point mass.
-            for ( PointMass p : map.values() ) {
-                if ( enclosingRect.contains( p.position.toPoint2D() ) ) {
-
-                    // Force from left side of rectangle.
-                    p.applyForce( new Vector2D( forceConstant / Math.pow( p.position.getX() - enclosingRect.getX(), 2 ), 0 ) );
-
-                    // Force from right side of rectangle.
-                    p.applyForce( new Vector2D( -forceConstant / Math.pow( enclosingRect.getMaxX() - p.position.getX(), 2 ), 0 ) );
-
-                    // Force from bottom of rectangle.
-                    p.applyForce( new Vector2D( 0, forceConstant / Math.pow( p.position.getY() - enclosingRect.getY(), 2 ) ) );
-
-                    // Force from top of rectangle.
-                    p.applyForce( new Vector2D( 0, -forceConstant / Math.pow( enclosingRect.getMaxY() - p.position.getY(), 2 ) ) );
-
-                    // Apply the force from each of the other particles.
-                    double minDistance = Math.min( enclosingRect.getWidth(), enclosingRect.getHeight() ) / 100; // Divisor empirically determined.
-                    for ( PointMass otherP : map.values() ) {
-                        if ( p != otherP ) {
-                            // Calculate force vector, but handle cases where too close.
-                            Vector2D vectorToOther = p.position.minus( otherP.position );
-                            if ( vectorToOther.magnitude() < minDistance ) {
-                                if ( vectorToOther.magnitude() == 0 ) {
-                                    // Create a random vector of min distance.
-                                    System.out.println( "Creating random vector" );
-                                    double angle = RAND.nextDouble() * Math.PI * 2;
-                                    vectorToOther = new Vector2D( minDistance * Math.cos( angle ), minDistance * Math.sin( angle ) );
-                                }
-                                else {
-                                    vectorToOther = vectorToOther.getInstanceOfMagnitude( minDistance );
-                                }
-                            }
-                            p.applyForce( vectorToOther.getInstanceOfMagnitude( forceConstant / ( vectorToOther.magnitudeSquared() ) ) );
-                        }
-                    }
-                }
-                else {
-                    // Point is outside container, move it towards center of rectangle.
-                    Vector2D vectorToCenter = new Vector2D( enclosingRect.getCenterX(), enclosingRect.getCenterY() ).minus( p.position );
-                    p.applyForce( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_CONTAINER_FORCE ) );
-                }
-            }
-
-            // Update the positions of the point masses and the corresponding
-            // energy chunks.
-            for ( PointMass p : map.values() ) {
-                // Update the position of the point.
-                p.updatePosition( timeStep );
-                p.clearAcceleration();
-            }
-        }
-
-        // Update the positions of the energy chunks.
-        for ( EnergyChunk energyChunk : energyChunkList ) {
-            energyChunk.position.set( new Vector2D( map.get( energyChunk ).position ) );
-        }
-    }
 
     // TODO: Potentially obsoleted on 6/23/2012, remove at some point if never needed again.
     private static void updatePositions( List<EnergyChunk> energyChunkList, Shape enclosingShape, double dt ) {
