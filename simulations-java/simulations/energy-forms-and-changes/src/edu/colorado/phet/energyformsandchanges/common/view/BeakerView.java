@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -198,21 +197,6 @@ public class BeakerView {
             steamNode = new PNode();
             addChild( steamNode );
 
-            // TODO: Probably don't need the next observer since this node is now updating based on the clock.
-//
-//            temperature.addObserver( new SimpleObserver() {
-//                public void update() {
-//                    updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get() );
-//                }
-//            } );
-
-            waterLevel.addObserver( new SimpleObserver() {
-                public void update() {
-                    // Done here rather than at every clock tick so save CPU cycles.
-                    updateSteamPaint( beakerOutlineRect, waterLevel.get() );
-                }
-            } );
-
             clock.addClockListener( new ClockAdapter() {
                 @Override public void clockTicked( ClockEvent clockEvent ) {
                     updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get(), clockEvent.getSimulationTimeChange() );
@@ -224,15 +208,6 @@ public class BeakerView {
                     steamNode.removeAllChildren();
                 }
             } );
-        }
-
-        private void updateSteamPaint( Rectangle2D beakerOutlineRect, double waterLevel ) {
-            double unfilledHeight = beakerOutlineRect.getHeight() * ( 1 - waterLevel );
-//            steamNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
-//                                                        beakerOutlineRect.getMinY() + unfilledHeight / 2,
-//                                                        Color.WHITE,
-//                                                        new Point2D.Double( beakerOutlineRect.getCenterX(), beakerOutlineRect.getMinY() ),
-//                                                        new Color( 200, 200, 200 ) ) );
         }
 
         private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature, double dt ) {
