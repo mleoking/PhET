@@ -1,16 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -178,10 +171,7 @@ public class BeakerView {
     private static class PerspectiveWaterNode extends PNode {
 
         private static final Color LIQUID_WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.2 );
-        private static final Color FROZEN_WATER_OUTLINE_COLOR = ColorUtils.brighterColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.3 );
-        private static final Color BASIC_ICE_COLOR = new Color( 107, 207, 245 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
-        private static final double FREEZING_RANGE = 10; // Number of degrees Kelvin over which freezing occurs.  Not realistic, done for looks only.
         private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is visible.
         private static final DoubleRange STEAM_BUBBLE_SPEED_RANGE = new DoubleRange( 100, 125 ); // In screen coords (basically pixels) per second.
         private static final DoubleRange STEAM_BUBBLE_DIAMETER_RANGE = new DoubleRange( 20, 50 ); // In screen coords (basically pixels).
@@ -193,11 +183,6 @@ public class BeakerView {
         // Nodes that comprise this node.
         private final PhetPPath liquidWaterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
         private final PhetPPath liquidWaterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, LIQUID_WATER_OUTLINE_COLOR );
-        private final PhetPPath frozenWaterTopNode = new PhetPPath( BASIC_ICE_COLOR, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
-        private final PhetPPath frozenWaterBodyNode = new PhetPPath( Color.WHITE, WATER_OUTLINE_STROKE, FROZEN_WATER_OUTLINE_COLOR );
-        private final PClip iceFleckClipNode = new PClip() {{
-            setStroke( null );
-        }};
         private final List<SteamBubble> steamBubbles = new ArrayList<SteamBubble>();
         private final PNode steamNode;
 
@@ -210,9 +195,6 @@ public class BeakerView {
         private PerspectiveWaterNode( IClock clock, final Rectangle2D beakerOutlineRect, final Property<Double> waterLevel, final ObservableProperty<Double> temperature ) {
             addChild( liquidWaterBodyNode );
             addChild( liquidWaterTopNode );
-            addChild( frozenWaterBodyNode );
-            addChild( frozenWaterTopNode );
-            addChild( iceFleckClipNode );
             steamNode = new PNode();
             addChild( steamNode );
 
@@ -242,20 +224,6 @@ public class BeakerView {
                     steamNode.removeAllChildren();
                 }
             } );
-
-            // Set up the gradient used for the frozen water.
-            frozenWaterBodyNode.setPaint( new GradientPaint( (float) beakerOutlineRect.getMinX(),
-                                                             0,
-                                                             BASIC_ICE_COLOR,
-                                                             (float) beakerOutlineRect.getCenterX(),
-                                                             0,
-                                                             ColorUtils.brighterColor( BASIC_ICE_COLOR, 0.85 ),
-                                                             true ) );
-            frozenWaterTopNode.setPaint( new RoundGradientPaint( beakerOutlineRect.getCenterX(),
-                                                                 beakerOutlineRect.getCenterY(),
-                                                                 ColorUtils.brighterColor( BASIC_ICE_COLOR, 0.85 ),
-                                                                 new Point2D.Double( 0, beakerOutlineRect.getWidth() / 2 ),
-                                                                 BASIC_ICE_COLOR ) );
         }
 
         private void updateSteamPaint( Rectangle2D beakerOutlineRect, double waterLevel ) {
@@ -269,39 +237,17 @@ public class BeakerView {
 
         private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature, double dt ) {
 
-            double freezeProportion = 0;
-            // TODO: Commented out the following code on 1/22/2013, since a
-            // decision was made to try removing feature where the water
-            // freezes and see if the behavior is reasonable.  This should be
-            // removed permanently, along with any freezing related code, if
-            // and when the decision to remove the ice is finalized.
-//            if ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE < FREEZING_RANGE ) {
-//                // Set the proportion of freezing that is occurring.  Zero
-//                // indicates no freezing, 1 indication fully frozen.
-//                freezeProportion = MathUtil.clamp( 0, 1 - ( ( temperature - EFACConstants.FREEZING_POINT_TEMPERATURE ) / FREEZING_RANGE ), 1 );
-//            }
-
-            double totalWaterHeight = beakerOutlineRect.getHeight() * fluidLevel;
-            double frozenWaterHeight = totalWaterHeight * freezeProportion;
-            double liquidWaterHeight = totalWaterHeight - frozenWaterHeight;
+            double waterHeight = beakerOutlineRect.getHeight() * fluidLevel;
 
             Rectangle2D liquidWaterRect = new Rectangle2D.Double( beakerOutlineRect.getX(),
-                                                                  beakerOutlineRect.getMaxY() - liquidWaterHeight,
+                                                                  beakerOutlineRect.getMaxY() - waterHeight,
                                                                   beakerOutlineRect.getWidth(),
-                                                                  liquidWaterHeight );
-            Rectangle2D frozenWaterRect = new Rectangle2D.Double( beakerOutlineRect.getX(),
-                                                                  beakerOutlineRect.getMaxY() - totalWaterHeight,
-                                                                  beakerOutlineRect.getWidth(),
-                                                                  frozenWaterHeight );
+                                                                  waterHeight );
             double ellipseWidth = beakerOutlineRect.getWidth();
             double ellipseHeight = PERSPECTIVE_PROPORTION * ellipseWidth;
             Shape liquidWaterTopEllipse = new Ellipse2D.Double( liquidWaterRect.getMinX(),
                                                                 liquidWaterRect.getMinY() - ellipseHeight / 2,
                                                                 liquidWaterRect.getWidth(),
-                                                                ellipseHeight );
-            Shape frozenWaterTopEllipse = new Ellipse2D.Double( frozenWaterRect.getMinX(),
-                                                                frozenWaterRect.getMinY() - ellipseHeight / 2,
-                                                                frozenWaterRect.getWidth(),
                                                                 ellipseHeight );
             Shape bottomEllipse = new Ellipse2D.Double( liquidWaterRect.getMinX(),
                                                         liquidWaterRect.getMaxY() - ellipseHeight / 2,
@@ -318,40 +264,6 @@ public class BeakerView {
             liquidWaterBodyArea.subtract( new Area( liquidWaterTopEllipse ) );
             liquidWaterBodyNode.setPathTo( liquidWaterBodyArea );
             liquidWaterTopNode.setPathTo( liquidWaterTopEllipse );
-
-            //----------------------------------------------------------------
-            // Update the ice.
-            //----------------------------------------------------------------
-
-            // Update shape of frozen water.
-            Area frozenWaterBodyArea = new Area( frozenWaterRect );
-            frozenWaterBodyArea.subtract( new Area( frozenWaterTopEllipse ) );
-            frozenWaterBodyArea.add( new Area( liquidWaterTopEllipse ) );
-            frozenWaterBodyNode.setPathTo( frozenWaterBodyArea );
-            frozenWaterTopNode.setPathTo( frozenWaterTopEllipse );
-
-            // Update the place where the ice flecks are visible.
-            Area iceFleckArea = frozenWaterBodyArea;
-            iceFleckArea.add( new Area( frozenWaterTopEllipse ) );
-            iceFleckClipNode.setPathTo( iceFleckArea );
-
-            // Regenerate ice flecks if freezing has just started.
-            if ( !frozenWaterBodyNode.getVisible() && freezeProportion > 0 ) {
-                iceFleckClipNode.removeAllChildren();
-                // TODO: Make num of flecks a constant if we keep them.
-                for ( int i = 0; i < 250; i++ ) {
-                    IceFleckNode iceFleck = new IceFleckNode( generateRandomIceFleckColor() );
-                    Area iceFleckTotalArea = new Area( liquidWaterBodyArea );
-                    iceFleckTotalArea.add( new Area( liquidWaterTopEllipse ) );
-                    iceFleck.setOffset( generateRandomLocationInShape( iceFleckTotalArea ) );
-                    iceFleckClipNode.addChild( iceFleck );
-                }
-            }
-
-            // Frozen portions only visible if some freezing has occurred.
-            frozenWaterBodyNode.setVisible( freezeProportion > 0 );
-            frozenWaterTopNode.setVisible( freezeProportion > 0 );
-            iceFleckClipNode.setVisible( freezeProportion > 0 );
 
             //----------------------------------------------------------------
             // Update the steam.
@@ -385,7 +297,7 @@ public class BeakerView {
 
             // Update the position and appearance of the existing steam bubbles.
             double steamBubbleSpeed = STEAM_BUBBLE_SPEED_RANGE.getMin() + steamingProportion * STEAM_BUBBLE_SPEED_RANGE.getLength();
-            double unfilledBeakerHeight = beakerOutlineRect.getHeight() - liquidWaterHeight;
+            double unfilledBeakerHeight = beakerOutlineRect.getHeight() - waterHeight;
             for ( SteamBubble steamBubble : new ArrayList<SteamBubble>( steamBubbles ) ) {
                 steamBubble.setOffset( steamBubble.getXOffset(), steamBubble.getYOffset() + dt * ( -steamBubbleSpeed ) );
                 if ( beakerOutlineRect.getMinY() - steamBubble.getYOffset() > MAX_STEAM_BUBBLE_HEIGHT ) {
@@ -434,43 +346,5 @@ public class BeakerView {
 
     public PNode getBackNode() {
         return backNode;
-    }
-
-    private static Vector2D randomize( Vector2D vector, double maxXVariation, double maxYVariation ) {
-        return vector.plus( maxXVariation * ( RAND.nextDouble() - 0.5 ) * 2, maxYVariation * ( RAND.nextDouble() - 0.5 ) * 2 );
-    }
-
-    private static Point2D generateRandomLocationInShape( Shape shape ) {
-        Rectangle2D shapeBounds = shape.getBounds2D();
-        int maxGenAttempts = 100;
-        Point2D location = null;
-        for ( int i = 0; i < maxGenAttempts; i++ ) {
-            location = new Point2D.Double( shapeBounds.getMinX() + RAND.nextDouble() * shapeBounds.getWidth(),
-                                           shapeBounds.getMinY() + RAND.nextDouble() * shapeBounds.getHeight() );
-            if ( shape.contains( location ) ) {
-                return location;
-            }
-        }
-
-        System.out.println( "BeakerView" + " - Warning: Didn't generate point within shape, using point within shape bounds." );
-        return location;
-    }
-
-    private static final List<Color> ICE_FLECK_COLORS = new ArrayList<Color>() {{
-        add( Color.WHITE );
-        add( new Color( 250, 250, 255 ) );
-        add( new Color( 240, 240, 245 ) );
-    }};
-
-    private static final Color generateRandomIceFleckColor() {
-        return ICE_FLECK_COLORS.get( RAND.nextInt( ICE_FLECK_COLORS.size() ) );
-    }
-
-    private static class IceFleckNode extends PNode {
-        private static final double DIAMETER = 3;
-
-        private IceFleckNode( Color color ) {
-            addChild( new PhetPPath( new Ellipse2D.Double( -DIAMETER / 2, -DIAMETER / 2, DIAMETER, DIAMETER ), color ) );
-        }
     }
 }
