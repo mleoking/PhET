@@ -759,7 +759,7 @@ public class ThumbnailTabPane extends JPanel {
             }
 
             double x = getWidth() / 2 - spaceForTabs / 2;//center the tabs
-            double initTaxX = x;
+            double initTabX = x;
 
             double maxTabTextHeight = getMaxTabTextHeight();
             for ( int i = 0; i < tabs.size(); i++ ) {
@@ -779,7 +779,7 @@ public class ThumbnailTabPane extends JPanel {
             }
             tabBase.updatePaint();
 
-            homeButton.setOffset( x + distBetweenTabs * 3, 4 );
+            homeButton.setOffset( initTabX - homeButton.getFullBounds().getWidth() - distBetweenTabs * 3, 4 );
         }
 
         private void relayoutLogo( double tabBaseY ) {
