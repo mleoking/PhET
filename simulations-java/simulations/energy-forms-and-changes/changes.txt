@@ -1,3 +1,4 @@
+Made the emission of energy chunks from the sun a little less random so that the solar panel has a steadier energy output.
 Added algorithm to prevent clumping of energy chunks in the solar panel.
 Fixed issue where the energy chunks would clump up as they emerged from the teapot.
 Fixed issue where the "hidden" energy chunks were not being removed from generator on deactivation or reset.

@@ -35,8 +35,8 @@ public class Sun extends EnergySource {
     public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.1; // In seconds.
     private static final Random RAND = new Random();
     private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
-
-    private final BooleanProperty energyChunksVisible;
+    private static final int NUM_EMISSION_SECTORS = 16;
+    private static final double EMISSION_SECTOR_SPAN = 2 * Math.PI / NUM_EMISSION_SECTORS;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -59,6 +59,8 @@ public class Sun extends EnergySource {
     public final SolarPanel solarPanel;
 
     private double energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
+    private final BooleanProperty energyChunksVisible;
+    private final double [] sectorEmissionProbabilities = new double[NUM_EMISSION_SECTORS];
 
     // List of energy chunks that should be allowed to pass through the clouds
     // without bouncing (i.e. being reflected).
@@ -82,6 +84,11 @@ public class Sun extends EnergySource {
                 }
             }
         } );
+
+        // Initialize array used to even out emission direction.
+        for ( int i = 0; i < sectorEmissionProbabilities.length; i++ ){
+            sectorEmissionProbabilities[i] = 1 / (double)NUM_EMISSION_SECTORS;
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -98,7 +105,7 @@ public class Sun extends EnergySource {
             energyChunkEmissionCountdownTimer -= dt;
             if ( energyChunkEmissionCountdownTimer <= 0 ) {
                 // Create a new chunk and start it on its way.
-                double directionAngle = RAND.nextDouble() * Math.PI * 2;
+                double directionAngle = chooseNextEmissionAngle();
                 Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( directionAngle ) );
                 EnergyChunk energyChunk = new EnergyChunk( EnergyType.LIGHT, initialPosition.x, initialPosition.y, energyChunksVisible );
                 energyChunk.setVelocity( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( directionAngle ) );
@@ -158,6 +165,34 @@ public class Sun extends EnergySource {
 
         // Produce the energy.
         return new Energy( EnergyType.LIGHT, energyProduced );
+    }
+
+    // Choose the angle for the emission of an energy chunk from the sun.
+    // This uses history and probability to make the distribution somewhat
+    // even but still random looking.
+    private double chooseNextEmissionAngle(){
+        double randomValue = RAND.nextDouble();
+        int sector = 0;
+        double sumOfProbabilities = sectorEmissionProbabilities[0];
+        while ( randomValue > sumOfProbabilities && sector < NUM_EMISSION_SECTORS ){
+            sector++;
+            sumOfProbabilities += sectorEmissionProbabilities[sector];
+        }
+        // Reduce the probability of selecting the same sector next time.
+        sectorEmissionProbabilities[sector] *= 0.1; // Multiplier determined empirically.
+        double totalOfProbabilities = 0;
+
+        // Normalize the probabilities so that they total to 1.
+        for ( int i = 0; i < NUM_EMISSION_SECTORS; i++ ) {
+            totalOfProbabilities += sectorEmissionProbabilities[i];
+        }
+        for ( int i = 0; i < NUM_EMISSION_SECTORS; i++ ) {
+            sectorEmissionProbabilities[i] *= (1 / totalOfProbabilities);
+        }
+
+        // Angle is a function of the selected sector and a random offset
+        // within the sector.
+        return (sector + RAND.nextDouble()) * EMISSION_SECTOR_SPAN;
     }
 
     @Override public void activate() {
