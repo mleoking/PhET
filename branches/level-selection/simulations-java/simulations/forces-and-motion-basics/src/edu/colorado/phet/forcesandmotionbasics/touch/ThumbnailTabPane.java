@@ -718,10 +718,7 @@ public class ThumbnailTabPane extends JPanel {
             getLayer().addChild( logo );
 
 //            getLayer().addChild( homeIcon );
-            tabLabel = new PhetPText( "Tug of War", labelFont, Color.white ) {{
-                setOffset( 15, 3 );
-//                setVisible( false );
-            }};
+            tabLabel = new PhetPText( "Tug of War", labelFont, Color.white );
             getLayer().addChild( tabLabel );
 //            getLayer().addChild( tabBase );
             relayout();
@@ -780,6 +777,7 @@ public class ThumbnailTabPane extends JPanel {
             tabBase.updatePaint();
 
             homeButton.setOffset( initTabX - homeButton.getFullBounds().getWidth() - distBetweenTabs * 3, 4 );
+            tabLabel.setOffset( initTabX / 2 - tabLabel.getFullWidth() / 2, 3 );
         }
 
         private void relayoutLogo( double tabBaseY ) {

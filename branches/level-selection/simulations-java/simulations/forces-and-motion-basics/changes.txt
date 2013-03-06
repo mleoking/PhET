@@ -1,3 +1,4 @@
+Center the tab title between the left side of the screen and the thumbnail icons
 For "icon thumbnail" tabs, moved the home button to the left of the icons.
 Tabs 2-4: Removed play/pause button
 # 1.02.12 (72410) Mar 4, 2013
