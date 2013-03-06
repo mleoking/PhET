@@ -94,7 +94,7 @@ public class SolarPanel extends EnergyConverter {
                         energyChunkList.add( incomingEnergyChunk );
 
                         // And a "mover" that will move this energy chunk
-                        // through the solar panel and the wire.
+                        // to the bottom of the solar panel.
                         energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
                                                                          createPathToPanelBottom( getPosition() ),
                                                                          chooseInitialChunkVelocity( incomingEnergyChunk ) ) );
@@ -148,13 +148,19 @@ public class SolarPanel extends EnergyConverter {
         double travelTime = distanceToConvergencePoint / chunkVelocity;
         double projectedArrivalTime = simulationClock.getSimulationTime() + travelTime;
 
+        // If there are any energy chunks whose arrival time at the bottom of
+        // the panel is to close to this one, adjust the project time until
+        // there is no overlap.
         EnergyChunk conflictingEnergyChunk = getChunkWithOverlappingArrivalWindow( projectedArrivalTime );
         while ( conflictingEnergyChunk != null ) {
             // Move the arrival time past the current overlap.
             projectedArrivalTime = mapEnergyChunkToPanelBottomTime.get( conflictingEnergyChunk ) + MIN_INTER_CHUNK_TIME;
             conflictingEnergyChunk = getChunkWithOverlappingArrivalWindow( projectedArrivalTime );
-            System.out.println( "Adjusting arrival time to avoid clumping." );
+            System.out.println( "Adjusting arrival time to avoid clumping." ); // TODO: Remove once algorithm is proven.
         }
+
+        // Add this energy chunk and its arrival time to the list.
+        assert !mapEnergyChunkToPanelBottomTime.containsKey( incomingEnergyChunk ); // TODO: Remove once algorithm is proven.
         mapEnergyChunkToPanelBottomTime.put( incomingEnergyChunk, projectedArrivalTime );
 
         return distanceToConvergencePoint / ( projectedArrivalTime - simulationClock.getSimulationTime() );
