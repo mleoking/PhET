@@ -28,7 +28,6 @@ public class EnergyChunkDistributor {
     private static final double MAX_TIME_STEP = 5E-3; // In seconds, for algorithm that moves the points.
     private static final Random RAND = new Random( 2 ); // Seeded for greater consistency.
 
-    // TODO: Potentially obsoleted on 6/23/2012, remove at some point if never needed again.
     private static void updatePositions( List<EnergyChunk> energyChunkList, Shape enclosingShape, double dt ) {
 
         Rectangle2D boundingRect = enclosingShape.getBounds2D();

@@ -20,13 +20,13 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class EnergyChunkContainerSliceNode extends PNode {
 
-    private static final boolean SHOW_OUTLINE = false;
+    private static final boolean ALWAYS_SHOW_OUTLINE = false;
 
     public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt ) {
-        this( energyChunkContainerSlice, mvt, Color.YELLOW );
+        this( energyChunkContainerSlice, mvt, false, Color.RED );
     }
 
-    public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt, Color color ) {
+    public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt, boolean showOutline, Color outlineColor ) {
 
         // Watch for energy chunks coming and going and add/remove nodes accordingly.
         energyChunkContainerSlice.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
@@ -45,8 +45,8 @@ public class EnergyChunkContainerSliceNode extends PNode {
         } );
 
         // For debug.
-        if ( SHOW_OUTLINE ) {
-            addChild( new PhetPPath( mvt.modelToView( energyChunkContainerSlice.getShape() ), new BasicStroke( 1 ), color ) );
+        if ( showOutline || ALWAYS_SHOW_OUTLINE ) {
+            addChild( new PhetPPath( mvt.modelToView( energyChunkContainerSlice.getShape() ), new BasicStroke( 1 ), outlineColor ) );
         }
     }
 }
