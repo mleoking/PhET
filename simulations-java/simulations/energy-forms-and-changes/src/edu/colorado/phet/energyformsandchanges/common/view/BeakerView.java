@@ -119,7 +119,7 @@ public class BeakerView {
         energyChunkClipNode.setStroke( null );
         for ( int i = beaker.getSlices().size() - 1; i >= 0; i-- ) {
             int colorBase = (int) ( 255 * (double) i / beaker.getSlices().size() );
-            energyChunkClipNode.addChild( new EnergyChunkContainerSliceNode( beaker.getSlices().get( i ), mvt, new Color( colorBase, 255 - colorBase, colorBase ) ) );
+            energyChunkClipNode.addChild( new EnergyChunkContainerSliceNode( beaker.getSlices().get( i ), mvt ) );
         }
 
         // Watch for coming and going of energy chunks that are approaching
