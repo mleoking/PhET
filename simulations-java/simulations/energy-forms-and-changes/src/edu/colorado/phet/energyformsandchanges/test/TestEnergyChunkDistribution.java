@@ -64,7 +64,7 @@ public class TestEnergyChunkDistribution {
         // Add the container where the energy chunks will be held.  Change the
         // shape as needed for testing.
         Shape containerShape = new Rectangle2D.Double( -0.05, -0.05, 0.1, 0.1 );
-        EnergyChunkContainerSlice energyChunkContainerSlice = new EnergyChunkContainerSlice( containerShape, 0, new Property<Vector2D>( new Vector2D( 0, 0 ) ) );
+        final EnergyChunkContainerSlice energyChunkContainerSlice = new EnergyChunkContainerSlice( containerShape, 0, new Property<Vector2D>( new Vector2D( 0, 0 ) ) );
         PNode sliceNode = new EnergyChunkContainerSliceNode( energyChunkContainerSlice, mvt, true, Color.BLUE );
         rootNode.addChild( sliceNode );
 
@@ -89,9 +89,7 @@ public class TestEnergyChunkDistribution {
         // Add a button that will reset the state.
         ResetAllButtonNode resetButton = new ResetAllButtonNode( new Resettable() {
             public void reset() {
-                for ( EnergyChunk ec : sliceList.get( 0 ).energyChunkList ) {
-                    ec.position.set( new Vector2D( 0, 0 ) );
-                }
+                randomizeEnergyChunkPositions( energyChunkContainerSlice );
             }
         }, canvas, 16, Color.BLACK, Color.ORANGE );
         resetButton.setConfirmationEnabled( false );
@@ -105,5 +103,11 @@ public class TestEnergyChunkDistribution {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
+    }
+
+    private static void randomizeEnergyChunkPositions(EnergyChunkContainerSlice energyChunkContainerSlice ){
+        for ( EnergyChunk ec : energyChunkContainerSlice.energyChunkList ) {
+            ec.position.set( EnergyChunkDistributor.generateRandomLocation( energyChunkContainerSlice.getShape().getBounds2D() ) );
+        }
     }
 }
