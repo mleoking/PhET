@@ -2,21 +2,23 @@
 package edu.colorado.phet.energyformsandchanges.test;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
@@ -33,6 +35,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author John Blanco
  */
 public class TestEnergyChunkDistribution {
+
+    private static final int NUM_ENERGY_CHUNKS = 20;
+
     /**
      * Main routine that constructs a PhET Piccolo canvas in a window.
      *
@@ -60,15 +65,38 @@ public class TestEnergyChunkDistribution {
         // shape as needed for testing.
         Shape containerShape = new Rectangle2D.Double( -0.05, -0.05, 0.1, 0.1 );
         EnergyChunkContainerSlice energyChunkContainerSlice = new EnergyChunkContainerSlice( containerShape, 0, new Property<Vector2D>( new Vector2D( 0, 0 ) ) );
-//        rootNode.addChild( new PhetPPath( mvt.modelToView( containerShape ), Color.PINK ) );
-        rootNode.addChild( new EnergyChunkContainerSliceNode( energyChunkContainerSlice, mvt, true, Color.BLUE ) );
+        PNode sliceNode = new EnergyChunkContainerSliceNode( energyChunkContainerSlice, mvt, true, Color.BLUE );
+        rootNode.addChild( sliceNode );
 
         // Add the energy chunks.
-        for ( int i = 0; i < 10; i++ ){
+        for ( int i = 0; i < NUM_ENERGY_CHUNKS; i++ ) {
             EnergyChunk energyChunk = new EnergyChunk( EnergyType.THERMAL, 0, 0, new BooleanProperty( true ) );
             energyChunkContainerSlice.addEnergyChunk( energyChunk );
             rootNode.addChild( new EnergyChunkNode( energyChunk, mvt ) );
         }
+
+        // Set up a timer to update the state.
+        final double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
+        final List<EnergyChunkContainerSlice> sliceList = new ArrayList<EnergyChunkContainerSlice>();
+        sliceList.add( energyChunkContainerSlice );
+        Timer timer = new Timer( (int) Math.round( dt * 1000 ), new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                EnergyChunkDistributor.updatePositions( sliceList, dt );
+            }
+        } );
+        timer.start();
+
+        // Add a button that will reset the state.
+        ResetAllButtonNode resetButton = new ResetAllButtonNode( new Resettable() {
+            public void reset() {
+                for ( EnergyChunk ec : sliceList.get( 0 ).energyChunkList ) {
+                    ec.position.set( new Vector2D( 0, 0 ) );
+                }
+            }
+        }, canvas, 16, Color.BLACK, Color.ORANGE );
+        resetButton.setConfirmationEnabled( false );
+        resetButton.setOffset( sliceNode.getFullBoundsReference().getCenterX(), sliceNode.getFullBoundsReference().getMaxY() + 20 );
+        rootNode.addChild( resetButton );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
@@ -77,21 +105,5 @@ public class TestEnergyChunkDistribution {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
-
-        // Iterate the distribution algorithm.
-        double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
-        double testDuration = 20; // In seconds.
-        List<EnergyChunkContainerSlice> sliceList = new ArrayList<EnergyChunkContainerSlice>(  );
-        sliceList.add( energyChunkContainerSlice );
-        for ( int i = 0; i < testDuration / dt; i++){
-            EnergyChunkDistributor.updatePositions( sliceList, dt );
-            try {
-                Thread.sleep( (int)Math.round( dt * 1000 ) );
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-        }
     }
-
 }
