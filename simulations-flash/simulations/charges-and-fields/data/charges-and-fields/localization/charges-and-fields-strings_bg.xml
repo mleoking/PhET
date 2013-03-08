@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_bg.xml created Fri Mar 08 11:18:50 EET 2013 using: charges-and-fields 2.04.00 (52655), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
+<string key="directionOnly" value="само посока"/>
+<string key="grid" value="мрежа"/>
+<string key="clearAll" value="Изчисти всичко"/>
+<string key="simTitle" value="Заряди и полета"/>
+<string key="distanceUnit" value=" m"/>
+<string key="showNumbers" value="Покажи стойности"/>
+<string key="voltageUnit" value=" V"/>
+<string key="oneMeter" value="1 метър"/>
+<string key="showEField" value="Покажи ел. поле"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="висока резолюция - V"/>
+<string key="EFieldSensors" value="Е -сензор"/>
+<string key="eFieldUnit" value=" V/m"/>
+<string key="clear" value="изчисти"/>
+<string key="plot" value="изчертай"/>
+<string key="equipotential" value="еквипотенциален"/>
+<string key="angleUnit" value=" deg"/>
+<string key="showLoRes" value="ниска резолюция - V"/>
+<string key="moreSpeedLessRes" value="по-голяма скорост/"/>
+<string key="tapeMeasure" value="линийка"/>
+<string key="voltage" value="напрежение"/>
+</SimStrings>
