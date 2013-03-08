@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class TestEnergyChunkDistribution {
 
-    private static final int NUM_ENERGY_CHUNKS = 20;
+    private static final int NUM_ENERGY_CHUNKS = 5;
 
     /**
      * Main routine that constructs a PhET Piccolo canvas in a window.
@@ -81,7 +81,7 @@ public class TestEnergyChunkDistribution {
         sliceList.add( energyChunkContainerSlice );
         Timer timer = new Timer( (int) Math.round( dt * 1000 ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                EnergyChunkDistributor.updatePositions( sliceList, dt );
+                EnergyChunkDistributor.updatePositionsNew( sliceList, dt );
             }
         } );
         timer.start();
@@ -89,6 +89,9 @@ public class TestEnergyChunkDistribution {
         // Add a button that will reset the state.
         ResetAllButtonNode resetButton = new ResetAllButtonNode( new Resettable() {
             public void reset() {
+                for ( EnergyChunk ec : energyChunkContainerSlice.energyChunkList ){
+                    ec.setVelocity( 0, 0 );
+                }
                 randomizeEnergyChunkPositions( energyChunkContainerSlice );
             }
         }, canvas, 16, Color.BLACK, Color.ORANGE );
