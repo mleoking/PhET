@@ -122,6 +122,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //For clouds
     private Image cloudTexture;
     private BufferedImage txtr;
+    private final StackableNode crate1;
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
@@ -325,6 +326,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( new ResetAllButtonNode( new Resettable() {
             public void reset() {
                 moduleContext.reset();
+                init();
             }
         }, this, DEFAULT_FONT, Color.black, Color.orange ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );
@@ -394,7 +396,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 //        addChild( timeControls );
 
         fridge = new StackableNode( UserComponents.fridge, this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD, showMasses );
-        StackableNode crate1 = new StackableNode( UserComponents.crate1, this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
+        crate1 = new StackableNode( UserComponents.crate1, this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
         StackableNode crate2 = new StackableNode( UserComponents.crate2, this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
 
         double INTER_OBJECT_SPACING = 10;
@@ -549,6 +551,22 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 sendModelMessage( ModelComponents.stack, ModelComponentTypes.modelElement, ModelActions.changed, parameterSet( ParameterKeys.mass, getMassOfObjectsOnSkateboard() ).with( ParameterKeys.items, stackToString( stackableNodes ) ) );
             }
         } );
+
+        init();
+    }
+
+    //Start an object on the skateboard
+    private void init() {
+        if ( this.accelerometer ) {
+            bucket.onSkateboard.set( true );
+            stack.set( stack.get().snoc( bucket ) );
+            normalizeStack();
+        }
+        else {
+            crate1.onSkateboard.set( true );
+            stack.set( stack.get().snoc( crate1 ) );
+            normalizeStack();
+        }
     }
 
     private boolean stackContainsFridgeOrMan() {
