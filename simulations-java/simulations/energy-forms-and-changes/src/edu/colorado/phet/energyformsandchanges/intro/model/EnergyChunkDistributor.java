@@ -65,13 +65,13 @@ public class EnergyChunkDistributor {
         // Determine the minimum distance that is allowed to be used in the
         // force calculations.  This prevents hitting infinities that can
         // cause run time issues or unreasonably large forces.
-        double minDistance = Math.min( boundingRect.getWidth(), boundingRect.getHeight() ) / 100; // Divisor empirically determined.
+        double minDistance = Math.min( boundingRect.getWidth(), boundingRect.getHeight() ) / 10; // Divisor empirically determined.
 
         // Determine the force constants to use for the repulsive algorithm
         // that positions the energy chunks.  Formula was made up and has some
         // tweak factors, so it may require some adjustments.
-        double particleForceConstant = ENERGY_CHUNK_MASS * boundingRect.getWidth() * boundingRect.getHeight() / mapEnergyChunkToForceVector.size() * 2;
-        double edgeForceConstant = 1E-8; // TODO should be function of particleForceConstant.
+        double particleForceConstant = ENERGY_CHUNK_MASS * boundingRect.getWidth() * boundingRect.getHeight() * 1E-3;
+        double edgeForceConstant = particleForceConstant / 2;
 
         // Outside container velocity is a function of container size.
         double outsideContainerVelocity = Math.max( boundingRect.getHeight(), boundingRect.getWidth() ); // In meters / s.
@@ -147,13 +147,8 @@ public class EnergyChunkDistributor {
                     else {
                         // Point is outside container, move it towards center of shape.
                         Vector2D vectorToCenter = new Vector2D( boundingRect.getCenterX(), boundingRect.getCenterY() ).minus( ec.position.get() );
-                        if ( Math.abs( vectorToCenter.getX() / ec.getVelocity().getX() - vectorToCenter.getY() / ec.getVelocity().getY() ) > 1E-6  ){
-                            // This chunk isn't moving towards the center of
-                            // the container, so reset its velocity.
-                            ec.setVelocity( 0, 0 );
-                        }
-                        // Add the force to the accumulated forces on this energy chunk.
-                        mapEnergyChunkToForceVector.put( ec, mapEnergyChunkToForceVector.get( ec ).plus( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_CONTAINER_FORCE ) ) );
+                        ec.setVelocity( vectorToCenter.getInstanceOfMagnitude( outsideContainerVelocity ) );
+                        mapEnergyChunkToForceVector.put( ec, ZERO_VECTOR );
                     }
                 }
             }
