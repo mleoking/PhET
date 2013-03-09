@@ -685,7 +685,7 @@ public class ThumbnailTabPane extends JPanel {
         private boolean logoObscured = false;
         private boolean logoVisible = true;
         PhetFont labelFont = new PhetFont( 40, true );
-        private final PhetPText tabLabel;
+        private final TextWithBackground tabLabel;
         private final PImage homeButton;
 
         public TabPane( Color selectedTabColor, Color unselectedTabColor ) {
@@ -721,7 +721,7 @@ public class ThumbnailTabPane extends JPanel {
             getLayer().addChild( logo );
 
 //            getLayer().addChild( homeIcon );
-            tabLabel = new PhetPText( "Tug of War", labelFont, Color.white );
+            tabLabel = new TextWithBackground( "Tug of War", labelFont, Color.black );
             getLayer().addChild( tabLabel );
 //            getLayer().addChild( tabBase );
             relayout();
@@ -774,7 +774,7 @@ public class ThumbnailTabPane extends JPanel {
             tabBase.updatePaint();
 
             homeButton.setOffset( initTabX - homeButton.getFullBounds().getWidth() - distBetweenTabs * 3, 4 );
-            tabLabel.setOffset( initTabX / 2 - tabLabel.getFullWidth() / 2, 3 );
+            tabLabel.setOffset( initTabX / 2 - tabLabel.getFullBounds().getWidth() / 2, 6 );
         }
 
         private double getInitialTabX() {
@@ -884,14 +884,14 @@ public class ThumbnailTabPane extends JPanel {
                     activity.setDelegate( new PActivityDelegateAdapter() {
                         @Override public void activityFinished( PActivity activity ) {
                             tabLabel.setText( tab.getText() );
-                            tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3 );
+                            tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullBounds().getWidth() / 2, 6 );
                             tabLabel.animateToTransparency( 1, 200 );
                         }
                     } );
                 }
                 else {
                     tabLabel.setText( tab.getText() );
-                    tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullWidth() / 2, 3 );
+                    tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullBounds().getWidth() / 2, 6 );
                 }
 
             }
