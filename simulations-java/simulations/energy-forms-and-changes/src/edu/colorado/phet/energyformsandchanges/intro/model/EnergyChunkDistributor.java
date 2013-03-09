@@ -25,6 +25,9 @@ public class EnergyChunkDistributor {
     private static final double MAX_TIME_STEP = 5E-3; // In seconds, for algorithm that moves the points.
     private static final Random RAND = new Random( 2 ); // Seeded for greater consistency.
     private static final double ENERGY_CHUNK_MASS = 1E-3; // In kilograms, chosen arbitrarily.
+    private static final double FLUID_DENSITY = 1000; // In kg / m ^ 3, same as water, used for drag.
+    private static final double ENERGY_CHUNK_CROSS_SECTIONAL_AREA = 1E-4;
+    private static final double DRAG_COEFFICIENT = 1; // Empirically chosen, tweak as needed.
     private static final Vector2D ZERO_VECTOR = new Vector2D( 0, 0 );
 
     public static void updatePositionsNew( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
@@ -83,7 +86,7 @@ public class EnergyChunkDistributor {
             double timeStep = forceCalcStep < numForceCalcSteps ? MAX_TIME_STEP : extraTime;
 
             // Update the forces acting on the particle due to its bounding
-            // container and the other particles.
+            // container, other particles, and drag.
             for ( EnergyChunkContainerSlice energyChunkContainerSlice : energyChunkContainerSlices ) {
                 Shape containerShape = energyChunkContainerSlice.getShape();
                 for ( EnergyChunk ec : energyChunkContainerSlice.energyChunkList ) {
@@ -143,6 +146,10 @@ public class EnergyChunkDistributor {
 //                            }
                         }
 
+                        // Calculate drag force.  Uses standard drag equation.
+                        double dragMagnitude = 0.5 * FLUID_DENSITY * DRAG_COEFFICIENT * ENERGY_CHUNK_CROSS_SECTIONAL_AREA * ec.getVelocity().magnitudeSquared();
+                        Vector2D dragForceVector = dragMagnitude > 0 ? ec.getVelocity().getRotatedInstance( Math.PI ).getInstanceOfMagnitude( dragMagnitude ) : ZERO_VECTOR;
+                        mapEnergyChunkToForceVector.put( ec, mapEnergyChunkToForceVector.get( ec ).plus( dragForceVector ) );
                     }
                     else {
                         // Point is outside container, move it towards center of shape.
