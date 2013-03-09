@@ -326,7 +326,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( new ResetAllButtonNode( new Resettable() {
             public void reset() {
                 moduleContext.reset();
-                init();
             }
         }, this, DEFAULT_FONT, Color.black, Color.orange ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );
@@ -560,12 +559,12 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         if ( this.accelerometer ) {
             bucket.onSkateboard.set( true );
             stack.set( stack.get().snoc( bucket ) );
-            normalizeStack();
+            normalizeStack( 0 );
         }
         else {
             crate1.onSkateboard.set( true );
             stack.set( stack.get().snoc( crate1 ) );
-            normalizeStack();
+            normalizeStack( 0 );
         }
     }
 
@@ -749,6 +748,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private void nodeMovedToFront() { forcesNode.moveToFront(); }
 
     private void normalizeStack() {
+        normalizeStack( 200 );
+    }
+
+    private void normalizeStack( int animationTime ) {
         List<StackableNode> nodes = stack.get();
         for ( final P2<StackableNode, Integer> stackableNodeAndIndex : nodes.zipIndex() ) {
             int index = stackableNodeAndIndex._2();
@@ -761,7 +764,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
             } ).foldLeft( Doubles.add, 0.0 ) + skateboardY;
             stackableNode.animateToPositionScaleRotation( skateboardBounds.getCenterX() - stackableNode.getFullScaleWidth() / 2 + stackableNode.getInset(),
-                                                          topY - stackableNode.getFullScaleHeight(), 1, 0, 200 );
+                                                          topY - stackableNode.getFullScaleHeight(), 1, 0, animationTime );
         }
     }
 }
