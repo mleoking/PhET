@@ -1,3 +1,4 @@
+# 1.02.17 (72461) Mar 10, 2013
 Friction tab: Start with the fridge out, and lower friction to 1/4 so it can be moved by default
 Motion tab: Have the girl start on the skateboard
 # 1.02.16 (72459) Mar 9, 2013
