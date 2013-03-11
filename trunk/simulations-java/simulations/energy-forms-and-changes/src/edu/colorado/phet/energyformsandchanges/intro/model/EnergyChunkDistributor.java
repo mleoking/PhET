@@ -17,19 +17,42 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
  * A class that contains static methods for redistributing a set of energy
  * chunks within a shape.
  *
+ * Reuse Notes: This could probably be generalized fairly easily to distribute
+ * any number items within a container of arbitrary size in a way that looks
+ * pretty random.  Either that, or the code itself could be copied and the
+ * various parameters changed as needed.
+ *
  * @author John Blanco
  */
 public class EnergyChunkDistributor {
 
+
     private static final double OUTSIDE_CONTAINER_FORCE = 2.5; // In Newtons, empirically determined.
-    private static final double MAX_TIME_STEP = 5E-3; // In seconds, for algorithm that moves the points.
     private static final Random RAND = new Random( 2 ); // Seeded for greater consistency.
-    private static final double ENERGY_CHUNK_MASS = 1E-3; // In kilograms, chosen arbitrarily.
-    private static final double FLUID_DENSITY = 1000; // In kg / m ^ 3, same as water, used for drag.
-    private static final double ENERGY_CHUNK_CROSS_SECTIONAL_AREA = 1E-4;
-    private static final double DRAG_COEFFICIENT = 1; // Empirically chosen, tweak as needed.
     private static final Vector2D ZERO_VECTOR = new Vector2D( 0, 0 );
 
+    // Parameters that can be adjusted to change they nature of the redistribution.
+    private static final double MAX_TIME_STEP = 5E-3; // In seconds, for algorithm that moves the points.
+    private static final double ENERGY_CHUNK_MASS = 1E-3; // In kilograms, chosen arbitrarily.
+    private static final double FLUID_DENSITY = 1000; // In kg / m ^ 3, same as water, used for drag.
+    private static final double ENERGY_CHUNK_DIAMETER = 1E-3; // In meters, chosen empirically.
+    private static final double ENERGY_CHUNK_CROSS_SECTIONAL_AREA = Math.PI * Math.pow( ENERGY_CHUNK_DIAMETER, 2 ); // Treat energy chunk as if it is shaped like a sphere.
+    private static final double DRAG_COEFFICIENT = 100; // Unitless, empirically chosen.
+
+    // Force threshold for ignoring simulated forces.  This helps prevent
+    // jitter of the objects.
+//    private static final double MIN_SIGNIFICANT_FORCE = 1E-5; // In Newtons, determined empirically to minimize jitter.
+    private static final double MIN_SIGNIFICANT_FORCE = 0; // In Newtons, determined empirically to minimize jitter.
+
+    /**
+     * Redistribute a set of energy chunks that are contained in energy chunk
+     * "slices".  This is done in this way because all of the energy chunks in
+     * a set of slices interact with each other, but the container for each is
+     * defined by the boundary of its containing slice.
+     *
+     * @param energyChunkContainerSlices Set of slices, each containing a set of energy chunks.
+     * @param dt Delta time
+     */
     public static void updatePositionsNew( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
 
         // Determine a rectangle that bounds all of the slices.
@@ -60,10 +83,6 @@ public class EnergyChunkDistributor {
         if ( mapEnergyChunkToForceVector.isEmpty() ) {
             return; // Nothing to do - abort.
         }
-
-        // Determine max velocity.  It is limited such that the particle won't
-        // move more that 1/2 the container width in a single time step.
-        double maxVelocity = Math.max( boundingRect.getWidth(), boundingRect.getHeight() ) / ( 2 * MAX_TIME_STEP );
 
         // Determine the minimum distance that is allowed to be used in the
         // force calculations.  This prevents hitting infinities that can
@@ -162,6 +181,11 @@ public class EnergyChunkDistributor {
 
             // Update the velocities and positions of the energy chunks.
             for ( EnergyChunk energyChunk : mapEnergyChunkToForceVector.keySet() ) {
+                // If force is below min threshold, reduce it to zero in order
+                // to prevent jitter after equilibrium reached.
+                if ( mapEnergyChunkToForceVector.get( energyChunk ).magnitude() < MIN_SIGNIFICANT_FORCE ){
+                    mapEnergyChunkToForceVector.put( energyChunk, ZERO_VECTOR );
+                }
                 Vector2D newVelocity = energyChunk.getVelocity().plus( mapEnergyChunkToForceVector.get( energyChunk ).times( timeStep / ENERGY_CHUNK_MASS ) );
 //                if ( newVelocity.magnitude() > maxVelocity ){
 //                    // Limit magnitude of the velocity.
@@ -169,7 +193,6 @@ public class EnergyChunkDistributor {
 //                }
                 energyChunk.setVelocity( newVelocity );
                 energyChunk.position.set( energyChunk.position.get().plus( energyChunk.getVelocity().times( timeStep ) ) );
-                System.out.println( "energyChunk.position.get() = " + energyChunk.position.get() );
             }
         }
     }
