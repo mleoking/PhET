@@ -1,3 +1,4 @@
+Text tabs: Moved the home button to the left of the tabs to match the icon tabs version
 # 1.02.18 (72463) Mar 11, 2013
 Fixed a bug that prevented running on Java 6
 # 1.02.17 (72461) Mar 10, 2013

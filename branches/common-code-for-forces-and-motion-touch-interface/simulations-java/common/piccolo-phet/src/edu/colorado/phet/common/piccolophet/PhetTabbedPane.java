@@ -670,16 +670,19 @@ public class PhetTabbedPane extends JPanel {
         private boolean logoVisible = true;
         PhetFont labelFont = new PhetFont( 40, true );
         private final PhetPText tabLabel;
+        private final PImage homeButton;
 
         public TabPane( Color selectedTabColor, Color unselectedTabColor ) {
             PhetPText phetText = new PhetPText( "PhET", labelFont, Color.yellow );
-            logo = new HBox( new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-gray.png" ), 45 ) ) {{
+            homeButton = new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "home-gray.png" ), 45 ) ) {{
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         homeButtonListener.run();
                     }
                 } );
-            }}, new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-gray.png" ), 45 ) ) {{
+            }};
+            getLayer().addChild( homeButton );
+            logo = new HBox( new PImage( BufferedImageUtils.multiScaleToHeight( PhetCommonResources.getInstance().getImage( "menu-gray.png" ), 45 ) ) {{
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         PhetTabbedPane.showMenuPopup( TabPane.this, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
@@ -760,7 +763,7 @@ public class PhetTabbedPane extends JPanel {
             }
             tabBase.updatePaint();
 
-//            homeIcon.setOffset( initTaxX - homeIcon.getFullBounds().getWidth() - 60, 4 );
+            homeButton.setOffset( initTaxX - homeButton.getFullBounds().getWidth() - 20, 4 );
         }
 
         private void relayoutLogo( double tabBaseY ) {
