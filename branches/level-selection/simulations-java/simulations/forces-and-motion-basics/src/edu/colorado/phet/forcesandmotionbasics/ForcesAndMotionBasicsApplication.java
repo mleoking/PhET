@@ -65,7 +65,8 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
             public void run() {
                 getPhetFrame().setContentPane( new HomeScreen( ForcesAndMotionBasicsApplication.this ) );
                 //http://stackoverflow.com/questions/6010915/change-contentpane-of-frame-after-button-clicked
-                getPhetFrame().revalidate();
+                getPhetFrame().invalidate();
+                getPhetFrame().validate();
                 getPhetFrame().repaint();
             }
         };
@@ -86,14 +87,16 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
         getPhetFrame().setContentPane( modulePane );
 
         //http://stackoverflow.com/questions/6010915/change-contentpane-of-frame-after-button-clicked
-        getPhetFrame().revalidate();
+        getPhetFrame().invalidate();
+        getPhetFrame().validate();
         getPhetFrame().repaint();
     }
 
     public void showHomeScreenForSelection( int i ) {
         getPhetFrame().setContentPane( new HomeScreen( ForcesAndMotionBasicsApplication.this, i ) );
         //http://stackoverflow.com/questions/6010915/change-contentpane-of-frame-after-button-clicked
-        getPhetFrame().revalidate();
+        getPhetFrame().invalidate();
+        getPhetFrame().validate();
         getPhetFrame().repaint();
     }
 }
