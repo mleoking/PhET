@@ -39,7 +39,7 @@ public class EnergyChunkDistributor {
     private static final double FLUID_DENSITY = 1000; // In kg / m ^ 3, same as water, used for drag.
     private static final double ENERGY_CHUNK_DIAMETER = 1E-3; // In meters, chosen empirically.
     private static final double ENERGY_CHUNK_CROSS_SECTIONAL_AREA = Math.PI * Math.pow( ENERGY_CHUNK_DIAMETER, 2 ); // Treat energy chunk as if it is shaped like a sphere.
-    private static final double DRAG_COEFFICIENT = 100; // Unitless, empirically chosen.
+    private static final double DRAG_COEFFICIENT = 500; // Unitless, empirically chosen.
 
     // Thresholds for deciding whether or not to perform redistribution.
     // These value should be chosen such that particles spread out, then stop
@@ -96,7 +96,7 @@ public class EnergyChunkDistributor {
         // particles so that we don't end up with hugely repulsive forces that
         // tend to push the particles out of the container.  This formula was
         // made up, and can be adjusted if needed.
-        double forceConstant = ENERGY_CHUNK_MASS * boundingRect.getWidth() * boundingRect.getHeight() * 1E-3 / mapEnergyChunkToForceVector.size();
+        double forceConstant = ENERGY_CHUNK_MASS * boundingRect.getWidth() * boundingRect.getHeight() * 0.1 / mapEnergyChunkToForceVector.size();
 
         // Outside container velocity is a function of container size.
         double outsideContainerVelocity = Math.max( boundingRect.getHeight(), boundingRect.getWidth() ); // In meters / s.
