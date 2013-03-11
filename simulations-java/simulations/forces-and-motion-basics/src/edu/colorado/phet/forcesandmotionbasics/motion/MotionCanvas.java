@@ -123,6 +123,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private Image cloudTexture;
     private BufferedImage txtr;
     private final StackableNode crate1;
+    private final StackableNode girl;
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
@@ -408,7 +409,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( crate2 );
 
         //Weight for humans (but remember to round off the values to nearest 10 to make it easier to read): http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
-        StackableNode girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), multiScaleToHeight( Images.GIRL_HOLDING, 100 ) );
+        girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), multiScaleToHeight( Images.GIRL_HOLDING, 100 ) );
         final int manHeight = (int) ( 200 / 150.0 * 100.0 );
         man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, manHeight ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), multiScaleToHeight( Images.MAN_HOLDING, manHeight ) );
 
@@ -557,13 +558,18 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //Start an object on the skateboard
     private void init() {
         if ( this.accelerometer ) {
-            bucket.onSkateboard.set( true );
             stack.set( stack.get().snoc( bucket ) );
+            bucket.onSkateboard.set( true );
+            normalizeStack( 0 );
+        }
+        else if ( this.friction ) {
+            stack.set( stack.get().snoc( fridge ) );
+            fridge.onSkateboard.set( true );
             normalizeStack( 0 );
         }
         else {
-            crate1.onSkateboard.set( true );
-            stack.set( stack.get().snoc( crate1 ) );
+            stack.set( stack.get().snoc( girl ) );
+            girl.onSkateboard.set( true );
             normalizeStack( 0 );
         }
     }

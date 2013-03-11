@@ -44,7 +44,7 @@ class MotionModel {
     public final Property<SpeedValue> speedValue = new Property<SpeedValue>( _speedValue.get() );
 
     //Only used in Tab 3 "Friction"
-    public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 2 );//The coefficient of friction (mu_k = mu_s)
+    public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 4 );//The coefficient of friction (mu_k = mu_s)
     private Pair<Long, SpeedValue> lastOutOfRange = null;
     public final BooleanProperty movedSliderOnce = new BooleanProperty( false );
 
