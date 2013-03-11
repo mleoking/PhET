@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class TestEnergyChunkDistribution {
 
-    private static final int NUM_ENERGY_CHUNKS = 5;
+    private static final int NUM_ENERGY_CHUNKS = 25;
     private static final double CONTAINER_WIDTH = 0.05; // In meters.
 
     /**
@@ -71,7 +71,9 @@ public class TestEnergyChunkDistribution {
 
         // Add the energy chunks.
         for ( int i = 0; i < NUM_ENERGY_CHUNKS; i++ ) {
-            EnergyChunk energyChunk = new EnergyChunk( EnergyType.THERMAL, 0, 0, new BooleanProperty( true ) );
+            EnergyChunk energyChunk = new EnergyChunk( EnergyType.THERMAL,
+                                                       EnergyChunkDistributor.generateRandomLocation( energyChunkContainerSlice.getShape().getBounds2D() ),
+                                                       new BooleanProperty( true ) );
             energyChunkContainerSlice.addEnergyChunk( energyChunk );
             rootNode.addChild( new EnergyChunkNode( energyChunk, mvt ) );
         }
