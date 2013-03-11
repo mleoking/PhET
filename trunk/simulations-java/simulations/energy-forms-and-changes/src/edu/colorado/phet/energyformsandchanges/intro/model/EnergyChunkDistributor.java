@@ -41,9 +41,11 @@ public class EnergyChunkDistributor {
     private static final double ENERGY_CHUNK_CROSS_SECTIONAL_AREA = Math.PI * Math.pow( ENERGY_CHUNK_DIAMETER, 2 ); // Treat energy chunk as if it is shaped like a sphere.
     private static final double DRAG_COEFFICIENT = 100; // Unitless, empirically chosen.
 
-    // Force threshold for deciding whether or not to perform redistribution.
-    // This value should be chosen such that particles spread out, then stop.
+    // Thresholds for deciding whether or not to perform redistribution.
+    // These value should be chosen such that particles spread out, then stop
+    // all movement.
     private static final double REDISTRIBUTION_THRESHOLD_FORCE = 1E-6; // In Newtons, determined empirically to minimize jitter.
+    private static final double REDISTRIBUTION_THRESHOLD_VELOCITY = 1E-3; // In meters/sec.
 
     /**
      * Redistribute a set of energy chunks that are contained in energy chunk
@@ -185,19 +187,24 @@ public class EnergyChunkDistributor {
                 }
             }
 
-            // Determine the max force acting on any particle.
+            // Determine the max force and velocity for the particle set.
             double currentMaxForce = 0;
+            double currentMaxVelocity = 0;
             for ( EnergyChunk energyChunk : mapEnergyChunkToForceVector.keySet() ) {
                 double forceOnThisChunk = mapEnergyChunkToForceVector.get( energyChunk ).magnitude();
                 if ( forceOnThisChunk > currentMaxForce ) {
                     currentMaxForce = forceOnThisChunk;
                 }
+                double velocity = energyChunk.getVelocity().magnitude();
+                if ( velocity > currentMaxVelocity ){
+                    currentMaxVelocity = velocity;
+                }
             }
 
             // Only update positions and velocities of the max detected force
-            // exceeds the minimum threshold.  This prevents situations where
-            // the chunks appear to vibrate, or jitter, in one place.
-            if ( currentMaxForce > REDISTRIBUTION_THRESHOLD_FORCE ) {
+            // or velocity exceeds the minimum threshold.  This prevents
+            // situations where the chunks appear to vibrate, or jitter, in one place.
+            if ( currentMaxForce > REDISTRIBUTION_THRESHOLD_FORCE || currentMaxVelocity > REDISTRIBUTION_THRESHOLD_VELOCITY ) {
 
                 // Update the velocities and positions of the energy chunks.
                 for ( EnergyChunk energyChunk : mapEnergyChunkToForceVector.keySet() ) {
