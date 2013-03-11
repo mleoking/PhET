@@ -1,3 +1,5 @@
+# 0.00.33 (72466) Mar 11, 2013
+3/11/13 Publishing to dev for reveiw
 Permanently removed code for ice in the beaker.
 Made the emission of energy chunks from the sun a little less random so that the solar panel has a steadier energy output.
 Added algorithm to prevent clumping of energy chunks in the solar panel.
