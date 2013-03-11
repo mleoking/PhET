@@ -37,6 +37,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class TestEnergyChunkDistribution {
 
     private static final int NUM_ENERGY_CHUNKS = 5;
+    private static final double CONTAINER_WIDTH = 0.05; // In meters.
 
     /**
      * Main routine that constructs a PhET Piccolo canvas in a window.
@@ -55,7 +56,7 @@ public class TestEnergyChunkDistribution {
         ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
-                2200 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                4000 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Root node for adding other nodes.
         PNode rootNode = new PNode();
@@ -63,7 +64,7 @@ public class TestEnergyChunkDistribution {
 
         // Add the container where the energy chunks will be held.  Change the
         // shape as needed for testing.
-        Shape containerShape = new Rectangle2D.Double( -0.05, -0.05, 0.1, 0.1 );
+        Shape containerShape = new Rectangle2D.Double( -CONTAINER_WIDTH / 2, -CONTAINER_WIDTH / 2, CONTAINER_WIDTH, CONTAINER_WIDTH );
         final EnergyChunkContainerSlice energyChunkContainerSlice = new EnergyChunkContainerSlice( containerShape, 0, new Property<Vector2D>( new Vector2D( 0, 0 ) ) );
         PNode sliceNode = new EnergyChunkContainerSliceNode( energyChunkContainerSlice, mvt, true, Color.BLUE );
         rootNode.addChild( sliceNode );
