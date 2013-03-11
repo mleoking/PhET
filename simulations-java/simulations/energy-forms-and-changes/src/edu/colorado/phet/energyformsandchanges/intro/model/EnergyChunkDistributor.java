@@ -44,7 +44,7 @@ public class EnergyChunkDistributor {
     // Thresholds for deciding whether or not to perform redistribution.
     // These value should be chosen such that particles spread out, then stop
     // all movement.
-    private static final double REDISTRIBUTION_THRESHOLD_FORCE = 1E-6; // In Newtons, determined empirically to minimize jitter.
+    private static final double REDISTRIBUTION_THRESHOLD_FORCE = 1E-5; // In Newtons, determined empirically to minimize jitter.
     private static final double REDISTRIBUTION_THRESHOLD_VELOCITY = 1E-3; // In meters/sec.
 
     /**
@@ -90,7 +90,7 @@ public class EnergyChunkDistributor {
         // Determine the minimum distance that is allowed to be used in the
         // force calculations.  This prevents hitting infinities that can
         // cause run time issues or unreasonably large forces.
-        double minDistance = Math.min( boundingRect.getWidth(), boundingRect.getHeight() ) / 500; // Divisor empirically determined.
+        double minDistance = Math.min( boundingRect.getWidth(), boundingRect.getHeight() ) / 20; // Divisor empirically determined.
 
         // The particle repulsion force varies inversely with the density of
         // particles so that we don't end up with hugely repulsive forces that
