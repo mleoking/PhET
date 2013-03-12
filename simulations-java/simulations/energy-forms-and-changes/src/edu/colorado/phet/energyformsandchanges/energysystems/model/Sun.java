@@ -35,8 +35,9 @@ public class Sun extends EnergySource {
     public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.1; // In seconds.
     private static final Random RAND = new Random();
     private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
-    private static final int NUM_EMISSION_SECTORS = 16;
-    private static final double EMISSION_SECTOR_SPAN = 2 * Math.PI / NUM_EMISSION_SECTORS;
+    public static final int NUM_EMISSION_SECTORS = 10;
+    public static final double EMISSION_SECTOR_SPAN = 2 * Math.PI / NUM_EMISSION_SECTORS;
+    public static final double EMISSION_SECTOR_OFFSET = Math.PI * 0.26; // Used to tweak sector positions to make sure solar panel gets consistent flow of E's.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -192,7 +193,7 @@ public class Sun extends EnergySource {
 
         // Angle is a function of the selected sector and a random offset
         // within the sector.
-        return (sector + RAND.nextDouble()) * EMISSION_SECTOR_SPAN;
+        return (sector + RAND.nextDouble()) * EMISSION_SECTOR_SPAN + EMISSION_SECTOR_OFFSET;
     }
 
     @Override public void activate() {
