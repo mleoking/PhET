@@ -1,9 +1,9 @@
-Make the sun more
+Make the sun more even in its output.
 Fix: Jittery E's in beaker
+Fix: Long reset time.
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
-Fix: Long reset time.
 
 Fix issues with "systems", i.e. stacks of blocks and so forth.
 E's continue into bucket, i.e. don't turn around.
