@@ -331,9 +331,12 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             // Add a chunk at a random location in the block.
             addEnergyChunk( new EnergyChunk( EnergyType.THERMAL, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible ) );
         }
+
         // Distribute the energy chunks within the container.
         for ( int i = 0; i < 1000; i++ ) {
-            EnergyChunkDistributor.updatePositions( slices, EFACConstants.SIM_TIME_PER_TICK_NORMAL );
+            if ( !EnergyChunkDistributor.updatePositions( slices, EFACConstants.SIM_TIME_PER_TICK_NORMAL ) ){
+                break;
+            }
         }
     }
 
