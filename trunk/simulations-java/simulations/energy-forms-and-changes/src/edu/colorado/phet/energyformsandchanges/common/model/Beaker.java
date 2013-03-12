@@ -151,6 +151,13 @@ public class Beaker extends RectangularThermalMovableModelElement {
             // Add a chunk at a random location in the beaker.
             addEnergyChunkToNextSlice( new EnergyChunk( EnergyType.THERMAL, EnergyChunkDistributor.generateRandomLocation( initialChunkBounds ), energyChunksVisible ) );
         }
+
+        // Distribute the energy chunks within the beaker.
+        for ( int i = 0; i < 1000; i++ ) {
+            if ( !EnergyChunkDistributor.updatePositions( slices, EFACConstants.SIM_TIME_PER_TICK_NORMAL ) ){
+                break;
+            }
+        }
     }
 
     @Override protected void addEnergyChunkToNextSlice( EnergyChunk ec ) {
