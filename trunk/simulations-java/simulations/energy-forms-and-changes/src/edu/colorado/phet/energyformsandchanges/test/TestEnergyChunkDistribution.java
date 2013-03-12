@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +64,8 @@ public class TestEnergyChunkDistribution {
 
         // Add the container where the energy chunks will be held.  Change the
         // shape as needed for testing.
-        Shape containerShape = new Rectangle2D.Double( -CONTAINER_WIDTH / 2, -CONTAINER_WIDTH / 2, CONTAINER_WIDTH, CONTAINER_WIDTH );
+//        Shape containerShape = new Rectangle2D.Double( -CONTAINER_WIDTH / 2, -CONTAINER_WIDTH / 2, CONTAINER_WIDTH, CONTAINER_WIDTH );
+        Shape containerShape = new Ellipse2D.Double( -CONTAINER_WIDTH / 2, -CONTAINER_WIDTH / 2 * 2, CONTAINER_WIDTH, CONTAINER_WIDTH * 2 );
         final EnergyChunkContainerSlice energyChunkContainerSlice = new EnergyChunkContainerSlice( containerShape, 0, new Property<Vector2D>( new Vector2D( 0, 0 ) ) );
         PNode sliceNode = new EnergyChunkContainerSliceNode( energyChunkContainerSlice, mvt, true, Color.BLUE );
         rootNode.addChild( sliceNode );
@@ -92,7 +93,7 @@ public class TestEnergyChunkDistribution {
         // Add a button that will reset the state.
         ResetAllButtonNode resetButton = new ResetAllButtonNode( new Resettable() {
             public void reset() {
-                for ( EnergyChunk ec : energyChunkContainerSlice.energyChunkList ){
+                for ( EnergyChunk ec : energyChunkContainerSlice.energyChunkList ) {
                     ec.setVelocity( 0, 0 );
                 }
                 randomizeEnergyChunkPositions( energyChunkContainerSlice );
@@ -111,7 +112,7 @@ public class TestEnergyChunkDistribution {
         frame.setVisible( true );
     }
 
-    private static void randomizeEnergyChunkPositions(EnergyChunkContainerSlice energyChunkContainerSlice ){
+    private static void randomizeEnergyChunkPositions( EnergyChunkContainerSlice energyChunkContainerSlice ) {
         for ( EnergyChunk ec : energyChunkContainerSlice.energyChunkList ) {
             ec.position.set( EnergyChunkDistributor.generateRandomLocation( energyChunkContainerSlice.getShape().getBounds2D() ) );
         }

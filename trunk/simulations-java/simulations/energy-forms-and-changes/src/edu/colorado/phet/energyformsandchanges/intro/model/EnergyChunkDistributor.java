@@ -44,8 +44,7 @@ public class EnergyChunkDistributor {
     // Thresholds for deciding whether or not to perform redistribution.
     // These value should be chosen such that particles spread out, then stop
     // all movement.
-    private static final double REDISTRIBUTION_THRESHOLD_FORCE = 1E-4; // In Newtons, determined empirically to minimize jitter.
-    private static final double REDISTRIBUTION_THRESHOLD_VELOCITY = 1E-2; // In meters/sec.
+    private static final double REDISTRIBUTION_THRESHOLD_ENERGY = 1E-4; // In joules, I think.
 
     /**
      * Redistribute a set of energy chunks that are contained in energy chunk
@@ -184,16 +183,12 @@ public class EnergyChunkDistributor {
             }
 
             // Update energy chunk velocities, drag force, and position.
-            double currentMaxForce = 0;
-            double currentMaxVelocity = 0;
+            double maxEnergy = 0;
             for ( EnergyChunk energyChunk : mapEnergyChunkToForceVector.keySet() ) {
 
                 // Calculate the energy chunk's velocity as a result of forces acting on it.
                 Vector2D forceOnThisChunk = mapEnergyChunkToForceVector.get( energyChunk );
                 Vector2D newVelocity = energyChunk.getVelocity().plus( forceOnThisChunk.times( timeStep / ENERGY_CHUNK_MASS ) );
-                if ( forceOnThisChunk.magnitude() > currentMaxForce ) {
-                    currentMaxForce = forceOnThisChunk.magnitude();
-                }
 
                 // Calculate drag force.  Uses standard drag equation.
                 double dragMagnitude = 0.5 * FLUID_DENSITY * DRAG_COEFFICIENT * ENERGY_CHUNK_CROSS_SECTIONAL_AREA * newVelocity.magnitudeSquared();
@@ -202,12 +197,15 @@ public class EnergyChunkDistributor {
                 // Update velocity based on drag force.
                 newVelocity = newVelocity.plus( dragForceVector.times( timeStep / ENERGY_CHUNK_MASS ) );
                 energyChunk.setVelocity( newVelocity );
-                if ( newVelocity.magnitude() > currentMaxVelocity ) {
-                    currentMaxVelocity = newVelocity.magnitude();
+
+                // Update max energy.
+                double totalParticleEnergy = 0.5 * ENERGY_CHUNK_MASS * newVelocity.magnitudeSquared() + forceOnThisChunk.magnitude() * Math.PI / 2;
+                if ( totalParticleEnergy > maxEnergy ){
+                    maxEnergy = totalParticleEnergy;
                 }
             }
 
-            particlesRedistributed = currentMaxForce > REDISTRIBUTION_THRESHOLD_FORCE || currentMaxVelocity > REDISTRIBUTION_THRESHOLD_VELOCITY;
+            particlesRedistributed = maxEnergy > REDISTRIBUTION_THRESHOLD_ENERGY;
 
             if ( particlesRedistributed ) {
                 for ( EnergyChunk energyChunk : mapEnergyChunkToForceVector.keySet() ) {
