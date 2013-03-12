@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class TestEnergyChunkDistribution {
 
-    private static final int NUM_ENERGY_CHUNKS = 25;
+    private static final int NUM_ENERGY_CHUNKS = 50;
     private static final double CONTAINER_WIDTH = 0.05; // In meters.
 
     /**
@@ -84,7 +84,7 @@ public class TestEnergyChunkDistribution {
         sliceList.add( energyChunkContainerSlice );
         Timer timer = new Timer( (int) Math.round( dt * 1000 ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                EnergyChunkDistributor.updatePositionsNew( sliceList, dt );
+                EnergyChunkDistributor.updatePositions( sliceList, dt );
             }
         } );
         timer.start();

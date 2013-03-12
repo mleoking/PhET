@@ -44,8 +44,8 @@ public class EnergyChunkDistributor {
     // Thresholds for deciding whether or not to perform redistribution.
     // These value should be chosen such that particles spread out, then stop
     // all movement.
-    private static final double REDISTRIBUTION_THRESHOLD_FORCE = 1E-5; // In Newtons, determined empirically to minimize jitter.
-    private static final double REDISTRIBUTION_THRESHOLD_VELOCITY = 1E-3; // In meters/sec.
+    private static final double REDISTRIBUTION_THRESHOLD_FORCE = 1E-4; // In Newtons, determined empirically to minimize jitter.
+    private static final double REDISTRIBUTION_THRESHOLD_VELOCITY = 1E-2; // In meters/sec.
 
     /**
      * Redistribute a set of energy chunks that are contained in energy chunk
@@ -56,7 +56,7 @@ public class EnergyChunkDistributor {
      * @param energyChunkContainerSlices Set of slices, each containing a set of energy chunks.
      * @param dt                         Delta time
      */
-    public static void updatePositionsNew( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
+    public static boolean updatePositions( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
 
         // Determine a rectangle that bounds all of the slices.
         Rectangle2D boundingRect;
@@ -84,7 +84,7 @@ public class EnergyChunkDistributor {
 
         // Make sure that there is actually something to distribute.
         if ( mapEnergyChunkToForceVector.isEmpty() ) {
-            return; // Nothing to do - abort.
+            return false; // Nothing to do - abort.
         }
 
         // Determine the minimum distance that is allowed to be used in the
@@ -102,6 +102,7 @@ public class EnergyChunkDistributor {
         double outsideContainerVelocity = Math.max( boundingRect.getHeight(), boundingRect.getWidth() ); // In meters / s.
 
         // Loop once for each max time step plus any remainder.
+        boolean particlesRedistributed = false;
         int numForceCalcSteps = (int) ( dt / MAX_TIME_STEP );
         double extraTime = dt - numForceCalcSteps * MAX_TIME_STEP;
         for ( int forceCalcStep = 0; forceCalcStep <= numForceCalcSteps; forceCalcStep++ ) {
@@ -173,11 +174,6 @@ public class EnergyChunkDistributor {
                             // Add the force to the accumulated forces on this energy chunk.
                             mapEnergyChunkToForceVector.put( ec, mapEnergyChunkToForceVector.get( ec ).plus( vectorToOther.getInstanceOfMagnitude( forceConstant / ( vectorToOther.magnitudeSquared() ) ) ) );
                         }
-
-                        // Calculate drag force.  Uses standard drag equation.
-                        double dragMagnitude = 0.5 * FLUID_DENSITY * DRAG_COEFFICIENT * ENERGY_CHUNK_CROSS_SECTIONAL_AREA * ec.getVelocity().magnitudeSquared();
-                        Vector2D dragForceVector = dragMagnitude > 0 ? ec.getVelocity().getRotatedInstance( Math.PI ).getInstanceOfMagnitude( dragMagnitude ) : ZERO_VECTOR;
-                        mapEnergyChunkToForceVector.put( ec, mapEnergyChunkToForceVector.get( ec ).plus( dragForceVector ) );
                     }
                     else {
                         // Point is outside container, move it towards center of shape.
@@ -187,36 +183,43 @@ public class EnergyChunkDistributor {
                 }
             }
 
-            // Determine the max force and velocity for the particle set.
+            // Update energy chunk velocities, drag force, and position.
             double currentMaxForce = 0;
             double currentMaxVelocity = 0;
             for ( EnergyChunk energyChunk : mapEnergyChunkToForceVector.keySet() ) {
-                double forceOnThisChunk = mapEnergyChunkToForceVector.get( energyChunk ).magnitude();
-                if ( forceOnThisChunk > currentMaxForce ) {
-                    currentMaxForce = forceOnThisChunk;
+
+                // Calculate the energy chunk's velocity as a result of forces acting on it.
+                Vector2D forceOnThisChunk = mapEnergyChunkToForceVector.get( energyChunk );
+                Vector2D newVelocity = energyChunk.getVelocity().plus( forceOnThisChunk.times( timeStep / ENERGY_CHUNK_MASS ) );
+                if ( forceOnThisChunk.magnitude() > currentMaxForce ) {
+                    currentMaxForce = forceOnThisChunk.magnitude();
                 }
-                double velocity = energyChunk.getVelocity().magnitude();
-                if ( velocity > currentMaxVelocity ){
-                    currentMaxVelocity = velocity;
+
+                // Calculate drag force.  Uses standard drag equation.
+                double dragMagnitude = 0.5 * FLUID_DENSITY * DRAG_COEFFICIENT * ENERGY_CHUNK_CROSS_SECTIONAL_AREA * newVelocity.magnitudeSquared();
+                Vector2D dragForceVector = dragMagnitude > 0 ? newVelocity.getRotatedInstance( Math.PI ).getInstanceOfMagnitude( dragMagnitude ) : ZERO_VECTOR;
+
+                // Update velocity based on drag force.
+                newVelocity = newVelocity.plus( dragForceVector.times( timeStep / ENERGY_CHUNK_MASS ) );
+                energyChunk.setVelocity( newVelocity );
+                if ( newVelocity.magnitude() > currentMaxVelocity ) {
+                    currentMaxVelocity = newVelocity.magnitude();
                 }
             }
 
-            // Only update positions and velocities ff the max detected force
-            // or velocity exceeds the minimum threshold.  This prevents
-            // situations where the chunks appear to vibrate, or jitter, in one place.
-            if ( currentMaxForce > REDISTRIBUTION_THRESHOLD_FORCE || currentMaxVelocity > REDISTRIBUTION_THRESHOLD_VELOCITY ) {
+            particlesRedistributed = currentMaxForce > REDISTRIBUTION_THRESHOLD_FORCE || currentMaxVelocity > REDISTRIBUTION_THRESHOLD_VELOCITY;
 
-                // Update the velocities and positions of the energy chunks.
+            if ( particlesRedistributed ) {
                 for ( EnergyChunk energyChunk : mapEnergyChunkToForceVector.keySet() ) {
-                    Vector2D newVelocity = energyChunk.getVelocity().plus( mapEnergyChunkToForceVector.get( energyChunk ).times( timeStep / ENERGY_CHUNK_MASS ) );
-                    energyChunk.setVelocity( newVelocity );
+                    // Update position.
                     energyChunk.position.set( energyChunk.position.get().plus( energyChunk.getVelocity().times( timeStep ) ) );
                 }
             }
         }
+        return particlesRedistributed;
     }
 
-    public static void updatePositions( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
+    public static void updatePositionsOld( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
 
         // Create a map that relates each energy chunk to a point mass.
         Map<EnergyChunk, PointMass> map = new HashMap<EnergyChunk, PointMass>();
