@@ -201,7 +201,7 @@ public class EnergyChunkDistributor {
                 }
             }
 
-            // Only update positions and velocities of the max detected force
+            // Only update positions and velocities ff the max detected force
             // or velocity exceeds the minimum threshold.  This prevents
             // situations where the chunks appear to vibrate, or jitter, in one place.
             if ( currentMaxForce > REDISTRIBUTION_THRESHOLD_FORCE || currentMaxVelocity > REDISTRIBUTION_THRESHOLD_VELOCITY ) {
