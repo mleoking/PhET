@@ -1,11 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -43,6 +39,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class SunNode extends PositionableFadableModelElementNode {
 
     private static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( 16, true );
+    private static final boolean SHOW_EMISSION_SECTORS = true; // For debug.
+    private static final double EMISSION_SECTOR_LINE_LENGTH = 700;
 
     public SunNode( final Sun sun, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( sun, mvt );
@@ -61,6 +59,16 @@ public class SunNode extends PositionableFadableModelElementNode {
 
         // Add the energy chunks, which reside on their own layer.
         addChild( new EnergyChunkLayer( sun.energyChunkList, sun.getObservablePosition(), mvt ) );
+
+        // Add the emission sectors, if enabled.
+        if ( SHOW_EMISSION_SECTORS ) {
+            for ( int i = 0; i < Sun.NUM_EMISSION_SECTORS; i++ ) {
+                DoubleGeneralPath path = new DoubleGeneralPath( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ) );
+                double angle = i * Sun.EMISSION_SECTOR_SPAN + Sun.EMISSION_SECTOR_OFFSET;
+                path.lineToRelative( EMISSION_SECTOR_LINE_LENGTH * Math.cos( angle ), EMISSION_SECTOR_LINE_LENGTH * Math.sin( angle ) );
+                addChild( new PhetPPath( path.getGeneralPath() ) );
+            }
+        }
 
         // Add the sun.
         PNode sunNode = new PhetPPath( new Ellipse2D.Double( -sunRadius, -sunRadius, sunRadius * 2, sunRadius * 2 ) ) {{
@@ -142,13 +150,13 @@ public class SunNode extends PositionableFadableModelElementNode {
         private static final Stroke STROKE = new BasicStroke( STROKE_WIDTH );
         private static final Font LABEL_FONT = new PhetFont( 14, false );
 
-        private TickMarkLabel(String text ) {
+        private TickMarkLabel( String text ) {
             DoubleGeneralPath path = new DoubleGeneralPath( INDENT, STROKE_WIDTH / 2 ) {{
                 lineTo( INDENT + LENGTH, STROKE_WIDTH / 2 );
             }};
 
             final PNode tickMark = new PhetPPath( path.getGeneralPath(), STROKE, Color.BLACK );
-            final PNode label = new PhetPText( text, LABEL_FONT ){{
+            final PNode label = new PhetPText( text, LABEL_FONT ) {{
                 setOffset( tickMark.getFullBoundsReference().getMaxX() + 3, -getFullBoundsReference().height / 2 );
             }};
 
