@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -35,6 +36,10 @@ public class Sun extends EnergySource {
     public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.1; // In seconds.
     private static final Random RAND = new Random();
     private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
+
+    // Constants that control the nature of the emission sectors.  These are
+    // used to make emission look random yet still have a fairly steady rate
+    // within each sector.  One sector is intended to point at the solar panel.
     public static final int NUM_EMISSION_SECTORS = 10;
     public static final double EMISSION_SECTOR_SPAN = 2 * Math.PI / NUM_EMISSION_SECTORS;
     public static final double EMISSION_SECTOR_OFFSET = Math.PI * 0.26; // Used to tweak sector positions to make sure solar panel gets consistent flow of E's.
@@ -61,11 +66,17 @@ public class Sun extends EnergySource {
 
     private double energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
     private final BooleanProperty energyChunksVisible;
-    private final double [] sectorEmissionProbabilities = new double[NUM_EMISSION_SECTORS];
+    private final List<Integer> sectorList = new ArrayList<Integer>() {{
+        for ( int i = 0; i < NUM_EMISSION_SECTORS; i++ ) {
+            add( i );
+        }
+    }};
 
     // List of energy chunks that should be allowed to pass through the clouds
     // without bouncing (i.e. being reflected).
     private List<EnergyChunk> energyChunksPassingThroughClouds = new ArrayList<EnergyChunk>();
+
+    private int currentSectorIndex = 0;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -86,10 +97,7 @@ public class Sun extends EnergySource {
             }
         } );
 
-        // Initialize array used to even out emission direction.
-        for ( int i = 0; i < sectorEmissionProbabilities.length; i++ ){
-            sectorEmissionProbabilities[i] = 1 / (double)NUM_EMISSION_SECTORS;
-        }
+        Collections.shuffle( sectorList );
     }
 
     //-------------------------------------------------------------------------
@@ -171,24 +179,14 @@ public class Sun extends EnergySource {
     // Choose the angle for the emission of an energy chunk from the sun.
     // This uses history and probability to make the distribution somewhat
     // even but still random looking.
-    private double chooseNextEmissionAngle(){
-        double randomValue = RAND.nextDouble();
-        int sector = 0;
-        double sumOfProbabilities = sectorEmissionProbabilities[0];
-        while ( randomValue > sumOfProbabilities && sector < NUM_EMISSION_SECTORS ){
-            sector++;
-            sumOfProbabilities += sectorEmissionProbabilities[sector];
-        }
-        // Reduce the probability of selecting the same sector next time.
-        sectorEmissionProbabilities[sector] *= 0.1; // Multiplier determined empirically.
-        double totalOfProbabilities = 0;
+    private double chooseNextEmissionAngle() {
 
-        // Normalize the probabilities so that they total to 1.
-        for ( int i = 0; i < NUM_EMISSION_SECTORS; i++ ) {
-            totalOfProbabilities += sectorEmissionProbabilities[i];
-        }
-        for ( int i = 0; i < NUM_EMISSION_SECTORS; i++ ) {
-            sectorEmissionProbabilities[i] *= (1 / totalOfProbabilities);
+        int sector = sectorList.get( currentSectorIndex );
+        currentSectorIndex++;
+        if ( currentSectorIndex >= NUM_EMISSION_SECTORS ) {
+            currentSectorIndex = 0;
+            // Randomize the sector order so that emission doesn't look too regular.
+            Collections.shuffle( sectorList );
         }
 
         // Angle is a function of the selected sector and a random offset
