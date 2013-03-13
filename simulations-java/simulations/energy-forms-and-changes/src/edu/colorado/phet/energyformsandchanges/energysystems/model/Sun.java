@@ -42,7 +42,7 @@ public class Sun extends EnergySource {
     // within each sector.  One sector is intended to point at the solar panel.
     public static final int NUM_EMISSION_SECTORS = 10;
     public static final double EMISSION_SECTOR_SPAN = 2 * Math.PI / NUM_EMISSION_SECTORS;
-    public static final double EMISSION_SECTOR_OFFSET = Math.PI * 0.26; // Used to tweak sector positions to make sure solar panel gets consistent flow of E's.
+    public static final double EMISSION_SECTOR_OFFSET = EMISSION_SECTOR_SPAN * 0.71; // Used to tweak sector positions to make sure solar panel gets consistent flow of E's.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -185,13 +185,11 @@ public class Sun extends EnergySource {
         currentSectorIndex++;
         if ( currentSectorIndex >= NUM_EMISSION_SECTORS ) {
             currentSectorIndex = 0;
-            // Randomize the sector order so that emission doesn't look too regular.
-            Collections.shuffle( sectorList );
         }
 
         // Angle is a function of the selected sector and a random offset
         // within the sector.
-        return (sector + RAND.nextDouble()) * EMISSION_SECTOR_SPAN + EMISSION_SECTOR_OFFSET;
+        return sector * EMISSION_SECTOR_SPAN + ( RAND.nextDouble() * EMISSION_SECTOR_SPAN ) + EMISSION_SECTOR_OFFSET;
     }
 
     @Override public void activate() {

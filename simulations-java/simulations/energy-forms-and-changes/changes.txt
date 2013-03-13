@@ -1,5 +1,7 @@
+Made the solar panel and sun interact better so that there is a steady stream of E's at the output of the panel.
+Fixed the "jittery E's" problem.
 # 0.00.33 (72466) Mar 11, 2013
-3/11/13 Publishing to dev for reveiw
+3/11/13 Publishing to dev for review
 Permanently removed code for ice in the beaker.
 Made the emission of energy chunks from the sun a little less random so that the solar panel has a steadier energy output.
 Added algorithm to prevent clumping of energy chunks in the solar panel.

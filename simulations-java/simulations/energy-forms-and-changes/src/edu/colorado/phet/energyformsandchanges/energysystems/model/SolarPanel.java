@@ -5,9 +5,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -54,7 +52,10 @@ public class SolarPanel extends EnergyConverter {
     private static final Vector2D OFFSET_TO_THIRD_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX() + 0.015, CONNECTOR_IMAGE_OFFSET.getY() );
     private static final Vector2D OFFSET_TO_CONNECTOR_CENTER = CONNECTOR_IMAGE_OFFSET;
 
-    private static final double MIN_INTER_CHUNK_TIME = 0.5; // In seconds, used to keep electrical energy chunks from clumping up.
+    // Inter chunk spacing time for when the chunks reach the 'convergence
+    // point' at the bottom of the solar panel.  It is intended to
+    // approximately match the rate at which the sun emits energy chunks.
+    private static final double MIN_INTER_CHUNK_TIME = 1 / ( Sun.ENERGY_CHUNK_EMISSION_PERIOD * Sun.NUM_EMISSION_SECTORS); // In seconds.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -63,10 +64,7 @@ public class SolarPanel extends EnergyConverter {
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private final IClock simulationClock;
 
-    // Map of energy chunks to the simulation time at which they will arrive
-    // at the bottom of the panel.  This is used to prevent the energy chunks
-    // from clumping up as they travel through the converter.
-    private Map<EnergyChunk, Double> mapEnergyChunkToPanelBottomTime = new HashMap<EnergyChunk, Double>();
+    private double latestChunkArrivalTime = 0; // Used to prevent clumping of chunks.
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -97,7 +95,7 @@ public class SolarPanel extends EnergyConverter {
                         // to the bottom of the solar panel.
                         energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
                                                                          createPathToPanelBottom( getPosition() ),
-                                                                         chooseInitialChunkVelocity( incomingEnergyChunk ) ) );
+                                                                         chooseChunkVelocityOnPanel( incomingEnergyChunk ) ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.
@@ -117,7 +115,6 @@ public class SolarPanel extends EnergyConverter {
                         energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
                                                                          createPathThroughConverter( getPosition() ),
                                                                          EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                        mapEnergyChunkToPanelBottomTime.remove( energyChunkMover.energyChunk );
                     }
                     else {
                         // The energy chunk has traveled across the panel and through
@@ -137,44 +134,28 @@ public class SolarPanel extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
 
-    // Choose an initial velocity for an energy chunk such that it will not
-    // clump up with other chunks at the bottom of the panel.
-    private double chooseInitialChunkVelocity( EnergyChunk incomingEnergyChunk ) {
+    // Choose velocity of chunk on panel such that it won't clump up with
+    // other chunks.
+    private double chooseChunkVelocityOnPanel( EnergyChunk incomingEnergyChunk ) {
 
         // Start with default velocity.
         double chunkVelocity = EFACConstants.ENERGY_CHUNK_VELOCITY;
 
+        // Compute the projected time of arrival at the convergence point.
         double distanceToConvergencePoint = incomingEnergyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) );
         double travelTime = distanceToConvergencePoint / chunkVelocity;
         double projectedArrivalTime = simulationClock.getSimulationTime() + travelTime;
 
-        // If there are any energy chunks whose arrival time at the bottom of
-        // the panel is to close to this one, adjust the project time until
-        // there is no overlap.
-        EnergyChunk conflictingEnergyChunk = getChunkWithOverlappingArrivalWindow( projectedArrivalTime );
-        while ( conflictingEnergyChunk != null ) {
-            // Move the arrival time past the current overlap.
-            projectedArrivalTime = mapEnergyChunkToPanelBottomTime.get( conflictingEnergyChunk ) + MIN_INTER_CHUNK_TIME;
-            conflictingEnergyChunk = getChunkWithOverlappingArrivalWindow( projectedArrivalTime );
+        // If the projected arrival time is too close to the current last
+        // chunk, slow down so that the minimum spacing is maintained.
+        if ( latestChunkArrivalTime + MIN_INTER_CHUNK_TIME > projectedArrivalTime ){
+            projectedArrivalTime = latestChunkArrivalTime + MIN_INTER_CHUNK_TIME;
             System.out.println( "Adjusting arrival time to avoid clumping." ); // TODO: Remove once algorithm is proven.
         }
 
-        // Add this energy chunk and its arrival time to the list.
-        assert !mapEnergyChunkToPanelBottomTime.containsKey( incomingEnergyChunk ); // TODO: Remove once algorithm is proven.
-        mapEnergyChunkToPanelBottomTime.put( incomingEnergyChunk, projectedArrivalTime );
+        latestChunkArrivalTime = projectedArrivalTime;
 
         return distanceToConvergencePoint / ( projectedArrivalTime - simulationClock.getSimulationTime() );
-    }
-
-    // Get an energy chunk, if any exist, whose arrival window overlaps with
-    // the proposed arrival time.
-    private EnergyChunk getChunkWithOverlappingArrivalWindow( double arrivalTime ) {
-        for ( EnergyChunk ec : mapEnergyChunkToPanelBottomTime.keySet() ) {
-            if ( Math.abs( arrivalTime - mapEnergyChunkToPanelBottomTime.get( ec ) ) < MIN_INTER_CHUNK_TIME ) {
-                return ec;
-            }
-        }
-        return null;
     }
 
     @Override public void clearEnergyChunks() {

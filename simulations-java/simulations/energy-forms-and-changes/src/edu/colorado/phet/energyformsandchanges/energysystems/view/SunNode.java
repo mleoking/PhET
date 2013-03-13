@@ -65,7 +65,7 @@ public class SunNode extends PositionableFadableModelElementNode {
             for ( int i = 0; i < Sun.NUM_EMISSION_SECTORS; i++ ) {
                 DoubleGeneralPath path = new DoubleGeneralPath( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ) );
                 double angle = i * Sun.EMISSION_SECTOR_SPAN + Sun.EMISSION_SECTOR_OFFSET;
-                path.lineToRelative( EMISSION_SECTOR_LINE_LENGTH * Math.cos( angle ), EMISSION_SECTOR_LINE_LENGTH * Math.sin( angle ) );
+                path.lineToRelative( EMISSION_SECTOR_LINE_LENGTH * Math.cos( angle ), -EMISSION_SECTOR_LINE_LENGTH * Math.sin( angle ) );
                 addChild( new PhetPPath( path.getGeneralPath() ) );
             }
         }
