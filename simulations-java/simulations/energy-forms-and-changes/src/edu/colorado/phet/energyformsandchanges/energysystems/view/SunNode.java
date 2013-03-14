@@ -39,7 +39,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class SunNode extends PositionableFadableModelElementNode {
 
     private static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( 16, true );
-    private static final boolean SHOW_EMISSION_SECTORS = true; // For debug.
+    private static final boolean SHOW_EMISSION_SECTORS = false; // For debug.
     private static final double EMISSION_SECTOR_LINE_LENGTH = 700;
 
     public SunNode( final Sun sun, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
