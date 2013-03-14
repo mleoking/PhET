@@ -36,6 +36,7 @@ public class Burner extends ModelElement {
     private static final double HEIGHT = WIDTH * 1;
     private static final double MAX_ENERGY_GENERATION_RATE = 5000; // joules/sec, empirically chosen.
     private static final double CONTACT_DISTANCE = 0.001; // In meters.
+    private static final double ENERGY_CHUNK_CAPTURE_DISTANCE = 0.1; // In meters, empirically chosen.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -189,7 +190,8 @@ public class Burner extends ModelElement {
             }
         }
 
-        if ( closestEnergyChunk == null && ( heatCoolLevel.get() > 0 || getEnergyChunkCountForAir() > 0 ) ) {
+//        if ( closestEnergyChunk == null && ( heatCoolLevel.get() > 0 || getEnergyChunkCountForAir() > 0 ) ) {
+        if ( closestEnergyChunk == null && heatCoolLevel.get() > 0 ) {
             // Create an energy chunk.
             closestEnergyChunk = new EnergyChunk( EnergyType.THERMAL, getEnergyChunkStartEndPoint(), energyChunksVisible );
         }
@@ -230,10 +232,12 @@ public class Burner extends ModelElement {
     public int getEnergyChunkCountForAir() {
         int count = 0;
         // If there are approaching chunks, and the mode has switched to off or
-        // to heating, the chunks should go back to the air.
+        // to heating, the chunks should go back to the air (if they're not
+        // almost to the beaker).
         if ( energyChunkList.size() > 0 && heatCoolLevel.get() >= 0 ) {
             for ( EnergyChunk energyChunk : energyChunkList ) {
-                if ( energyChunk.getExistenceStrength().get() == 1 ) {
+                if ( energyChunk.getExistenceStrength().get() == 1 &&
+                     position.distance( energyChunk.position.get() ) > ENERGY_CHUNK_CAPTURE_DISTANCE ) {
                     count++;
                 }
             }
