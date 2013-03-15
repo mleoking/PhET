@@ -715,7 +715,7 @@ public class EFACIntroModel implements ITemperatureModel {
         if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
             return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR_IN_BEAKER );
         }
-        else if ( beaker.getSteamArea().contains( locationAsPoint ) ) {
+        else if ( beaker.getSteamArea().contains( locationAsPoint ) && beaker.steamingProportion > 0 ) {
             return new TemperatureAndColor( beaker.getSteamTemperature( locationAsPoint.getY() - beaker.getSteamArea().getMinY() ), Color.WHITE );
         }
 

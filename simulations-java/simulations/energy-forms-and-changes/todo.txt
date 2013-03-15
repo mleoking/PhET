@@ -1,6 +1,7 @@
 
 E's continue into bucket, i.e. don't turn around.
 From Ariel: The three objects if slid horizontally across the floor can "pass through" the heaters.  I think we had discussed making a hard boundary so the objects are only place on the heaters...not a big deal but might be a good finishing touch.
+EFAC: Fix issue where blocks and beakers can be dragged through each other and the burners under some circumstances.
 Fix issues with "systems", i.e. stacks of blocks and so forth.
 
 Make other bulb emit occasional thermal E.
