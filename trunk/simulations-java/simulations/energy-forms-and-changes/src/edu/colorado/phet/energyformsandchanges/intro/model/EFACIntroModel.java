@@ -472,8 +472,12 @@ public class EFACIntroModel implements ITemperatureModel {
 
         // Parameter checking.
         if ( movingRect.intersects( stationaryRect ) ) {
-            System.out.println( getClass().getName() + " - Warning: Can't test blocking if rectangles already overlap, method is being misused." );
-            return new Vector2D( proposedTranslation );
+            // The rectangles already overlap, so prevent the amount of
+            // overlap from increasing.
+            System.out.println( getClass().getName() + " - Warning: Rectangles already overlap." );
+            double xTranslation = Math.signum( stationaryRect.getCenterX() - movingRect.getCenterX() ) == Math.signum( proposedTranslation.getX() ) ? 0 : proposedTranslation.getX();
+            double yTranslation = Math.signum( stationaryRect.getCenterY() - movingRect.getCenterY() ) == Math.signum( proposedTranslation.getY() ) ? 0 : proposedTranslation.getY();
+            return new Vector2D( xTranslation, yTranslation );
         }
 
         double xTranslation = proposedTranslation.getX();
