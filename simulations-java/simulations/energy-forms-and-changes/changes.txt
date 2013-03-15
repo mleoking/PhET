@@ -1,3 +1,4 @@
+Prevented beakers and block from being dragged over the burners - the burners now act as blocking objects.
 Fixed an issue where energy chunks would appear to turn around after being pulled out of an object on the burner.
 Made the solar panel and sun interact better so that there is a steady stream of E's at the output of the panel.
 Fixed the "jittery E's" problem.
