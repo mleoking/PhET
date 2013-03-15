@@ -376,6 +376,10 @@ public class EFACIntroModel implements ITemperatureModel {
 
         Vector2D translation = new Vector2D( proposedPosition ).minus( modelElement.position.get() );
 
+        // Validate against burner boundaries.
+        translation = determineAllowedTranslation( modelElement.getRect(), leftBurner.getOutlineRect(), translation, false );
+        translation = determineAllowedTranslation( modelElement.getRect(), rightBurner.getOutlineRect(), translation, false );
+
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {
 
