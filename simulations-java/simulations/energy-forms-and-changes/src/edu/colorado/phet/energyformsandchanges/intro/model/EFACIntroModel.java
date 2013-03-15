@@ -25,6 +25,8 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.ITemperatureModel;
+import edu.colorado.phet.energyformsandchanges.common.view.BurnerNode;
+import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
 import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
 
 /**
@@ -374,33 +376,40 @@ public class EFACIntroModel implements ITemperatureModel {
      */
     public Point2D validatePosition( RectangularThermalMovableModelElement modelElement, Point2D proposedPosition ) {
 
+        // Compensate for the model element's center X position.
         Vector2D translation = new Vector2D( proposedPosition ).minus( modelElement.position.get() );
 
-        // Validate against burner boundaries.
-        translation = determineAllowedTranslation( modelElement.getRect(), leftBurner.getOutlineRect(), translation, false );
-        translation = determineAllowedTranslation( modelElement.getRect(), rightBurner.getOutlineRect(), translation, false );
+        // Figure out how far the block's right edge appears to protrude to
+        // the side due to perspective.
+        double blockPerspectiveExtension = Block.SURFACE_WIDTH * BlockNode.PERSPECTIVE_EDGE_PROPORTION * Math.cos( BlockNode.PERSPECTIVE_ANGLE ) / 2;
+
+        // Validate against burner boundaries.  Treat the burners as one big
+        // blocking rectangle so that the user can't drag things between
+        // them.  Also, compensate for perspective so that we can avoid
+        // difficult z-order issues.
+        double standPerspectiveExtension = leftBurner.getOutlineRect().getHeight() * BurnerNode.EDGE_TO_HEIGHT_RATIO * Math.cos( BurnerStandNode.PERSPECTIVE_ANGLE ) / 2;
+        double burnerRectX = leftBurner.getOutlineRect().getX() - standPerspectiveExtension - ( modelElement != beaker ? blockPerspectiveExtension : 0 );
+        Rectangle2D burnerBlockingRect = new Rectangle2D.Double( burnerRectX,
+                                                                 leftBurner.getOutlineRect().getY(),
+                                                                 rightBurner.getOutlineRect().getMaxX() - burnerRectX,
+                                                                 leftBurner.getOutlineRect().getHeight() );
+        translation = determineAllowedTranslation( modelElement.getRect(), burnerBlockingRect, translation, false );
 
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {
-
-            // Calculate an extension amount to apply to the rectangles that
-            // define the beaker collision areas.  This is done to avoid issues
-            // in the view with Z-order.  For now, this assumes only beakers
-            // and blocks in the model.
-            double extensionAmount = Block.SURFACE_WIDTH * BlockNode.PERSPECTIVE_EDGE_PROPORTION * Math.cos( BlockNode.PERSPECTIVE_ANGLE ) / 2;
 
             // Create three rectangles to represent the two sides and the top
             // of the beaker.
             double testRectThickness = 1E-3; // 1 mm thick walls.
             Rectangle2D beakerRect = beaker.getRect();
-            Rectangle2D beakerLeftSide = new Rectangle2D.Double( beakerRect.getMinX() - extensionAmount,
+            Rectangle2D beakerLeftSide = new Rectangle2D.Double( beakerRect.getMinX() - blockPerspectiveExtension,
                                                                  beaker.getRect().getMinY(),
-                                                                 testRectThickness + extensionAmount * 2,
-                                                                 beaker.getRect().getHeight() + extensionAmount );
-            Rectangle2D beakerRightSide = new Rectangle2D.Double( beaker.getRect().getMaxX() - testRectThickness - extensionAmount,
+                                                                 testRectThickness + blockPerspectiveExtension * 2,
+                                                                 beaker.getRect().getHeight() + blockPerspectiveExtension );
+            Rectangle2D beakerRightSide = new Rectangle2D.Double( beaker.getRect().getMaxX() - testRectThickness - blockPerspectiveExtension,
                                                                   beaker.getRect().getMinY(),
-                                                                  testRectThickness + extensionAmount * 2,
-                                                                  beaker.getRect().getHeight() + extensionAmount );
+                                                                  testRectThickness + blockPerspectiveExtension * 2,
+                                                                  beaker.getRect().getHeight() + blockPerspectiveExtension );
             Rectangle2D beakerBottom = new Rectangle2D.Double( beaker.getRect().getMinX(), beaker.getRect().getMinY(), beaker.getRect().getWidth(), testRectThickness );
 
             // Do not restrict the model element's motion in positive Y

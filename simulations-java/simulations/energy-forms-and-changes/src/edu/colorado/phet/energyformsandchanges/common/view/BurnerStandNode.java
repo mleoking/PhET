@@ -28,7 +28,7 @@ public class BurnerStandNode extends PNode {
     // into constructor params if it is ever desirable to do so.
     private static final Stroke BURNER_STAND_STROKE = new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Color BURNER_STAND_STROKE_COLOR = Color.BLACK;
-    private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
+    public static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
 
     //-------------------------------------------------------------------------
     // Instance Data
