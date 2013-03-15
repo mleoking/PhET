@@ -24,6 +24,8 @@ public class BurnerNode extends PNode {
     // Class Data
     //-------------------------------------------------------------------------
 
+    public static final double EDGE_TO_HEIGHT_RATIO = 0.2;
+
     // For debug purposes.
     private static final boolean SHOW_2D_RECT = false;
 
@@ -57,7 +59,7 @@ public class BurnerNode extends PNode {
         addChild( heaterCoolerNode );
 
         // Add the stand that goes around and above the burner.
-        addChild( new BurnerStandNode( burnerViewRect, burnerViewRect.getHeight() * 0.2 ) );
+        addChild( new BurnerStandNode( burnerViewRect, burnerViewRect.getHeight() * EDGE_TO_HEIGHT_RATIO ) );
 
         // Watch for energy chunks coming and going and add/remove nodes accordingly.
         burner.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
