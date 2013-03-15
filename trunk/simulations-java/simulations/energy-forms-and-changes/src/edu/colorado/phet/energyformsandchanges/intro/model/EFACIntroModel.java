@@ -1,8 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import java.awt.Color;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -435,8 +434,11 @@ public class EFACIntroModel implements ITemperatureModel {
             // element - the block will simply be lifted up.
             boolean restrictPositiveY = !block.isStackedUpon( modelElement );
 
-            // Clamp the translation based on the test block's position.
-            translation = determineAllowedTranslation( modelElement.getRect(), block.getRect(), translation, restrictPositiveY );
+            // Clamp the translation based on the test block's position, but
+            // handle the case where the block is immersed in the beaker.
+            if ( modelElement != beaker || !beaker.getRect().contains( block.getRect() )){
+                translation = determineAllowedTranslation( modelElement.getRect(), block.getRect(), translation, restrictPositiveY );
+            }
         }
 
         // Determine the new position based on the allowed translation.
@@ -470,14 +472,47 @@ public class EFACIntroModel implements ITemperatureModel {
      */
     private Vector2D determineAllowedTranslation( Rectangle2D movingRect, Rectangle2D stationaryRect, Vector2D proposedTranslation, boolean restrictPosY ) {
 
-        // Parameter checking.
+        // Test for case where rectangles already overlap.
         if ( movingRect.intersects( stationaryRect ) ) {
-            // The rectangles already overlap, so prevent the amount of
-            // overlap from increasing.
+
+            // The rectangles already overlap.  Are they right on top of one another?
             System.out.println( getClass().getName() + " - Warning: Rectangles already overlap." );
-            double xTranslation = Math.signum( stationaryRect.getCenterX() - movingRect.getCenterX() ) == Math.signum( proposedTranslation.getX() ) ? 0 : proposedTranslation.getX();
-            double yTranslation = Math.signum( stationaryRect.getCenterY() - movingRect.getCenterY() ) == Math.signum( proposedTranslation.getY() ) ? 0 : proposedTranslation.getY();
-            return new Vector2D( xTranslation, yTranslation );
+            if ( movingRect.getCenterX() == stationaryRect.getCenterX() && movingRect.getCenterY() == stationaryRect.getCenterY() ) {
+                System.out.println( getClass().getName() + " - Warning: Rectangle centers in same location, returning zero vector." );
+                return new Vector2D( 0, 0 );
+            }
+
+            // Determine the motion in the X & Y directions that will "cure"
+            // the overlap.
+            double xOverlapCure = 0;
+            if ( movingRect.getMaxX() > stationaryRect.getMinX() && movingRect.getMinX() < stationaryRect.getMinX() ) {
+                xOverlapCure = stationaryRect.getMinX() - movingRect.getMaxX();
+            }
+            else if ( stationaryRect.getMaxX() > movingRect.getMinX() && stationaryRect.getMinX() < movingRect.getMinX() ) {
+                xOverlapCure = stationaryRect.getMaxX() - movingRect.getMinX();
+            }
+            double yOverlapCure = 0;
+            if ( movingRect.getMaxY() > stationaryRect.getMinY() && movingRect.getMinY() < stationaryRect.getMinY() ) {
+                yOverlapCure = stationaryRect.getMinY() - movingRect.getMaxY();
+            }
+            else if ( stationaryRect.getMaxY() > movingRect.getMinY() && stationaryRect.getMinY() < movingRect.getMinY() ) {
+                yOverlapCure = stationaryRect.getMaxY() - movingRect.getMinY();
+            }
+
+            // Something is wrong with algorithm if both values are zero,
+            // since overlap was detected by the "intersects" method.
+            assert !(xOverlapCure == 0 && yOverlapCure == 0);
+
+            System.out.println( "xOverlapCure = " + xOverlapCure );
+            System.out.println( "yOverlapCure = " + yOverlapCure );
+            // Return a vector with the smallest valid "cure" value, leaving
+            // the other translation value unchanged.
+            if ( xOverlapCure != 0 && Math.abs( xOverlapCure ) < Math.abs( yOverlapCure ) ) {
+                return new Vector2D( xOverlapCure, proposedTranslation.getY() );
+            }
+            else {
+                return new Vector2D( proposedTranslation.getX(), yOverlapCure );
+            }
         }
 
         double xTranslation = proposedTranslation.getX();

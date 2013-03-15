@@ -1,3 +1,4 @@
+Fixed issues where blocks and beakers could be dragged into/over one another under some circumstances.
 Addressed z-order issues with left side of burner by preventing blocks and beaker from being able to get close enough that problem is visible.
 Prevented beakers and block from being dragged over the burners - the burners now act as blocking objects.
 Fixed an issue where energy chunks would appear to turn around after being pulled out of an object on the burner.
