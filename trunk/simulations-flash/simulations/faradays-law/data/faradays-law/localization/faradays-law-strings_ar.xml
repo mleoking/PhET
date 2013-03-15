@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_ar.xml created Fri Mar 15 15:36:35 CET 2013 using: faradays-law 2.02.00 (52648), translation-utility 2.14.00 (69024) oct. 9, 2012--><SimStrings>
+<string key="twoCoils" value="2 لفة"/>
+<string key="n" value="N"/>
+<string key="translation.credits" value="بوحملة السعيد - حاسي بحبح - الجلفة - الجزائر&#10;said0326@gmail.com"/>
+<string key="noSound" value="كتم الصوت"/>
+<string key="showFieldLines" value="إظهار خطوط الحقل"/>
+<string key="voltage" value="التوتر"/>
+<string key="simTitle" value="قانون فاراداي"/>
+<string key="flipMagnet" value="عكس المغناطيس"/>
+<string key="oneCoil" value="1 لفة"/>
+<string key="moveMe" value="حركني ."/>
+<string key="s" value="S"/>
+</SimStrings>
