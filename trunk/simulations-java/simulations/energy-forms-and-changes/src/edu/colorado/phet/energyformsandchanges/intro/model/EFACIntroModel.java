@@ -434,17 +434,28 @@ public class EFACIntroModel implements ITemperatureModel {
             // element - the block will simply be lifted up.
             boolean restrictPositiveY = !block.isStackedUpon( modelElement );
 
+            Rectangle2D testRect = modelElement.getRect();
+            if ( modelElement == beaker ){
+                // Special handling for the beaker - block it at the outer
+                // edge of the block instead of the center in order to
+                // simplify z-order handling.
+                testRect = new Rectangle2D.Double( testRect.getX() - blockPerspectiveExtension,
+                                                   testRect.getY(),
+                                                   testRect.getWidth() + blockPerspectiveExtension * 2,
+                                                   testRect.getHeight() );
+            }
+
             // Clamp the translation based on the test block's position, but
             // handle the case where the block is immersed in the beaker.
             if ( modelElement != beaker || !beaker.getRect().contains( block.getRect() )){
-                translation = determineAllowedTranslation( modelElement.getRect(), block.getRect(), translation, restrictPositiveY );
+                translation = determineAllowedTranslation( testRect, block.getRect(), translation, restrictPositiveY );
             }
         }
 
-        // Determine the new position based on the allowed translation.
+        // Determine the new position based on the resultant translation.
         MutableVector2D newPosition = new MutableVector2D( modelElement.position.get().plus( translation ) );
 
-        // Clamp Y position to be positive.
+        // Clamp Y position to be positive to prevent dragging below table.
         newPosition.setY( Math.max( newPosition.getY(), 0 ) );
 
         return newPosition.toPoint2D();
