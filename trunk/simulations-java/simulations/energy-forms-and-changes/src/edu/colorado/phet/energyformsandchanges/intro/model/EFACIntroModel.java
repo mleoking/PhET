@@ -272,15 +272,6 @@ public class EFACIntroModel implements ITemperatureModel {
                         }
                     }
                 }
-                // TODO: Below is the commented out code from before boiling
-                // was implemented. Removed in Dec 2012, take out permanently
-                // if and when boiling and freezing are working well.
-//                if ( thermalModelElement.getSystemEnergyChunkBalance() < 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
-//                    thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
-//                }
-//                else if ( thermalModelElement.getSystemEnergyChunkBalance() > 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
-//                    burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getFlameIceRect() ) );
-//                }
             }
         }
 
