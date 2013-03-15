@@ -487,7 +487,6 @@ public class EFACIntroModel implements ITemperatureModel {
         if ( movingRect.intersects( stationaryRect ) ) {
 
             // The rectangles already overlap.  Are they right on top of one another?
-            System.out.println( getClass().getName() + " - Warning: Rectangles already overlap." );
             if ( movingRect.getCenterX() == stationaryRect.getCenterX() && movingRect.getCenterY() == stationaryRect.getCenterY() ) {
                 System.out.println( getClass().getName() + " - Warning: Rectangle centers in same location, returning zero vector." );
                 return new Vector2D( 0, 0 );
@@ -514,8 +513,6 @@ public class EFACIntroModel implements ITemperatureModel {
             // since overlap was detected by the "intersects" method.
             assert !(xOverlapCure == 0 && yOverlapCure == 0);
 
-            System.out.println( "xOverlapCure = " + xOverlapCure );
-            System.out.println( "yOverlapCure = " + yOverlapCure );
             // Return a vector with the smallest valid "cure" value, leaving
             // the other translation value unchanged.
             if ( xOverlapCure != 0 && Math.abs( xOverlapCure ) < Math.abs( yOverlapCure ) ) {
