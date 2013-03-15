@@ -320,7 +320,7 @@ public class EFACIntroModel implements ITemperatureModel {
 
             // Exchange energy and energy chunks with the air if appropriate
             // conditions met.
-            if ( !contactWithOtherMovableElement || ( !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
+            if ( !contactWithOtherMovableElement || ( !immersedInBeaker && ( maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE || movableEnergyContainer.getEnergyBeyondMaxTemperature() > 0 ) ) ) {
                 air.exchangeEnergyWith( movableEnergyContainer, dt );
                 if ( movableEnergyContainer.getEnergyChunkBalance() > 0 ) {
                     Vector2D pointAbove = new Vector2D( RAND.nextDouble() * movableEnergyContainer.getRect().getWidth() + movableEnergyContainer.getRect().getMinX(),
