@@ -91,6 +91,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // needed Z-order behavior.
         final PNode backLayer = new PNode();
         rootNode.addChild( backLayer );
+        final PNode beakerBackLayer = new PNode();
+        rootNode.addChild( beakerBackLayer );
         PNode blockLayer = new PNode();
         rootNode.addChild( blockLayer );
         PNode airLayer = new PNode();
@@ -213,7 +215,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         blockLayer.addChild( ironBlockNode );
         BeakerView beakerView = new BeakerContainerView( model.getClock(), model, mvt );
         beakerFrontLayer.addChild( beakerView.getFrontNode() );
-        backLayer.addChild( beakerView.getBackNode() );
+        beakerBackLayer.addChild( beakerView.getBackNode() );
 
         // Add the tool box for the thermometers.
         thermometerToolBox = new ThermometerToolBox( model, mvt, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
