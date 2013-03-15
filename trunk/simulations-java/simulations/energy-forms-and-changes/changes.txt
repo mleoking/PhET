@@ -1,4 +1,4 @@
-Added logic to allow stacks of bricks to exchange energy with air as soon as max temperature is reached, even if temperature differential is below min for energy exchange with air.
+Added logic to allow stacks of blocks to exchange energy with air as soon as max temperature is reached, even if temperature differential is below min for energy exchange with air.
 Fixed an issue where the steam temperature was zero at startup and was affecting the thermometer readings when it shouldn't.
 Added thresholds around overlap detection error messages so that they are not printed out when floating point calculations lead to minor unexpected overlaps.
 Added code to prevent any overlap between block edges (due to perspective) and the beaker when beaker is being moved.
