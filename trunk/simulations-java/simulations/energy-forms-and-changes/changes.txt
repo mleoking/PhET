@@ -1,3 +1,4 @@
+Added thresholds around overlap detection error messages so that they are not printed out when floating point calculations lead to minor unexpected overlaps.
 Added code to prevent any overlap between block edges (due to perspective) and the beaker when beaker is being moved.
 Fixed issues where blocks and beakers could be dragged into/over one another under some circumstances.
 Addressed z-order issues with left side of burner by preventing blocks and beaker from being able to get close enough that problem is visible.

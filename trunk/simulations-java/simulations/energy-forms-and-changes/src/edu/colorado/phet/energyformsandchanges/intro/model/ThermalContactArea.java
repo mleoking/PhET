@@ -60,9 +60,15 @@ public class ThermalContactArea {
                 }
             }
             else {
-                // TODO: Not sure if this will happen, so have a printout in
-                // place to see how often it does.  Remove if noisy.
-                System.out.println( getClass().getName() + "Double overlap detected in case where neither energy container supports immersion.  Ignoring." );
+                // This shouldn't occur, but it practice it sometimes does due
+                // to floating point tolerances.  Print out an error if a
+                // threshold is exceeded.  The threshold value was determined
+                // by testing.
+                if ( yOverlap > 1E-6 && xOverlap > 1E-6 ){
+                    System.out.println( getClass().getName() + " - Error: Double overlap detected in case where neither energy container supports immersion.  Ignoring." );
+                    System.out.println( "yOverlap = " + yOverlap );
+                    System.out.println( "xOverlap = " + xOverlap );
+                }
             }
         }
         else if ( xOverlap > 0 || yOverlap > 0 ) {
