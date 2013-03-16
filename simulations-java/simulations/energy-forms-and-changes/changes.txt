@@ -1,3 +1,5 @@
+# 0.00.34 (72509) Mar 16, 2013
+3/16/13 Deploy to dev for testing and review
 Fixed some issues with z-order of the thermometer panel when interacting with the beaker.
 Added logic to allow stacks of blocks to exchange energy with air as soon as max temperature is reached, even if temperature differential is below min for energy exchange with air.
 Fixed an issue where the steam temperature was zero at startup and was affecting the thermometer readings when it shouldn't.
