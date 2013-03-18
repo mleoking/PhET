@@ -194,6 +194,10 @@ public class ElectricalGenerator extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, Math.abs( ( wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY ) * EFACConstants.MAX_ENERGY_PRODUCTION_RATE ) * dt );
     }
 
+    @Override public void preLoadEnergyChunks( double incomingEnergyRate ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
         return new ArrayList<Vector2D>() {{
             add( panelPosition.plus( WHEEL_CENTER_OFFSET ) );

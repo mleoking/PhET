@@ -301,6 +301,10 @@ public class Biker extends EnergySource {
         return new Energy( EnergyType.MECHANICAL, Math.abs( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK * MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR ), -Math.PI / 2 );
     }
 
+    @Override public void preLoadEnergyChunks() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     /*
      * Set the crank to a position where a very small amount of motion will
      * cause a new image to be chosen.  This is generally done when the biker

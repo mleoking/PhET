@@ -26,6 +26,14 @@ public abstract class EnergyConverter extends EnergySystemElement {
     public abstract Energy stepInTime( double dt, Energy incomingEnergy );
 
     /**
+     * Set up the energy chunks contained by this energy source as though they
+     * have been full propagated through the system.
+     *
+     * @param incomingEnergyRate Incoming energy in joules/sec.
+     */
+    public abstract void preLoadEnergyChunks( double incomingEnergyRate );
+
+    /**
      * Get the energy chunks that this source wants to transfer to the next
      * energy system element.  Reading clears the list.
      *

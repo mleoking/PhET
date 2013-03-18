@@ -174,6 +174,10 @@ public class TeaPot extends EnergySource {
         return new Energy( EnergyType.MECHANICAL, energyProductionRate.get() * dt, Math.PI / 2 );
     }
 
+    @Override public void preLoadEnergyChunks() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private static List<Vector2D> createThermalEnergyChunkPath( final Vector2D startPosition, final Vector2D teapotPosition ) {
         return new ArrayList<Vector2D>() {{
             add( new Vector2D( startPosition.getX(), teapotPosition.getY() + WATER_SURFACE_HEIGHT_OFFSET ) );

@@ -227,6 +227,10 @@ public class BeakerHeater extends EnergyUser {
         }
     }
 
+    @Override public void preLoadEnergyChunks( double incomingEnergyRate ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     @Override public void deactivate() {
         super.deactivate();
         heatProportion.set( 0.0 );

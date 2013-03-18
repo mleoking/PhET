@@ -176,6 +176,10 @@ public class Sun extends EnergySource {
         return new Energy( EnergyType.LIGHT, energyProduced );
     }
 
+    @Override public void preLoadEnergyChunks() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     // Choose the angle for the emission of an energy chunk from the sun.
     // This uses history and probability to make the distribution somewhat
     // even but still random looking.
