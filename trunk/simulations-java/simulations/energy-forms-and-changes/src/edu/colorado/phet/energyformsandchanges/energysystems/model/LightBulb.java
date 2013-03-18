@@ -8,6 +8,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -60,15 +61,18 @@ public class LightBulb extends EnergyUser {
     private List<EnergyChunkPathMover> thermalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private List<EnergyChunkPathMover> lightEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private final boolean hasFilament;
+    private final ObservableProperty<Boolean> energyChunksVisible;
+    private final double LIGHT_CHANGE_RATE = 0.5; // In proportion per second.
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected LightBulb( IUserComponent userComponent, Image icon, boolean hasFilament ) {
+    protected LightBulb( IUserComponent userComponent, Image icon, boolean hasFilament, ObservableProperty<Boolean> energyChunksVisible ) {
         super( icon );
         this.userComponent = userComponent;
         this.hasFilament = hasFilament;
+        this.energyChunksVisible = energyChunksVisible;
     }
 
     //-------------------------------------------------------------------------
@@ -139,11 +143,42 @@ public class LightBulb extends EnergyUser {
             }
 
             // Set how lit the bulb is.
-            if ( isActive() && incomingEnergy.type == EnergyType.ELECTRICAL ) {
-                litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / ( ENERGY_TO_FULLY_LIGHT * dt ), 1 ) );
+            if ( energyChunksVisible.get() ){
+                // Energy chunks are visible, so the lit proportion is
+                // dependent upon whether light energy chunks are present.
+                boolean lightChunksPresent = false;
+                boolean thermalChunksPresent = false;
+                boolean electricalChunksPresent = false;
+
+                for ( EnergyChunk energyChunk : energyChunkList ) {
+                    switch ( energyChunk.energyType.get() ){
+                        case LIGHT:
+                            lightChunksPresent = true;
+                            break;
+                        case THERMAL:
+                            thermalChunksPresent = true;
+                            break;
+                        case ELECTRICAL:
+                            electricalChunksPresent = true;
+                            break;
+                    }
+                }
+                if ( lightChunksPresent && ( thermalChunksPresent || electricalChunksPresent ) ){
+                    // Light is on.
+                    litProportion.set( Math.min( 1, litProportion.get() + LIGHT_CHANGE_RATE * dt ) );
+                }
+                else{
+                    // Light is off.
+                    litProportion.set( Math.max( 0, litProportion.get() - LIGHT_CHANGE_RATE * dt ) );
+                }
             }
-            else {
-                litProportion.set( 0.0 );
+            else{
+                if ( isActive() && incomingEnergy.type == EnergyType.ELECTRICAL ) {
+                    litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / ( ENERGY_TO_FULLY_LIGHT * dt ), 1 ) );
+                }
+                else {
+                    litProportion.set( 0.0 );
+                }
             }
         }
     }

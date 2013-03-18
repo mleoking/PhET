@@ -1,7 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
+import javafx.beans.property.ObjectPropertyBase;
+
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.selectFluorescentLightBulbButton;
@@ -21,7 +24,7 @@ public class FluorescentLightBulb extends LightBulb {
     public static final ModelElementImage FRONT_OFF = new ModelElementImage( FLUORESCENT_FRONT, IMAGE_OFFSET );
     public static final ModelElementImage FRONT_ON = new ModelElementImage( FLUORESCENT_ON_FRONT, IMAGE_OFFSET );
 
-    protected FluorescentLightBulb() {
-        super( selectFluorescentLightBulbButton, FLUORESCENT_ICON, false );
+    protected FluorescentLightBulb( ObservableProperty<Boolean> energyChunksVisible ) {
+        super( selectFluorescentLightBulbButton, FLUORESCENT_ICON, false, energyChunksVisible );
     }
 }
