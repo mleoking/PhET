@@ -59,7 +59,7 @@ public class FaucetAndWater extends EnergySource {
     // element.
     public final List<EnergyChunk> exemptFromTransferEnergyChunks = new ArrayList<EnergyChunk>();
 
-    private double flowSinceLastChunk = 0;
+    private double energySinceLastChunk = 0;
     private final BooleanProperty energyChunksVisible;
 
     // Flag that is used to decide whether to pass energy chunks to the next
@@ -106,14 +106,14 @@ public class FaucetAndWater extends EnergySource {
             }
 
             // Check if time to emit an energy chunk and, if so, do it.
-            flowSinceLastChunk += flowProportion.get() * dt;
-            if ( flowSinceLastChunk >= FLOW_PER_CHUNK ) {
+            energySinceLastChunk += EFACConstants.MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt;
+            if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
                 Vector2D initialPosition = getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).plus( ( RAND.nextDouble() - 0.5 ) * flowProportion.get() * MAX_WATER_WIDTH / 2, 0 );
                 energyChunkList.add( new EnergyChunk( EnergyType.MECHANICAL,
                                                       initialPosition,
                                                       new Vector2D( 0, -FALLING_ENERGY_CHUNK_VELOCITY ),
                                                       energyChunksVisible ) );
-                flowSinceLastChunk = flowSinceLastChunk - FLOW_PER_CHUNK;
+                energySinceLastChunk = energySinceLastChunk - EFACConstants.ENERGY_PER_CHUNK;
             }
 
             // Update energy chunk positions.
@@ -153,7 +153,7 @@ public class FaucetAndWater extends EnergySource {
         }
 
         // Generate the appropriate amount of energy.
-        return new Energy( EnergyType.MECHANICAL, EFACConstants.MAX_ENERGY_RATE * flowProportion.get() * dt, -Math.PI / 2 );
+        return new Energy( EnergyType.MECHANICAL, EFACConstants.MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
     }
 
     @Override public void deactivate() {

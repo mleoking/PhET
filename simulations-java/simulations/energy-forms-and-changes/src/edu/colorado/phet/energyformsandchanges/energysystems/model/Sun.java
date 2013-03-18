@@ -169,7 +169,7 @@ public class Sun extends EnergySource {
             }
 
             // Calculate the amount of energy produced.
-            energyProduced = EFACConstants.MAX_ENERGY_RATE * ( 1 - cloudiness.get() ) * dt;
+            energyProduced = EFACConstants.MAX_ENERGY_PRODUCTION_RATE * ( 1 - cloudiness.get() ) * dt;
         }
 
         // Produce the energy.

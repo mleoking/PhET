@@ -52,7 +52,7 @@ public class LightBulb extends EnergyUser {
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
     private static final Random RAND = new Random();
     private static final DoubleRange THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = new DoubleRange( 2, 2.5 );
-    private static final double ENERGY_TO_FULLY_LIGHT = EFACConstants.MAX_ENERGY_RATE;
+    private static final double ENERGY_TO_FULLY_LIGHT = EFACConstants.MAX_ENERGY_PRODUCTION_RATE;
     private static final double LIGHT_CHUNK_LIT_BULB_RADIUS = 0.1; // In meters.
 
     //-------------------------------------------------------------------------

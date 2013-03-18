@@ -60,7 +60,7 @@ public class EFACConstants {
 
     // Constant used by all of the "energy systems" in order to keep the amount
     // of energy generated, converted, and consumed consistent.
-    public static final double MAX_ENERGY_RATE = 100; // In joules/sec, but not very meaningful.
+    public static final double MAX_ENERGY_PRODUCTION_RATE = 10000; // In joules/sec.
 
     // Colors that are used in multiple places.
     public static final float NOMINAL_WATER_OPACITY = 0.75f;
