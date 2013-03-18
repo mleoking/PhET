@@ -59,7 +59,7 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                                          new Vector2D( teaPotImageNode.getFullBoundsReference().getMaxX() - 5,
                                                        teaPotImageNode.getFullBoundsReference().getMinY() + 16 ),
                                          teaPot.getEnergyProductionRate(),
-                                         EFACConstants.MAX_ENERGY_RATE,
+                                         EFACConstants.MAX_ENERGY_PRODUCTION_RATE,
                                          teaPot.getObservableActiveState() );
 
         // Create the burner stand.

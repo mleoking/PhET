@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -93,7 +92,7 @@ public class TeaPot extends EnergySource {
                 double energyProductionIncreaseRate = heatCoolAmount.get() * MAX_ENERGY_CHANGE_RATE; // Analogous to acceleration.
                 double energyProductionDecreaseRate = energyProductionRate.get() * COOLING_CONSTANT; // Analogous to friction.
                 energyProductionRate.set( Math.min( energyProductionRate.get() + energyProductionIncreaseRate * dt - energyProductionDecreaseRate * dt,
-                                                    EFACConstants.MAX_ENERGY_RATE ) ); // Analogous to velocity.
+                                                    EFACConstants.MAX_ENERGY_PRODUCTION_RATE ) ); // Analogous to velocity.
             }
             else {
                 // Clamp the energy production rate to zero so that it doesn't
@@ -102,7 +101,7 @@ public class TeaPot extends EnergySource {
             }
 
             // See if it's time to emit a new energy chunk from the heater.
-            heatEnergyProducedSinceLastChunk += Math.max( heatCoolAmount.get(), 0 ) * EFACConstants.MAX_ENERGY_RATE * dt;
+            heatEnergyProducedSinceLastChunk += Math.max( heatCoolAmount.get(), 0 ) * EFACConstants.MAX_ENERGY_PRODUCTION_RATE * dt;
             if ( heatEnergyProducedSinceLastChunk >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT ) {
                 // Emit a new thermal energy chunk.
                 Vector2D initialPosition = new Vector2D( getPosition().getX() + THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE.getMin() + RAND.nextDouble() * THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE.getLength(),

@@ -97,7 +97,7 @@ public class ElectricalGenerator extends EnergyConverter {
                 // Treat the wheel as though it is directly coupled to the
                 // energy source, e.g. through a belt or drive shaft.
                 if ( incomingEnergy.type == EnergyType.MECHANICAL ) {
-                    wheelRotationalVelocity = incomingEnergy.amount / EFACConstants.MAX_ENERGY_RATE * MAX_ROTATIONAL_VELOCITY * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
+                    wheelRotationalVelocity = incomingEnergy.amount / EFACConstants.MAX_ENERGY_PRODUCTION_RATE * MAX_ROTATIONAL_VELOCITY * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
                     wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
                 }
             }
@@ -191,7 +191,7 @@ public class ElectricalGenerator extends EnergyConverter {
         }
 
         // Produce the appropriate amount of energy.
-        return new Energy( EnergyType.ELECTRICAL, Math.abs( ( wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY ) * EFACConstants.MAX_ENERGY_RATE ) * dt );
+        return new Energy( EnergyType.ELECTRICAL, Math.abs( ( wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY ) * EFACConstants.MAX_ENERGY_PRODUCTION_RATE ) * dt );
     }
 
     private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {

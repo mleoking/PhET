@@ -35,7 +35,7 @@ public class Biker extends EnergySource {
     public static final double MAX_ANGULAR_VELOCITY_OF_CRANK = 3 * Math.PI; // In radians/sec.
     private static final double ANGULAR_ACCELERATION = Math.PI / 2; // In radians/(sec^2).
     // TODO: This is temp until we figure out how much it should really put out.
-    private static final double MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR = EFACConstants.MAX_ENERGY_RATE; // In joules / sec
+    private static final double MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR = EFACConstants.MAX_ENERGY_PRODUCTION_RATE; // In joules / sec
     private static final double MAX_ENERGY_OUTPUT_WHEN_RUNNING_FREE = MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR / 5; // In joules / sec
     private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
     private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
