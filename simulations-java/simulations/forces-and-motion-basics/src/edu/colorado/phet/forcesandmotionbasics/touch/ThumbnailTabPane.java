@@ -773,8 +773,8 @@ public class ThumbnailTabPane extends JPanel {
             }
             tabBase.updatePaint();
 
-            homeButton.setOffset( initTabX - homeButton.getFullBounds().getWidth() - distBetweenTabs * 3, 4 );
-            tabLabel.setOffset( initTabX / 2 - tabLabel.getFullBounds().getWidth() / 2, 6 );
+            homeButton.setOffset( x + 10, 4 );
+            tabLabel.setOffset( initTabX - tabLabel.getFullBounds().getWidth() - 20, 6 );
         }
 
         private double getInitialTabX() {
@@ -884,14 +884,14 @@ public class ThumbnailTabPane extends JPanel {
                     activity.setDelegate( new PActivityDelegateAdapter() {
                         @Override public void activityFinished( PActivity activity ) {
                             tabLabel.setText( tab.getText() );
-                            tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullBounds().getWidth() / 2, 6 );
+                            tabLabel.setOffset( getInitialTabX() - tabLabel.getFullBounds().getWidth() - 20, 6 );
                             tabLabel.animateToTransparency( 1, 200 );
                         }
                     } );
                 }
                 else {
                     tabLabel.setText( tab.getText() );
-                    tabLabel.setOffset( getInitialTabX() / 2 - tabLabel.getFullBounds().getWidth() / 2, 6 );
+                    tabLabel.setOffset( getInitialTabX() - tabLabel.getFullBounds().getWidth() - 20, 6 );
                 }
 
             }

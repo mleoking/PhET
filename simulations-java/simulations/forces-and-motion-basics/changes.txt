@@ -1,3 +1,5 @@
+Thumbnail tabs: Moved the homescreen icon to the right of the thumbnails
+Thumbnail tabs: Moved the tab title to the left of the thumbnails
 # 1.02.19 (72465) Mar 11, 2013
 Text tabs: Moved the home button to the left of the tabs to match the icon tabs version
 # 1.02.18 (72463) Mar 11, 2013
