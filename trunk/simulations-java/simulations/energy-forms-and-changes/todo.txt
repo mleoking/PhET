@@ -1,11 +1,14 @@
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 Fix: Electrical energy chunks get jammed up on the solar panel after a reset in some circumstances.
+Rain of E's.
 Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
 Fix: Sun's energy chunks should go behind the light bulbs & beaker.
 
 Make fluorescent bulb emit occasional thermal E.
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
+
+Review and discuss: E's can be made to chase an object if the object is moved.  What if we just make them jump when the object is moved?
 
 1st tab: Refine behavior of burners on/off when nothing on top.  Work out details with the team.
 

@@ -98,17 +98,19 @@ public class EnergySystemsModel implements Resettable {
                 waterPoweredGenerator.directCouplingMode.set( bikerAndGeneratorSelected );
             }
         };
-
         energySourcesCarousel.getAnimationInProgressProperty().addObserver( beltVisibilityUpdated );
         energyConvertersCarousel.getAnimationInProgressProperty().addObserver( beltVisibilityUpdated );
+
+        // Remove the energy chunks in the energy user when the energy
+        // converter is swapped out.  Otherwise it can look odd as the energy
+        // chunks continue to move through the user.
         energyConvertersCarousel.getAnimationInProgressProperty().addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean animating ) {
-                // Remove the energy chunks in the energy user when the energy
-                // converter is swapped out.  Otherwise it can look odd as the
-                // energy chunks continue to move through the user.
                 energyUsersCarousel.getSelectedElement().clearEnergyChunks();
             }
         } );
+
+
     }
 
     //-------------------------------------------------------------------------
