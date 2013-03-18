@@ -53,6 +53,7 @@ public class LightBulb extends EnergyUser {
     private static final Random RAND = new Random();
     private static final DoubleRange THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = new DoubleRange( 2, 2.5 );
     private static final double ENERGY_TO_FULLY_LIGHT = EFACConstants.MAX_ENERGY_RATE;
+    private static final double LIGHT_CHUNK_LIT_BULB_RADIUS = 0.1; // In meters.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -149,7 +150,13 @@ public class LightBulb extends EnergyUser {
             if ( energyChunksVisible.get() ){
                 // Energy chunks are visible, so the lit proportion is
                 // dependent upon whether light energy chunks are present.
-                if ( lightEnergyChunkMovers.size() > 0 && ( thermalEnergyChunkMovers.size() > 0 || electricalEnergyChunkMovers.size() > 0 ) ){
+                int lightChunksInLitRadius = 0;
+                for ( EnergyChunkPathMover lightEnergyChunkMover : lightEnergyChunkMovers ) {
+                    if ( lightEnergyChunkMover.energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_RADIATE_POINT ) ) < LIGHT_CHUNK_LIT_BULB_RADIUS){
+                        lightChunksInLitRadius++;
+                    }
+                }
+                if ( lightChunksInLitRadius > 0 ){
                     // Light is on.
                     litProportion.set( Math.min( 1, litProportion.get() + LIGHT_CHANGE_RATE * dt ) );
                 }
