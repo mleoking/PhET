@@ -314,7 +314,7 @@ public class ComboBoxNode<T> extends PNode {
     public static void main( String[] args ) {
 
         // Nodes
-        ComboBoxNode<String> comboBox1 = new ComboBoxNode<String>(
+        final ComboBoxNode<String> comboBox1 = new ComboBoxNode<String>(
                 new UserComponent( "combo1" ),
                 new Function1<String, String>() {
                     public String apply( String s ) {
@@ -323,7 +323,7 @@ public class ComboBoxNode<T> extends PNode {
                 },
                 Arrays.asList( "sugar", "salt", "ethanol", "sodium nitrate" ) );
 
-        ComboBoxNode<Integer> comboBox2 = new ComboBoxNode<Integer>(
+        final ComboBoxNode<Integer> comboBox2 = new ComboBoxNode<Integer>(
                 new UserComponent( "combo1" ),
                 new Function1<Integer, String>() {
                     public String apply( Integer integer ) {
@@ -334,22 +334,24 @@ public class ComboBoxNode<T> extends PNode {
                 3, //Demonstrate starting with a later element, see #3014
                 new Function1<Integer, PNode>() {
                     Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
+
                     public PNode apply( Integer integer ) {
                         return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
                     }
                 }
         );
 
-        PNode button = new TextButtonNode( "Unrelated button" );
+        final PNode button = new TextButtonNode( "Unrelated button" );
 
         // Canvas
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 800, 600 ) );
-        canvas.setZoomEventHandler( canvas.getZoomEventHandler() );
-        canvas.setBackground( Color.BLUE );
-        canvas.addScreenChild( comboBox1 );
-        canvas.addScreenChild( comboBox2 );
-        canvas.addScreenChild( button );
+        final PhetPCanvas canvas = new PhetPCanvas() {{
+            setPreferredSize( new Dimension( 800, 600 ) );
+            setZoomEventHandler( getZoomEventHandler() );
+            setBackground( Color.BLUE );
+            addScreenChild( comboBox1 );
+            addScreenChild( comboBox2 );
+            addScreenChild( button );
+        }};
 
         // Layout
         comboBox1.setOffset( 100, 100 );
@@ -369,11 +371,12 @@ public class ComboBoxNode<T> extends PNode {
         } );
 
         // Frame
-        JFrame frame = new JFrame();
-        frame.setContentPane( canvas );
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        frame.pack();
-        SwingUtils.centerWindowOnScreen( frame );
+        JFrame frame = new JFrame() {{
+            setContentPane( canvas );
+            setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+            pack();
+            SwingUtils.centerWindowOnScreen( this );
+        }};
         frame.setVisible( true );
     }
 }
