@@ -6,8 +6,10 @@ import java.awt.Font;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -16,11 +18,14 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -303,39 +308,49 @@ public class ComboBoxNode<T> extends PNode {
         }
     }
 
-//    //Test application
-//    public static void main( String[] args ) {
-//        new JFrame() {{
-//            setContentPane( new PhetPCanvas() {{
-//                setBackground( Color.blue );
-//                addScreenChild( new ComboBoxNode<String>( asList( "sugar", "salt", "ethanol", "sodium nitrate" ) ) {{
-//                    setOffset( 100, 100 );
-//                }} );
-//                addScreenChild( new TextButtonNode( "Unrelated button" ) {{
-//                    setOffset( 400, 100 );
-//                }} );
-//
-//                addScreenChild( new ComboBoxNode<Integer>( asList( 1, 2, 3, 4 ),
-//                                                           //Demonstrate starting with a later element, see #3014
-//                                                           3, new Function1<Integer, PNode>() {
-//                    Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
-//
-//                    public PNode apply( Integer integer ) {
-//                        return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
-//                    }
-//                }, new Function1<Integer, String>() {
-//                    public String apply( Integer integer ) {
-//                        return integer.toString();
-//                    }
-//                }
-//                ) {{
-//                    setOffset( 100, 300 );
-//                }} );
-//                setZoomEventHandler( getZoomEventHandler() );
-//            }} );
-//            setDefaultCloseOperation( EXIT_ON_CLOSE );
-//            setSize( 800, 600 );
-//            centerWindowOnScreen( this );
-//        }}.setVisible( true );
-//    }
+    //Test application
+    public static void main( String[] args ) {
+        new JFrame() {{
+            setContentPane( new PhetPCanvas() {{
+                setBackground( Color.blue );
+                addScreenChild( new ComboBoxNode<String>(
+                        new UserComponent( "combo1" ),
+                        new Function1<String, String>() {
+                            public String apply( String s ) {
+                                return s;
+                            }
+                        },
+                        Arrays.asList( "sugar", "salt", "ethanol", "sodium nitrate" ) ) {{
+                    setOffset( 100, 100 );
+                }} );
+                addScreenChild( new TextButtonNode( "Unrelated button" ) {{
+                    setOffset( 400, 100 );
+                }} );
+
+                addScreenChild( new ComboBoxNode<Integer>(
+                        new UserComponent( "combo1" ),
+                        new Function1<Integer, String>() {
+                            public String apply( Integer integer ) {
+                                return integer.toString();
+                            }
+                        },
+                        Arrays.asList( 1, 2, 3, 4 ),
+                        3, //Demonstrate starting with a later element, see #3014
+                        new Function1<Integer, PNode>() {
+                            Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
+
+                            public PNode apply( Integer integer ) {
+                                return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
+                            }
+                        }
+                ) {{
+                    setOffset( 100, 300 );
+                }} );
+                setZoomEventHandler( getZoomEventHandler() );
+            }} );
+            setDefaultCloseOperation( EXIT_ON_CLOSE );
+            setSize( 800, 600 );
+            SwingUtils.centerWindowOnScreen( this );
+        }}.setVisible( true );
+    }
 }
