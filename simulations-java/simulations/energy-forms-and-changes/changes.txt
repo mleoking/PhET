@@ -1,3 +1,5 @@
+Made the beaker's heating and cooling rate dependent upon the presence of thermal energy chunks when in "energy chunk visible" mode.
+Made the light bulbs not appear to radiate light until energy chunks are present when in "energy chunk visible" mode.
 # 0.00.35 (72520) Mar 18, 2013
 3/18/13 Deploying for possible use in interviews.
 Fixed a problem with odd E-chunk behavior when cooling is in progress (most visible from beaker) and fast-forward is enabled.

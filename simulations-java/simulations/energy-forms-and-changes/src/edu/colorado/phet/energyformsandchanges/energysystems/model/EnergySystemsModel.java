@@ -59,8 +59,8 @@ public class EnergySystemsModel implements Resettable {
     public final Biker biker = new Biker( energyChunksVisible, waterPoweredGenerator.getObservableActiveState() );
 
     // Energy users.
-    public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
-    public final FluorescentLightBulb fluorescentLightBulb = new FluorescentLightBulb();
+    public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb( energyChunksVisible );
+    public final FluorescentLightBulb fluorescentLightBulb = new FluorescentLightBulb( energyChunksVisible );
     public final BeakerHeater beakerHeater = new BeakerHeater( clock, energyChunksVisible );
 
     // Items that span between energy system elements.

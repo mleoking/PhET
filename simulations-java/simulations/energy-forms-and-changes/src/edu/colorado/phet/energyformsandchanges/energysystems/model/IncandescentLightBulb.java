@@ -2,8 +2,10 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.selectFluorescentLightBulbButton;
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.selectIncandescentLightBulbButton;
 
 /**
@@ -17,7 +19,7 @@ public class IncandescentLightBulb extends LightBulb {
 
     public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( INCANDESCENT_ON_NARROW, IMAGE_OFFSET );
 
-    protected IncandescentLightBulb() {
-        super( selectIncandescentLightBulbButton, INCANDESCENT_ICON, true );
+    protected IncandescentLightBulb( ObservableProperty<Boolean> energyChunksVisible ) {
+        super( selectFluorescentLightBulbButton, INCANDESCENT_ICON, false, energyChunksVisible );
     }
 }
