@@ -2,6 +2,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -310,47 +312,68 @@ public class ComboBoxNode<T> extends PNode {
 
     //Test application
     public static void main( String[] args ) {
-        new JFrame() {{
-            setContentPane( new PhetPCanvas() {{
-                setBackground( Color.blue );
-                addScreenChild( new ComboBoxNode<String>(
-                        new UserComponent( "combo1" ),
-                        new Function1<String, String>() {
-                            public String apply( String s ) {
-                                return s;
-                            }
-                        },
-                        Arrays.asList( "sugar", "salt", "ethanol", "sodium nitrate" ) ) {{
-                    setOffset( 100, 100 );
-                }} );
-                addScreenChild( new TextButtonNode( "Unrelated button" ) {{
-                    setOffset( 400, 100 );
-                }} );
 
-                addScreenChild( new ComboBoxNode<Integer>(
-                        new UserComponent( "combo1" ),
-                        new Function1<Integer, String>() {
-                            public String apply( Integer integer ) {
-                                return integer.toString();
-                            }
-                        },
-                        Arrays.asList( 1, 2, 3, 4 ),
-                        3, //Demonstrate starting with a later element, see #3014
-                        new Function1<Integer, PNode>() {
-                            Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
+        // Nodes
+        ComboBoxNode<String> comboBox1 = new ComboBoxNode<String>(
+                new UserComponent( "combo1" ),
+                new Function1<String, String>() {
+                    public String apply( String s ) {
+                        return s;
+                    }
+                },
+                Arrays.asList( "sugar", "salt", "ethanol", "sodium nitrate" ) );
 
-                            public PNode apply( Integer integer ) {
-                                return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
-                            }
-                        }
-                ) {{
-                    setOffset( 100, 300 );
-                }} );
-                setZoomEventHandler( getZoomEventHandler() );
-            }} );
-            setDefaultCloseOperation( EXIT_ON_CLOSE );
-            setSize( 800, 600 );
-            SwingUtils.centerWindowOnScreen( this );
-        }}.setVisible( true );
+        ComboBoxNode<Integer> comboBox2 = new ComboBoxNode<Integer>(
+                new UserComponent( "combo1" ),
+                new Function1<Integer, String>() {
+                    public String apply( Integer integer ) {
+                        return integer.toString();
+                    }
+                },
+                Arrays.asList( 1, 2, 3, 4 ),
+                3, //Demonstrate starting with a later element, see #3014
+                new Function1<Integer, PNode>() {
+                    Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
+                    public PNode apply( Integer integer ) {
+                        return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
+                    }
+                }
+        );
+
+        PNode button = new TextButtonNode( "Unrelated button" );
+
+        // Canvas
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( new Dimension( 800, 600 ) );
+        canvas.setZoomEventHandler( canvas.getZoomEventHandler() );
+        canvas.setBackground( Color.BLUE );
+        canvas.addScreenChild( comboBox1 );
+        canvas.addScreenChild( comboBox2 );
+        canvas.addScreenChild( button );
+
+        // Layout
+        comboBox1.setOffset( 100, 100 );
+        comboBox2.setOffset( 100, 300 );
+        button.setOffset( 400, 100 );
+
+        // Event handlers
+        comboBox1.selectedItem.addObserver( new VoidFunction1<String>() {
+            public void apply( String value ) {
+                System.out.println( "comboBox1 selectedItem = " + value );
+            }
+        } );
+        comboBox2.selectedItem.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer value ) {
+                System.out.println( "comboBox2 selectedItem = " + value );
+            }
+        } );
+
+        // Frame
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        frame.pack();
+        SwingUtils.centerWindowOnScreen( frame );
+        frame.setVisible( true );
     }
 }
