@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
-import java.awt.Image;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,7 +16,10 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.ELEMENT_BASE_BACK;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.ELEMENT_BASE_FRONT;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.WIRE_BLACK_62;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.WIRE_BLACK_RIGHT;
 
 /**
  * Base class for light bulbs in the model.
@@ -107,7 +110,7 @@ public class LightBulb extends EnergyUser {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
                     electricalEnergyChunkMovers.remove( energyChunkMover );
-                    if ( hasFilament ){
+                    if ( hasFilament ) {
                         // Turn this energy chunk into thermal energy on the filament.
                         energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
                         List<Vector2D> energyChunkPath = createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() );
@@ -115,7 +118,7 @@ public class LightBulb extends EnergyUser {
                                                                                 energyChunkPath,
                                                                                 getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / generateThermalChunkTimeOnFilament() ) );
                     }
-                    else{
+                    else {
                         // There is no filament, so just radiate the chunk.
                         radiateEnergyChunk( energyChunkMover.energyChunk );
                     }
@@ -146,24 +149,7 @@ public class LightBulb extends EnergyUser {
             if ( energyChunksVisible.get() ){
                 // Energy chunks are visible, so the lit proportion is
                 // dependent upon whether light energy chunks are present.
-                boolean lightChunksPresent = false;
-                boolean thermalChunksPresent = false;
-                boolean electricalChunksPresent = false;
-
-                for ( EnergyChunk energyChunk : energyChunkList ) {
-                    switch ( energyChunk.energyType.get() ){
-                        case LIGHT:
-                            lightChunksPresent = true;
-                            break;
-                        case THERMAL:
-                            thermalChunksPresent = true;
-                            break;
-                        case ELECTRICAL:
-                            electricalChunksPresent = true;
-                            break;
-                    }
-                }
-                if ( lightEnergyChunkMovers.size() > 0 && ( thermalEnergyChunkMovers.size() > 0 || energyChunkList.size() > 0 ) ){
+                if ( lightEnergyChunkMovers.size() > 0 && ( thermalEnergyChunkMovers.size() > 0 || electricalEnergyChunkMovers.size() > 0 ) ){
                     // Light is on.
                     litProportion.set( Math.min( 1, litProportion.get() + LIGHT_CHANGE_RATE * dt ) );
                 }
