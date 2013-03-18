@@ -150,7 +150,6 @@ public class SolarPanel extends EnergyConverter {
         // chunk, slow down so that the minimum spacing is maintained.
         if ( latestChunkArrivalTime + MIN_INTER_CHUNK_TIME > projectedArrivalTime ){
             projectedArrivalTime = latestChunkArrivalTime + MIN_INTER_CHUNK_TIME;
-            System.out.println( "Adjusting arrival time to avoid clumping." ); // TODO: Remove once algorithm is proven.
         }
 
         latestChunkArrivalTime = projectedArrivalTime;
@@ -161,6 +160,7 @@ public class SolarPanel extends EnergyConverter {
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();
         energyChunkMovers.clear();
+        latestChunkArrivalTime = 0;
     }
 
     private static List<Vector2D> createPathToPanelBottom( final Vector2D panelPosition ) {
