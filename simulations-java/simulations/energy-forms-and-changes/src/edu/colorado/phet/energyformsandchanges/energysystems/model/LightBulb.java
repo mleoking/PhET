@@ -163,7 +163,7 @@ public class LightBulb extends EnergyUser {
                             break;
                     }
                 }
-                if ( lightChunksPresent && ( thermalChunksPresent || electricalChunksPresent ) ){
+                if ( lightEnergyChunkMovers.size() > 0 && ( thermalEnergyChunkMovers.size() > 0 || energyChunkList.size() > 0 ) ){
                     // Light is on.
                     litProportion.set( Math.min( 1, litProportion.get() + LIGHT_CHANGE_RATE * dt ) );
                 }
