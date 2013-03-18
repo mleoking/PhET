@@ -27,7 +27,6 @@ public final class EnergyChunkWanderController {
     private static final double MIN_TIME_IN_ONE_DIRECTION = 0.5;
     private static final double MAX_TIME_IN_ONE_DIRECTION = 1;
     private static final double DISTANCE_AT_WHICH_TO_STOP_WANDERING = 0.05; // In meters, empirically chosen.
-    private static final double DISTANCE_AT_WHICH_TO_JUMP_TO_DESTINATION = 0.001; // In meters, empirically chosen.
     private static final double MAX_ANGLE_VARIATION = Math.PI * 0.2; // Max deviation from angle to destination, in radians, empirically chosen.
 
     //-------------------------------------------------------------------------
@@ -62,7 +61,7 @@ public final class EnergyChunkWanderController {
 
     public void updatePosition( double dt ) {
         double distanceToDestination = energyChunk.position.get().distance( destination.get() );
-        if ( distanceToDestination < DISTANCE_AT_WHICH_TO_JUMP_TO_DESTINATION && !energyChunk.position.get().equals( destination ) ) {
+        if ( distanceToDestination < velocity.magnitude() * dt && !energyChunk.position.get().equals( destination ) ) {
             // Destination reached.
             energyChunk.position.set( destination.get() );
             velocity.setMagnitude( 0 );

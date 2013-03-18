@@ -4,11 +4,9 @@ Make other bulb emit occasional thermal E.
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
 
-From Ariel: There is a bit of odd behavior of energy chunks if the water is cooled to "0" and the cooler is left on full throttle.  I think the behavior is easiest to see in "fast forward" mode.  Basically, an energy chunk going to the cooler will sometimes compete with one coming in from the air, bounce around, and reverse direction on occasion.  Whatever fix you came up with for the condition for steaming looks great...energy chunk comes in, energy chunk goes out in a nice equilibrium, but it seems for the near freezing condition there are still some quirks.
+Refine behavior of burners on/off when nothing on top.  Work out details with the team.
 
-
-
-Profile, have Chris test on Mac
+Profile, test on Mac
 
 Improve steam shape for tea pot (use the algorithm that was used for water)
 
@@ -21,6 +19,7 @@ Fix flicker when E's are transferred between energy systems. (NP and JB aren't b
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
 
 ------------------- D O N E ------------------------------------------
+From Ariel: There is a bit of odd behavior of energy chunks if the water is cooled to "0" and the cooler is left on full throttle.  I think the behavior is easiest to see in "fast forward" mode.  Basically, an energy chunk going to the cooler will sometimes compete with one coming in from the air, bounce around, and reverse direction on occasion.  Whatever fix you came up with for the condition for steaming looks great...energy chunk comes in, energy chunk goes out in a nice equilibrium, but it seems for the near freezing condition there are still some quirks.
 Fix: 1st tab, weird interaction between beaker and thermometer control panel. Just put panel at very back.
 Fix issues with "systems", i.e. stacks of blocks and so forth.
 EFAC: Fix issue where blocks and beakers can be dragged through each other and the burners under some circumstances.
