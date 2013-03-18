@@ -1,6 +1,7 @@
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
+Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
 
-Make other bulb emit occasional thermal E.
+Make fluorescent bulb emit occasional thermal E.
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
 
