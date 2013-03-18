@@ -31,6 +31,12 @@ public abstract class EnergySource extends EnergySystemElement {
     public abstract Energy stepInTime( double dt );
 
     /**
+     * Set up the energy chunks contained by this energy source as though they
+     * have been full propagated through the system.
+     */
+    public abstract void preLoadEnergyChunks();
+
+    /**
      * Get the energy chunks that this source wants to transfer to the next
      * energy system element.  Reading clears the list.
      *

@@ -25,6 +25,14 @@ public abstract class EnergyUser extends EnergySystemElement {
     public abstract void stepInTime( double dt, Energy incomingEnergy );
 
     /**
+     * Set up the energy chunks contained by this energy source as though they
+     * have been full propagated through the system.
+     *
+     * @param incomingEnergyRate Incoming energy in joules/sec.
+     */
+    public abstract void preLoadEnergyChunks( double incomingEnergyRate );
+
+    /**
      * Inject a list of energy chunks into this energy system element.  Once
      * injected, it is the system's responsibility to move, convert, and
      * otherwise manage them.

@@ -176,6 +176,10 @@ public class LightBulb extends EnergyUser {
         }
     }
 
+    @Override public void preLoadEnergyChunks( double incomingEnergyRate ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private void radiateEnergyChunk( EnergyChunk energyChunk ) {
         energyChunk.energyType.set( EnergyType.LIGHT );
         List<Vector2D> lightPath = new ArrayList<Vector2D>() {{

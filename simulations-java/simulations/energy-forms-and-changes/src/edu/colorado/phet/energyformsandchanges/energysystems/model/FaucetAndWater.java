@@ -156,6 +156,10 @@ public class FaucetAndWater extends EnergySource {
         return new Energy( EnergyType.MECHANICAL, EFACConstants.MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
     }
 
+    @Override public void preLoadEnergyChunks() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     @Override public void deactivate() {
         super.deactivate();
         waterDrops.clear();

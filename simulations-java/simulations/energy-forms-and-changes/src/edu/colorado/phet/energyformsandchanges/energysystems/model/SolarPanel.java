@@ -134,6 +134,10 @@ public class SolarPanel extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
 
+    @Override public void preLoadEnergyChunks( double incomingEnergyRate ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     // Choose velocity of chunk on panel such that it won't clump up with
     // other chunks.
     private double chooseChunkVelocityOnPanel( EnergyChunk incomingEnergyChunk ) {
