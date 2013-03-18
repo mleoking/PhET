@@ -1,3 +1,4 @@
+Fixed a problem with odd E-chunk behavior when cooling is in progress (most visible from beaker) and fast-forward is enabled.
 # 0.00.34 (72509) Mar 16, 2013
 3/16/13 Deploy to dev for testing and review
 Fixed some issues with z-order of the thermometer panel when interacting with the beaker.
