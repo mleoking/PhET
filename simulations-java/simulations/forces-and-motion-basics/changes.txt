@@ -1,3 +1,4 @@
+# 1.02.20 (72511) Mar 17, 2013
 Thumbnail tabs: Moved the homescreen icon to the right of the thumbnails
 Thumbnail tabs: Moved the tab title to the left of the thumbnails
 # 1.02.19 (72465) Mar 11, 2013
