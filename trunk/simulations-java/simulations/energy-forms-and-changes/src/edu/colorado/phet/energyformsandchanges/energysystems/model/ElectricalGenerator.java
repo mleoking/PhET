@@ -207,7 +207,6 @@ public class ElectricalGenerator extends EnergyConverter {
         }
 
         double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
-        List<EnergyChunk> tempEnergyChunkList = new ArrayList<EnergyChunk>();
         double energySinceLastChunk = EFACConstants.ENERGY_PER_CHUNK * 0.99;
 
         // Simulate energy chunks moving through the system.
@@ -218,7 +217,7 @@ public class ElectricalGenerator extends EnergyConverter {
             // Determine if time to add a new chunk.
             if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
                 EnergyChunk newEnergyChunk = new EnergyChunk( EnergyType.MECHANICAL, getPosition().plus( LEFT_SIDE_OF_WHEEL_OFFSET ), energyChunkVisibilityControl );
-                tempEnergyChunkList.add( newEnergyChunk );
+                energyChunkList.add( newEnergyChunk );
                 // Add a 'mover' for this energy chunk.
                 energyChunkMovers.add( new EnergyChunkPathMover( newEnergyChunk,
                                                                  createMechanicalEnergyChunkPath( getPosition() ),
@@ -235,9 +234,6 @@ public class ElectricalGenerator extends EnergyConverter {
                 preLoadComplete = true;
             }
         }
-
-        // Now that they are positioned, add these to the 'real' list of energy chunks.
-        energyChunkList.addAll( tempEnergyChunkList );
     }
 
     private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
