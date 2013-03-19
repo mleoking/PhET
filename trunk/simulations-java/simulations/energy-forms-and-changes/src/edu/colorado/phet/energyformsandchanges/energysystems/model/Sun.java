@@ -248,6 +248,11 @@ public class Sun extends EnergySource {
         }
     }
 
+    @Override public void deactivate() {
+        super.deactivate();
+        cloudiness.reset();
+    }
+
     @Override public IUserComponent getUserComponent() {
         return EnergyFormsAndChangesSimSharing.UserComponents.selectSunButton;
     }

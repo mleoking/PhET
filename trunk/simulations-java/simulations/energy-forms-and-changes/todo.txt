@@ -1,7 +1,5 @@
-Fix the rate at which the wheel turns when very little energy is coming from tea pot.
-Fix: Girl outputs energy chunks a bit too quickly. Maybe.
-1st: Rain of E's when cooling.
 Fix: Reset doesn't get rid of clouds if active.
+1st: Rain of E's when cooling.
 Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
 Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
 Fix: Sun's energy chunks should go behind the light bulbs & beaker.
@@ -27,6 +25,7 @@ Fix flicker when E's are transferred between energy systems. (NP and JB aren't b
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
 
 ------------------- D O N E ------------------------------------------
+Fix the rate at which the wheel turns when very little energy is coming from tea pot.
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 Fix: Electrical energy chunks get jammed up on the solar panel after a reset in some circumstances.
 From Ariel: There is a bit of odd behavior of energy chunks if the water is cooled to "0" and the cooler is left on full throttle.  I think the behavior is easiest to see in "fast forward" mode.  Basically, an energy chunk going to the cooler will sometimes compete with one coming in from the air, bounce around, and reverse direction on occasion.  Whatever fix you came up with for the condition for steaming looks great...energy chunk comes in, energy chunk goes out in a nice equilibrium, but it seems for the near freezing condition there are still some quirks.
