@@ -224,14 +224,6 @@ public class TeaPot extends EnergySource {
         }};
     }
 
-    private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D parentElementPosition ) {
-        return new ArrayList<Vector2D>() {{
-            add( parentElementPosition.plus( SPOUT_BOTTOM_OFFSET ) );
-            add( parentElementPosition.plus( SPOUT_TIP_OFFSET ) );
-            add( parentElementPosition.plus( DISTANT_TARGET_OFFSET ) );
-        }};
-    }
-
     private static List<Vector2D> createPathToSpoutBottom( final Vector2D parentElementPosition ) {
         return new ArrayList<Vector2D>() {{
             add( parentElementPosition.plus( SPOUT_BOTTOM_OFFSET ) );
