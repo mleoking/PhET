@@ -177,7 +177,10 @@ public class LightBulb extends EnergyUser {
     }
 
     @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        System.out.println( "Light bulb preload, incomingEnergyRate = " + incomingEnergyRate.amount );
+        if ( incomingEnergyRate.amount == 0 ){
+            clearEnergyChunks();
+        }
     }
 
     private void radiateEnergyChunk( EnergyChunk energyChunk ) {
