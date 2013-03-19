@@ -213,6 +213,9 @@ public class Sun extends EnergySource {
             updateEnergyChunkPositions( dt );
             preLoadTime -= dt;
         }
+
+        // Remove any chunks that actually made it to the solar panel.
+        outgoingEnergyChunks.clear();
     }
 
     @Override public Energy getEnergyOutputRate() {
