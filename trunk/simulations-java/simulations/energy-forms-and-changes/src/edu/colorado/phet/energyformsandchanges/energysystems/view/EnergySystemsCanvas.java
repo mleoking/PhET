@@ -1,13 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -32,7 +31,7 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  *
  * @author John Blanco
  */
-public class EnergySystemsCanvas extends PhetPCanvas {
+public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -45,7 +44,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private final BooleanProperty energyChunkVizCheckBoxProperty = new BooleanProperty( true );
+    private final BooleanProperty energyChunkVizCheckBoxProperty = new BooleanProperty( false );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -95,7 +94,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         // that energy chunk pre-loading can be done prior to making ECs visible.
         energyChunkVizCheckBoxProperty.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean energyVisible ) {
-                if ( energyVisible ){
+                if ( energyVisible ) {
                     model.preLoadEnergyChunks();
                 }
                 model.energyChunksVisible.set( energyVisible );
@@ -130,7 +129,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode beltNode = new BeltNode( model.belt, mvt );
 
         // Create the reset button.
-        ResetAllButtonNode resetButton = new ResetAllButtonNode( model, this, 20, Color.black, new Color( 255, 153, 0 ) );
+        ResetAllButtonNode resetButton = new ResetAllButtonNode( new Resettable[]{this, model}, this, 20, Color.black, new Color( 255, 153, 0 ) );
         resetButton.setConfirmationEnabled( false );
 
         //------- Node Layering -----------------------------------------------
@@ -192,11 +191,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                              energyUsersCarouselController.getFullBoundsReference().getCenterY() );
     }
 
-    //-------------------------------------------------------------------------
-    // Methods
-    //-------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //-------------------------------------------------------------------------
+    public void reset() {
+        energyChunkVizCheckBoxProperty.reset();
+    }
 }

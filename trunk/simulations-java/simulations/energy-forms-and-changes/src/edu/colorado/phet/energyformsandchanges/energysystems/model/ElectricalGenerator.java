@@ -195,7 +195,10 @@ public class ElectricalGenerator extends EnergyConverter {
     }
 
     @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        System.out.println( "Generaator preload, incomingEnergyRate = " + incomingEnergyRate.amount );
+        if ( incomingEnergyRate.amount == 0 ){
+            clearEnergyChunks();
+        }
     }
 
     private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {

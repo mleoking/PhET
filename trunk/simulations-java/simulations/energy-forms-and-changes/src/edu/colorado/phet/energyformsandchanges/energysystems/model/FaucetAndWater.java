@@ -156,6 +156,7 @@ public class FaucetAndWater extends EnergySource {
     }
 
     @Override public void preLoadEnergyChunks() {
+        System.out.println("FAW pre-load of energy chunks called.");
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
