@@ -158,6 +158,6 @@ public class EnergySystemsModel implements Resettable {
     public void preLoadEnergyChunks() {
         energySourcesCarousel.getSelectedElement().preLoadEnergyChunks();
         energyConvertersCarousel.getSelectedElement().preLoadEnergyChunks( energySourcesCarousel.getSelectedElement().getEnergyOutputRate() );
-
+        energyUsersCarousel.getSelectedElement().preLoadEnergyChunks( energyConvertersCarousel.getSelectedElement().getEnergyOutputRate() );
     }
 }
