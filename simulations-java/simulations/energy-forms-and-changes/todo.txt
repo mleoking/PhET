@@ -1,20 +1,18 @@
-1st: Rain of E's when cooling.
-Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
+1st tab: Rain of E's when cooling and nothing is on the burner.
 Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
-Fix: Sun's energy chunks should go behind the light bulbs & beaker.
+Make fluorescent and incandescent bulbs emit occasional thermal E.
+Improve steam shape for tea pot (use the algorithm that was used for water)
 
-Make fluorescent bulb emit occasional thermal E.
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
-
-Review and discuss: E's can be made to chase an object if the object is moved.  What if we just make them jump when the object is moved?
 
 1st tab: Refine behavior of burners on/off when nothing on top.  Work out details with the team.
 
 Profile, test on Mac
 
-Improve steam shape for tea pot (use the algorithm that was used for water)
 
+Discuss: E's can be made to chase an object if the object is moved.  What if we just make them jump when the object is moved?
+Discuss: Sun's energy chunks should go behind the light bulbs & beaker.
 
 --> Start interviews?
 
@@ -24,6 +22,7 @@ Fix flicker when E's are transferred between energy systems. (NP and JB aren't b
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
 
 ------------------- D O N E ------------------------------------------
+Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
 Fix: Reset doesn't get rid of clouds if active.
 Fix the rate at which the wheel turns when very little energy is coming from tea pot.
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
