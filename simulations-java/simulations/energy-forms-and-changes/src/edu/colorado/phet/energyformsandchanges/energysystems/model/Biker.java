@@ -300,7 +300,8 @@ public class Biker extends EnergySource {
     }
 
     @Override public void preLoadEnergyChunks() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // For the biker, pre-loading of energy chunks isn't necessary, since
+        // they are being maintained even when visibility is turned off.
     }
 
     @Override public Energy getEnergyOutputRate() {
