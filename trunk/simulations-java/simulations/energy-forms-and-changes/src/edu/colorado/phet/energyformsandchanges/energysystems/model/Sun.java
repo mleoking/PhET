@@ -78,6 +78,8 @@ public class Sun extends EnergySource {
 
     private int currentSectorIndex = 0;
 
+    private Vector2D sunPosition = OFFSET_TO_CENTER_OF_SUN;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -98,6 +100,13 @@ public class Sun extends EnergySource {
         } );
 
         Collections.shuffle( sectorList );
+
+        // Keep the sun position updated.
+        getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D position ) {
+                sunPosition = position.plus( OFFSET_TO_CENTER_OF_SUN );
+            }
+        } );
     }
 
     //-------------------------------------------------------------------------
@@ -110,63 +119,18 @@ public class Sun extends EnergySource {
         double energyProduced = 0;
 
         if ( isActive() ) {
+
             // See if it is time to emit a new energy chunk.
             energyChunkEmissionCountdownTimer -= dt;
             if ( energyChunkEmissionCountdownTimer <= 0 ) {
+
                 // Create a new chunk and start it on its way.
-                double directionAngle = chooseNextEmissionAngle();
-                Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( directionAngle ) );
-                EnergyChunk energyChunk = new EnergyChunk( EnergyType.LIGHT, initialPosition.x, initialPosition.y, energyChunksVisible );
-                energyChunk.setVelocity( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( directionAngle ) );
-                energyChunkList.add( energyChunk );
-                energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
+                emitEnergyChunk();
+                energyChunkEmissionCountdownTimer += ENERGY_CHUNK_EMISSION_PERIOD;
             }
 
-            // Check for bouncing and absorption of the energy chunks.
-            for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-                if ( solarPanel.isActive() && solarPanel.getAbsorptionShape().contains( energyChunk.position.get().toPoint2D() ) ) {
-                    // This energy chunk was absorbed by the solar panel, so
-                    // put it on the list of outgoing chunks.
-                    outgoingEnergyChunks.add( energyChunk );
-                }
-                else if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
-                    // This energy chunk is out of visible range, so remove it.
-                    energyChunkList.remove( energyChunk );
-                    energyChunksPassingThroughClouds.remove( energyChunk );
-                }
-                else {
-                    for ( Cloud cloud : clouds ) {
-                        if ( cloud.getCloudAbsorptionReflectionShape().contains( energyChunk.position.get().toPoint2D() ) &&
-                             !energyChunksPassingThroughClouds.contains( energyChunk ) &&
-                             Math.abs( energyChunk.getVelocity().getAngle() - energyChunk.position.get().minus( sunPosition ).getAngle() ) < Math.PI / 10 ) {
-                            // Decide whether this energy chunk should pass
-                            // through the clouds or be reflected.
-                            if ( RAND.nextDouble() < cloud.existenceStrength.get() ) {
-                                // Reflect the energy chunk.  It looks a little
-                                // weird if they go back to the sun, so the
-                                // code below tries to avoid that.
-                                double angleTowardsSun = energyChunk.getVelocity().getAngle() + Math.PI;
-                                double reflectionAngle = new Vector2D( cloud.getCenterPosition(), energyChunk.position.get() ).getAngle();
-                                if ( reflectionAngle < angleTowardsSun ) {
-                                    energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( 0.7 * Math.PI + RAND.nextDouble() * Math.PI / 8 ) );
-                                }
-                                else {
-                                    energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( -0.7 * Math.PI - RAND.nextDouble() * Math.PI / 8 ) );
-                                }
-                            }
-                            else {
-                                // Let is pass through the cloud.
-                                energyChunksPassingThroughClouds.add( energyChunk );
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Move all the energy chunks away from the sun.
-            for ( EnergyChunk energyChunk : energyChunkList ) {
-                energyChunk.translateBasedOnVelocity( dt );
-            }
+            // Move the energy chunks.
+            updateEnergyChunkPositions( dt );
 
             // Calculate the amount of energy produced.
             energyProduced = EFACConstants.MAX_ENERGY_PRODUCTION_RATE * ( 1 - cloudiness.get() ) * dt;
@@ -176,8 +140,79 @@ public class Sun extends EnergySource {
         return new Energy( EnergyType.LIGHT, energyProduced );
     }
 
+    private void updateEnergyChunkPositions( double dt ) {
+
+        // Check for bouncing and absorption of the energy chunks.
+        for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
+            if ( solarPanel.isActive() && solarPanel.getAbsorptionShape().contains( energyChunk.position.get().toPoint2D() ) ) {
+                // This energy chunk was absorbed by the solar panel, so
+                // put it on the list of outgoing chunks.
+                outgoingEnergyChunks.add( energyChunk );
+            }
+            else if ( energyChunk.position.get().distance( sunPosition.plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
+                // This energy chunk is out of visible range, so remove it.
+                energyChunkList.remove( energyChunk );
+                energyChunksPassingThroughClouds.remove( energyChunk );
+            }
+            else {
+                for ( Cloud cloud : clouds ) {
+                    if ( cloud.getCloudAbsorptionReflectionShape().contains( energyChunk.position.get().toPoint2D() ) &&
+                         !energyChunksPassingThroughClouds.contains( energyChunk ) &&
+                         Math.abs( energyChunk.getVelocity().getAngle() - energyChunk.position.get().minus( sunPosition ).getAngle() ) < Math.PI / 10 ) {
+                        // Decide whether this energy chunk should pass
+                        // through the clouds or be reflected.
+                        if ( RAND.nextDouble() < cloud.existenceStrength.get() ) {
+                            // Reflect the energy chunk.  It looks a little
+                            // weird if they go back to the sun, so the
+                            // code below tries to avoid that.
+                            double angleTowardsSun = energyChunk.getVelocity().getAngle() + Math.PI;
+                            double reflectionAngle = new Vector2D( cloud.getCenterPosition(), energyChunk.position.get() ).getAngle();
+                            if ( reflectionAngle < angleTowardsSun ) {
+                                energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( 0.7 * Math.PI + RAND.nextDouble() * Math.PI / 8 ) );
+                            }
+                            else {
+                                energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( -0.7 * Math.PI - RAND.nextDouble() * Math.PI / 8 ) );
+                            }
+                        }
+                        else {
+                            // Let is pass through the cloud.
+                            energyChunksPassingThroughClouds.add( energyChunk );
+                        }
+                    }
+                }
+            }
+        }
+
+        // Move all the energy chunks away from the sun.
+        for ( EnergyChunk energyChunk : energyChunkList ) {
+            energyChunk.translateBasedOnVelocity( dt );
+        }
+    }
+
+    private void emitEnergyChunk() {
+        double directionAngle = chooseNextEmissionAngle();
+        Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( directionAngle ) );
+        EnergyChunk energyChunk = new EnergyChunk( EnergyType.LIGHT, initialPosition.x, initialPosition.y, energyChunksVisible );
+        energyChunk.setVelocity( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( directionAngle ) );
+        energyChunkList.add( energyChunk );
+    }
+
     @Override public void preLoadEnergyChunks() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        clearEnergyChunks();
+        double preLoadTime = 6; // In seconds, empirically determined.
+        double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
+        energyChunkEmissionCountdownTimer = 0;
+
+        // Simulate energy chunks moving through the system.
+        while ( preLoadTime > 0 ) {
+            energyChunkEmissionCountdownTimer -= dt;
+            if ( energyChunkEmissionCountdownTimer <= 0 ) {
+                emitEnergyChunk();
+                energyChunkEmissionCountdownTimer += ENERGY_CHUNK_EMISSION_PERIOD;
+            }
+            updateEnergyChunkPositions( dt );
+            preLoadTime -= dt;
+        }
     }
 
     @Override public Energy getEnergyOutputRate() {
