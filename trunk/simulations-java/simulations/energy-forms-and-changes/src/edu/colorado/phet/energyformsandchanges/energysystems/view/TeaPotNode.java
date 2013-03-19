@@ -116,7 +116,6 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                 @Override public void clockTicked( ClockEvent clockEvent ) {
                     if ( isActive.get() ) {
                         double proportion = energyOutput.get() / maxEnergyOutput;
-                        System.out.println( "proportion = " + proportion );
                         final double heightAndWidth = proportion * MAX_HEIGHT_AND_WIDTH;
                         List<Vector2D> cloudStemShapePoints = new ArrayList<Vector2D>() {{
                             double stemBaseWidth = 8; // Empirically chosen

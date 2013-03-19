@@ -115,68 +115,103 @@ public class TeaPot extends EnergySource {
             }
 
             // Move all energy chunks that are under this element's control.
-            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
-                energyChunkMover.moveAlongPath( dt );
-                EnergyChunk energyChunk = energyChunkMover.energyChunk;
-                if ( energyChunkMover.isPathFullyTraversed() ) {
-                    energyChunkMovers.remove( energyChunkMover );
-                    if ( energyChunk.position.get().getY() == getPosition().getY() + WATER_SURFACE_HEIGHT_OFFSET ) {
-                        // This is a thermal chunk that is coming out of the water.
-                        if ( RAND.nextDouble() > 0.2 ) {
-                            // Turn the chunk into mechanical energy.
-                            energyChunk.energyType.set( EnergyType.MECHANICAL );
-                        }
-                        // Set this chunk on a path to the base of the spout.
-                        double travelDistance = energyChunk.position.get().distance( getPosition().plus( SPOUT_BOTTOM_OFFSET ) );
-                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
-                                                                         createPathToSpoutBottom( getPosition() ),
-                                                                         travelDistance / ENERGY_CHUNK_WATER_TO_SPOUT_TIME ) );
-                    }
-                    else if ( energyChunk.position.get().equals( getPosition().plus( SPOUT_BOTTOM_OFFSET ) )){
-                        // The chunk is moving out of the spout.
-                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
-                                                                         createSpoutExitPath( getPosition() ),
-                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                    }
-                    else {
-                        // This chunk is out of view, and we are done with it.
-                        energyChunkList.remove( energyChunk );
-                    }
-                }
-                else {
-                    // See if this energy chunks should be transferred to the
-                    // next energy system.
-                    if ( energyChunk.energyType.get() == EnergyType.MECHANICAL &&
-                         steamPowerableElementInPlace.get() &&
-                         ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE.contains( getPosition().distance( energyChunk.position.get() ) ) &&
-                         !exemptFromTransferEnergyChunks.contains( energyChunk ) ) {
-
-                        if ( transferNextAvailableChunk ) {
-                            // Send this chunk to the next energy system.
-                            outgoingEnergyChunks.add( energyChunk );
-                            energyChunkMovers.remove( energyChunkMover );
-
-                            // Alternate sending or keeping chunks.
-                            transferNextAvailableChunk = false;
-                        }
-                        else {
-                            // Don't transfer this chunk.
-                            exemptFromTransferEnergyChunks.add( energyChunk );
-
-                            // Set up to transfer the next one.
-                            transferNextAvailableChunk = true;
-                        }
-                    }
-
-                }
-            }
+            moveEnergyChunks( dt );
         }
-        System.out.println( "energyProductionRate = " + energyProductionRate.get() );
         return new Energy( EnergyType.MECHANICAL, energyProductionRate.get() * dt, Math.PI / 2 );
     }
 
+    private void moveEnergyChunks( double dt ) {
+        for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
+            energyChunkMover.moveAlongPath( dt );
+            EnergyChunk energyChunk = energyChunkMover.energyChunk;
+            if ( energyChunkMover.isPathFullyTraversed() ) {
+                energyChunkMovers.remove( energyChunkMover );
+                if ( energyChunk.energyType.get() == EnergyType.THERMAL && energyChunk.position.get().getY() == getPosition().getY() + WATER_SURFACE_HEIGHT_OFFSET ) {
+                    // This is a thermal chunk that is coming out of the water.
+                    if ( RAND.nextDouble() > 0.2 ) {
+                        // Turn the chunk into mechanical energy.
+                        energyChunk.energyType.set( EnergyType.MECHANICAL );
+                    }
+                    // Set this chunk on a path to the base of the spout.
+                    double travelDistance = energyChunk.position.get().distance( getPosition().plus( SPOUT_BOTTOM_OFFSET ) );
+                    energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                     createPathToSpoutBottom( getPosition() ),
+                                                                     travelDistance / ENERGY_CHUNK_WATER_TO_SPOUT_TIME ) );
+                }
+                else if ( energyChunk.position.get().equals( getPosition().plus( SPOUT_BOTTOM_OFFSET ) ) ) {
+                    // The chunk is moving out of the spout.
+                    energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
+                                                                     createSpoutExitPath( getPosition() ),
+                                                                     EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                }
+                else {
+                    // This chunk is out of view, and we are done with it.
+                    energyChunkList.remove( energyChunk );
+                }
+            }
+            else {
+                // See if this energy chunks should be transferred to the
+                // next energy system.
+                if ( energyChunk.energyType.get() == EnergyType.MECHANICAL &&
+                     steamPowerableElementInPlace.get() &&
+                     ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE.contains( getPosition().distance( energyChunk.position.get() ) ) &&
+                     !exemptFromTransferEnergyChunks.contains( energyChunk ) ) {
+
+                    if ( transferNextAvailableChunk ) {
+                        // Send this chunk to the next energy system.
+                        outgoingEnergyChunks.add( energyChunk );
+                        energyChunkMovers.remove( energyChunkMover );
+
+                        // Alternate sending or keeping chunks.
+                        transferNextAvailableChunk = false;
+                    }
+                    else {
+                        // Don't transfer this chunk.
+                        exemptFromTransferEnergyChunks.add( energyChunk );
+
+                        // Set up to transfer the next one.
+                        transferNextAvailableChunk = true;
+                    }
+                }
+
+            }
+        }
+    }
+
     @Override public void preLoadEnergyChunks() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        clearEnergyChunks();
+        if ( energyProductionRate.get() == 0 ) {
+            // No chunks to add.
+            return;
+        }
+        boolean preLoadComplete = false;
+        double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
+        double energySinceLastChunk = EFACConstants.ENERGY_PER_CHUNK * 0.99;
+
+        // Simulate energy chunks moving through the system.
+        while ( !preLoadComplete ) {
+            energySinceLastChunk += energyProductionRate.get() * dt;
+            if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
+                // Create a chunk inside the teapot (at the water surface).
+                Vector2D initialPosition = new Vector2D( getPosition().getX(), getPosition().getY() + WATER_SURFACE_HEIGHT_OFFSET );
+                EnergyType energyType = RAND.nextDouble() > 0.2 ? EnergyType.MECHANICAL : EnergyType.THERMAL;
+                EnergyChunk newEnergyChunk = new EnergyChunk( energyType, initialPosition, energyChunksVisible );
+                energyChunkList.add( newEnergyChunk );
+                double travelDistance = newEnergyChunk.position.get().distance( getPosition().plus( SPOUT_BOTTOM_OFFSET ) );
+                energyChunkMovers.add( new EnergyChunkPathMover( newEnergyChunk,
+                                                                 createPathToSpoutBottom( getPosition() ),
+                                                                 travelDistance / ENERGY_CHUNK_WATER_TO_SPOUT_TIME ) );
+                energySinceLastChunk = energySinceLastChunk - EFACConstants.ENERGY_PER_CHUNK;
+            }
+
+            // Update energy chunk positions.
+            moveEnergyChunks( dt );
+
+            if ( outgoingEnergyChunks.size() > 0 ){
+                // An energy chunk has traversed to the output of this system, completing the preload.
+                preLoadComplete = true;
+            }
+        }
     }
 
     @Override public Energy getEnergyOutputRate() {
