@@ -41,6 +41,7 @@ public class LightBulb extends EnergyUser {
     // Offsets need for creating the path followed by the energy chunks.  These
     // were empirically determined based on images, will need to change if the
     // images are changed.
+    private static final Vector2D OFFSET_TO_LEFT_SIDE_OF_WIRE = new Vector2D( -0.04, -0.04 );
     private static final Vector2D OFFSET_TO_LEFT_SIDE_OF_WIRE_BEND = new Vector2D( -0.02, -0.04 );
     private static final Vector2D OFFSET_TO_FIRST_WIRE_CURVE_POINT = new Vector2D( -0.01, -0.0375 );
     private static final Vector2D OFFSET_TO_SECOND_WIRE_CURVE_POINT = new Vector2D( -0.001, -0.025 );
@@ -106,45 +107,10 @@ public class LightBulb extends EnergyUser {
                 incomingEnergyChunks.clear();
             }
 
-            // Move the electrical energy chunks.
-            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
-                energyChunkMover.moveAlongPath( dt );
-                if ( energyChunkMover.isPathFullyTraversed() ) {
-                    electricalEnergyChunkMovers.remove( energyChunkMover );
-                    if ( hasFilament ) {
-                        // Turn this energy chunk into thermal energy on the filament.
-                        energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
-                        List<Vector2D> energyChunkPath = createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() );
-                        thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
-                                                                                energyChunkPath,
-                                                                                getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / generateThermalChunkTimeOnFilament() ) );
-                    }
-                    else {
-                        // There is no filament, so just radiate the chunk.
-                        radiateEnergyChunk( energyChunkMover.energyChunk );
-                    }
-                }
-            }
-
-            // Move the thermal energy chunks.
-            for ( EnergyChunkPathMover thermalEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( thermalEnergyChunkMovers ) ) {
-                thermalEnergyChunkMover.moveAlongPath( dt );
-                if ( thermalEnergyChunkMover.isPathFullyTraversed() ) {
-                    // Cause this energy chunk to be radiated from the bulb.
-                    thermalEnergyChunkMovers.remove( thermalEnergyChunkMover );
-                    radiateEnergyChunk( thermalEnergyChunkMover.energyChunk );
-                }
-            }
-
-            // Move the light energy chunks.
-            for ( EnergyChunkPathMover lightEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( lightEnergyChunkMovers ) ) {
-                lightEnergyChunkMover.moveAlongPath( dt );
-                if ( lightEnergyChunkMover.isPathFullyTraversed() ) {
-                    // Remove the chunk and its mover.
-                    energyChunkList.remove( lightEnergyChunkMover.energyChunk );
-                    lightEnergyChunkMovers.remove( lightEnergyChunkMover );
-                }
-            }
+            // Move all of the energy chunks.
+            moveElectricalEnergyChunks( dt );
+            moveThermalEnergyChunks( dt );
+            moveLightEnergyChunks( dt );
 
             // Set how lit the bulb is.
             if ( energyChunksVisible.get() ){
@@ -176,10 +142,86 @@ public class LightBulb extends EnergyUser {
         }
     }
 
+    private void moveLightEnergyChunks( double dt ) {
+        for ( EnergyChunkPathMover lightEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( lightEnergyChunkMovers ) ) {
+            lightEnergyChunkMover.moveAlongPath( dt );
+            if ( lightEnergyChunkMover.isPathFullyTraversed() ) {
+                // Remove the chunk and its mover.
+                energyChunkList.remove( lightEnergyChunkMover.energyChunk );
+                lightEnergyChunkMovers.remove( lightEnergyChunkMover );
+            }
+        }
+    }
+
+    private void moveThermalEnergyChunks( double dt ) {
+        for ( EnergyChunkPathMover thermalEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( thermalEnergyChunkMovers ) ) {
+            thermalEnergyChunkMover.moveAlongPath( dt );
+            if ( thermalEnergyChunkMover.isPathFullyTraversed() ) {
+                // Cause this energy chunk to be radiated from the bulb.
+                thermalEnergyChunkMovers.remove( thermalEnergyChunkMover );
+                radiateEnergyChunk( thermalEnergyChunkMover.energyChunk );
+            }
+        }
+    }
+
+    private void moveElectricalEnergyChunks( double dt ) {
+        for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
+            energyChunkMover.moveAlongPath( dt );
+            if ( energyChunkMover.isPathFullyTraversed() ) {
+                electricalEnergyChunkMovers.remove( energyChunkMover );
+                if ( hasFilament ) {
+                    // Turn this energy chunk into thermal energy on the filament.
+                    energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
+                    List<Vector2D> energyChunkPath = createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() );
+                    thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                            energyChunkPath,
+                                                                            getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / generateThermalChunkTimeOnFilament() ) );
+                }
+                else {
+                    // There is no filament, so just radiate the chunk.
+                    radiateEnergyChunk( energyChunkMover.energyChunk );
+                }
+            }
+        }
+    }
+
     @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
-        System.out.println( "Light bulb preload, incomingEnergyRate = " + incomingEnergyRate.amount );
-        if ( incomingEnergyRate.amount == 0 ){
-            clearEnergyChunks();
+        clearEnergyChunks();
+        if ( incomingEnergyRate.amount == 0 || incomingEnergyRate.type != EnergyType.ELECTRICAL ) {
+            // No energy chunk pre-loading needed.
+            return;
+        }
+
+        double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
+        double energySinceLastChunk = EFACConstants.ENERGY_PER_CHUNK * 0.99;
+
+        // Simulate energy chunks moving through the system.
+        boolean preLoadComplete = false;
+        while ( !preLoadComplete ) {
+            energySinceLastChunk += incomingEnergyRate.amount * dt;
+
+            // Determine if time to add a new chunk.
+            if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
+                EnergyChunk newEnergyChunk = new EnergyChunk( EnergyType.ELECTRICAL, getPosition().plus( OFFSET_TO_LEFT_SIDE_OF_WIRE ), energyChunksVisible );
+                energyChunkList.add( newEnergyChunk );
+                // Add a 'mover' for this energy chunk.
+                // And a "mover" that will move this energy chunk through
+                // the wire to the heating element.
+                electricalEnergyChunkMovers.add( new EnergyChunkPathMover( newEnergyChunk,
+                                                                           createElectricalEnergyChunkPath( getPosition() ),
+                                                                           EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+
+                // Update energy since last chunk.
+                energySinceLastChunk = energySinceLastChunk - EFACConstants.ENERGY_PER_CHUNK;
+            }
+
+            moveElectricalEnergyChunks( dt );
+            moveThermalEnergyChunks( dt );
+
+            if ( lightEnergyChunkMovers.size() > 1 ) {
+                // A couple of chunks are radiating, which completes the pre-load.
+                preLoadComplete = true;
+            }
         }
     }
 
@@ -231,6 +273,13 @@ public class LightBulb extends EnergyUser {
     @Override public void deactivate() {
         super.deactivate();
         litProportion.set( 0.0 );
+    }
+
+    @Override public void clearEnergyChunks() {
+        super.clearEnergyChunks();
+        electricalEnergyChunkMovers.clear();
+        thermalEnergyChunkMovers.clear();
+        lightEnergyChunkMovers.clear();
     }
 
     @Override public IUserComponent getUserComponent() {
