@@ -6,9 +6,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
@@ -34,6 +36,7 @@ public class SolarPanel extends EnergyConverter {
     // Class Data
     //-------------------------------------------------------------------------
 
+    private static final Random RAND = new Random();
     private static final Vector2D SOLAR_PANEL_OFFSET = new Vector2D( 0, 0.044 );
     public static final ModelElementImage SOLAR_PANEL_IMAGE = new ModelElementImage( SOLAR_PANEL, 0.15, SOLAR_PANEL_OFFSET );
     public static final Vector2D CONVERTER_IMAGE_OFFSET = new Vector2D( 0.015, -0.040 );
@@ -42,6 +45,16 @@ public class SolarPanel extends EnergyConverter {
     public static final ModelElementImage POST_IMAGE = new ModelElementImage( SOLAR_PANEL_POST_2, CONVERTER_IMAGE_OFFSET.plus( new Vector2D( 0, 0.04 ) ) );
     public static final Vector2D CONNECTOR_IMAGE_OFFSET = new Vector2D( 0.057, -0.04 );
     public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, CONNECTOR_IMAGE_OFFSET );
+    private static final Rectangle2D PANEL_IMAGE_BOUNDS = new Rectangle2D.Double( -SOLAR_PANEL_IMAGE.getWidth() / 2,
+                                                                                  -SOLAR_PANEL_IMAGE.getHeight() / 2,
+                                                                                  SOLAR_PANEL_IMAGE.getWidth(),
+                                                                                  SOLAR_PANEL_IMAGE.getHeight() );
+    private static final DoubleGeneralPath ABSORPTION_SHAPE = new DoubleGeneralPath() {{
+        moveTo( PANEL_IMAGE_BOUNDS.getMinX(), PANEL_IMAGE_BOUNDS.getMinY() );
+        lineTo( PANEL_IMAGE_BOUNDS.getMaxX(), PANEL_IMAGE_BOUNDS.getMaxY() );
+        lineTo( PANEL_IMAGE_BOUNDS.getMaxX(), PANEL_IMAGE_BOUNDS.getMinY() );
+        closePath();
+    }};
 
     // Constants used for creating the path followed by the energy chunks.
     // Many of these numbers were empirically determined based on the images,
@@ -55,7 +68,7 @@ public class SolarPanel extends EnergyConverter {
     // Inter chunk spacing time for when the chunks reach the 'convergence
     // point' at the bottom of the solar panel.  It is intended to
     // approximately match the rate at which the sun emits energy chunks.
-    private static final double MIN_INTER_CHUNK_TIME = 1 / ( Sun.ENERGY_CHUNK_EMISSION_PERIOD * Sun.NUM_EMISSION_SECTORS); // In seconds.
+    private static final double MIN_INTER_CHUNK_TIME = 1 / ( Sun.ENERGY_CHUNK_EMISSION_PERIOD * Sun.NUM_EMISSION_SECTORS ); // In seconds.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -65,14 +78,16 @@ public class SolarPanel extends EnergyConverter {
     private final IClock simulationClock;
     private double latestChunkArrivalTime = 0; // Used to prevent clumping of chunks.
     private double energyOutputRate = 0;
+    private ObservableProperty<Boolean> energyChunkVisibility;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected SolarPanel( IClock simulationClock ) {
+    protected SolarPanel( IClock simulationClock, ObservableProperty<Boolean> energyChunkVisibility ) {
         super( EnergyFormsAndChangesResources.Images.SOLAR_PANEL_ICON );
         this.simulationClock = simulationClock;
+        this.energyChunkVisibility = energyChunkVisibility;
     }
 
     //-------------------------------------------------------------------------
@@ -106,24 +121,7 @@ public class SolarPanel extends EnergyConverter {
             }
 
             // Move the energy chunks that are currently under management.
-            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
-                energyChunkMover.moveAlongPath( dt );
-                if ( energyChunkMover.isPathFullyTraversed() ) {
-                    energyChunkMovers.remove( energyChunkMover );
-                    if ( energyChunkMover.energyChunk.position.get().equals( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) ) ) {
-                        // Energy chunk has reached the bottom of the panel and now needs to move through the converter.
-                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
-                                                                         createPathThroughConverter( getPosition() ),
-                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                    }
-                    else {
-                        // The energy chunk has traveled across the panel and through
-                        // the converter, so pass it off to the next element in the system.
-                        outgoingEnergyChunks.add( energyChunkMover.energyChunk );
-                        energyChunkList.remove( energyChunkMover.energyChunk );
-                    }
-                }
-            }
+            moveEnergyChunks( dt );
         }
 
         // Produce the appropriate amount of energy.
@@ -135,12 +133,82 @@ public class SolarPanel extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
 
+    private void moveEnergyChunks( double dt ) {
+        for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
+            energyChunkMover.moveAlongPath( dt );
+            if ( energyChunkMover.isPathFullyTraversed() ) {
+                energyChunkMovers.remove( energyChunkMover );
+                if ( energyChunkMover.energyChunk.position.get().equals( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) ) ) {
+                    // Energy chunk has reached the bottom of the panel and now needs to move through the converter.
+                    energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                     createPathThroughConverter( getPosition() ),
+                                                                     EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                }
+                else {
+                    // The energy chunk has traveled across the panel and through
+                    // the converter, so pass it off to the next element in the system.
+                    outgoingEnergyChunks.add( energyChunkMover.energyChunk );
+                    energyChunkList.remove( energyChunkMover.energyChunk );
+                }
+            }
+        }
+    }
+
     @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        clearEnergyChunks();
+        if ( incomingEnergyRate.amount == 0 || incomingEnergyRate.type != EnergyType.LIGHT ) {
+            // No energy chunk pre-loading needed.
+            return;
+        }
+
+        Vector2D lowerLeftOfPanel = new Vector2D( getAbsorptionShape().getBounds2D().getMinX(), getAbsorptionShape().getBounds2D().getMinY() );
+        Vector2D upperRightOfPanel = new Vector2D( getAbsorptionShape().getBounds2D().getMaxX(), getAbsorptionShape().getBounds2D().getMaxY() );
+        double crossLineAngle = upperRightOfPanel.minus( lowerLeftOfPanel ).getAngle();
+        double crossLineLength = lowerLeftOfPanel.distance( upperRightOfPanel );
+        double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
+        double energySinceLastChunk = EFACConstants.ENERGY_PER_CHUNK * 0.99;
+        boolean firstChunk = true;
+
+        // Simulate energy chunks moving through the system.
+        boolean preLoadComplete = false;
+        while ( !preLoadComplete ) {
+            energySinceLastChunk += incomingEnergyRate.amount * dt;
+
+            // Determine if time to add a new chunk.
+            if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
+                Vector2D initialPosition;
+                if ( firstChunk ){
+                    // For predictability of the algorithm, add the first chunk to the center of the panel.
+                    initialPosition = lowerLeftOfPanel.plus( new Vector2D( crossLineLength * 0.5, 0 ).getRotatedInstance( crossLineAngle ) );
+                }
+                else{
+                    // Choose a random location along the cross line.
+                    initialPosition = lowerLeftOfPanel.plus( new Vector2D( crossLineLength * RAND.nextDouble(), 0 ).getRotatedInstance( crossLineAngle ) );
+                }
+                EnergyChunk newEnergyChunk = new EnergyChunk( EnergyType.ELECTRICAL, initialPosition, energyChunkVisibility );
+                energyChunkList.add( newEnergyChunk );
+
+                // And a "mover" that will move this energy chunk
+                // to the bottom of the solar panel.
+                energyChunkMovers.add( new EnergyChunkPathMover( newEnergyChunk,
+                                                                 createPathToPanelBottom( getPosition() ),
+                                                                 chooseChunkVelocityOnPanel( newEnergyChunk ) ) );
+
+                // Update energy since last chunk.
+                energySinceLastChunk = energySinceLastChunk - EFACConstants.ENERGY_PER_CHUNK;
+            }
+
+            moveEnergyChunks( dt );
+
+            if ( outgoingEnergyChunks.size() > 0 ) {
+                // An energy chunk has made it all the way through the system, which complete the pre-load.
+                preLoadComplete = true;
+            }
+        }
     }
 
     @Override public Energy getEnergyOutputRate() {
-        return new Energy(EnergyType.ELECTRICAL, energyOutputRate );
+        return new Energy( EnergyType.ELECTRICAL, energyOutputRate );
     }
 
     // Choose velocity of chunk on panel such that it won't clump up with
@@ -157,7 +225,7 @@ public class SolarPanel extends EnergyConverter {
 
         // If the projected arrival time is too close to the current last
         // chunk, slow down so that the minimum spacing is maintained.
-        if ( latestChunkArrivalTime + MIN_INTER_CHUNK_TIME > projectedArrivalTime ){
+        if ( latestChunkArrivalTime + MIN_INTER_CHUNK_TIME > projectedArrivalTime ) {
             projectedArrivalTime = latestChunkArrivalTime + MIN_INTER_CHUNK_TIME;
         }
 
@@ -194,19 +262,9 @@ public class SolarPanel extends EnergyConverter {
      *         can absorb sunlight.
      */
     public Shape getAbsorptionShape() {
-        final Rectangle2D panelBounds = new Rectangle2D.Double( -SOLAR_PANEL_IMAGE.getWidth() / 2,
-                                                                -SOLAR_PANEL_IMAGE.getHeight() / 2,
-                                                                SOLAR_PANEL_IMAGE.getWidth(),
-                                                                SOLAR_PANEL_IMAGE.getHeight() );
-        DoubleGeneralPath absorptionShape = new DoubleGeneralPath() {{
-            moveTo( panelBounds.getMinX(), panelBounds.getMinY() );
-            lineTo( panelBounds.getMaxX(), panelBounds.getMaxY() );
-            lineTo( panelBounds.getMaxX(), panelBounds.getMinY() );
-            closePath();
-        }};
         AffineTransform transform = AffineTransform.getTranslateInstance( getPosition().getX() + SOLAR_PANEL_OFFSET.getX(),
                                                                           getPosition().getY() + SOLAR_PANEL_OFFSET.getY() );
-        return transform.createTransformedShape( absorptionShape.getGeneralPath() );
+        return transform.createTransformedShape( ABSORPTION_SHAPE.getGeneralPath() );
     }
 
     @Override public IUserComponent getUserComponent() {
