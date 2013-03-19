@@ -40,6 +40,7 @@ public class ElectricalGenerator extends EnergyConverter {
     // Images used to represent this model element in the view.
     public static final ModelElementImage HOUSING_IMAGE = new ModelElementImage( GENERATOR, new Vector2D( 0, 0 ) );
     public static final Vector2D WHEEL_CENTER_OFFSET = new Vector2D( 0, 0.03 );
+    public static final Vector2D LEFT_SIDE_OF_WHEEL_OFFSET = new Vector2D( -0.030, 0.03 );
     public static final ModelElementImage WHEEL_PADDLES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_PADDLES_SHORT, WHEEL_CENTER_OFFSET );
     public static final ModelElementImage WHEEL_HUB_IMAGE = new ModelElementImage( GENERATOR_WHEEL_HUB_2, WHEEL_CENTER_OFFSET );
     public static final ModelElementImage SHORT_SPOKES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_SPOKES, WHEEL_CENTER_OFFSET );
@@ -142,63 +143,101 @@ public class ElectricalGenerator extends EnergyConverter {
             }
 
             // Move the energy chunks and update their state.
-            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
-                energyChunkMover.moveAlongPath( dt );
-                if ( energyChunkMover.isPathFullyTraversed() ) {
-                    EnergyChunk ec = energyChunkMover.energyChunk;
-                    switch( ec.energyType.get() ) {
-                        case MECHANICAL:
-                            // This mechanical energy chunk has traveled to the
-                            // end of its path, so change it to electrical and
-                            // send it on its way.  Also add a "hidden" chunk
-                            // so that the movement through the generator can
-                            // be seen by the user.
-                            energyChunkList.remove( ec );
-                            energyChunkMovers.remove( energyChunkMover );
-                            ec.energyType.set( EnergyType.ELECTRICAL );
-                            electricalEnergyChunks.add( ec );
-                            energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
-                                                                             createElectricalEnergyChunkPath( getPosition() ),
-                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                            EnergyChunk hiddenEnergyChunk = new EnergyChunk( EnergyType.HIDDEN, ec.position.get(), energyChunkVisibilityControl );
-                            hiddenEnergyChunk.zPosition.set( -EnergyChunkNode.Z_DISTANCE_WHERE_FULLY_FADED / 2 );
-                            hiddenEnergyChunks.add( hiddenEnergyChunk );
-                            energyChunkMovers.add( new EnergyChunkPathMover( hiddenEnergyChunk,
-                                                                             createHiddenEnergyChunkPath( getPosition() ),
-                                                                             EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                            break;
-
-                        case ELECTRICAL:
-                            // This electrical energy chunk has traveled to the
-                            // end of its path, so transfer it to the next
-                            // energy system.
-                            energyChunkMovers.remove( energyChunkMover );
-                            outgoingEnergyChunks.add( ec );
-                            break;
-
-                        case HIDDEN:
-                            // This hidden energy chunk has traveled to the end
-                            // of its path, so just remove it, because the
-                            // electrical energy chunk to which is corresponds
-                            // should now be visible to the user.
-                            hiddenEnergyChunks.remove( energyChunkMover.energyChunk );
-                            energyChunkMovers.remove( energyChunkMover );
-
-                            break;
-                    }
-                }
-            }
+            updateEnergyChunkPositions( dt );
         }
 
         // Produce the appropriate amount of energy.
         return new Energy( EnergyType.ELECTRICAL, Math.abs( ( wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY ) * EFACConstants.MAX_ENERGY_PRODUCTION_RATE ) * dt );
     }
 
-    @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
-        System.out.println( "Generaator preload, incomingEnergyRate = " + incomingEnergyRate.amount );
-        if ( incomingEnergyRate.amount == 0 ){
-            clearEnergyChunks();
+    private void updateEnergyChunkPositions( double dt ) {
+        for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
+            energyChunkMover.moveAlongPath( dt );
+            if ( energyChunkMover.isPathFullyTraversed() ) {
+                EnergyChunk ec = energyChunkMover.energyChunk;
+                switch( ec.energyType.get() ) {
+                    case MECHANICAL:
+                        // This mechanical energy chunk has traveled to the
+                        // end of its path, so change it to electrical and
+                        // send it on its way.  Also add a "hidden" chunk
+                        // so that the movement through the generator can
+                        // be seen by the user.
+                        energyChunkList.remove( ec );
+                        energyChunkMovers.remove( energyChunkMover );
+                        ec.energyType.set( EnergyType.ELECTRICAL );
+                        electricalEnergyChunks.add( ec );
+                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                         createElectricalEnergyChunkPath( getPosition() ),
+                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        EnergyChunk hiddenEnergyChunk = new EnergyChunk( EnergyType.HIDDEN, ec.position.get(), energyChunkVisibilityControl );
+                        hiddenEnergyChunk.zPosition.set( -EnergyChunkNode.Z_DISTANCE_WHERE_FULLY_FADED / 2 );
+                        hiddenEnergyChunks.add( hiddenEnergyChunk );
+                        energyChunkMovers.add( new EnergyChunkPathMover( hiddenEnergyChunk,
+                                                                         createHiddenEnergyChunkPath( getPosition() ),
+                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        break;
+
+                    case ELECTRICAL:
+                        // This electrical energy chunk has traveled to the
+                        // end of its path, so transfer it to the next
+                        // energy system.
+                        energyChunkMovers.remove( energyChunkMover );
+                        outgoingEnergyChunks.add( ec );
+                        break;
+
+                    case HIDDEN:
+                        // This hidden energy chunk has traveled to the end
+                        // of its path, so just remove it, because the
+                        // electrical energy chunk to which is corresponds
+                        // should now be visible to the user.
+                        hiddenEnergyChunks.remove( energyChunkMover.energyChunk );
+                        energyChunkMovers.remove( energyChunkMover );
+
+                        break;
+                }
+            }
         }
+    }
+
+    @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
+        clearEnergyChunks();
+        if ( incomingEnergyRate.amount == 0 || incomingEnergyRate.type != EnergyType.MECHANICAL ){
+            // No energy chunk pre-loading needed.
+            return;
+        }
+
+        double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
+        List<EnergyChunk> tempEnergyChunkList = new ArrayList<EnergyChunk>();
+        double energySinceLastChunk = EFACConstants.ENERGY_PER_CHUNK * 0.99;
+
+        // Simulate energy chunks moving through the system.
+        boolean preLoadComplete = false;
+        while ( !preLoadComplete ) {
+            energySinceLastChunk += incomingEnergyRate.amount * dt;
+
+            // Determine if time to add a new chunk.
+            if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
+                EnergyChunk newEnergyChunk = new EnergyChunk( EnergyType.MECHANICAL, getPosition().plus( LEFT_SIDE_OF_WHEEL_OFFSET ), energyChunkVisibilityControl );
+                tempEnergyChunkList.add( newEnergyChunk );
+                // Add a 'mover' for this energy chunk.
+                energyChunkMovers.add( new EnergyChunkPathMover( newEnergyChunk,
+                                                                 createMechanicalEnergyChunkPath( getPosition() ),
+                                                                 EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+
+                // Update energy since last chunk.
+                energySinceLastChunk = energySinceLastChunk - EFACConstants.ENERGY_PER_CHUNK;
+            }
+
+            updateEnergyChunkPositions( dt );
+
+            if ( outgoingEnergyChunks.size() > 0 ){
+                // An energy chunks has made it all the way through the system.
+                preLoadComplete = true;
+            }
+        }
+
+        // Now that they are positioned, add these to the 'real' list of energy chunks.
+        energyChunkList.addAll( tempEnergyChunkList );
     }
 
     private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
