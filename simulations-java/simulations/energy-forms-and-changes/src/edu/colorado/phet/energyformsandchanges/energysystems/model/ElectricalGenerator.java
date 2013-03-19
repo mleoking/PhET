@@ -284,7 +284,7 @@ public class ElectricalGenerator extends EnergyConverter {
     }
 
     @Override public Energy getEnergyOutputRate() {
-        return new Energy( EnergyType.ELECTRICAL, wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY * EFACConstants.MAX_ENERGY_PRODUCTION_RATE );
+        return new Energy( EnergyType.ELECTRICAL, Math.abs( wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY * EFACConstants.MAX_ENERGY_PRODUCTION_RATE ) );
     }
 
     @Override public IUserComponent getUserComponent() {
