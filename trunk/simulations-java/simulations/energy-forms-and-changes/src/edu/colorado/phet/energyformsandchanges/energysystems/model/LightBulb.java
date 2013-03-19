@@ -187,7 +187,7 @@ public class LightBulb extends EnergyUser {
 
     @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
         clearEnergyChunks();
-        if ( incomingEnergyRate.amount == 0 || incomingEnergyRate.type != EnergyType.ELECTRICAL ) {
+        if ( incomingEnergyRate.amount < EFACConstants.MAX_ENERGY_PRODUCTION_RATE / 10 || incomingEnergyRate.type != EnergyType.ELECTRICAL ) {
             // No energy chunk pre-loading needed.
             return;
         }
