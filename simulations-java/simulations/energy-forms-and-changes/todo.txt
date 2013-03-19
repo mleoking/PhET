@@ -2,6 +2,7 @@ Make behavior change when E's are visible such that lights don't glow until they
 1st: Rain of E's when cooling.
 Fix: Reset doesn't get rid of clouds if active.
 Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
+Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
 Fix: Sun's energy chunks should go behind the light bulbs & beaker.
 
 Make fluorescent bulb emit occasional thermal E.

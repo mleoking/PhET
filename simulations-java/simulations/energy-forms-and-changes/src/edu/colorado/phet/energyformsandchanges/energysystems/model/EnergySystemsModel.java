@@ -50,7 +50,7 @@ public class EnergySystemsModel implements Resettable {
 
     // Energy Converters.
     public final ElectricalGenerator waterPoweredGenerator = new ElectricalGenerator( energyChunksVisible );
-    public final SolarPanel solarPanel = new SolarPanel( getClock() );
+    public final SolarPanel solarPanel = new SolarPanel( getClock(), energyChunksVisible );
 
     // Energy sources.
     public final FaucetAndWater faucet = new FaucetAndWater( energyChunksVisible, waterPoweredGenerator.getObservableActiveState() );
