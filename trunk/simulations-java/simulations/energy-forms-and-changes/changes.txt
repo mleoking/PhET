@@ -1,3 +1,4 @@
+Fixed an issue where the beaker fluid level appeared to jump when first shown because once clock cycle was needed to initialize fluid appearance.
 Fixed an issue where the sun's rays were briefly visible when the 2nd tab was first shown.
 # 0.00.38 (72559) Mar 19, 2013
 3/19/13 Deploy  to dev for interviews

@@ -118,7 +118,6 @@ public class BeakerView {
         energyChunkRootNode.addChild( energyChunkClipNode );
         energyChunkClipNode.setStroke( null );
         for ( int i = beaker.getSlices().size() - 1; i >= 0; i-- ) {
-            int colorBase = (int) ( 255 * (double) i / beaker.getSlices().size() );
             energyChunkClipNode.addChild( new EnergyChunkContainerSliceNode( beaker.getSlices().get( i ), mvt ) );
         }
 
@@ -208,9 +207,11 @@ public class BeakerView {
                     steamNode.removeAllChildren();
                 }
             } );
+
+            updateAppearance( waterLevel.get(), beakerOutlineRect, temperature.get(), 1 / EFACConstants.FRAMES_PER_SECOND );
         }
 
-        private void updateAppearance( Double fluidLevel, Rectangle2D beakerOutlineRect, double temperature, double dt ) {
+        private void updateAppearance( double fluidLevel, Rectangle2D beakerOutlineRect, double temperature, double dt ) {
 
             double waterHeight = beakerOutlineRect.getHeight() * fluidLevel;
 
