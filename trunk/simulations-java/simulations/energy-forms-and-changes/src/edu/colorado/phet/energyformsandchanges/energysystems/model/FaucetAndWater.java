@@ -107,11 +107,7 @@ public class FaucetAndWater extends EnergySource {
             // Check if time to emit an energy chunk and, if so, do it.
             energySinceLastChunk += EFACConstants.MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt;
             if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
-                Vector2D initialPosition = getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).plus( ( RAND.nextDouble() - 0.5 ) * flowProportion.get() * MAX_WATER_WIDTH / 2, 0 );
-                energyChunkList.add( new EnergyChunk( EnergyType.MECHANICAL,
-                                                      initialPosition,
-                                                      new Vector2D( 0, -FALLING_ENERGY_CHUNK_VELOCITY ),
-                                                      energyChunksVisible ) );
+                energyChunkList.add( createNewChunk() );
                 energySinceLastChunk = energySinceLastChunk - EFACConstants.ENERGY_PER_CHUNK;
             }
 
@@ -156,8 +152,35 @@ public class FaucetAndWater extends EnergySource {
     }
 
     @Override public void preLoadEnergyChunks() {
-        System.out.println("FAW pre-load of energy chunks called.");
-        //To change body of implemented methods use File | Settings | File Templates.
+        clearEnergyChunks();
+        double preLoadTime = 3; // In seconds, empirically determined.
+        double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
+        List<EnergyChunk> tempEnergyChunkList = new ArrayList<EnergyChunk>();
+
+        // Simulate energy chunks moving through the system.
+        while ( preLoadTime > 0 ) {
+            energySinceLastChunk += getEnergyOutputRate().amount * dt;
+            if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
+                tempEnergyChunkList.add( createNewChunk() );
+                energySinceLastChunk = energySinceLastChunk - EFACConstants.ENERGY_PER_CHUNK;
+            }
+            for ( EnergyChunk energyChunk : tempEnergyChunkList ) {
+                // Make the chunk fall.
+                energyChunk.translateBasedOnVelocity( dt );
+            }
+            preLoadTime -= dt;
+        }
+
+        // Now that they are positioned, add these to the 'real' list of energy chunks.
+        energyChunkList.addAll( tempEnergyChunkList );
+    }
+
+    private EnergyChunk createNewChunk() {
+        Vector2D initialPosition = getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).plus( ( RAND.nextDouble() - 0.5 ) * flowProportion.get() * MAX_WATER_WIDTH / 2, 0 );
+        return new EnergyChunk( EnergyType.MECHANICAL,
+                                initialPosition,
+                                new Vector2D( 0, -FALLING_ENERGY_CHUNK_VELOCITY ),
+                                energyChunksVisible );
     }
 
     @Override public Energy getEnergyOutputRate() {
