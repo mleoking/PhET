@@ -89,6 +89,9 @@ public class Carousel<T extends PositionableFadableModelElement> {
 
         // Add element to the list of managed elements.
         managedElements.add( element );
+
+        // Update opacities.
+        updateManagedElementOpacities();
     }
 
     public int getNumElements() {
