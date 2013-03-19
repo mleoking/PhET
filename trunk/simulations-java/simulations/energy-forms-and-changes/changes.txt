@@ -1,3 +1,4 @@
+Added feature where energy chunks are propogated through the energy systems if visibility is turned on after energy flow has started.
 # 0.00.37 (72532) Mar 18, 2013
 3/18/13 Deploy to dev for use in interviews.
 Fixed an issues where the electrical energy chunks could get jammed up or even stuck on the solar panel after a reset of the tab.
