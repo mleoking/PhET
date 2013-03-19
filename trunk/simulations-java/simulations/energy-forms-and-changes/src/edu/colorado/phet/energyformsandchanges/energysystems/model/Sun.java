@@ -180,6 +180,10 @@ public class Sun extends EnergySource {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override public Energy getEnergyOutputRate() {
+        return new Energy( EnergyType.LIGHT, EFACConstants.MAX_ENERGY_PRODUCTION_RATE * ( 1 - cloudiness.get() ) );
+    }
+
     // Choose the angle for the emission of an energy chunk from the sun.
     // This uses history and probability to make the distribution somewhat
     // even but still random looking.

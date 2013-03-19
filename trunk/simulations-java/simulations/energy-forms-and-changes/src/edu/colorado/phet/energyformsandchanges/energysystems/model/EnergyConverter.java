@@ -31,7 +31,7 @@ public abstract class EnergyConverter extends EnergySystemElement {
      *
      * @param incomingEnergyRate Incoming energy in joules/sec.
      */
-    public abstract void preLoadEnergyChunks( double incomingEnergyRate );
+    public abstract void preLoadEnergyChunks( Energy incomingEnergyRate );
 
     /**
      * Get the energy chunks that this source wants to transfer to the next
@@ -56,6 +56,13 @@ public abstract class EnergyConverter extends EnergySystemElement {
     public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
         incomingEnergyChunks.addAll( energyChunks );
     }
+
+    /**
+     * Get the amount and type of energy currently being produced.
+     *
+     * @return amount and type of energy.
+     */
+    public abstract Energy getEnergyOutputRate();
 
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();

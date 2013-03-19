@@ -34,13 +34,11 @@ public class Biker extends EnergySource {
 
     public static final double MAX_ANGULAR_VELOCITY_OF_CRANK = 3 * Math.PI; // In radians/sec.
     private static final double ANGULAR_ACCELERATION = Math.PI / 2; // In radians/(sec^2).
-    // TODO: This is temp until we figure out how much it should really put out.
     private static final double MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR = EFACConstants.MAX_ENERGY_PRODUCTION_RATE; // In joules / sec
     private static final double MAX_ENERGY_OUTPUT_WHEN_RUNNING_FREE = MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR / 5; // In joules / sec
     private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
     private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
     private static final Random RAND = new Random();
-    public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 125; // In joules, but empirically determined.
     public static final int MECHANICAL_TO_THERMAL_CHUNK_RATIO = 5;
 
     // Offset of the bike frame center.  Most other image offsets are relative
@@ -133,7 +131,7 @@ public class Biker extends EnergySource {
     private double crankAngularVelocity = 0; // In radians/s.
     private final ObservableProperty<Boolean> energyChunksVisible;
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    private double energyProducedSinceLastChunkEmitted = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT * 0.9;
+    private double energyProducedSinceLastChunkEmitted = EFACConstants.ENERGY_PER_CHUNK * 0.9;
     private int mechanicalChunksSinceLastThermal = 0;
     public BooleanProperty bikerHasEnergy = new BooleanProperty( true );
 
@@ -236,7 +234,7 @@ public class Biker extends EnergySource {
             }
 
             // Decide if new chem energy chunk should start on its way.
-            if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT && targetCrankAngularVelocity.get() > 0 ) {
+            if ( energyProducedSinceLastChunkEmitted >= EFACConstants.ENERGY_PER_CHUNK && targetCrankAngularVelocity.get() > 0 ) {
 
                 // Start a new chunk moving.
                 if ( bikerHasEnergy() ) {
@@ -298,11 +296,15 @@ public class Biker extends EnergySource {
                 }
             }
         }
-        return new Energy( EnergyType.MECHANICAL, Math.abs( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK * MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR ), -Math.PI / 2 );
+        return new Energy( EnergyType.MECHANICAL, Math.abs( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK * MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR * dt ), -Math.PI / 2 );
     }
 
     @Override public void preLoadEnergyChunks() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override public Energy getEnergyOutputRate() {
+        return new Energy( EnergyType.MECHANICAL, Math.abs( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK * MAX_ENERGY_OUTPUT_WHEN_CONNECTED_TO_GENERATOR ) );
     }
 
     /*

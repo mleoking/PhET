@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
-import java.awt.Image;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public abstract class EnergyUser extends EnergySystemElement {
      *
      * @param incomingEnergyRate Incoming energy in joules/sec.
      */
-    public abstract void preLoadEnergyChunks( double incomingEnergyRate );
+    public abstract void preLoadEnergyChunks( Energy incomingEnergyRate );
 
     /**
      * Inject a list of energy chunks into this energy system element.  Once

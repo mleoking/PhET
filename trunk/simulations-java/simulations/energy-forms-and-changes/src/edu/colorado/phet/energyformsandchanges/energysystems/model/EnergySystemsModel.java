@@ -109,8 +109,6 @@ public class EnergySystemsModel implements Resettable {
                 energyUsersCarousel.getSelectedElement().clearEnergyChunks();
             }
         } );
-
-
     }
 
     //-------------------------------------------------------------------------
@@ -150,5 +148,16 @@ public class EnergySystemsModel implements Resettable {
         // Transfer energy chunks between the elements.
         energyConvertersCarousel.getSelectedElement().injectEnergyChunks( energySourcesCarousel.getSelectedElement().extractOutgoingEnergyChunks() );
         energyUsersCarousel.getSelectedElement().injectEnergyChunks( energyConvertersCarousel.getSelectedElement().extractOutgoingEnergyChunks() );
+    }
+
+    /**
+     * Pre-load the currently active energy system elements with energy
+     * chunks so that the energy chunks are fully propagated into the
+     * elements.
+     */
+    public void preLoadEnergyChunks() {
+        energySourcesCarousel.getSelectedElement().preLoadEnergyChunks();
+        energyConvertersCarousel.getSelectedElement().preLoadEnergyChunks( energySourcesCarousel.getSelectedElement().getEnergyOutputRate() );
+
     }
 }
