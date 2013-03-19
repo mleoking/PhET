@@ -45,7 +45,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private final BooleanProperty normalSimSpeed = new BooleanProperty( true );
+    private final BooleanProperty energyChunkVizCheckBoxProperty = new BooleanProperty( true );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -86,10 +86,21 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         // Create the control for showing/hiding energy chunks. TODO: i18n
         PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
                                                                     "Energy Symbols",
-                                                                    model.energyChunksVisible ) {{
+                                                                    energyChunkVizCheckBoxProperty ) {{
             setFont( new PhetFont( 20 ) );
         }};
         ControlPanelNode showEnergyControlPanel = new ControlPanelNode( showEnergyCheckBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
+
+        // Hook up the check box.  This is done through a local property so
+        // that energy chunk pre-loading can be done prior to making ECs visible.
+        energyChunkVizCheckBoxProperty.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean energyVisible ) {
+                if ( energyVisible ){
+                    model.preLoadEnergyChunks();
+                }
+                model.energyChunksVisible.set( energyVisible );
+            }
+        } );
 
         // Create the legend for energy chunks.
         final PNode energyChunkLegend = new EnergyChunkLegend();
