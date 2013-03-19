@@ -18,7 +18,12 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkNode;
 
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.CONNECTOR;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.GENERATOR;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL_HUB_2;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL_PADDLES_SHORT;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL_SPOKES;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.WIRE_BLACK_LEFT;
 
 /**
  * This class represents an electrical generator that is powered by flowing
@@ -98,7 +103,7 @@ public class ElectricalGenerator extends EnergyConverter {
                 // Treat the wheel as though it is directly coupled to the
                 // energy source, e.g. through a belt or drive shaft.
                 if ( incomingEnergy.type == EnergyType.MECHANICAL ) {
-                    wheelRotationalVelocity = (incomingEnergy.amount / dt ) / EFACConstants.MAX_ENERGY_PRODUCTION_RATE * MAX_ROTATIONAL_VELOCITY * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
+                    wheelRotationalVelocity = ( incomingEnergy.amount / dt ) / EFACConstants.MAX_ENERGY_PRODUCTION_RATE * MAX_ROTATIONAL_VELOCITY * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
                     wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
                 }
             }
@@ -107,8 +112,8 @@ public class ElectricalGenerator extends EnergyConverter {
                 // energy, such as water, and has inertia.
                 double torqueFromIncomingEnergy = 0;
                 if ( incomingEnergy.type == EnergyType.MECHANICAL ) {
-                    double torqueToEnergyConstant = 40; // Empirically determined to reach max energy after a second or two.
-                    torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * torqueToEnergyConstant * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
+                    double energyToTorqueConstant = 0.5; // Empirically determined to reach max energy after a second or two.
+                    torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * energyToTorqueConstant * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
                 }
                 double torqueFromResistance = -wheelRotationalVelocity * RESISTANCE_CONSTANT;
                 double angularAcceleration = ( torqueFromIncomingEnergy + torqueFromResistance ) / WHEEL_MOMENT_OF_INERTIA;
@@ -201,7 +206,7 @@ public class ElectricalGenerator extends EnergyConverter {
 
     @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
         clearEnergyChunks();
-        if ( incomingEnergyRate.amount == 0 || incomingEnergyRate.type != EnergyType.MECHANICAL ){
+        if ( incomingEnergyRate.amount == 0 || incomingEnergyRate.type != EnergyType.MECHANICAL ) {
             // No energy chunk pre-loading needed.
             return;
         }
@@ -229,7 +234,7 @@ public class ElectricalGenerator extends EnergyConverter {
 
             updateEnergyChunkPositions( dt );
 
-            if ( outgoingEnergyChunks.size() > 0 ){
+            if ( outgoingEnergyChunks.size() > 0 ) {
                 // An energy chunks has made it all the way through the system.
                 preLoadComplete = true;
             }
