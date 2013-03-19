@@ -18,6 +18,7 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.TEAPOT_LARGE;
+import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_PER_CHUNK;
 
 /**
  * Class that represents the steam-generating tea pot in the model.
@@ -44,10 +45,9 @@ public class TeaPot extends EnergySource {
     private static final DoubleRange THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE = new DoubleRange( -0.015, 0.015 ); // In meters, must be coordinated with heater position.
 
     // Miscellaneous other constants.
-    private static final double MAX_ENERGY_CHANGE_RATE = 20; // In joules/second
+    private static final double MAX_ENERGY_CHANGE_RATE = EFACConstants.MAX_ENERGY_PRODUCTION_RATE / 5; // In joules/second
     private static final double COOLING_CONSTANT = 0.1; // Controls rate at which tea pot cools down, empirically determined.
     private static final double COOL_DOWN_COMPLETE_THRESHOLD = 30; // In joules/second
-    public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 100; // In joules, but empirically determined.
     private static final DoubleRange ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE = new DoubleRange( 0.12, 0.15 );
     private static final Random RAND = new Random();
     private static final double ENERGY_CHUNK_WATER_TO_SPOUT_TIME = 0.7; // Used to keep chunks evenly spaced.
@@ -58,7 +58,7 @@ public class TeaPot extends EnergySource {
 
     public final Property<Double> heatCoolAmount = new Property<Double>( 0.0 );
     private Property<Double> energyProductionRate = new Property<Double>( 0.0 );
-    private double heatEnergyProducedSinceLastChunk = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT / 2;
+    private double heatEnergyProducedSinceLastChunk = ENERGY_PER_CHUNK / 2;
     private ObservableProperty<Boolean> energyChunksVisible;
     private ObservableProperty<Boolean> steamPowerableElementInPlace;
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
@@ -102,13 +102,13 @@ public class TeaPot extends EnergySource {
 
             // See if it's time to emit a new energy chunk from the heater.
             heatEnergyProducedSinceLastChunk += Math.max( heatCoolAmount.get(), 0 ) * EFACConstants.MAX_ENERGY_PRODUCTION_RATE * dt;
-            if ( heatEnergyProducedSinceLastChunk >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT ) {
+            if ( heatEnergyProducedSinceLastChunk >= ENERGY_PER_CHUNK ) {
                 // Emit a new thermal energy chunk.
                 Vector2D initialPosition = new Vector2D( getPosition().getX() + THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE.getMin() + RAND.nextDouble() * THERMAL_ENERGY_CHUNK_X_ORIGIN_RANGE.getLength(),
                                                          getPosition().getY() + THERMAL_ENERGY_CHUNK_Y_ORIGIN );
                 EnergyChunk energyChunk = new EnergyChunk( EnergyType.THERMAL, initialPosition, energyChunksVisible );
                 energyChunkList.add( energyChunk );
-                heatEnergyProducedSinceLastChunk -= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT;
+                heatEnergyProducedSinceLastChunk -= ENERGY_PER_CHUNK;
                 energyChunkMovers.add( new EnergyChunkPathMover( energyChunk,
                                                                  createThermalEnergyChunkPath( initialPosition, getPosition() ),
                                                                  EFACConstants.ENERGY_CHUNK_VELOCITY ) );
@@ -171,11 +171,16 @@ public class TeaPot extends EnergySource {
                 }
             }
         }
+        System.out.println( "energyProductionRate = " + energyProductionRate.get() );
         return new Energy( EnergyType.MECHANICAL, energyProductionRate.get() * dt, Math.PI / 2 );
     }
 
     @Override public void preLoadEnergyChunks() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override public Energy getEnergyOutputRate() {
+        return new Energy( EnergyType.MECHANICAL, energyProductionRate.get() );
     }
 
     private static List<Vector2D> createThermalEnergyChunkPath( final Vector2D startPosition, final Vector2D teapotPosition ) {

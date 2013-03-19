@@ -63,8 +63,8 @@ public class SolarPanel extends EnergyConverter {
 
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private final IClock simulationClock;
-
     private double latestChunkArrivalTime = 0; // Used to prevent clumping of chunks.
+    private double energyOutputRate = 0;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -131,11 +131,16 @@ public class SolarPanel extends EnergyConverter {
         if ( isActive() && incomingEnergy.type == EnergyType.LIGHT ) {
             energyProduced = incomingEnergy.amount; // Perfectly efficient conversion. We should patent this.
         }
+        energyOutputRate = energyProduced / dt;
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
 
-    @Override public void preLoadEnergyChunks( double incomingEnergyRate ) {
+    @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override public Energy getEnergyOutputRate() {
+        return new Energy(EnergyType.ELECTRICAL, energyOutputRate );
     }
 
     // Choose velocity of chunk on panel such that it won't clump up with

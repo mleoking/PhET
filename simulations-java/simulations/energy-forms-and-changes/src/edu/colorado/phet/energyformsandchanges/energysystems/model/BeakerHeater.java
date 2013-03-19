@@ -227,7 +227,7 @@ public class BeakerHeater extends EnergyUser {
         }
     }
 
-    @Override public void preLoadEnergyChunks( double incomingEnergyRate ) {
+    @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -97,7 +97,7 @@ public class ElectricalGenerator extends EnergyConverter {
                 // Treat the wheel as though it is directly coupled to the
                 // energy source, e.g. through a belt or drive shaft.
                 if ( incomingEnergy.type == EnergyType.MECHANICAL ) {
-                    wheelRotationalVelocity = incomingEnergy.amount / EFACConstants.MAX_ENERGY_PRODUCTION_RATE * MAX_ROTATIONAL_VELOCITY * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
+                    wheelRotationalVelocity = (incomingEnergy.amount / dt ) / EFACConstants.MAX_ENERGY_PRODUCTION_RATE * MAX_ROTATIONAL_VELOCITY * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
                     wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
                 }
             }
@@ -194,7 +194,7 @@ public class ElectricalGenerator extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, Math.abs( ( wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY ) * EFACConstants.MAX_ENERGY_PRODUCTION_RATE ) * dt );
     }
 
-    @Override public void preLoadEnergyChunks( double incomingEnergyRate ) {
+    @Override public void preLoadEnergyChunks( Energy incomingEnergyRate ) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -243,6 +243,10 @@ public class ElectricalGenerator extends EnergyConverter {
         electricalEnergyChunks.removeAll( outgoingEnergyChunks );
         outgoingEnergyChunks.clear();
         return retVal;
+    }
+
+    @Override public Energy getEnergyOutputRate() {
+        return new Energy( EnergyType.ELECTRICAL, wheelRotationalVelocity / MAX_ROTATIONAL_VELOCITY * EFACConstants.MAX_ENERGY_PRODUCTION_RATE );
     }
 
     @Override public IUserComponent getUserComponent() {

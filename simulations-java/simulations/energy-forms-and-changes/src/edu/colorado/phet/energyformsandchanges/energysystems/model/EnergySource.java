@@ -37,6 +37,13 @@ public abstract class EnergySource extends EnergySystemElement {
     public abstract void preLoadEnergyChunks();
 
     /**
+     * Get the amount and type of energy currently being produced.
+     *
+     * @return amount and type of energy.
+     */
+    public abstract Energy getEnergyOutputRate();
+
+    /**
      * Get the energy chunks that this source wants to transfer to the next
      * energy system element.  Reading clears the list.
      *

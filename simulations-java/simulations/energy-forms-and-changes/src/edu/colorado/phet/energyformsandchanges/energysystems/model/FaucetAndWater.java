@@ -33,7 +33,6 @@ public class FaucetAndWater extends EnergySource {
 
     public static final Vector2D OFFSET_FROM_CENTER_TO_WATER_ORIGIN = new Vector2D( 0.065, 0.08 );
     private static final double FALLING_ENERGY_CHUNK_VELOCITY = 0.09; // In meters/second.
-    private static final double FLOW_PER_CHUNK = 0.4;  // Empirically determined to get desired energy chunk emission rate.
     private static final double MAX_WATER_WIDTH = 0.015; // In meters.
     private static final double MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER = 0.5; // In meters.
     private static final Random RAND = new Random();
@@ -158,6 +157,10 @@ public class FaucetAndWater extends EnergySource {
 
     @Override public void preLoadEnergyChunks() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override public Energy getEnergyOutputRate() {
+        return new Energy( EnergyType.MECHANICAL, EFACConstants.MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() );
     }
 
     @Override public void deactivate() {
