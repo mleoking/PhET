@@ -1,9 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
-import java.awt.Color;
-import java.awt.Point;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
@@ -30,7 +28,6 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
 import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
-import edu.colorado.phet.energyformsandchanges.common.view.BurnerNode;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
 import edu.colorado.phet.energyformsandchanges.energysystems.view.HeaterCoolerView;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
@@ -198,7 +195,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         HeaterCoolerView rightHeaterCooler = new HeaterCoolerView( model.getRightBurner().heatCoolLevel, true, "Heat", true, "Cool",
                                                                    burnerWidth, burnerHeight, burnerOpeningHeight, model.getRightBurner().energyChunkList, mvt );
         rightHeaterCooler.setOffset( mvt.modelToViewX( model.getRightBurner().getOutlineRect().getCenterX() ) - rightHeaterCooler.getHoleNode().getFullBounds().getWidth() / 2,
-                                    mvt.modelToViewY( model.getRightBurner().getOutlineRect().getMinY() ) - rightHeaterCooler.getFrontNode().getFullBounds().getHeight() - burnerYPosTweak );
+                                     mvt.modelToViewY( model.getRightBurner().getOutlineRect().getMinY() ) - rightHeaterCooler.getFrontNode().getFullBounds().getHeight() - burnerYPosTweak );
         backLayer.addChild( rightHeaterCooler.getHoleNode() );
         backLayer.addChild( new BurnerStandNode( mvt.modelToView( model.getRightBurner().getOutlineRect() ).getBounds2D(), burnerProjectionAmount ) );
         heaterCoolerFrontLayer.addChild( rightHeaterCooler.getFrontNode() );
