@@ -55,6 +55,7 @@ public class LightBulb extends EnergyUser {
     private static final DoubleRange THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = new DoubleRange( 2, 2.5 );
     private static final double ENERGY_TO_FULLY_LIGHT = EFACConstants.MAX_ENERGY_PRODUCTION_RATE;
     private static final double LIGHT_CHUNK_LIT_BULB_RADIUS = 0.1; // In meters.
+    private final double LIGHT_CHANGE_RATE = 0.5; // In proportion per second.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -63,11 +64,11 @@ public class LightBulb extends EnergyUser {
     private final IUserComponent userComponent;
     public final Property<Double> litProportion = new Property<Double>( 0.0 );
     private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    private List<EnergyChunkPathMover> thermalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    private List<EnergyChunkPathMover> lightEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private List<EnergyChunkPathMover> filamentEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private List<EnergyChunkPathMover> radiatedEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private final boolean hasFilament;
     private final ObservableProperty<Boolean> energyChunksVisible;
-    private final double LIGHT_CHANGE_RATE = 0.5; // In proportion per second.
+    private final double proportionOfThermalChunksRadiated;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -78,6 +79,13 @@ public class LightBulb extends EnergyUser {
         this.userComponent = userComponent;
         this.hasFilament = hasFilament;
         this.energyChunksVisible = energyChunksVisible;
+        if ( hasFilament ){
+            proportionOfThermalChunksRadiated = 0.35;
+        }
+        else{
+            // Fewer thermal energy chunks are radiated for bulbs without a filament.
+            proportionOfThermalChunksRadiated = 0.2;
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -109,15 +117,15 @@ public class LightBulb extends EnergyUser {
 
             // Move all of the energy chunks.
             moveElectricalEnergyChunks( dt );
-            moveThermalEnergyChunks( dt );
-            moveLightEnergyChunks( dt );
+            moveFilamentEnergyChunks( dt );
+            moveRadiatedEnergyChunks( dt );
 
             // Set how lit the bulb is.
             if ( energyChunksVisible.get() ){
                 // Energy chunks are visible, so the lit proportion is
                 // dependent upon whether light energy chunks are present.
                 int lightChunksInLitRadius = 0;
-                for ( EnergyChunkPathMover lightEnergyChunkMover : lightEnergyChunkMovers ) {
+                for ( EnergyChunkPathMover lightEnergyChunkMover : radiatedEnergyChunkMovers ) {
                     if ( lightEnergyChunkMover.energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_RADIATE_POINT ) ) < LIGHT_CHUNK_LIT_BULB_RADIUS){
                         lightChunksInLitRadius++;
                     }
@@ -142,24 +150,24 @@ public class LightBulb extends EnergyUser {
         }
     }
 
-    private void moveLightEnergyChunks( double dt ) {
-        for ( EnergyChunkPathMover lightEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( lightEnergyChunkMovers ) ) {
-            lightEnergyChunkMover.moveAlongPath( dt );
-            if ( lightEnergyChunkMover.isPathFullyTraversed() ) {
+    private void moveRadiatedEnergyChunks( double dt ) {
+        for ( EnergyChunkPathMover radiatedEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( radiatedEnergyChunkMovers ) ) {
+            radiatedEnergyChunkMover.moveAlongPath( dt );
+            if ( radiatedEnergyChunkMover.isPathFullyTraversed() ) {
                 // Remove the chunk and its mover.
-                energyChunkList.remove( lightEnergyChunkMover.energyChunk );
-                lightEnergyChunkMovers.remove( lightEnergyChunkMover );
+                energyChunkList.remove( radiatedEnergyChunkMover.energyChunk );
+                radiatedEnergyChunkMovers.remove( radiatedEnergyChunkMover );
             }
         }
     }
 
-    private void moveThermalEnergyChunks( double dt ) {
-        for ( EnergyChunkPathMover thermalEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( thermalEnergyChunkMovers ) ) {
-            thermalEnergyChunkMover.moveAlongPath( dt );
-            if ( thermalEnergyChunkMover.isPathFullyTraversed() ) {
+    private void moveFilamentEnergyChunks( double dt ) {
+        for ( EnergyChunkPathMover filamentEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( filamentEnergyChunkMovers ) ) {
+            filamentEnergyChunkMover.moveAlongPath( dt );
+            if ( filamentEnergyChunkMover.isPathFullyTraversed() ) {
                 // Cause this energy chunk to be radiated from the bulb.
-                thermalEnergyChunkMovers.remove( thermalEnergyChunkMover );
-                radiateEnergyChunk( thermalEnergyChunkMover.energyChunk );
+                filamentEnergyChunkMovers.remove( filamentEnergyChunkMover );
+                radiateEnergyChunk( filamentEnergyChunkMover.energyChunk );
             }
         }
     }
@@ -173,7 +181,7 @@ public class LightBulb extends EnergyUser {
                     // Turn this energy chunk into thermal energy on the filament.
                     energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
                     List<Vector2D> energyChunkPath = createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() );
-                    thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                    filamentEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
                                                                             energyChunkPath,
                                                                             getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / generateThermalChunkTimeOnFilament() ) );
                 }
@@ -216,9 +224,9 @@ public class LightBulb extends EnergyUser {
             }
 
             moveElectricalEnergyChunks( dt );
-            moveThermalEnergyChunks( dt );
+            moveFilamentEnergyChunks( dt );
 
-            if ( lightEnergyChunkMovers.size() > 1 ) {
+            if ( radiatedEnergyChunkMovers.size() > 1 ) {
                 // A couple of chunks are radiating, which completes the pre-load.
                 preLoadComplete = true;
             }
@@ -226,11 +234,16 @@ public class LightBulb extends EnergyUser {
     }
 
     private void radiateEnergyChunk( EnergyChunk energyChunk ) {
-        energyChunk.energyType.set( EnergyType.LIGHT );
+        if ( RAND.nextDouble() > proportionOfThermalChunksRadiated ){
+            energyChunk.energyType.set( EnergyType.LIGHT );
+        }
+        else{
+            energyChunk.energyType.set( EnergyType.THERMAL );
+        }
         List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
             add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
         }};
-        lightEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunk, lightPath, EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+        radiatedEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunk, lightPath, EFACConstants.ENERGY_CHUNK_VELOCITY ) );
     }
 
     private boolean goRightNextTime = true;
@@ -278,8 +291,8 @@ public class LightBulb extends EnergyUser {
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();
         electricalEnergyChunkMovers.clear();
-        thermalEnergyChunkMovers.clear();
-        lightEnergyChunkMovers.clear();
+        filamentEnergyChunkMovers.clear();
+        radiatedEnergyChunkMovers.clear();
     }
 
     @Override public IUserComponent getUserComponent() {
