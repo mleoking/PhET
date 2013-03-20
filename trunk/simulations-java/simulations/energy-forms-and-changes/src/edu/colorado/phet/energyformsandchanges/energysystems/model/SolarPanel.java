@@ -218,15 +218,27 @@ public class SolarPanel extends EnergyConverter {
         // Start with default velocity.
         double chunkVelocity = EFACConstants.ENERGY_CHUNK_VELOCITY;
 
+        // Count the number of chunks currently on the panel.
+        int numChunksOnPanel = 0;
+        for ( EnergyChunkPathMover energyChunkMover : energyChunkMovers ) {
+            if ( energyChunkMover.getFinalDestination().equals( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) )){
+                numChunksOnPanel++;
+            }
+        }
+
         // Compute the projected time of arrival at the convergence point.
         double distanceToConvergencePoint = incomingEnergyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) );
         double travelTime = distanceToConvergencePoint / chunkVelocity;
         double projectedArrivalTime = simulationClock.getSimulationTime() + travelTime;
 
+        // Calculate the minimum spacing based on the number of chunks on the
+        // panel.
+        double minArrivalTimeSpacing = numChunksOnPanel <= 3 ? MIN_INTER_CHUNK_TIME : MIN_INTER_CHUNK_TIME / ( numChunksOnPanel - 2 );
+
         // If the projected arrival time is too close to the current last
         // chunk, slow down so that the minimum spacing is maintained.
-        if ( latestChunkArrivalTime + MIN_INTER_CHUNK_TIME > projectedArrivalTime ) {
-            projectedArrivalTime = latestChunkArrivalTime + MIN_INTER_CHUNK_TIME;
+        if ( latestChunkArrivalTime + minArrivalTimeSpacing > projectedArrivalTime ) {
+            projectedArrivalTime = latestChunkArrivalTime + minArrivalTimeSpacing;
         }
 
         latestChunkArrivalTime = projectedArrivalTime;
