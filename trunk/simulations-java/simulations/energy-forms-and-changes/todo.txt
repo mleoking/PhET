@@ -1,4 +1,3 @@
-Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
 Make fluorescent and incandescent bulbs emit occasional thermal E.
 Improve steam shape for tea pot (use the algorithm that was used for water)
 Fix weird pick up of beaker on block
@@ -22,6 +21,7 @@ Fix flicker when E's are transferred between energy systems. (NP and JB aren't b
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
 
 ------------------- D O N E ------------------------------------------
+Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
 1st tab: Rain of E's when cooling and nothing is on the burner.
 Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
 Fix: Reset doesn't get rid of clouds if active.
