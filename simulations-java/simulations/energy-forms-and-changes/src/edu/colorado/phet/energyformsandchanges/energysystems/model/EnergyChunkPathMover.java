@@ -54,6 +54,10 @@ public class EnergyChunkPathMover {
         }
     }
 
+    public Vector2D getFinalDestination(){
+        return path.get( path.size() - 1 );
+    }
+
     public boolean isPathFullyTraversed() {
         return pathFullyTraversed;
     }

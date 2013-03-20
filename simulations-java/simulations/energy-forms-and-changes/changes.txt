@@ -1,3 +1,4 @@
+Changed the algorithm for spacing out energy chunks on the solar panel so that they won't build up on the panel.
 Made it so that energy chunks that are being pulled out of the air by cooling won't turn around if they are close to the burner.
 Fixed an issue where the quantity of energy chunks exchanged with the air was too high when the burner was heating or cooling with nothing on it.
 Fixed an issue where the beaker fluid level appeared to jump when first shown because once clock cycle was needed to initialize fluid appearance.
