@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -166,15 +167,20 @@ public class BuildAnAtomCanvasAlternate extends PhetPCanvas implements Resettabl
         showStableUnstableCheckBox.setOffset( showNeutralIonCheckBox.getFullBounds().getX(), showNeutralIonCheckBox.getFullBounds().getMaxY() - 5 );
         indicatorLayer.addChild( showStableUnstableCheckBox );
 
+        // "Reset Atom" button. TODO: Keep?  If so, needs i18n and propagation to main canvas class.
+        TextButtonNode resetAtomButtonNode = new TextButtonNode( "Reset Atom", new PhetFont( 16 ), new Color( 0, 240, 200 ) );
+        resetAtomButtonNode.setOffset( chargeWindow.getFullBoundsReference().getMaxX() - resetAtomButtonNode.getFullBoundsReference().width - 20,
+                                       showNameCheckBox.getFullBoundsReference().getY() + 5 );
+        indicatorLayer.addChild( resetAtomButtonNode );
+
+
         // "Reset All" button.
         ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
         resetButtonNode.setConfirmationEnabled( false );
-        double desiredResetButtonWidth = 100;
-        resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
         indicatorLayer.addChild( resetButtonNode );
 
-        resetButtonNode.setOffset( chargeWindow.getFullBoundsReference().getMaxX() - resetButtonNode.getFullBoundsReference().width - 20,
-                                   showNeutralIonCheckBox.getFullBoundsReference().getCenterY() - resetButtonNode.getFullBoundsReference().height / 2 );
+        resetButtonNode.setOffset( resetAtomButtonNode.getFullBoundsReference().getCenterX() - resetButtonNode.getFullBoundsReference().width / 2,
+                                   resetAtomButtonNode.getFullBoundsReference().getMaxY() + 20 );
 
         // Add the Selection control for how to view the orbitals
         final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( orbitalViewProperty );
