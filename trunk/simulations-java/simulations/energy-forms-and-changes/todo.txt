@@ -2,6 +2,7 @@
 Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
 Make fluorescent and incandescent bulbs emit occasional thermal E.
 Improve steam shape for tea pot (use the algorithm that was used for water)
+Fix weird pick up of beaker on block
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
