@@ -38,6 +38,13 @@ public class Burner extends ModelElement {
     private static final double CONTACT_DISTANCE = 0.001; // In meters.
     private static final double ENERGY_CHUNK_CAPTURE_DISTANCE = 0.1; // In meters, empirically chosen.
 
+    // Because of the way that energy chunks are exchanged between thermal
+    // modeling elements within this simulation, things can end up looking a
+    // bit odd if a burner is turned on with nothing on it.  To account for
+    // this, a separate energy generation rate is used when a burner is
+    // exchanging energy directly with the air.
+    private static final double MAX_ENERGY_GENERATION_RATE_INTO_AIR = MAX_ENERGY_GENERATION_RATE * 0.3; // joules/sec, multiplier empirically chosen.
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -143,8 +150,7 @@ public class Burner extends ModelElement {
     }
 
     public void addOrRemoveEnergyToFromAir( Air air, double dt ) {
-        // TODO: Consolidate with other energy exchange method.
-        double deltaEnergy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
+        double deltaEnergy = MAX_ENERGY_GENERATION_RATE_INTO_AIR * heatCoolLevel.get() * dt;
         air.changeEnergy( deltaEnergy );
         energyExchangedWithAirSinceLastChunkTransfer += deltaEnergy;
     }

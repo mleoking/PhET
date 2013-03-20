@@ -291,8 +291,8 @@ public class EFACIntroModel implements ITemperatureModel {
             }
         }
 
-        // Exchange energy and energy chunks between the movable thermal energy
-        // containers and the air.
+        // Exchange energy and energy chunks between the movable thermal
+        // energy containers and the air.
         for ( RectangularThermalMovableModelElement movableEnergyContainer : movableThermalEnergyContainers ) {
 
             // Set up some variables that are used to decide whether or not
