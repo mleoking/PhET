@@ -1,4 +1,3 @@
-Make fluorescent and incandescent bulbs emit occasional thermal E.
 Improve steam shape for tea pot (use the algorithm that was used for water)
 Fix weird pick up of beaker on block
 
@@ -9,10 +8,6 @@ Fix performance issues.
 
 Profile, test on Mac
 
-
-Discuss: E's can be made to chase an object if the object is moved.  What if we just make them jump when the object is moved?
-Discuss: Sun's energy chunks should go behind the light bulbs & beaker.
-
 --> Start interviews?
 
 Internationalize E's (will need blank E's from NP).
@@ -21,6 +16,7 @@ Fix flicker when E's are transferred between energy systems. (NP and JB aren't b
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
 
 ------------------- D O N E ------------------------------------------
+Make fluorescent and incandescent bulbs emit occasional thermal E.
 Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
 1st tab: Rain of E's when cooling and nothing is on the burner.
 Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
