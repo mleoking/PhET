@@ -36,7 +36,7 @@ public class Burner extends ModelElement {
     private static final double HEIGHT = WIDTH * 1;
     private static final double MAX_ENERGY_GENERATION_RATE = 5000; // joules/sec, empirically chosen.
     private static final double CONTACT_DISTANCE = 0.001; // In meters.
-    private static final double ENERGY_CHUNK_CAPTURE_DISTANCE = 0.1; // In meters, empirically chosen.
+    private static final double ENERGY_CHUNK_CAPTURE_DISTANCE = 0.2; // In meters, empirically chosen.
 
     // Because of the way that energy chunks are exchanged between thermal
     // modeling elements within this simulation, things can end up looking a
@@ -184,7 +184,10 @@ public class Burner extends ModelElement {
         EnergyChunk closestEnergyChunk = null;
         if ( energyChunkList.size() > 0 ) {
             for ( EnergyChunk energyChunk : energyChunkList ) {
-                if ( energyChunk.getExistenceStrength().get() == 1 && ( closestEnergyChunk == null || energyChunk.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) ) {
+                if ( energyChunk.getExistenceStrength().get() == 1 &&
+                     energyChunk.position.get().distance( position ) > ENERGY_CHUNK_CAPTURE_DISTANCE &&
+                     ( closestEnergyChunk == null || energyChunk.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) ) {
+                    // Found a closer chunk.
                     closestEnergyChunk = energyChunk;
                 }
             }
@@ -196,7 +199,6 @@ public class Burner extends ModelElement {
             }
         }
 
-//        if ( closestEnergyChunk == null && ( heatCoolLevel.get() > 0 || getEnergyChunkCountForAir() > 0 ) ) {
         if ( closestEnergyChunk == null && heatCoolLevel.get() > 0 ) {
             // Create an energy chunk.
             closestEnergyChunk = new EnergyChunk( EnergyType.THERMAL, getEnergyChunkStartEndPoint(), energyChunksVisible );
@@ -239,11 +241,10 @@ public class Burner extends ModelElement {
         int count = 0;
         // If there are approaching chunks, and the mode has switched to off or
         // to heating, the chunks should go back to the air (if they're not
-        // almost to the beaker).
+        // almost to the burner).
         if ( energyChunkList.size() > 0 && heatCoolLevel.get() >= 0 ) {
             for ( EnergyChunk energyChunk : energyChunkList ) {
-                if ( energyChunk.getExistenceStrength().get() == 1 &&
-                     position.distance( energyChunk.position.get() ) > ENERGY_CHUNK_CAPTURE_DISTANCE ) {
+                if ( energyChunk.getExistenceStrength().get() == 1 && position.distance( energyChunk.position.get() ) > ENERGY_CHUNK_CAPTURE_DISTANCE ) {
                     count++;
                 }
             }
