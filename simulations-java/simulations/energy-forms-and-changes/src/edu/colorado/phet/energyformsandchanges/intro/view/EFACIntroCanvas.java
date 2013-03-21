@@ -342,7 +342,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                 xPos = getFullBoundsReference().width / NUM_THERMOMETERS_SUPPORTED * i + 15;
                 openLocationFound = true;
                 for ( ElementFollowingThermometer modelThermometer : model.thermometers ) {
-                    if ( modelThermometer.position.get().distance( new Vector2D( mvt.viewToModel( xPos, yPos ) ) ) < 1E-3 ) {
+                    if ( modelThermometer != thermometer && modelThermometer.position.get().distance( new Vector2D( mvt.viewToModel( xPos, yPos ) ) ) < 1E-3 ) {
                         openLocationFound = false;
                         break;
                     }
