@@ -1,3 +1,4 @@
+Increased speed of free energy chunks on the first tab.
 # 0.00.39 (72574) Mar 21, 2013
 3/21/13 Publish to dev for review and interviews.
 Fixed an issue where clicking on the thermometers in the tool box could make them appear to vanish.

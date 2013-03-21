@@ -21,11 +21,11 @@ public final class EnergyChunkWanderController {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double MIN_VELOCITY = 0.03; // In m/s.
-    private static final double MAX_VELOCITY = 0.06; // In m/s.
+    private static final double MIN_VELOCITY = 0.06; // In m/s.
+    private static final double MAX_VELOCITY = 0.10; // In m/s.
     private static final Random RAND = new Random();
-    private static final double MIN_TIME_IN_ONE_DIRECTION = 0.5;
-    private static final double MAX_TIME_IN_ONE_DIRECTION = 1;
+    private static final double MIN_TIME_IN_ONE_DIRECTION = 0.4;
+    private static final double MAX_TIME_IN_ONE_DIRECTION = 0.8;
     private static final double DISTANCE_AT_WHICH_TO_STOP_WANDERING = 0.05; // In meters, empirically chosen.
     private static final double MAX_ANGLE_VARIATION = Math.PI * 0.2; // Max deviation from angle to destination, in radians, empirically chosen.
 
