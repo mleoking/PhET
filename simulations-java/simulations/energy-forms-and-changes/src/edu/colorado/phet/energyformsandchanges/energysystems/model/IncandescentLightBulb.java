@@ -15,9 +15,9 @@ public class IncandescentLightBulb extends LightBulb {
 
     private static final Vector2D IMAGE_OFFSET = new Vector2D( 0, 0.055 );
 
-    public static final ModelElementImage NON_ENERGIZED_BULB = new ModelElementImage( INCANDESCENT_NARROW, IMAGE_OFFSET );
+    public static final ModelElementImage NON_ENERGIZED_BULB = new ModelElementImage( INCANDESCENT_2, IMAGE_OFFSET );
 
-    public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( INCANDESCENT_ON_NARROW, IMAGE_OFFSET );
+    public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( INCANDESCENT_ON_2, IMAGE_OFFSET );
 
     protected IncandescentLightBulb( ObservableProperty<Boolean> energyChunksVisible ) {
         super( selectFluorescentLightBulbButton, INCANDESCENT_ICON, true, energyChunksVisible );
