@@ -1,3 +1,4 @@
+Fixed an issue where clicking on the thermometers in the tool box could make them appear to vanish.
 Made the light bulbs occasionally radiate a thermal energy chunk.  Incandescent bulb radiates more of them than fluorescent.
 Changed the algorithm for spacing out energy chunks on the solar panel so that they won't build up on the panel.
 Made it so that energy chunks that are being pulled out of the air by cooling won't turn around if they are close to the burner.
