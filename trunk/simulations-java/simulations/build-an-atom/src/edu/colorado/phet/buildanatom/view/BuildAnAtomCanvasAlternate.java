@@ -169,6 +169,11 @@ public class BuildAnAtomCanvasAlternate extends PhetPCanvas implements Resettabl
 
         // "Reset Atom" button. TODO: Keep?  If so, needs i18n and propagation to main canvas class.
         TextButtonNode resetAtomButtonNode = new TextButtonNode( "Reset Atom", new PhetFont( 16 ), new Color( 0, 240, 200 ) );
+        resetAtomButtonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.reset();
+            }
+        } );
         resetAtomButtonNode.setOffset( chargeWindow.getFullBoundsReference().getMaxX() - resetAtomButtonNode.getFullBoundsReference().width - 20,
                                        showNameCheckBox.getFullBoundsReference().getY() + 5 );
         indicatorLayer.addChild( resetAtomButtonNode );
