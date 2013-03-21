@@ -107,7 +107,7 @@ public class BeakerHeater extends EnergyUser {
             public TemperatureAndColor getTemperatureAndColorAtLocation( Vector2D location ) {
                 return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR_OPAQUE );
             }
-        }, THERMOMETER_OFFSET );
+        }, THERMOMETER_OFFSET, true );
 
         // Update the position of the beaker and thermometer when the overall
         // model element position changes.

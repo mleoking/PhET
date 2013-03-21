@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -22,11 +22,10 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
 import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
 import edu.colorado.phet.energyformsandchanges.energysystems.view.HeaterCoolerView;
@@ -53,7 +52,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     public static final BooleanProperty showDumpEnergiesButton = new BooleanProperty( false );
 
     private final EFACIntroModel model;
-    private final ThermometerToolBox thermometerToolBox;
+    private final PNode thermometerToolBox;
     private final BooleanProperty normalSimSpeed = new BooleanProperty( true );
 
     /**
@@ -214,43 +213,35 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         beakerFrontLayer.addChild( beakerView.getFrontNode() );
         beakerBackLayer.addChild( beakerView.getBackNode() );
 
+        // Add the thermometer nodes.
+        ArrayList<MovableThermometerNode> movableThermometerNodes = new ArrayList();
+        for ( final ElementFollowingThermometer thermometer : model.thermometers ) {
+            final MovableThermometerNode thermometerNode = new MovableThermometerNode( thermometer, mvt );
+            thermometerLayer.addChild( thermometerNode );
+            thermometerNode.addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseReleased( PInputEvent event ) {
+                    if ( thermometerNode.getFullBoundsReference().intersects( thermometerToolBox.getFullBoundsReference() ) ) {
+                        // Released over tool box, so deactivate.
+                        thermometer.active.set( false );
+                    }
+                }
+            } );
+            movableThermometerNodes.add( thermometerNode );
+        }
+
         // Add the tool box for the thermometers.
-        thermometerToolBox = new ThermometerToolBox( model, mvt, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
+        HBox thermometerBox = new HBox();
+        ArrayList<ThermometerToolBoxNode> thermometerToolBoxNodes = new ArrayList<ThermometerToolBoxNode>(  );
+        for ( MovableThermometerNode movableThermometerNode : movableThermometerNodes ) {
+            ThermometerToolBoxNode thermometerToolBoxNode = new ThermometerToolBoxNode( movableThermometerNode, mvt, this );
+            thermometerBox.addChild( thermometerToolBoxNode );
+            thermometerToolBoxNodes.add( thermometerToolBoxNode );
+        }
+        thermometerToolBox = new ControlPanelNode( thermometerBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
         thermometerToolBox.setOffset( EDGE_INSET, EDGE_INSET );
         backLayer.addChild( thermometerToolBox );
-
-        // Add the thermometers.
-        for ( ElementFollowingThermometer thermometer : model.thermometers ) {
-            thermometerToolBox.putThermometerInOpenSpot( thermometer );
-            // Add one thermometer node to the front layer and one to the back,
-            // and control the visibility based on whether the thermometer is
-            // in the tool box.
-            final ThermometerNode frontThermometerNode = new ThermometerNode( thermometer, mvt );
-            thermometerLayer.addChild( frontThermometerNode );
-            final ThermometerNode backThermometerNode = new ThermometerNode( thermometer, mvt );
-            backLayer.addChild( backThermometerNode );
-            frontThermometerNode.addInputEventListener( new PBasicInputEventHandler() {
-
-                @Override public void mouseReleased( PInputEvent event ) {
-                    if ( frontThermometerNode.getFullBoundsReference().intersects( thermometerToolBox.getFullBoundsReference() ) ) {
-                        // Released over tool box, so put the thermometer into it.
-                        thermometerToolBox.putThermometerInOpenSpot( frontThermometerNode.getThermometer() );
-                    }
-                }
-            } );
-
-            // Monitor the thermometer's position and move it to the back of
-            // the z-order when over the tool box.
-            thermometer.position.addObserver( new VoidFunction1<Vector2D>() {
-                public void apply( Vector2D position ) {
-                    if ( mvt.viewToModel( thermometerToolBox.getFullBoundsReference() ).contains( position.toPoint2D() ) && frontThermometerNode.getTransparency() > 0 ) {
-                        frontThermometerNode.setTransparency( 0 );
-                    }
-                    else if ( !mvt.viewToModel( thermometerToolBox.getFullBoundsReference() ).contains( position.toPoint2D() ) && frontThermometerNode.getTransparency() == 0 ) {
-                        frontThermometerNode.setTransparency( 1 );
-                    }
-                }
-            } );
+        for ( ThermometerToolBoxNode thermometerToolBoxNode : thermometerToolBoxNodes ) {
+            thermometerToolBoxNode.setReturnRect( thermometerBox.getFullBoundsReference() );
         }
 
         // Add the control for setting the specific heat of the configurable block.
@@ -308,47 +299,5 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     public void reset() {
         model.reset();
         normalSimSpeed.reset();
-        // Put the thermometers in the tool box.
-        for ( ElementFollowingThermometer thermometer : model.thermometers ) {
-            thermometerToolBox.putThermometerInOpenSpot( thermometer );
-        }
-    }
-
-    // Class that defines the thermometer tool box.
-    private static class ThermometerToolBox extends PNode {
-
-        private static final int NUM_THERMOMETERS_SUPPORTED = EFACIntroModel.NUM_THERMOMETERS;
-
-        private final EFACIntroModel model;
-        private final ModelViewTransform mvt;
-        private final double thermometerHeight;
-
-        private ThermometerToolBox( EFACIntroModel model, ModelViewTransform mvt, Color backgroundColor ) {
-            this.model = model;
-            this.mvt = mvt;
-            thermometerHeight = EnergyFormsAndChangesResources.Images.THERMOMETER_MEDIUM_BACK.getHeight( null );
-            double thermometerWidth = EnergyFormsAndChangesResources.Images.THERMOMETER_MEDIUM_BACK.getWidth( null );
-            PhetPPath thermometerRegion = new PhetPPath( new Rectangle2D.Double( 0, 0, thermometerWidth * ( NUM_THERMOMETERS_SUPPORTED + 2 ), thermometerHeight * 1.1 ), new Color( 0, 0, 0, 0 ) );
-            addChild( new ControlPanelNode( new VBox( 0, thermometerRegion ), backgroundColor ) );
-        }
-
-        public void putThermometerInOpenSpot( Thermometer thermometer ) {
-            // This is a little tweaky due to the relationship between the
-            // thermometer in the model and the view representation.
-            double xPos = 35;
-            double yPos = getFullBoundsReference().getMaxY() - 40;
-            boolean openLocationFound = false;
-            for ( int i = 0; i < NUM_THERMOMETERS_SUPPORTED && !openLocationFound; i++ ) {
-                xPos = getFullBoundsReference().width / NUM_THERMOMETERS_SUPPORTED * i + 15;
-                openLocationFound = true;
-                for ( ElementFollowingThermometer modelThermometer : model.thermometers ) {
-                    if ( modelThermometer != thermometer && modelThermometer.position.get().distance( new Vector2D( mvt.viewToModel( xPos, yPos ) ) ) < 1E-3 ) {
-                        openLocationFound = false;
-                        break;
-                    }
-                }
-            }
-            thermometer.position.set( new Vector2D( mvt.viewToModel( xPos, yPos ) ) );
-        }
     }
 }

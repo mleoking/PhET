@@ -128,10 +128,10 @@ public class EFACIntroModel implements ITemperatureModel {
         movableThermalEnergyContainers.add( ironBlock );
         movableThermalEnergyContainers.add( beaker );
 
-        // Add the thermometers.  Set initial position to be off screen.
-        // Subsequent initialization will put them into the thermometer box.
+        // Add the thermometers.  Initial position doesn't matter, since it
+        // will be updated when added from the tool box.
         for ( int i = 0; i < NUM_THERMOMETERS; i++ ) {
-            thermometers.add( new ElementFollowingThermometer( this, new Vector2D( 100, 100 ) ) );
+            thermometers.add( new ElementFollowingThermometer( this, new Vector2D( 0, 0 ), false ) );
         }
     }
 
