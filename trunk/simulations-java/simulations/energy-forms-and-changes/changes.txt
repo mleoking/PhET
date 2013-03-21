@@ -1,3 +1,5 @@
+# 0.00.41 (72581) Mar 21, 2013
+3/21/13 Version with fix for thermometer bug
 # 0.00.40 (72577) Mar 21, 2013
 3/21/13 Deploy to dev for interviews.
 Changed the way that thermometers work so that they appear to jump a little when the user clicks on them in the tool box.
