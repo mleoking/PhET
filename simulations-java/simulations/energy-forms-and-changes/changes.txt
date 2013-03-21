@@ -1,3 +1,4 @@
+Changed the way that thermometers work so that they appear to jump a little when the user clicks on them in the tool box.
 Increased speed of free energy chunks on the first tab.
 # 0.00.39 (72574) Mar 21, 2013
 3/21/13 Publish to dev for review and interviews.

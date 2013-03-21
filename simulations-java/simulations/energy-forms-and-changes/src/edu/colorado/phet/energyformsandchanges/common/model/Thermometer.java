@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -28,11 +29,15 @@ public class Thermometer extends UserMovableModelElement {
     public final Property<Double> sensedTemperature = new Property<Double>( EFACConstants.ROOM_TEMPERATURE );
     public final Property<Color> sensedElementColor = new Property<Color>( PhetColorScheme.RED_COLORBLIND );
 
+    // Property that is used primarily to control visibility in the view.
+    public final BooleanProperty active;
+
     /**
      * Constructor.
      */
-    public Thermometer( ConstantDtClock clock, final ITemperatureModel model, Vector2D initialPosition ) {
+    public Thermometer( ConstantDtClock clock, final ITemperatureModel model, Vector2D initialPosition, boolean initiallyActive ) {
         super( initialPosition );
+        active = new BooleanProperty( initiallyActive );
 
         // Update the sensed temperature at each clock tick.
         clock.addClockListener( new ClockAdapter() {
@@ -42,8 +47,10 @@ public class Thermometer extends UserMovableModelElement {
                 sensedElementColor.set( temperatureAndColor.color );
             }
         } );
+    }
 
-
+    @Override public void reset() {
+        active.reset();
     }
 
     @Override public IUserComponent getUserComponent() {
