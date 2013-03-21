@@ -29,8 +29,7 @@ public class ThermometerToolBoxNode extends ThermometerNode {
         this.canvas = canvas;
         this.mvt = mvt;
         final Thermometer thermometer = thermometerNode.getThermometer();
-//        final Vector2D positioningOffset = mvt.viewToModel( thermometerNode.getOffsetCenterShaftToTriangleTip() );
-        final Vector2D positioningOffset = new Vector2D( -0.015, -0.03 ); // TODO: Hack to get this working, should be based on thermometer node.
+        final Vector2D positioningOffset = mvt.viewToModelDelta( thermometerNode.getOffsetCenterShaftToTriangleTip() );
 
         // This node's visibility is the inverse of the thermometer's.
         thermometer.active.addObserver( new VoidFunction1<Boolean>() {
