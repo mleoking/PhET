@@ -9,9 +9,9 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
  * Primary model class for the "Energy Systems" tab of the Energy Forms and
@@ -109,6 +109,19 @@ public class EnergySystemsModel implements Resettable {
                 energyUsersCarousel.getSelectedElement().clearEnergyChunks();
             }
         } );
+
+        // The carousel animation is stepped by a separate clock so that they
+        // can still operate when the sim is paused.
+        ConstantDtClock carouselClock = new ConstantDtClock( EFACConstants.FRAMES_PER_SECOND );
+        carouselClock.start();
+        carouselClock.addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                // Step the animation for the carousels.
+                for ( Carousel carousel : carousels ) {
+                    carousel.stepInTime( clockEvent.getSimulationTimeChange() );
+                }
+            }
+        } );
     }
 
     //-------------------------------------------------------------------------
@@ -134,11 +147,6 @@ public class EnergySystemsModel implements Resettable {
     }
 
     private void stepInTime( double dt ) {
-
-        // Step the animation for the carousels.
-        for ( Carousel carousel : carousels ) {
-            carousel.stepInTime( dt );
-        }
 
         // Step the active elements in time to produce, convert, and use energy.
         Energy energyFromSource = energySourcesCarousel.getSelectedElement().stepInTime( dt );
