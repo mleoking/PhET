@@ -45,12 +45,14 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
     //-------------------------------------------------------------------------
 
     private final BooleanProperty energyChunkVizCheckBoxProperty = new BooleanProperty( false );
+    private final EnergySystemsModel model;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
     public EnergySystemsCanvas( final EnergySystemsModel model ) {
+        this.model = model;
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this ) );
@@ -193,5 +195,6 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
 
     public void reset() {
         energyChunkVizCheckBoxProperty.reset();
+        model.getClock().setPaused( false );
     }
 }

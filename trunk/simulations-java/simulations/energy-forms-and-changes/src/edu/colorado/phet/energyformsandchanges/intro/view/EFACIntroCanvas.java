@@ -299,5 +299,6 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     public void reset() {
         model.reset();
         normalSimSpeed.reset();
+        model.getClock().setPaused( false );
     }
 }

@@ -129,7 +129,7 @@ public class EnergySystemsModel implements Resettable {
         energyUsersCarousel.getSelectedElement().activate();
     }
 
-    public IClock getClock() {
+    public ConstantDtClock getClock() {
         return clock;
     }
 
