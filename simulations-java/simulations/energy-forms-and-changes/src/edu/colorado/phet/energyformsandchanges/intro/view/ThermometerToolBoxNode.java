@@ -1,6 +1,7 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -8,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -30,6 +32,9 @@ public class ThermometerToolBoxNode extends ThermometerNode {
         this.mvt = mvt;
         final Thermometer thermometer = thermometerNode.getThermometer();
         final Vector2D positioningOffset = mvt.viewToModelDelta( thermometerNode.getOffsetCenterShaftToTriangleTip() );
+
+        setSensedTemperature( EFACConstants.ROOM_TEMPERATURE );
+        setSensedColor( Color.WHITE );
 
         // This node's visibility is the inverse of the thermometer's.
         thermometer.active.addObserver( new VoidFunction1<Boolean>() {
