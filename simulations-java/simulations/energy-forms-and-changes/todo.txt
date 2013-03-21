@@ -1,26 +1,29 @@
-Make the E's go faster on the first tab.
-Make thermometers appear to "pop" when grabbed from the tool box.
-Z-order for bulbs and beaker
+Fix reset when paused on 2nd tab - should un-pause
+Reset all should unpause first tab too.
+Allow switching of energy system elements on the 2nd tab when paused.
 Improve steam shape for tea pot (use the algorithm that was used for water)
 Fix weird pick up of beaker on block
-Allow switching of energy system elements on the 2nd tab when paused.
-Fix reset when paused on 2nd tab - should un-pause
+Z-order for bulbs and beaker
 Tool tip is way misplaced.
-Reset all should unpause first tab too.
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
-
-1st tab: Refine behavior of burners on/off when nothing on top.  Work out details with the team
 Profile, test on Mac
 
 Internationalize E's (will need blank E's from NP).
 i18n
+Get rid of all unused images
+Update license file
 Credits
+
+Maybe...
 Fix flicker when E's are transferred between energy systems. (NP and JB aren't bothered by this, so we're not doing it for now.  Will watch for issues in interviews.).
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
 
 ------------------- D O N E ------------------------------------------
+Integrate new images for bulbs.
+Make thermometers appear to "pop" when grabbed from the tool box.
+Make the E's go faster on the first tab.
 Make fluorescent and incandescent bulbs emit occasional thermal E.
 Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
 1st tab: Rain of E's when cooling and nothing is on the burner.
