@@ -106,10 +106,10 @@ public class ThermometerNode extends PComposite {
             // from pushing out the top.  This is a bit tweaky, and must be
             // manually coordinated with the image used for the thermometer.
             DoubleGeneralPath clipPath = new DoubleGeneralPath() {{
-                double thermometerTopY = backLayer.getFullBoundsReference().getMinY();
-                double curveStartOffset = backLayer.getFullBoundsReference().getHeight() * 0.05;
-                double clipWidth = liquidShaft.getFullBoundsReference().width * 1.1;
-                double centerX = liquidShaft.getFullBoundsReference().getCenterX();
+                double thermometerTopY = thermometerBack.getFullBoundsReference().getMinY();
+                double curveStartOffset = thermometerBack.getFullBoundsReference().getHeight() * 0.05;
+                double clipWidth = liquidShaftWidth * 1.1;
+                double centerX = thermometerBack.getFullBoundsReference().getCenterX();
                 moveTo( centerX - clipWidth / 2, centerOfBulb.getY() );
                 lineTo( centerX - clipWidth / 2, thermometerTopY + curveStartOffset );
                 curveTo( centerX - clipWidth / 4,
@@ -172,7 +172,7 @@ public class ThermometerNode extends PComposite {
     //-------------------------------------------------------------------------
 
     public Vector2D getOffsetCenterShaftToTriangleTip() {
-        return new Vector2D( liquidShaft.getFullBoundsReference().getCenterX(), getFullBoundsReference().getHeight() / 2 );
+        return new Vector2D( -getFullBoundsReference().getWidth() + liquidShaft.getFullBoundsReference().getCenterX(), getFullBoundsReference().getHeight() / 2 );
     }
 
     protected void setSensedColor( Color sensedColor ) {
