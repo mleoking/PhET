@@ -82,11 +82,15 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage FAUCET_ICON = RESOURCES.getImage( "faucet_icon.png" );
         public static final BufferedImage FLUORESCENT = RESOURCES.getImage( "fluorescent.png" );
         public static final BufferedImage FLUORESCENT_BACK = RESOURCES.getImage( "fluorescent_back.png" );
+        public static final BufferedImage FLUORESCENT_BACK_2 = RESOURCES.getImage( "fluorescent_back_2.png" );
         public static final BufferedImage FLUORESCENT_FRONT = RESOURCES.getImage( "fluorescent_front.png" );
+        public static final BufferedImage FLUORESCENT_FRONT_2 = RESOURCES.getImage( "fluorescent_front_2.png" );
         public static final BufferedImage FLUORESCENT_ICON = RESOURCES.getImage( "fluorescent_icon.png" );
         public static final BufferedImage FLUORESCENT_ON = RESOURCES.getImage( "fluorescent_on.png" );
         public static final BufferedImage FLUORESCENT_ON_BACK = RESOURCES.getImage( "fluorescent_on_back.png" );
+        public static final BufferedImage FLUORESCENT_ON_BACK_2 = RESOURCES.getImage( "fluorescent_on_back_2.png" );
         public static final BufferedImage FLUORESCENT_ON_FRONT = RESOURCES.getImage( "fluorescent_on_front.png" );
+        public static final BufferedImage FLUORESCENT_ON_FRONT_2 = RESOURCES.getImage( "fluorescent_on_front_2.png" );
         public static final BufferedImage FRONT_LEG_01 = RESOURCES.getImage( "front_leg_01.png" );
         public static final BufferedImage FRONT_LEG_02 = RESOURCES.getImage( "front_leg_02.png" );
         public static final BufferedImage FRONT_LEG_03 = RESOURCES.getImage( "front_leg_03.png" );
@@ -123,9 +127,11 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage HEATER_ELEMENT_DARK = RESOURCES.getImage( "heater_element_dark.png" );
         public static final BufferedImage HEATER_ELEMENT_OFF = RESOURCES.getImage( "heater_element_off.png" );
         public static final BufferedImage INCANDESCENT = RESOURCES.getImage( "incandescent.png" );
+        public static final BufferedImage INCANDESCENT_2 = RESOURCES.getImage( "incandescent_2.png" );
         public static final BufferedImage INCANDESCENT_ICON = RESOURCES.getImage( "incandescent_icon.png" );
         public static final BufferedImage INCANDESCENT_NARROW = RESOURCES.getImage( "incandescent_narrow.png" );
         public static final BufferedImage INCANDESCENT_ON = RESOURCES.getImage( "incandescent_on.png" );
+        public static final BufferedImage INCANDESCENT_ON_2 = RESOURCES.getImage( "incandescent_on_2.png" );
         public static final BufferedImage INCANDESCENT_ON_NARROW = RESOURCES.getImage( "incandescent_on_narrow.png" );
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
         public static final BufferedImage SOLAR_PANEL = RESOURCES.getImage( "solar_panel.png" );
