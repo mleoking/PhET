@@ -18,7 +18,9 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
@@ -47,6 +49,9 @@ public class EFACIntroModel implements ITemperatureModel {
     // Threshold of temperature difference between the bodies in a multi-body
     // system below which energy can be exchanged with air.
     private static final double MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE = 0.5; // In degrees C, empirically determined.
+
+    // Initial thermometer location, intended to be away from any model objects.
+    private static final Vector2D INITIAL_THERMOMETER_LOCATION = new Vector2D( 100, 100 );
 
     public static final int NUM_THERMOMETERS = 3;
 
@@ -128,10 +133,29 @@ public class EFACIntroModel implements ITemperatureModel {
         movableThermalEnergyContainers.add( ironBlock );
         movableThermalEnergyContainers.add( beaker );
 
-        // Add the thermometers.  Initial position doesn't matter, since it
-        // will be updated when added from the tool box.
+        // Add the thermometers.
         for ( int i = 0; i < NUM_THERMOMETERS; i++ ) {
-            thermometers.add( new ElementFollowingThermometer( this, new Vector2D( 0, 0 ), false ) );
+            final ElementFollowingThermometer thermometer = new ElementFollowingThermometer( this, INITIAL_THERMOMETER_LOCATION, false );
+            thermometers.add( thermometer );
+
+            // Add handling for a special case where the user drops something
+            // (generally a block) in the beaker behind this thermometer.
+            // The action is to automatically move the thermometer to a
+            // location where it continues to sense the beaker temperature.
+            // This was requested after interviews.
+            thermometer.sensedElementColor.addObserver( new ChangeObserver<Color>() {
+                double blockWidthIncludingPerspective = ironBlock.getProjectedShape().getBounds2D().getWidth();
+
+                public void update( Color newColor, Color oldColor ) {
+                    DoubleRange xRange = new DoubleRange( beaker.getRect().getCenterX() - blockWidthIncludingPerspective / 2,
+                                                          beaker.getRect().getCenterX() + blockWidthIncludingPerspective / 2 );
+                    if ( oldColor == EFACConstants.WATER_COLOR_IN_BEAKER && !thermometer.userControlled.get() && xRange.contains( thermometer.position.get().getX() )) {
+                        thermometer.userControlled.set( true ); // Must toggle userControlled to enable element following.
+                        thermometer.position.set( new Vector2D( beaker.getRect().getMaxX() - 0.01, beaker.getRect().getMinY() + beaker.getRect().getHeight() * 0.33 ) );
+                        thermometer.userControlled.set( false ); // Must toggle userControlled to enable element following.
+                    }
+                }
+            } );
         }
     }
 
@@ -435,7 +459,7 @@ public class EFACIntroModel implements ITemperatureModel {
             boolean restrictPositiveY = !block.isStackedUpon( modelElement );
 
             Rectangle2D testRect = modelElement.getRect();
-            if ( modelElement == beaker ){
+            if ( modelElement == beaker ) {
                 // Special handling for the beaker - block it at the outer
                 // edge of the block instead of the center in order to
                 // simplify z-order handling.
@@ -447,7 +471,7 @@ public class EFACIntroModel implements ITemperatureModel {
 
             // Clamp the translation based on the test block's position, but
             // handle the case where the block is immersed in the beaker.
-            if ( modelElement != beaker || !beaker.getRect().contains( block.getRect() )){
+            if ( modelElement != beaker || !beaker.getRect().contains( block.getRect() ) ) {
                 translation = determineAllowedTranslation( testRect, block.getRect(), translation, restrictPositiveY );
             }
         }
@@ -511,7 +535,7 @@ public class EFACIntroModel implements ITemperatureModel {
 
             // Something is wrong with algorithm if both values are zero,
             // since overlap was detected by the "intersects" method.
-            assert !(xOverlapCure == 0 && yOverlapCure == 0);
+            assert !( xOverlapCure == 0 && yOverlapCure == 0 );
 
             // Return a vector with the smallest valid "cure" value, leaving
             // the other translation value unchanged.
