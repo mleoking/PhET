@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -39,13 +40,17 @@ public class NormalAndFastForwardTimeControlPanel extends RichPNode {
             getButtonCanvas().setBackground( TRANSPARENT );
             getBackgroundNode().setVisible( false );
         }} );
-        // TODO: i18n
-        PNode normalSpeedButton = new PSwing( new PropertyRadioButton<Boolean>( fastForwardRadioButton, "Normal", normalSpeed, true ) {{
+        PNode normalSpeedButton = new PSwing( new PropertyRadioButton<Boolean>( fastForwardRadioButton,
+                                                                                EnergyFormsAndChangesResources.Strings.NORMAL,
+                                                                                normalSpeed,
+                                                                                true ) {{
             setBackground( TRANSPARENT );
             setFont( RADIO_BUTTON_FONT );
         }} );
-        // TODO: i18n
-        PNode fastForwardButton = new PSwing( new PropertyRadioButton<Boolean>( fastForwardRadioButton, "Fast Forward", normalSpeed, false ) {{
+        PNode fastForwardButton = new PSwing( new PropertyRadioButton<Boolean>( fastForwardRadioButton,
+                                                                                EnergyFormsAndChangesResources.Strings.FAST_FORWARD,
+                                                                                normalSpeed,
+                                                                                false ) {{
             setBackground( TRANSPARENT );
             setFont( RADIO_BUTTON_FONT );
         }} );

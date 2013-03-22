@@ -1,9 +1,5 @@
-Fix reset when paused on 2nd tab - should un-pause
-Reset all should unpause first tab too.
-Allow switching of energy system elements on the 2nd tab when paused.
 Improve steam shape for tea pot (use the algorithm that was used for water)
 Fix weird pick up of beaker on block
-Z-order for bulbs and beaker
 Tool tip is way misplaced.
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
@@ -21,6 +17,10 @@ Fix flicker when E's are transferred between energy systems. (NP and JB aren't b
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
 
 ------------------- D O N E ------------------------------------------
+Z-order for bulbs and beaker
+Allow switching of energy system elements on the 2nd tab when paused.
+Fix reset when paused on 2nd tab - should un-pause
+Reset all should unpause first tab too.
 Integrate new images for bulbs.
 Make thermometers appear to "pop" when grabbed from the tool box.
 Make the E's go faster on the first tab.

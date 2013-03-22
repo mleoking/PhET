@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
@@ -89,8 +90,7 @@ public class BikerNode extends PositionableFadableModelElementNode {
         addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
 
         // Add button to replenish the biker's energy.
-        // TODO: i18n
-        feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 18 ), new Color( 0, 220, 0 ) );
+        feedMeButton = new TextButtonNode( EnergyFormsAndChangesResources.Strings.FEED_ME, new PhetFont( 18 ), new Color( 0, 220, 0 ) );
         feedMeButton.setOffset( -feedMeButton.getFullBoundsReference().width / 2, upperBodyNormal.getFullBoundsReference().getMinY() - 45 );
         feedMeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

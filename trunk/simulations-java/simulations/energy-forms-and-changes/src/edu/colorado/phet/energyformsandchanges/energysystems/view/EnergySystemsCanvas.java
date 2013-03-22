@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
@@ -70,7 +71,6 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
 
         //------- Node Creation ----------------------------------------------
 
-        // Create the clock controls. TODO: i18n
         PNode clockControl = new PSwing( new PiccoloClockControlPanel( model.getClock() ) {{
             Color transparent = new Color( 0, 0, 0, 0 );
             setBackground( transparent );
@@ -84,9 +84,9 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
                                                       new BasicStroke( 1 ),
                                                       Color.BLACK );
 
-        // Create the control for showing/hiding energy chunks. TODO: i18n
+        // Create the control for showing/hiding energy chunks.
         PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
-                                                                    "Energy Symbols",
+                                                                    EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS,
                                                                     energyChunkVizCheckBoxProperty ) {{
             setFont( new PhetFont( 20 ) );
         }};
@@ -123,7 +123,7 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
         PNode sunNode = new SunNode( model.sun, model.energyChunksVisible, mvt );
         PNode teaPotNode = new TeaPotNode( model.teaPot, model.getClock(), model.energyChunksVisible, mvt );
         PNode bikerNode = new BikerNode( model.biker, mvt );
-        PNode waterPoweredGeneratorNode = new ElectricalGeneratorNode( model.waterPoweredGenerator, mvt );
+        PNode electricalGeneratorNode = new ElectricalGeneratorNode( model.waterPoweredGenerator, mvt );
         PNode incandescentLightBulbNode = new IncandescentLightBulbNode( model.incandescentLightBulb, model.energyChunksVisible, mvt );
         PNode fluorescentLightBulbNode = new FluorescentLightBulbNode( model.fluorescentLightBulb, model.energyChunksVisible, mvt );
         PNode solarPanelNode = new SolarPanelNode( model.solarPanel, mvt );
@@ -142,12 +142,12 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
         // The order is important due to some of the visual interactions
         // between the energy system elements.
         rootNode.addChild( faucetAndWaterNode );
+        rootNode.addChild( solarPanelNode );
+        rootNode.addChild( beakerHeaterNode );
+        rootNode.addChild( sunNode );
         rootNode.addChild( incandescentLightBulbNode );
         rootNode.addChild( fluorescentLightBulbNode );
-        rootNode.addChild( beakerHeaterNode );
-        rootNode.addChild( solarPanelNode );
-        rootNode.addChild( sunNode );
-        rootNode.addChild( waterPoweredGeneratorNode );
+        rootNode.addChild( electricalGeneratorNode );
         rootNode.addChild( beltNode );
         rootNode.addChild( bikerNode );
         rootNode.addChild( teaPotNode );
