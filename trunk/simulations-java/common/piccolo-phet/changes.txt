@@ -1,3 +1,4 @@
+3/22/13 #3525 made it possible to set all tool tips on PiccoloTimeControlPanel and to clear them all
 2/19/13 #3511 delete ancient TestThreadSeparation, which used EventChannel indirectly (and throws other exceptions)
 11/12/12 Added the ability to specify knob width for the faucet node.
 10/7/12 #3423, added CenteredStageCanvas
