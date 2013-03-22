@@ -56,6 +56,7 @@ public class BeakerView {
 
     protected final PNode frontNode = new PNode();
     protected final PNode backNode = new PNode();
+    protected final PNode grabNode = new PNode();
 
     public BeakerView( IClock clock, final Beaker beaker, BooleanProperty energyChunksVisible, final ModelViewTransform mvt ) {
 
@@ -95,9 +96,13 @@ public class BeakerView {
         // grab the beaker.
         backNode.addChild( new PhetPPath( beakerViewRect, new Color( 0, 0, 0, 0 ) ) );
 
-        // Make the front node non-pickable so that things in the beaker can be removed.
+        // Make the front and back nodes non-pickable so that the grab node
+        // can be used for grabbing.  This is done to make it possible to
+        // remove things from the beaker.
         frontNode.setPickable( false );
         frontNode.setChildrenPickable( false );
+        backNode.setPickable( false );
+        backNode.setChildrenPickable( false );
 
         // Add the label.  Position it just below the front, top water line.
         final PText label = new PText( EnergyFormsAndChangesResources.Strings.WATER );
@@ -138,6 +143,11 @@ public class BeakerView {
             }
         } );
 
+        // Add the node that can be used to grab and move the beaker.
+        Area grabNodeShape = new Area( beakerBody );
+        grabNodeShape.add( new Area( topEllipse ) );
+        grabNode.addChild( new PhetPPath( grabNodeShape, new Color( 0, 0, 0, 0 ) ) ); // Invisible, yet pickable.
+
         // If enabled, show the outline of the rectangle that represents the
         // beaker's position in the model.
         if ( SHOW_MODEL_RECT ) {
@@ -149,6 +159,7 @@ public class BeakerView {
             public void apply( Vector2D position ) {
                 frontNode.setOffset( mvt.modelToView( position ).toPoint2D() );
                 backNode.setOffset( mvt.modelToView( position ).toPoint2D() );
+                grabNode.setOffset( mvt.modelToView( position ).toPoint2D() );
                 // Compensate the energy chunk layer so that the energy chunk
                 // nodes can handle their own positioning.
                 energyChunkRootNode.setOffset( mvt.modelToView( position ).getRotatedInstance( Math.PI ).toPoint2D() );
@@ -322,5 +333,9 @@ public class BeakerView {
 
     public PNode getBackNode() {
         return backNode;
+    }
+
+    public PNode getGrabNode() {
+        return grabNode;
     }
 }

@@ -90,6 +90,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( backLayer );
         final PNode beakerBackLayer = new PNode();
         rootNode.addChild( beakerBackLayer );
+        final PNode beakerGrabLayer = new PNode();
+        rootNode.addChild( beakerGrabLayer );
         final PNode blockLayer = new PNode();
         rootNode.addChild( blockLayer );
         PNode airLayer = new PNode();
@@ -213,6 +215,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         BeakerView beakerView = new BeakerContainerView( model.getClock(), model, mvt );
         beakerFrontLayer.addChild( beakerView.getFrontNode() );
         beakerBackLayer.addChild( beakerView.getBackNode() );
+        beakerGrabLayer.addChild( beakerView.getGrabNode() );
 
         // Add the thermometer nodes.
         ArrayList<MovableThermometerNode> movableThermometerNodes = new ArrayList();
@@ -291,16 +294,16 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             }
         };
 
-        // Create an observer that moves the back of the beaker behind the
-        // blocks when one or more blocks are in the beaker so that the
+        // Create an observer that moves the grab node of the beaker behind
+        // the blocks when one or more blocks are in the beaker so that the
         // blocks can be extracted.
         model.getBeaker().fluidLevel.addObserver( new VoidFunction1<Double>() {
             public void apply( Double fluidLevel ) {
                 if ( fluidLevel != Beaker.INITIAL_FLUID_LEVEL){
-                    beakerBackLayer.moveInBackOf( blockLayer );
+                    beakerGrabLayer.moveInBackOf( blockLayer );
                 }
                 else{
-                    beakerBackLayer.moveInFrontOf( blockLayer );
+                    beakerGrabLayer.moveInFrontOf( blockLayer );
                 }
             }
         } );
