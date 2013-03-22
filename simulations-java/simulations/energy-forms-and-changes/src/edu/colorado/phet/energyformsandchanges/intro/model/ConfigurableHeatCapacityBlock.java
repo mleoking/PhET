@@ -91,7 +91,6 @@ public class ConfigurableHeatCapacityBlock extends Block {
     }
 
     @Override public String getLabel() {
-        // TODO: i18n
         return "Custom";
     }
 

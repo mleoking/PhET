@@ -45,8 +45,7 @@ public class Brick extends Block {
     }
 
     @Override public String getLabel() {
-        // TODO: i18n
-        return "Brick";
+        return EnergyFormsAndChangesResources.Strings.BRICK;
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {

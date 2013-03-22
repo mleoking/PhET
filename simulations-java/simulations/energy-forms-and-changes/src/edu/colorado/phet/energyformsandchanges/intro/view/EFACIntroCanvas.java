@@ -124,7 +124,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // the bench and the bottom of the canvas.  This is for layout.
         double centerYBelowSurface = ( STAGE_SIZE.getHeight() + labBenchSurface.getFullBoundsReference().getMaxY() ) / 2;
 
-        // Add the clock controls. TODO: i18n
+        // Add the clock controls.
         {
             PNode clockControl = new NormalAndFastForwardTimeControlPanel( normalSimSpeed, model.getClock() );
             clockControl.centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, centerYBelowSurface );
@@ -146,10 +146,10 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             backLayer.addChild( resetButton );
         }
 
-        // Add the control for showing/hiding object energy. TODO: i18n
+        // Add the control for showing/hiding object energy.
         {
             PropertyCheckBoxWithIcon showEnergyCheckBox = new PropertyCheckBoxWithIcon( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
-                                                                                        "Energy Symbols",
+                                                                                        EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS,
                                                                                         new PhetFont( 20 ),
                                                                                         EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK,
                                                                                         model.energyChunksVisible );

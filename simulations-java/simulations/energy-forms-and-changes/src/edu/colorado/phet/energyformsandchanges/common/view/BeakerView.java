@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
@@ -99,8 +100,7 @@ public class BeakerView {
         frontNode.setChildrenPickable( false );
 
         // Add the label.  Position it just below the front, top water line.
-        // TODO: i18n
-        final PText label = new PText( "Water" );
+        final PText label = new PText( EnergyFormsAndChangesResources.Strings.WATER );
         label.setFont( LABEL_FONT );
         label.setOffset( beakerViewRect.getCenterX() - label.getFullBoundsReference().width / 2,
                          beakerViewRect.getMaxY() - beakerViewRect.getHeight() * beaker.fluidLevel.get() + topEllipse.getHeight() / 2 );

@@ -1,5 +1,7 @@
+Internationalized the strings.
+Changed the z-order of the light bulbs and beaker so that light energy chunks from the sun go behind them.
 Put carousels on 2nd tab on separate clock so that they still operate when tab is paused.
-Made reset unpause the clock if paused.  Both tabs.
+Made reset un-pause the clock if paused.  Both tabs.
 Added and incorporated new images for light bulbs.
 # 0.00.41 (72581) Mar 21, 2013
 3/21/13 Version with fix for thermometer bug

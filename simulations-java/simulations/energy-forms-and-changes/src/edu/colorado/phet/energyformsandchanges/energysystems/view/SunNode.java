@@ -99,7 +99,7 @@ public class SunNode extends PositionableFadableModelElementNode {
         }};
         final ControlPanelNode cloudinessControlPanel = new ControlPanelNode(
                 new VBox(
-                        new HBox( new PhetPText( "Clouds", CONTROL_PANEL_TITLE_FONT ), cloudIcon ), // TODO: i18n
+                        new HBox( new PhetPText( EnergyFormsAndChangesResources.Strings.CLOUDS, CONTROL_PANEL_TITLE_FONT ), cloudIcon ),
                         new VSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.cloudinessSlider,
                                          0,
                                          1,
@@ -107,8 +107,8 @@ public class SunNode extends PositionableFadableModelElementNode {
                                          80,
                                          sun.cloudiness,
                                          new BooleanProperty( true ) ) {{
-                            addLabel( 0, new TickMarkLabel( "None" ) ); // TODO: i18n
-                            addLabel( 1, new TickMarkLabel( "Lots" ) ); // TODO: i18n
+                            addLabel( 0, new TickMarkLabel( EnergyFormsAndChangesResources.Strings.NONE ) );
+                            addLabel( 1, new TickMarkLabel( EnergyFormsAndChangesResources.Strings.LOTS ) );
                         }}
                 ),
                 EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );

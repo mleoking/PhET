@@ -25,13 +25,12 @@ public class EnergyChunkLegend extends PNode {
 
     public EnergyChunkLegend() {
         PNode contents = new SwingLayoutNode( new GridBagLayout() ) {{
-            // TODO: i18n of all text in this node.
             GridBagConstraints constraints = new GridBagConstraints();
             // Add the title.
             constraints.gridx = 0;
             constraints.gridy = 0;
             constraints.gridwidth = 2;
-            addChild( new PhetPText( "Forms of Energy", new PhetFont( 14, true ) ), constraints );
+            addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.FORMS_OF_ENERGY, new PhetFont( 14, true ) ), constraints );
 
             // Add the legend entries.
             constraints.gridy++;
@@ -43,7 +42,7 @@ public class EnergyChunkLegend extends PNode {
             addChild( new PImage( EnergyFormsAndChangesResources.Images.E_MECH_OUTLINE_BLACK ), constraints );
             constraints.gridx++;
             constraints.insets.left = 5;
-            addChild( new PhetPText( "Mechanical", LEGEND_ENTRY_FONT ), constraints );
+            addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.MECHANICAL, LEGEND_ENTRY_FONT ), constraints );
 
             constraints.gridy++;
             constraints.gridx = 0;
@@ -52,7 +51,7 @@ public class EnergyChunkLegend extends PNode {
             addChild( new PImage( EnergyFormsAndChangesResources.Images.E_ELECTRIC_OUTLINE_BLACK ), constraints );
             constraints.gridx++;
             constraints.insets.left = 5;
-            addChild( new PhetPText( "Electrical", LEGEND_ENTRY_FONT ), constraints );
+            addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.ELECTRICAL, LEGEND_ENTRY_FONT ), constraints );
 
             constraints.gridy++;
             constraints.gridx = 0;
@@ -60,7 +59,7 @@ public class EnergyChunkLegend extends PNode {
             addChild( new PImage( EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK ), constraints );
             constraints.gridx++;
             constraints.insets.left = 5;
-            addChild( new PhetPText( "Thermal", LEGEND_ENTRY_FONT ), constraints );
+            addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.THERMAL, LEGEND_ENTRY_FONT ), constraints );
 
             constraints.gridy++;
             constraints.gridx = 0;
@@ -68,7 +67,7 @@ public class EnergyChunkLegend extends PNode {
             addChild( new PImage( EnergyFormsAndChangesResources.Images.E_LIGHT_OUTLINE_BLACK ), constraints );
             constraints.gridx++;
             constraints.insets.left = 5;
-            addChild( new PhetPText( "Light", LEGEND_ENTRY_FONT ), constraints );
+            addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.LIGHT, LEGEND_ENTRY_FONT ), constraints );
 
             constraints.gridy++;
             constraints.gridx = 0;
@@ -76,7 +75,7 @@ public class EnergyChunkLegend extends PNode {
             addChild( new PImage( EnergyFormsAndChangesResources.Images.E_CHEM_OUTLINE_BLACK ), constraints );
             constraints.gridx++;
             constraints.insets.left = 5;
-            addChild( new PhetPText( "Chemical", LEGEND_ENTRY_FONT ), constraints );
+            addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.CHEMICAL, LEGEND_ENTRY_FONT ), constraints );
         }};
 
         // Create the control panel.

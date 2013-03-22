@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
@@ -46,8 +47,7 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
         super( teaPot, mvt );
 
         // Create the burner.
-        // TODO: i18n
-        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, true, "Heat", false, "",
+        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, true, EnergyFormsAndChangesResources.Strings.HEAT, false, "",
                                                               BURNER_WIDTH, BURNER_HEIGHT, BURNER_OPENING_WIDTH,
                                                               new ObservableList<EnergyChunk>(  ), mvt );
 

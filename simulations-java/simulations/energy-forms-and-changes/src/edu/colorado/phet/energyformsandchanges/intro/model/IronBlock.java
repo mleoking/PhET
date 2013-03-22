@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
 /**
@@ -29,8 +30,7 @@ public class IronBlock extends Block {
     }
 
     @Override public String getLabel() {
-        // TODO: i18n
-        return "Iron";
+        return EnergyFormsAndChangesResources.Strings.IRON;
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {

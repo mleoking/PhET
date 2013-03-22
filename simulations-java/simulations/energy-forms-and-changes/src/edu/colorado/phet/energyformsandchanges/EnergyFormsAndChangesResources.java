@@ -15,9 +15,26 @@ public class EnergyFormsAndChangesResources {
 
     //Strings
     public static class Strings {
-        public static final String ENERGY_STORIES = RESOURCES.getLocalizedString( "energyStories" );
+        public static final String BRICK = RESOURCES.getLocalizedString( "brick" );
+        public static final String CHEMICAL = RESOURCES.getLocalizedString( "chemical" );
+        public static final String CLOUDS = RESOURCES.getLocalizedString( "clouds" );
+        public static final String COOL = RESOURCES.getLocalizedString( "cool" );
+        public static final String ELECTRICAL = RESOURCES.getLocalizedString( "electrical" );
+        public static final String ENERGY_SYMBOLS = RESOURCES.getLocalizedString( "energySymbols" );
         public static final String ENERGY_SYSTEMS = RESOURCES.getLocalizedString( "energySystems" );
+        public static final String FAST_FORWARD = RESOURCES.getLocalizedString( "fastForward" );
+        public static final String FEED_ME = RESOURCES.getLocalizedString( "feedMe" );
+        public static final String FORMS_OF_ENERGY = RESOURCES.getLocalizedString( "formsOfEnergy" );
+        public static final String HEAT = RESOURCES.getLocalizedString( "heat" );
         public static final String INTRO = RESOURCES.getLocalizedString( "intro" );
+        public static final String IRON = RESOURCES.getLocalizedString( "iron" );
+        public static final String LIGHT = RESOURCES.getLocalizedString( "light" );
+        public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
+        public static final String MECHANICAL = RESOURCES.getLocalizedString( "mechanical" );
+        public static final String NONE = RESOURCES.getLocalizedString( "none" );
+        public static final String NORMAL = RESOURCES.getLocalizedString( "normal" );
+        public static final String THERMAL = RESOURCES.getLocalizedString( "thermal" );
+        public static final String WATER = RESOURCES.getLocalizedString( "water" );
     }
 
     //Images
