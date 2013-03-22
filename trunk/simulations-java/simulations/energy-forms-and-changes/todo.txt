@@ -1,5 +1,5 @@
-Improve steam shape for tea pot (use the algorithm that was used for water)
 Fix weird pick up of beaker on block
+Improve steam shape for tea pot (use the algorithm that was used for water)
 Tool tip is way misplaced.
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
