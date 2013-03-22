@@ -75,7 +75,7 @@ public class BeakerContainer extends Beaker {
 
         // Map the overlap to a new fluid height.  The scaling factor was
         // empirically determined to look good.
-        double newFluidLevel = Math.min( initialFluidLevel + overlappingArea * 120, 1 );
+        double newFluidLevel = Math.min( INITIAL_FLUID_LEVEL + overlappingArea * 120, 1 );
         double proportionateIncrease = newFluidLevel / fluidLevel.get();
         fluidLevel.set( newFluidLevel );
 
