@@ -1,8 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -39,7 +38,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class TeaPotNode extends PositionableFadableModelElementNode {
 
-    private double BURNER_WIDTH = 125; // Emprically determined.
+    private double BURNER_WIDTH = 125; // Empirically determined.
     private double BURNER_HEIGHT = BURNER_WIDTH * 0.75;
     private double BURNER_OPENING_WIDTH = BURNER_WIDTH * 0.1;
 
@@ -47,9 +46,16 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
         super( teaPot, mvt );
 
         // Create the burner.
-        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, true, EnergyFormsAndChangesResources.Strings.HEAT, false, "",
-                                                              BURNER_WIDTH, BURNER_HEIGHT, BURNER_OPENING_WIDTH,
-                                                              new ObservableList<EnergyChunk>(  ), mvt );
+        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount,
+                                                              true,
+                                                              false, EnergyFormsAndChangesResources.Strings.HEAT,
+                                                              "",
+                                                              BURNER_WIDTH,
+                                                              BURNER_HEIGHT,
+                                                              BURNER_OPENING_WIDTH,
+                                                              false,
+                                                              new ObservableList<EnergyChunk>(),
+                                                              mvt );
 
         // Create the tea pot.
         final PNode teaPotImageNode = new ModelElementImageNode( TeaPot.TEAPOT_IMAGE, mvt );
@@ -152,7 +158,7 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                         overallBounds.setOffset( origin.getX(), origin.getY() - heightAndWidth );
                         cloud.setVisible( true );
                     }
-                    else{
+                    else {
                         cloud.setVisible( false );
                     }
                 }

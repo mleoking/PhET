@@ -1,4 +1,6 @@
-Improve steam shape for tea pot (use the algorithm that was used for water)
+No snap back on heater for tea pot.
+Make thermometer jump out of the way if in water and a brick is dropped behind it.
+Tweak values so that ECs go into all objects pretty quickly.  Air too.
 Tool tip is way misplaced.
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
@@ -14,8 +16,10 @@ Credits
 Maybe...
 Fix flicker when E's are transferred between energy systems. (NP and JB aren't bothered by this, so we're not doing it for now.  Will watch for issues in interviews.).
 From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
+Improve steam shape for tea pot (use the algorithm that was used for water)
 
 ------------------- D O N E ------------------------------------------
+Invisible grabbing node for beaker so z-order is okay.
 Fix weird pick up of beaker on block
 Z-order for bulbs and beaker
 Allow switching of energy system elements on the 2nd tab when paused.
