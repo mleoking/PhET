@@ -1,3 +1,4 @@
+Fixed a problem where all tool tips associated with the time control panel were popping up in the wrong places.  Did this by disabling tool tips.
 Added a feature where thermometers are automatically moved if the user drops a block behind them while they are sensing the beaker temperature.
 Made the burner that heats the tea pot not snap to zero when released.
 Fixed an issue with grabbing the bottom of the beaker when it is stacked on top of a block.
