@@ -47,11 +47,11 @@ public class PiccoloTimeControlPanel extends JPanel {
     // Class Data
     //------------------------------------------------------------------------
 
-    private static final String PLAY_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PLAY );
-    private static final String PAUSE_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PAUSE );
-    private static final String STEP_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP );
-    private static final String STEP_BACK_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP_BACK );
-    private static final String REWIND_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_REWIND );
+    private static final String DEFAULT_PLAY_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PLAY );
+    private static final String DEFAULT_PAUSE_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_PAUSE );
+    private static final String DEFAULT_STEP_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP );
+    private static final String DEFAULT_STEP_BACK_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_STEP_BACK );
+    private static final String DEFAULT_REWIND_TOOLTIP = PhetCommonResources.getString( PhetCommonResources.STRING_CLOCK_REWIND );
 
     private static final double BUTTON_X_SPACING = 5;
 
@@ -70,6 +70,8 @@ public class PiccoloTimeControlPanel extends JPanel {
     private JTextField timeTextField;
     private JLabel unitsLabel;
     private JPanel userPanel;
+    private String playToolTip = DEFAULT_PLAY_TOOLTIP;
+    private String pauseToolTip = DEFAULT_PAUSE_TOOLTIP;
 
     private ToolTipHandler playPauseTooltipHandler, stepTooltipHandler, rewindTooltipHandler, stepBackTooltipHandler;
     private NumberFormat timeFormat;
@@ -146,13 +148,13 @@ public class PiccoloTimeControlPanel extends JPanel {
         add( buttonPanel );
 
         // tool tips on piccolo buttons
-        stepBackTooltipHandler = new ToolTipHandler( STEP_BACK_TOOLTIP, buttonCanvas );
+        stepBackTooltipHandler = new ToolTipHandler( DEFAULT_STEP_BACK_TOOLTIP, buttonCanvas );
         stepBackButton.addInputEventListener( stepBackTooltipHandler );
-        stepTooltipHandler = new ToolTipHandler( STEP_TOOLTIP, buttonCanvas );
+        stepTooltipHandler = new ToolTipHandler( DEFAULT_STEP_TOOLTIP, buttonCanvas );
         stepButton.addInputEventListener( stepTooltipHandler );
-        playPauseTooltipHandler = new ToolTipHandler( PAUSE_TOOLTIP, buttonCanvas );
+        playPauseTooltipHandler = new ToolTipHandler( DEFAULT_PAUSE_TOOLTIP, buttonCanvas );
         playPauseButton.addInputEventListener( playPauseTooltipHandler );
-        rewindTooltipHandler = new ToolTipHandler( REWIND_TOOLTIP, buttonCanvas );
+        rewindTooltipHandler = new ToolTipHandler( DEFAULT_REWIND_TOOLTIP, buttonCanvas );
         rewindButton.addInputEventListener( rewindTooltipHandler );
 
         // listeners
@@ -403,8 +405,30 @@ public class PiccoloTimeControlPanel extends JPanel {
         stepTooltipHandler.setText( tooltip );
     }
 
+    public void setStepBackButtonTooltip( String tooltip ) {
+        stepBackTooltipHandler.setText( tooltip );
+    }
+
     public void setRewindButtonTooltip( String tooltip ) {
         rewindTooltipHandler.setText( tooltip );
+    }
+
+    public void setPlayButtonTooltip( String tooltip ) {
+        playToolTip = tooltip;
+        updateButtons();
+    }
+
+    public void setPauseButtonTooltip( String tooltip ) {
+        pauseToolTip = tooltip;
+        updateButtons();
+    }
+
+    public void clearAllToolTips(){
+        setPlayButtonTooltip( null );
+        setPauseButtonTooltip( null );
+        setRewindButtonTooltip( null );
+        setStepButtonTooltip( null );
+        setStepBackButtonTooltip( null );
     }
 
     public void setEnableStepWhileRunning( boolean value ) {
@@ -464,7 +488,7 @@ public class PiccoloTimeControlPanel extends JPanel {
     private void updateButtons() {
         playPauseButton.setPlaying( !paused );
         playPauseButton.setEnabled( isEnabled() );
-        playPauseTooltipHandler.setText( paused ? PLAY_TOOLTIP : PAUSE_TOOLTIP );
+        playPauseTooltipHandler.setText( paused ? playToolTip : pauseToolTip );
         stepButton.setEnabled( isEnabled() && ( paused || enableStepWhileRunning ) );
         stepBackButton.setEnabled( isEnabled() && ( paused || enableStepWhileRunning ) );
         rewindButton.setEnabled( isEnabled() );
@@ -608,7 +632,13 @@ public class PiccoloTimeControlPanel extends JPanel {
 
 
         PiccoloTimeControlPanel controls1 = new PiccoloTimeControlPanel();
-        controls1.setStepButtonTooltip( "tooltip test" );
+        controls1.setRewindButtonVisible( true );
+        controls1.setStepBackButtonVisible( true );
+        controls1.setStepButtonTooltip( "tooltip test step" );
+        controls1.setPlayButtonTooltip( "tooltip test play" );
+        controls1.setPauseButtonTooltip( "tooltip test pause" );
+        controls1.setRewindButtonTooltip( "tooltip test rewind" );
+        controls1.setStepBackButtonTooltip( "tooltip test step back" );
         controls1.addTimeControlListener( listener );
 
         PiccoloTimeControlPanel controls2 = new PiccoloTimeControlPanel();
