@@ -51,18 +51,18 @@ public class BeakerContainerView extends BeakerView {
         } );
 
         // Add the cursor handler.
-        backNode.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
+        grabNode.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-        final Vector2D offsetPosToCenter = new Vector2D( backNode.getFullBoundsReference().getCenterX() - mvt.modelToViewX( beaker.position.get().getX() ),
-                                                         backNode.getFullBoundsReference().getCenterY() - mvt.modelToViewY( beaker.position.get().getY() ) );
+        final Vector2D offsetPosToCenter = new Vector2D( grabNode.getFullBoundsReference().getCenterX() - mvt.modelToViewX( beaker.position.get().getX() ),
+                                                         grabNode.getFullBoundsReference().getCenterY() - mvt.modelToViewY( beaker.position.get().getY() ) );
 
-        backNode.addInputEventListener( new ThermalElementDragHandler( beaker,
-                                                                       backNode,
+        grabNode.addInputEventListener( new ThermalElementDragHandler( beaker,
+                                                                       grabNode,
                                                                        mvt,
                                                                        new ThermalItemMotionConstraint( model,
                                                                                                         beaker,
-                                                                                                        backNode,
+                                                                                                        grabNode,
                                                                                                         mvt,
                                                                                                         offsetPosToCenter ) ) );
     }
