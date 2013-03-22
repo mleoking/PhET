@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
 import edu.colorado.phet.energyformsandchanges.energysystems.view.HeaterCoolerView;
@@ -89,7 +90,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( backLayer );
         final PNode beakerBackLayer = new PNode();
         rootNode.addChild( beakerBackLayer );
-        PNode blockLayer = new PNode();
+        final PNode blockLayer = new PNode();
         rootNode.addChild( blockLayer );
         PNode airLayer = new PNode();
         rootNode.addChild( airLayer );
@@ -289,6 +290,20 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                 }
             }
         };
+
+        // Create an observer that moves the back of the beaker behind the
+        // blocks when one or more blocks are in the beaker so that the
+        // blocks can be extracted.
+        model.getBeaker().fluidLevel.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double fluidLevel ) {
+                if ( fluidLevel != Beaker.INITIAL_FLUID_LEVEL){
+                    beakerBackLayer.moveInBackOf( blockLayer );
+                }
+                else{
+                    beakerBackLayer.moveInFrontOf( blockLayer );
+                }
+            }
+        } );
 
         // Update the Z-order of the blocks whenever the "userControlled" state
         // of either changes.

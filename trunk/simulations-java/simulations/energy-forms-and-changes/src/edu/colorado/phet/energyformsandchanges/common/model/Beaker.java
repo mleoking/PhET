@@ -46,16 +46,14 @@ public class Beaker extends RectangularThermalMovableModelElement {
     // Constants that control the nature of the fluid in the beaker.
     private static final double WATER_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
     private static final double WATER_DENSITY = 1000.0; // In kg/m^3, source = design document (and common knowledge).
-    private static final double DEFAULT_INITIAL_FLUID_LEVEL = 0.5;
+    public static final double INITIAL_FLUID_LEVEL = 0.5;
 
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
 
-    protected final double initialFluidLevel;
-
     // Property that is used to control and track the amount of fluid in the beaker.
-    public final Property<Double> fluidLevel = new Property<Double>( DEFAULT_INITIAL_FLUID_LEVEL );
+    public final Property<Double> fluidLevel = new Property<Double>( INITIAL_FLUID_LEVEL );
 
     // Top surface, which is the surface upon which other model elements can
     // sit.  For the beaker, this is only slightly above the bottom surface.
@@ -84,8 +82,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
      * rectangle.
      */
     public Beaker( ConstantDtClock clock, Vector2D initialPosition, double width, double height, BooleanProperty energyChunksVisible ) {
-        super( clock, initialPosition, width, height, calculateWaterMass( width, height * DEFAULT_INITIAL_FLUID_LEVEL ), WATER_SPECIFIC_HEAT, energyChunksVisible );
-        this.initialFluidLevel = DEFAULT_INITIAL_FLUID_LEVEL;
+        super( clock, initialPosition, width, height, calculateWaterMass( width, height * INITIAL_FLUID_LEVEL ), WATER_SPECIFIC_HEAT, energyChunksVisible );
         this.maxSteamHeight = 2 * height;
 
         // Update the top and bottom surfaces whenever the position changes.
@@ -154,7 +151,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
 
         // Distribute the energy chunks within the beaker.
         for ( int i = 0; i < 1000; i++ ) {
-            if ( !EnergyChunkDistributor.updatePositions( slices, EFACConstants.SIM_TIME_PER_TICK_NORMAL ) ){
+            if ( !EnergyChunkDistributor.updatePositions( slices, EFACConstants.SIM_TIME_PER_TICK_NORMAL ) ) {
                 break;
             }
         }
@@ -211,7 +208,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
         final Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - width / 2,
                                                               position.get().getY(),
                                                               width,
-                                                              height * DEFAULT_INITIAL_FLUID_LEVEL );
+                                                              height * INITIAL_FLUID_LEVEL );
         double widthYProjection = Math.abs( width * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
         for ( int i = 0; i < NUM_SLICES; i++ ) {
             double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
@@ -277,20 +274,20 @@ public class Beaker extends RectangularThermalMovableModelElement {
         EnergyChunkContainerSlice densestSlice = null;
         for ( EnergyChunkContainerSlice slice : slices ) {
             double sliceDensity = slice.energyChunkList.size() / ( slice.getShape().getBounds2D().getWidth() * slice.getShape().getBounds2D().getHeight() );
-            if ( sliceDensity > maxSliceDensity ){
+            if ( sliceDensity > maxSliceDensity ) {
                 maxSliceDensity = sliceDensity;
                 densestSlice = slice;
             }
         }
 
-        if ( densestSlice.energyChunkList.size() == 0 ){
-            System.out.println( getClass().getName() + " - Warning: No energy chunks in the beaker, can't extract any.");
+        if ( densestSlice.energyChunkList.size() == 0 ) {
+            System.out.println( getClass().getName() + " - Warning: No energy chunks in the beaker, can't extract any." );
             return null;
         }
 
         EnergyChunk highestEnergyChunk = densestSlice.energyChunkList.get( 0 );
-        for ( EnergyChunk ec : densestSlice.energyChunkList ){
-            if ( ec.position.get().getY() > highestEnergyChunk.position.get().getY() ){
+        for ( EnergyChunk ec : densestSlice.energyChunkList ) {
+            if ( ec.position.get().getY() > highestEnergyChunk.position.get().getY() ) {
                 highestEnergyChunk = ec;
             }
         }
