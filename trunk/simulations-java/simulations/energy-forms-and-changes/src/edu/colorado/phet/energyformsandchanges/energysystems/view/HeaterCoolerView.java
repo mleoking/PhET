@@ -86,11 +86,11 @@ public class HeaterCoolerView {
      * @param heatLabel     Textual label for the slider knob position that
      *                      corresponds to max heat.
      * @param coolLabel     Textual label for the slider knob position that
-     *                      corresponds to max cooling.
+     * @param snapToZero    Controls whether the slider will snap to the off
      */
-    public HeaterCoolerView( Property<Double> heatCoolLevel, boolean heatEnabled, String heatLabel, boolean coolEnabled,
+    public HeaterCoolerView( Property<Double> heatCoolLevel, boolean heatEnabled, boolean coolEnabled, String heatLabel,
                              String coolLabel, final double width, final double height, final double openingHeight,
-                             final ObservableList<EnergyChunk> energyChunkList, final ModelViewTransform mvt ) {
+                             boolean snapToZero, final ObservableList<EnergyChunk> energyChunkList, final ModelViewTransform mvt ) {
 
         this.heatCoolLevel = heatCoolLevel;
 
@@ -119,7 +119,7 @@ public class HeaterCoolerView {
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the slider.
-        HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerView.this.heatCoolLevel, heatEnabled, heatLabel, coolEnabled, coolLabel ) {{
+        HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerView.this.heatCoolLevel, heatEnabled, heatLabel, coolEnabled, coolLabel, snapToZero ) {{
             // Scale the slider to look reasonable on the body of the stove. It
             // may be scaled differently for different translations.
             double maxWidth = width * 0.8;
@@ -257,10 +257,12 @@ public class HeaterCoolerView {
 
         private static final Color TOP_SIDE_TRACK_COLOR = new Color( 255, 69, 0 );    // Meant to look warm.
         private static final Color BOTTOM_SIDE_TRACK_COLOR = new Color( 0, 0, 240 );  // Meant to look cold.
+        private static final double ALWAYS_SNAP_THRESHOLD = 1.0 / 8.0;
 
         private static final Font LABEL_FONT = new PhetFont( 20, true );
 
-        public HeaterCoolerSliderNode( final SettableProperty<Double> value, boolean heatingEnabled, String heatLabel, boolean coolingEnabled, String coolLabel ) {
+        public HeaterCoolerSliderNode( final SettableProperty<Double> value, boolean heatingEnabled, String heatLabel, boolean coolingEnabled,
+                                       String coolLabel, final boolean snapToZero ) {
             if ( !( heatingEnabled || coolingEnabled ) ) {
                 throw new IllegalArgumentException( "Either heating or cooling must be enabled." );
             }
@@ -281,7 +283,9 @@ public class HeaterCoolerView {
             // Return to 0 when the user releases the slider.
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
-                    value.set( 0.0 );
+                    if ( snapToZero || Math.abs( value.get() ) < ALWAYS_SNAP_THRESHOLD ){
+                        value.set( 0.0 );
+                    }
                 }
             } );
 
