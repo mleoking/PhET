@@ -1,4 +1,3 @@
-No snap back on heater for tea pot.
 Make thermometer jump out of the way if in water and a brick is dropped behind it.
 Tweak values so that ECs go into all objects pretty quickly.  Air too.
 Tool tip is way misplaced.
@@ -19,6 +18,7 @@ From Noah: Keep the steam the same transparency (if possible) when E's are turne
 Improve steam shape for tea pot (use the algorithm that was used for water)
 
 ------------------- D O N E ------------------------------------------
+No snap back on heater for tea pot.
 Invisible grabbing node for beaker so z-order is okay.
 Fix weird pick up of beaker on block
 Z-order for bulbs and beaker
