@@ -76,6 +76,7 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
             setBackground( transparent );
             getButtonCanvas().setBackground( transparent );
             getBackgroundNode().setVisible( false );
+            clearAllToolTips();
         }} );
 
         // Create the back drop for the clock controls.
