@@ -186,6 +186,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         double burnerHeight = burnerWidth * 0.8;
         double burnerOpeningHeight = burnerHeight * 0.2;
         double burnerYPosTweak = -10; // Empirically determined for best look.
+
+        // Set up left heater-cooler node.
         HeaterCoolerView leftHeaterCooler = new HeaterCoolerView( model.getLeftBurner().heatCoolLevel, true, true,
                                                                   EnergyFormsAndChangesResources.Strings.HEAT,
                                                                   EnergyFormsAndChangesResources.Strings.COOL,
@@ -197,8 +199,12 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         backLayer.addChild( new BurnerStandNode( mvt.modelToView( model.getLeftBurner().getOutlineRect() ).getBounds2D(), burnerProjectionAmount ) );
         heaterCoolerFrontLayer.addChild( leftHeaterCooler.getFrontNode() );
 
-        HeaterCoolerView rightHeaterCooler = new HeaterCoolerView( model.getRightBurner().heatCoolLevel, true, true, "Heat", "Cool",
-                                                                   burnerWidth, burnerHeight, burnerOpeningHeight, true, model.getRightBurner().energyChunkList, mvt );
+        // Set up right heater-cooler node.
+        HeaterCoolerView rightHeaterCooler = new HeaterCoolerView( model.getRightBurner().heatCoolLevel, true, true,
+                                                                   EnergyFormsAndChangesResources.Strings.HEAT,
+                                                                   EnergyFormsAndChangesResources.Strings.COOL,
+                                                                   burnerWidth, burnerHeight, burnerOpeningHeight, true,
+                                                                   model.getRightBurner().energyChunkList, mvt );
         rightHeaterCooler.setOffset( mvt.modelToViewX( model.getRightBurner().getOutlineRect().getCenterX() ) - rightHeaterCooler.getHoleNode().getFullBounds().getWidth() / 2,
                                      mvt.modelToViewY( model.getRightBurner().getOutlineRect().getMinY() ) - rightHeaterCooler.getFrontNode().getFullBounds().getHeight() - burnerYPosTweak );
         backLayer.addChild( rightHeaterCooler.getHoleNode() );

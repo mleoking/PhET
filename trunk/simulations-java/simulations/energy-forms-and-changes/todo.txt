@@ -1,5 +1,4 @@
 Tweak values so that ECs go into all objects pretty quickly.  Air too.
-Tool tip is way misplaced.
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
@@ -17,6 +16,7 @@ From Noah: Keep the steam the same transparency (if possible) when E's are turne
 Improve steam shape for tea pot (use the algorithm that was used for water)
 
 ------------------- D O N E ------------------------------------------
+Tool tip is way misplaced.
 Make thermometer jump out of the way if in water and a brick is dropped behind it.
 No snap back on heater for tea pot.
 Invisible grabbing node for beaker so z-order is okay.
