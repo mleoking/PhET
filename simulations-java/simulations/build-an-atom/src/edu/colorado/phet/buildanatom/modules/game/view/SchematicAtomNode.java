@@ -2,6 +2,7 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -41,7 +42,7 @@ public class SchematicAtomNode extends PNode {
     protected final Atom atom;
 
     // Model-view transform.
-    private final ModelViewTransform mvt;
+    protected final ModelViewTransform mvt;
 
     // Property that controls whether the electrons are depicted as particles
     // or as a cloud when they are a part of the atom.

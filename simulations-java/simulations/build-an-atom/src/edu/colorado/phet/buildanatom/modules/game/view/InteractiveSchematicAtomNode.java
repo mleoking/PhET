@@ -23,6 +23,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Piccolo Node that adds interactivity to a node that represents and atom.
@@ -36,6 +38,7 @@ import edu.umd.cs.piccolo.PNode;
 public class InteractiveSchematicAtomNode extends SchematicAtomNode {
 
     private final BuildAnAtomModel model;
+    private final PhetPCanvas canvas;
 
     /**
      * Constructor.
@@ -44,6 +47,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         super( model.getAtom(), mvt, orbitalView );
 
         this.model = model;
+        this.canvas = canvas;
 
         // Add a marker that depicts the center of the atom's nucleus.
         electronShellLayer.addChild( new CenterMarkerNode( model, mvt ) );
@@ -96,8 +100,22 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             particleGrabHelper.setOffset( electronShellLayer.getOffset() );
             addChild( particleGrabHelper );
             particleGrabHelper.moveInBackOf( electronShellLayer );
-        }
 
+            particleGrabHelper.addInputEventListener( new PBasicInputEventHandler(){
+                SphericalParticle controlledParticle = null;
+                @Override public void mousePressed( PInputEvent event ) {
+                    System.out.println("Press at " + getModelPosition( event.getCanvasPosition() ));
+                }
+
+                @Override public void mouseDragged( PInputEvent event ) {
+                    System.out.println("Drag");
+                }
+
+                @Override public void mouseReleased( PInputEvent event ) {
+                    System.out.println("Release");
+                }
+            } );
+        }
     }
 
     public ImmutableAtom getAtomValue() {
@@ -106,6 +124,16 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
 
     public void setAtomValue( ImmutableAtom answer ) {
         model.setState( answer, false );
+    }
+
+    /**
+     * Convert the canvas position to the corresponding location in the model.
+     */
+    private Point2D getModelPosition( Point2D canvasPos ) {
+        Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
+        canvas.getPhetRootNode().screenToWorld( worldPos );
+        Point2D adjustedWorldPos = new Point2D.Double( worldPos.getX(), worldPos.getY() );
+        return mvt.viewToModel( adjustedWorldPos );
     }
 
     private static class CenterMarkerNode extends PNode {
