@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_bg.xml created Thu Mar 21 12:04:38 EET 2013 using: faradays-law 2.02.00 (52648), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
+<string key="twoCoils" value="2 бобини"/>
+<string key="n" value="N (С)"/>
+<string key="translation.credits" value="Георги Цонев Велев"/>
+<string key="noSound" value="Без звук"/>
+<string key="showFieldLines" value="Показвай силовите линии"/>
+<string key="voltage" value="ток (амперметър)"/>
+<string key="simTitle" value="Закон на Фарадей"/>
+<string key="flipMagnet" value="Смяна на полюсите"/>
+<string key="oneCoil" value="1 бобина"/>
+<string key="moveMe" value="движи през бобината"/>
+<string key="s" value="S (Ю)"/>
+</SimStrings>
