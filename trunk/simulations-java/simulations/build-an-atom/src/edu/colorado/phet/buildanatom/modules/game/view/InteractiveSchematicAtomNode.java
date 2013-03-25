@@ -3,8 +3,17 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildanatom.model.*;
+import edu.colorado.phet.buildanatom.model.AtomListener;
+import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
+import edu.colorado.phet.buildanatom.model.Electron;
+import edu.colorado.phet.buildanatom.model.ElectronShell;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.model.Neutron;
+import edu.colorado.phet.buildanatom.model.Proton;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.ParticleBucketView;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -67,6 +76,28 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // atom later.
             addNeutronNode( (Neutron) neutron );
         }
+
+        // Add a circular node that sits behind all the interactive particles
+        // and makes it easier for the user to grab particles from the atom.
+        {
+            double radius = 0;
+            for ( ElectronShell electronShell : atom.getElectronShells() ){
+                if ( mvt.modelToViewDeltaX( electronShell.getRadius() ) > radius ){
+                    radius = mvt.modelToViewDeltaX( electronShell.getRadius() );
+                }
+            }
+            radius = radius * 1.2; // Make this node slightly larger than the largest electron shell.
+            Point2D center = mvt.modelToView( atom.getPosition() );
+            PNode particleGrabHelper = new PhetPPath( new Ellipse2D.Double( center.getX() - radius,
+                                                                            center.getY() - radius,
+                                                                            radius * 2,
+                                                                            radius * 2 ),
+                                                      Color.PINK );
+            particleGrabHelper.setOffset( electronShellLayer.getOffset() );
+            addChild( particleGrabHelper );
+            particleGrabHelper.moveInBackOf( electronShellLayer );
+        }
+
     }
 
     public ImmutableAtom getAtomValue() {
