@@ -44,17 +44,10 @@ public class EnergyChunkNode extends PNode {
             }
         } );
 
-        // Set up updating of transparency based on existence strength.
-        energyChunk.getExistenceStrength().addObserver( new VoidFunction1<Double>() {
-            public void apply( Double existenceStrength ) {
-                updateTransparency( existenceStrength, energyChunk.zPosition.get() );
-            }
-        } );
-
         // Set up updating of transparency based on Z position.
         energyChunk.zPosition.addObserver( new VoidFunction1<Double>() {
             public void apply( Double zPosition ) {
-                updateTransparency( energyChunk.getExistenceStrength().get(), zPosition );
+                updateTransparency( zPosition );
             }
         } );
 
@@ -75,16 +68,16 @@ public class EnergyChunkNode extends PNode {
     }
 
     // Update the transparency, which is a function of several factors.
-    private void updateTransparency( double existenceStrength, double zPosition ) {
+    private void updateTransparency( double zPosition ) {
 
         double zFadeValue = 1;
         if ( zPosition < 0 ) {
             zFadeValue = Math.max( ( Z_DISTANCE_WHERE_FULLY_FADED + zPosition ) / Z_DISTANCE_WHERE_FULLY_FADED, 0 );
         }
-        setTransparency( (float) Math.min( existenceStrength, zFadeValue ) );
+        setTransparency( (float) zFadeValue );
     }
 
-    public static PNode createEnergyChunkNode( EnergyType energyType ){
+    public static PNode createEnergyChunkNode( EnergyType energyType ) {
         final PImage background = new PImage( mapEnergyTypeToImage.get( energyType ) );
         background.addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.ENERGY_CHUNK_LABEL, new PhetFont( 16, true ) ) {{
             setScale( Math.min( background.getFullBoundsReference().width / getFullBoundsReference().width,

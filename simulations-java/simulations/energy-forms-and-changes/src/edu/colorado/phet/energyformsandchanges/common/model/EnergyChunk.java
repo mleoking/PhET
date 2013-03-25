@@ -25,8 +25,6 @@ public class EnergyChunk {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double FADE_RATE = 1; // Proportion per second.
-    private static final int TIMER_DELAY = 30; // In milliseconds.
     private static final BooleanProperty ALWAYS_VISIBLE = new BooleanProperty( true );
 
     //-------------------------------------------------------------------------
@@ -44,12 +42,6 @@ public class EnergyChunk {
 
     // Property that controls visibility in view.
     public final ObservableProperty<Boolean> visible;
-
-    // Strength of existence, used for fading in and out.  Range is from 0 to 1.
-    private final Property<Double> existenceStrength = new Property<Double>( 1.0 );
-
-    // Fade state, so that we know which way it is going.
-    private FadeState fadeState = FadeState.FULLY_FADED_IN;
 
     // Energy type.  This can change during the life of the energy chunk.
     public Property<EnergyType> energyType = new Property<EnergyType>( null );
@@ -84,33 +76,6 @@ public class EnergyChunk {
     // Methods
     //-------------------------------------------------------------------------
 
-    private void updateFadeState( double dt ) {
-        switch( fadeState ) {
-            case FADING_IN:
-                existenceStrength.set( Math.min( existenceStrength.get() + FADE_RATE * dt, 1 ) );
-                if ( existenceStrength.get() == 1 ) {
-                    fadeState = FadeState.FULLY_FADED_IN;
-                    fadeTimer.stop();
-                }
-                break;
-            case FADING_OUT:
-                existenceStrength.set( Math.max( existenceStrength.get() - FADE_RATE * dt, 0 ) );
-                if ( existenceStrength.get() == 0 ) {
-                    fadeState = FadeState.FULLY_FADED_OUT;
-                    fadeTimer.stop();
-                }
-                break;
-            case FULLY_FADED_IN:
-                // State consistency checking.
-                assert existenceStrength.get() == 1;
-                break;
-            case FULLY_FADED_OUT:
-                // State consistency checking.
-                assert existenceStrength.get() == 0;
-                break;
-        }
-    }
-
     public void translate( Vector2D movement ) {
         position.set( position.get().plus( movement ) );
     }
@@ -129,19 +94,5 @@ public class EnergyChunk {
 
     public void setVelocity( Vector2D newVelocity ) {
         setVelocity( newVelocity.x, newVelocity.y );
-    }
-
-    public ObservableProperty<Double> getExistenceStrength() {
-        return existenceStrength;
-    }
-
-    public void startFadeOut() {
-        fadeState = FadeState.FADING_OUT;
-        fadeTimer = new Timer( TIMER_DELAY, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateFadeState( (double) TIMER_DELAY / 1000 );
-            }
-        } );
-        fadeTimer.restart();
     }
 }
