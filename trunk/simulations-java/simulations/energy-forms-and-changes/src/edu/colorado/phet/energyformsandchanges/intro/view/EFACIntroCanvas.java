@@ -186,8 +186,11 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         double burnerHeight = burnerWidth * 0.8;
         double burnerOpeningHeight = burnerHeight * 0.2;
         double burnerYPosTweak = -10; // Empirically determined for best look.
-        HeaterCoolerView leftHeaterCooler = new HeaterCoolerView( model.getLeftBurner().heatCoolLevel, true, true, "Heat", "Cool",
-                                                                  burnerWidth, burnerHeight, burnerOpeningHeight, true, model.getLeftBurner().energyChunkList, mvt );
+        HeaterCoolerView leftHeaterCooler = new HeaterCoolerView( model.getLeftBurner().heatCoolLevel, true, true,
+                                                                  EnergyFormsAndChangesResources.Strings.HEAT,
+                                                                  EnergyFormsAndChangesResources.Strings.COOL,
+                                                                  burnerWidth, burnerHeight, burnerOpeningHeight, true,
+                                                                  model.getLeftBurner().energyChunkList, mvt );
         leftHeaterCooler.setOffset( mvt.modelToViewX( model.getLeftBurner().getOutlineRect().getCenterX() ) - leftHeaterCooler.getHoleNode().getFullBounds().getWidth() / 2,
                                     mvt.modelToViewY( model.getLeftBurner().getOutlineRect().getMinY() ) - leftHeaterCooler.getFrontNode().getFullBounds().getHeight() - burnerYPosTweak );
         backLayer.addChild( leftHeaterCooler.getHoleNode() );

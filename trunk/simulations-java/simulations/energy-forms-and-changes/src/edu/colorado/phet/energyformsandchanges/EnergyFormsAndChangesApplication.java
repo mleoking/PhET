@@ -6,15 +6,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.energyformsandchanges.energystories.EnergyStoriesModule;
 import edu.colorado.phet.energyformsandchanges.energysystems.EnergySystemsModule;
 import edu.colorado.phet.energyformsandchanges.intro.EFACIntroModule;
 import edu.colorado.phet.energyformsandchanges.intro.dev.HeatTransferValuesDialog;
