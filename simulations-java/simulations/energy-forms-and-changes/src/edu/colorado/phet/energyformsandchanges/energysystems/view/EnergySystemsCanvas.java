@@ -127,8 +127,8 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
         PNode electricalGeneratorNode = new ElectricalGeneratorNode( model.waterPoweredGenerator, mvt );
         PNode incandescentLightBulbNode = new IncandescentLightBulbNode( model.incandescentLightBulb, model.energyChunksVisible, mvt );
         PNode fluorescentLightBulbNode = new FluorescentLightBulbNode( model.fluorescentLightBulb, model.energyChunksVisible, mvt );
-        PNode solarPanelNode = new SolarPanelNode( model.solarPanel, mvt );
         PNode beakerHeaterNode = new BeakerHeaterNode( model.getClock(), model.beakerHeater, model.energyChunksVisible, mvt );
+        PNode solarPanelNode = new SolarPanelNode( model.solarPanel, mvt );
         PNode beltNode = new BeltNode( model.belt, mvt );
 
         // Create the reset button.
@@ -143,11 +143,11 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
         // The order is important due to some of the visual interactions
         // between the energy system elements.
         rootNode.addChild( faucetAndWaterNode );
-        rootNode.addChild( solarPanelNode );
         rootNode.addChild( beakerHeaterNode );
-        rootNode.addChild( sunNode );
         rootNode.addChild( incandescentLightBulbNode );
         rootNode.addChild( fluorescentLightBulbNode );
+        rootNode.addChild( solarPanelNode );
+        rootNode.addChild( sunNode );
         rootNode.addChild( electricalGeneratorNode );
         rootNode.addChild( beltNode );
         rootNode.addChild( bikerNode );
