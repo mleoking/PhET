@@ -184,8 +184,7 @@ public class Burner extends ModelElement {
         EnergyChunk closestEnergyChunk = null;
         if ( energyChunkList.size() > 0 ) {
             for ( EnergyChunk energyChunk : energyChunkList ) {
-                if ( energyChunk.getExistenceStrength().get() == 1 &&
-                     energyChunk.position.get().distance( position ) > ENERGY_CHUNK_CAPTURE_DISTANCE &&
+                if ( energyChunk.position.get().distance( position ) > ENERGY_CHUNK_CAPTURE_DISTANCE &&
                      ( closestEnergyChunk == null || energyChunk.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) ) {
                     // Found a closer chunk.
                     closestEnergyChunk = energyChunk;
@@ -244,7 +243,7 @@ public class Burner extends ModelElement {
         // almost to the burner).
         if ( energyChunkList.size() > 0 && heatCoolLevel.get() >= 0 ) {
             for ( EnergyChunk energyChunk : energyChunkList ) {
-                if ( energyChunk.getExistenceStrength().get() == 1 && position.distance( energyChunk.position.get() ) > ENERGY_CHUNK_CAPTURE_DISTANCE ) {
+                if ( position.distance( energyChunk.position.get() ) > ENERGY_CHUNK_CAPTURE_DISTANCE ) {
                     count++;
                 }
             }
