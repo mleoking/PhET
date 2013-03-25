@@ -27,8 +27,10 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkNode;
 import edu.colorado.phet.energyformsandchanges.energysystems.view.HeaterCoolerView;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.ElementFollowingThermometer;
@@ -151,10 +153,12 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Add the control for showing/hiding object energy.
         {
+            PNode energyChunkNode = EnergyChunkNode.createEnergyChunkNode( EnergyType.THERMAL );
+            energyChunkNode.setScale( 1.1 );
             PropertyCheckBoxWithIcon showEnergyCheckBox = new PropertyCheckBoxWithIcon( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
                                                                                         EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS,
                                                                                         new PhetFont( 20 ),
-                                                                                        EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK,
+                                                                                        energyChunkNode.toImage(),
                                                                                         model.energyChunksVisible );
             backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );

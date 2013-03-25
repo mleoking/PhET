@@ -1,12 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common.model;
 
+import javafx.beans.property.BooleanPropertyBase;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.energyformsandchanges.intro.model.FadeState;
@@ -24,6 +27,7 @@ public class EnergyChunk {
 
     private static final double FADE_RATE = 1; // Proportion per second.
     private static final int TIMER_DELAY = 30; // In milliseconds.
+    private static final BooleanProperty ALWAYS_VISIBLE = new BooleanProperty( true );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -56,6 +60,10 @@ public class EnergyChunk {
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
+
+    public EnergyChunk( EnergyType initialEnergyType ) {
+        this( initialEnergyType, new Vector2D( 0, 0 ), ALWAYS_VISIBLE );
+    }
 
     public EnergyChunk( EnergyType initialEnergyType, double x, double y, ObservableProperty<Boolean> visibilityControl ) {
         this( initialEnergyType, new Vector2D( x, y ), visibilityControl );

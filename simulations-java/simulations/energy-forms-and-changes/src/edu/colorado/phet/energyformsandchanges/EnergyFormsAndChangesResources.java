@@ -20,6 +20,7 @@ public class EnergyFormsAndChangesResources {
         public static final String CLOUDS = RESOURCES.getLocalizedString( "clouds" );
         public static final String COOL = RESOURCES.getLocalizedString( "cool" );
         public static final String ELECTRICAL = RESOURCES.getLocalizedString( "electrical" );
+        public static final String ENERGY_CHUNK_LABEL = RESOURCES.getLocalizedString( "energyChunkLabel" );
         public static final String ENERGY_SYMBOLS = RESOURCES.getLocalizedString( "energySymbols" );
         public static final String ENERGY_SYSTEMS = RESOURCES.getLocalizedString( "energySystems" );
         public static final String FAST_FORWARD = RESOURCES.getLocalizedString( "fastForward" );
