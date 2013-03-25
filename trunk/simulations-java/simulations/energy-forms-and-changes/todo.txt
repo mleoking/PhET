@@ -4,8 +4,6 @@ Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of t
 Fix performance issues.
 Profile, test on Mac
 
-Internationalize E's (will need blank E's from NP).
-i18n
 Get rid of all unused images
 Update license file
 Credits
@@ -16,6 +14,8 @@ From Noah: Keep the steam the same transparency (if possible) when E's are turne
 Improve steam shape for tea pot (use the algorithm that was used for water)
 
 ------------------- D O N E ------------------------------------------
+i18n
+Internationalize E's (will need blank E's from NP).
 Tool tip is way misplaced.
 Make thermometer jump out of the way if in water and a brick is dropped behind it.
 No snap back on heater for tea pot.
