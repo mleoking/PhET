@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -131,7 +132,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         // Symbol indicator
         SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), false );
         symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, windowSize, symbolNode, true );
-        //PDebug.debugBounds = true;//helps get the layout and bounds correct
         final double insetX = 20;
         symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
         symbolWindow.setOffset( indicatorWindowPosX, 250 );
@@ -164,19 +164,24 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         showStableUnstableCheckBox.setOffset( showNeutralIonCheckBox.getFullBounds().getX(), showNeutralIonCheckBox.getFullBounds().getMaxY() - 5 );
         indicatorLayer.addChild( showStableUnstableCheckBox );
 
-        // "Reset All" button.
-        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
-        resetButtonNode.setConfirmationEnabled( false );
-        double desiredResetButtonWidth = 100;
-        resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
-        indicatorLayer.addChild( resetButtonNode );
+        // "Reset Atom" button. TODO: Keep?  If so, needs i18n.
+        TextButtonNode resetAtomButtonNode = new TextButtonNode( "Reset Atom", new PhetFont( 16 ), new Color( 0, 255, 127 ) );
+        resetAtomButtonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.reset();
+            }
+        } );
+        resetAtomButtonNode.setOffset( chargeWindow.getFullBoundsReference().getMaxX() - resetAtomButtonNode.getFullBoundsReference().width - 20,
+                                       showNameCheckBox.getFullBoundsReference().getY() + 5 );
+        indicatorLayer.addChild( resetAtomButtonNode );
 
-        double maxCheckboxX = Collections.max( Arrays.asList( showNameCheckBox.getFullBoundsReference().getMaxX(),
-                                                              showNeutralIonCheckBox.getFullBoundsReference().getMaxX(),
-                                                              showStableUnstableCheckBox.getFullBoundsReference().getMaxX() ) );
-        resetButtonNode.setOffset(
-                ( maxCheckboxX + ( chargeWindow.getFullBounds().getMaxX() - maxCheckboxX ) / 2 ) - resetButtonNode.getFullBoundsReference().width / 2,
-                showNeutralIonCheckBox.getFullBoundsReference().getCenterY() - resetButtonNode.getFullBoundsReference().height / 2 );
+        // "Reset All" button.
+        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
+        resetAllButtonNode.setConfirmationEnabled( false );
+        indicatorLayer.addChild( resetAllButtonNode );
+
+        resetAllButtonNode.setOffset( resetAtomButtonNode.getFullBoundsReference().getCenterX() - resetAllButtonNode.getFullBoundsReference().width / 2,
+                                   resetAtomButtonNode.getFullBoundsReference().getMaxY() + 20 );
 
         // Add the Selection control for how to view the orbitals
         final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( orbitalViewProperty );
