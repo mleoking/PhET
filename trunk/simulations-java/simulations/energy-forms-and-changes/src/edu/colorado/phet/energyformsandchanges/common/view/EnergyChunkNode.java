@@ -1,13 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common.view;
 
-import java.awt.Image;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
@@ -25,12 +27,12 @@ public class EnergyChunkNode extends PNode {
     private static final double WIDTH = 24; // In screen coords, which is close to pixels.
 
     private static final Map<EnergyType, Image> mapEnergyTypeToImage = new HashMap<EnergyType, Image>() {{
-        put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK );
-        put( EnergyType.ELECTRICAL, EnergyFormsAndChangesResources.Images.E_ELECTRIC_OUTLINE_BLACK );
-        put( EnergyType.MECHANICAL, EnergyFormsAndChangesResources.Images.E_MECH_OUTLINE_BLACK );
-        put( EnergyType.LIGHT, EnergyFormsAndChangesResources.Images.E_LIGHT_OUTLINE_BLACK );
-        put( EnergyType.CHEMICAL, EnergyFormsAndChangesResources.Images.E_CHEM_OUTLINE_BLACK );
-        put( EnergyType.HIDDEN, EnergyFormsAndChangesResources.Images.E_DASHED_OUTLINE_BLACK );
+        put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.E_THERM_BLANK );
+        put( EnergyType.ELECTRICAL, EnergyFormsAndChangesResources.Images.E_ELECTRIC_BLANK );
+        put( EnergyType.MECHANICAL, EnergyFormsAndChangesResources.Images.E_MECH_BLANK );
+        put( EnergyType.LIGHT, EnergyFormsAndChangesResources.Images.E_LIGHT_BLANK );
+        put( EnergyType.CHEMICAL, EnergyFormsAndChangesResources.Images.E_CHEM_BLANK );
+        put( EnergyType.HIDDEN, EnergyFormsAndChangesResources.Images.E_DASHED_BLANK );
     }};
 
     public EnergyChunkNode( final EnergyChunk energyChunk, final ModelViewTransform mvt ) {
@@ -60,12 +62,7 @@ public class EnergyChunkNode extends PNode {
         energyChunk.energyType.addObserver( new VoidFunction1<EnergyType>() {
             public void apply( EnergyType energyType ) {
                 removeAllChildren();
-                Image imageSource;
-                imageSource = mapEnergyTypeToImage.get( energyType );
-                PImage image = new PImage( imageSource );
-                image.setScale( WIDTH / image.getFullBoundsReference().width );
-                image.setOffset( -image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2 );
-                addChild( image );
+                addChild( createEnergyChunkNode( energyType ) );
             }
         } );
 
@@ -87,5 +84,16 @@ public class EnergyChunkNode extends PNode {
         setTransparency( (float) Math.min( existenceStrength, zFadeValue ) );
     }
 
-
+    public static PNode createEnergyChunkNode( EnergyType energyType ){
+        final PImage background = new PImage( mapEnergyTypeToImage.get( energyType ) );
+        background.addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.ENERGY_CHUNK_LABEL, new PhetFont( 16, true ) ) {{
+            setScale( Math.min( background.getFullBoundsReference().width / getFullBoundsReference().width,
+                                background.getFullBoundsReference().height / getFullBoundsReference().height ) );
+            setOffset( background.getFullBoundsReference().width / 2 - getFullBoundsReference().width / 2,
+                       background.getFullBoundsReference().width / 2 - getFullBoundsReference().height / 2 );
+        }} );
+        background.setScale( WIDTH / background.getFullBoundsReference().width );
+        background.setOffset( -background.getFullBoundsReference().width / 2, -background.getFullBoundsReference().height / 2 );
+        return background;
+    }
 }
