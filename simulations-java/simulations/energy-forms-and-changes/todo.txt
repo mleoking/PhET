@@ -4,6 +4,8 @@ Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of t
 Fix performance issues.
 Profile, test on Mac
 
+TODOs and code cleanup
+
 Get rid of all unused images
 Update license file
 Credits
