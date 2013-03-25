@@ -267,6 +267,26 @@ public class Atom implements IDynamicAtom {
         }
     }
 
+    public SphericalParticle getClosestParticle( Vector2D position ){
+        SphericalParticle closestParticle = null;
+        for ( Proton proton : protons ) {
+            if ( closestParticle == null || position.distance( proton.getPosition() ) < position.distance( closestParticle.getPosition() ) ){
+                closestParticle = proton;
+            }
+        }
+        for ( Neutron neutron : neutrons ) {
+            if ( closestParticle == null || position.distance( neutron.getPosition() ) < position.distance( closestParticle.getPosition() ) ){
+                closestParticle = neutron;
+            }
+        }
+        for ( Electron electron : getElectrons() ) {
+            if ( closestParticle == null || position.distance( electron.getPosition() ) < position.distance( closestParticle.getPosition() ) ){
+                closestParticle = electron;
+            }
+        }
+        return closestParticle;
+    }
+
     public void reset() {
         for ( Proton proton : protons ) {
             proton.removeListener( nucleonGrabbedListener );
