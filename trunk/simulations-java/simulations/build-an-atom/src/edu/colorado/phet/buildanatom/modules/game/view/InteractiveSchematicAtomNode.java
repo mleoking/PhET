@@ -112,13 +112,14 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
                     if ( particle != null && particle.getPosition().distance( modelPosition ) < PARTICLE_GRAB_DISTANCE ){
                         controlledParticle = particle;
                         controlledParticle.setUserControlled( true );
+                        controlledParticle.setPositionAndDestination( modelPosition );
                     }
                 }
 
                 @Override public void mouseDragged( PInputEvent event ) {
                     System.out.println("Drag");
                     if ( controlledParticle != null ){
-                        controlledParticle.setPosition( getModelPosition( event.getCanvasPosition() )  );
+                        controlledParticle.setPositionAndDestination( getModelPosition( event.getCanvasPosition() )  );
                     }
                 }
 
@@ -126,6 +127,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
                     System.out.println("Release");
                     if ( controlledParticle != null ){
                         controlledParticle.setUserControlled( false );
+                        controlledParticle = null;
                     }
                 }
             } );
