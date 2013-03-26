@@ -1,3 +1,4 @@
+Temporarily made the tabs larger.  This is for touch prototyping.
 Temporarily made some of the spinner controls larger.  This is for touch prototyping.
 Made it easier to remove particles from the atom.  This was done to better support touch-based environments.
 Added "Reset Atom" button to primary canvas, reverted back to using primary canvas (original layout).
