@@ -18,6 +18,7 @@ import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.ParticleBucketView;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -97,16 +98,17 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
                                                                             center.getY() - radius,
                                                                             radius * 2,
                                                                             radius * 2 ),
-                                                      Color.PINK );
+                                                      new Color( 0, 0, 0, 0 ) ); // Invisible.
             particleGrabHelper.setOffset( electronShellLayer.getOffset() );
             addChild( particleGrabHelper );
             particleGrabHelper.moveInBackOf( electronShellLayer );
 
             particleGrabHelper.addInputEventListener( new PBasicInputEventHandler(){
-                private final double PARTICLE_GRAB_DISTANCE = 20; // In picometers.
+
+                private final double PARTICLE_GRAB_DISTANCE = 20; // In picometers, empirically determined.
                 SphericalParticle controlledParticle = null;
+
                 @Override public void mousePressed( PInputEvent event ) {
-                    System.out.println("Press at " + getModelPosition( event.getCanvasPosition() ));
                     Vector2D modelPosition =  new Vector2D( getModelPosition( event.getCanvasPosition() ) );
                     SphericalParticle particle = atom.getClosestParticle( modelPosition );
                     if ( particle != null && particle.getPosition().distance( modelPosition ) < PARTICLE_GRAB_DISTANCE ){
@@ -117,14 +119,12 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
                 }
 
                 @Override public void mouseDragged( PInputEvent event ) {
-                    System.out.println("Drag");
                     if ( controlledParticle != null ){
-                        controlledParticle.setPositionAndDestination( getModelPosition( event.getCanvasPosition() )  );
+                        controlledParticle.setPositionAndDestination( getModelPosition( event.getCanvasPosition() ) );
                     }
                 }
 
                 @Override public void mouseReleased( PInputEvent event ) {
-                    System.out.println("Release");
                     if ( controlledParticle != null ){
                         controlledParticle.setUserControlled( false );
                         controlledParticle = null;
