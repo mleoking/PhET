@@ -15,9 +15,12 @@ import edu.colorado.phet.buildanatom.modules.buildatom.BuildAnAtomModule;
 import edu.colorado.phet.buildanatom.modules.game.BuildAnAtomGameModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 
 /**
  * The main application for this simulation.
@@ -45,6 +48,10 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         super( config );
         initModules();
         initMenubar();
+
+        // TODO: Temporary for touch prototype.
+        TabbedModulePanePiccolo tabbedModulePane = ( TabbedModulePanePiccolo)getTabbedModulePane();
+        tabbedModulePane.setTabFont( new PhetFont( 30, true ) );
     }
 
     //----------------------------------------------------------------------------
