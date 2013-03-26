@@ -31,9 +31,13 @@ public class InteractiveSymbolNode extends PNode {
 
     private static final Font SYMBOL_FONT = new PhetFont( 90, true );
     private static final Font ELEMENT_NAME_FONT = new PhetFont( 30, false );
-    private static final double WIDTH = 200;
+    // TODO: Changed for touch prototype.
+//    private static final double WIDTH = 200;
+    private static final double WIDTH = 275;
     private static final double SPINNER_EDGE_OFFSET = 5;
-    private static final double SPINNER_HEIGHT = WIDTH * 0.175;
+    // TODO: Changed for touch prototype.
+//    private static final double SPINNER_HEIGHT = WIDTH * 0.175;
+    private static final double SPINNER_HEIGHT = WIDTH * 0.2;
 
     private final Property<Integer> massProperty;
     private final Property<Integer> protonCountProperty;

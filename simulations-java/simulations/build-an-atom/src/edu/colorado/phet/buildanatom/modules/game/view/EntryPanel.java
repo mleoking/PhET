@@ -39,7 +39,9 @@ public class EntryPanel extends PNode {
         label = new HTMLNode( "Dummy Text" ) {{
             setFont( FONT );
         }};
-        double spinnerHeight = label.getFullBoundsReference().getHeight() * 0.9;
+        // TODO: Changed for touch prototype.
+//        double spinnerHeight = label.getFullBoundsReference().getHeight() * 0.9;
+        double spinnerHeight = label.getFullBoundsReference().getHeight() * 2;
         label.setHTML( labelText );
         addChild( label );
 
