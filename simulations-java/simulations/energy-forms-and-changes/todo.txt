@@ -1,10 +1,12 @@
-Tweak values so that ECs go into all objects pretty quickly.  Air too.
+Fix bug: Hot systems never exchange energy with air.  Should do so if not being heated.
 
 Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
 Fix performance issues.
 Profile, test on Mac
 
-TODOs and code cleanup
+Address TODOs
+Run code analyzer and clean up code
+Proofread
 
 Get rid of all unused images
 Update license file
@@ -16,6 +18,7 @@ From Noah: Keep the steam the same transparency (if possible) when E's are turne
 Improve steam shape for tea pot (use the algorithm that was used for water)
 
 ------------------- D O N E ------------------------------------------
+Tweak values so that ECs go into all objects pretty quickly.
 i18n
 Internationalize E's (will need blank E's from NP).
 Tool tip is way misplaced.
