@@ -1,3 +1,4 @@
+Fixed an issue where energy chunks could, in some cases, appear to get stuck on the outside of a container.
 Removed code that was previously used to make energy chunks fade in and out, since it is no longer used.
 Removed a number of images that are no longer used.  This should reduce startup time.
 Fixed a problem where all tool tips associated with the time control panel were popping up in the wrong places.  Did this by disabling tool tips.
