@@ -29,7 +29,7 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 public class EnergyChunkDistributor {
 
 
-    private static final double OUTSIDE_CONTAINER_FORCE = 2.5; // In Newtons, empirically determined.
+    private static final double OUTSIDE_CONTAINER_FORCE = 0.01; // In Newtons, empirically determined.
     private static final Random RAND = new Random( 2 ); // Seeded for greater consistency.
     private static final Vector2D ZERO_VECTOR = new Vector2D( 0, 0 );
 
@@ -177,7 +177,7 @@ public class EnergyChunkDistributor {
                     else {
                         // Point is outside container, move it towards center of shape.
                         Vector2D vectorToCenter = new Vector2D( boundingRect.getCenterX(), boundingRect.getCenterY() ).minus( ec.position.get() );
-                        ec.setVelocity( vectorToCenter.getInstanceOfMagnitude( outsideContainerVelocity ) );
+                        mapEnergyChunkToForceVector.put( ec, vectorToCenter.getInstanceOfMagnitude( OUTSIDE_CONTAINER_FORCE ) );
                     }
                 }
             }
