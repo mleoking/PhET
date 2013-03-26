@@ -125,7 +125,11 @@ public class SchematicAtomNode extends PNode {
         // Add the atom's electron shells to the canvas.  There are three representations that are mutually
         // exclusive - the orbital view, the resizing cloud view, and the fixed-size cloud view.
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
-            electronShellLayer.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, true ) );
+            PNode electronShellNode = new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, true ){{
+                setPickable( false );
+                setChildrenPickable( false );
+            }};
+            electronShellLayer.addChild( electronShellNode );
         }
         electronCloudNode = new ResizingElectronCloudNode( mvt, orbitalViewProperty, atom );
         electronShellLayer.addChild( electronCloudNode );
