@@ -18,7 +18,7 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 public class Brick extends Block {
 
     private static final double SPECIFIC_HEAT = 840; // In J/kg-K, source = design document.
-    private static final double DENSITY = 2000; // In kg/m^3, source = design document.
+    private static final double DENSITY = 3300; // In kg/m^3, source = design document plus some tweaking to keep chunk numbers reasonable.
 
     // Some constants needed for energy chunk mapping.
     public static final double ENERGY_AT_ROOM_TEMPERATURE = Math.pow( SURFACE_WIDTH, 3 ) * DENSITY * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE; // In joules.

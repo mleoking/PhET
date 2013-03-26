@@ -44,7 +44,8 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final double STEAMING_RANGE = 10; // Number of degrees Kelvin over which steam is emitted.
 
     // Constants that control the nature of the fluid in the beaker.
-    private static final double WATER_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
+    private static final double WATER_SPECIFIC_HEAT = 3000; // In J/kg-K.  The real value for water is 4186, but this was adjusted so that there
+                                                            // aren't too many chunks and so that a chunk is needed as soon as heating starts.
     private static final double WATER_DENSITY = 1000.0; // In kg/m^3, source = design document (and common knowledge).
     public static final double INITIAL_FLUID_LEVEL = 0.5;
 

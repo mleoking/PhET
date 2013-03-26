@@ -1,12 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.energyformsandchanges.intro.model.Brick;
 
 /**
@@ -41,19 +40,23 @@ public class EFACConstants {
     // Constant function for energy chunk mapping. The basis for this function
     // is that the brick has 2 energy chunks at room temp, one at the freezing
     // point of water.
-    private static double LOW_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_WATER_FREEZING_TEMPERATURE * 0.95;
-    private static double HIGH_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_ROOM_TEMPERATURE * 1.05;
-    public static final Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
-        private final Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( LOW_ENERGY_FOR_MAP_FUNCTION,
-                                                                                              HIGH_ENERGY_FOR_MAP_FUNCTION,
-                                                                                              1,
-                                                                                              2 );
+    private static double LOW_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_WATER_FREEZING_TEMPERATURE;
+    private static double HIGH_ENERGY_FOR_MAP_FUNCTION = Brick.ENERGY_AT_ROOM_TEMPERATURE;
+    private static double NUM_ENERGY_CHUNKS_IN_BRICK_AT_FREEZING = 1.25;
+    private static double NUM_ENERGY_CHUNKS_IN_BRICK_AT_ROOM_TEMP = 2.4; // Close to rounding to 3 so that little energy needed to transfer a chunk.
+    private static final Function.LinearFunction MAP_ENERGY_TO_NUM_CHUNKS_DOUBLE = new Function.LinearFunction( LOW_ENERGY_FOR_MAP_FUNCTION,
+                                                                                                                HIGH_ENERGY_FOR_MAP_FUNCTION,
+                                                                                                                NUM_ENERGY_CHUNKS_IN_BRICK_AT_FREEZING,
+                                                                                                                NUM_ENERGY_CHUNKS_IN_BRICK_AT_ROOM_TEMP );
+    private static final Function MAP_NUM_CHUNKS_TO_ENERGY_DOUBLE = MAP_ENERGY_TO_NUM_CHUNKS_DOUBLE.createInverse();
 
+    public static final Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
         public Integer apply( Double energy ) {
-            return Math.max( (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) ), 0 );
+            return Math.max( (int) Math.round( MAP_ENERGY_TO_NUM_CHUNKS_DOUBLE.evaluate( energy ) ), 0 );
         }
     };
-    public static final double ENERGY_PER_CHUNK = HIGH_ENERGY_FOR_MAP_FUNCTION - LOW_ENERGY_FOR_MAP_FUNCTION;
+
+    public static final double ENERGY_PER_CHUNK = MAP_NUM_CHUNKS_TO_ENERGY_DOUBLE.evaluate( 2 ) - MAP_NUM_CHUNKS_TO_ENERGY_DOUBLE.evaluate( 1 );
 
     // Threshold for deciding when two temperatures can be considered equal.
     public static final double TEMPERATURES_EQUAL_THRESHOLD = 1E-6; // In Kelvin.
