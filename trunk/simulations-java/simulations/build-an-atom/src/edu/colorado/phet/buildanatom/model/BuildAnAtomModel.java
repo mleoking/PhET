@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.model;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -54,11 +54,21 @@ public class BuildAnAtomModel implements Resettable {
 
     // The buckets which can hold the subatomic particles.
     private final SphereBucket<SphericalParticle> electronBucket = new SphereBucket<SphericalParticle>( ELECTRON_BUCKET_POSITION,
-                                                                                                        BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.9, -Electron.RADIUS / 2 );
+                                                                                                        BUCKET_SIZE, Color.blue,
+                                                                                                        BuildAnAtomStrings.ELECTRONS_NAME,
+                                                                                                        Electron.RADIUS,
+                                                                                                        0.8,
+                                                                                                        -Electron.RADIUS / 2 );
     private final SphereBucket<SphericalParticle> protonBucket = new SphereBucket<SphericalParticle>( PROTON_BUCKET_POSITION,
-                                                                                                      BUCKET_SIZE, PhetColorScheme.RED_COLORBLIND, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
+                                                                                                      BUCKET_SIZE,
+                                                                                                      PhetColorScheme.RED_COLORBLIND,
+                                                                                                      BuildAnAtomStrings.PROTONS_NAME,
+                                                                                                      Proton.RADIUS );
     private final SphereBucket<SphericalParticle> neutronBucket = new SphereBucket<SphericalParticle>( NEUTRON_BUCKET_POSITION,
-                                                                                                       BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
+                                                                                                       BUCKET_SIZE,
+                                                                                                       Color.gray,
+                                                                                                       BuildAnAtomStrings.NEUTRONS_NAME,
+                                                                                                       Neutron.RADIUS );
 
     //----------------------------------------------------------------------------
     // Constructor(s)
