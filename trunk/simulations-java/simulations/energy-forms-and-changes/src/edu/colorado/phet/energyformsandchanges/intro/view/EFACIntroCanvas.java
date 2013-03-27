@@ -154,12 +154,12 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // Add the control for showing/hiding energy chunks.
         {
             PNode energyChunkNode = EnergyChunkNode.createEnergyChunkNode( EnergyType.THERMAL );
-            energyChunkNode.setScale( 1.1 );
+            energyChunkNode.setScale( 1.2 );
             PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
                                                                         EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS,
                                                                         model.energyChunksVisible );
             showEnergyCheckBox.setFont( new PhetFont( 20 ) );
-            PNode hBox = new HBox( new PSwing( showEnergyCheckBox ) {{ setScale( 1.2 ); }}, energyChunkNode );
+            PNode hBox = new HBox( new PSwing( showEnergyCheckBox ) {{ setScale( 1.4 ); }}, energyChunkNode );
             backLayer.addChild( new ControlPanelNode( hBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
             }} );

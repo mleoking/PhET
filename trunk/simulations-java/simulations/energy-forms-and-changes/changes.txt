@@ -1,3 +1,5 @@
+Enlarged check box on 1st tab, changed control panel color.
+Made slight adjustment to font size in energy chunks.
 # 0.00.43 (72628) Mar 27, 2013
 3/27/13 Deploy to dev for review by the design team.
 Made the "Energy Chunks" checkbox larger on the first tab.
