@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * @author John Blanco
  */
 public class Electron extends SphericalParticle {
-    public static final double RADIUS = 5.5;
+    public static final double RADIUS = 4.5;
 
     public Electron( ConstantDtClock clock, double x, double y ) {
         super( RADIUS, x, y, clock );

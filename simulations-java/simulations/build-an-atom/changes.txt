@@ -1,3 +1,4 @@
+Reduced electron diameter by 15%
 # 3.02.06 (72620) Mar 26, 2013
 3/26/13 Publishing version with mods for tablet-based testing
 Temporarily made the tabs larger.  This is for touch prototyping.
