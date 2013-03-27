@@ -83,7 +83,7 @@ public class EnergyChunkNode extends PNode {
             setScale( Math.min( background.getFullBoundsReference().width / getFullBoundsReference().width,
                                 background.getFullBoundsReference().height / getFullBoundsReference().height ) );
             setOffset( background.getFullBoundsReference().width / 2 - getFullBoundsReference().width / 2,
-                       background.getFullBoundsReference().width / 2 - getFullBoundsReference().height / 2 );
+                       background.getFullBoundsReference().height / 2 - getFullBoundsReference().height / 2 );
         }} );
         background.setScale( WIDTH / background.getFullBoundsReference().width );
         background.setOffset( -background.getFullBoundsReference().width / 2, -background.getFullBoundsReference().height / 2 );

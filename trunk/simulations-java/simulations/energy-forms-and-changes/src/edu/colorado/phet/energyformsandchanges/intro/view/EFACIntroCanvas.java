@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -151,16 +151,16 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             backLayer.addChild( resetButton );
         }
 
-        // Add the control for showing/hiding object energy.
+        // Add the control for showing/hiding energy chunks.
         {
             PNode energyChunkNode = EnergyChunkNode.createEnergyChunkNode( EnergyType.THERMAL );
             energyChunkNode.setScale( 1.1 );
-            PropertyCheckBoxWithIcon showEnergyCheckBox = new PropertyCheckBoxWithIcon( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
-                                                                                        EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS,
-                                                                                        new PhetFont( 20 ),
-                                                                                        energyChunkNode.toImage(),
-                                                                                        model.energyChunksVisible );
-            backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
+            PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
+                                                                        EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS,
+                                                                        model.energyChunksVisible );
+            showEnergyCheckBox.setFont( new PhetFont( 20 ) );
+            PNode hBox = new HBox( new PSwing( showEnergyCheckBox ) {{ setScale( 1.2 ); }}, energyChunkNode );
+            backLayer.addChild( new ControlPanelNode( hBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
             }} );
         }
@@ -248,7 +248,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Add the tool box for the thermometers.
         HBox thermometerBox = new HBox();
-        ArrayList<ThermometerToolBoxNode> thermometerToolBoxNodes = new ArrayList<ThermometerToolBoxNode>(  );
+        ArrayList<ThermometerToolBoxNode> thermometerToolBoxNodes = new ArrayList<ThermometerToolBoxNode>();
         for ( MovableThermometerNode movableThermometerNode : movableThermometerNodes ) {
             ThermometerToolBoxNode thermometerToolBoxNode = new ThermometerToolBoxNode( movableThermometerNode, mvt, this );
             thermometerBox.addChild( thermometerToolBoxNode );
@@ -312,10 +312,10 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // blocks can be extracted.
         model.getBeaker().fluidLevel.addObserver( new VoidFunction1<Double>() {
             public void apply( Double fluidLevel ) {
-                if ( fluidLevel != Beaker.INITIAL_FLUID_LEVEL){
+                if ( fluidLevel != Beaker.INITIAL_FLUID_LEVEL ) {
                     beakerGrabLayer.moveInBackOf( blockLayer );
                 }
-                else{
+                else {
                     beakerGrabLayer.moveInFrontOf( blockLayer );
                 }
             }
