@@ -165,7 +165,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         indicatorLayer.addChild( showStableUnstableCheckBox );
 
         // "Reset Atom" button. TODO: Keep?  If so, needs i18n.
-        TextButtonNode resetAtomButtonNode = new TextButtonNode( "Reset Atom", new PhetFont( 16 ), new Color( 0, 255, 127 ) );
+        TextButtonNode resetAtomButtonNode = new TextButtonNode( "Reset Atom", new PhetFont( 19 ), new Color( 0, 255, 127 ) );
         resetAtomButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.reset();
@@ -175,13 +175,13 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
                                        showNameCheckBox.getFullBoundsReference().getY() + 5 );
         indicatorLayer.addChild( resetAtomButtonNode );
 
-        // "Reset All" button.
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
+        // "Reset All" button. TODO: Font size increased from 16 to support touch testing.
+        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( this, this, 19, Color.BLACK, new Color( 255, 153, 0 ) );
         resetAllButtonNode.setConfirmationEnabled( false );
         indicatorLayer.addChild( resetAllButtonNode );
 
         resetAllButtonNode.setOffset( resetAtomButtonNode.getFullBoundsReference().getCenterX() - resetAllButtonNode.getFullBoundsReference().width / 2,
-                                   resetAtomButtonNode.getFullBoundsReference().getMaxY() + 20 );
+                                   resetAtomButtonNode.getFullBoundsReference().getMaxY() + 10 );
 
         // Add the Selection control for how to view the orbitals
         final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( orbitalViewProperty );
