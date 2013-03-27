@@ -81,7 +81,7 @@ public class EnergyChunkNode extends PNode {
         final PImage background = new PImage( mapEnergyTypeToImage.get( energyType ) );
         background.addChild( new PhetPText( EnergyFormsAndChangesResources.Strings.ENERGY_CHUNK_LABEL, new PhetFont( 16, true ) ) {{
             setScale( Math.min( background.getFullBoundsReference().width / getFullBoundsReference().width,
-                                background.getFullBoundsReference().height / getFullBoundsReference().height ) );
+                                background.getFullBoundsReference().height / getFullBoundsReference().height ) * 0.95 );
             setOffset( background.getFullBoundsReference().width / 2 - getFullBoundsReference().width / 2,
                        background.getFullBoundsReference().height / 2 - getFullBoundsReference().height / 2 );
         }} );
