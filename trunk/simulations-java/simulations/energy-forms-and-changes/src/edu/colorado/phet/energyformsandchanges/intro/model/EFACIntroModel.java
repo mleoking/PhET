@@ -48,7 +48,7 @@ public class EFACIntroModel implements ITemperatureModel {
 
     // Threshold of temperature difference between the bodies in a multi-body
     // system below which energy can be exchanged with air.
-    private static final double MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE = 0.5; // In degrees C, empirically determined.
+    private static final double MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE = 2.0; // In degrees K, empirically determined.
 
     // Initial thermometer location, intended to be away from any model objects.
     private static final Vector2D INITIAL_THERMOMETER_LOCATION = new Vector2D( 100, 100 );
