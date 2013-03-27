@@ -1,5 +1,3 @@
-# 0.00.42 (72626) Mar 27, 2013
-3/27/13 Deploying to dev for review by design team
 Made the "Energy Chunks" checkbox larger on the first tab.
 Changed the background color for the control panels on the first tab.
 Adjusted energy chunks mapping algorithms and some of the model object parameters such that all objects will receive an energy chunk after a small amount of heating.
