@@ -1,3 +1,5 @@
+# 3.02.07 (72623) Mar 27, 2013
+3/27/13 Deploying to dev with minor changes in support of tablet-based  interviews
 Increased size of Reset Atom and Reset All buttons by ~20%
 Reduced electron diameter by 15%
 # 3.02.06 (72620) Mar 26, 2013
