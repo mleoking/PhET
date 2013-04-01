@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_fi.xml created Mon Apr 01 13:22:29 EEST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) loka 9, 2012--><SimStrings>
+<string key="duration" value="kesto"/>
+<string key="bump" value="Pulssi"/>
+<string key="radiating-charge.simTitle" value="Säteilevä varaus"/>
+<string key="stopCharge" value="Pysäytä varaus"/>
+<string key="sinusoidal" value="Sinimuotoinen"/>
+<string key="amplitude" value="Amplitudi"/>
+<string key="speedOfLight" value="c"/>
+<string key="noFrictionManual" value="Ei kitkaa"/>
+<string key="frequency" value="Taajuus"/>
+<string key="restart" value="Alusta"/>
+<string key="showVelocity" value="Näytä nopeus"/>
+<string key="speed" value="Nopeus"/>
+<string key="translation.credits" value="Rami Nuotio"/>
+<string key="frictionManual" value="Käsiohjaus"/>
+<string key="linear" value="Lineaarinen"/>
+<string key="paused" value="PYSÄYTETTY"/>
+<string key="reset" value="Alusta"/>
+<string key="circular" value="Ympyräliike"/>
+</SimStrings>
