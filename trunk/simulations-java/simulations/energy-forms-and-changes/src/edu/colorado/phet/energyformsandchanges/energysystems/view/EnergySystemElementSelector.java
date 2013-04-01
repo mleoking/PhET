@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemElement;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemElementCarousel;
 import edu.umd.cs.piccolo.PNode;
@@ -39,6 +40,12 @@ public class EnergySystemElementSelector extends PNode {
                 add( new RadioButtonStripControlPanelNode.Element<Integer>( buttonImageNode, i, carousel.getElement( i ).getUserComponent() ) );
             }
         }};
-        addChild( new RadioButtonStripControlPanelNode<Integer>( carousel.targetIndex, buttonElementList, 5, new Color( 180, 211, 51 ), new BasicStroke( 2f ), new Color( 0, 128, 0 ), 4 ) );
+        addChild( new RadioButtonStripControlPanelNode<Integer>( carousel.targetIndex,
+                                                                 buttonElementList,
+                                                                 5,
+                                                                 EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR,
+                                                                 EFACConstants.CONTROL_PANEL_OUTLINE_STROKE,
+                                                                 EFACConstants.CONTROL_PANEL_OUTLINE_COLOR,
+                                                                 4 ) );
     }
 }

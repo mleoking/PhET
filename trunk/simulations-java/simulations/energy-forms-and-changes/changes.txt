@@ -1,3 +1,5 @@
+Added consistent stroke and black outline color to all control panels.
+Changed to a slightly mellower green for the control panel backgrounds.
 Made each element on the Show Energy control panel be separately scalable, and adjusted the scaling.
 # 0.00.44 (72630) Mar 27, 20134
 3/27/13 Deploy to dev with minor UI changes for review by team.
