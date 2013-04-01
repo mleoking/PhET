@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_fi.xml created Mon Apr 01 12:31:20 EEST 2013 using: friction 2.03.00 (51676), translation-utility 2.14.00 (69024) loka 9, 2012--><SimStrings>
+<string key="rubYellowAtoms" value="Hankaa keltaisia atomeja \nvihreitä vasten."/>
+<string key="physics" value="Fysiikka"/>
+<string key="reset" value="Alusta"/>
+<string key="simTitle" value="Kitka"/>
+<string key="translation.credits" value="Rami Nuotio"/>
+<string key="chemistry" value="Kemia"/>
+</SimStrings>
