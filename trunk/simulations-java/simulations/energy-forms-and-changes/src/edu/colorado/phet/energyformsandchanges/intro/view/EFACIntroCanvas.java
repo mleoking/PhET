@@ -124,7 +124,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                                                               labBenchSurface.getFullBoundsReference().getCenterY(),
                                                               width,
                                                               height );
-            PhetPPath labBenchSide = new PhetPPath( benchSupportShape, new Color( 120, 120, 120 ) );
+            PhetPPath labBenchSide = new PhetPPath( benchSupportShape, EFACConstants.CLOCK_CONTROL_BACKGROUND_COLOR );
             backLayer.addChild( labBenchSide );
             labBenchSide.moveToBack(); // Must be behind bench top.
         }
