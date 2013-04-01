@@ -42,6 +42,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.*;
+
 /**
  * Piccolo canvas for the "Intro" tab of the Energy Forms and Changes
  * simulation.
@@ -82,7 +84,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                 new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.85 ) ),
                 2200 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        setBackground( EFACConstants.FIRST_TAB_BACKGROUND_COLOR );
+        setBackground( FIRST_TAB_BACKGROUND_COLOR );
 
         // Set up a root node for our scene graph.
         final PNode rootNode = new PNode();
@@ -138,7 +140,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             normalSimSpeed.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean normalSimSpeed ) {
                     ConstantDtClock clock = model.getClock();
-                    clock.setDt( normalSimSpeed ? EFACConstants.SIM_TIME_PER_TICK_NORMAL : EFACConstants.SIM_TIME_PER_TICK_FAST_FORWARD );
+                    clock.setDt( normalSimSpeed ? SIM_TIME_PER_TICK_NORMAL : SIM_TIME_PER_TICK_FAST_FORWARD );
                 }
             } );
             backLayer.addChild( clockControl );
@@ -173,7 +175,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                 setChildrenPickable( false );
             }};
             PNode hBox = new HBox( 5, checkBoxNode, label, energyChunkNode );
-            PNode controlPanel = new ControlPanelNode( hBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
+            PNode controlPanel = new ControlPanelNode( hBox, CONTROL_PANEL_BACKGROUND_COLOR, CONTROL_PANEL_OUTLINE_STROKE, CONTROL_PANEL_OUTLINE_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mouseClicked( PInputEvent event ) {
@@ -274,7 +276,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             thermometerBox.addChild( thermometerToolBoxNode );
             thermometerToolBoxNodes.add( thermometerToolBoxNode );
         }
-        thermometerToolBox = new ControlPanelNode( thermometerBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
+        thermometerToolBox = new ControlPanelNode( thermometerBox, CONTROL_PANEL_BACKGROUND_COLOR, CONTROL_PANEL_OUTLINE_STROKE, CONTROL_PANEL_OUTLINE_COLOR );
         thermometerToolBox.setOffset( EDGE_INSET, EDGE_INSET );
         backLayer.addChild( thermometerToolBox );
         for ( ThermometerToolBoxNode thermometerToolBoxNode : thermometerToolBoxNodes ) {

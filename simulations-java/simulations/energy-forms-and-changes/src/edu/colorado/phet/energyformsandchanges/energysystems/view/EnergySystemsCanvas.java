@@ -25,6 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
+import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.*;
 
 /**
  * Piccolo canvas for the "Energy Systems" tab of the Energy Forms and Changes
@@ -65,9 +66,9 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
         ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.475 ) ),
-                EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                ENERGY_SYSTEMS_MVT_SCALE_FACTOR ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        setBackground( EFACConstants.SECOND_TAB_BACKGROUND_COLOR );
+        setBackground( SECOND_TAB_BACKGROUND_COLOR );
 
         //------- Node Creation ----------------------------------------------
 
@@ -91,7 +92,10 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
                                                                     energyChunkVizCheckBoxProperty ) {{
             setFont( new PhetFont( 20 ) );
         }};
-        ControlPanelNode showEnergyControlPanel = new ControlPanelNode( showEnergyCheckBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
+        ControlPanelNode showEnergyControlPanel = new ControlPanelNode( new PSwing( showEnergyCheckBox ),
+                                                                        CONTROL_PANEL_BACKGROUND_COLOR,
+                                                                        CONTROL_PANEL_OUTLINE_STROKE,
+                                                                        CONTROL_PANEL_OUTLINE_COLOR );
 
         // Hook up the check box.  This is done through a local property so
         // that energy chunk pre-loading can be done prior to making ECs visible.
