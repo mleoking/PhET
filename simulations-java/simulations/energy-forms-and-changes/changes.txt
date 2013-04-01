@@ -1,3 +1,5 @@
+# 0.00.45 (72646) Apr 1, 2013
+4/1/13 Publish to dev with UI mods based on recent reviews
 Adjusted size and color of clock control panel on 2nd tab to match 1st tab.
 Added consistent stroke and black outline color to all control panels.
 Changed to a slightly mellower green for the control panel backgrounds.
