@@ -18,8 +18,10 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -151,18 +153,36 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             backLayer.addChild( resetButton );
         }
 
-        // Add the control for showing/hiding energy chunks.
+        // Add the control for showing/hiding energy chunks.  The elements of
+        // this control are created separately to allow each to be independently scaled.
         {
             PNode energyChunkNode = EnergyChunkNode.createEnergyChunkNode( EnergyType.THERMAL );
-            energyChunkNode.setScale( 1.2 );
+            energyChunkNode.setScale( 1.0 );
+            energyChunkNode.setPickable( false );
+            PNode label = new PhetPText( EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS, new PhetFont( 20 ) ){{
+                setPickable( false );
+                setChildrenPickable( false );
+            }};
             PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
-                                                                        EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS,
+                                                                        null,
                                                                         model.energyChunksVisible );
-            showEnergyCheckBox.setFont( new PhetFont( 20 ) );
-            PNode hBox = new HBox( new PSwing( showEnergyCheckBox ) {{ setScale( 1.4 ); }}, energyChunkNode );
-            backLayer.addChild( new ControlPanelNode( hBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
+            showEnergyCheckBox.setFont( new PhetFont( 40 ) );
+            PNode checkBoxNode = new PSwing( showEnergyCheckBox ) {{
+                setScale( 1.5 );
+                setPickable( false );
+                setChildrenPickable( false );
+            }};
+            PNode hBox = new HBox( 5, checkBoxNode, label, energyChunkNode );
+            PNode controlPanel = new ControlPanelNode( hBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
-            }} );
+                addInputEventListener( new PBasicInputEventHandler() {
+                    @Override public void mouseClicked( PInputEvent event ) {
+                        model.energyChunksVisible.set( !model.energyChunksVisible.get() );
+                    }
+                } );
+                addInputEventListener( new CursorHandler(  ) );
+            }};
+            backLayer.addChild( controlPanel );
         }
 
         // Add developer control for printing out energy values.
