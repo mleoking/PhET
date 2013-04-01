@@ -82,7 +82,7 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
 
         // Create the back drop for the clock controls.
         PNode clockControlBackground = new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth() * 2, clockControl.getFullBoundsReference().getHeight() * 20 ), // Tall enough so that users are unlikely to see bottom.
-                                                      Color.LIGHT_GRAY,
+                                                      EFACConstants.CLOCK_CONTROL_BACKGROUND_COLOR,
                                                       new BasicStroke( 1 ),
                                                       Color.BLACK );
 
@@ -168,11 +168,11 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
 
         //------- Node Layout -------------------------------------------------
 
-        // Clock controls
-        clockControlBackground.setOffset( STAGE_SIZE.getWidth() / 2 - clockControlBackground.getFullBoundsReference().getWidth() / 2,
-                                          STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().getHeight() );
+        // Clock controls.  Positions tweaked to match first tab appearance.
         clockControl.setOffset( STAGE_SIZE.getWidth() / 2 - clockControl.getFullBoundsReference().getWidth() / 2,
-                                STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height );
+                                STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height * 0.90  );
+        clockControlBackground.setOffset( STAGE_SIZE.getWidth() / 2 - clockControlBackground.getFullBoundsReference().getWidth() / 2,
+                                          clockControl.getFullBoundsReference().getMinY() + 5 );
 
         // Energy chunk control.
         {

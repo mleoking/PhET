@@ -74,6 +74,7 @@ public class EFACConstants {
     public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 196, 211, 63 );
     public static final BasicStroke CONTROL_PANEL_OUTLINE_STROKE = new BasicStroke( 2 );
     public static final Color CONTROL_PANEL_OUTLINE_COLOR = Color.BLACK;
+    public static final Color CLOCK_CONTROL_BACKGROUND_COLOR = new Color( 120, 120, 120 );
 
     // Model-view transform scale factor for Energy Systems tab.
     public static final double ENERGY_SYSTEMS_MVT_SCALE_FACTOR = 2200;
