@@ -1,4 +1,5 @@
-# 0.00.44 (72630) Mar 27, 2013
+Made each element on the Show Energy control panel be separately scalable, and adjusted the scaling.
+# 0.00.44 (72630) Mar 27, 20134
 3/27/13 Deploy to dev with minor UI changes for review by team.
 Enlarged check box on 1st tab, changed control panel color.
 Made slight adjustment to font size in energy chunks.
