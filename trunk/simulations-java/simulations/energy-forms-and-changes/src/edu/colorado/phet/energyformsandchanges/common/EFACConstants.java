@@ -69,10 +69,17 @@ public class EFACConstants {
     public static final float NOMINAL_WATER_OPACITY = 0.75f;
     public static final Color WATER_COLOR_OPAQUE = new Color( 175, 238, 238 );
     public static final Color WATER_COLOR_IN_BEAKER = new Color( 175, 238, 238, (int) ( Math.round( NOMINAL_WATER_OPACITY * 255 ) ) );
-    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 238, 232, 170 );
+//    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 238, 232, 170 );
+//    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 242, 238, 191 );
+    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 246, 244, 213 );
     public static final Color SECOND_TAB_BACKGROUND_COLOR = FIRST_TAB_BACKGROUND_COLOR;
-    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 196, 211, 63 );
-    public static final BasicStroke CONTROL_PANEL_OUTLINE_STROKE = new BasicStroke( 2 );
+//    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 197, 209, 221 );  // Blue gray. JB not so keen on this.
+//    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 194, 232, 141 ); // Somewhat pale green.  JB kind of likes.
+//    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 180, 211, 51 ); // Darker green. JB things so so.
+//    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 199, 229, 199 ); // Pale gray green.  JB likes.  Maybe too close to water.
+//    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 184, 199, 199 ); //
+    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 198, 210, 201 ); // Lighter blue gray.  JB thinks not bad.
+    public static final BasicStroke CONTROL_PANEL_OUTLINE_STROKE = new BasicStroke( 1.5f );
     public static final Color CONTROL_PANEL_OUTLINE_COLOR = Color.BLACK;
     public static final Color CLOCK_CONTROL_BACKGROUND_COLOR = new Color( 120, 120, 120 );
 
