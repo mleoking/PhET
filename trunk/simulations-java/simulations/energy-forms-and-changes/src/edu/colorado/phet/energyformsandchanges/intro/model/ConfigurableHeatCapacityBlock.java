@@ -18,9 +18,9 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 /**
  * Class that represents a block whose specific heat can be changed.
  * <p/>
- * TODO: This was created for heat capacity lab prototype, and has been removed
- * as of 8/6/2012.  Remove permanently in roughly a month if we are reasonably
- * sure that it is no longer needed.
+ * HCL: This was created for heat capacity lab prototype, and has been removed
+ * as of 8/6/2012.  It was decided in March 2013 to retain this and the other
+ * HCL in the code base in case it is needed again.
  *
  * @author John Blanco
  */
@@ -95,7 +95,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {
-        // TODO: Rather than add a bunch of temporary heat transfer factors,
+        // Rather than add a bunch of temporary heat transfer factors,
         // just use the ones for the brick.  If the configurable block is made
         // permanent, factors for this block may be needed.
         return EnergyContainerCategory.BRICK;

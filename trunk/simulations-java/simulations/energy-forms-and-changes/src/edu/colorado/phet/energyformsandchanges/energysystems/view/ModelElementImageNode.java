@@ -17,7 +17,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class ModelElementImageNode extends PNode {
     public ModelElementImageNode( final ModelElementImage modelElementImage, final ModelViewTransform mvt ) {
         addChild( new PImage( modelElementImage.getImage() ) {{
-            // TODO: Image used as their default size, i.e. no scaling.  Will this work long term?
             double scale = mvt.modelToViewDeltaX( modelElementImage.getWidth() ) / getFullBoundsReference().width;
             if ( scale != 1 ) {
                 setScale( scale );

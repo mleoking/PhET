@@ -58,7 +58,7 @@ public class EFACIntroModel implements ITemperatureModel {
     private static final double BEAKER_WIDTH = 0.085; // In meters.
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 1.1;
 
-    // TODO: Remove this and all related code when performance issues are resolved.
+    // Flag that can be turned on in order to print out some profiling info.
     private static final boolean ENABLE_INTERNAL_PROFILING = false;
 
     // For operations that require random behavior.

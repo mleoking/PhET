@@ -32,17 +32,17 @@ import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * TODO: This node was copied from BlockNode in order to prototype a block that
- * changes color as the heat capacity changes.  This should be either removed
- * or integrated based on the results of the prototyping effort.
+ * This node was copied from BlockNode in order to prototype a block that
+ * changes color as the heat capacity changes.
  * ----------------------------
  * Piccolo node that represents a block in the view.  The blocks in the model
  * are 2D, and this class gives them some perspective in order to make them
  * appear to be 3D.
  * ----------------------------
- * TODO: This was created for heat capacity lab prototype, and has been removed
- * as of 8/6/2012.  Remove permanently in roughly a month if we are reasonably
- * sure that it is no longer needed.
+ * NOTE: This was created for heat capacity lab (HCL) prototype, and has been
+ * removed from active service as of 8/6/2012.  A decision was made in late
+ * March 2013 to leave this in the code in case we ever decide to revive the
+ * HCL simulation.
  *
  * @author John Blanco
  */

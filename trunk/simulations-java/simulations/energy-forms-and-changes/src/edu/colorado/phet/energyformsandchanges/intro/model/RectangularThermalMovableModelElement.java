@@ -376,7 +376,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      * view, but it proved necessary.
      */
     public Shape getProjectedShape() {
-        // TODO: Do I need the internal lines?  Assuming not for now, but this may change.
         // This projects a rectangle, override for other behavior.
         Vector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
         Vector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
