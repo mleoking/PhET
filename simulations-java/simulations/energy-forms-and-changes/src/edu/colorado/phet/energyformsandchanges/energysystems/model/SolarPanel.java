@@ -167,7 +167,6 @@ public class SolarPanel extends EnergyConverter {
         double crossLineLength = lowerLeftOfPanel.distance( upperRightOfPanel );
         double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
         double energySinceLastChunk = EFACConstants.ENERGY_PER_CHUNK * 0.99;
-        boolean firstChunk = true;
 
         // Simulate energy chunks moving through the system.
         boolean preLoadComplete = false;
@@ -177,7 +176,7 @@ public class SolarPanel extends EnergyConverter {
             // Determine if time to add a new chunk.
             if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
                 Vector2D initialPosition;
-                if ( firstChunk ){
+                if ( energyChunkList.size() == 0 ){
                     // For predictability of the algorithm, add the first chunk to the center of the panel.
                     initialPosition = lowerLeftOfPanel.plus( new Vector2D( crossLineLength * 0.5, 0 ).getRotatedInstance( crossLineAngle ) );
                 }
@@ -195,13 +194,13 @@ public class SolarPanel extends EnergyConverter {
                                                                  chooseChunkVelocityOnPanel( newEnergyChunk ) ) );
 
                 // Update energy since last chunk.
-                energySinceLastChunk = energySinceLastChunk - EFACConstants.ENERGY_PER_CHUNK;
+                energySinceLastChunk -= EFACConstants.ENERGY_PER_CHUNK;
             }
 
             moveEnergyChunks( dt );
 
             if ( outgoingEnergyChunks.size() > 0 ) {
-                // An energy chunk has made it all the way through the system, which complete the pre-load.
+                // An energy chunk has made it all the way through the system, which completes the pre-load.
                 preLoadComplete = true;
             }
         }
