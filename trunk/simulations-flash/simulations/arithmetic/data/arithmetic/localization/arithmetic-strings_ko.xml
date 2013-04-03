@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_ko.xml created Fri Jan 14 15:09:08 KST 2011 using: arithmetic 2.02.00 (37294), translation-utility 2.09.00 (44031) 9월 14, 2010-->
-<SimStrings>
+<!--arithmetic-strings_ko.xml created Mon Apr 01 12:05:36 KST 2013 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
 <string key="level" value="수준"/>
 <string key="typeAnswer" value="답을 입력하고, \n엔터키를 누르세요."/>
-<string key="clickToSelect" value=" 정답 사각형을 클릭"/>
+<string key="clickToSelect" value="틀린 사각형을 선택하여 클릭"/>
 <string key="correct" value="맞았습니다!"/>
 <string key="end" value="끝"/>
 <string key="isWrong" value="틀렸습니다!"/>
@@ -22,6 +21,7 @@
 <string key="mustTypeNbr" value="숫자를 입력해야 함"/>
 <string key="score" value="점수:"/>
 <string key="scorePer" value="점수"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
 <string key="nbrWrong" value="오답 수:"/>
 <string key="reset" value="초기화"/>
 <string key="clock" value="시계"/>
