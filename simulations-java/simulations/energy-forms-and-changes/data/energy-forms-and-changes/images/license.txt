@@ -92,6 +92,7 @@ heater_element_dark.png source=PhET author=Noah P
 incandescent_2.png source=PhET author=Noah P
 incandescent_icon.png source=PhET author=Noah P
 incandescent_on_2.png source=PhET author=Noah P
+incandescent_on_3.png source=PhET author=Noah P
 shelf_long.png source=PhET author=Noah P
 solar_panel.png source=PhET author=Noah P
 solar_panel_gen.png source=PhET author=Noah P
