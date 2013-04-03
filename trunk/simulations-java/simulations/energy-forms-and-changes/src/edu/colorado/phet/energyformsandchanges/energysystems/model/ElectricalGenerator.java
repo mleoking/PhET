@@ -52,7 +52,7 @@ public class ElectricalGenerator extends EnergyConverter {
     private static final Vector2D CONNECTOR_OFFSET = new Vector2D( 0.057, -0.04 );
     public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, CONNECTOR_OFFSET ); // Offset empirically determined for optimal look.
     public static final ModelElementImage WIRE_CURVED_IMAGE = new ModelElementImage( WIRE_BLACK_LEFT, new Vector2D( 0.0185, -0.015 ) ); // Offset empirically determined for optimal look.
-    private static final double WHEEL_RADIUS = WHEEL_HUB_IMAGE.getWidth() / 2;
+    public static final double WHEEL_RADIUS = WHEEL_HUB_IMAGE.getWidth() / 2;
 
     // Offsets used to create the paths followed by the energy chunks.
     private static final Vector2D START_OF_WIRE_CURVE_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.01, -0.05 );
