@@ -1,9 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
@@ -14,8 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-
-import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.BOILING_POINT_TEMPERATURE;
 
 /**
  * Class that represents a block in the model.  In the model, a block is two-
@@ -31,20 +27,14 @@ public abstract class Block extends RectangularThermalMovableModelElement {
     // Number of slices where energy chunks may be placed.
     private static final int NUM_ENERGY_CHUNK_SLICES = 4;
 
+    private static final double MAX_TEMPERATURE = 450; // Degrees Kelvin, value is pretty much arbitrary. Whatever works.
+
     // Surfaces used for stacking and thermal interaction.
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
-    private final double MAX_TEMPERATURE = 450; // Degrees Kelvin, value is pretty much arbitrary. Whatever works.
-
-    /**
+    /*
      * Constructor.
-     *
-     * @param clock
-     * @param initialPosition
-     * @param density             In kg/m^3
-     * @param specificHeat        in J/kg-K
-     * @param energyChunksVisible
      */
     protected Block( ConstantDtClock clock, Vector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, SURFACE_WIDTH, SURFACE_WIDTH, Math.pow( SURFACE_WIDTH, 3 ) * density, specificHeat, energyChunksVisible );
@@ -123,7 +113,7 @@ public abstract class Block extends RectangularThermalMovableModelElement {
      * convention for this simulation, the position is the middle of the
      * bottom of the block's defining rectangle.
      *
-     * @return
+     * @return rectangle that defines this item's 2D shape
      */
     public Rectangle2D getRect() {
         return new Rectangle2D.Double( position.get().getX() - SURFACE_WIDTH / 2,
@@ -146,7 +136,7 @@ public abstract class Block extends RectangularThermalMovableModelElement {
      * convention for this simulation, the point (0, 0) is the bottom center
      * of the block.
      *
-     * @return
+     * @return Untranslated essential shape of this block.
      */
     public static Shape getRawShape() {
         return new Rectangle2D.Double( -SURFACE_WIDTH / 2, 0, SURFACE_WIDTH, SURFACE_WIDTH );

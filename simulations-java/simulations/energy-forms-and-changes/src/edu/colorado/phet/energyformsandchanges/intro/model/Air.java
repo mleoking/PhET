@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -58,7 +57,6 @@ public class Air implements ThermalEnergyContainer {
     //-------------------------------------------------------------------------
 
     private double energy = INITIAL_ENERGY;
-    private final ConstantDtClock clock;
     private final BooleanProperty energyChunksVisible;
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
@@ -72,7 +70,6 @@ public class Air implements ThermalEnergyContainer {
      */
     public Air( ConstantDtClock clock, BooleanProperty energyChunksVisible ) {
 
-        this.clock = clock;
         this.energyChunksVisible = energyChunksVisible;
 
         // Hook up to the clock for time dependent behavior.
@@ -131,7 +128,7 @@ public class Air implements ThermalEnergyContainer {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
         if ( thermalContactLength > 0 ) {
             double excessEnergy = energyContainer.getEnergyBeyondMaxTemperature();
-            if ( excessEnergy == 0 ){
+            if ( excessEnergy == 0 ) {
                 // Container is below max temperature, exchange energy normally.
                 double heatTransferConstant = getHeatTransferFactor( this.getEnergyContainerCategory(), energyContainer.getEnergyContainerCategory() );
                 int numFullTimeStepExchanges = (int) Math.floor( dt / MAX_HEAT_EXCHANGE_TIME_STEP );
@@ -143,7 +140,7 @@ public class Air implements ThermalEnergyContainer {
                     changeEnergy( thermalEnergyGained );
                 }
             }
-            else{
+            else {
                 // Item is at max temperature.  Shed all excess energy into the air.
                 energyContainer.changeEnergy( -excessEnergy );
                 changeEnergy( excessEnergy );
