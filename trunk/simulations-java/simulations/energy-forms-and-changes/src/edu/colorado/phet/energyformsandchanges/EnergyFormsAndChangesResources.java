@@ -134,6 +134,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage INCANDESCENT_2 = RESOURCES.getImage( "incandescent_2.png" );
         public static final BufferedImage INCANDESCENT_ICON = RESOURCES.getImage( "incandescent_icon.png" );
         public static final BufferedImage INCANDESCENT_ON_2 = RESOURCES.getImage( "incandescent_on_2.png" );
+        public static final BufferedImage INCANDESCENT_ON_3 = RESOURCES.getImage( "incandescent_on_3.png" );
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
         public static final BufferedImage SOLAR_PANEL = RESOURCES.getImage( "solar_panel.png" );
         public static final BufferedImage SOLAR_PANEL_GEN = RESOURCES.getImage( "solar_panel_gen.png" );
