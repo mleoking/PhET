@@ -97,8 +97,9 @@ public class LightRayNode extends PNode {
     }
 
     private static boolean lineIntersectsShapeIntersects( Vector2D startPoint, Vector2D endPoint, Shape shape ) {
+        // Warning: This only checks the bounding rect, not the full shape.
+        // This was adequate in this case, but take care if reusing.
         if ( shape.getBounds2D().intersectsLine( startPoint.x, startPoint.y, endPoint.x, endPoint.y ) ) {
-            // TODO: This only checks the bounding rect, not the full shape.
             return true;
         }
         else {
