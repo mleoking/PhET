@@ -28,7 +28,7 @@ public class BurnerNode extends PNode {
     public static final double EDGE_TO_HEIGHT_RATIO = 0.2;
 
     // For debug purposes.
-    private static final boolean SHOW_2D_RECT = false;
+    private static final boolean SHOW_2D_RECT = true;
 
     //-------------------------------------------------------------------------
     // Instance Data
