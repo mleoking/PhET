@@ -249,7 +249,6 @@ public class LightBulb extends EnergyUser {
     private boolean goRightNextTime = true;
 
     private List<Vector2D> createThermalEnergyChunkPath( final Vector2D startingPoint ) {
-        // TODO: Make some things constants, refine, clean up, and all that.
         final double filamentWidth = 0.03;
         return new ArrayList<Vector2D>() {{
             add( startingPoint.plus( new Vector2D( ( 0.5 + RAND.nextDouble() / 2 ) * filamentWidth / 2 * ( goRightNextTime ? 1 : -1 ), 0 ) ) );

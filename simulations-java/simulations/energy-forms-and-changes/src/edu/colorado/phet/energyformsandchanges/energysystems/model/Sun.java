@@ -52,8 +52,6 @@ public class Sun extends EnergySource {
     // set so that they appear between the sun and the solar panel, and must
     // not overlap with one another.
     public final List<Cloud> clouds = new ArrayList<Cloud>() {{
-//        add( new Cloud( new Vector2D( 0.01, 0.12 ) ) );  // TODO: For testing, immediately to right of sun.
-//        add( new Cloud( new Vector2D( -0.04, 0.07 ) ) );   // TODO: For testing, immediately below the sun.
         add( new Cloud( new Vector2D( 0.02, 0.105 ), getObservablePosition() ) );
         add( new Cloud( new Vector2D( 0.017, 0.0875 ), getObservablePosition() ) );
         add( new Cloud( new Vector2D( -0.01, 0.08 ), getObservablePosition() ) );
