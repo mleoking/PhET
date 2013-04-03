@@ -284,9 +284,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         }
 
         // Add the control for setting the specific heat of the configurable block.
-        // TODO: This was for heat capacity lab prototype, and has been removed
-        // as of 8/6/2012.  Remove permanently in roughly a month if we are
-        // reasonably sure that it is no longer needed.
+        // HCL: This was for heat capacity lab prototype, and has been removed
+        // as of 8/6/2012.  It is being left in the code in case the HCL sim is
+        // revived.
 //        PNode heatCapacityControlPanel;
 //        {
 //            HSliderNode heatCapacitySlider = new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,

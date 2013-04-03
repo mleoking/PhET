@@ -46,7 +46,7 @@ public class Air implements ThermalEnergyContainer {
     // Constants that define the heat carrying capacity of the air.
     private static final double SPECIFIC_HEAT = 1012; // In J/kg-K, source = design document.
     //    private static final double DENSITY = 0.001; // In kg/m^3, source = design document (and common knowledge).
-    private static final double DENSITY = 10; // In kg/m^3, TODO tweaked version of this value for experimenting.
+    private static final double DENSITY = 10; // In kg/m^3, far more dense than real air, done to make things cool faster.
 
     // Derived constants.
     private static final double VOLUME = SIZE.getWidth() * SIZE.getHeight() * DEPTH;

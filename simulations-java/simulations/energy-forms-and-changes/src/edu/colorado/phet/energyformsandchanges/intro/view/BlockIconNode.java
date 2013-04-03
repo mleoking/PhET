@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * TODO: Created for the HCL prototype, clean up and document if kept.
+ * Created for the Heat Capacity Lab (HCL) prototype, clean up and document if kept.
  *
  * @author John Blanco
  */
