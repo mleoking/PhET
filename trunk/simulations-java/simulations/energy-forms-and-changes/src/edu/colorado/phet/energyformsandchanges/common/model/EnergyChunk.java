@@ -29,7 +29,6 @@ public class EnergyChunk {
     public final Property<Vector2D> position;
     public final Property<Double> zPosition = new Property<Double>( 0.0 ); // Used for some simple 3D layering effects.
 
-    // TODO: Note to self - I (jblanco) was not sure if having a velocity here made sense, since in many cases it is not used to position the chunk.  Decide eventually if it's better to keep this externally (in a map or something).
     // Velocity.  At the time of this writing, this is only used in the
     // algorithms that distribute energy chunks in a container.
     private Vector2D velocity = new Vector2D( 0, 0 ); // In meters/sec.

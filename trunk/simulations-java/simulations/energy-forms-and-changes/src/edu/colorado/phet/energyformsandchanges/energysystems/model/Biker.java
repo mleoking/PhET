@@ -328,7 +328,8 @@ public class Biker extends EnergySource {
 
     @Override public void activate() {
         super.activate();
-        // TODO: Don't really want to replenish every time, I don't think.
+        // Note: The biker is replenished each time she is reactivated.  This
+        // was a fairly arbitrary decision, and can be changed if desired.
         replenishEnergyChunks();
     }
 
