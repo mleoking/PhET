@@ -151,10 +151,10 @@ public class Carousel<T extends PositionableFadableModelElement> {
     }
 
     private void updateManagedElementOpacities() {
-        for ( int i = 0; i < managedElements.size(); i++ ) {
-            double distanceFromSelectionPosition = managedElements.get( i ).getPosition().distance( selectedElementPosition );
+        for ( T managedElement : managedElements ) {
+            double distanceFromSelectionPosition = managedElement.getPosition().distance( selectedElementPosition );
             double opacity = MathUtil.clamp( 0, 1 - ( distanceFromSelectionPosition / offsetBetweenElements.magnitude() ), 1 );
-            managedElements.get( i ).opacity.set( opacity );
+            managedElement.opacity.set( opacity );
         }
     }
 

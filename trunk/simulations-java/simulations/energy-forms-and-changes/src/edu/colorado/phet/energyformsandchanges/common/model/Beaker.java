@@ -281,7 +281,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
             }
         }
 
-        if ( densestSlice.energyChunkList.size() == 0 ) {
+        if ( densestSlice == null || densestSlice.energyChunkList.size() == 0 ) {
             System.out.println( getClass().getName() + " - Warning: No energy chunks in the beaker, can't extract any." );
             return null;
         }

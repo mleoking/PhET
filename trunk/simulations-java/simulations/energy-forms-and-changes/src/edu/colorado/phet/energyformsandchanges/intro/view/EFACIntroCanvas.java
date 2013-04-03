@@ -253,7 +253,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         beakerGrabLayer.addChild( beakerView.getGrabNode() );
 
         // Add the thermometer nodes.
-        ArrayList<MovableThermometerNode> movableThermometerNodes = new ArrayList();
+        ArrayList<MovableThermometerNode> movableThermometerNodes = new ArrayList<MovableThermometerNode>();
         for ( final ElementFollowingThermometer thermometer : model.thermometers ) {
             final MovableThermometerNode thermometerNode = new MovableThermometerNode( thermometer, mvt );
             thermometerLayer.addChild( thermometerNode );

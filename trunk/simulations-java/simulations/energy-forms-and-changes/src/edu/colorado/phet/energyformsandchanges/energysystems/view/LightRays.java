@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class LightRays extends PNode {
 
-    private static boolean SHOW_RAY_BLOCKING_SHAPES = false;
+    private static final boolean SHOW_RAY_BLOCKING_SHAPES = false; // For debug.
 
     private final List<LightRayNode> lightRayNodes = new ArrayList<LightRayNode>();
 

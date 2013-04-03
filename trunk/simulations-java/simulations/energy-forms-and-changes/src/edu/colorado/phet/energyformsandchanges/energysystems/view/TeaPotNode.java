@@ -38,9 +38,9 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class TeaPotNode extends PositionableFadableModelElementNode {
 
-    private double BURNER_WIDTH = 125; // Empirically determined.
-    private double BURNER_HEIGHT = BURNER_WIDTH * 0.75;
-    private double BURNER_OPENING_WIDTH = BURNER_WIDTH * 0.1;
+    private static final double BURNER_WIDTH = 125; // Empirically determined.
+    private static final double BURNER_HEIGHT = BURNER_WIDTH * 0.75;
+    private static final double BURNER_OPENING_WIDTH = BURNER_WIDTH * 0.1;
 
     public TeaPotNode( TeaPot teaPot, IClock clock, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( teaPot, mvt );
