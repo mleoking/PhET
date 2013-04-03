@@ -1,3 +1,4 @@
+Updated colors for control panels and background.
 Added some compensation for perspective of the burner stand to prevent being able to drop a block or beaker so that the stand and object overlap.
 Integrated new light bulb image that doesn't interfere with E's that are moving up to the filament.
 # 0.00.45 (72646) Apr 1, 2013
