@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BeltNode extends PNode {
 
-    private static final Stroke BELT_STROKE = new BasicStroke( 5 );
+    private static final Stroke BELT_STROKE = new BasicStroke( 5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND );
     private static final Color BELT_COLOR = Color.BLACK;
 
     public BeltNode( Belt belt, final ModelViewTransform mvt ) {

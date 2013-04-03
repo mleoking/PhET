@@ -64,8 +64,7 @@ public class EnergySystemsModel implements Resettable {
     public final BeakerHeater beakerHeater = new BeakerHeater( clock, energyChunksVisible );
 
     // Items that span between energy system elements.
-    // TODO: Need to make position based on the model elements instead of just hard coded.
-    public final Belt belt = new Belt( 0.02, new Vector2D( -0.115, -0.01 ), 0.04, new Vector2D( -0.025, 0.03 ) );
+    public final Belt belt;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -88,6 +87,14 @@ public class EnergySystemsModel implements Resettable {
         energyUsersCarousel.add( beakerHeater );
         energyUsersCarousel.add( incandescentLightBulb );
         energyUsersCarousel.add( fluorescentLightBulb );
+
+        // Create the belt that interconnects the biker and the generator.
+        // Some position tweaking was needed in order to get this to show up
+        // in the right place.  Not entirely sure why.
+        belt = new Belt( Biker.REAR_WHEEL_RADIUS,
+                         energySourcesCarousel.getSelectedElementPosition().plus( Biker.CENTER_OF_BACK_WHEEL_OFFSET ).plus( 0.005, 0 ),
+                         ElectricalGenerator.WHEEL_RADIUS,
+                         energyConvertersCarousel.getSelectedElementPosition().plus( ElectricalGenerator.WHEEL_CENTER_OFFSET ) );
 
         // Add the functionality to show/hide the belt that interconnects the
         // biker and the generator.

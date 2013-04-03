@@ -40,6 +40,7 @@ public class Biker extends EnergySource {
     private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
     private static final Random RAND = new Random();
     public static final int MECHANICAL_TO_THERMAL_CHUNK_RATIO = 5;
+    public static final double REAR_WHEEL_RADIUS = 0.02; // In meters, must be worked out with the image.
 
     // Offset of the bike frame center.  Most other image offsets are relative
     // to this one.
@@ -118,7 +119,7 @@ public class Biker extends EnergySource {
     private static final Vector2D BIKER_BUTTOCKS_OFFSET = new Vector2D( 0.02, 0.04 );
     private static final Vector2D TOP_TUBE_ABOVE_CRANK_OFFSET = new Vector2D( 0.007, 0.015 );
     private static final Vector2D BIKE_CRANK_OFFSET = new Vector2D( 0.0052, -0.006 );
-    private static final Vector2D CENTER_OF_BACK_WHEEL_OFFSET = new Vector2D( 0.03, -0.01 );
+    public static final Vector2D CENTER_OF_BACK_WHEEL_OFFSET = new Vector2D( 0.03, -0.01 );
     private static final Vector2D BOTTOM_OF_BACK_WHEEL_OFFSET = new Vector2D( 0.03, -0.03 );
     private static final Vector2D NEXT_ENERGY_SYSTEM_OFFSET = new Vector2D( 0.13, -0.01 );
 

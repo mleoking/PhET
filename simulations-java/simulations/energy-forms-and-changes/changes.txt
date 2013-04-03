@@ -1,3 +1,4 @@
+Made the belt be based on model element position instead of hard coded number, fixed a minor appearance issue with the belt.
 Updated colors for control panels and background.
 Added some compensation for perspective of the burner stand to prevent being able to drop a block or beaker so that the stand and object overlap.
 Integrated new light bulb image that doesn't interfere with E's that are moving up to the filament.
