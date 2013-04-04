@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class ThermalElementDragHandler extends RelativeDragHandler {
 
-    private UserMovableModelElement modelElement;
+    private final UserMovableModelElement modelElement;
 
     /**
      * Constructor.  The node must be property positioned before calling

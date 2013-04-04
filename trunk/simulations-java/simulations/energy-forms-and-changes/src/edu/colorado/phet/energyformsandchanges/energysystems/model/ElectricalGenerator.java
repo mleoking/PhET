@@ -45,7 +45,7 @@ public class ElectricalGenerator extends EnergyConverter {
     // Images used to represent this model element in the view.
     public static final ModelElementImage HOUSING_IMAGE = new ModelElementImage( GENERATOR, new Vector2D( 0, 0 ) );
     public static final Vector2D WHEEL_CENTER_OFFSET = new Vector2D( 0, 0.03 );
-    public static final Vector2D LEFT_SIDE_OF_WHEEL_OFFSET = new Vector2D( -0.030, 0.03 );
+    private static final Vector2D LEFT_SIDE_OF_WHEEL_OFFSET = new Vector2D( -0.030, 0.03 );
     public static final ModelElementImage WHEEL_PADDLES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_PADDLES_SHORT, WHEEL_CENTER_OFFSET );
     public static final ModelElementImage WHEEL_HUB_IMAGE = new ModelElementImage( GENERATOR_WHEEL_HUB_2, WHEEL_CENTER_OFFSET );
     public static final ModelElementImage SHORT_SPOKES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_SPOKES, WHEEL_CENTER_OFFSET );
@@ -64,23 +64,23 @@ public class ElectricalGenerator extends EnergyConverter {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private Property<Double> wheelRotationalAngle = new Property<Double>( 0.0 ); // In radians.
+    private final Property<Double> wheelRotationalAngle = new Property<Double>( 0.0 ); // In radians.
     private double wheelRotationalVelocity = 0; // In radians/s.
-    private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    private ObservableProperty<Boolean> energyChunkVisibilityControl;
+    private final List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final ObservableProperty<Boolean> energyChunkVisibilityControl;
 
     // Flag that controls "direct coupling mode", which means that the
     // generator wheel turns at a rate that is directly proportionate to the
     // incoming energy, with no rotational inertia.
-    public BooleanProperty directCouplingMode = new BooleanProperty( false );
+    public final BooleanProperty directCouplingMode = new BooleanProperty( false );
 
     // The electrical energy chunks are kept on a separate list to support
     // placing them on a different layer in the view.
-    public ObservableList<EnergyChunk> electricalEnergyChunks = new ObservableList<EnergyChunk>();
+    public final ObservableList<EnergyChunk> electricalEnergyChunks = new ObservableList<EnergyChunk>();
 
     // The "hidden" energy chunks are kept on a separate list mainly for
     // code clarity.
-    public ObservableList<EnergyChunk> hiddenEnergyChunks = new ObservableList<EnergyChunk>();
+    public final ObservableList<EnergyChunk> hiddenEnergyChunks = new ObservableList<EnergyChunk>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)

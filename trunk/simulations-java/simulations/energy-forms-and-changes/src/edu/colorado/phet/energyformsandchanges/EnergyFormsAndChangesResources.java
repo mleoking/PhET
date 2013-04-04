@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 public class EnergyFormsAndChangesResources {
     public static final String PROJECT_NAME = "energy-forms-and-changes";
-    public static final PhetResources RESOURCES = new PhetResources( PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( PROJECT_NAME );
 
     //Strings
     public static class Strings {

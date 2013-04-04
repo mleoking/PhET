@@ -15,7 +15,7 @@ import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
  */
 public class ElementFollowingThermometer extends Thermometer {
 
-    private ElementFollower elementFollower = new ElementFollower( this.position );
+    private final ElementFollower elementFollower = new ElementFollower( this.position );
 
     public ElementFollowingThermometer( final EFACIntroModel model, Vector2D initialPosition, boolean initiallyActive ) {
         super( model.getClock(), model, initialPosition, initiallyActive );

@@ -36,7 +36,7 @@ public abstract class UserMovableModelElement extends ModelElement {
     /**
      * Constructor.
      */
-    public UserMovableModelElement( Vector2D initialPosition ) {
+    protected UserMovableModelElement( Vector2D initialPosition ) {
         position = new Property<Vector2D>( initialPosition );
         userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {

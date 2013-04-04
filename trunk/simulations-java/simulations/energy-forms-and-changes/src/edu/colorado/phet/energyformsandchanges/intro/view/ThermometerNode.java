@@ -45,11 +45,11 @@ public class ThermometerNode extends PComposite {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    protected final Function.LinearFunction liquidHeightMapFunction;
-    protected final PPath triangle;
-    protected final double liquidShaftWidth;
-    protected PPath liquidShaft;
-    protected final Point2D centerOfBulb;
+    private final Function.LinearFunction liquidHeightMapFunction;
+    private final PPath triangle;
+    private final double liquidShaftWidth;
+    private final PPath liquidShaft;
+    private final Point2D centerOfBulb;
     protected final Dimension2D triangleTipOffset;
 
     //-------------------------------------------------------------------------

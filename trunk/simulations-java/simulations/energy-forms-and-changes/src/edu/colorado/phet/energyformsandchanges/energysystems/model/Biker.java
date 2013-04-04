@@ -39,7 +39,7 @@ public class Biker extends EnergySource {
     private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
     private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
     private static final Random RAND = new Random();
-    public static final int MECHANICAL_TO_THERMAL_CHUNK_RATIO = 5;
+    private static final int MECHANICAL_TO_THERMAL_CHUNK_RATIO = 5;
     public static final double REAR_WHEEL_RADIUS = 0.02; // In meters, must be worked out with the image.
 
     // Offset of the bike frame center.  Most other image offsets are relative
@@ -127,17 +127,17 @@ public class Biker extends EnergySource {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private Property<Double> crankAngle = new Property<Double>( 0.0 ); // In radians.
-    private Property<Double> rearWheelAngle = new Property<Double>( 0.0 ); // In radians.
+    private final Property<Double> crankAngle = new Property<Double>( 0.0 ); // In radians.
+    private final Property<Double> rearWheelAngle = new Property<Double>( 0.0 ); // In radians.
     private double crankAngularVelocity = 0; // In radians/s.
     private final ObservableProperty<Boolean> energyChunksVisible;
-    private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private double energyProducedSinceLastChunkEmitted = EFACConstants.ENERGY_PER_CHUNK * 0.9;
     private int mechanicalChunksSinceLastThermal = 0;
-    public BooleanProperty bikerHasEnergy = new BooleanProperty( true );
+    public final BooleanProperty bikerHasEnergy = new BooleanProperty( true );
 
     // Property through which the target pedaling rate is set.
-    public Property<Double> targetCrankAngularVelocity = new Property<Double>( 0.0 ); // In radians/sec
+    public final Property<Double> targetCrankAngularVelocity = new Property<Double>( 0.0 ); // In radians/sec
 
     private final ObservableProperty<Boolean> mechanicalPoweredSystemIsNext;
 

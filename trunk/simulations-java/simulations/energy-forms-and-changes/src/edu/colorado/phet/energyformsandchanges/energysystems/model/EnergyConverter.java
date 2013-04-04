@@ -16,8 +16,8 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
  */
 public abstract class EnergyConverter extends EnergySystemElement {
 
-    protected List<EnergyChunk> incomingEnergyChunks = new ArrayList<EnergyChunk>();
-    protected List<EnergyChunk> outgoingEnergyChunks = new ArrayList<EnergyChunk>();
+    protected final List<EnergyChunk> incomingEnergyChunks = new ArrayList<EnergyChunk>();
+    protected final List<EnergyChunk> outgoingEnergyChunks = new ArrayList<EnergyChunk>();
 
     protected EnergyConverter( Image iconImage ) {
         super( iconImage );

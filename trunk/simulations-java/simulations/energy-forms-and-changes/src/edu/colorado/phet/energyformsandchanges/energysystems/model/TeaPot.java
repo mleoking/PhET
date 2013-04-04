@@ -32,7 +32,7 @@ public class TeaPot extends EnergySource {
     //-------------------------------------------------------------------------
 
     // Images used in representing this energy system element in the view.
-    public static final Vector2D TEAPOT_OFFSET = new Vector2D( 0.0, 0.015 );
+    private static final Vector2D TEAPOT_OFFSET = new Vector2D( 0.0, 0.015 );
     public static final ModelElementImage TEAPOT_IMAGE = new ModelElementImage( TEAPOT_LARGE, TEAPOT_OFFSET );
 
     // Offsets and other constants used for energy paths.  These are mostly
@@ -57,15 +57,15 @@ public class TeaPot extends EnergySource {
     //-------------------------------------------------------------------------
 
     public final Property<Double> heatCoolAmount = new Property<Double>( 0.0 );
-    private Property<Double> energyProductionRate = new Property<Double>( 0.0 );
+    private final Property<Double> energyProductionRate = new Property<Double>( 0.0 );
     private double heatEnergyProducedSinceLastChunk = ENERGY_PER_CHUNK / 2;
-    private ObservableProperty<Boolean> energyChunksVisible;
-    private ObservableProperty<Boolean> steamPowerableElementInPlace;
-    private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final ObservableProperty<Boolean> energyChunksVisible;
+    private final ObservableProperty<Boolean> steamPowerableElementInPlace;
+    private final List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
 
     // List of chunks that are not being transferred to the next energy system
     // element.
-    public final List<EnergyChunk> exemptFromTransferEnergyChunks = new ArrayList<EnergyChunk>();
+    private final List<EnergyChunk> exemptFromTransferEnergyChunks = new ArrayList<EnergyChunk>();
 
     // Flag for whether next chunk should be transferred or kept, used to
     // alternate transfer with non-transfer.

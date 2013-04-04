@@ -63,9 +63,9 @@ public class LightBulb extends EnergyUser {
 
     private final IUserComponent userComponent;
     public final Property<Double> litProportion = new Property<Double>( 0.0 );
-    private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    private List<EnergyChunkPathMover> filamentEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
-    private List<EnergyChunkPathMover> radiatedEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final List<EnergyChunkPathMover> filamentEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final List<EnergyChunkPathMover> radiatedEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private final boolean hasFilament;
     private final ObservableProperty<Boolean> energyChunksVisible;
     private final double proportionOfThermalChunksRadiated;

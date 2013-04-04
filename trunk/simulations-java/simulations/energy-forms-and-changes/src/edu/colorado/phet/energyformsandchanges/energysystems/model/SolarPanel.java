@@ -39,11 +39,11 @@ public class SolarPanel extends EnergyConverter {
     private static final Random RAND = new Random();
     private static final Vector2D SOLAR_PANEL_OFFSET = new Vector2D( 0, 0.044 );
     public static final ModelElementImage SOLAR_PANEL_IMAGE = new ModelElementImage( SOLAR_PANEL, 0.15, SOLAR_PANEL_OFFSET );
-    public static final Vector2D CONVERTER_IMAGE_OFFSET = new Vector2D( 0.015, -0.040 );
+    private static final Vector2D CONVERTER_IMAGE_OFFSET = new Vector2D( 0.015, -0.040 );
     public static final ModelElementImage CONVERTER_IMAGE = new ModelElementImage( SOLAR_PANEL_GEN, CONVERTER_IMAGE_OFFSET );
     public static final ModelElementImage CURVED_WIRE_IMAGE = new ModelElementImage( WIRE_BLACK_LEFT, CONVERTER_IMAGE_OFFSET.plus( 0.009, 0.024 ) );
     public static final ModelElementImage POST_IMAGE = new ModelElementImage( SOLAR_PANEL_POST_2, CONVERTER_IMAGE_OFFSET.plus( new Vector2D( 0, 0.04 ) ) );
-    public static final Vector2D CONNECTOR_IMAGE_OFFSET = new Vector2D( 0.057, -0.04 );
+    private static final Vector2D CONNECTOR_IMAGE_OFFSET = new Vector2D( 0.057, -0.04 );
     public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, CONNECTOR_IMAGE_OFFSET );
     private static final Rectangle2D PANEL_IMAGE_BOUNDS = new Rectangle2D.Double( -SOLAR_PANEL_IMAGE.getWidth() / 2,
                                                                                   -SOLAR_PANEL_IMAGE.getHeight() / 2,
@@ -77,11 +77,11 @@ public class SolarPanel extends EnergyConverter {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private final IClock simulationClock;
     private double latestChunkArrivalTime = 0; // Used to prevent clumping of chunks.
     private double energyOutputRate = 0;
-    private ObservableProperty<Boolean> energyChunkVisibility;
+    private final ObservableProperty<Boolean> energyChunkVisibility;
 
     //-------------------------------------------------------------------------
     // Constructor(s)

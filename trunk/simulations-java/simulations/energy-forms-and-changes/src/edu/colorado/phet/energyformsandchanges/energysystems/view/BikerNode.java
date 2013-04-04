@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BikerNode extends PositionableFadableModelElementNode {
 
-    protected final ButtonNode feedMeButton;
+    private final ButtonNode feedMeButton;
 
     public BikerNode( final Biker biker, final ModelViewTransform mvt ) {
         super( biker, mvt );

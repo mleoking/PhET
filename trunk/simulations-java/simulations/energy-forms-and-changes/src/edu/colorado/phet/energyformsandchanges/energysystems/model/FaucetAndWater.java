@@ -56,7 +56,7 @@ public class FaucetAndWater extends EnergySource {
 
     // List of chunks that are not being transferred to the next energy system
     // element.
-    public final List<EnergyChunk> exemptFromTransferEnergyChunks = new ArrayList<EnergyChunk>();
+    private final List<EnergyChunk> exemptFromTransferEnergyChunks = new ArrayList<EnergyChunk>();
 
     private double energySinceLastChunk = 0;
     private final BooleanProperty energyChunksVisible;
