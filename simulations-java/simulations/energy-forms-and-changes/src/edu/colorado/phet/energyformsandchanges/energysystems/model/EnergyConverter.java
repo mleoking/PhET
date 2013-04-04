@@ -51,7 +51,7 @@ public abstract class EnergyConverter extends EnergySystemElement {
      * injected, it is the system's responsibility to move, convert, and
      * otherwise manage them.
      *
-     * @param energyChunks
+     * @param energyChunks List of energy chunks to inject.
      */
     public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
         incomingEnergyChunks.addAll( energyChunks );

@@ -123,7 +123,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      * positioned already inside, in which case it is immediately added to one
      * of the energy chunk "slices".
      *
-     * @param ec
+     * @param ec Energy chunk to add.
      */
     public void addEnergyChunk( EnergyChunk ec ) {
         if ( getSliceBounds().contains( ec.position.get().toPoint2D() ) ) {
@@ -209,7 +209,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
                 double compensatedDistance = compensatedEcPosition.distance( point );
                 if ( compensatedDistance < closestCompensatedDistance ) {
                     closestEnergyChunk = ec;
-                    closestCompensatedDistance = compensatedDistance;
                 }
             }
         }
@@ -381,10 +380,5 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      */
     public int getEnergyChunkBalance() {
         return getNumEnergyChunks() - EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
-    }
-
-    public int getSystemEnergyChunkBalance() {
-        // Override if the element can contain other elements.
-        return getEnergyChunkBalance();
     }
 }

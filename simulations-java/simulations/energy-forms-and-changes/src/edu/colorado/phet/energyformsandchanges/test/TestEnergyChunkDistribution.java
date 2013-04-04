@@ -39,10 +39,8 @@ public class TestEnergyChunkDistribution {
     private static final int NUM_ENERGY_CHUNKS = 50;
     private static final double CONTAINER_WIDTH = 0.05; // In meters.
 
-    /**
+    /*
      * Main routine that constructs a PhET Piccolo canvas in a window.
-     *
-     * @param args
      */
     public static void main( String[] args ) {
 

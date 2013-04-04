@@ -51,10 +51,8 @@ public class ModelElement {
         return supportingSurface;
     }
 
-    /**
+    /*
      * Set the surface upon which this model element is resting.
-     *
-     * @param surfaceProperty
      */
     public void setSupportingSurface( Property<HorizontalSurface> surfaceProperty ) {
         supportingSurface = surfaceProperty;
@@ -64,22 +62,12 @@ public class ModelElement {
      * Get a value that indicates whether this element is stacked upon the
      * given model element.
      *
-     * @param element
+     * @param element Model element to be checked.
      * @return true if the given element is stacked anywhere on top of this
      *         one, which includes cases where one or more elements are in between.
      */
     public boolean isStackedUpon( ModelElement element ) {
-        if ( getSupportingSurface() == null ) {
-            // Not stacked on anything at all.
-            return false;
-        }
-        else if ( getSupportingSurface().get().getOwner() == element ) {
-            return true;
-        }
-        else {
-            // Recurse to the next level.
-            return getSupportingSurface().get().getOwner().isStackedUpon( element );
-        }
+        return getSupportingSurface() != null && ( getSupportingSurface().get().getOwner() == element || getSupportingSurface().get().getOwner().isStackedUpon( element ) );
     }
 
     /**

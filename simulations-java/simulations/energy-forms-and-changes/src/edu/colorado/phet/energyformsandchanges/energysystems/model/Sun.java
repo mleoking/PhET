@@ -112,7 +112,6 @@ public class Sun extends EnergySource {
 
     @Override public Energy stepInTime( double dt ) {
 
-        Vector2D sunPosition = getPosition().plus( OFFSET_TO_CENTER_OF_SUN );
         double energyProduced = 0;
 
         if ( isActive() ) {
