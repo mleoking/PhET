@@ -43,10 +43,6 @@ public class EnergyChunk {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public EnergyChunk( EnergyType initialEnergyType ) {
-        this( initialEnergyType, new Vector2D( 0, 0 ), ALWAYS_VISIBLE );
-    }
-
     public EnergyChunk( EnergyType initialEnergyType, double x, double y, ObservableProperty<Boolean> visibilityControl ) {
         this( initialEnergyType, new Vector2D( x, y ), visibilityControl );
     }
