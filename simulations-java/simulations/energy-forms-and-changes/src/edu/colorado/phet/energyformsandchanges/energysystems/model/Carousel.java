@@ -43,11 +43,11 @@ public class Carousel<T extends PositionableFadableModelElement> {
     // Target selected element.  Will be the same as the current selection
     // except when animating to a new selection.  This property is the API for
     // selecting elements in the carousel.
-    public Property<Integer> targetIndex = new Property<Integer>( 0 );
+    public final Property<Integer> targetIndex = new Property<Integer>( 0 );
 
     // Indicator for when animations are in progress, meant to be monitored by
     // clients that need to be aware of this.
-    private BooleanProperty animationInProgress = new BooleanProperty( false );
+    private final BooleanProperty animationInProgress = new BooleanProperty( false );
 
     private double elapsedTransitionTime = 0;
     private Vector2D currentCarouselOffset = new Vector2D( 0, 0 );

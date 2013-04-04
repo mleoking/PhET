@@ -105,8 +105,8 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
 
     private static class SteamNode extends PNode {
 
-        private static double MAX_HEIGHT_AND_WIDTH = 200;
-        private static boolean SHOW_BOUNDS = false; // For debug.
+        private static final double MAX_HEIGHT_AND_WIDTH = 200;
+        private static final boolean SHOW_BOUNDS = false; // For debug.
         private static final Random RANDOM = new Random();
 
         private SteamNode( IClock clock, final Vector2D origin, final ObservableProperty<Double> energyOutput, final double maxEnergyOutput, final ObservableProperty<Boolean> isActive ) {

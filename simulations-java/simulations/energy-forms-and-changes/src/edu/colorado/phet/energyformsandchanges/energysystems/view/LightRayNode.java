@@ -128,7 +128,7 @@ public class LightRayNode extends PNode {
         return entryPoint;
     }
 
-    public static Vector2D getLineIntersection( Line2D line1, Line2D line2 ) {
+    private static Vector2D getLineIntersection( Line2D line1, Line2D line2 ) {
 
         double denominator = ( ( line1.getP2().getX() - line1.getP1().getX() ) * ( line2.getP2().getY() - line2.getP1().getY() ) ) -
                              ( ( line1.getP2().getY() - line1.getP1().getY() ) * ( line2.getP2().getX() - line2.getP1().getX() ) );

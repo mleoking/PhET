@@ -49,7 +49,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      *
      * @param clock
      */
-    public RectangularThermalMovableModelElement( IClock clock, Vector2D initialPosition, double width, double height, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
+    protected RectangularThermalMovableModelElement( IClock clock, Vector2D initialPosition, double width, double height, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
         this.mass = mass;
         this.width = width;
@@ -179,7 +179,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         addEnergyChunkToNextSlice( ec );
     }
 
-    public boolean removeEnergyChunk( EnergyChunk ec ) {
+    protected boolean removeEnergyChunk( EnergyChunk ec ) {
         for ( EnergyChunkContainerSlice slice : slices ) {
             if ( slice.energyChunkList.remove( ec ) ) {
                 return true;

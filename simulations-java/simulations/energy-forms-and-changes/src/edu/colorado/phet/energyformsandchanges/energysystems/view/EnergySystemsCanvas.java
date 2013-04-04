@@ -39,7 +39,7 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
+    private static final Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
     private static final double CONTROL_INSET = 10;
 
     //-------------------------------------------------------------------------

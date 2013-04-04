@@ -37,10 +37,7 @@ public class EnergyChunk {
     public final ObservableProperty<Boolean> visible;
 
     // Energy type.  This can change during the life of the energy chunk.
-    public Property<EnergyType> energyType = new Property<EnergyType>( null );
-
-    // Timer for fade in/out.
-    private Timer fadeTimer;
+    public final Property<EnergyType> energyType = new Property<EnergyType>( null );
 
     //-------------------------------------------------------------------------
     // Constructor(s)

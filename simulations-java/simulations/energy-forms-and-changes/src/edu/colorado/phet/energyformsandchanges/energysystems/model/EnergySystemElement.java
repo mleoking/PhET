@@ -26,7 +26,7 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
 
     // State variable that tracks whether this element is currently active,
     // meaning that it is generating, transforming, and/or consuming energy.
-    private BooleanProperty active = new BooleanProperty( false );
+    private final BooleanProperty active = new BooleanProperty( false );
 
     protected EnergySystemElement( Image iconImage ) {
         this.iconImage = iconImage;

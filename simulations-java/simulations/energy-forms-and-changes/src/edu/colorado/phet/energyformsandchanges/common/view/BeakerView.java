@@ -55,7 +55,7 @@ public class BeakerView {
     protected final PClip energyChunkClipNode;
 
     protected final PNode frontNode = new PNode();
-    protected final PNode backNode = new PNode();
+    private final PNode backNode = new PNode();
     protected final PNode grabNode = new PNode();
 
     public BeakerView( IClock clock, final Beaker beaker, BooleanProperty energyChunksVisible, final ModelViewTransform mvt ) {

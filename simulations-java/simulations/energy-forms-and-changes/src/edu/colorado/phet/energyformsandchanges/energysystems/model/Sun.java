@@ -32,7 +32,6 @@ public class Sun extends EnergySource {
 
     public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
     public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
-    public static final double ENERGY_CHUNK_VELOCITY = 0.04; // Meters/sec, obviously not to scale.
     public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.11; // In seconds.
     private static final Random RAND = new Random();
     private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
@@ -72,7 +71,7 @@ public class Sun extends EnergySource {
 
     // List of energy chunks that should be allowed to pass through the clouds
     // without bouncing (i.e. being reflected).
-    private List<EnergyChunk> energyChunksPassingThroughClouds = new ArrayList<EnergyChunk>();
+    private final List<EnergyChunk> energyChunksPassingThroughClouds = new ArrayList<EnergyChunk>();
 
     private int currentSectorIndex = 0;
 
@@ -191,7 +190,7 @@ public class Sun extends EnergySource {
         double directionAngle = chooseNextEmissionAngle();
         Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( directionAngle ) );
         EnergyChunk energyChunk = new EnergyChunk( EnergyType.LIGHT, initialPosition.x, initialPosition.y, energyChunksVisible );
-        energyChunk.setVelocity( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( directionAngle ) );
+        energyChunk.setVelocity( new Vector2D( EFACConstants.ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( directionAngle ) );
         energyChunkList.add( energyChunk );
     }
 

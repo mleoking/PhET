@@ -16,7 +16,7 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
  */
 public abstract class EnergySource extends EnergySystemElement {
 
-    protected List<EnergyChunk> outgoingEnergyChunks = new ArrayList<EnergyChunk>();
+    protected final List<EnergyChunk> outgoingEnergyChunks = new ArrayList<EnergyChunk>();
 
     protected EnergySource( Image iconImage ) {
         super( iconImage );

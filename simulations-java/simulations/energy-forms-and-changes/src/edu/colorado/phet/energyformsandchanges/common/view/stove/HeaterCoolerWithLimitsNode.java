@@ -59,7 +59,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
     private static final Color BASE_COLOR = new Color( 159, 182, 205 );
 
     // Valid range of heat values.
-    private static DoubleRange heatRange = new DoubleRange( -1, 1 );
+    private static final DoubleRange heatRange = new DoubleRange( -1, 1 );
 
     // Constants that control the appearance of the sliders.
     private static final Font LABEL_FONT = new PhetFont( 20, true );
@@ -79,7 +79,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
     private final PNode burner;
 
     // Property that is used to control the heater-cooler operational mode.
-    public final Property<HeatCoolMode> heatCoolMode = new Property<HeatCoolMode>( HeatCoolMode.HEAT_AND_COOL );
+    private final Property<HeatCoolMode> heatCoolMode = new Property<HeatCoolMode>( HeatCoolMode.HEAT_AND_COOL );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -313,21 +313,5 @@ public class HeaterCoolerWithLimitsNode extends PNode {
     // Enum for the various heat/cool modes.
     public enum HeatCoolMode {
         HEAT_AND_COOL, HEAT_ONLY, COOL_ONLY
-    }
-
-    // Test harness.
-    public static void main( String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new PiccoloTestFrame( "Heater-Cooler Node Test" ) {{
-                    addNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 1000, 1000 ), Color.black ) );
-                    addNode( new HeaterCoolerWithLimitsNode( new Property<Double>( 0.0 ), "Heat", "Cool" ) {{
-                        setOffset( 100, 200 );
-                        heatCoolMode.set( HeatCoolMode.HEAT_AND_COOL );
-                    }} );
-                    setBackground( Color.black );
-                }}.setVisible( true );
-            }
-        } );
     }
 }

@@ -54,7 +54,7 @@ public class HeaterCoolerView {
     private static final Color BASE_COLOR = new Color( 159, 182, 205 );
 
     // Valid range of heat values.
-    private static DoubleRange heatRange = new DoubleRange( -1, 1 );
+    private static final DoubleRange heatRange = new DoubleRange( -1, 1 );
 
     //-------------------------------------------------------------------------
     // Instance Data

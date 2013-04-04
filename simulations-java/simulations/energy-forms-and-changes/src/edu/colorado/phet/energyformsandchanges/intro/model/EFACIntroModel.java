@@ -53,7 +53,7 @@ public class EFACIntroModel implements ITemperatureModel {
     // Initial thermometer location, intended to be away from any model objects.
     private static final Vector2D INITIAL_THERMOMETER_LOCATION = new Vector2D( 100, 100 );
 
-    public static final int NUM_THERMOMETERS = 3;
+    private static final int NUM_THERMOMETERS = 3;
 
     private static final double BEAKER_WIDTH = 0.085; // In meters.
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 1.1;
@@ -139,7 +139,7 @@ public class EFACIntroModel implements ITemperatureModel {
             // location where it continues to sense the beaker temperature.
             // This was requested after interviews.
             thermometer.sensedElementColor.addObserver( new ChangeObserver<Color>() {
-                double blockWidthIncludingPerspective = ironBlock.getProjectedShape().getBounds2D().getWidth();
+                final double blockWidthIncludingPerspective = ironBlock.getProjectedShape().getBounds2D().getWidth();
 
                 public void update( Color newColor, Color oldColor ) {
                     DoubleRange xRange = new DoubleRange( beaker.getRect().getCenterX() - blockWidthIncludingPerspective / 2,
@@ -176,8 +176,8 @@ public class EFACIntroModel implements ITemperatureModel {
     }
 
     private long previousTime = 0;
-    private int TIME_ARRAY_LENGTH = 100;
-    private long[] times = new long[TIME_ARRAY_LENGTH];
+    private final int TIME_ARRAY_LENGTH = 100;
+    private final long[] times = new long[TIME_ARRAY_LENGTH];
     private int countUnderMin = 0;
 
     /**

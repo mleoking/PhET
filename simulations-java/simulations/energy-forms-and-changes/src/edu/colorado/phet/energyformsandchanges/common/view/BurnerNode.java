@@ -34,7 +34,7 @@ public class BurnerNode extends PNode {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    protected final HeaterCoolerNode heaterCoolerNode;
+    private final HeaterCoolerNode heaterCoolerNode;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
