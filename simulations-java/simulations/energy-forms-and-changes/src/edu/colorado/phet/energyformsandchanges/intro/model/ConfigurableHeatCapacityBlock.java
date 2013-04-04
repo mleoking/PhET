@@ -43,7 +43,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
     //-------------------------------------------------------------------------
 
     // Specific heat, which is configurable in this block.
-    public final Property<Double> specificHeat = new Property<Double>( INITIAL_SPECIFIC_HEAT );
+    private final Property<Double> specificHeat = new Property<Double>( INITIAL_SPECIFIC_HEAT );
 
     // Color changes as specific heat changes.
     public final Property<Color> color = new Property<Color>( mapSpecificHeatToColor( INITIAL_SPECIFIC_HEAT ) );
