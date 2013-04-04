@@ -18,13 +18,9 @@ public class ThermalElementDragHandler extends RelativeDragHandler {
 
     private final UserMovableModelElement modelElement;
 
-    /**
+    /*
      * Constructor.  The node must be property positioned before calling
      * this, or it won't work correctly.
-     *
-     * @param modelElement
-     * @param node
-     * @param mvt
      */
     public ThermalElementDragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform mvt, Function1<Point2D, Point2D> constraint ) {
         super( node, mvt, modelElement.position, constraint );

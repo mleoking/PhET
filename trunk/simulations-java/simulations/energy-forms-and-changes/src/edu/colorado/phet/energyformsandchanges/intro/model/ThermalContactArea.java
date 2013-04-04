@@ -34,8 +34,8 @@ public class ThermalContactArea {
      * on top of another that is the same width, the contact length is the
      * width of the shared edge.
      *
-     * @param that
-     * @return
+     * @param that Other thermal contact area.
+     * @return Length of contact
      */
     public double getThermalContactLength( ThermalContactArea that ) {
 

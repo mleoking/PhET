@@ -28,11 +28,8 @@ public class NormalAndFastForwardTimeControlPanel extends RichPNode {
     private final Color TRANSPARENT = new Color( 0, 0, 0, 0 );
     private final PhetFont RADIO_BUTTON_FONT = new PhetFont( 16 );
 
-    /**
+    /*
      * Constructor.
-     *
-     * @param normalSpeed
-     * @param clock
      */
     public NormalAndFastForwardTimeControlPanel( SettableProperty<Boolean> normalSpeed, IClock clock ) {
         PNode clockControlPanel = new PSwing( new PiccoloClockControlPanel( clock ) {{
