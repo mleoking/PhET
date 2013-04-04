@@ -78,25 +78,6 @@ public abstract class UserMovableModelElement extends ModelElement {
      */
     public abstract IUserComponent getUserComponent();
 
-    /**
-     * Get the "user component type" identifier.  This supports the sim sharing
-     * feature.
-     *
-     * @return
-     */
-    public IUserComponentType getUserComponentType() {
-        return UserComponentTypes.sprite;
-    }
-
-    /**
-     * Translate, a.k.a. move, the model element by the indicated amount.
-     *
-     * @param modelDelta Vector that describes the desired motion.
-     */
-    public void translate( Vector2D modelDelta ) {
-        position.set( position.get().plus( modelDelta ) );
-    }
-
     public abstract Property<HorizontalSurface> getBottomSurfaceProperty();
 
     public void setX( final double x ) {

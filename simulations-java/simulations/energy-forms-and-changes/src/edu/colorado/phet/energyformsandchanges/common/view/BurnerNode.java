@@ -31,12 +31,6 @@ public class BurnerNode extends PNode {
     private static final boolean SHOW_2D_RECT = true;
 
     //-------------------------------------------------------------------------
-    // Instance Data
-    //-------------------------------------------------------------------------
-
-    private final HeaterCoolerNode heaterCoolerNode;
-
-    //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
@@ -51,7 +45,7 @@ public class BurnerNode extends PNode {
         final Rectangle2D burnerViewRect = mvt.modelToView( burner.getOutlineRect() ).getBounds2D();
 
         // Add the heater-cooler node to the center bottom.
-        heaterCoolerNode = new HeaterCoolerNode( burner.heatCoolLevel, EnergyFormsAndChangesResources.Strings.HEAT, EnergyFormsAndChangesResources.Strings.COOL ) {{
+        HeaterCoolerNode heaterCoolerNode = new HeaterCoolerNode( burner.heatCoolLevel, EnergyFormsAndChangesResources.Strings.HEAT, EnergyFormsAndChangesResources.Strings.COOL ) {{
             setScale( mvt.modelToViewDeltaX( burner.getOutlineRect().getWidth() ) * 0.7 / getFullBoundsReference().width );
             setOffset( burnerViewRect.getX() + burnerViewRect.getWidth() / 2 - getFullBoundsReference().width / 2,
                        burnerViewRect.getMaxY() - getFullBoundsReference().height * 0.9 );
