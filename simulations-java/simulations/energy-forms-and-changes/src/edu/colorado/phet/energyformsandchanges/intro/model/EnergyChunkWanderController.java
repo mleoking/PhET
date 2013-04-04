@@ -61,7 +61,7 @@ public final class EnergyChunkWanderController {
 
     public void updatePosition( double dt ) {
         double distanceToDestination = energyChunk.position.get().distance( destination.get() );
-        if ( distanceToDestination < velocity.magnitude() * dt && !energyChunk.position.get().equals( destination ) ) {
+        if ( distanceToDestination < velocity.magnitude() * dt && !energyChunk.position.get().equals( destination.get() ) ) {
             // Destination reached.
             energyChunk.position.set( destination.get() );
             velocity.setMagnitude( 0 );
@@ -105,10 +105,6 @@ public final class EnergyChunkWanderController {
 
     public EnergyChunk getEnergyChunk() {
         return energyChunk;
-    }
-
-    public Vector2D getDestination() {
-        return destination.get();
     }
 
     public boolean destinationReached() {

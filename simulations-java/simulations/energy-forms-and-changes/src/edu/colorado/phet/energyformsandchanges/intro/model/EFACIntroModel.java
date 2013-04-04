@@ -124,11 +124,6 @@ public class EFACIntroModel implements ITemperatureModel {
         }
 
         // Put all the thermal containers on a list for easy iteration.
-        List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
-        thermalEnergyContainers.add( brick );
-        thermalEnergyContainers.add( ironBlock );
-        thermalEnergyContainers.add( beaker );
-        thermalEnergyContainers.add( air );
         movableThermalEnergyContainers.add( brick );
         movableThermalEnergyContainers.add( ironBlock );
         movableThermalEnergyContainers.add( beaker );
