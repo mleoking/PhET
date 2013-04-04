@@ -1,3 +1,5 @@
+# 0.00.46 (72715) Apr 4, 2013
+4/4/13 Deploy to dev for pre-deployment review and testing.
 Added initial credits.
 Lots of pre-publication code cleanup.
 Made some fixes and improvements to the pre-loading of energy chunks on the solar panel.  This fixes some issues found during testing.
