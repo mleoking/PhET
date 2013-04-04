@@ -242,10 +242,6 @@ public class HeaterCoolerView {
         frontLayer.setOffset( x, y );
     }
 
-    public void setOffset( Point2D offset ) {
-        setOffset( offset.getX(), offset.getY() );
-    }
-
     /**
      * This class is the slider that is used to control the StoveNode, causing
      * it to add heat or cooling to the simulated system.

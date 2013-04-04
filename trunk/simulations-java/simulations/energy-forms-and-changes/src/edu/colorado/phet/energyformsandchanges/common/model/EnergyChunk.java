@@ -16,12 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class EnergyChunk {
 
     //-------------------------------------------------------------------------
-    // Class Data
-    //-------------------------------------------------------------------------
-
-    private static final BooleanProperty ALWAYS_VISIBLE = new BooleanProperty( true );
-
-    //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
 

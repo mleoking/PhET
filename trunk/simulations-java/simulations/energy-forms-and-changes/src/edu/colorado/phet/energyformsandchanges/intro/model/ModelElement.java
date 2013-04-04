@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  *
  * @author John Blanco
  */
-public class ModelElement {
+public abstract class ModelElement {
 
     // Surface upon which this model element is resting.  Null if the element
     // is floating in the air (which is perfectly legitimate for some

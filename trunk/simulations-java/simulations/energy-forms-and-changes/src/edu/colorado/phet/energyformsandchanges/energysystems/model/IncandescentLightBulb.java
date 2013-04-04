@@ -20,6 +20,6 @@ public class IncandescentLightBulb extends LightBulb {
     public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( INCANDESCENT_ON_3, IMAGE_OFFSET );
 
     protected IncandescentLightBulb( ObservableProperty<Boolean> energyChunksVisible ) {
-        super( selectFluorescentLightBulbButton, INCANDESCENT_ICON, true, energyChunksVisible );
+        super( selectIncandescentLightBulbButton, INCANDESCENT_ICON, true, energyChunksVisible );
     }
 }

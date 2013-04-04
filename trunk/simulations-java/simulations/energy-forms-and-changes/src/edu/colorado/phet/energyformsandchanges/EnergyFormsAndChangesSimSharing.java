@@ -20,7 +20,7 @@ public class EnergyFormsAndChangesSimSharing {
     public static enum UserComponents implements IUserComponent {
 
         // Tabs
-        introTab, energySystemsTab, energyStoriesTab,
+        introTab, energySystemsTab,
 
         // Movable model elements
         brick, ironBlock, beaker,
