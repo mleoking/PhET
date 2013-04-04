@@ -28,7 +28,6 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
  */
 public class EnergyChunkDistributor {
 
-
     private static final double OUTSIDE_CONTAINER_FORCE = 0.01; // In Newtons, empirically determined.
     private static final Random RAND = new Random( 2 ); // Seeded for greater consistency.
     private static final Vector2D ZERO_VECTOR = new Vector2D( 0, 0 );

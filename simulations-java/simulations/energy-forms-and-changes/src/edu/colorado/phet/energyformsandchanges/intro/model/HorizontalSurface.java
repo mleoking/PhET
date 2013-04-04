@@ -54,8 +54,7 @@ public class HorizontalSurface {
 
         final HorizontalSurface that = (HorizontalSurface) o;
 
-        if ( Double.compare( that.yPos, yPos ) != 0 ) { return false; }
-        return !( xRange != null ? !xRange.equals( that.xRange ) : that.xRange != null );
+        return Double.compare( that.yPos, yPos ) == 0 && !( xRange != null ? !xRange.equals( that.xRange ) : that.xRange != null );
 
     }
 

@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.fastForwardRadioButton;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.normalMotionRadioButton;
 
 /**
  * Clock control panel that shows "Normal Speed" and "Fast Forward" as radio
@@ -38,7 +39,7 @@ public class NormalAndFastForwardTimeControlPanel extends RichPNode {
             getBackgroundNode().setVisible( false );
             clearAllToolTips();
         }} );
-        PNode normalSpeedButton = new PSwing( new PropertyRadioButton<Boolean>( fastForwardRadioButton,
+        PNode normalSpeedButton = new PSwing( new PropertyRadioButton<Boolean>( normalMotionRadioButton,
                                                                                 EnergyFormsAndChangesResources.Strings.NORMAL,
                                                                                 normalSpeed,
                                                                                 true ) {{
