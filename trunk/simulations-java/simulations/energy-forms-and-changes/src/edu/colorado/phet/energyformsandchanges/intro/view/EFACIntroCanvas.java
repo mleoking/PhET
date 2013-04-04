@@ -54,6 +54,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
     public static final Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
     private static final double EDGE_INSET = 10;
+    public static final double BURNER_EDGE_TO_HEIGHT_RATIO = 0.2; // Multiplier empirically determined for best look.
 
     // Boolean property for showing/hiding developer control for dumping energy levels.
     public static final BooleanProperty showDumpEnergiesButton = new BooleanProperty( false );
@@ -207,7 +208,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         }
 
         // Add the burners.
-        double burnerProjectionAmount = mvt.modelToView( model.getLeftBurner().getOutlineRect() ).getBounds2D().getWidth() * 0.2; // Multiplier empirically determined for best look.
+        double burnerProjectionAmount = mvt.modelToView( model.getLeftBurner().getOutlineRect() ).getBounds2D().getWidth() * BURNER_EDGE_TO_HEIGHT_RATIO;
         double burnerWidth = mvt.modelToViewDeltaX( model.getLeftBurner().getOutlineRect().getWidth() ) * 0.7;
         double burnerHeight = burnerWidth * 0.8;
         double burnerOpeningHeight = burnerHeight * 0.2;

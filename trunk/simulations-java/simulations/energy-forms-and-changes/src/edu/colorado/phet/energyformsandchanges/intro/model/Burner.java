@@ -19,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
-import edu.colorado.phet.energyformsandchanges.common.view.BurnerNode;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
+import edu.colorado.phet.energyformsandchanges.intro.view.EFACIntroCanvas;
 
 /**
  * Model element that represents a burner in the simulation.  The burner can
@@ -86,7 +86,7 @@ public class Burner extends ModelElement {
         // Create and add the top surface.  Some compensation for perspective
         // is necessary in order to avoid problems with edge overlap when
         // dropping objects on top of burner.
-        double perspectiveCompensation = getOutlineRect().getHeight() * BurnerNode.EDGE_TO_HEIGHT_RATIO * Math.cos( BurnerStandNode.PERSPECTIVE_ANGLE );
+        double perspectiveCompensation = getOutlineRect().getHeight() * EFACIntroCanvas.BURNER_EDGE_TO_HEIGHT_RATIO * Math.cos( BurnerStandNode.PERSPECTIVE_ANGLE );
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX() - perspectiveCompensation,
                                                                                               getOutlineRect().getMaxX() + perspectiveCompensation ),
                                                                              getOutlineRect().getMaxY(),

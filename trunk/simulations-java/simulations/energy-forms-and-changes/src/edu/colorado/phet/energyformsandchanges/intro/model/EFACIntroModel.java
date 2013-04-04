@@ -26,9 +26,9 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.ITemperatureModel;
-import edu.colorado.phet.energyformsandchanges.common.view.BurnerNode;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
 import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
+import edu.colorado.phet.energyformsandchanges.intro.view.EFACIntroCanvas;
 
 /**
  * Primary model class for the "Intro" tab of the Energy Forms and Changes
@@ -144,7 +144,7 @@ public class EFACIntroModel implements ITemperatureModel {
                 public void update( Color newColor, Color oldColor ) {
                     DoubleRange xRange = new DoubleRange( beaker.getRect().getCenterX() - blockWidthIncludingPerspective / 2,
                                                           beaker.getRect().getCenterX() + blockWidthIncludingPerspective / 2 );
-                    if ( oldColor == EFACConstants.WATER_COLOR_IN_BEAKER && !thermometer.userControlled.get() && xRange.contains( thermometer.position.get().getX() )) {
+                    if ( oldColor == EFACConstants.WATER_COLOR_IN_BEAKER && !thermometer.userControlled.get() && xRange.contains( thermometer.position.get().getX() ) ) {
                         thermometer.userControlled.set( true ); // Must toggle userControlled to enable element following.
                         thermometer.position.set( new Vector2D( beaker.getRect().getMaxX() - 0.01, beaker.getRect().getMinY() + beaker.getRect().getHeight() * 0.33 ) );
                         thermometer.userControlled.set( false ); // Must toggle userControlled to enable element following.
@@ -405,7 +405,7 @@ public class EFACIntroModel implements ITemperatureModel {
         // blocking rectangle so that the user can't drag things between
         // them.  Also, compensate for perspective so that we can avoid
         // difficult z-order issues.
-        double standPerspectiveExtension = leftBurner.getOutlineRect().getHeight() * BurnerNode.EDGE_TO_HEIGHT_RATIO * Math.cos( BurnerStandNode.PERSPECTIVE_ANGLE ) / 2;
+        double standPerspectiveExtension = leftBurner.getOutlineRect().getHeight() * EFACIntroCanvas.BURNER_EDGE_TO_HEIGHT_RATIO * Math.cos( BurnerStandNode.PERSPECTIVE_ANGLE ) / 2;
         double burnerRectX = leftBurner.getOutlineRect().getX() - standPerspectiveExtension - ( modelElement != beaker ? blockPerspectiveExtension : 0 );
         Rectangle2D burnerBlockingRect = new Rectangle2D.Double( burnerRectX,
                                                                  leftBurner.getOutlineRect().getY(),
