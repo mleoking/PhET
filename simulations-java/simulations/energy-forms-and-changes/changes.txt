@@ -1,3 +1,4 @@
+Made some fixes and improvements to the preloading of energy chunks on the solar panel.  This fixes some issues found during testing.
 Made the belt be based on model element position instead of hard coded number, fixed a minor appearance issue with the belt.
 Updated colors for control panels and background.
 Added some compensation for perspective of the burner stand to prevent being able to drop a block or beaker so that the stand and object overlap.

@@ -197,7 +197,7 @@ public class Sun extends EnergySource {
 
     @Override public void preLoadEnergyChunks() {
         clearEnergyChunks();
-        double preLoadTime = 6; // In seconds, empirically determined.
+        double preLoadTime = 6; // In simulated seconds, empirically determined.
         double dt = 1 / EFACConstants.FRAMES_PER_SECOND;
         energyChunkEmissionCountdownTimer = 0;
 

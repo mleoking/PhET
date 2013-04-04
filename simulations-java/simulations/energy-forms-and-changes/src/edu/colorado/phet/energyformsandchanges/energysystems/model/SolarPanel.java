@@ -50,9 +50,12 @@ public class SolarPanel extends EnergyConverter {
                                                                                   SOLAR_PANEL_IMAGE.getWidth(),
                                                                                   SOLAR_PANEL_IMAGE.getHeight() );
     private static final DoubleGeneralPath ABSORPTION_SHAPE = new DoubleGeneralPath() {{
+        double absorptionZoneWidth = PANEL_IMAGE_BOUNDS.getWidth() * 0.2;
         moveTo( PANEL_IMAGE_BOUNDS.getMinX(), PANEL_IMAGE_BOUNDS.getMinY() );
+        moveTo( PANEL_IMAGE_BOUNDS.getMaxX() - absorptionZoneWidth, PANEL_IMAGE_BOUNDS.getMaxY() );
         lineTo( PANEL_IMAGE_BOUNDS.getMaxX(), PANEL_IMAGE_BOUNDS.getMaxY() );
-        lineTo( PANEL_IMAGE_BOUNDS.getMaxX(), PANEL_IMAGE_BOUNDS.getMinY() );
+        lineTo( PANEL_IMAGE_BOUNDS.getMinX() + absorptionZoneWidth, PANEL_IMAGE_BOUNDS.getMinY() );
+        lineTo( PANEL_IMAGE_BOUNDS.getMinX(), PANEL_IMAGE_BOUNDS.getMinY() );
         closePath();
     }};
 
@@ -171,18 +174,18 @@ public class SolarPanel extends EnergyConverter {
         // Simulate energy chunks moving through the system.
         boolean preLoadComplete = false;
         while ( !preLoadComplete ) {
-            energySinceLastChunk += incomingEnergyRate.amount * dt;
+            energySinceLastChunk += incomingEnergyRate.amount * dt * 0.4; // Full energy rate generates too many chunks, so an adjustment factor is used.
 
             // Determine if time to add a new chunk.
             if ( energySinceLastChunk >= EFACConstants.ENERGY_PER_CHUNK ) {
                 Vector2D initialPosition;
-                if ( energyChunkList.size() == 0 ){
+                if ( energyChunkList.size() == 0 ) {
                     // For predictability of the algorithm, add the first chunk to the center of the panel.
                     initialPosition = lowerLeftOfPanel.plus( new Vector2D( crossLineLength * 0.5, 0 ).getRotatedInstance( crossLineAngle ) );
                 }
-                else{
-                    // Choose a random location along the cross line.
-                    initialPosition = lowerLeftOfPanel.plus( new Vector2D( crossLineLength * RAND.nextDouble(), 0 ).getRotatedInstance( crossLineAngle ) );
+                else {
+                    // Choose a random location along the center portion of the cross line.
+                    initialPosition = lowerLeftOfPanel.plus( new Vector2D( crossLineLength * ( 0.5 * RAND.nextDouble() + 0.25 ), 0 ).getRotatedInstance( crossLineAngle ) );
                 }
                 EnergyChunk newEnergyChunk = new EnergyChunk( EnergyType.ELECTRICAL, initialPosition, energyChunkVisibility );
                 energyChunkList.add( newEnergyChunk );
@@ -220,7 +223,7 @@ public class SolarPanel extends EnergyConverter {
         // Count the number of chunks currently on the panel.
         int numChunksOnPanel = 0;
         for ( EnergyChunkPathMover energyChunkMover : energyChunkMovers ) {
-            if ( energyChunkMover.getFinalDestination().equals( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) )){
+            if ( energyChunkMover.getFinalDestination().equals( getPosition().plus( OFFSET_TO_CONVERGENCE_POINT ) ) ) {
                 numChunksOnPanel++;
             }
         }
