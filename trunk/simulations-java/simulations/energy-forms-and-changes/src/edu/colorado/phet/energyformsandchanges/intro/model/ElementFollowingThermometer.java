@@ -18,7 +18,7 @@ public class ElementFollowingThermometer extends Thermometer {
     private ElementFollower elementFollower = new ElementFollower( this.position );
 
     public ElementFollowingThermometer( final EFACIntroModel model, Vector2D initialPosition, boolean initiallyActive ) {
-        super( (ConstantDtClock) model.getClock(), model, initialPosition, initiallyActive );
+        super( model.getClock(), model, initialPosition, initiallyActive );
 
         // Monitor 'userControlled' in order to see when the user drops this
         // thermometer and determine whether or not it was dropped over

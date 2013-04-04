@@ -132,5 +132,4 @@ public class EnergyChunkNode2 extends PNode {
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
     }
-
 }
