@@ -27,7 +27,6 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  */
 public class EnergyChunkLegend extends PNode {
     private static final Font LEGEND_ENTRY_FONT = new PhetFont( 14 );
-    private static final ModelViewTransform ENERGY_CHUNK_MVT = ModelViewTransform.createIdentity();
 
     public EnergyChunkLegend() {
         PNode contents = new SwingLayoutNode( new GridBagLayout() ) {{
