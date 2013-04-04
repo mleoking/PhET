@@ -89,20 +89,6 @@ public class BeakerContainer extends Beaker {
         }
     }
 
-    /*
-     * Get the total number of excess or deficit energy chunks for the beaker
-     * and for anything contained by the beaker.
-     */
-    @Override public int getSystemEnergyChunkBalance() {
-        int totalBalance = getEnergyChunkBalance();
-        for ( RectangularThermalMovableModelElement thermalElement : potentiallyContainedElements ) {
-            if ( getThermalContactArea().getBounds().contains( thermalElement.getRect() ) ) {
-                totalBalance += thermalElement.getEnergyChunkBalance();
-            }
-        }
-        return totalBalance;
-    }
-
     private boolean isEnergyChunkObscured( EnergyChunk ec ) {
         for ( RectangularThermalMovableModelElement potentiallyContainedElement : potentiallyContainedElements ) {
             if ( this.getThermalContactArea().getBounds().contains( potentiallyContainedElement.getRect() ) && potentiallyContainedElement.getProjectedShape().contains( ec.position.get().toPoint2D() ) ) {
