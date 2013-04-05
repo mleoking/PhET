@@ -1,3 +1,5 @@
+# 0.00.47 (72718) Apr 5, 2013
+4/5/13 Publishing to dev for review by design team.
 Made every 5th tick mark on the thermometer a bit longer in order to make comparisons easier.
 # 0.00.46 (72715) Apr 4, 2013
 4/4/13 Deploy to dev for pre-deployment review and testing.
