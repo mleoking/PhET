@@ -130,11 +130,13 @@ public class ThermometerNode extends PComposite {
 
         // Add the tick marks.  There are some tweak factors here.
         double tickMarkXOffset = thermometerBack.getFullBoundsReference().width * 0.3;
-        double tickMarkWidth = thermometerBack.getFullBoundsReference().width * 0.1;
+        double shortTickMarkWidth = thermometerBack.getFullBoundsReference().width * 0.1;
+        double longTickMarkWidth = shortTickMarkWidth * 2;
         double tickMarkMinY = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getHeight() * 0.15;
         double tickMarkSpacing = ( ( tickMarkMinY - thermometerBack.getFullBoundsReference().getMinY() ) / NUM_TICK_MARKS ) * 0.945;
         for ( int i = 0; i < NUM_TICK_MARKS; i++ ) {
-            Line2D tickMarkShape = new Line2D.Double( 0, 0, tickMarkWidth, 0 );
+            // Tick marks are set to have a longer one at freezing, boiling, and half way between.
+            Line2D tickMarkShape = new Line2D.Double( 0, 0, ( i - 1 ) % 5 == 0 ?  longTickMarkWidth : shortTickMarkWidth, 0 );
             PNode tickMark = new PhetPPath( tickMarkShape, TICK_MARK_STROKE, Color.BLACK );
             tickMark.setOffset( tickMarkXOffset, tickMarkMinY - i * tickMarkSpacing );
             frontLayer.addChild( tickMark );
