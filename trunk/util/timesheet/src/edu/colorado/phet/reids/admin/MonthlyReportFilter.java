@@ -13,7 +13,7 @@ public class MonthlyReportFilter {
         ArrayList<String> categories = getPredefinedCategories();
 
         sims = new ArrayList<String>();
-        File[] simRoots = new File[] { new File( trunk, "simulations-java\\simulations" ), new File( trunk, "simulations-flash\\simulations" ), new File( trunk, "simulations-flex\\simulations" ) };
+        File[] simRoots = new File[]{new File( trunk, "simulations-java\\simulations" ), new File( trunk, "simulations-flash\\simulations" ), new File( trunk, "simulations-flex\\simulations" )};
         for ( File simRoot : simRoots ) {
             for ( File dir : simRoot.listFiles() ) {
                 sims.add( dir.getName() );
@@ -33,6 +33,7 @@ public class MonthlyReportFilter {
         allList.add( "Sim data collection/processing" );
 
         allList.add( "forces-and-motion-basics" );
+        allList.add( "example-sim" );
         allList.add( "energy-skate-park-basics" );
         allList.add( "balance-and-torque" );
         allList.add( "forces-and-motion" );
@@ -72,6 +73,8 @@ public class MonthlyReportFilter {
                 "Conferences, Workshops and Booths\n" +
                 "Customer Support\n" +
                 "Environment/Maintenance/Tools\n" +
+                "Fort\n" +
+                "HTML5\n" +
                 "Installer\n" +
                 "Interviewing\n" +
                 "KSU Translation Credits\n" +
@@ -80,7 +83,9 @@ public class MonthlyReportFilter {
                 "New Sim Investigations\n" +
                 "OVSD\n" +
                 "Research, Surveys, Interviews & Observations\n" +
+                "Scenery\n" +
                 "Sim-sharing\n" +
+                "Sun\n" +
                 "Translations\n" +
                 "Unfuddle\n" +
                 "Website";
@@ -187,6 +192,8 @@ public class MonthlyReportFilter {
         if ( category.equals( "sim-event-data-collection-analysis" ) ) { return mapCategory( "Sim data collection/processing" ); }
         if ( category.equals( "energy-skate-park-fabricjs" ) ) { return mapCategory( "ipad" ); }
         if ( category.equals( "energy-skate-park-basics-processing" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "accessibility" ) ) { return mapCategory( "scenery" ); }
+        if ( category.equals( "i18n" ) ) { return mapCategory( "html5" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
