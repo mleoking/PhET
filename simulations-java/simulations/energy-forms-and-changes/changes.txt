@@ -1,3 +1,5 @@
+# 0.00.48 (72721) Apr 8, 2013
+4/8/13 Publishing to dev for review of color scheme
 Finalized (hopefully) the background colors for the tabs and control panels.
 # 0.00.47 (72718) Apr 5, 2013
 4/5/13 Publishing to dev for review by design team.
