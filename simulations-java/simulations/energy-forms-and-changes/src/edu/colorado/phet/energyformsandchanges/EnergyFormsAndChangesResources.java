@@ -82,6 +82,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage E_LIGHT_BLANK = RESOURCES.getImage( "E_light_blank.png" );
         public static final BufferedImage E_MECH_BLANK = RESOURCES.getImage( "E_mech_blank.png" );
         public static final BufferedImage E_THERM_BLANK = RESOURCES.getImage( "E_therm_blank.png" );
+        public static final BufferedImage E_THERM_BLANK_ORANGE = RESOURCES.getImage( "E_therm_blank_orange.png" );
         public static final BufferedImage FAUCET_ICON = RESOURCES.getImage( "faucet_icon.png" );
         public static final BufferedImage FLUORESCENT_BACK_2 = RESOURCES.getImage( "fluorescent_back_2.png" );
         public static final BufferedImage FLUORESCENT_FRONT_2 = RESOURCES.getImage( "fluorescent_front_2.png" );
