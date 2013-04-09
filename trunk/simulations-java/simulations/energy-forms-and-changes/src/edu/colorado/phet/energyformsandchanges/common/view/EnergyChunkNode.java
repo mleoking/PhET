@@ -27,7 +27,7 @@ public class EnergyChunkNode extends PNode {
     private static final double WIDTH = 24; // In screen coords, which is close to pixels.
 
     private static final Map<EnergyType, Image> mapEnergyTypeToImage = new HashMap<EnergyType, Image>() {{
-        put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.E_THERM_BLANK );
+        put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.E_THERM_BLANK_ORANGE );
         put( EnergyType.ELECTRICAL, EnergyFormsAndChangesResources.Images.E_ELECTRIC_BLANK );
         put( EnergyType.MECHANICAL, EnergyFormsAndChangesResources.Images.E_MECH_BLANK );
         put( EnergyType.LIGHT, EnergyFormsAndChangesResources.Images.E_LIGHT_BLANK );

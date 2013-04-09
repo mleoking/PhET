@@ -1,3 +1,4 @@
+Incorporated a slightly orange version of the thermal E background to make it more distinct from Green for color blind individuals.
 # 0.00.48 (72721) Apr 8, 2013
 4/8/13 Publishing to dev for review of color scheme
 Finalized (hopefully) the background colors for the tabs and control panels.
