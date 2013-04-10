@@ -22,7 +22,7 @@ public class SimSharingConfig {
     };
     public static final Function1<Character, Boolean> WORDS = new Function1<Character, Boolean>() {
         public Boolean apply( Character character ) {
-            return Character.isAlphabetic( character.charValue() ) || Character.isDigit( character.charValue() ) || Character.isWhitespace( character.charValue() ) || character.charValue() == '.';
+            return Character.isLetterOrDigit( character.charValue() ) || Character.isWhitespace( character.charValue() ) || character.charValue() == '.';
         }
     };
 
