@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_zh_CN.xml created Sat Apr 06 19:23:29 CST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
+<SimStrings>
+<string key="duration" value="持续时间"/>
+<string key="bump" value="碰撞"/>
+<string key="radiating-charge.simTitle" value="电荷辐射"/>
+<string key="stopCharge" value="静止电荷"/>
+<string key="sinusoidal" value="正弦曲线"/>
+<string key="amplitude" value="振幅"/>
+<string key="speedOfLight" value="光速"/>
+<string key="noFrictionManual" value="无摩擦力"/>
+<string key="frequency" value="频率"/>
+<string key="restart" value="重新开始"/>
+<string key="showVelocity" value="显示速率"/>
+<string key="speed" value="速度"/>
+<string key="translation.credits" value="青岛李沧区第二实验小学&#10;臧传明&#10;chinaz@163.com"/>
+<string key="frictionManual" value="手动"/>
+<string key="linear" value="线性"/>
+<string key="paused" value="暂停"/>
+<string key="reset" value="重置"/>
+<string key="circular" value="圆形"/>
+</SimStrings>
