@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_cs.xml created Mon Apr 08 14:02:57 CEST 2013 using: stern-gerlach 2.02.00 (52653), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
+<string key="+z" value="+z"/>
+<string key="+x" value="+x"/>
+<string key="angle3" value="úhel 3"/>
+<string key="angle2" value="úhel 2"/>
+<string key="slow" value="zpomalit"/>
+<string key="randomXZ" value="náhodný xz"/>
+<string key="simTitle" value="Stern-Gerlach Experiment"/>
+<string key="sternGerlachExperiment" value="Stern-Gerlach Experiment"/>
+<string key="spinOrientation" value="orientace \notáček"/>
+<string key="on" value="ZAPNUTO"/>
+<string key="up" value="nahoru"/>
+<string key="down" value="dolů"/>
+<string key="sound" value="zvuk"/>
+<string key="fast" value="rychle"/>
+<string key="numberOfMagnets" value="počet \nmagnetů"/>
+<string key="-z" value="-z"/>
+<string key="translation.credits" value="Pavel Válek"/>
+<string key="autoFire" value="automnatická střelba"/>
+<string key="fireAtom" value="vystřelit atom"/>
+<string key="angle" value="úhel"/>
+<string key="reset" value="Obnovit"/>
+<string key="resetCount" value="Vynulovat počítadlo"/>
+<string key="off" value="VYPNUTO"/>
+</SimStrings>
