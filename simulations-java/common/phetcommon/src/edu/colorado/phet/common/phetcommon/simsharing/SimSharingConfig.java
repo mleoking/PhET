@@ -3,13 +3,28 @@ package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+
 /**
  * Immutable configuration information for specific sim-sharing studies.
  * To add a configuration for a new study, create a static instance and add it to CONFIG_MAP.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author Sam Reid
  */
 public class SimSharingConfig {
+
+    //Strategies for key entry to constrain ID entries
+    public static final Function1<Character, Boolean> DIGITS = new Function1<Character, Boolean>() {
+        public Boolean apply( Character character ) {
+            return Character.isDigit( character.charValue() );
+        }
+    };
+    public static final Function1<Character, Boolean> WORDS = new Function1<Character, Boolean>() {
+        public Boolean apply( Character character ) {
+            return Character.isAlphabetic( character.charValue() ) || Character.isDigit( character.charValue() ) || Character.isWhitespace( character.charValue() ) || character.charValue() == '.';
+        }
+    };
 
     // General-purpose config, for routine interviews.
     public static final SimSharingConfig INTERVIEWS = new SimSharingConfig( "interviews", true, false, false, false );
@@ -66,14 +81,14 @@ public class SimSharingConfig {
      *  Balancing Act study that will be done in conjunction with researchers
      *  at Stanford.  Time frame is February 2012.  See #3207.
      */
-    public static final SimSharingConfig BALANCING_ACT_SPRING_2012 = new SimSharingConfig( "balancing-act-spring-2012", true, true, true, true, "Please enter ID:" );
+    public static final SimSharingConfig BALANCING_ACT_SPRING_2012 = new SimSharingConfig( "balancing-act-spring-2012", true, true, true, true, "Please enter ID:", WORDS );
 
     /*
      *  Molecule Shapes study to be done in Feb 2012. See #3238.
      *  Principal researcher: Kelly Lancaster
      *  Location: CU Boulder
      */
-    public static final SimSharingConfig MOLECULE_SHAPED_FEB_2012 = new SimSharingConfig(  "molecule-shapes-feb-2012", true, true, false, false );
+    public static final SimSharingConfig MOLECULE_SHAPED_FEB_2012 = new SimSharingConfig( "molecule-shapes-feb-2012", true, true, false, false );
 
     /*
      *  Fake configuration used for load testing of the DB.
@@ -134,17 +149,27 @@ public class SimSharingConfig {
     public final boolean sendToLogFile; // prompt used to request student's id (irrelevant if requestId is false)
     public final boolean sendToServer;
     public final boolean collectIPAddress = false;
+    public final Function1<Character, Boolean> characterValidation;
 
     protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired ) {
-        this( studyName, sendToLogFile, sendToServer, requestId, idRequired, null );
+        this( studyName, sendToLogFile, sendToServer, requestId, idRequired, DIGITS );
+    }
+
+    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired, Function1<Character, Boolean> characterValidation ) {
+        this( studyName, sendToLogFile, sendToServer, requestId, idRequired, null, characterValidation );
     }
 
     protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired, String idPrompt ) {
+        this( studyName, sendToLogFile, sendToServer, requestId, idRequired, idPrompt, DIGITS );
+    }
+
+    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired, String idPrompt, Function1<Character, Boolean> characterValidation ) {
         this.studyName = studyName;
         this.sendToLogFile = sendToLogFile;
         this.sendToServer = sendToServer;
         this.requestId = requestId;
         this.idPrompt = idPrompt;
         this.idRequired = idRequired;
+        this.characterValidation = characterValidation;
     }
 }

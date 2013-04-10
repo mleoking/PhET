@@ -1,3 +1,4 @@
+4/10/13 #3533, Added support for non-numeric input in Sim sharing ID dialog
 2/19/13 #3511, mark EventChannel and its subclasses as deprecated, security exception
 1/30/13 #3243, update copyright to 2013
 11/2/12 #3472, call SimSharingManager.init in test mains in package phetcommon.simsharing.components
