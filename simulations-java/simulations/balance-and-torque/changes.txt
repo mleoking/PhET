@@ -1,3 +1,4 @@
+# 1.03.04 (72739) Apr 10, 2013
 # 1.03.03 (72737) Apr 10, 2013
 # 1.03.02 (68940) Oct 7, 2012
 10/7/12 #3450, published a dev version of Balancing Act for testing of Armenian preferred fonts in phetcommon-fonts.properties
