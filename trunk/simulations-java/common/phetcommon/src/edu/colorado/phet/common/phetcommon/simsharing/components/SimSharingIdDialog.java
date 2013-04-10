@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing.components;
 
-import java.awt.Color;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -10,19 +9,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig;
-import edu.colorado.phet.common.phetcommon.view.PhetExit;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -42,12 +35,12 @@ public class SimSharingIdDialog extends JDialog {
     private final JTextField textField;
     private String id;
 
-    public SimSharingIdDialog( String prompt, boolean idRequired ) {
-        this( null, prompt, idRequired );
+    public SimSharingIdDialog( String prompt, boolean idRequired, Function1<Character, Boolean> characterValidation ) {
+        this( null, prompt, idRequired, characterValidation );
         SwingUtils.centerWindowOnScreen( this );
     }
 
-    public SimSharingIdDialog( Frame owner, String prompt, final boolean idRequired ) {
+    public SimSharingIdDialog( Frame owner, String prompt, final boolean idRequired, final Function1<Character, Boolean> characterValidation ) {
         super( owner, true /* modal */ );
         setResizable( false );
 
@@ -99,7 +92,7 @@ public class SimSharingIdDialog extends JDialog {
             // accept only keystrokes related to entering numbers
             @Override public void keyTyped( KeyEvent e ) {
                 char c = e.getKeyChar();
-                if ( !( ( c == KeyEvent.VK_BACK_SPACE ) || ( c == KeyEvent.VK_DELETE ) || ( c == KeyEvent.VK_ENTER ) || ( c == KeyEvent.VK_TAB ) || ( Character.isDigit( c ) ) ) ) {
+                if ( !( ( c == KeyEvent.VK_BACK_SPACE ) || ( c == KeyEvent.VK_DELETE ) || ( c == KeyEvent.VK_ENTER ) || ( c == KeyEvent.VK_TAB ) || ( characterValidation.apply( c ) ) ) ) {
                     e.consume();
                 }
             }
@@ -156,13 +149,13 @@ public class SimSharingIdDialog extends JDialog {
 
     // Gets the id entered by the user. Returns null if no id was entered.
     public String getId() {
-        return id;
+        return id == null ? id : id.trim();
     }
 
     // test
     public static void main( String[] args ) {
         SimSharingConfig config = SimSharingConfig.getConfig( "utah" );
-        SimSharingIdDialog dialog = new SimSharingIdDialog( config.idPrompt, config.idRequired );
+        SimSharingIdDialog dialog = new SimSharingIdDialog( config.idPrompt, config.idRequired, SimSharingConfig.WORDS );
         dialog.setVisible( true );
         System.out.println( "id = " + dialog.getId() );
         System.exit( 0 );

@@ -34,7 +34,9 @@ import edu.colorado.phet.common.phetcommon.simsharing.tests.MongoLoadTesterSimLa
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.model;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.system;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.user;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.sentEvent;
@@ -84,7 +86,7 @@ public class SimSharingManager {
 
         //If we try to use sim sharing before init called (say from a sample main), init with sim-sharing turned off.
         if ( INSTANCE == null ) {
-            init( new PhetApplicationConfig( new String[] { }, "sim-sharing-manager" ) );
+            init( new PhetApplicationConfig( new String[]{}, "sim-sharing-manager" ) );
         }
         assert ( INSTANCE != null ); // make sure init worked
         return INSTANCE;
@@ -92,7 +94,7 @@ public class SimSharingManager {
 
     // Use if you have a non-PhetApplication (e.g., a sample main) that involves sim-sharing and you want basic console output.
     public static void init() {
-        init( new PhetApplicationConfig( new String[] { "-study" }, "sim-sharing-manager" ) );
+        init( new PhetApplicationConfig( new String[]{"-study"}, "sim-sharing-manager" ) );
     }
 
     // Initialization, creates the singleton and sends startup events if sim-sharing is enabled.
@@ -146,7 +148,7 @@ public class SimSharingManager {
                 try {
                     logs.add( new MongoLog( sessionId, dbName ) );
                 }
-                catch ( UnknownHostException unknownHostException ) {
+                catch( UnknownHostException unknownHostException ) {
                     unknownHostException.printStackTrace();
                 }
             }
@@ -250,7 +252,7 @@ public class SimSharingManager {
                 try {
                     log.addMessage( message );
                 }
-                catch ( IOException e ) {
+                catch( IOException e ) {
                     e.printStackTrace();
                 }
             }
@@ -268,7 +270,7 @@ public class SimSharingManager {
         assert ( enabled );
         String id = null;
         if ( simSharingConfig.requestId ) {
-            SimSharingIdDialog dialog = new SimSharingIdDialog( null, simSharingConfig.idPrompt, simSharingConfig.idRequired );
+            SimSharingIdDialog dialog = new SimSharingIdDialog( null, simSharingConfig.idPrompt, simSharingConfig.idRequired, simSharingConfig.characterValidation );
             SwingUtils.centerWindowOnScreen( dialog );
             dialog.setVisible( true ); // dialog is modal, so this blocks until an id is entered.
             id = dialog.getId();
