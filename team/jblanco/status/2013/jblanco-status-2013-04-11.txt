@@ -1,0 +1,118 @@
+PhET Progress Report, J. Blanco, 4-11-2013
+
+PhET Weekly Progress Report
+John Blanco
+April 11th, 2013
+
+Time period covered: March 21st through April 10th.  This is a three week period due to two cancelled status meeting.
+
+Energy Forms and Changes - 44.0 hrs
+
+o	Fixed a bug where the thermometer would disappear when clicked on.
+o	Implemented thermometer "pop" feature when grabbed by the user.
+o	Put the carousel selectors on the 2nd tab on a separate clock so that they can still be changed when tab is paused.
+o	Made reset un-pause the clock on both tabs.
+o	Added feature where thermometer on beaker jumps to the side if block dropped in so that beaker continues to be the measured object.
+o	Fixed issue with grabbing beaker when on top of block.
+o	Made burner control for the tea pot stay where the user sets it.
+o	Added new image for light bulb that doesn't make the blue electricity chunks appear green (did this 2x).
+o	Made the burners always provide an energy chunk quickly to the blocks and the beaker so that students don't have to wait.
+o	Fixed issue where tool tips for clock panel were popping up in the wrong places (basically just removed them).
+o	Fixed issue where energy chunks could get stuck on the edge of a block when coming in.
+o	Fixed issue with blocks being dropped at edge of stove and being able to overlap it.
+o	Fixed issue where energy chunks could be off of the solar panel when first loaded.
+o	Modified color, size, and layout of check box on first tab to make it more noticeable.
+o	Changed the thermometers to have tick marks of different sizes for easier comparison of temperatures.
+o	Reviewed in design meeting.
+o	Did i18n of strings.
+o	Removed unused images.
+o	Cleaned up unused portions of code, but left prototype code for Heat Capacity Lab in place.
+o	Did some performance testing and optimization.
+o	Published several versions for review by the team.
+o	Ran through IntelliJ code analyzer and cleaned up code based on results.
+o	Worked on color blindness issues.
+o	Created model.txt documentation.
+
+Build an Atom (Java Version) - 5.0 hrs
+
+o	Finished adding Reset Atom button.
+o	Implemented feature that made it easier to remove particles from the atom in touch environments.
+o	Made the spinner controls larger.
+o	Made the tabs significantly bigger.
+o	Made the electrons 20% smaller.
+o	Published version for interviews on touch devices.
+
+Build an Atom (HTML5 version) - 9.0 hrs
+
+o	Updated to latest version of Scenery.
+o	Ported model to Fort (mostly complete at time of this report).
+o	Added gradients to particles.
+o	Got common code versions of buckets working, integrated them into the sim.
+o	Pulled view code out into a separate file.
+o	Got buckets and particles working in Fort+Scenery version.
+o	Worked with JO to get an model-view transform that handles shapes.
+
+Ohm's Law (HTML5 version) - 5.0 hr
+
+o	Published a couple of versions to dev.
+o	Performed functional testing, logged several (~10) bug reports on GitHub.  MLL has addressed most of them.
+
+Balloons and Static Electricity - 4.0 hrs
+
+o	Worked with design team on getting spec ready to hand off to MLL.
+o	Sent preliminary version of spec to MLL and requested a quote.
+o	Participated in various discussions about whether MLL should use Fort.
+o	Provided Kathy an estimate for internal development for comparison.
+
+Resistance in a Wire (HTML5 version) - 3.0 hr
+
+o	Added design drawing to GitHub.
+o	Discussed process for acceptance with Sam R and Ariel P.
+o	Started looking at translation issues (Sam R finished fixing).
+
+Common Code (Java) - 1.0 hrs
+
+o	Added a workaround for an issue where tool tips would be incorrectly positioned.
+
+Common Code (HTML5) - 4.0 hrs
+
+o	Reviewed changes to image loader code.
+o	Got SphereBucket operational.
+o	Various fixes to Bucket, BucketFront, and BucketView code.
+o	Various fixes to the ModelViewTransform2 code.
+
+HTML5 Startup - Process Development - 9.0 hrs
+
+o	Weekly developer meetings to discuss issues and processes.
+o	Weekly developer collaboration meetings to work together on implementation.
+o	Discussions on accessibility during design meeting.
+o	Discussed web safe fonts with Ariel P.
+o	Worked with Sam R to understand and start using the "Fort" model code.
+o	Debriefing with Kathy P in preparation for Hewlett trip.
+o	Worked on plan for provided stable versions of our common code to MLL for sim development.
+o	Wrote up a change control process in an email and sent it via email to Dmitry.
+
+HTML5 Startup - MLL Management - 4.0 hrs
+
+o	Set up meeting to discuss change request process, next steps.
+o	Wrote up and circulated notes from meeting.
+o	Discussed, via email, quote for implementation.
+
+Environment - 2.0 hr
+
+o	Supported Ariel P in getting set up on Git.
+o	Contacted Unfuddle about SVN database locked issue.
+o	Set up my old PC for Trish to use at conference (since hers crashed).
+o	Update to latest version of IntelliJ
+
+Meetings, Email, and Other Administrative Overhead - 12 hrs
+
+o	Weekly status meeting (1x).
+o	Logged February hours.
+o	Status report (x1).
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  16 hrs
+
+o	One vacation day during Spring Break Week.
+o	Friday, March 29th was a holiday.
