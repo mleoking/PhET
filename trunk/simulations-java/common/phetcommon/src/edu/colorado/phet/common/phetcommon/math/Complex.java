@@ -139,7 +139,7 @@ public class Complex {
     public Complex getCanonicalSquareRoot() {
         double magnitude = getAbs();
         return new Complex( Math.sqrt( ( magnitude + _real ) / 2 ),
-                            Math.sqrt( ( magnitude - _real ) / 2 ) );
+                            Math.signum( _imaginary ) * Math.sqrt( ( magnitude - _real ) / 2 ) );
     }
 
     public double getModulus() {
