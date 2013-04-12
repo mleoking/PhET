@@ -1,3 +1,5 @@
+# 1.03.06 (72767) Apr 12, 2013
+4/12/13 Publishing to dev for review with the Stanford research team.
 Added additional information to the "challengePresented" sim sharing messages that indicates the state of the plank at the start of the challenge.
 # 1.03.05 (72745) Apr 12, 2013
 4/12/13 Deploying to dev for review with Stanford research team
