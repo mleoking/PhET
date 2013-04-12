@@ -1,3 +1,4 @@
+Fixed some issues with how parameter sets were being added to sim sharing messages that was causing some of the data to be missing.
 # 1.03.04 (72739) Apr 10, 2013
 # 1.03.03 (72737) Apr 10, 2013
 # 1.03.02 (68940) Oct 7, 2012
