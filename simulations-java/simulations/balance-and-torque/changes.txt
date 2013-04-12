@@ -1,3 +1,4 @@
+Added additional information to the "challengePresented" sim sharing messages that indicates the state of the plank at the start of the challenge.
 # 1.03.05 (72745) Apr 12, 2013
 4/12/13 Deploying to dev for review with Stanford research team
 Fixed some issues with how parameter sets were being added to sim sharing messages that was causing some of the data to be missing.

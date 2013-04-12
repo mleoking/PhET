@@ -415,8 +415,11 @@ public class BalanceGameModel {
         supportColumnState.set( columnState );
 
         // Send up a sim sharing message that indicates the type of challenge
-        // that is now being presented to the user.
-        SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game, balanceChallenge.getModelComponentType(), challengePresented );
+        // that is now being presented to the user.  We
+        SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
+                                            balanceChallenge.getModelComponentType(),
+                                            challengePresented,
+                                            plank.getMassStateParameterSet() );
     }
 
     /**

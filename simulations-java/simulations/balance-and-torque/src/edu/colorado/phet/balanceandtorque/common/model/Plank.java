@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.PositionedVector;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -22,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -30,6 +30,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelComponents.plank;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
 
@@ -488,14 +489,14 @@ public class Plank extends ShapeModelElement {
                 SimSharingManager.sendModelMessage( plank,
                                                     modelElement,
                                                     startedTilting,
-                                                    new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.plankTiltAngle, previousTiltAngle ) ) );
+                                                    new ParameterSet( new Parameter( ParameterKeys.plankTiltAngle, previousTiltAngle ) ) );
                 isStill = false;
             }
             else if ( angularVelocity == 0 && !isStill ) {
                 SimSharingManager.sendModelMessage( plank,
                                                     modelElement,
                                                     stoppedTilting,
-                                                    new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.plankTiltAngle, previousTiltAngle ) ) );
+                                                    new ParameterSet( new Parameter( ParameterKeys.plankTiltAngle, previousTiltAngle ) ) );
                 isStill = true;
             }
 
@@ -669,7 +670,40 @@ public class Plank extends ShapeModelElement {
         }
     }
 
+    /**
+     * Get a sim-sharing-style set of parameters that describe the current
+     * set of masses that are on the plank.
+     *
+     * @return Parameter set that includes the name, mass, and distance from
+     *         the plank's center for each mass on the plank.
+     */
+    public ParameterSet getMassStateParameterSet() {
+        ParameterSet massStateParameterSet = new ParameterSet();
+        for ( int i = 0; i < massesOnSurface.size(); i++ ) {
+            Mass mass = massesOnSurface.get( i );
+            massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.massUserComponent, i ),
+                                                                               mass.getUserComponent().toString() ) );
+            massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.massValue, i ),
+                                                                               mass.getMass() ) );
+            massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.distanceFromPlankCenter, i ),
+                                                                               mapMassToDistFromCenter.get( mass ) ) );
+        }
+        return massStateParameterSet;
+    }
+
     public double getMaxTiltAngle() {
         return maxTiltAngle;
+    }
+
+    static class ParameterKeyWithID implements IParameterKey {
+        private final String value;
+
+        public ParameterKeyWithID( IParameterKey parameterKey, int id ) {
+            this.value = parameterKey + ":" + id;
+        }
+
+        @Override public String toString() {
+            return value;
+        }
     }
 }
