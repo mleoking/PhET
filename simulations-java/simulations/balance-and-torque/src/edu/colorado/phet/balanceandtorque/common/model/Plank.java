@@ -285,10 +285,7 @@ public class Plank extends ShapeModelElement {
         SimSharingManager.sendModelMessage( plank,
                                             modelElement,
                                             massRemovedFromPlank,
-                                            new ParameterSet() {{
-                                                with( new Parameter( massUserComponent, mass.getUserComponent().toString() ) );
-                                            }} );
-
+                                            new ParameterSet( new Parameter( massUserComponent, mass.getUserComponent().toString() ) ) );
     }
 
     public void removeAllMasses() {
