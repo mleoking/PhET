@@ -236,11 +236,10 @@ public class Plank extends ShapeModelElement {
             SimSharingManager.sendModelMessage( plank,
                                                 modelElement,
                                                 massAddedToPlank,
-                                                new ParameterSet() {{
-                                                    with( new Parameter( massUserComponent, mass.getUserComponent().toString() ) );
-                                                    with( new Parameter( massValue, mass.getMass() ) );
-                                                    with( new Parameter( distanceFromPlankCenter, distanceFromCenter ) );
-                                                }} );
+                                                new ParameterSet().
+                                                        with( new Parameter( massUserComponent, mass.getUserComponent().toString() ) ).
+                                                        with( new Parameter( massValue, mass.getMass() ) ).
+                                                        with( new Parameter( distanceFromPlankCenter, distanceFromCenter ) ) );
         }
 
         return massAdded;

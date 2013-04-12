@@ -76,10 +76,9 @@ public abstract class ModelElementCreatorNode extends PComposite {
             public void mousePressed( final PInputEvent event ) {
                 modelElement = addElementToModel( getModelPosition( event.getCanvasPosition() ) );
                 SimSharingManager.sendUserMessage( modelElement.getUserComponent(), modelElement.getUserComponentType(), createdMass );
-                ParameterSet dragParameterSet = new ParameterSet() {{
-                    with( new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() ) );
+                ParameterSet dragParameterSet = new ParameterSet().
+                    with( new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() )).
                     with( new Parameter( ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() ) );
-                }};
                 SimSharingManager.sendUserMessage( modelElement.getUserComponent(), modelElement.getUserComponentType(), UserActions.startDrag, dragParameterSet );
             }
 
@@ -91,10 +90,9 @@ public abstract class ModelElementCreatorNode extends PComposite {
             @Override
             public void mouseReleased( final PInputEvent event ) {
                 // The user has released this node.
-                ParameterSet dragParameterSet = new ParameterSet() {{
-                    with( new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() ) );
+                ParameterSet dragParameterSet = new ParameterSet().
+                    with( new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() ) ).
                     with( new Parameter( ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() ) );
-                }};
                 SimSharingManager.sendUserMessage( modelElement.getUserComponent(), modelElement.getUserComponentType(), UserActions.endDrag, dragParameterSet );
                 modelElement.release();
                 modelElement = null;
