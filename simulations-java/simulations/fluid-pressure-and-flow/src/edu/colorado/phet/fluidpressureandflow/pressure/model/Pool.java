@@ -19,6 +19,6 @@ public class Pool {
     //Compute the pressure above the ground
     public static double getPressureAboveGround( final double y, final boolean atmosphere, final double standardAirPressure, final double gravity ) {
         LinearFunction f = new LinearFunction( 0, 500, standardAirPressure, FluidPressureAndFlowModel.EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
-        return atmosphere ? f.evaluate( y ) * gravity / 9.8 : 0.0;
+        return atmosphere ? f.evaluate( Units.metersToFeet( y ) ) * gravity / 9.8 : 0.0;
     }
 }

@@ -6,7 +6,10 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.ATM;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FT;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FT_PER_S;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.M_PER_S;
 
 /**
  * The units for the Fluid Pressure and Flow model are SI, and Units converts them to and from different units systems.
@@ -45,7 +48,7 @@ public class Units {
     public static final Unit FEET_PER_SECOND = new LinearUnit( FT_PER_S, FEET_PER_METER, new DecimalFormat( "0.0" ) );
 
     //Convenience method for converting feet to meters
-    public static double feetToMeters( double feet ) {
-        return feet / FEET_PER_METER;
-    }
+    public static double feetToMeters( double feet ) { return feet / FEET_PER_METER; }
+
+    public static double metersToFeet( double meters ) { return meters * FEET_PER_METER; }
 }
