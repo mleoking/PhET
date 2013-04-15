@@ -76,6 +76,9 @@ To account for the moving arm and leg, the same polygon is used for the entire b
 when the arm and leg are at an angle.  This can lead to a slight discontinuity in the position of the particles as they move from leg to body and body to arm.
 To summarize the method LimbLocationMap.getLocation, if a particle is found in a leg or arm, then its position is mapped by a rotation so that it will be drawn appropriately relative to the arm or leg.
 
+To pick up electrons, see PickUpElectrons.java.  For each drag event, if the leg's angle is currently on the carpet AND the previous angle was also on the carpet, then one electron is added.
+The range of angles that defines the carpet is v < 0.8 && v > 0.1 radians.
+
 A spark will be created under these conditions (see SparkManager.java).  A thresholding rule is like so:
     int[] numElectrons = new int[]{10, 15, 20, 35, 30, 35, 40, 50, 60, 70};
     double[] dist = new double[]{20, 30, 40, 40, 60, 70, 80, 100, 120, 140};
@@ -114,5 +117,6 @@ This roughly defines a wire frame that will direct electrons toward the pointing
 For the electrons to move, first they determine which line segment they are closest to based on the first (x1,y1) point, then they move toward its (x2,y2) point.
 They are attracted to the (x2,y2) point with a 1/r coulomb law with a scale of k=30.0 and a max of 10.0.
 
-To pick up electrons, see PickUpElectrons.java.  For each drag event, if the leg's angle is currently on the carpet AND the previous angle was also on the carpet, then one electron is added.
-The range of angles that defines the carpet is v < 0.8 && v > 0.1 radians.
+The spark continues until all electrons have exited out the finger.  The code that describes the spark shape is given in SparkNode.java.  
+A point is defined at the finger, and a path is created in a loop until reaching the doorknob (or until 100 points used) using this rule for generating the next point:
+take the vector from point(i-1) to the doorknob, and add a random vector with a uniform distribution between +/- (Math.PI / 3.8) radians.  Generate a vector in that direction with length 6 to create the point(i).   
