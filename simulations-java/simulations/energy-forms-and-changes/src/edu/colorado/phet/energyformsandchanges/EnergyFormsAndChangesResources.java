@@ -77,6 +77,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage ELEMENT_BASE_BACK = RESOURCES.getImage( "element_base_back.png" );
         public static final BufferedImage ELEMENT_BASE_FRONT = RESOURCES.getImage( "element_base_front.png" );
         public static final BufferedImage E_CHEM_BLANK = RESOURCES.getImage( "E_chem_blank.png" );
+        public static final BufferedImage E_CHEM_BLANK_LIGHT = RESOURCES.getImage( "E_chem_blank_light.png" );
         public static final BufferedImage E_DASHED_BLANK = RESOURCES.getImage( "E_dashed_blank.png" );
         public static final BufferedImage E_ELECTRIC_BLANK = RESOURCES.getImage( "E_electric_blank.png" );
         public static final BufferedImage E_LIGHT_BLANK = RESOURCES.getImage( "E_light_blank.png" );
