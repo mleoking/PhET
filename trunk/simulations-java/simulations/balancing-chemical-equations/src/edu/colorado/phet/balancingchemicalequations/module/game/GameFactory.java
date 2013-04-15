@@ -467,6 +467,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 
     // test
     public static void main( String[] args ) {
+
+        // test random generation
+        System.out.println( "TEST RANDOM GENERATION ********************************");
+        System.out.println();
         GameFactory factory = new GameFactory( new Property<Boolean>( false ) );
         for ( int level = 1; level < 4; level++ ) {
             System.out.println( "LEVEL " + level );
@@ -475,6 +479,19 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
                 System.out.println( equation.getName() );
             }
             System.out.println( "(" + equations.size() + " equations)" );
+            System.out.println();
+        }
+
+        // print out all equations by level, since we've had requests (eg #3531) for the full list of equations
+        System.out.println( "PRINT ALL POSSIBLE EQUATIONS *****************************" );
+        System.out.println();
+        EquationClassesList[] pools = { LEVEL1_POOL, LEVEL2_POOL, LEVEL3_POOL };
+        for ( int i = 0; i < pools.length; i++ ) {
+            System.out.println( "LEVEL " + ( i + 1 ) + " (" + pools[i].size() + " equations)" );
+            for ( int j = 0; j < pools[i].size(); j++ ) {
+                Equation equation = instantiateEquation( pools[i].get( j ) );
+                System.out.println( equation.getName().replace( "<sub>", "" ).replace( "</sub>", "" ) );
+            }
             System.out.println();
         }
     }
