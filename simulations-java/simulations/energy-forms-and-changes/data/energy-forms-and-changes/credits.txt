@@ -1,1 +1,1 @@
-phet-credits lead-design=Noah Podolefsky software-development=John Blanco design-team=Ariel Paul, Katherine Perkins interviews=Noah Podolefsky
+phet-credits lead-design=Noah Podolefsky software-development=John Blanco design-team=Ariel Paul, Emily Moore, Katherine Perkins, Trish Loeblein interviews=Noah Podolefsky
