@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--plinko-probability-strings_ko.xml created Fri Jan 14 15:12:49 KST 2011 using: plinko-probability 2.01.00 (37320), translation-utility 2.09.00 (44031) 9월 14, 2010-->
-<SimStrings>
+<!--plinko-probability-strings_ko.xml created Thu Apr 04 13:51:46 KST 2013 using: plinko-probability 2.02.00 (53818), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
 <string key="none" value="없음"/>
 <string key="number" value="수"/>
 <string key="start" value="시작"/>
@@ -13,11 +12,12 @@
 <string key="sound" value="소리"/>
 <string key="oneBall" value="공 1개"/>
 <string key="path" value="경로"/>
-<string key="histogramDisplay" value="히스토그램 보기:"/>
+<string key="histogramDisplay" value="막대그래프 보기:"/>
 <string key="p" value="확률"/>
 <string key="stop" value="정지"/>
 <string key="ball" value="공"/>
 <string key="help" value="도움말"/>
+<string key="translation.credits" value="이화국 전북대 명에교수(www.whakuk.com)"/>
 <string key="reset" value="초기화"/>
 <string key="show" value="보기:"/>
 <string key="autoScale" value="자동 축척"/>
