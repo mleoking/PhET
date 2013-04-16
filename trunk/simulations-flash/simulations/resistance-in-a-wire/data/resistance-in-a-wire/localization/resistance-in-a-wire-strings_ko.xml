@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_ko.xml created Sat Aug 14 11:05:24 KST 2010 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.08.00 (39581) 4월 2, 2010-->
-<SimStrings>
+<!--resistance-in-a-wire-strings_ko.xml created Thu Apr 04 10:44:44 KST 2013 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
 <string key="cm" value="cm"/>
 <string key="resistanceEq" value="저항(R) = "/>
 <string key="ohm" value="ohm"/>
 <string key="simTitle" value="전선의 저항"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
 </SimStrings>
