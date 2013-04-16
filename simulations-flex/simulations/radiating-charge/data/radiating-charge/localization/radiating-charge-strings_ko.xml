@@ -1,19 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--radiating-charge-strings_ko.xml created Sun Mar 31 21:42:59 KST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.09.00 (44031) 9월 14, 2010--><SimStrings>
-<string key="stopCharge" value="충전정지"/>
-<string key="bump" value="충돌"/>
-<string key="amplitude" value="진폭"/>
-<string key="radiating-charge.simTitle" value="방사 충전"/>
-<string key="speed" value="속도"/>
-<string key="duration" value="기간"/>
-<string key="noFrictionManual" value="마찰 없음"/>
-<string key="frictionManual" value="수동"/>
-<string key="linear" value="선형"/>
-<string key="reset" value="재설정"/>
-<string key="frequency" value="주기"/>
-<string key="circular" value="원형"/>
-<string key="showVelocity" value="속도 보이기"/>
-<string key="paused" value="정지"/>
-<string key="restart" value="다시 시작"/>
-<string key="sinusoidal" value="사인파형"/>
-</SimStrings>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_ko.xml created Thu Apr 04 13:27:11 KST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
+<string key="stopCharge" value="충전 정지"/>
+<string key="bump" value="충돌"/>
+<string key="amplitude" value="진폭"/>
+<string key="radiating-charge.simTitle" value="방사 충전"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
+<string key="speed" value="속도"/>
+<string key="frictionManual" value="수동"/>
+<string key="duration" value="기간"/>
+<string key="noFrictionManual" value="마찰 없음"/>
+<string key="linear" value="선형"/>
+<string key="reset" value="초기화"/>
+<string key="frequency" value="주기"/>
+<string key="circular" value="원형"/>
+<string key="showVelocity" value="속도 보이기"/>
+<string key="paused" value="정지됨"/>
+<string key="restart" value="다시 시작"/>
+<string key="sinusoidal" value="사인파형"/>
+</SimStrings>
