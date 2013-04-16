@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_ko.xml created Sun Aug 08 12:12:51 KST 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.08.00 (39581) 4월 2, 2010-->
-<SimStrings>
+<!--mass-spring-lab-strings_ko.xml created Thu Apr 04 19:22:47 KST 2013 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
 <string key="pause" value="정지"/>
 <string key="earth" value="지구"/>
 <string key="dontBother" value="귀찮게 하지마세요!"/>
@@ -14,6 +13,7 @@
 <string key="resetTimer" value="초기화"/>
 <string key="hard" value="강함"/>
 <string key="mass7Label" value="100 그램"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
 <string key="stopWatch" value="초시계"/>
 <string key="none" value="없음"/>
 <string key="realTime" value="실시간"/>
