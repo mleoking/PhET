@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--stern-gerlach-strings_ko.xml created Sat Aug 14 11:20:30 KST 2010 using: stern-gerlach 2.01.00 (37325), translation-utility 2.08.00 (39581) 4월 2, 2010-->
-<SimStrings>
+<!--stern-gerlach-strings_ko.xml created Wed Apr 03 20:20:33 KST 2013 using: stern-gerlach 2.02.00 (52653), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
 <string key="angle3" value="각 3"/>
 <string key="angle2" value="각 2"/>
 <string key="slow" value="느리게"/>
@@ -16,6 +15,7 @@
 <string key="numberOfMagnets" value="자석 수"/>
 <string key="fireAtom" value="원자 발사"/>
 <string key="autoFire" value="자동발사"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
 <string key="angle" value="각"/>
 <string key="reset" value="초기화"/>
 <string key="resetCount" value="초기화 계수기"/>
