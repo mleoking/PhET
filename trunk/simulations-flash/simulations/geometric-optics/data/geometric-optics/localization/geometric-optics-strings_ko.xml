@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--geometric-optics-strings_ko.xml created Sat Aug 14 10:46:32 KST 2010 using: geometric-optics 2.04.00 (37306), translation-utility 2.08.00 (39581) 4월 2, 2010-->
-<SimStrings>
+<!--geometric-optics-strings_ko.xml created Thu Apr 04 17:00:54 KST 2013 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
 <string key="draggableScreen" value="드래그 가능 스크린"/>
 <string key="draggableLens" value="드래그 가능 렌즈"/>
 <string key="screen" value="스크린"/>
@@ -12,14 +11,15 @@
 <string key="diameter" value="지름(m)"/>
 <string key="ruler" value="자"/>
 <string key="focalPoint" value="초점"/>
-<string key="curvatureRadius" value="곡률반경(m)"/>
+<string key="curvatureRadius" value="곡률 반경(m)"/>
 <string key="changeObject" value="물체 변경"/>
-<string key="principalRays" value="주요 광선"/>
-<string key="marginalRays" value="가장자리 광선"/>
+<string key="principalRays" value="주 광선"/>
+<string key="marginalRays" value="최소의 광선"/>
 <string key="virtualImage" value="허상"/>
 <string key="noRays" value="광선 없음"/>
 <string key="secondSource" value="2차 지점"/>
 <string key="hideHelp" value="도움말 숨김"/>
 <string key="refractiveIndex" value="굴절률"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
 <string key="manyRays" value="많은 광선"/>
 </SimStrings>
