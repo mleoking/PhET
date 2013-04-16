@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resonance-strings_ko.xml created Sun Jul 24 15:24:07 KST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) 2월 9, 2011-->
-<SimStrings>
+<!--resonance-strings_ko.xml created Thu Apr 04 10:42:34 KST 2013 using: resonance 1.01.00 (54775), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
 <string key="simSpeed" value="시뮬레이션 속도"/>
 <string key="sameFrequency" value="동일 진동수"/>
 <string key="sameSpring" value="동일 스프링 k"/>
@@ -19,13 +18,14 @@
 <string key="frequency" value="진동수"/>
 <string key="resetAll" value="모두 재설정"/>
 <string key="mass" value="질량"/>
-<string key="sameMass" value="공동질량 m"/>
+<string key="sameMass" value="동일 질량 m"/>
 <string key="resonator" value="공명기"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
 <string key="play" value="작동"/>
 <string key="gravityColon" value="중력"/>
 <string key="paused" value="정지됨"/>
 <string key="off" value="꺼짐"/>
 <string key="dampingConstant" value="감폭상수"/>
 <string key="normal" value="정상적"/>
-<string key="selectPreset" value="설정 선택"/>
+<string key="selectPreset" value="사전설정 선택"/>
 </SimStrings>
