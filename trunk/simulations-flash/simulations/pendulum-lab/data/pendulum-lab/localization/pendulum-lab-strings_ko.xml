@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_ko.xml created Sun Aug 08 12:11:32 KST 2010 using: pendulum-lab 2.02.00 (37319), translation-utility 2.08.00 (39581) 4월 2, 2010-->
-<SimStrings>
+<!--pendulum-lab-strings_ko.xml created Thu Apr 04 15:38:19 KST 2013 using: pendulum-lab 2.03.00 (52288), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
 <string key="resetStopwatch" value="초기화"/>
 <string key="earth" value="지구"/>
 <string key="showPhotoGateTimer" value="촬영 시계"/>
@@ -9,6 +8,7 @@
 <string key="showEnergyOf" value="에너지 보기"/>
 <string key="PE" value="퍼텐셜에너지"/>
 <string key="velocity" value="속력"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
 <string key="realTime" value="실시간"/>
 <string key="length" value="길이"/>
 <string key="lots" value="많음"/>
