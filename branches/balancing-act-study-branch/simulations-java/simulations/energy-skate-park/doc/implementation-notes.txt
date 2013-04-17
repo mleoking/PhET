@@ -1,0 +1,3 @@
+Developer Beware!  Energy skate park uses an unconventional method of serialization for copying model states for recording/playback.
+This makes it impossible to add listeners to model objects, so MVC pattern is not possible for the physical model.
+Just thought you should know.

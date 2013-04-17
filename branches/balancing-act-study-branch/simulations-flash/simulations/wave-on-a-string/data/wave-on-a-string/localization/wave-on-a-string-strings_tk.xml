@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_tk.xml created Tue Sep 04 17:25:04 UZT 2012 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="manual" value="El bilen"/>
+<string key="resetTimer" value="Yza gaýt"/>
+<string key="damping" value="Öçme"/>
+<string key="simTitle" value="Simde bolan tolkun hadysasy"/>
+<string key="showHelp" value="Kömek - görkez"/>
+<string key="pulse" value="Impuls"/>
+<string key="amplitude" value="Amplituda"/>
+<string key="pausePlay" value="arakesme/oýnat"/>
+<string key="step" value="ädim"/>
+<string key="tension" value="dartgynlyk"/>
+<string key="startTimer" value="start/arakesme"/>
+<string key="pulseWidth" value="Impulsyň ini"/>
+<string key="rulerHelp" value="süýşürilýän lineýka"/>
+<string key="high" value="ýokary"/>
+<string key="wiggleWrench" value="Açary yrala!"/>
+<string key="timer" value="Taýmer"/>
+<string key="oscillate" value="Yrgyldat"/>
+<string key="rulers" value="Lineýkalar"/>
+<string key="frequency" value="Ýygylyk"/>
+<string key="wrenchHelp" value="açar"/>
+<string key="fixedEnd" value="Uçlary berkidilen"/>
+<string key="hideHelp" value="Kömek - gizle"/>
+<string key="refLineHelp" value="süýşürilýän ugrukdyryjy çyzyk"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="timerHelp" value="süýşürilýän taýmer"/>
+<string key="looseEnd" value="Erkin uçly"/>
+<string key="noEnd" value="Uç ýok"/>
+<string key="paused" value="Arakesme"/>
+<string key="reset" value="Täzeden başla"/>
+<string key="pulse2" value="Impuls"/>
+<string key="low" value="pes"/>
+</SimStrings>

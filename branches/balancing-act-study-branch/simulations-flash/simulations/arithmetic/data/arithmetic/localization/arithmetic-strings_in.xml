@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_in.xml created Wed Jun 29 00:06:36 ICT 2011 using: arithmetic 2.03.00 (51677), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="level" value="tingkat"/>
+<string key="typeAnswer" value="tulis jawaban, tekan enter"/>
+<string key="clickToSelect" value="klik untuk memilih"/>
+<string key="correct" value="Benar!"/>
+<string key="end" value="selesai"/>
+<string key="isWrong" value="salah"/>
+<string key="start" value="mulai"/>
+<string key="simTitle" value="Aritmatika"/>
+<string key="time" value="waktu"/>
+<string key="finalTime" value="total waktu"/>
+<string key="multiply" value="perkalian"/>
+<string key="tryAgain" value="Coba lagi!"/>
+<string key="sound" value="Suara"/>
+<string key="divide" value="pembagi"/>
+<string key="factor" value="faktor"/>
+<string key="minute" value="waktu"/>
+<string key="finalScore" value="total skor"/>
+<string key="nbrRight" value="jawaban benar"/>
+<string key="mustTypeNbr" value="ketikkan angka"/>
+<string key="score" value="skor"/>
+<string key="scorePer" value="skor"/>
+<string key="translation.credits" value="Sudarsono&#10;blog: http://sdku.tk&#10;::All about Education::&#10;http://allforedu.blogspot.com"/>
+<string key="nbrWrong" value="jawaban salah"/>
+<string key="reset" value="semula"/>
+<string key="clock" value="jam"/>
+<string key="title" value="Lembar Kerja Aritmatika"/>
+</SimStrings>

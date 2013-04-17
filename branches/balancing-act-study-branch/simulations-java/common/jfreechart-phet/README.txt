@@ -1,0 +1,1 @@
+This library contains PhET-specific classes that are build on JFreeChart.

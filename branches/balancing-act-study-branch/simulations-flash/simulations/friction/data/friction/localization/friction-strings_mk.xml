@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_mk.xml created Fri Jul 13 18:31:19 CEST 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Протриј ги жолтите атоми \nод зелените"/>
+<string key="physics" value="ФИЗИКА"/>
+<string key="reset" value="ОД ПОЧЕТOК"/>
+<string key="simTitle" value="Триење"/>
+<string key="translation.credits" value="Превод: Зоран Христовски"/>
+<string key="chemistry" value="ХЕМИЈА"/>
+</SimStrings>

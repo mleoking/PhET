@@ -1,0 +1,169 @@
+# 1.01.00 (67123) Aug 20, 2012
+# 1.00.00 (67117) Aug 20, 2012
+8/20/12 > Initial publication to production server.
+# 0.00.26 (67110) Aug 18, 2012
+8/18/12 Release candidate with fix for security exception
+Changed type of exception thrown to prevent security exception when run via JNLP.
+# 0.00.25 (67085) Aug 17, 2012
+8/17/12 Publishing to dev as release candidate
+# 0.00.24 (65991) Jul 18, 2012
+7/18/12 Custom version for MK with Multiple Cells tab first and multiple cells (rather than just one) showing initially.
+# 0.00.23 (65743) Jul 11, 2012
+7/11/12 Deploying version with several minor changes based on recent (and hopefully final) interviews.
+3rd tab: Slight change to caption wording for "Show Real Cells" dialog.
+1st tab: Made the distance threshold greater for connecting ribosomes and mRNA destroyers to mRNA.  This makes it easier for the user to connect these biomolecules.
+1st tab: Removed the zoom out button, added controls for zooming in/out to a teacher menu.
+3rd tab: Changed the wording, layout, and fonts used for the caption of the "Show Real Cells" picture dialog.
+2nd tab: Made messenger RNA move off screen (for most aspect ratios) before starting to fade.
+2nd tab: Made RNA polymerase detach either in the up or down direction with 50% probability.
+2nd tab: Modified the way that polymerase detaches from the DNA on such that it is fully detached before it starts to fade out.  Otherwise it looks odd when sim is blown up to full screen mode.
+# 0.00.22 (65314) Jun 19, 2012
+6/19/12 Deploying updated version to dev for upcoming interviews.
+Consolidated code for messenger RNA and the fragments produced.  This resulted in a change to the look of the mRNA fragments.
+Cleaned up TODOs in the code.
+Changed sliders to use a different knob - one that looks more professional.
+Changed the way parameters are grouped on the 3rd tab to be more oriented towards function (e.g. "Affinity") instead of biomolecule (e.g. "Transcription Factors").
+# 0.00.21 (63741) Apr 25, 2012
+4/25/12 Deploying to dev for testing and review.
+Changed the layout on the 3rd tab so that clock control, reset button, and "Show Cells" button are now on the left.
+Changed the parameter controllers on the 3rd tab to be in groups.
+Changed the way the cells on the 3rd tab are added so that they fit between the controller at the top and the chart at the bottom.
+Moved the control on the 3rd tab that sets the number of cells to the top center, removed the caption.
+Changed the shape of the fluorescent protein on the 3rd tab to approximate the shape of real green fluorescent protein.
+# 0.00.20 (63446) Apr 16, 2012
+4/16/12 Deploying to dev to enable the design team to review some changes.
+Changed the biomolecule tool box such that it leaves a faded version of the biomolecule behind as a sort of legend.
+Fixed an issue where the biomolecules could end up moving outside of their motion bounds when attaching to a base pair on the DNA molecule.
+# 0.00.19 (62767) Mar 23, 2012
+3/23/12 Deploying to dev for review
+Made changes to motion strategies and bounds in order to make the rate of transcription a little higher on the 2nd tab.
+Changed the way that polymerase is recycled such that it can be relocated either above or below the DNA when returned to the beginning of the transcribed region.
+Changed the motion bounds on both the 1st and 2nd tabs so that molecules are allowed to move below the DNA.
+Fixed layout for HorizontalSliderWithLabelAtEnds, see #3255
+Rewrote HSliderNode to use VSliderNode as a composite, see #3255
+Added code to move biomolecules that attach to the DNA to a lower "layer" of the scene graph so that they are always behind other biomolecules.  This prevents odd-looking cases where biomolecules appear to move between the DNA and a molecule that is attached to it.
+Made the polymerase be "recycled" on the 2nd tab, so that it fades out when it finishes transcribing, then reappears in a good position to transcribe again.
+Constrained z-direction of biomolecules when near the DNA so that they always appear to be fully opaque when interacting with the DNA.
+Made mRNA fade out on 2nd tab when it is fully formed, since it is never translated.
+Increased speed of transcription by polymerase on the DNA strand.
+Turned off the feature where the first tab started zoomed out.
+# 0.00.18 (62503) Mar 13, 2012
+3/13/12 Deploying snapshot to dev for review and discussion.
+On the 2nd tab, made the transcription factors and polymerase be somewhat "pulled in" to the appropriate locations on the DNA strand to start transcription.  This increases transcription rates substantially.
+Changed the algorithm that defines the way that transcription factors detach and reattach to the DNA to pay attention to different site affinities.
+Made polymerase go to back of its layer when it attaches to the DNA so that it goes behind any transcription factors.  This looks better when collisions occur.
+Halved the max concentration of the transcription factors on the 2nd tab.
+Set model-view transform for 2nd tab to be slightly more zoomed out.
+Changed the random 1D walk on the DNA for the transcription factors to stay a bit longer and detach more consistently.
+Changed the random 1D walk on the DNA for RNA polymerase to stay a bit longer and detach more consistently.
+Changed the default velocity of the motion when molecules and connecting with one another to be slower in order to look more natural.
+Fixed gene labels to start at 1 instead of 0.
+Made Reset All button not visible when zoomed out.
+Set to be initially zoomed out on first tab.
+# 0.00.17 (62049) Mar 1, 2012
+3/1/12 Deploying to dev for review with consulting biologist.
+Got Reset All working on 2nd tab.
+Fixed issues with the motion bounds on the 2nd tab so that mRNA can be produced without getting stuck in the corner.
+# 0.00.16 (61742) Feb 24, 2012
+2/24/12 Publishing version to dev for possible demo
+Added most of the user interface for the 2nd tab.
+Made the molecules that don't directly interact with the DNA stay above it when doing random walk.  This should serve to prevent some confusion about what is interacting with the DNA.
+Added label for mRNA that fades in during synthesis and out when synthesis is complete.
+Fixed an issue where polymerase could attach to DNA in locations that overlapped with transcription factors.
+Made the node for the grabbed biomolecule always move to the top of the z-order for its layer.
+Added support for multiple positive transcription factors per gene, added to gene 2 only so far.
+Made the positive and negative transcription factors offset somewhat so they aren't right on top of each other (requested by MK).
+3rd tab: Adjusted the range of the graph, the parameter ranges, and the default values in order to make the "noisy" nature of the single cell more apparent and yet still stay on the graph when all values are maxed out.
+Made ribosomes larger, since it was pointed out they they are in reality about 5x larger (by mass) than the polymerase.
+Made the polymerase and transcription factors do the 1D walk more quickly and detach sooner.
+Prevented user interaction with mRNA destroyers when they are destroying.
+Prevented user interaction with protein until it is fully grown.
+Prevented user interaction with ribosome when it is translating mRNA.
+Prevented user interaction with polymerase when it is transcribing.
+Added infrastructure to prevent user interaction with biomolecules in some circumstances.
+Fixed an issue where ribosomes wouldn't be able to perform another translation until they were moved by the user.
+Fixed an issue that was preventing multiple polymerases from transcribing at the same time.
+Made it easier to get transcription factors and polymerase to attach to the high-affinity sites on the DNA molecule.
+Made biomolecules fall of the DNA strand if they are block transcription and the transcribing polymerase bumps into it.
+# 0.00.15 (61246) Feb 13, 2012
+2/13/12 Deploying to dev for a review meeting.
+Reinstated the 2nd tab and put a new drawing on it that represents a revised design.
+# 0.00.14 (61129) Feb 8, 2012
+2/8/12 Deploying to dev for use in interviews.
+Added first cut at an indicator the tell the user when their protein collection is complete.
+Fixed an issue where the DNA strand would get pulled too far apart by the polymerase if it had been previously attached to the strand.
+Added the ability to prevent transcription factors from attaching to DNA is there is a different biomolecule in its way.
+Reduced the number of polymerase, ribosome, and rna destroyer molecules in the tool box from 3 to 2 in order to avoid false connection to the number of proteins in the collection area.
+Made the placement hints brighter and with a more apparent stroke so that they will be more easily seen (especially on the DNA strand).
+Added a floating clock control to the last tab.
+Adjusted parameter ranges and chart range to keep protein level on the chart in last tab.
+Lengthened the DNA strand on the 1st tab so edges aren't seen when zooming in/out.
+Fixed an issue where background cells were too large.
+# 0.00.13 (61026) Feb 6, 2012
+2/6/12 Deploying to dev for review and feedback.
+Added counter to protein collection area for number of instances of a given protein.
+Added better hint for indicating that user needs to move protein into collection area - area flashes when protein produced.
+Made the DNA shape change when being transcribed.
+Changed wording in protein capture are to make it clearer that it is protein TYPES that complete the collection.
+Changed labels on transcription factors to use words rather than "+" and "-" symbols.
+Tweaked model params on last tab to make it more responsive to changes.
+Increased protein size to make them, and the capture area, more eye catching.
+Optimized cell placement algorithm.
+# 0.00.12 (60483) Jan 20, 2012
+1/20/12 Publishing to dev for potential use in classroom setting.
+Temporarily removed the Protein Levels tab so that a version with only working tabs can be published.
+Renamed tabs.
+Changed the background color on all tabs to be black when outside of a cell.
+Changed cell placement algorithm on 3rd tab to look more random and therefore realistic.
+Added a dialog that shows real E. Coli cells in the 3rd tab.
+Change cell shapes to look roughly like E. Coli.
+Added zoom in/out feature on 1st tab.
+Completed integration of numerical model on 3rd tab.
+Got mRNA destroyer working.
+# 0.00.11 (59967) Jan 6, 2012
+1/6/12 Snapshot of version reviewed with biology expert.
+Implemented first cut of third tab, which allows the user to tweak cell parameters for one or several cells and see how protein levels change.
+Fixed an issue where mRNA would be above the ribosome in the z-order in some cases, which looked weird.
+Added placement hint for mRNA destroyer.
+Added "capture signal" to the protein capture area.  This is a flashing node that surrounds the location where the protein is moved when captured.
+# 0.00.10 (58851) Nov 29, 2011
+11/29/11 Deploying to dev as a snapshot for use in discussions with design team.
+Added infrastructure and stubbed out implementations (i.e. static pictures) for 2nd and 3rd tabs.
+Made biomolecules move directly and quickly to attachment sites, rather than doing a "directed wandering".
+Changed the motion of wandering biomolecules to be faster and have a longer mean free path.
+Implemented the ability to capture proteins in the collection box.
+Added protein collection box node.
+Added protein production from ribosomes.
+Got mRNA positioning and winding algorithm working, supports multiple simultaneous translation and translation during transcription.
+# 0.00.08 (56347) Sep 9, 2011
+9/9/11 Snapshot for review and some initial testing.
+Added some random shaping to the mRNA to make it be a bit curvy.
+Got hints for transcription factors and polymerase working.
+Added ability for polymerase to produce mRNA
+Added ability for polymerase to exhibit the "transcription motion" on the gene.
+# 0.00.07 (55950) Aug 31, 2011
+8/31/11 Deploying to dev to capture a snapshot
+Added 1D random walk when attached to DNA for molecules with general DNA affinity.
+# 0.00.06 (55793) Aug 25, 2011
+8/25/11 Taking a snapshot before making some major changes.
+Fixed an issue where biomolecules removed from the DNA would jump back to it.
+# 0.00.05 (55514) Aug 19, 2011
+8/19/11 Deploying to dev for review by design team.
+Added attachment sites and the ability for polymerase and transcription factors to attach to DNA.
+Added negative transcription factor.
+Added support for hints and added initial set to first gene.
+Added gradients to biomolecules.
+Made strand longer so that ends are not seen when overall aspect ratio is reasonable.
+Made 1st gene be centered at (0,0) in model space so that initial scrolling doesn't occur.
+Made shape of RNA Polymerase look like suggested by design team.
+Improved layout of biomolecule tool box
+Retitled "Tool Box" to "Biomolecule Tool Box"
+# 0.00.04 (53478) Jun 24, 2011
+Made ribosomes into a single unit instead of two subunits
+Added tool boxes and ability to add/remove biomolecules using these tool boxes
+6/24/11 Publishing to dev for review of DNA look and navigation.
+Added base pairs to DNA molecule
+Improved the size and coloration of the prototype genes.
+Added genes to the model
+Improved panning behavior
+Made DNA strands curved instead of linear

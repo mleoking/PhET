@@ -1,0 +1,66 @@
+PhET Weekly Progress Report
+John Blanco
+June 2, 2010
+
+Installer Builder for Wicket-Based Web Site - 13.0 hrs
+
+•	Added filters to prevent activities, workshops, and installers from being included in the rip.
+•	Added the ability to create a version file that can be used by the web site to display the time at which the installers were generated.
+•	Added the ability to notify the web site via HTTP of when new installers have been deployed.
+•	Added code to copy the installers to the location needed by the web site.
+•	Added the ability to maintain a rotating backup of previous installers.
+•	Added email notifications.
+•	Cleaned up unused code.
+•	Lots of testing.
+
+Membrane Diffusion - 6.0 hrs
+
+•	Split this into a separate project (from Neuron)
+•	Made the gate and particle colors match the spec.
+•	Removed the inactivation gate from the sodium gated channel and made the appropriate adjustments to the tool box.
+•	Changed the captions of the buttons and tool box to be more generic.
+•	Removed the legend.
+•	Removed K+ and Na+ labels from the tag on the injector.
+
+Greenhouse - 5.0 hrs
+
+•	Created a model for Greenhouse Effect that will allow testing of all Piccolo-based changes and will eventually grow to include the existing model.
+•	Added ability for photons to come and go from Piccolo canvas.
+•	Created a PNode to represent clouds in the view.
+•	Made the model track number of clouds and send notifications for coming & going.
+•	Added the ability for clouds to appear/disappear in the view.
+•	Started implementing the control panel for the new Photon Absorption tab.
+
+Lac Operon - 1.0 hrs
+
+•	Fixed an issue where an exception could be thrown when interacting with an empty tool box node (found by JO).
+
+Web Site - 0.5 hrs
+
+•	Made several minor changes to workshop info based on requests from Trish L.
+
+Miscellaneous - 1.5 hrs
+
+•	Verified fix for issues with PSwing dynamic components, see #2171.
+•	Commented on discussion about retroactive documentation of code, see #2347.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Weekly PhET meeting.
+•	Met with Noah to review status and progress on Neuron, Membrane Diffusion, and Lac Operon.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 8.0 hrs
+
+•	Monday, May 31 was a holiday.
+•	Out next week, June 7th through the 11th.
+
+What’s Next
+
+•	Continue implementation of 1st tab of the Greenhouse sim.
+•	Continue implementation of Membrane Diffusion sim.
+•	Test installers for wicket-based site, make any last changes.
+•	Start implementation record/playback, or some variation thereof for Neuron.
+•	Continue port to Piccolo of existing tabs in Greenhouse.
+

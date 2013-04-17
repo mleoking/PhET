@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_af.xml created Fri May 25 16:26:11 CAT 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="r" value="R"/>
+<string key="translation.credits" value="Gustav Janse van Rensburg - Skillspro"/>
+<string key="zoomIn" value="zoom \n in"/>
+<string key="intensity" value="Intensiteit"/>
+<string key="simTitle" value="Swartliggaamstraling Spektrum"/>
+<string key="zoomOut" value="zoom \nuit"/>
+<string key="clear" value="Herstel"/>
+<string key="g" value="G"/>
+<string key="sun" value="Son"/>
+<string key="tempInK" value="T(K)"/>
+<string key="save" value="Stoor"/>
+<string key="showRuler" value=" wys liniaal"/>
+<string key="wavelength" value="Golflengte"/>
+<string key="b" value="B"/>
+<string key="oven" value="oond"/>
+<string key="earth" value="aarde"/>
+<string key="lightBulb" value="gloeilamp"/>
+</SimStrings>

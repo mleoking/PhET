@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_mk.xml created Mon Jul 16 20:48:26 CEST 2012 using: plinko-probability 2.02.00 (53818), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="none" value="без"/>
+<string key="number" value="По број"/>
+<string key="start" value="Старт"/>
+<string key="continuous" value="Непрекинато"/>
+<string key="simTitle" value="Распределба на веројатност"/>
+<string key="fraction" value="делови"/>
+<string key="rows" value="Редови"/>
+<string key="sound" value="Звук"/>
+<string key="oneBall" value="1 топка"/>
+<string key="path" value="Патека"/>
+<string key="histogramDisplay" value="Покажи \nХистограм"/>
+<string key="p" value="P \nверојатност"/>
+<string key="stop" value="Стоп"/>
+<string key="ball" value="топка"/>
+<string key="help" value="ПОомош"/>
+<string key="translation.credits" value="Зоран Христовски"/>
+<string key="reset" value="на почеток"/>
+<string key="show" value="Покажи:"/>
+<string key="autoScale" value="Авто-скала"/>
+</SimStrings>

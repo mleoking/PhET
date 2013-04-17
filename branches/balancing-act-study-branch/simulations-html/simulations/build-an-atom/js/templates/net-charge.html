@@ -1,0 +1,23 @@
+<div id="net-charge-meter">
+  <div class="dial">
+    <div class="needle">
+      <i class="icon-arrow-up"></i>
+    </div>
+  </div>
+
+  <span class="net-charge"><%= charge %></span>
+</div>
+
+<ul id="charge-pairing-graph">
+
+  <% for(var i=0; i < pairs; i++ ){ %>
+   <li>
+      <i class="icon-plus"></i>
+      <i class="icon-minus"></i>
+    </li>
+  <% } %>
+
+  <li class="no-border">
+    <i class="icon-plus"></i>
+  </li>
+</ul>

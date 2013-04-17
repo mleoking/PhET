@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/paper.js"></script>
+
+    <body>
+    <canvas id="myCanvas" resize></canvas>
+    <input id="ballCount">
+    </body>
+    <script type="text/javascript" canvas="myCanvas">
+
+        // Widgets
+        var canvas = document.getElementById( "myCanvas" );
+        paper.setup( "myCanvas" );
+
+        var Slider = paper.Group.extend( {
+                                             initialize:function ( pos, size, opts ) {
+                                                 this.base()
+                                                 opts = opts || {}
+                                                 this.min = opts.min
+                                                 this.max = opts.max
+                                                 this.size = size
+                                                 this.thumbSize = this.size.y / 2
+                                                 this.trackWidth = this.size.x - this.size.y
+                                                 this.onChange = opts.onChange || function ( value ) {}
+                                                 this.position = pos
+
+                                                 this.track = new paper.Path.Line(
+                                                         new paper.Point( this.thumbSize, this.thumbSize ),
+                                                         new paper.Point( this.thumbSize + this.trackWidth, this.thumbSize ) )
+                                                 this.track.strokeWidth = size.y / 4
+                                                 this.track.strokeColor = new paper.HslColor( 192, 0.1, 0.8 )
+                                                 this.track.strokeCap = 'round'
+                                                 this.addChild( this.track )
+
+                                                 this.thumb = new paper.Path.Circle(
+                                                         new paper.Point( 0, this.thumbSize ),
+                                                         this.thumbSize )
+                                                 this.thumb.fillColor = new paper.HslColor( 18, 0.3, 0.9 )
+                                                 this.thumb.strokeColor = new paper.HslColor( 18, 0.5, 0.3 )
+                                                 this.thumb.strokeWidth = size.y / 12
+                                                 this.addChild( this.thumb )
+
+                                                 this.thumb.onMouseDown = this.drag.bind( this )
+                                                 this.thumb.onMouseDrag = this.drag.bind( this )
+
+                                                 if ( opts.value ) {
+                                                     this.value = opts.value
+                                                 }
+                                             },
+
+                                             getValue:function () {
+                                                 return this._value
+                                             },
+
+                                             setValue:function ( value ) {
+                                                 if ( !(value && value < this.max) )  // This phrasing deals with NaN
+                                                 {
+                                                     value = this.max
+                                                 }
+                                                 if ( !(value && value > this.min) )  // max === null / undefined / NaN defaults to min
+                                                 {
+                                                     value = this.min
+                                                 }
+                                                 this._value = value
+
+                                                 this.thumb.position.x = this.thumbSize + this.trackWidth * (value - this.min) / (this.max - this.min)
+
+                                                 this.onChange( value )
+                                             },
+
+                                             drag:function ( event ) {
+                                                 var dragAtX = this.toLocal( event.point ).x
+                                                 if ( event.type === 'mousedown' ) {
+                                                     this.dragOffset = this.thumb.position.x - this.thumbSize - dragAtX
+                                                 }
+                                                 else {
+                                                     this.value = (dragAtX + this.dragOffset) / this.trackWidth * (this.max - this.min) + this.min
+                                                 }
+                                             }
+                                         } )
+
+
+        // Scene setup
+
+        var BouncyBall = paper.Base.extend( {
+                                                initialize:function ( pos, r ) {
+                                                    var circle = new paper.Path.Circle( null, r )
+                                                    circle.strokeColor = 'black'
+                                                    circle.strokeWidth = r / 8
+                                                    circle.fillColor = new paper.HslColor( Math.random() * 360, Math.sqrt( Math.random() ), 0.6 )
+                                                    this.sprite = circle
+                                                    this.position = pos
+                                                    this.velocity = new paper.Point( 0, 1 )
+                                                },
+
+                                                getPosition:function () {
+                                                    return this.sprite.position
+                                                },
+
+                                                setPosition:function ( pos ) {
+                                                    this.sprite.position = pos.clone()
+                                                }
+                                            } )
+
+        var balls = [],
+                ballGroup = new paper.Group(),
+                ballRadius = 0.04
+
+        function setBallCount( newCount ) {
+            newCount = Math.round( newCount )
+            if ( newCount > balls.length ) {
+                var extraCount = newCount - balls.length
+                _.each( _.range( extraCount ), function ( n ) {
+                    var ball = new BouncyBall( new paper.Point( Math.random() - 0.5, 0 ), ballRadius )
+                    balls.push( ball )
+                    ballGroup.addChild( ball.sprite )
+                } )
+            }
+            else {
+                while ( balls.length > newCount ) {
+                    balls.pop().sprite.remove()
+                }
+            }
+
+            $( '#ballCount' ).val( newCount )
+        }
+
+        var enclosure = new paper.Path.Circle( new paper.Point( 0, 0 ), 1 )
+        enclosure.strokeWidth = ballRadius / 2
+        enclosure.strokeColor = new paper.RgbColor( 0.4, 0.8, 0.8 )
+        enclosure.fillColor = null
+        ballGroup.addChild( enclosure )
+        ballGroup.matrix.translate( 0, -24 ).scale( 120 )
+
+        paper.project.activeLayer.addChild(
+                new Slider(
+                        new paper.Point( -100, 120 ),
+                        new paper.Point( 200, 16 ),
+                        {
+                            min:1,
+                            max:500,
+                            value:10,
+                            onChange:setBallCount
+                        } ) )
+
+        var fpsText = new paper.PointText( new paper.Point( -200, 140 ) )
+        fpsText.characterStyle = {
+            font:'Lucida Grande, Tahoma',
+            fontSize:6,
+            fillColor:new paper.RgbColor( 0.6, 0.6, 0.9 ),
+        }
+
+
+        // Physics
+
+        function bounceBalls( dt ) {
+            var dt = Math.min( dt, 0.2 ) // prevent huge leaps
+            _.each( balls, function ( ball ) {
+                // simple linear physics here; stable fixed-step iterative update is preferable for the real thing
+                ball.position.x += ball.velocity.x * dt
+                ball.position.y += ball.velocity.y * dt
+                if ( ball.position.length > 1 ) {
+                    var v = ball.velocity;
+                    var n = ball.position.normalize();
+                    ball.velocity.x = v.x - n.x * v.dot( n ) * 2
+                    ball.velocity.y = v.y - n.y * v.dot( n ) * 2
+                    ball.position.x = n.x // enclosure has radius 1 in local coords
+                    ball.position.y = n.y // enclosure has radius 1 in local coords
+                }
+                ball.velocity.x += new paper.Point( 0, 2 ).x * dt
+                ball.velocity.y += new paper.Point( 0, 2 ).y * dt
+            } )
+        }
+
+
+        // UI
+
+        var frameCount = 0,
+                lastFrameRateUpdate = null
+        function displayFrameRate() {
+            frameCount++
+            if ( frameCount > 30 ) {
+                var now = new Date().getTime()
+
+                var rate = frameCount * 1000 / (now - lastFrameRateUpdate)
+                fpsText.content = rate.toFixed( 1 ) + " fps"
+
+                frameCount = 0
+                lastFrameRateUpdate = now
+            }
+        }
+
+
+        // Event handling
+
+        function onResize( event ) {
+            var scale = Math.min( paper.view.size.width / 400, paper.view.size.height / 300 )
+            paper.project.activeLayer.matrix
+                    .setIdentity()
+                    .translate( paper.view.center )
+                    .scale( scale )
+            $( '#ballCount' ).css( 'font-size', scale * 12 )
+                    .css( 'width', scale * 40 )
+        }
+        onResize() // initial position
+
+        updateBallCountFromInput = function () {
+            val = parseInt( $( '#ballCount' ).val() )
+            if ( val >= 0 && val <= 500 && val != balls.length ) {
+                setBallCount( val )
+            }
+        }
+        $( '#ballCount' ).change( updateBallCountFromInput )
+        $( '#ballCount' ).keyup( updateBallCountFromInput )
+
+        function onFrame( event ) {
+            bounceBalls( event.delta )
+            displayFrameRate()
+        }
+        paper.view.onFrame = onFrame;
+    </script>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #ballCount {
+            position: absolute;
+            bottom: 5%;
+            right: 5%;
+        }
+    </style>
+</head>
+</html>

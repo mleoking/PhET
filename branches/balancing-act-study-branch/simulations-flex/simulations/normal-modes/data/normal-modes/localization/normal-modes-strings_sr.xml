@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_sr.xml created Tue May 15 10:16:12 CEST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="start" value="Старт"/>
+<string key="amplitude:" value="амплитуда:"/>
+<string key="translation.credits" value="Превео и играо се &lt;br&gt; Владан Ал. Младеновић, &lt;br&gt; примедбе, критике и евентуалне похвале на &lt;br&gt;  vladan.al.m@gmail.com &lt;br&gt; или&lt;br&gt; omegafizika.rs"/>
+<string key="phase:" value="Фаза:"/>
+<string key="showSprings" value="Покажи опруге"/>
+<string key="modeSpectrum" value="спектар нормалног мода"/>
+<string key="resetPositions" value="Почетни положаји"/>
+<string key="frequency:" value="фреквенција:"/>
+<string key="normalMode:" value="нормални модови:"/>
+<string key="modeSpectrumDisplay" value="покажи  спектар"/>
+<string key="normal-modes.simTitle" value="Нормални модови"/>
+<string key="modeNumbersXY" value="мод бројеви x, y."/>
+<string key="stop" value="Стоп"/>
+<string key="polarization:" value="Контрола&lt;br&gt;поларизације:"/>
+<string key="zeroPositions" value="Нулта позиција"/>
+<string key="paused" value="ПАУЗА"/>
+<string key="showPhases" value="Покажи фазе"/>
+</SimStrings>

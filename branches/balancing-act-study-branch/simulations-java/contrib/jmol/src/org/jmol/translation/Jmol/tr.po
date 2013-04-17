@@ -1,0 +1,1720 @@
+# translation of Jmol-tr.po to Turkish.
+# Copyright (C) 1998-2011 The Jmol Development Team
+# This file is distributed under the same license as the Jmol package.
+# Muhammet Kara <muhammet.k@gmail.com>, 2006, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Jmol\n"
+"Report-Msgid-Bugs-To: jmol-developers@lists.sourceforge.net\n"
+"POT-Creation-Date: 2011-03-24 19:02+0100\n"
+"PO-Revision-Date: 2011-03-20 13:07+0000\n"
+"Last-Translator: Muhammet Kara <Unknown>\n"
+"Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-03-20 20:36+0000\n"
+"X-Generator: Launchpad (build 12617)\n"
+"X-Poedit-Language: Turkish\n"
+
+#: org/openscience/jmol/app/JmolApp.java:102
+msgid "Error starting Jmol: the property 'user.home' is not defined."
+msgstr "Jmol başlatmada hata: 'user.home' özelliği tanımlanmamış."
+
+#: org/openscience/jmol/app/JmolApp.java:139
+msgid "transparent background"
+msgstr "şeffaf arkaplan"
+
+#: org/openscience/jmol/app/JmolApp.java:140
+msgid "give this help page"
+msgstr "bu yardım sayfasını ver"
+
+#: org/openscience/jmol/app/JmolApp.java:142
+msgid "no display (and also exit when done)"
+msgstr "görüntü yok (ve tamamlanınca çık)"
+
+#: org/openscience/jmol/app/JmolApp.java:144
+msgid "check script syntax only - no file loading"
+msgstr "sadece betik sözdizimini kontrol et - dosya yükleme yok"
+
+#: org/openscience/jmol/app/JmolApp.java:146
+msgid "check script syntax only - with file loading"
+msgstr "sadece betik sözdizimini kontrol et - dosya yükleme ile birlikte"
+
+#: org/openscience/jmol/app/JmolApp.java:147
+msgid "debug"
+msgstr "hata ayıkla"
+
+#: org/openscience/jmol/app/JmolApp.java:148
+msgid "silent startup operation"
+msgstr "sessiz başlatma işlemi"
+
+#: org/openscience/jmol/app/JmolApp.java:150
+msgid "list commands during script execution"
+msgstr "betik çalıştırılırken komutları listele"
+
+#: org/openscience/jmol/app/JmolApp.java:152
+msgid "start with no splash screen"
+msgstr "açılış ekranı olmadan başla"
+
+#: org/openscience/jmol/app/JmolApp.java:154
+msgid "no console -- all output to sysout"
+msgstr "komut arayüzü yok -- bütün çıktılar sysyout'a"
+
+#: org/openscience/jmol/app/JmolApp.java:156
+msgid "send only output from print messages to console (implies -i)"
+msgstr ""
+
+#: org/openscience/jmol/app/JmolApp.java:158
+msgid "independent command thread"
+msgstr ""
+
+#: org/openscience/jmol/app/JmolApp.java:160
+msgid "exit after script (implicit with -n)"
+msgstr "betik işletiminden sonra çık (varsayılan -n ile)"
+
+#: org/openscience/jmol/app/JmolApp.java:164
+msgid "script file to execute or '-' for System.in"
+msgstr ""
+
+#: org/openscience/jmol/app/JmolApp.java:170
+msgid "use multitouch interface (requires \"sparshui\" parameter"
+msgstr ""
+
+#: org/openscience/jmol/app/JmolApp.java:177
+msgid "Jmol script to execute BEFORE -s option"
+msgstr ""
+
+#: org/openscience/jmol/app/JmolApp.java:183
+msgid "Jmol script to execute AFTER -s option"
+msgstr ""
+
+#: org/openscience/jmol/app/JmolApp.java:192
+msgid "property=value"
+msgstr "özellik=değer"
+
+#: org/openscience/jmol/app/JmolApp.java:195
+msgid "supported options are given below"
+msgstr "desteklenen seçenekler aşağıda verilmiştir"
+
+#: org/openscience/jmol/app/JmolApp.java:201
+#, java-format
+msgid "window width x height, e.g. {0}"
+msgstr "pencere genişliği x yüksekliği, örn. {0}"
+
+#: org/openscience/jmol/app/JmolApp.java:211
+msgid ""
+"JPG image quality (1-100; default 75) or PNG image compression (0-9; default "
+"2, maximum compression 9)"
+msgstr ""
+"JPG resim kalitesi (1-100; varsayılan 75) veya PNG resim sıkıştırma (0-9; "
+"varsayılan 2, en fazla sıkıştırma 9)"
+
+#: org/openscience/jmol/app/JmolApp.java:216
+#, java-format
+msgid "{0} or {1}:filename"
+msgstr "{0} veya {1}:dosyaadı"
+
+#: org/openscience/jmol/app/JmolApp.java:230
+msgid "For example:"
+msgstr "Örneğin:"
+
+#: org/openscience/jmol/app/JmolApp.java:236
+msgid ""
+"The -D options are as follows (defaults in parenthesis) and must be called "
+"preceding '-jar Jmol.jar':"
+msgstr ""
+
+#: org/openscience/jmol/app/JmolApp.java:469
+msgid "Executing script 1..."
+msgstr "Betik 1 çalıştırılıyor..."
+
+#: org/openscience/jmol/app/JmolApp.java:479
+msgid "Executing script file..."
+msgstr "Betik dosyası çalıştırılıyor..."
+
+#: org/openscience/jmol/app/JmolApp.java:500
+msgid "Executing script 2..."
+msgstr "Betik 2 çalıştırılıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/AboutDialog.java:57
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:191
+msgid "About Jmol"
+msgstr "Jmol Hakkında"
+
+#: org/openscience/jmol/app/jmolpanel/AboutDialog.java:67
+#: org/openscience/jmol/app/jmolpanel/HelpDialog.java:74
+#: org/openscience/jmol/app/jmolpanel/WhatsNewDialog.java:68
+#, java-format
+msgid "Unable to find url \"{0}\"."
+msgstr "\"{0}\" adresi bulunamadı."
+
+#: org/openscience/jmol/app/jmolpanel/AboutDialog.java:97
+#: org/openscience/jmol/app/jmolpanel/HelpDialog.java:95
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:181
+#: org/openscience/jmol/app/jmolpanel/WhatsNewDialog.java:89
+msgid "OK"
+msgstr "TAMAM"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:164
+msgid "Check"
+msgstr "Denetle"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:165
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:216
+msgid "Clear"
+msgstr "Temizle"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:166
+msgid "Close"
+msgstr "Kapat"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:167
+msgid "Halt"
+msgstr "Duraksat"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:168
+msgid "Help"
+msgstr "Yardım"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:169
+msgid "Editor"
+msgstr "Düzenleyici"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:170
+msgid "History"
+msgstr "Geçmiş"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:171
+msgid "State"
+msgstr "Durum"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:172
+msgid "Step"
+msgstr "Adım"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:173
+msgid "Top"
+msgstr "Üst"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:174
+msgid "Undo"
+msgstr "Geri Al"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:175
+msgid "Redo"
+msgstr "Yinele"
+
+#: org/openscience/jmol/app/jmolpanel/AppConsole.java:176
+msgid "Variables"
+msgstr "Değişkenler"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:165
+msgid "AtomSetChooser"
+msgstr "AtomKümesiSeçici"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:169
+msgid "No AtomSets"
+msgstr "AtomKümesi Yok"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:198
+msgid "Properties"
+msgstr "Özellikler"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:206
+msgid "Atom Set Collection"
+msgstr "Atom Dizisi Koleksiyonu"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:227
+msgid "Collection"
+msgstr "Koleksiyon"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:232
+msgid "Info"
+msgstr "Bilgi"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:239
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:177
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:460
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:609
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:630
+msgid "Select"
+msgstr "Seç"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:254
+msgid "Repeat"
+msgstr "Yinele"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:266
+msgid "FPS"
+msgstr "FPS"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:282
+msgid "Vector"
+msgstr "Vektör"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:289
+msgid "Radius"
+msgstr "Yarıçap"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:302
+msgid "Scale"
+msgstr "Ölçek"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:316
+msgid "Amplitude"
+msgstr "Genişlik"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:326
+msgid "Period"
+msgstr "Periyod"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:355
+msgid "Controller"
+msgstr "Denetleyici"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:363
+msgid "Go to first atom set in the collection"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:364
+msgid "Go to previous atom set in the collection"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:365
+msgid "Play the whole collection of atom sets"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:366
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:375
+msgid "Pause playing"
+msgstr "Oynatmayı Duraklat"
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:367
+msgid "Go to next atom set in the collection"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:368
+msgid "Jump to last atom set in the collection"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:372
+msgid "Go to first vector in the collection"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:373
+msgid "Go to previous vector in the collection"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:374
+msgid "Play the whole collection of vectors"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:376
+msgid "Go to next vector in the collection"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/AtomSetChooser.java:377
+msgid "Jump to last vector in the collection"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/ConsoleTextArea.java:87
+#, java-format
+msgid "Error reading from BufferedReader: {0}"
+msgstr "TamponlanmışOkuyucudan okuma sırasında bir hata oluştu: {0}"
+
+#: org/openscience/jmol/app/jmolpanel/DisplayPanel.java:209
+msgid "Delete atoms"
+msgstr "Atomları sil"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:187
+msgid "Export Gaussian Input File"
+msgstr "Gaussian Girdi Dosyasını İçe Aktar"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:194
+msgid "Basic"
+msgstr "Temel"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:196
+msgid "Advanced"
+msgstr "Gelişmiş"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:224
+msgid "Checkpoint File: "
+msgstr "Denetlemenoktası Dosyası: "
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:229
+msgid "Amount of Memory:"
+msgstr "Hafıza Miktarı:"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:235
+msgid "Number of Processors:"
+msgstr "İşlemci Sayısı:"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:248
+msgid "Route"
+msgstr "Hat"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:254
+msgid "Method: "
+msgstr "Yöntem: "
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:261
+msgid "Basis Set: "
+msgstr "Temel Dizi: "
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:269
+msgid "Density Fitting Basis Set (DFT Only): "
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:275
+msgid "Job Options: "
+msgstr "İş Seçenekleri: "
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:288
+msgid "Molecular Properties"
+msgstr "Moleküler Özellikler"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:294
+msgid "Total Charge: "
+msgstr "Toplam Yük: "
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:301
+msgid "Multiplicity: "
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:308
+msgid "Selection: "
+msgstr "Seçim: "
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:343
+msgid "Gaussian Input File Name"
+msgstr "Gaussian Girdi Dosyası Adı"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:349
+msgid "File..."
+msgstr "Dosya..."
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:360
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:760
+msgid "Save"
+msgstr "Kaydet"
+
+#: org/openscience/jmol/app/jmolpanel/GaussianDialog.java:364
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:502
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:173
+#: org/openscience/jmol/app/jmolpanel/RecentFilesDialog.java:70
+msgid "Cancel"
+msgstr "İptal"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:56
+msgid "&Macros"
+msgstr "&Makrolar"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:57
+msgid "&File"
+msgstr "&Dosya"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:58
+msgid "&New"
+msgstr "&Yeni"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:59
+msgid "&Open"
+msgstr "&Aç"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:60
+msgid "Open a file."
+msgstr "Dosya aç."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:61
+msgid "Open &URL"
+msgstr "&URL Aç"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:62
+msgid "&Get PDB"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:63
+msgid "Get &MOL"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:64
+msgid "&Reload"
+msgstr "&Yeniden Yükle"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:65
+msgid "Scrip&t Editor..."
+msgstr "Beti&k Düzenleyici..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:66
+msgid "Conso&le..."
+msgstr "Konso&l..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:67
+msgid "Jmol Java &Console"
+msgstr "Jmol Java &Konsolu"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:68
+msgid "AtomSet&Chooser..."
+msgstr "AtomDizisi&Seçici..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:69
+msgid "&Save As..."
+msgstr "&Farklı Kaydet..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:70
+msgid "&Export"
+msgstr "&Dışa Aktar"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:71
+msgid "Export &Image..."
+msgstr "Dışarı aktar &Image..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:72
+msgid "Save current view as an image."
+msgstr "Geçerli görünümü görüntü olarak kaydet."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:73
+msgid "Export to &Web Page..."
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:74
+msgid "Export one or more views to a web page."
+msgstr "Bir web sayfasına Bir veya daha fazla görünüm aktar."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:75
+msgid "Render in POV-&Ray..."
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:76
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:114
+msgid "Render in POV-Ray"
+msgstr "POV-Ray'de kapla"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:77
+msgid "Write &State..."
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:78
+msgid "Save current view as a Jmol state script."
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:79
+msgid "&Print..."
+msgstr "&Yazdır..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:80
+msgid "Print view."
+msgstr "Yazdırma görünümü."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:81
+msgid "&Close"
+msgstr "&Kapat"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:82
+msgid "E&xit"
+msgstr "Ç&ıkış"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:83
+msgid "Recent &Files..."
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:84
+msgid "&Edit"
+msgstr "&Düzenle"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:86
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:92
+msgid "Select &All"
+msgstr "&Tümünü Seç"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:87
+msgid "Deselect All"
+msgstr "Tüm Seçimleri Kaldır"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:88
+msgid "Copy &Image"
+msgstr "&Görüntüyü Kopyala"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:89
+msgid "Copy Script"
+msgstr "Betik Kopyala"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:90
+msgid "Pr&eferences..."
+msgstr "Te&rcihler..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:91
+msgid "&Paste"
+msgstr "&Yapıştır"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:93
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:94
+msgid "&Select"
+msgstr "&Seç"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:95
+msgid "&All"
+msgstr "&Tümü"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:96
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:109
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:115
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:121
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:128
+msgid "&None"
+msgstr "&Hiçbiri"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:97
+msgid "Hydrogen"
+msgstr "Hidrojen"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:98
+msgid "Carbon"
+msgstr "Karbon"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:99
+msgid "Nitrogen"
+msgstr "Azot"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:100
+msgid "Oxygen"
+msgstr "Oksijen"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:101
+msgid "Phosphorus"
+msgstr "Fosfor"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:102
+msgid "Sulfur"
+msgstr "Kükürt"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:103
+msgid "Amino"
+msgstr "Amino"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:104
+msgid "Nucleic"
+msgstr "Nükleik"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:105
+msgid "Water"
+msgstr "Su"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:106
+msgid "Hetero"
+msgstr "Hetero"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:107
+msgid "&Display"
+msgstr "&Görüntüle"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:108
+msgid "&Atom"
+msgstr "&Atom"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:110
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:111
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:112
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:113
+#, java-format
+msgid "{0}% van der Waals"
+msgstr "%{0} van der Waals"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:114
+msgid "&Bond"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:116
+msgid "&Wireframe"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:117
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:118
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:119
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:131
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:132
+#, java-format
+msgid "{0} Å"
+msgstr "{0} Å"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:120
+msgid "&Label"
+msgstr "&Etiket"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:122
+msgid "&Symbol"
+msgstr "&Sembol"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:123
+msgid "&Name"
+msgstr "&Adı"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:124
+msgid "&Number"
+msgstr "&Numara"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:125
+msgid "&Centered"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:126
+msgid "&Upper right"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:127
+msgid "&Vector"
+msgstr "&Vektör"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:129
+msgid "&On"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:130
+#, java-format
+msgid "{0} pixels"
+msgstr "{0} piksel"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:133
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:134
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:135
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:136
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:137
+#, java-format
+msgid "Scale {0}"
+msgstr "Ölçek {0}"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:138
+msgid "&Zoom"
+msgstr "&Zum"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:139
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:140
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:141
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:142
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:143
+#, java-format
+msgid "{0}%"
+msgstr "%{0}"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:144
+msgid "&Perspective Depth"
+msgstr "&Perspektif Derinliği"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:145
+msgid "A&xes"
+msgstr "E&ksenler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:146
+msgid "B&ounding Box"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:147
+msgid "&Hydrogens"
+msgstr "&Hidrojenler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:148
+msgid "V&ectors"
+msgstr "V&ektörler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:149
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:161
+msgid "&Measurements"
+msgstr "&Ölçüler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:150
+msgid "Resi&ze"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:151
+msgid "&View"
+msgstr "&Görünüm"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:152
+msgid "&Front"
+msgstr "&Ön"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:153
+msgid "&Top"
+msgstr "&Üst"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:154
+msgid "&Bottom"
+msgstr "&Alt"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:155
+msgid "&Right"
+msgstr "&Sağ"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:156
+msgid "&Left"
+msgstr "&Sol"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:157
+msgid "Tr&ansform..."
+msgstr "Dö&nüştür..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:158
+msgid "Define &Center"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:159
+msgid "&Tools"
+msgstr "&Araçlar"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:160
+msgid "&Gaussian..."
+msgstr "&Gaussian..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:162
+msgid "Distance &Units"
+msgstr "Aralık &Birimleri"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:163
+msgid "&Nanometers 1E-9"
+msgstr "&Nanometre 1E-9"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:164
+msgid "&Angstroms 1E-10"
+msgstr "&Angstrom 1E-10"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:165
+msgid "&Picometers 1E-12"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:166
+msgid "&Animate..."
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:167
+msgid "&Vibrate..."
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:168
+msgid "&Graph..."
+msgstr "&Grafik..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:169
+msgid "Calculate chemical &shifts..."
+msgstr "Kimyasal dönüşümleri he&sapla..."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:170
+msgid "&Crystal Properties"
+msgstr "&Kristal Özellikleri"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:171
+msgid "&Once"
+msgstr "&Bir kez"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:172
+msgid "&Loop"
+msgstr "&Döngü"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:173
+msgid "P&alindrome"
+msgstr "P&alindrom"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:174
+msgid "&Stop animation"
+msgstr "Animasyonu &durdur"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:175
+msgid "&Rewind to first frame"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:176
+msgid "Rewind to first frame"
+msgstr "İlk çerçeveye geri dön"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:177
+msgid "Go to &next frame"
+msgstr "&Sonraki kareye git"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:178
+msgid "Go to next frame"
+msgstr "Bir sonraki çerçeveye git"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:179
+msgid "Go to &previous frame"
+msgstr "&Önceki kareye git"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:180
+msgid "Go to previous frame"
+msgstr "Bir önceki çerçeveye git"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:181
+msgid "All &frames"
+msgstr "Tüm &kareler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:182
+msgid "All frames"
+msgstr "Tüm kareler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:183
+msgid "Go to &last frame"
+msgstr "Son kareye git"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:184
+msgid "Go to last frame"
+msgstr "Son çerçeveye git"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:185
+msgid "Start &vibration"
+msgstr "&Titreşimi başlat"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:186
+msgid "&Stop vibration"
+msgstr "Titreşimi &durdur"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:187
+msgid "&First frequency"
+msgstr "&İlk frekans"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:188
+msgid "&Next frequency"
+msgstr "&Sonraki frekans"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:189
+msgid "&Previous frequency"
+msgstr "&Önceki frekans"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:190
+msgid "&Help"
+msgstr "&Yardım"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:192
+msgid "User Guide"
+msgstr "Kullanım Kılavuzu"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:193
+msgid "What's New"
+msgstr "Yenilikler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:194
+msgid "Hydrogens"
+msgstr "Hidrojenler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:195
+#: org/openscience/jmol/app/jmolpanel/MeasurementTable.java:66
+msgid "Measurements"
+msgstr "Ölçüler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:196
+msgid "Perspective Depth"
+msgstr "Perspektif Derinliği"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:197
+msgid "Axes"
+msgstr "Eksenler"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:198
+msgid "Bounding Box"
+msgstr "Bağlama Kutusu"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:200
+msgid "RasMol/Chime compatible axes orientation/rotations"
+msgstr "RasMol/Chime'e uyumlu eksenlerin yönelme/dönüşleri"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:202
+msgid "File Preview (requires restarting Jmol)"
+msgstr "Dosya önizleme (Jmol'un yeniden başlatılması gerekir)"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:204
+msgid "Clear history (requires restarting Jmol)"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:205
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:206
+msgid "Use Atom Color"
+msgstr "Atom Rengini Kullan"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:207
+msgid "Rotate molecule."
+msgstr "Molekülü döndür."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:209
+msgid "Select a set of atoms using SHIFT-LEFT-DRAG."
+msgstr "ÜSTKARAKTER-SOL-SÜRÜKLE'yi kullanarak bir atom seti seçin."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:211
+msgid "Click atoms to measure distances"
+msgstr "Uzaklıkları ölçmek için atomlara tıklayın"
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:213
+msgid "Click an atom to center on it"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:214
+msgid "Return molecule to home position."
+msgstr "Molekülü ana konumuna getir."
+
+#: org/openscience/jmol/app/jmolpanel/GuiMap.java:215
+msgid "Open the model kit."
+msgstr "Model kitini aç."
+
+#: org/openscience/jmol/app/jmolpanel/HelpDialog.java:64
+msgid "Jmol Help"
+msgstr "Jmol Yardımı"
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:168
+msgid "Initializing 3D display..."
+msgstr "3D görüntüleme başlatılıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:201
+msgid "Initializing Script Window..."
+msgstr "Betik Penceresi Başlatılıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:224
+msgid "Building Command Hooks..."
+msgstr "Komut Bağları Oluşturuluyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:235
+msgid "Building Menubar..."
+msgstr "Menu Çubuğu Oluşturuluyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:252
+msgid "Starting display..."
+msgstr "Görüntülemeye başlanıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:298
+msgid "Setting up Drag-and-Drop..."
+msgstr "Sürükle-Bırak kuruluyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:300
+msgid "Launching main frame..."
+msgstr "Ana çerçeve başlatılıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:304
+msgid "Initializing Preferences..."
+msgstr "Tercihler Başlatılıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:306
+msgid "Initializing Recent Files..."
+msgstr "Son Kullanılan Dosyalar Başlatılıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:341
+msgid "Jmol Java Console"
+msgstr "Jmol Java Uçbirimi"
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:361
+msgid "Could not create ConsoleTextArea: "
+msgstr "KonsolMetinAlanı oluşturulamadı: "
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:378
+msgid "Creating main window..."
+msgstr "Ana pencere oluşturuluyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:379
+msgid "Initializing Swing..."
+msgstr "Sapma başlatılıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:391
+msgid "Initializing Jmol..."
+msgstr "Jmol başlatılıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:504
+msgid "Closing Jmol..."
+msgstr "Jmol Kapanıyor..."
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:1119
+msgid "Open URL"
+msgstr "URL Aç"
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:1120
+msgid "Enter URL of molecular model"
+msgstr "Moleküler modelin adresini gir"
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:1146
+msgid "Get PDB file"
+msgstr "PDB dosyası al"
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:1147
+msgid "Enter a four-digit PDB ID"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:1164
+msgid "Get MOL file by compound name or ID"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:1165
+msgid "Enter the name or identifier (SMILES, InChI, CAS) of a molecule"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:1331
+msgid "IO Exception:"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/JmolPanel.java:1424
+msgid "width height?"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/MeasurementTable.java:124
+msgid "Delete"
+msgstr "Sil"
+
+#: org/openscience/jmol/app/jmolpanel/MeasurementTable.java:133
+msgid "DeleteAll"
+msgstr "TümünüSil"
+
+#: org/openscience/jmol/app/jmolpanel/MeasurementTable.java:151
+msgid "Dismiss"
+msgstr ""
+
+#: org/openscience/jmol/app/jmolpanel/MeasurementTable.java:202
+msgid "Value"
+msgstr "Değer"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:153
+msgid "Conversion from Jmol to POV-Ray"
+msgstr "JMol'den POV-Ray'e Dönüştürme"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:157
+msgid "File Name:"
+msgstr "Dosya Adı:"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:159
+msgid ""
+"'caffeine.pov' -> 'caffeine.pov', 'caffeine.pov.ini', 'caffeine.pov.spt'"
+msgstr ""
+"'caffeine.pov' -> 'caffeine.pov', 'caffeine.pov.ini', 'caffeine.pov.spt'"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:169
+msgid "Working Directory"
+msgstr "Çalışma Dizini"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:171
+msgid "Where the .pov files will be saved"
+msgstr ".pov dosyalarının kaydedileceği yer"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:191
+msgid "POV-Ray Runtime Options"
+msgstr "POV-Ray Çalışma Zamanı Seçenekleri"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:196
+msgid "Run POV-Ray directly"
+msgstr "POV-Ray'i doğrudan başlat"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:198
+msgid "Launch POV-Ray from within Jmol"
+msgstr "POV-Ray'i Jmol içinden başlat"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:243
+msgid "Display While Rendering"
+msgstr "İşleme Sırasında Görüntüle"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:245
+msgid "Should POV-Ray attempt to display while rendering?"
+msgstr "POV-Ray tarama yaparken görüntülemeyi denesin mi?"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:268
+msgid "width:"
+msgstr "genişlik:"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:270
+msgid "Image width"
+msgstr "Görüntü genişliği"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:285
+#: org/openscience/jmol/app/webexport/PopInJmol.java:74
+msgid "height:"
+msgstr "yükseklik:"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:287
+msgid "Image height"
+msgstr "Görüntü yüksekliği"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:304
+msgid "Fixed ratio : "
+msgstr "Sabit oran : "
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:306
+msgid "Use a fixed ratio for width:height"
+msgstr "Yükseklik:genişlik için sabit oran kullan"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:317
+msgid "User defined"
+msgstr "Kullanıcı tanımlı"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:319
+msgid "Keep ratio of Jmol window"
+msgstr "Jmol penceresinin oranını koru"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:359
+msgid "N - PNG"
+msgstr "N - PNG"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:362
+msgid "P - PPM"
+msgstr "P - PPM"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:365
+msgid "C - Compressed Targa-24"
+msgstr "C - Sıkıştırılmış Targa-24"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:368
+msgid "T - Uncompressed Targa-24"
+msgstr "T - Sıkıştırılmamış Targa-24"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:384
+msgid "Alpha transparency"
+msgstr "Alfa saydamlığı"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:386
+msgid "Output Alpha transparency data"
+msgstr "Alfa saydamlık verisi çıktısı"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:399
+msgid "Mosaic preview"
+msgstr "Mozaik önizleme"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:401
+msgid "Render the image in several passes"
+msgstr "Resmi bir kaç geçişle üret"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:411
+msgid "Start size : "
+msgstr "Başlangıç boyutu : "
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:413
+msgid "Initial size of the tiles"
+msgstr "Döşemelerin başlangıç boyutu"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:429
+msgid "End size : "
+msgstr "Bitiş boyutu : "
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:431
+msgid "Final size of the tiles"
+msgstr "Ekran bölümlerinin son boyutu"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:452
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:454
+msgid "Location of the POV-Ray Executable"
+msgstr "POV-Ray Çalışanının Konumu"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:491
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:758
+msgid "Go!"
+msgstr "Git!"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:493
+msgid "Save file and possibly launch POV-Ray"
+msgstr "Dosyayı kaydet ve imkan dahilinde POV-Ray'i çalıştır"
+
+#: org/openscience/jmol/app/jmolpanel/PovrayDialog.java:504
+msgid "Cancel this dialog without saving"
+msgstr "Bu diyaloğu kaydetmeden iptal et"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:140
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:158
+msgid "Display"
+msgstr "Görüntü"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:159
+msgid "Atoms"
+msgstr "Atomlar"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:160
+msgid "Bonds"
+msgstr "Bağlar"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:165
+msgid "Jmol Defaults"
+msgstr "Jmol Varsayılanları"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:169
+msgid "RasMol Defaults"
+msgstr "RasMol Varsayılanları"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:177
+msgid "Apply"
+msgstr "Uygula"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:205
+msgid "Show All"
+msgstr "Tümünü Göster"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:304
+msgid "Default atom size"
+msgstr "Varsayılan atom boyutu"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:305
+msgid "(percentage of vanDerWaals radius)"
+msgstr "(vanDerWaals yarıçapı yüzdesi)"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:363
+msgid "Compute Bonds"
+msgstr "Bağları Hesapla"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:365
+msgid "Automatically"
+msgstr "Otomatik Olarak"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:366
+msgid "Don't Compute Bonds"
+msgstr "Bağları Hesaplama"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:396
+msgid "Default Bond Radius"
+msgstr "Varsayılan Bağ Yarıçapı"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:397
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:436
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:482
+msgid "(Angstroms)"
+msgstr "(Angstromlar)"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:435
+msgid "Bond Tolerance - sum of two covalent radii + this value"
+msgstr "Bağ Dayanaklılığı - iki kovalent yarıçap toplamı + bu değer"
+
+#: org/openscience/jmol/app/jmolpanel/PreferencesDialog.java:481
+msgid "Minimum Bonding Distance"
+msgstr "Minimum Bağlanma Mesafesi"
+
+#: org/openscience/jmol/app/jmolpanel/RecentFilesDialog.java:61
+msgid "Recent Files"
+msgstr "Son Dosyalar"
+
+#: org/openscience/jmol/app/jmolpanel/RecentFilesDialog.java:66
+msgid "Open"
+msgstr "Aç"
+
+#: org/openscience/jmol/app/jmolpanel/Splash.java:46
+msgid "Loading..."
+msgstr "Yükleniyor..."
+
+#: org/openscience/jmol/app/jmolpanel/WhatsNewDialog.java:57
+msgid "What's New in Jmol"
+msgstr "Jmol'daki Yenilikler"
+
+#: org/openscience/jmol/app/webexport/JmolInstance.java:81
+msgid "Attempt to make scratch directory failed."
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/LogPanel.java:56
+msgid "Log and Error Messages:"
+msgstr "Kayıt ve Hata Mesajları:"
+
+#: org/openscience/jmol/app/webexport/LogPanel.java:64
+msgid "Messages (see Log tab for full history):"
+msgstr "İletiler (tüm geçmiş için Günlük sekmesine bakın):"
+
+#: org/openscience/jmol/app/webexport/PopInJmol.java:46
+msgid "These names will be used as filenames for the applets"
+msgstr "Bu isimler, uygulamacıkların dosya adları olarak kullanılacak"
+
+#: org/openscience/jmol/app/webexport/PopInJmol.java:72
+msgid "Applet width:"
+msgstr "Uygulamacık genişliği:"
+
+#: org/openscience/jmol/app/webexport/PopInJmol.java:107
+#, java-format
+msgid "insert a caption for {0} here."
+msgstr "buraya {0} için bir başlık yazısı ekle."
+
+#: org/openscience/jmol/app/webexport/PopInJmol.java:110
+#, java-format
+msgid "insert a note for {0} here."
+msgstr "buraya {0} için bir not ekle."
+
+#: org/openscience/jmol/app/webexport/ScriptButtons.java:44
+msgid "These names will be used for button labels"
+msgstr "Bu isimler düğme etiketleri için kullanılacak"
+
+#: org/openscience/jmol/app/webexport/ScriptButtons.java:57
+msgid "% of window for applet width:"
+msgstr "uygulamacık genişliği için pencerenin %'si:"
+
+#: org/openscience/jmol/app/webexport/WebExport.java:82
+#: org/openscience/jmol/app/webexport/WebExport.java:196
+#: org/openscience/jmol/app/webexport/WebExport.java:268
+msgid "Jmol Web Page Maker"
+msgstr "Jmol Web Sayfası Hazırlayıcı"
+
+#: org/openscience/jmol/app/webexport/WebExport.java:105
+msgid "Couldn't find file: {0}"
+msgstr "Dosya bulunamadı: {0}"
+
+#: org/openscience/jmol/app/webexport/WebExport.java:124
+msgid "Introduction"
+msgstr "Giriş"
+
+#: org/openscience/jmol/app/webexport/WebExport.java:134
+msgid "Pop-In Jmol"
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebExport.java:135
+msgid "ScriptButton Jmol"
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebExport.java:152
+msgid "Log"
+msgstr "Kayıt"
+
+#: org/openscience/jmol/app/webexport/WebExport.java:167
+#, java-format
+msgid ""
+"Page skeleton and JavaScript generated by export to web function using {0} "
+"on {1}."
+msgstr ""
+"Sayfa iskeleti ve JavaScript, {0} {1} üzerinde kullanılarak web'e aktarma "
+"fonksiyonu ile oluşturuldu."
+
+#: org/openscience/jmol/app/webexport/WebExport.java:358
+#, java-format
+msgid ""
+"To get a 3-D model you can manipulate, click {0}here{1}. Download time may "
+"be significant the first time the applet is loaded."
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebExport.java:360
+msgid "Insert the page TITLE here."
+msgstr "Sayfa BAŞLIĞINI buraya ekle."
+
+#: org/openscience/jmol/app/webexport/WebExport.java:361
+msgid "Insert the page INTRODUCTION here."
+msgstr "Sayfa GİRİŞİNİ buraya ekle."
+
+#: org/openscience/jmol/app/webexport/WebExport.java:363
+#, java-format
+msgid "Insert a caption for {0} here."
+msgstr "{0} için başlık yazısını buraya ekle."
+
+#: org/openscience/jmol/app/webexport/WebExport.java:364
+#, java-format
+msgid ""
+"Insert additional explanatory text here. Long text will wrap around Jmol "
+"model {0}."
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebExport.java:366
+msgid "Insert your TITLE and INTRODUCTION here."
+msgstr "BAŞLIKĞINIZI ve GİRİŞİNİZİ buraya ekleyin."
+
+#: org/openscience/jmol/app/webexport/WebExport.java:368
+#, java-format
+msgid ""
+"The button {0} will appear in the box below.  Insert information for {0} "
+"here and below."
+msgstr ""
+"{0} düğmesi aşağıdaki kutuda belirecek. Buraya ve alta {0} için bilgi girin."
+
+#: org/openscience/jmol/app/webexport/WebExport.java:369
+#, java-format
+msgid "Insert more information for {0} here."
+msgstr "Buraya {0} için daha fazla bilgi ekleyin."
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:152
+msgid "A web page containing Jmol applets"
+msgstr "Jmol uygulamacıkları bulunan bir web sayfası"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:177
+msgid "click and drag to reorder"
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:182
+msgid "Add Present Jmol State as Instance..."
+msgstr "Şimdiki Jmol durumunu Örnek Olarak Ekleyin..."
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:189
+msgid "Delete Selected"
+msgstr "Seçilenleri Sil"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:221
+msgid "Jmol Instances:"
+msgstr "Jmol Örnekleri:"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:227
+msgid "Select widgets:"
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:330
+msgid "Help/Instructions"
+msgstr "Yardım/Yönergeler"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:337
+#: org/openscience/jmol/app/webexport/WebPanel.java:345
+msgid "Cartoon of Page"
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:351
+msgid "Save HTML as..."
+msgstr "HTML'yi farklı kaydet..."
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:361
+msgid "Relative server path to jar files:"
+msgstr "jar dosyaları için Göreli sunucu adresi:"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:367
+msgid "Relative local path to jar files:"
+msgstr "jar dosyaları için Göreli yerel adres:"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:373
+msgid "Author (your name):"
+msgstr "Yazar (adınız):"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:380
+msgid "Browser window title for this web page:"
+msgstr "Bu web sayfası için tarayıcı penceresi başlığı:"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:466
+msgid "Give the occurrence of Jmol a name:"
+msgstr "Jmol olayına bir isim ver:"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:482
+msgid "Error creating new instance containing script(s) and image."
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:493
+#, java-format
+msgid "added Instance {0}"
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:496
+#, java-format
+msgid "updated Instance {0}"
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:533
+msgid "Select a directory to create or an HTML file to save"
+msgstr "Oluşturulacak bir dizin veya kaydedilecek bir HTML dosyası seçin"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:551
+#, java-format
+msgid "file {0} created"
+msgstr "{0} dosyası oluşturuldu"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:553
+msgid "Call to FileWriter unsuccessful."
+msgstr "FileWriter çağrılamadı."
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:628
+#, java-format
+msgid "Using directory {0}"
+msgstr "{0} dizini kullanılıyor"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:629
+#: org/openscience/jmol/app/webexport/WebPanel.java:638
+#: org/openscience/jmol/app/webexport/WebPanel.java:658
+#: org/openscience/jmol/app/webexport/WebPanel.java:672
+#: org/openscience/jmol/app/webexport/WebPanel.java:699
+#, java-format
+msgid "adding {0}"
+msgstr "{0} ekleniyor"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:687
+#, java-format
+msgid "Unable to load resource {0}"
+msgstr ""
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:739
+msgid "Based on template by A. Herr&#x00E1;ez as modified by J. Gutow"
+msgstr ""
+"A. Herr&#x00E1;ez'in J. Gutow tarafından düzenlenen şablonuna dayanmaktadır"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:742
+#, java-format
+msgid "creating {0}"
+msgstr "{0} oluşturuluyor"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:776
+#, java-format
+msgid ""
+"Could not find or open:\n"
+"{0}"
+msgstr ""
+"Bulunamadı veya açılamadı:\n"
+"{0}"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:779
+#, java-format
+msgid ""
+"copying\n"
+"{0}\n"
+"         to"
+msgstr ""
+"{0}\n"
+"kopyalanıyor\n"
+"         şuraya"
+
+#: org/openscience/jmol/app/webexport/WebPanel.java:786
+msgid "compressing large data file to"
+msgstr "geniş veri dosyası şuraya sıkıştırılıyor"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:62
+msgid "Spin on/off"
+msgstr "Dönme (spin) kapalı/açık"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:80
+msgid "enable/disable spin"
+msgstr "dönmeyi (spin) etkinleştir/devre dışı bırak"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:82
+msgid "Spin on"
+msgstr "Dönme açık"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:88
+msgid "Background Color"
+msgstr "Arkaplan Rengi"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:106
+msgid "background color:"
+msgstr "arkaplan rengi:"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:119
+msgid "Stereo Viewing"
+msgstr "Stereo Gösterim"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:136
+msgid "select stereo type"
+msgstr "stereo türünü seç"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:140
+msgid "Stereo Off"
+msgstr "Stereo Kapalı"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:141
+msgid "Red/Blue"
+msgstr "Kırmızı/Mavi"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:143
+msgid "Red/Cyan"
+msgstr "Kırmızı/Camgöbeği"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:145
+msgid "Red/Green"
+msgstr "Kırmızı/Yeşil"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:152
+msgid "Animation Control"
+msgstr "Canlandırma Kontrolü"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:179
+msgid "Animation"
+msgstr "Canlandırma"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:180
+msgid "First Frame"
+msgstr "İlk Kare"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:182
+msgid "Previous Frame"
+msgstr "Önceki Kare"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:184
+msgid "Play"
+msgstr "Oynat"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:186
+msgid "Next Frame"
+msgstr "Sonraki Kare"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:188
+msgid "Pause"
+msgstr "Duraklat"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:190
+msgid "Last Frame"
+msgstr "Son Kare"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:192
+msgid "Mode:"
+msgstr "Mod:"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:193
+msgid "Loop"
+msgstr "Döngü"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:195
+msgid "Palindrome"
+msgstr "Palindrom"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:197
+msgid "Play Once"
+msgstr "Bir Kere Oynat"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:206
+msgid "Open Console Button"
+msgstr "Uçbirim Açma Düğmesi"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:222
+msgid "launch Jmol console"
+msgstr "Jmol uçbirimini çalıştır"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:224
+msgid "Jmol Console"
+msgstr "Jmol Konsolu"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:229
+msgid "Download view"
+msgstr "İndirme görünümü"
+
+#: org/openscience/jmol/app/webexport/Widgets.java:247
+msgid "unimplemented"
+msgstr ""
+
+#~ msgid "vector"
+#~ msgstr "vektör"
+
+#~ msgid "Go to first {0} in the collection"
+#~ msgstr "Koleksiyondaki ilk {0} elemanına git"
+
+#~ msgid "Go to previous {0} in the collection"
+#~ msgstr "Koleksiyondaki önceki {0} elemana git"
+
+#~ msgid "Play the whole collection of {0}'s"
+#~ msgstr "{0} elemanının tüm koleksiyonunu oynat"
+
+#~ msgid "Go to next {0} in the collection"
+#~ msgstr "Koleksiyondaki bir sonraki {0} elemanına git"
+
+#~ msgid "Jump to last {0} in the collection"
+#~ msgstr "Koleksiyondaki en son {0} elemanına git"
+
+#~ msgid "Jmol Script Console"
+#~ msgstr "Jmol Betik Uçbirimi"
+
+#~ msgid "Clear console button (requires restarting Jmol)"
+#~ msgstr "Komut arayüzünü temizle (Jmol'u yeniden başlatmanız gerekir)"
+
+#~ msgid "The -D options are as follows (defaults in parenthesis):"
+#~ msgstr ""
+#~ "-D seçenekleri aşağıda listenenmiştir (parantez içindekiler varsayılan "
+#~ "seçeneklerdir):"
+
+#~ msgid "Output Conso&le..."
+#~ msgstr "Betik..."
+
+#~ msgid "double-click and drag to reorder"
+#~ msgstr "yeniden sıralamak için çift-tıklayıp sürükleyin"
+
+#~ msgid ""
+#~ "Insert additonal explanatory text here. Long text will wrap around Jmol "
+#~ "model {0}."
+#~ msgstr ""
+#~ "Açıklayıcı ek yazıyı buraya ekle. Uzun yazı {0} Jmol modeli çevresinde "
+#~ "kaydırılır."
+
+#~ msgid "Show Selected"
+#~ msgstr "Seçilenleri Göster"
+
+#~ msgid "adding {0}.spt"
+#~ msgstr "{0}.spt ekleniyor"
+
+#~ msgid "adding {0}.png"
+#~ msgstr "{0}.png ekleniyor"
+
+#~ msgid "adding JmolPopIn.js"
+#~ msgstr "JmolPopIn.js ekleniyor"
+
+#~ msgid "atom set"
+#~ msgstr "atom dizisi"
+
+#~ msgid "stereo off"
+#~ msgstr "stereo kapalı"

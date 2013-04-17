@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <shortName>componentsexample</shortName>
+    <fullName>BitRock Components Example Installer</fullName>
+    <version>1.0</version>
+    <installerFilename>${project.shortName}-${project.version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
+    <allowComponentSelection>1</allowComponentSelection>
+    
+    <parameterList>
+
+        <directoryParameter>
+            <name>installdir</name>
+            <title></title>
+            <description>Installation directory</description>
+            <explanation>Please specify the directory where ${project.fullName} will be installed</explanation>
+            <value>${platform_install_prefix}/${project.shortName}-${project.version}</value>
+            <default>${platform_install_prefix}/${project.shortName}-${project.version}</default>
+            <allowEmptyValue>0</allowEmptyValue>
+            <cliOptionName>prefix</cliOptionName>
+	    <leftImage></leftImage>
+            <mustBeWritable>yes</mustBeWritable>
+            <mustExist>0</mustExist>
+            <width>30</width>
+	</directoryParameter>
+
+	<choiceParameter>
+	    <name>preferred_env</name>
+	    <title>Choose an Environment</title>
+	    <explanation>Choose the web development environment you prefer</explanation>
+	    <insertAfter>installdir</insertAfter>
+            <default>php</default>
+            <cliOptionName>${project.shortName}_database</cliOptionName>
+            <displayType>radiobuttons</displayType>
+	    <optionList>
+	        <option>
+                    <text>PHP</text>
+                    <value>php</value>
+                    <description>Includes Apache, MySQL and PHP.</description>
+		</option>
+		<option>
+                    <text>Java</text>
+                    <value>java</value>
+                    <description>Includes Tomcat, MySQL and Java.</description>
+		</option>
+		<option>
+                    <text>I decide</text>
+                    <value>let_me_choose</value>
+                    <description>Lets you choose each component.</description>
+		</option>
+            </optionList>
+	    <postShowPageActionList>
+	        <setInstallerVariable name="component(mysql).canBeEdited" value="0"/>
+	        <setInstallerVariable name="component(java).canBeEdited" value="0"/>
+	        <setInstallerVariable name="component(apache).canBeEdited" value="0"/>
+	        <setInstallerVariable name="component(php).canBeEdited" value="0"/>
+	        <setInstallerVariable name="component(tomcat).canBeEdited" value="0"/>
+	        <actionGroup>
+		    <ruleList>
+		        <compareValues>
+		            <value1>${preferred_env}</value1>
+		            <value2>let_me_choose</value2>
+		            <logic>equals</logic>
+		        </compareValues>
+		    </ruleList>
+		    <actionList>
+	                <setInstallerVariable name="component(mysql).canBeEdited" value="1"/>
+	                <setInstallerVariable name="component(java).canBeEdited" value="1"/>
+	                <setInstallerVariable name="component(apache).canBeEdited" value="1"/>
+	                <setInstallerVariable name="component(php).canBeEdited" value="1"/>
+	                <setInstallerVariable name="component(tomcat).canBeEdited" value="1"/>
+		    </actionList>
+		</actionGroup>
+	        <componentSelection>
+		    <deselect>java, tomcat</deselect>
+		    <ruleList>
+		        <compareValues>
+			    <value1>${preferred_env}</value1>
+			    <value2>php</value2>
+			    <logic>equals</logic>
+			</compareValues>
+		    </ruleList>
+		</componentSelection>
+		<componentSelection>
+		    <deselect>php, apache</deselect>
+		    <select>java, tomcat, mysql</select>
+		    <ruleList>
+		        <compareValues>
+			    <value1>${preferred_env}</value1>
+			    <value2>java</value2>
+			    <logic>equals</logic>
+			</compareValues>
+		    </ruleList>
+		</componentSelection>
+		<componentSelection>
+		    <deselect>php, apache, mysql, java, tomcat, php</deselect>
+		    <ruleList>
+		        <compareValues>
+			    <value1>${preferred_env}</value1>
+			    <value2>let_me_choose</value2>
+			    <logic>equals</logic>
+			</compareValues>
+		    </ruleList>
+		</componentSelection>
+	    </postShowPageActionList>
+	</choiceParameter>
+
+    </parameterList>
+
+    <componentList>
+	<include file="mysql.xml"/>
+	<include file="php.xml"/>
+	<include file="java.xml"/>
+	<include file="tomcat.xml"/>
+	<include file="apache.xml"/>
+	<component>
+	    <name>general</name>
+	    <description>Needed components</description>
+	    <detailedDescription>Necessary components for all applications.</detailedDescription>
+	    <canBeEdited>0</canBeEdited>
+	    <folderList></folderList>
+	</component>
+    </componentList>
+</project>
+    

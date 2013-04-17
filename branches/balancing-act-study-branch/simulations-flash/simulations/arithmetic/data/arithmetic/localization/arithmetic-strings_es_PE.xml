@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_es_PE.xml created Sun Aug 26 10:20:08 COT 2012 using: arithmetic 2.03.00 (51677), translation-utility 2.13.00 (59150) dic 7, 2011--><SimStrings>
+<string key="level" value="Nivel"/>
+<string key="typeAnswer" value="Escriba una respuesta,\npresione la tecla Enter"/>
+<string key="clickToSelect" value="Click para seleccionar\ncasilla correcta"/>
+<string key="correct" value="¡Correcto!"/>
+<string key="end" value="Finalizar"/>
+<string key="isWrong" value=" está mal."/>
+<string key="start" value="Iniciar"/>
+<string key="simTitle" value="Aritmética"/>
+<string key="time" value="Tiempo(seg)"/>
+<string key="finalTime" value="Tiempo final:"/>
+<string key="multiply" value="Multiplicar"/>
+<string key="tryAgain" value="Inténtalo otra vez."/>
+<string key="sound" value="Sonido"/>
+<string key="divide" value="Dividir"/>
+<string key="factor" value="Factores"/>
+<string key="minute" value="minuto"/>
+<string key="finalScore" value="Puntuación Final:"/>
+<string key="nbrRight" value="número correcto."/>
+<string key="mustTypeNbr" value="Escribe\nun número"/>
+<string key="score" value="Puntuación:"/>
+<string key="scorePer" value="puntuación"/>
+<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO (UNFV)(LIMA-PERÚ) hecmall@outlook.com; hecmall@hotmail.com"/>
+<string key="nbrWrong" value="número incorrecto"/>
+<string key="reset" value="Reiniciar"/>
+<string key="clock" value="Reloj"/>
+<string key="title" value="Ejercicios de Aritmética"/>
+</SimStrings>

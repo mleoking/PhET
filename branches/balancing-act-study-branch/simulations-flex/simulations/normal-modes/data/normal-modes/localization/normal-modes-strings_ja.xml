@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_ja.xml created Wed Feb 06 18:04:44 JST 2013 using: normal-modes 1.01.00 (66456), translation-utility 2.14.00 (69024) 10 10, 2012--><SimStrings>
+<string key="simSpeed" value="動作速度"/>
+<string key="vertical" value="垂直方向"/>
+<string key="slow" value="遅く"/>
+<string key="modeSpectrumDisplay" value="基準振動の重ね合わせ"/>
+<string key="phase:" value="位相 :"/>
+<string key="zeroPositions" value="ゼロ位置に戻す"/>
+<string key="start" value="開始"/>
+<string key="step" value="コマ送り"/>
+<string key="modeNumbersXY" value="モード数 x、y"/>
+<string key="polarization:" value="振動方向:&lt;br&gt;"/>
+<string key="amplitude:" value="振幅 :"/>
+<string key="modeSpectrum" value="基準振動を表示"/>
+<string key="frequency:" value="周波数 :"/>
+<string key="normalModes" value="各基準振動の様子"/>
+<string key="showPhases" value="位相を表示"/>
+<string key="normal-modes.simTitle" value="基準振動（モード）"/>
+<string key="showSprings" value="バネを表示"/>
+<string key="stop" value="停止"/>
+<string key="resetPositions" value="初期状態に戻す"/>
+<string key="normalMode:" value="基準振動の特性:"/>
+<string key="translation.credits" value="高知工科大学"/>
+<string key="horizontal" value="水平方向"/>
+<string key="paused" value="停止中"/>
+<string key="numberOfMasses" value="おもりの数"/>
+<string key="normal" value="普通"/>
+</SimStrings>

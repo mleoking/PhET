@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_es_PE.xml created Sun Oct 21 11:18:21 COT 2012 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.14.00 (69024) oct 9, 2012--><SimStrings>
+<string key="manual" value="Manual"/>
+<string key="resetTimer" value="Reiniciar"/>
+<string key="damping" value="Atenuación"/>
+<string key="simTitle" value="Onda en una cuerda"/>
+<string key="showHelp" value="Mostrar Ayuda"/>
+<string key="pulse" value="Pulso"/>
+<string key="amplitude" value="Amplitud"/>
+<string key="pausePlay" value="Pausa/Reproducir"/>
+<string key="step" value="por paso"/>
+<string key="tension" value="Tensión"/>
+<string key="startTimer" value="Iniciar/Pausa"/>
+<string key="pulseWidth" value="Ancho del Pulso"/>
+<string key="rulerHelp" value="Regla arrastrable"/>
+<string key="high" value="alto"/>
+<string key="wiggleWrench" value="¡Mueve la Llave!"/>
+<string key="timer" value="Cronómetro"/>
+<string key="oscillate" value="Oscilar"/>
+<string key="rulers" value="Reglas"/>
+<string key="frequency" value="Frecuencia"/>
+<string key="wrenchHelp" value="Llave arrastrable"/>
+<string key="fixedEnd" value="Extremo Fijo"/>
+<string key="hideHelp" value="Ocultar Ayuda"/>
+<string key="refLineHelp" value="Línea de referencia arrastrable"/>
+<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO (UNFV)(LIMA-PERÚ) hecmall@hotmail.com; hecmall@outlook.com"/>
+<string key="timerHelp" value="Cronómetro arrastrable"/>
+<string key="looseEnd" value="Extremo Suelto"/>
+<string key="noEnd" value="Sin fín"/>
+<string key="paused" value="En pausa"/>
+<string key="reset" value="Reiniciar"/>
+<string key="pulse2" value="Pulso"/>
+<string key="low" value="bajo"/>
+</SimStrings>

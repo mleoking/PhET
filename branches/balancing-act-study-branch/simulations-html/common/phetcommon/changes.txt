@@ -1,0 +1,2 @@
+1/30/13 add Vector2D.times
+1/30/13 add Point2D.equals

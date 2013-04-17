@@ -1,0 +1,58 @@
+PhET Weekly Progress Report
+John Blanco
+May 18th, 2011
+
+Time period covered: May 12th through May 18th
+
+Isotopes and Atomic Mass – 4.0 hrs
+
+•	Updated credits.
+•	Fixed issue where the pie chart label was not correct if only heavier elements were added.
+•	Fixed issue in BAA where subatomic particles could be dragged behind the various indicators.
+•	Published a release candidate.
+•	Published to the production server.
+
+Gene Machine II: Protein Synthesis - 13.0 hrs
+
+•	Researched and studied background material.
+•	Searched for prior art, logged much of it into the specification.
+
+Static Torque - 7.0 hrs
+
+•	Reviewed the concept.
+•	Created a set of drawings as an initial starting point for the specification.
+•	Made first round of revisions based on input from Kathy P.
+
+Sugar and Salt Solutions - 0.5 hrs
+
+•	Worked with Sam on setting up model such that the tank size is exactly 2 liters.
+
+Environment - 8.0 hrs
+
+•	Set up of new computer, including
+-	Working with Sam on IntelliJ setup.
+-	Set up all applications that are used.
+-	Transferred email.
+-	Transferred all vital files.
+-	Set up printers.
+
+Fundraising - 1.0 hrs
+
+•	Sent prelim response to Agilent foundation folks 
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+•	Weekly PhET status meeting.
+•	Weekly status report.
+•	Review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+•	Planning 1.5 weeks of vacation in mid-June.
+•	Taking a few days of vacation around the 4th of July
+
+What’s Next
+
+•	Continue working on Protein Synthesis simulation.
+•	Continue working on Static Torque simulation.

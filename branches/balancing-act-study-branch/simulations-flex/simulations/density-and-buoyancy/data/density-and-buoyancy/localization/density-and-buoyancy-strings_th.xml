@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_th.xml created Thu Jun 21 01:17:18 ICT 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.13.00 (59150) ธ.ค. 8, 2554-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="บทนำการทดลอง"/>
+<string key="properties.mass" value="มวล"/>
+<string key="controlPanel.showVectorValues" value="ปริมาณของแรง"/>
+<string key="forceArrows.contact" value="แรงสัมผัส"/>
+<string key="mode.objectsOfSameVolume" value="ปริมาตรเท่ากัน"/>
+<string key="mysteryObject.densityColumnHeader" value="ความหนาแน่น ({0})"/>
+<string key="material.aluminum" value="โลหะอะลูมิเนียม"/>
+<string key="properties.massKilogram" value="กิโลกรัม(kg)"/>
+<string key="material.air" value="อากาศ"/>
+<string key="material.custom" value="กำหนดเอง"/>
+<string key="material.gasoline" value="น้ำมันเชื้อเพลิง"/>
+<string key="customObject.material" value="วัตถุ"/>
+<string key="mode.mysteryObjects" value="วัตถุปริศนา"/>
+<string key="customObject.custom" value="กำหนดเอง"/>
+<string key="material.wood" value="เนื้อไม้"/>
+<string key="properties.massKilogramValue" value="{0} กิโลกรัม(kg)"/>
+<string key="mode.two" value="สอง"/>
+<string key="material.styrofoam" value="พลาสติก Styrofoam"/>
+<string key="material.honey" value="น้ำผึ้ง"/>
+<string key="material.apple" value="ลูกแอปเปิ้ล"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="น้ำแข็ง"/>
+<string key="translation.credits" value="ดร.นิวัฒน์ ศรีสวัสดิ์, สาขาวิทยาศาสตร์ศึกษา, คณะศึกษาศาสตร์, มหาวิทยาลัยขอนแก่น"/>
+<string key="buoyancy.tab.playground" value="ปฏิบัติการทดลองการลอยตัวในของเหลว"/>
+<string key="fluid.controls.intro.label" value="ของไหล"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="เพชร"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="จำนวนก้อนวัตถุ"/>
+<string key="material.oliveOil" value="น้ำมันมะกอก"/>
+<string key="material.lead" value="ตะกั่ว"/>
+<string key="forceArrows.buoyancy" value="แรงลอยตัวในของเหลว"/>
+<string key="properties.fluidDensity" value="ความหนาแน่นของของไหล"/>
+<string key="mysteryObject.densityUnitsKgL" value="กิโลกรัม(kg)/ลิตร(L)"/>
+<string key="customObject.properties" value="คุณสมบัติ"/>
+<string key="forceArrows.gravity" value="แรงโน้มถ่วง"/>
+<string key="material.brick" value="อิฐบล็อก"/>
+<string key="mysteryObject.material" value="วัตถุ"/>
+<string key="mysteryObject.table.title" value="ความหนาแน่นของวัตถุต่างๆ"/>
+<string key="properties.weightPoundValue" value="{0} ปอนด์(lb)"/>
+<string key="material.oil" value="น้ำมัน"/>
+<string key="properties.volumeLiterValue" value="{0} ลิตร(L)"/>
+<string key="mode.objectsOfSameDensity" value="ความหนาแน่นเท่ากัน"/>
+<string key="density.simTitle" value="ความหนาแน่น"/>
+<string key="controlPanel.readouts" value="แสดงข้อมูล"/>
+<string key="properties.volumeMilliLiterValue" value="{0} มิลลิลิตร(mL)"/>
+<string key="mode.customObject" value="กำหนดเอง"/>
+<string key="mode.objectsOfSameMass" value="มวลเท่ากัน"/>
+<string key="application.resetAll" value="เริ่มการทดลองใหม่"/>
+<string key="material.gold" value="ทอง"/>
+<string key="properties.densityValue" value="{0} กิโลกรัม(kg)/ลิตร(L)"/>
+<string key="forceArrowControlPanelTitle" value="แสดงลักษณะแรง"/>
+<string key="properties.weightNewtonValue" value="{0} นิวตัน(N)"/>
+<string key="customObject.name" value="ชื่อ"/>
+<string key="controlPanel.showMasses" value="มวลของวัตถุ"/>
+<string key="material.water" value="น้ำ"/>
+<string key="properties.massGramValue" value="{0} กรัม(g)"/>
+<string key="properties.density" value="ความหนาแน่น"/>
+<string key="material.waterBalloon" value="ลูกโป่งน้ำ"/>
+<string key="mysteryObject.table.showTable" value="แสดงตาราง"/>
+<string key="mode.one" value="หนึ่ง"/>
+<string key="properties.volume" value="ปริมาตร"/>
+<string key="buoyancy.simTitle" value="การลอยตัวในของเหลว"/>
+<string key="properties.kilogramPerLiter" value="กิโลกรัม(kg)/ลิตร(L)"/>
+<string key="properties.volumeLiter" value="ลิตร(L)"/>
+</SimStrings>

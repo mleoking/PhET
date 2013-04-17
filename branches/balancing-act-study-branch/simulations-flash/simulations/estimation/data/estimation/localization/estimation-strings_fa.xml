@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_fa.xml created Mon Dec 17 09:18:33 IRST 2012 using: estimation 2.02.00 (51675), translation-utility 2.14.00 (69024) Oct 9, 2012-->
+<SimStrings>
+<string key="ratioOfAreasIs" value="نسبت مساحت  برابر است با"/>
+<string key="closeEnough" value="پاسخ دقیق/ خیلی نزدیک"/>
+<string key="levelColon" value=": مرحله"/>
+<string key="score" value="امتیاز"/>
+<string key="EnterNumber" value="شماره را وارد کنید"/>
+<string key="selectTrainingOrGame" value="مرحله خودآموز بازی را انتخاب کنید"/>
+<string key="percentUnderOver" value="درصد پایینتر / بالاتر"/>
+<string key="estimation" value="تخمین"/>
+<string key="next" value="بعدی"/>
+<string key="ratioOfLengths" value="نسبت طول برای خط ها&#10;نسبت مساحت برای مربع ها و دایره ها و نسبت حجم برای مکعب ها و کره ها"/>
+<string key="exactAnswer" value="جواب دقیق"/>
+<string key="level" value="مرحله"/>
+<string key="howMany" value="چه تعداد از شئی کوچکتر در شیئ بزرگ جا می شود؟"/>
+<string key="noCreditIf" value="اعتباری به دست نمی آورید اگر:"/>
+<string key="home" value="خانه"/>
+<string key="whatIsRatioOfVolumes" value="نسبت حجم  بزرگتر به کوچکترچیست؟"/>
+<string key="tooFarOff" value="پاسخ دقیق/خیلی دور"/>
+<string key="scorePerTimeColon" value="امتیاز / زمان"/>
+<string key="PleasePickANumber" value="یک شماره از یک  تا هزار انتخاب کنید"/>
+<string key="answerIsOutside" value="پاسخ شما خارج از این  محدوده ها باشد"/>
+<string key="train" value="آموزش"/>
+<string key="strategyHelp" value="راهنمای حل"/>
+<string key="whatIsRatioOfAreas" value="نسبت سطح  بزرگتر به کوچکترچیست؟"/>
+<string key="scorePerTime" value="امتیاز /زمان "/>
+<string key="gameOver" value="بازی تمام شد"/>
+<string key="play" value="شروع بازی "/>
+<string key="fullCreditIf" value="اعتبار نهایی"/>
+<string key="back" value="بازگشت"/>
+<string key="levelOneColon" value="مرحله 1: فقط خطوط&#10; مرحله 2: خطوط و سطوح و مرحله 3 همه اشیاء"/>
+<string key="yourAnswer" value="پاسخ شما"/>
+<string key="or" value="یا"/>
+<string key="sound" value="صدا"/>
+<string key="accuracyIsSmaller" value="دقت پاسخ شما کوچکتر باشد از"/>
+<string key="averageAccuracy" value="دقت متوسط"/>
+<string key="gameRules" value="قوانین بازی"/>
+<string key="ratioOfVolumesIs" value="نسبت حجم برابر است با"/>
+<string key="time" value="زمان - ثانیه"/>
+<string key="numberEstimates" value="تعداد حدسها"/>
+<string key="simTitle" value="تخمین"/>
+<string key="yourAnswerIs" value="پاسخ شما اینگونه بررسی می شود&#10;تخمین تا  1.3 برابر برای خطوط&#10;تا 1.6 برابر برای سطوح و تا 2 برابر برای حجم "/>
+<string key="enter" value="ورود"/>
+<string key="endGame" value="پایان بازی"/>
+<string key="nextLowerCase" value="بعدی "/>
+</SimStrings>

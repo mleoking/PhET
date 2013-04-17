@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_vi.xml created Sat Jul 23 12:07:45 ICT 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) thg 2 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="Tốc độ mô phỏng"/>
+<string key="sameFrequency" value="Cùng tần số"/>
+<string key="sameSpring" value="Lò xo có cùng k"/>
+<string key="slow" value="Chậm"/>
+<string key="mixedMAndK" value="m và k hỗn tạp"/>
+<string key="numberOfResonators" value="Số vật cộng hưởng"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="Tạm ngừng"/>
+<string key="amplitude" value="Biên độ"/>
+<string key="frequencyEqualsXHz" value="Tần số = {0} Hz"/>
+<string key="sloMo" value="SLO-MO"/>
+<string key="step" value="Bước"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="DRIVER"/>
+<string key="on" value="Mở"/>
+<string key="ruler" value="Thước"/>
+<string key="resonance.simTitle" value="Cộng hưởng"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="Độ cứng lò xo"/>
+<string key="frequency" value="Tần số"/>
+<string key="resetAll" value="Reset tất cả"/>
+<string key="mass" value="Khối lượng "/>
+<string key="sameMass" value="Cùng khối lượng m"/>
+<string key="resonator" value="Vật cộng hưởng"/>
+<string key="translation.credits" value="PhET_VN"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Trọng lực:"/>
+<string key="play" value="Chạy"/>
+<string key="paused" value="TẠM NGỪNG"/>
+<string key="off" value="Tắt"/>
+<string key="dampingConstant" value="Hệ số tắt dần"/>
+<string key="normal" value="Bình thường"/>
+<string key="selectPreset" value="Chọn tham số"/>
+</SimStrings>

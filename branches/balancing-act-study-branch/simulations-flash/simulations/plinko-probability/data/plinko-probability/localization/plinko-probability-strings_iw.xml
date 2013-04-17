@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_iw.xml created Mon Oct 17 15:00:12 MDT 2011 using: plinko-probability 2.02.00 (53818), translation-utility 2.12.00 (57171) Oct 3, 2011-->
+<SimStrings>
+<string key="none" value="אף אחד"/>
+<string key="number" value="מספר"/>
+<string key="start" value="התחל"/>
+<string key="continuous" value="רציף"/>
+<string key="simTitle" value="ההתפלגות סטנדרטית"/>
+<string key="fraction" value="שבר"/>
+<string key="rows" value="שורות"/>
+<string key="sound" value="קול"/>
+<string key="oneBall" value="כדור 1"/>
+<string key="path" value="דרך"/>
+<string key="histogramDisplay" value="תצוגת \nהיסטוגרמה:"/>
+<string key="p" value="הסתברות"/>
+<string key="stop" value="עצור"/>
+<string key="ball" value="כדור"/>
+<string key="help" value="עזרה"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
+<string key="reset" value="התחל מחדש"/>
+<string key="show" value=":הצג"/>
+<string key="autoScale" value="התאמה אוטומטית"/>
+</SimStrings>

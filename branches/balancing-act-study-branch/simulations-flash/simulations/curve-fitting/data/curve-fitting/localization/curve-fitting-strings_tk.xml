@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_tk.xml created Tue Jul 31 17:06:42 UZT 2012 using: curve-fitting 2.02.00 (52265), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="clearAll" value="Ählisini arassala"/>
+<string key="deviations" value="gyşarmany görkez"/>
+<string key="quartic" value="Dördünji derejeli"/>
+<string key="simTitle" value="Egri çyzygy gabat getirmek (approksimasiýa)"/>
+<string key="bestFit" value="Iň oňat saýlama"/>
+<string key="quadratic" value="Kwadrat"/>
+<string key="bucketHelp2" value="ýa-da yzyna goý"/>
+<string key="bucketHelp1" value="Nokatlary al.."/>
+<string key="cubic" value="Kub"/>
+<string key="noFit" value="Gabat gelmeýän"/>
+<string key="adjustableFit2" value="Sazlanýan saýlama:"/>
+<string key="dataPointHelp" value="ýalňyşlyk zolak"/>
+<string key="bestFit2" value="Iň oňat saýlama:"/>
+<string key="hideHelp" value="Kömegi gizle"/>
+<string key="correlation" value="Korrelýasiýa koeffisienti"/>
+<string key="chiSqHelp5" value=":  juda oňat saýlap alyş (ýalňyşlyk zolaklar juda kiçi)"/>
+<string key="bucketLabel" value="Daýanç nokatlar"/>
+<string key="chiSqHelp4" value=":  oňat saýlap alyş (ýaşyl zona)"/>
+<string key="chiSqHelp3" value=":   ýaramaz saýlap alyş (gyzyl zona)"/>
+<string key="chiSqHelp2" value="N = daýanç nokatlaryň sany \n f = saýlap alyşda parametrleriň sany \n ( f = 4 kub alyş üçin )"/>
+<string key="help" value="Kömek"/>
+<string key="chiSqHelp1" value="Gysgaça hi-kwadrat statistikasy bu"/>
+<string key="adjustableFit" value="Sazlanýan saýlama"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="linear" value="Çyzykly"/>
+</SimStrings>

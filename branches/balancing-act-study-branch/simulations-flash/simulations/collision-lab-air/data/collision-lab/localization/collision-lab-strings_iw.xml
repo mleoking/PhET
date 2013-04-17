@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_iw.xml created Tue Nov 09 09:15:45 IST 2010 using: collision-lab 0.01.00 (45337), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<SimStrings>
+<string key="ControlPanel.reflectingBorder" value="גבול מחזיר"/>
+<string key="MomentumView.tipToTail" value="קצה לקצה"/>
+<string key="PlayPauseButtons.pause" value="השהה"/>
+<string key="PlayPauseButtons.rewind" value="החזר לאחור"/>
+<string key="PlayPauseButtons.step" value="צעד"/>
+<string key="MomentumView.total" value="סה&quot;כ"/>
+<string key="simTitle" value="מעבדת התנגשות"/>
+<string key="ControlPanel.momentaDiagram" value="דיאגרמת תנע"/>
+<string key="DataTable.mass" value="מאסה"/>
+<string key="DataTable.lessData" value="פחות מידע"/>
+<string key="DataTable.removeBall" value="הסר כדור"/>
+<string key="ControlPanel.1d" value="חד מימדי"/>
+<string key="DataTable.moreData" value="עוד מידע"/>
+<string key="DataTable.ball" value="כדור"/>
+<string key="ControlPanel.showMomentumVectors" value="וקטורי תנע"/>
+<string key="TableView.kineticEnergy" value="אנרגיה קינטית = {0} ג'אול"/>
+<string key="MomentumView.momenta" value="תנע"/>
+<string key="ControlPanel.showPaths" value="הראה מסלולים"/>
+<string key="TableView.timeRate" value="מהירות הסימולציה"/>
+<string key="DataTable.addBall" value="הוסף כדור"/>
+<string key="ControlPanel.elasticity" value="אלסטיות"/>
+<string key="PlayPauseButtons.back" value="אחורה"/>
+<string key="ControlPanel.2d" value="דו מימדי"/>
+<string key="ControlPanel.showVelocities" value="וקטורי מהירות"/>
+<string key="ControlPanel.sound" value="קול"/>
+<string key="ControlPanel.resetAll" value="אפס הכל"/>
+<string key="PlayPauseButtons.play" value="הפעל"/>
+<string key="TableView.time" value="זמן = {0} s"/>
+<string key="ControlPanel.showCenterOfMass" value="מרכז מאסה"/>
+</SimStrings>

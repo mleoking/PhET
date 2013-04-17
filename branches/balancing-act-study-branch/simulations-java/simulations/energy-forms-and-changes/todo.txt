@@ -1,0 +1,104 @@
+Fix bug: Hot systems never exchange energy with air.  Should do so if not being heated.
+
+Fix: Slow, chunky behavior for the animation.  Something is taking up a lot of time.
+Fix performance issues.
+Profile, test on Mac
+
+Address TODOs
+Run code analyzer and clean up code
+Proofread
+
+Get rid of all unused images
+Update license file
+Credits
+
+Maybe...
+Fix flicker when E's are transferred between energy systems. (NP and JB aren't bothered by this, so we're not doing it for now.  Will watch for issues in interviews.).
+From Noah: Keep the steam the same transparency (if possible) when E's are turned on. (Low priority, don't do for now, will revisit after interviews)
+Improve steam shape for tea pot (use the algorithm that was used for water)
+
+------------------- D O N E ------------------------------------------
+Tweak values so that ECs go into all objects pretty quickly.
+i18n
+Internationalize E's (will need blank E's from NP).
+Tool tip is way misplaced.
+Make thermometer jump out of the way if in water and a brick is dropped behind it.
+No snap back on heater for tea pot.
+Invisible grabbing node for beaker so z-order is okay.
+Fix weird pick up of beaker on block
+Z-order for bulbs and beaker
+Allow switching of energy system elements on the 2nd tab when paused.
+Fix reset when paused on 2nd tab - should un-pause
+Reset all should unpause first tab too.
+Integrate new images for bulbs.
+Make thermometers appear to "pop" when grabbed from the tool box.
+Make the E's go faster on the first tab.
+Make fluorescent and incandescent bulbs emit occasional thermal E.
+Electrical E's can build up on the solar panel.  Need some sort of control algorithm.
+1st tab: Rain of E's when cooling and nothing is on the burner.
+Fix: 2nd tab, beaker fills up and sun rays are visible and then disappear the first time that this tab is shown.
+Fix: Reset doesn't get rid of clouds if active.
+Fix the rate at which the wheel turns when very little energy is coming from tea pot.
+Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
+Fix: Electrical energy chunks get jammed up on the solar panel after a reset in some circumstances.
+From Ariel: There is a bit of odd behavior of energy chunks if the water is cooled to "0" and the cooler is left on full throttle.  I think the behavior is easiest to see in "fast forward" mode.  Basically, an energy chunk going to the cooler will sometimes compete with one coming in from the air, bounce around, and reverse direction on occasion.  Whatever fix you came up with for the condition for steaming looks great...energy chunk comes in, energy chunk goes out in a nice equilibrium, but it seems for the near freezing condition there are still some quirks.
+Fix: 1st tab, weird interaction between beaker and thermometer control panel. Just put panel at very back.
+Fix issues with "systems", i.e. stacks of blocks and so forth.
+EFAC: Fix issue where blocks and beakers can be dragged through each other and the burners under some circumstances.
+From Ariel: The three objects if slid horizontally across the floor can "pass through" the heaters.  I think we had discussed making a hard boundary so the objects are only place on the heaters...not a big deal but might be a good finishing touch.
+E's continue into bucket, i.e. don't turn around.
+Make the sun more even in its output.
+Fix: Jittery E's in beaker
+Fix: Long reset time.
+Make E's not cluster in the output (spout) of the tea pot.
+Make E's not cluster in the wires leading from solar panel.
+Fix: Reset on 2nd tab should eliminate the steam right away (if the beaker is steaming).
+2nd tab: Allow water temp to reach boiling on thermometer (2nd highest tick).
+Prevent E's from getting thinned out on surface of water.
+Make E's come from water in random locations on the top, not always from center of top.
+Make it possible to measure temperature in the steam cloud, have temperature taper.
+Remove ice entirely, try it out.
+No limits on heat and cool on both tab 1 & 2.
+- Due mostly to complexity of interactions with bricks.
+Make thermometer fill up completely when temperature range is exceeded.
+Thermometer - Boiling point is 1 tick below last tick, 10 ticks from zero.
+Work on ice appearance with NP, Ariel.
+Make the blocks go to some max temperature above boiling and then reach thermal equilibrium with air.
+Implement boiling and freezing of the water.
+- Freeze from the top down.
+- Boiling is essentially just steaming.
+- Temperature stays fixed at 0, start freezing, E's come out as it is freezing, E's stop coming out when all ice.
+- Temperature stays at 100 once boiling, never goes above.  E's coming out equals E's coming in.
+Make the E's go all the way into and out of the bucket on the 1st tab.
+Implement the dotted E's on the generator so that the E's never disappear.
+Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
+Integrate bike with chain.
+Scale solar panel.
+Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
+E's should build up in heat coil before going into beaker.
+No thermal E's on the fluorescent light bulb.
+Add Reset All just under the legend
+Make the straight segment a bit shorter, move energy users to the left.
+Make energy chunks spread out on light build filament a little better.  Min speed probably.
+Make thermal E's use black lettering.
+Energy chunks should get opaque when emitted from beaker.
+Energy chunks non-occluded when at top ellipse of beaker.
+Make knob bigger for the faucet
+Make beaker hold energy to a point, then release it
+Thermals build up on filament of incandescent and then emit light, and some heat.
+Thermals turn to light or stay, but emit at end when no more energies coming in.
+Add beaker and thermometer
+Get rid of ability to cool the tea pot.
+Experiment: Make front of fluorescent bulbs programatically transparent when energy chunks present.
+Experiment: Make tea pot transparent when energy chunks present.
+Make some thermals come out of the tea pot spout
+Make chem energy in biker change to mech at top tube.
+Make biker always stop at spot where she is about to move
+Make biker run out of energy chunks, then have "Feed Me" button appear
+Tick marks on cloud slider
+Remove 3rd tab for now
+Integrate new images from Noah (droopy biker, new legs).
+Fix issues with switching between energy sources - energy chunks are weird.
+Make water "non-turdy"
+Have energy chunks present when sun appears, rather than having to wait.
+

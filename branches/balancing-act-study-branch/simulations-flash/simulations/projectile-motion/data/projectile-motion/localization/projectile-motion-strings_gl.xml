@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_gl.xml created Mon Oct 29 18:42:09 CET 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.14.00 (69024) oct 9, 2012--><SimStrings>
+<string key="dragLabel" value="coeficiente de arrastre"/>
+<string key="userChoice" value="elección usuario"/>
+<string key="altitudeLabel" value="altitude (m)"/>
+<string key="football" value="pelota fútbol"/>
+<string key="golfball" value="pelota golf"/>
+<string key="simTitle" value="Movemento de Proxectís"/>
+<string key="collision" value="Colisión!"/>
+<string key="adultHuman" value="Persoa adulta"/>
+<string key="time" value="tempo (s)"/>
+<string key="buick" value="coche"/>
+<string key="diameter" value="diámetro (m)"/>
+<string key="initSpeed" value="velocidade inicial (m/s)"/>
+<string key="bowlingball" value="bola dos bolos"/>
+<string key="piano" value="piano"/>
+<string key="sound" value="Son"/>
+<string key="range" value="distancia (m)"/>
+<string key="height" value="altura (m)"/>
+<string key="mass" value="masa (kg)"/>
+<string key="pumpkin" value="cabaza"/>
+<string key="score" value="Tanteo!"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;Ramón Cid&lt;br&gt;IES de SAR&lt;br&gt;Santiago (Spain)&lt;br&gt;www.lhc-closer.es&lt;html&gt;"/>
+<string key="angle" value="ángulo (º)"/>
+<string key="baseball" value="pelota béisbol"/>
+<string key="airResistance" value="Resistencia aire"/>
+<string key="fire" value="Disparar"/>
+<string key="erase" value="Borrar"/>
+<string key="tankshell" value="depósito"/>
+</SimStrings>

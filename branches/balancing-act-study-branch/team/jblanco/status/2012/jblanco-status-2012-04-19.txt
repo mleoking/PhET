@@ -1,0 +1,91 @@
+PhET Weekly Progress Report
+John Blanco
+April 19th, 2012
+
+Time period covered: April 5th through April 18th.  This is a two week period due to cancellation of the regular weekly meeting.
+
+Energy Forms and Changes - 38.0 hrs
+
+o	Participated in review during Physics meeting (x2).
+o	Created the burners and added them to the model and canvas.
+o	Added blocks to model and canvas (including 3D projection).
+o	Added beaker to model and canvas.
+o	Got stacking of objects working (in collaboration with Sam).
+o	Got stacked movement working.
+o	Got water displacement working.
+o	Fixed some issues with dropping objects - making them always land in a good place, and over the object that they are closest to.
+o	Added handling for removal of blocks from the beaker when they are immersed in the water.
+o	Adjusted sizes of blocks a beaker as well as the amount of water displacement to make both blocks fit and be totally immersed without overflowing the beaker.
+o	Added Z-order handling.
+
+Gene Expression - 10.0 hrs
+
+o	Discussed some possible changes to the tab order with Mike K, Ariel P, and Kathy P.
+o	Made the 3rd protein shaped more like real Green Fluorescent Protein.
+o	Added a faded version of the biomolecules to the tool box when one is created to act as a legend.
+o	Added a parameter and control to the Multiple Cells tab to give the user control over the mRNA destroyer level.
+o	Investigated having a 2nd graph on the Multiple Cells tab that represents the mRNA level.
+
+States of Matter - 3.0 hrs
+
+o	Participated in review during Physics meeting.
+o	Met with Paul Beale to discuss phase diagram behavior.
+o	Cleaned up some leftover code in the stove node left over after creating "Basics" version of this sim.
+
+Nuclear Physics - 2.0 hrs
+
+o	Published to dev for testing, tested and had Noah P test, published updated version to production server.
+o	Published to dev again for testing due to issue with running on Java 5 JREs, tested, requested testing by Noah P.
+
+Fractions - 1.0 hrs
+
+o	Participated in review during Physics meeting (x2).
+
+Line Graphing - 0.5 hrs
+
+o	Participated in review during Physics meeting.
+
+Customer Support - 2.0 hrs
+
+o	Responded to a user with a question/issue about Balancing Act.
+o	Helped a customer who wanted to create a version of Nuclear Physics that started on the 3rd tab.
+
+Common Code - 2.5 hrs
+
+o	Made the HeaterCoolerNode a common component, since it is now used in EFAC in addition to SOM.
+o	Verified issue with JComboBox on Macs (see #705)
+o	Fixed an issue with ObservableList that Chris M noticed when inspecting the code, regression tested sims that used it.
+o	Verified an issue relating to inefficiency in some widely used common classes, see #3309.
+
+Sim Sharing - 2.0 hrs
+
+o	Finished working with CU IT on getting firewall exceptions set up for new server, see #3297.
+
+Installer - 1.0 hrs
+
+o	Upgraded the version of Java bundled with the installer to be the latest Java SE 6 update.
+
+Tablet Investigation - 2.0 hrs
+
+o	Supported Kathy P on using Masses & Springs to demo HTML5 version to people at meeting.
+
+Miscellaneous - 2.0 hrs
+
+o	Discussion with a middle school teacher that stopped by my office.
+o	Discussion on use of tablets in classrooms with Julia C.
+o	Got a tour from Sam R of the Functional Scene Graph that he is creating.
+
+Professional Development - 1.0 hrs
+
+o	Attended colloquium on 4/19/2012.
+
+Meetings, Email, and Other Administrative Overhead - 10.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	May be out next Wednesday.

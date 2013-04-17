@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_in.xml created Sun Oct 09 09:27:22 ICT 2011 using: resonance 1.01.00 (54775), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<SimStrings>
+<string key="simSpeed" value="Kecepatan Simulasi"/>
+<string key="sameFrequency" value="Frekuensi Sama"/>
+<string key="sameSpring" value="Pegas sama k"/>
+<string key="slow" value="LAMBAT"/>
+<string key="mixedMAndK" value="mixed m and k"/>
+<string key="numberOfResonators" value="Jumlah Resonator"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="Pause"/>
+<string key="amplitude" value="Amplitudo"/>
+<string key="frequencyEqualsXHz" value="Frekuensi = {0} Hz"/>
+<string key="sloMo" value="Gerak Lambat"/>
+<string key="step" value="bertahap"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="PENGGERAK"/>
+<string key="on" value="ON"/>
+<string key="ruler" value="Meteran"/>
+<string key="resonance.simTitle" value="Resonansi"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="Konstanta Pegas"/>
+<string key="frequency" value="Frekuensi"/>
+<string key="resetAll" value="Reset Semuanya !"/>
+<string key="mass" value="massa"/>
+<string key="sameMass" value="Massa sama m"/>
+<string key="resonator" value="Resonator"/>
+<string key="translation.credits" value="JBD - 9 OCT 2011 - V.1"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Gravitasi"/>
+<string key="play" value="Play"/>
+<string key="paused" value="DITUNDA"/>
+<string key="off" value="OFF"/>
+<string key="dampingConstant" value="Konstanta Redaman"/>
+<string key="normal" value="NORMAL"/>
+<string key="selectPreset" value="Pilih Setting Awal"/>
+</SimStrings>

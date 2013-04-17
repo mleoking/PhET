@@ -1,0 +1,6 @@
+jMonkeyEngine 3 alpha 4
+jME3_2011-06-30.zip	30-Jun-2011 00:02	 61M
+http://jmonkeyengine.com/nightly/?C=M;O=D
+
+Recommendation and link for nightlies here:
+http://jmonkeyengine.org/wiki/doku.php

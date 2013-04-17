@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<SimStrings>
+    <string key="radiating-charge.simTitle" value = "Radiating Charge"/>
+    <string key="paused" value = "PAUSED"/>
+    <string key="stopCharge" value = "Stop Charge"/>
+    <string key="frictionManual" value = "Manual"/>
+    <string key="noFrictionManual" value = "No Friction"/>
+    <string key="linear" value = "Linear"/>
+    <string key="sinusoidal" value = "Sinusoidal"/>
+    <string key="circular" value = "Circular"/>
+    <string key="bump" value = "Bump"/>
+    <string key="amplitude" value = "Amplitude"/>
+    <string key="frequency" value = "Frequency"/>
+    <string key="duration" value = "duration"/>
+    <string key="showVelocity" value = "Show velocity  "/>
+    <string key="speedOfLight" value = "c"/>
+    <string key="speed" value = "Speed"/>
+    <string key="restart" value = "Restart"/>
+    <string key="reset" value = "Reset"/>
+</SimStrings>
+

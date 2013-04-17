@@ -1,0 +1,35 @@
+PhET Progress Report
+John Blanco
+September 3, 2008
+
+States of Matter Sim - 21.5 hrs
+
+•	Added the ability to display force arrows on the atoms in Interaction Potential tab.
+•	Lined up the atom positions with the interaction potential graph on the Interaction Potential tab.
+•	Scaled the interaction potential graph & atoms so that the motion on graph matches that of the atoms.
+•	Added "Stop Atom" button to the Interaction Potential tab that allows users to stop the atom and then move it to a new position.
+•	Made the "blob" that is formed when directly transition to liquid to be lower in the container and closer to where the solid resides (suggested at last meeting).
+•	Improved the look of the buttons for forcing state transitions.
+•	Latest version can be found at http://www.colorado.edu/physics/phet/dev/states-of-matter/0.00.39/states-of-matter.jnlp
+
+Circuit Construction Kit - 3.0 hrs
+
+•	Worked with Sam R. to resolve several outstanding issues that were listed as high priority in Unfuddle.
+
+Web Site - 2.0
+
+•	Worked with Mike Dubson to try to fix issue with Blackbody Spectrum simulation (Dano ultimately resolved it).
+
+Meetings & Email - 3.0 hrs
+
+•	Regular weekly status meeting.
+•	Various discussions with Noah P, Paul B, Sam R, and Kathy in person and via email.
+
+Tools and Infrastructure - 2.5 hrs
+
+•	Looked at an SVN issue with Mike D.
+•	Resolved an issue with being unable to update my workspace from SourceForge.
+
+Holiday/Vacation - 8.0
+
+•	Labor Day

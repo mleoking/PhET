@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_zh_CN.xml created Sun May 08 10:47:44 CST 2011 using: friction 2.02.00 (37305), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="黄色原子摩擦\n绿色原子"/>
+<string key="physics" value="物理"/>
+<string key="reset" value="重置"/>
+<string key="simTitle" value="摩擦力"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;&lt;p&gt;&lt;strong&gt;张大红&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt;天铁第二中学&lt;/strong&gt;&lt;/p&gt;&#10;&lt;/html&gt;"/>
+<string key="chemistry" value="化学"/>
+</SimStrings>

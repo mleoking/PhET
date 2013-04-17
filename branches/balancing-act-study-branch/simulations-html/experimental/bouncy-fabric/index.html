@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        
+        <script type="text/javascript" src="js/underscore-min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="js/fabric-0.9.15.min.js"></script>
+        
+        <script type="text/javascript">
+            $(function() {
+                // Widgets
+
+                var Slider = fabric.util.createClass(fabric.Group, {
+                    initialize: function(opts) {
+                        opts = opts || {}
+                        
+                        this.callSuper('initialize', [], opts)
+                        
+                        this.min = opts.min
+                        this.max = opts.max
+                        var size = this.size = opts.size
+                        this.thumbSize = this.size.y / 2
+                        this.trackWidth = this.size.x - this.size.y
+                        this.onChange = opts.onChange || function(value) {}
+
+                        this.track = new fabric.Path([
+                                ['M', this.thumbSize,  this.thumbSize],
+                                ['l', this.trackWidth, 0]
+                            ], {
+                                strokeWidth: size.y / 4,
+                                stroke: 'hsl(192, 10%, 80%)'
+                            })
+                        this.add(this.track)
+
+                        this.thumb = new fabric.Circle({
+                            left: 0, top: this.thumbSize,
+                            radius: this.thumbSize,
+                            fill: 'hsl(18, 30%, 90%)',
+                            stroke: 'hsl(18, 50%, 30%)',
+                            strokeWidth: size.y / 12
+                        })
+                        this.thumb.perPixelTargetFind = true;
+                        this.thumb.targetFindTolerance = 4;
+                        this.thumb.hasControls = this.hasBorders = false;
+                        this.add(this.thumb)
+
+                        this.thumb.selectable = true
+                        
+                        if(opts.value)
+                            this.value = opts.value
+                    },
+
+                    getValue: function() {
+                        return this._value
+                    },
+
+                    setValue: function(value) {
+                        if(!(value && value < this.max))  // This phrasing deals with NaN
+                            value = this.max
+                        if(!(value && value > this.min))  // max === null / undefined / NaN defaults to min
+                            value = this.min
+                        this._value = value
+
+                        this.thumb.left = this.thumbSize + this.trackWidth * (value - this.min) / (this.max - this.min)
+
+                        this.onChange(value)
+                    },
+
+                    drag: function(event, dragAtX) {
+                        if(event.type === 'mousedown')
+                            this.dragOffset = this.thumb.left - this.thumbSize - dragAtX
+                        else if(event.type === 'mouseup')
+                            this.dragOffset = null
+                        else if(this.dragOffset)
+                            this.setValue((dragAtX + this.dragOffset) / this.trackWidth * (this.max - this.min) + this.min)
+                    }
+                })
+
+                
+                // Scene setup
+                
+                var BouncyBall = fabric.util.createClass(fabric.Object, {
+                    initialize: function(pos, r) {
+                        this.sprite = new fabric.Circle({
+                            radius: r,
+                            stroke: 'black', strokeWidth: r / 8,
+                            fill: 'hsl(' + Math.random() * 360 + ', ' + Math.sqrt(Math.random()) * 100 + '%, 60%)',
+                        })
+                        this.setPosition(pos)
+                        this.velocity = { x: 0, y: 1 }
+                    },
+
+                    // Experiment: delegate position directly to sprite
+                    getPosition: function() {
+                        return { x: this.sprite.left, y: this.sprite.top}
+                    },
+
+                    setPosition: function(pos) {
+                        this.sprite.left = pos.x
+                        this.sprite.top  = pos.y
+                    }
+                })
+                
+                var group = new fabric.Group()
+                
+                var balls = [],
+                    ballGroup = new fabric.Group([], { left: 200, top: 126, scaleX: 120, scaleY: 120 }),
+                    ballRadius = 0.04
+                
+                function setBallCount(newCount) {
+                    newCount = Math.round(newCount)
+                    if(newCount > balls.length) {
+                        var extraCount = newCount - balls.length
+                        _.each(_.range(extraCount), function(n) {
+                            var ball = new BouncyBall({ x: Math.random() - 0.5, y: 0 }, ballRadius)
+                            balls.push(ball)
+                            ballGroup.add(ball.sprite)
+                        })
+                    } else while(balls.length > newCount) {
+                        var ball = balls.pop()
+                        ballGroup.remove(ball.sprite)
+                    }
+                
+                    $('#ballCount').val(newCount)
+                }
+                
+                ballGroup.add(
+                    new fabric.Circle({
+                        left: 0, top: 0, radius: 1,
+                        fill: null, stroke: 'rgb(102, 204, 204)', strokeWidth: ballRadius / 2
+                    })
+                )
+                group.add(ballGroup)
+                
+                var slider = new Slider({
+                    left: 100,
+                    top: 270,
+                    size: {
+                        x: 200,
+                        y: 16
+                    },
+                    min: 1,
+                    max: 500,
+                    value: 10,
+                    onChange: setBallCount
+                })
+                group.add(slider)
+                
+                var fpsText = new fabric.Text("fps", {
+                    left: 20, top: 290,
+                    fontFamily: 'Lucida Grande, Tahoma',
+                    fontSize: 6,
+                    fill: 'rgb(60%, 60%, 90%)',
+                    textAlign: 'left'
+                })
+                group.add(fpsText)
+                
+                var canvas = new fabric.StaticCanvas('c')
+                canvas.add(group)
+                
+                setBallCount(5)
+                
+                
+                // Physics
+                
+                Vector = {
+                    add: function(v, w) {
+                        return { x: v.x + w.x,
+                                 y: v.y + w.y }
+                    },
+                    sub: function(v, w) {
+                        return { x: v.x - w.x,
+                                 y: v.y - w.y }
+                    },
+                    mult: function(v, s) {
+                        return { x: v.x * s,
+                                 y: v.y * s }
+                    },
+                    dot: function(v, w) {
+                        return v.x * w.x + v.y * w.y
+                    },
+                    length: function(v) {
+                        return Math.sqrt(Vector.dot(v,v))
+                    },
+                    normalize: function(v) {
+                        var length = Vector.length(v)
+                        return { x: v.x / length,
+                                 y: v.y / length }
+                    }
+                }
+
+                function bounceBalls(dt) {
+                    var dt = Math.min(dt, 0.2) // prevent huge leaps
+                    _.each(balls, function(ball) {
+                        // simple linear physics here; stable fixed-step iterative update is preferable for the real thing
+                        ball.setPosition(
+                            Vector.add(ball.getPosition(), Vector.mult(ball.velocity, dt)))
+                        if(Vector.length(ball.getPosition()) > 1) {
+                            var v = ball.velocity, n = Vector.normalize(ball.getPosition())
+                            ball.velocity = Vector.sub(v, Vector.mult(n, Vector.dot(v, n) * 2))
+                            ball.setPosition(n) // enclosure has radius 1 in local coords
+                        }
+                        ball.velocity.y += 2 * dt
+                    })
+                }
+                
+                
+                // UI
+
+                var frameCount = 0,
+                    lastFrameRateUpdate = null
+                function displayFrameRate() {
+                    frameCount++
+                    if(frameCount > 30) {
+                        var now = new Date().getTime()
+
+                        var rate = frameCount * 1000 / (now - lastFrameRateUpdate)
+                        fpsText.setText(rate.toFixed(1) + " fps")
+
+                        frameCount = 0
+                        lastFrameRateUpdate = now
+                    }
+                }
+                
+                
+                // Event handling
+                
+                var mouseEvent = function(event) {
+                    // Totally hacked calculation, for prototyping purposes only!
+                    slider.drag(
+                        event,
+                        ((event.pageX - $('#c').offset().left) / group.scaleX - slider.left) / slider.scaleX)
+                }
+                $(document).mousedown(mouseEvent)
+                $(document).mousemove(mouseEvent)
+                $(document).mouseup(mouseEvent)
+                
+                var onResize = function(event) {
+                    var winW = $(window).width(),
+                        winH = $(window).height(),
+                        scale = Math.min(winW / 400, winH / 300),
+                        canvasW = scale * 400,
+                        canvasH = scale * 300
+                    canvas.setWidth(canvasW)
+                    canvas.setHeight(canvasH)
+                    group.scale(scale)
+                    $('#c').offset({left: (winW - canvasW) / 2, top: (winH - canvasH) / 2})
+                    $('#ballCount').css('font-size', scale * 12)
+                                   .css('width', scale * 40)
+                    canvas.renderAll()
+                }
+                $(window).resize(onResize)
+                onResize() // initial position
+
+                updateBallCountFromInput = function() {
+                    val = parseInt($('#ballCount').val())
+                    if(val >= 0 && val <= 500 && val != balls.length) {
+                        setBallCount(val)
+                    }
+                }
+                
+                $('#ballCount').change(updateBallCountFromInput)
+                $('#ballCount').keyup(updateBallCountFromInput)
+                
+                //polyfill by @paulirish
+                if(!window.requestAnimationFrame) {
+                    window.requestAnimationFrame = (function() {
+                        return window.webkitRequestAnimationFrame
+                            || window.mozRequestAnimationFrame
+                            || window.oRequestAnimationFrame
+                            || window.msRequestAnimationFrame
+                            || function(callback, element) {
+                                   window.setTimeout(callback, 1000 / 60);
+                               }
+                    })()
+                }
+                var lastFrameTime = null
+                ;(function animate() {
+                    var now = new Date().getTime(), dt = (lastFrameTime ? now - lastFrameTime : 0) / 1000.0
+                    
+                    bounceBalls(dt)
+                    displayFrameRate()
+                    
+                    canvas.renderAll()
+                    lastFrameTime = now
+                    window.requestAnimationFrame(animate);
+                })()
+            })
+        </script>
+        
+        <style type="text/css">
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            #c {
+                position: absolute;
+            }
+            
+            #ballCount {
+                position: absolute;
+                bottom: 5%;
+                right: 5%;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <canvas id="c" width="400" height="300"></canvas>
+        <input id="ballCount">
+    </body>
+</html>

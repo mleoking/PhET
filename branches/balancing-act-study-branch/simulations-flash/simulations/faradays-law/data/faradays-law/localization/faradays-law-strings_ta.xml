@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_ta.xml created Sat Aug 06 21:02:18 EDT 2011 using: faradays-law 2.02.00 (52648), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="twoCoils" value="2 சுருள்கள்"/>
+<string key="n" value="வ"/>
+<string key="translation.credits" value="C.R.Selvakumar"/>
+<string key="noSound" value="ஒலி இல்லை"/>
+<string key="showFieldLines" value="புல வரி காட்டு"/>
+<string key="voltage" value="மின்னழுத்தம்"/>
+<string key="simTitle" value="பாரடே விதி"/>
+<string key="flipMagnet" value="காந்தம் திருப்பு"/>
+<string key="oneCoil" value="1 சுருள்"/>
+<string key="moveMe" value="நகர்த்து என்னை"/>
+<string key="s" value="தெ"/>
+</SimStrings>

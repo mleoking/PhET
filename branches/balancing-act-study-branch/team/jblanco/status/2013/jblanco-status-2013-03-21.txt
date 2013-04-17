@@ -1,0 +1,76 @@
+PhET Progress Report, J. Blanco, 3-21-2013
+
+PhET Weekly Progress Report
+John Blanco
+March 21st, 2013
+
+Time period covered: March 14th through March 20th.
+
+Energy Forms and Changes - 28.0 hrs
+
+o	Finished fix for energy chunks going into buckets when close and cooling is turned off.
+o	Added boundaries for the burners.
+o	Fixed several issues where blocks and beakers could be dragged through each other in some circumstances.
+o	Fixed issue with interaction between steam area above the beaker and the thermometers.
+o	Made lights produce light and beaker heat up only when energy chunks are in appropriate locations when in mode where energy chunks are visible.
+o	Made the energy chunks "pre-load" into the energy system elements when they are turned on and hadn't already fully propagated through the system.
+o	Reviewed changes with Noah P.
+o	Fixed some visual "glitches" with the beakers and the sun that could be seen at startup.
+o	Fixed issue where cloudiness of sun energy source was not reset upon a Reset All.
+o	Fixed "rain of E's" issue that occurred when cooling the air.
+o	Fixed buildup of electrical E's on the solar panel that could occur in some situations.
+o	Made the light bulbs emit an occasional thermal energy chunk.
+o	Published several versions for use in interviews.
+
+HTML5 Startup - Process Development - 1.0 hrs
+
+o	Weekly developer meeting to discuss issues and processes.
+
+Ohm's Law (HTML5 version) - 3.0 hr
+
+o	Provided detailed feedback to MLL.
+o	Responded to questions from MLL sent via email and a Google doc spreadsheet.
+o	Sent revised drawing to Dmitry, including explanations of several changes.
+o	Added design drawing to GitHub.
+
+Resistance in a Wire (HTML5 version) - 1.0 hr
+
+o	Tested .bind function on iPad 2, since MLL had reported some issues in using it.
+o	Requested and obtained updated drawing from Ariel P.
+
+Build an Atom (Java Version) - 2.0 hrs
+
+o	Attended presentation by Emily M on research based on this simulation.
+o	Discussed plans for testing with Emily M.
+o	Started adding button to reset the atom.
+
+Build an Atom (HTML5 version) - 0.5 hrs
+
+o	Discussed time frame for the revised design spec with Emily M.
+
+John Travoltage - 0.5 hrs
+
+o	Discussed mods for HTML5 version during design meeting.
+
+Balloons and Static Electricity - 0.25 hrs
+
+o	Provided feedback on sweater art work from graphic artist.
+
+Environment - 0.5 hr
+
+o	Worked on getting Apache running as a service under Windows 7 that can be manually started and stopped.
+
+Fundraising - 1.0 hrs
+
+o	Modified previously submitted ASSETT proposal based on their feedback, resubmitted.
+
+Meetings, Email, and Other Administrative Overhead - 3.75 hrs
+
+o	Weekly status meeting.
+o	Logged January hours.
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  0 hrs
+
+o	Planning to take next Thursday and Friday, March 28th and 29th, as vacation days.

@@ -1,0 +1,10 @@
+###################################
+# License info for the-ramp
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+glass-20-minus.gif source=java
+glass-20-plus.gif source=java
+selected.gif author=PhET 
+TipOfTheDay24.gif source=java 
+unselected.gif author=PhET 

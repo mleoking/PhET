@@ -1,0 +1,5 @@
+Changes that PhET has made to 3rd-party libraries.
+Please create an Unfuddle ticket for each entry.
+
+12/01/12 #3478, jquery.mobile: fix slider min/max drag bug
+11/28/12 #3479, i18n: add ability to specify locale via query parameter

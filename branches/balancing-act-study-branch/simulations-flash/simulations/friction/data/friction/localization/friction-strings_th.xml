@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_th.xml created Fri Jul 27 23:08:20 ICT 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) ธ.ค. 8, 2554--><SimStrings>
+<string key="rubYellowAtoms" value="เลื่อนหนังสือสีเหลืองถูกับสีเขียว\nแล้วสังเกต"/>
+<string key="physics" value="คู่มือฟิสิกส์"/>
+<string key="reset" value="เริ่มใหม่"/>
+<string key="simTitle" value="แรงเสียดทาน"/>
+<string key="translation.credits" value="&lt;html&gt;ธรรมรัตน์ พรหมพิงค์&lt;br&gt;emmergv@hotmail.com&lt;/html&gt;"/>
+<string key="chemistry" value="คู่มือเคมี"/>
+</SimStrings>

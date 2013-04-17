@@ -1,0 +1,1 @@
+phet-credits software-development=John Blanco lead-design=Paul Beale, Sarah McKagan, Emily Moore, Noah Podolefsky design-team=Wendy Adams, Kathy Perkins interviews=Jack Barbera, Kelly Lancaster, Emily Moore, Noah Podolefsky

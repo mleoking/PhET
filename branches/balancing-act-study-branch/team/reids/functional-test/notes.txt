@@ -1,0 +1,9 @@
+Timing:
+functional: 27 minutes
+imperative: 18 minutes
+functional2: 16 minutes
+
+lines of code:
+functional: 184
+imperative: 165
+functional2: 148

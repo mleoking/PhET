@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_es_PE.xml created Sat Oct 20 14:37:07 COT 2012 using: resonance 1.01.00 (54775), translation-utility 2.14.00 (69024) oct 9, 2012--><SimStrings>
+<string key="simSpeed" value="Velocidad del sim"/>
+<string key="sameFrequency" value="misma frecuencia"/>
+<string key="sameSpring" value="mismo resorte k"/>
+<string key="slow" value="Lento"/>
+<string key="mixedMAndK" value="mezclar m y k"/>
+<string key="numberOfResonators" value="Número de resonadores"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="Pausa"/>
+<string key="amplitude" value="Amplitud"/>
+<string key="frequencyEqualsXHz" value="Frecuencia = {0} Hz"/>
+<string key="sloMo" value="Cámara Lenta"/>
+<string key="step" value="Por pasos"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="CONTROLADOR"/>
+<string key="on" value="On"/>
+<string key="ruler" value="Regla"/>
+<string key="resonance.simTitle" value="Resonancia"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="Constante del resorte"/>
+<string key="frequency" value="Frecuencia"/>
+<string key="resetAll" value="Reiniciar todo"/>
+<string key="mass" value="Masa"/>
+<string key="sameMass" value="misma masa m"/>
+<string key="resonator" value="Resonador"/>
+<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO (UNFV)(LIMA-PERÚ) hecmall@hotmail.com; hecmall@outlook.com"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Gravedad:"/>
+<string key="play" value="Reproducir"/>
+<string key="paused" value="EN PAUSA"/>
+<string key="off" value="Off"/>
+<string key="dampingConstant" value="Constante de amortiguamiento"/>
+<string key="normal" value="Normal"/>
+<string key="selectPreset" value="Seleccione Predefinido"/>
+</SimStrings>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_fr.xml created Fri Nov 11 17:22:44 CET 2011 using: calculus-grapher 2.08.00 (55025), translation-utility 2.12.00 (57171) oct. 3, 2011-->
+<SimStrings>
+<string key="integral" value="Intégrale"/>
+<string key="grid" value="Grille"/>
+<string key="dragMe" value="Faites glisser!"/>
+<string key="hill" value="Colline"/>
+<string key="cursor" value="Curseur"/>
+<string key="simTitle" value="Grapheur"/>
+<string key="offset" value="Décaler"/>
+<string key="freeform" value="Forme libre"/>
+<string key="pedestal" value="Piedestal"/>
+<string key="line" value="Ligne"/>
+<string key="drawingTools" value="Outils de dessin"/>
+<string key="zero" value="Zéro"/>
+<string key="view" value="Vue"/>
+<string key="sine" value="Sinusoïde"/>
+<string key="smooth" value="Lisser"/>
+<string key="tilt" value="Incliner"/>
+<string key="parabola" value="Parabole"/>
+<string key="translation.credits" value="&lt;html&gt;Emmanuel KEITH &lt;br&gt; Professeur de mathématiques &lt;br&gt; Collège eugène Delacroix, France&lt;/html&gt;"/>
+<string key="derivative" value="Dérivée"/>
+<string key="undo" value="Défaire"/>
+</SimStrings>

@@ -1,0 +1,84 @@
+PhET Weekly Progress Report
+John Blanco
+November 28th, 2011
+
+Time period covered: November 10th through November 23rd.  This is a two week period due to the Thanksgiving holiday.
+
+Balancing Act - 8.0 hrs
+
+•	Wrote up model.txt and implementation-notes.txt.
+•	Updated and resolved the code review ticket.
+•	Published a release candidate to dev server.
+•	Pre-publication regression testing.
+•	Published to the production server, worked with team to get sim page fully set up.
+
+
+States of Matter Basics - 5.0 hrs
+
+•	Fixed screen shots to have the updated stove.
+•	Color blind testing on the new arrows (on SOM, not the Basics version).
+•	Published to production server, worked with other team members to get sim page fully set up.
+
+Gene Expression - 27.0 hr
+
+•	Got the mRNA shape algorithm working for basic transcription and translation.
+•	Added production of proteins from the ribosomes when translating.
+•	Added the capability for multiple simultaneous translations of the mRNA.
+•	Added the ability to capture proteins in the "capture area"
+•	Made the capture area off limits for wandering biomolecules.
+•	Changed shape of mRNA destroyer based on suggestion from Tom Perkins.
+
+Nuclear Physics - 5.0 hrs
+
+•	Made adjustment arrow flash on the half life chart when it first appears, see #3140.
+•	Made the charts that contain a pie chart keep a constant aspect ratio so that the pie chart is always round, see #3071.
+
+Fractions - 1.0 hr
+
+•	Discussed design thoughts with Ariel P.
+
+Common Code - 1.5 hr
+
+•	Reviewed Sam R's changes to Injector Node for creating a non-interactive version, discussed with him, made some changes for (hopefully) better maintainability.
+
+Sim Sharing - 1.0 hrs
+
+•	Worked with Sam R on data visualizations.
+
+Installers - 1.0 hrs
+
+•	Logged a ticket and worked with JO on removing the "How to Run Simulations" page from the local installers, see #3155.
+
+Outreach - 4.5 hrs
+
+•	Set up, at Kathy P's request, at meeting with Carl Rand and Betsy Beaumon of Benetech.  We discussed ways in which PhET sims could potentially be made more accessible to print-impaired individuals.
+
+Customer Support - 0.5 hr
+
+•	Worked with Oliver on an issue involving a user with JVM problems.
+
+Environment - 1.5 hr
+
+•	Worked on an issue with the VPN client not running properly on my Win 7 machine.
+
+Professional Development - 1.5 hrs
+
+•	Attended Noah F's colloquium.
+
+Miscellaneous - 0.5 hrs
+
+•	Got the new Mac battery from Mindy, installed in Mac, tested.  Looks good.
+
+Meetings, Email, and Other Administrative Overhead - 14.0 hrs
+
+•	Weekly status meeting.
+•	Phet Developer Meeting.
+•	Weekly status report.
+•	Logged hours for October.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 24.0 hrs
+
+•	Took Wednesday Nov 23rd as a vacation day.
+•	Thursday and Friday, Nov 24th and 25th, were holidays (Thanksgiving).

@@ -1,0 +1,65 @@
+PhET Progress Report, J. Blanco, 6-21-2012
+
+PhET Weekly Progress Report
+John Blanco
+June 21st, 2012
+
+Time period covered: June 7th through June 20th (this is a two week period due to cancellation of June 14th meeting).
+
+Energy Forms and Changes - 55.0 hrs
+
+o	Implemented 3D chunk depiction.
+o	Removed ambient energy chunks from air.
+o	Implemented new energy and energy chunk exchange.
+o	Movable model elements now exchange energy chunks with the air.
+o	Made energy chunks less jittery when densely packed in the beaker.
+o	Integrated new thermometers.
+o	Changed caption.
+o	Unique transfer constants for brick and iron.
+o	Animated flame/ice turning off when limits reached.
+o	Made the energy chunks wander more when moving in the air.
+o	Added back lines for cubes.
+
+Gene Expression Basics - 5.0 hrs
+
+o	Tested, fixed a missing string.
+o	Published a version for interviews.
+o	Fixed an issue where the polymerase would fade while on DNA strand on 2nd tab.
+o	Made the mRNA on the 2nd tab wander far enough to probably be off the screen before fading out.
+
+Beer's Law Lab - 4.0 hrs
+
+o	Moderated postmortem, logged resulting issues in Unfuddle, wrote up the notes and logged in Unfuddle notebook.
+
+Fractions - 1.5 hrs
+
+o	Discussed features with Sam (he had requested input).
+o	Reviewed in Physics meeting.
+
+Line Graphing - 0.25 hrs
+
+o	Reviewed in Physics meeting.
+
+Plate Tectonics - 0.25 hrs
+
+o	Reviewed in Physics meeting.
+
+Common Code - 1.5 hrs
+
+o	Added changes to rendering hints for OutlinePText, updated associated Unfuddle ticket.
+
+Customer Support - 0.5 hrs
+
+o	Read through an issue on phase diagram on SOM, decided to have it presented in weekly meeting.
+
+Meetings, Email, and Other Administrative Overhead - 10.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Logged May hours in tracking spreadsheet.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	Will be taking vacation from Friday June 29th through Friday July 6th.

@@ -1,0 +1,54 @@
+PhET Progress Report, J. Blanco, 12-13-2012
+
+PhET Weekly Progress Report
+John Blanco
+December 13th, 2012
+
+Time period covered: November 29th through December 12th.  This is a two week period due to travel.
+
+Tablet Investigation - Build an Atom Prototype - 20.0 hrs
+
+o	BAA-HTML: Implemented algorithm for stacking particles in buckets.
+o	BAA-HTML: Implemented nucleus layering.
+o	BAA-HTML: Implemented stability indicator (text only).
+o	BAA-HTML: Implemented electrons - added to buckets, added locations in shells.
+o	BAA-HTML: Implemented charge and ion indicators.
+o	BAA-HTML: Improved layout, color, and behavior of the various atom labels.
+o	BAA-HTML: Updated directory structure to match agreed upon standard.
+o	BAA-HTML: Implemented gradients on particles and buckets.
+
+Tablet Investigation - Trip to Google - 26.0 hrs
+
+o	Meeting to plan for trip to Google.
+o	Participated in Google OER conference (and traveled to and from).
+o	Wrote up notes from Google OER conference.
+
+Tablet Investigation - Masses and Springs - 3.0 hrs
+
+o	Tested and provided feedback on several versions.
+o	Helped organized meeting with Dmitry of Competentum.
+
+Tablet Investigation - Process Development - 4.5 hrs
+
+o	Met with Concord Consortium to exchange thoughts and ideas prior to the Google Trip.
+o	Meeting with Chris and Sam to discuss CSS.
+o	Check out Bootstrap (widget set).
+o	Tested sims on Samsung tablet and reported frame rates for baseline.
+o	Met with Ariel P to describe an introduction to HTML5 terminology and concepts.
+o	Set up initial contact for collaboration between Sam B and Sam R.
+
+Energy Forms and Changes - 18.5 hrs
+
+o	Discussed adding feature where water freezes and boils.
+o	Met with Noah P to review current version and prioritize TODO list.
+o	Implemented heat emerging from hub of bike wheel.
+o	Improved implementation of energy flow through the energy systems.
+
+Meetings, Email, and Other Administrative Overhead - 8.0 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal Unfuddle ticket overhead.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  0 hrs

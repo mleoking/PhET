@@ -1,0 +1,286 @@
+4/10/13 #3533, Added support for non-numeric input in Sim sharing ID dialog
+2/19/13 #3511, mark EventChannel and its subclasses as deprecated, security exception
+1/30/13 #3243, update copyright to 2013
+11/2/12 #3472, call SimSharingManager.init in test mains in package phetcommon.simsharing.components
+11/2/12 #3472, modify default initialization of SimSharingManager
+10/26/12 add MathUtil.isInteger (initial use in line-graphing)
+10/25/12 #3303, Fixes for DefaultDecimalFormat
+10/4/12 #3450, added "Sylfaen" as the preferred font for Armenian (hy)
+10/1/12 Added "remove all clock listeners" methods to clocks
+9/10/12 added DoubleRange(IntegerRange) constructor, DoubleRange.toString, IntegerRange.toString
+8/15/12 Migrated FJUtils to phetcommon for reuse in other sims
+8/15/12 Added createShapeFromPoints(Iterable<Vector2D>)
+7/31/12 #3395, add -startModule program arg for specifying start module (dev feature)
+7/20/12 Use @EqualsAndHashCode(callSuper = false) instead of @Data to avoid compile time warnings, see #3374
+7/20/12 Merged getScaledInstance and times into a single method, see #3374
+7/20/12 Merged getSubtractedInstance and minus into a single method, see #3374
+7/20/12 Merged getAddedInstance and plus into a single method, see #3374
+7/20/12 Merged getDistance and distance into a single method, see #3374
+7/20/12 Style change, made single line methods read in a single line for Vector2D classes, see #3374
+7/20/12 Added equals/hashcode/toString using Lombok, see #3374
+7/20/12 Renamed ImmutableVector2D->Vector2D, see #3374
+7/20/12 Renamed Vector2D->MutableVector2D, see #3374
+7/19/12 Changed the Vector2D hierarchy from "Vector2D extends ImmutableVector2D" to "Vector2D extends AbstractVector2D + ImmutableVector2D extends AbstractVector2D", see #3374
+7/19/12 Moved more methods from ImmutableVector2D to AbstractVector2D, see #3374
+7/19/12 Extracted AbstractVector2D as superclass of ImmutableVector2D, see #3374
+7/19/12 Added Lombok and Functional Java as dependencies, see #3390
+7/17/12 add BufferedImageUtils.toImage(Icon)
+7/11/12 #3375, Load the audio input stream and decorate with a BufferedInputStream to support mark/reset, see #3375
+6/29/12 #3364, clicking on the sponsor image opens a web browser to the URL
+6/19/12 Added mathematics-related classes: Optimization1D for one-dimensional function minimization, and double-versions of the very useful Ray and Plane classes used in 3D sims.
+6/12/12 Added DampedMassSpringSystem for solving second-order linear differential equations (which is the same as a damped spring system)
+6/10/12 Added "subtract" method to IntegerProperty
+5/29/12 #3166 removed check for -sponsorPrototype command line arg, presence of sponsor.properties alone will trigger feature
+5/29/12 #3166 i18n of sponsor feature
+5/8/2012 #3326 Converted from InternalError to HeadlessException in catch block
+5/8/2012 #3326 Provide headless support for FrameSetup so that it can be created without crashing the build process on Ubuntu
+5/3/2012 #3320 Fixed: equality test is incorrect for ObservableList
+4/12/12 #3303 replace Java 1.6 calls with Java 1.5 workaround to implement nearest-neighbor rounding in DefaultDecimalFormat
+4/12/12 #3304 Fixed: Exception when attempting to authenticate mongodb when there is no internet connection, resolves #3304
+4/2/12 Added convenience method Pairs.pair so pairs can be constructed with "pair(a,b)" instead of "new Pair<MyLongTypeNameForTypeA,MyLongTypeNameForTypeB>(a,b)"
+4/2/12 Added Clock.addSimulationTimeChangeListener
+3/23/12 #3260 Changed replacement to "\\t" so it will render as "\t" with no tab
+3/23/12 #3260 Factored out null string in Parameter, use "\\\\t" as replacement for "\t", added test main
+3/21/12 #3225 renamed ParameterSet.add => ParameterSet.with
+3/21/12 #3229 Removed WhatIsMountainTime and WhatIsMyIPAddress
+3/21/12 #3260 Verify that no delimiters appear in sim sharing parameters
+3/19/12 #3204 eliminated stray "textFieldCommitted" message that was occurring in RPAL Game
+3/13/12 #3285 add support for testing if sim-sharing is running with a specific configuration
+3/13/12 #3283, sim-sharing fixes for spinners
+3/13/12 #3284 add Parameter(IParameterKey, IParameterValue) constructor
+3/12/12 add "isSelected" parameter to SimSharingJCheckBoxMenuItem user messages
+2/28/12 #3267 address sim-sharing problems in SimSharingJSpinner
+2/15/12 #3258 created SimSharingJTextField
+2/12/12 Moved Property.valueEquals to ObservableProperty
+2/6/12 simsharing: Improve sim sharing for purposes of developing (e.g. test mains): SimSharingManager.getInstance doesn't require init() and default config doesn't send to server
+2/2/12 simsharing: factor out duplication of component/type/action throughout SimSharingJ* classes
+2/2/12 #3223, simplify SimSharingDragListener, which retaining same functionality (ability to specify IUserComponent and customize ParameterSet)
+2/2/12 #3223, make Property* Swing components subclass SimSharingJ*, replace and delete SimSharingProperty* classes
+2/2/12 i18n of WavelengthControl
+1/27/12 Simsharing: Added basic authentication, see #3231
+1/26/12 Simsharing: Added study for dallas that requires user id
+1/26/12 Simsharing: Fixed: study name not detected correctly
+1/25/12 Simsharing: resolves #3228, handle unknown host exception
+1/24/12 Simsharing: #3224, turn off specific MongoDB loggers
+1/24/12 Simsharing: removed logManager reset call, resolves #3224
+1/23/12 Simsharing: add convenience constructors for creating IUserComponent from Object and Class
+1/19/12 Simsharing: Send "enabled" flag from SimSharingIcon.  Send events from mouse presses on disabled swing components. See #3218
+1/19/12 Simsharing: Cleanly shutdown and finish sending messages to mongo server before the application exits
+1/18/12 Simsharing: refinements to builder pattern for parameter sets
+1/18/12 Simsharing: add UserComponentType to UserMessages, delete IComponentType
+1/17/12 added NonInteractiveEventListener for sending non-interactive sim-sharing messages on Swing components and phetgraphics sprites
+1/17/12 added SimSharingLinearValueControl (implementation identical to SimSharingLogarithmicValueControl! bad!)
+1/17/12 add start/EndDrag messages to SimSharingLogarithmicValueControl, cleanup and simplify the sim-sharing hooks in AbstractValueControl
+1/17/12 use HALF_UP (nearest neighbor) rounding in DefaultDecimalFormat
+1/12/12 Simsharing: Added IP address lookup
+1/12/11 SimSharing: #3216, support customization of Swing drag listeners via both subclassing and mutation
+1/12/12 Simsharing: Added an option to auto-save data collection log, see #3215
+1/11/12 Simsharing: revise SimSharingDragListener (Swing) to use same pattern as SimSharingDragHandler (Piccolo)
+1/11/12 Simsharing: factor out SimSharingDragPoints, for use in Swing and Piccolo drag handlers
+1/9/12 Simsharing: Converter varargs Parameter to ParameterSet, see #3209
+1/6/12 Simsharing: Converted to use interface/enum messages, see #3209
+1/5/12 Added user/system/model message types, see #3209
+1/5/12 Removed Property<T> descriptions, see #3202
+1/3/12 #3202, add missing sim-sharing events to SimSharingLogMenuItem, remember directory last visited in file chooser
+1/3/12 #3202, sim-sharing changes related to Swing controls (explicitly specify event "object" for sim-sharing subclasses of Swing components; add "componentType" parameter; add missing sim-sharing subclasses of Swing components - SimSharingJButton, SimSharingJSpinner)
+12/30/11 Fixed class to string method for sim sharing
+12/22/11 fix NullPointerException in SettableProperty, occurs for all properties that don't have a description when sim-sharing is enabled
+12/20/11 add PropertyLabel, for interactive labels that are associated with Swing controls (eg, icon next to radio button or check box)
+12/20/11 #3175, more refinements to sim-sharing drag handlers
+12/19/11 #3183, added sim-sharing events to AbstractValueControl (slider+textfield)
+12/19/11 #3184, Moved server code from phetcommon to simsharing
+12/14/11 #3184, repackage sim-sharing, add package doc
+12/14/11 #3184, overhaul of central access point for sim-sharing: converted SimSharingEvents to SimSharingManger singleton; created SimSharingEvent
+12/14/11 #3182, changes related to saving the sim-sharing log to a file
+12/14/11 #3181, change requests for sim-sharing id dialog
+12/13//1 #3175, decouple start and end drag functions in sim-sharing drag handlers, provide convenience methods for specifying that they are identical
+12/13/11 #3181, add sim-sharing configurations, for specifying study name, input dialog preferences, etc.
+12/13/11 #3175, standardize event for attempt to interactive with non-interactive component
+12/13/11 #3175, overhaul sim-sharing drag handlers to support optional functions for start/end/drag;
+12/9/11 #3166, added sponsor prototype
+12/9/11 #3166, better encapsulation of KSU credits window, in preparation for adding a similar sponsorship window
+12/7/11 #3179, add additional country-specific locales for Spanish
+12/5/11 #3174, move sim-sharing strings to one class (SimSharingStrings) with inner classes that group strings by their function in sim-sharing events
+12/5/11 #3175 switched from required constructor args to optional SimSharingEventArgs for sim-sharing drag handlers
+12/5/11 #3136 fix sim-sharing processing of program args so that "-study -dev" doesn't result in studyName="-dev"
+12/5/11 #3171 catch EOFException that occurs when sim-sharing server isn't running, log as severe
+12/5/11 #3136, use java.util.logging instead of System.out throughout sim-sharing
+12/5/11 #3175 switch to subclassing for sim-sharing drag handlers
+12/5/11 #3175, add "object" parameter to sim-sharing drag handlers, add x,y params to SimSharingEvents drag handler
+12/5/11 Added a getter to make it possible to override backgrounds
+12/2/11 #3174, create sim-strings "objects", "actions" and "parameters" classes, for encapulating string literals; use throughout phetcommon
+12/1/2011 Created integerproperty package by copying doubleproperty package
+11/28/2011 Factored out server to handle strings vs serialized objects
+11/28/2011 Parameterized IActor on message types to support both String and serialized messages
+11/9/2011 Simsharing, added flag ALLOW_CONNECTION for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
+11/8/2011 Added NullClient for offline testing, see #3136
+11/4/2011 Report on the number of messages sent for purposes of error-checking and verifying that no messages were dropped, see #3136
+11/4/2011 Overrode Some.equals, Some.hashCode and None.equals
+11/3/2011 Create .phet directory if it did not exist in sim sharing cookie creation, see #3136
+11/3/2011 Added a research menu item in the about menu, see #3136
+11/3/2011 Added an input dialog for id, see #3136
+11/2/2011 Repackaged classes under phetcommon/simsharing, see #3136
+11/2/2011 Send an event when the user resizes the sim window, and on the initial window sizing, see #3136
+11/2/2011 Added a parser version, see #3136
+11/2/2011 If sim sharing is on, show a menu for isolating and identifying sessions, see #3145
+11/2/2011 Report on student usage for menus and menu items, see #3144
+11/2/2011 Added flush commands and factored out IP address, see #3136
+11/2/2011 Switched to use writeUTF instead of writeObject, see #3136
+11/2/2011 Use tab instead of comma as parameter delimiter, see #3136
+11/1/2011 Changed from SimSharingProperty to track UI control changes, see #3136
+11/1/2011 Changed PropertyCheckBox to use actionPerformed instead of ChangeListener to suppress multiple event notifications, see #3136
+10/31/11 Changed events from "message" to "object" + "action", see #3136
+10/30/11 Only try to load machine cookie if sim-sharing is enabled, see #3136
+10/30/11 Replaced usages of SimSharingEvents.addPropertyListener with SimSharingProperty and removed SimSharingEvents.addPropertyListener, see #3136
+10/30/11 Store a cookie on the user's machine to identify when the same machine is using different sims, see #3136
+10/30/11 Added a message when the reset all confirmation dialog is shown and accepted/cancelled, see #3136
+10/30/11 Fixed: Reset all sends a message even when cancel is pressed, see #3136
+10/30/11 Added messages for frame activated/deactivated, iconified/deiconified, see #3136
+10/30/11 Added a message for sim exit, work for both frame closing and File->Exit (but not application kill)
+10/28/11 Added a way to identify if the student is running the sim in data reporting mode, see #3136
+10/28/11 Added messages for sim name, version etc. on sim startup
+10/27/11 Added message when active module changes
+10/27/11 Moved sim start time tracking to PhetApplicationLauncher
+10/24/11 Moved ItemList.foldLeft to ObservableList
+10/18/11 Added JME-related strings
+10/11/11 add ISimInfo.hasCommonLineArg
+10/4/11 Moved ColorDialogMenuItem to common as recommended in #3090
+9/23/11 #3046, rename ImmutableVector2D.createPolar
+9/9/11 Added ValueEquals.or
+9/6/11 Added classes to support simsharing
+9/6/11 Added ImmutableVector2D.toDimension
+8/30/11 Added convenience ImmutableVector2D methods to DoubleGeneralPath
+8/24/11 added PhetPCanvas.addBoundsNode(Dimension2D) for debugging transform strategies, especially useful with CenteredStage
+8/20/11 Rewrote ImmutableVector2D.getDistance to run faster, this single change reduces application time from 15% to 1% in sugar-and-salt-solutions WaterModel as determined by jprofiler
+8/16/11 Fixed implementation of SettableNot and added improved tests, see #3045
+8/12/11 added Arrow.getHeadScale, see #3039
+8/3/11 Removed NotImplementedException and implemented ObservableList.retainAll, see #3033
+8/2/11 Renamed ListenerList -> ObserverList, bug fixes in ObservableList
+8/2/11 Fixed: notifyImmediately flag ignored in ObservableList
+8/2/11 Moved ObservableList to phet common
+8/2/11 Generified ModuleManager.modules from ArrayList to ArrayList<Module> and removed unnecessary casts
+7/20/11 Renamed static creation method Property.value to Property.property
+7/19/11 Added a convenience static factory method to Property
+7/8/11 #3000, fix seam in IntensitySlider
+6/25/11 Automatically update the ConstantDTClock in SimSpeedControl instead of duplicating listener code in many places, see #2798
+6/23/11 Added MathUtil.clamp(int,int,int)
+6/9/11 #2936, added MathUtil.clamp(double,DoubleRange)
+6/7/11 Moved Dimension2DDouble to be a top-level class, see #123
+6/7/11 Added docs to ModelViewTransform, see #123
+5/23/11 Added getMax() functions to ImmutableRectangle2D
+5/23/11 Removed AdvancedPanel constructor that used untranslated strings
+5/20/11 Added ModelViewTransform.modelToView(ImmutableRectangle2D)
+5/18/11 Changed ObservableProperty.trace() to use System.out instead of java.util.logging, resolves #2882
+5/17/11 Made RichSimpleObserver observe ObservableProperty instances instead of Property instances
+5/17/11 Added LessThan and extended CompositeBooleanProperty for GreaterThan, LessThan and GreaterThanOrEqualTo
+5/17/11 Added GreaterThanOrEqualTo and added varargs for plus method
+5/17/11 Added CompositeDoubleProperty and reimplemented classes such as Plus, Times, Max, Min, Times using it to provide composition methods on the result
+5/16/11 Removed unused methods from MathUtil
+5/13/11 ImmutableRectangle2D: made final fields public and added a toRectangle2D method
+5/7/11 Fixed: NullPointerException when calling Module.setSimulationPanel(null), resolves #2812
+5/5/11 removed unused property2 package, see #2775
+5/4/11 #2848, new implementation of ButtonNode
+5/3/11 Moved AbstractNotifier and Notifier to phetcommon from sugar and salt solutions
+4/27/11 Made LinearSlider.DEFAULT_RESOLUTION public
+4/26/11 Moved ImmutableRectangle2D from bending-light to phetcommon, see #2811
+4/25/11 Removed unused PDFHandler class (which was fully commented out already)
+4/21/11 Added a string key for getting the "Reset" string
+4/20/11 Repaint frame when simulation panel changes to prevent "freezing" behavior, see #2812
+4/11/11 Center the frame within the available region
+> 4/11/11 Prevent the window from being initialized to be larger (in width or height) than the available screen size, accounting for insets of toolbars, etc.
+4/11/11 Removed unused FrameSetup implementations
+4/11/11 Updated docs for FrameSetup
+4/8/11 Reformatted according to PhET's IntelliJ code style
+4/8/11 Added convenience methods to load maximize and minimize buttons
+4/1/11 #2789, move "sim speed" label about TimeSpeedSlider
+3/30//1 GridPanel: #2770, fix for setBorder
+3/30/11 GridPanel: replace awkward enum-int mappings with two-way map, simplify constructors
+3/22/11 i18ized strings in VelocitySensorNode
+3/20/11 Added Option.toString
+3/17/11 Added a logger to ObservableProperty.trace and sample usage in main(), resolves #2779
+3/16/11 Added ObservableProperty.trace, a debugging function that prints out the new value when it changes, along with the specified text
+3/15/11 Fixed IfElse and ValueEquals boolean properties to notify new observer types, see #2775
+3/10/11 Fixed boolean properties to notify new observer types
+3/10/11 Moved exit functionality to PhetApplication to facilitate overrides for simsharing
+3/7/11 #2775, Added listeners to Property<T> that receive the new value in the callback
+3/7/11 #2731, Repackaged Function classes from util/ to util/function/
+3/7/11 #2731, Moved Property<T> and related classes to a new package model.property
+3/6/11 Changed red to color-blind friendly red in PhetColorScheme
+3/4/11 Moved RichSimpleObserver to common from bending-light
+3/3/11 Added docs for Option<T>
+3/2/11 #123, made ModelViewTransform2D deprecated
+2/28/11 #2758 migrate PolygonUtils from capacitor-lab to phetcommon
+2/27/11 #2756, replaced validateTree() with validate()
+2/23/11 #2753, moved color to PhetColorScheme
+2/21/11 #2747, some recommended changes to ColorControl
+2/21/11 #2746, open color chooser when clicking on label in ColorControl
+2/19/11 Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
+2/19/11 #2741 Removed unused method from SimpleObservable
+2/17/11 #2741 Hygiene issues for SimpleObservable: converted to use generics, converted to foreach loop, removed unused field, cleaned up docs, reformatted code
+2/16/11 #2739, add cleanup methods to Swing controls that observer Property<T>
+2/15/11 Added Function1.Constant
+2/10/11 add VoidFunction0.Null
+2/8/2100 Generalized to parent types in BooleanProperty combinators and Or
+2/7/2011 Added string "White Background" to string file
+2/7/2011 Added a method to OptionsMenu that allows you to easily add a "White Background" menu item
+1/31/2011 Added PropertyCheckBoxMenuItem
+1/31/2011 Added IfElse<T>, an ObservableProperty that uses a Property<Boolean> condition to simulation an if/else block.
+1/30/2011 Added VoidFunction1.Null, a no-op implementation with no side effects
+1/30/2011 Rewrote PropertyCheckBox and PropertyRadioButton to use more general parameter type SettableProperty instead of concrete subclass Property
+1/25/2011 Set the slider in IntensitySlider to paint ticks, see #2682 for motivation and details.
+1/24/2011 Added getters and setters to Time Speed Slider classes
+1/16/2011 Made Property.getInitialValue protected to keep the API for Property as simple as possible for typical usage,
+    but possible to override for applications which require knowledge about the initial value such as Gravity and Orbits
+1/12/2011 Added the capability to send out notifications before PhetApplication exits, see PhetExit
+1/7/2011 #2624, new credits logo from KSU
+1/7/2011 #2624, change KSU credits logo from PNG to medium JPG compression, decreases file size to 18K, still looks good
+1/7/2011 #2624, change request: reduce size of KSU credits logo by 25%
+1/7/2011 Updated copyright text and dates for phetcommon, see #2630
+1/7/2011 ModelViewTransform: added viewToModel(Shape) and factored out transform inversion code
+1/4/2011 added double buffering for the AWT splash screen, see #2617
+1/3/2011 #2624, display KSU credits window during sim launch sequence
+1/3/2011 deprecated SwingUtils.centerDialogInParent, use more general SwingUtils.centerInParent
+1/3/2011 #2624, add ability to suppress warning when optional localized strings are missing
+1/3/2011 #2624, Credits dialog: read credits from translated strings file, fix hyperlinks, add KSU-specific code
+1/3/2011 #2640, update About dialog copyright to 2011
+12-30-2010: #2624, major rewrite of CreditsDialog (messy, difficult to extend), added stubs for Translation credits
+12-23-2010: in Property<T>, changed defaultValue to initialValue, and made getInitialValue public
+12-21-2010: #2623, factor out common behavior for "Reset All" into ResetAllDelegate
+12-21-2010: #2623, create ResetAllButtonNode, same functionality as ResetAllButton but for Piccolo buttons
+12-21-2010: removed Property<T>.is, superclass should not create subclass (seems to have needed only by questionable syntax in GravityAndOrbitsCanvas)
+12-21-2010: rename IsSelected to ValueEquals, to remove association with radio buttons
+12-21-2010: change order of args to IsSelected to be consistent with PropertyRadioButton
+12-16-2010: Improved ImmutableVector2D math API, adding plus, minus and times
+12-16-2010: Improved toString for ImmutableVector2D and Property<T>
+Changed some of the game strings - "Best" to "Your Best" and "New Best!" to "Your New Best".
+Changed some of the game strings - "PERFECT!" to "Perfect", "NEW BEST!" to "New Best!", "Start!" to "Start". 
+Added PropertyRadioButton, which wires up a JRadioButton to a property of type T in an enum-style Property<T>.
+Moved spline computations from phetcommon to common/spline since it depends on Jama
+Moved spline computations from energy-skate-park to phetcommon for reuse in fluid-pressure-and-flow
+11-29-2010: made ModelViewTransform and ImmutableVector2D use Point2D and Point2D.Double more appropriately
+11-29-2010: added ImmutableVector2D.getDistance
+11-19-2010: made Property<T>.getDefaultValue() protected so it doesn't appear in code completion
+11-19-2010: added identity function that returns its input
+11-19-2010: added ModelViewTransform see #123
+11-17-2010: added NotProperty
+11-17-2010: added AndProperty and IsSelectedProperty extensions of Property<T>
+11-15-2010: added machine generated equals and hashcode for linear function
+11-14-2010: made a private method in AbstractValueControl protected to allow override in functionality
+11-12-2010: added a constructor to ConstantDTClock with a default number of frames per second
+11-12-2010: added a constructor to ConstantDTClock that allows setting number of frames per second
+11-11-2010: added removeModuleObserver to PhetApplication and ModuleManager
+11-2-2010: added ability to specify color to PhetLineBorder
+11-2-2010: added viewToModelDifferential( Dimension2D delta ) to ModelViewTransform2D
+9-14-2010: Improved phetcommon's test for Mac OS X, see #2505
+promoted PhetLineBorder to public top level class
+Improvements to vector classes, see #2467
+8-23-2010: simplified update logic in HTMLCheckBox
+7-30-2010: Changed color of total force from pink to dark green, see #2452
+7-29-2010: Added colors from PhET's color scheme based on the google spreadsheet
+7-21-2010: Introduced Observable<T> class with MutableBoolean convenience subclass.
+6-14-2010: Minor documentation change in Arrow
+5-31-2010: Centralized creation of loggers and switch to anonymous loggers for use in the web start sandbox, see #2386
+5-31-2010: LoggingUtils: Added the ConsoleHandler to the Logger before configuring it to avoid security exceptions, see #2386 
+10-12-2009: Fixed a problem that caused stack overflow exception when showing Color Chooser dialog using this library
+9-30-2009 Added setters that were missing from ArrowNode, should be no change in existing behavior.
+9-29-2009 Cast to java.lang.Object[] for a non-varargs call and to suppress warning in PhetResources.format, see #1796

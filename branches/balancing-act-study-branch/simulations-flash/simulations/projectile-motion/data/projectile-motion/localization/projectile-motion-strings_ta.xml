@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_ta.xml created Mon Aug 08 07:54:59 EDT 2011 using: projectile-motion 2.03.00 (52266), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="dragLabel" value="இழுப்புக் கெழு"/>
+<string key="userChoice" value="பயனர் விருப்பம்"/>
+<string key="altitudeLabel" value="உயரம் &lt;br/&gt;(மீ)"/>
+<string key="football" value="அமெரிக்கக் கால்பந்து"/>
+<string key="golfball" value="கோல்ஃவ் பந்து"/>
+<string key="simTitle" value="எறிகணை நகர்ச்சி"/>
+<string key="collision" value="மோதல்"/>
+<string key="adultHuman" value="ஆள்"/>
+<string key="time" value="காலம்"/>
+<string key="buick" value="தானுந்து"/>
+<string key="diameter" value="விட்டம் (மீ)"/>
+<string key="initSpeed" value="தொடக்க விரைவு (மீ/நொடி)"/>
+<string key="bowlingball" value="உருட்டு உருண்டை"/>
+<string key="piano" value="பியானோ"/>
+<string key="sound" value="ஒலி"/>
+<string key="range" value="விழு எல்லை"/>
+<string key="height" value="உயரம் (மீ)"/>
+<string key="mass" value="நிறை (கி.கி)"/>
+<string key="pumpkin" value="பரங்கிக்காய்"/>
+<string key="score" value="வெற்றிப்!"/>
+<string key="translation.credits" value="C.R.Selvakumar"/>
+<string key="angle" value="கோணம் (பாகை)"/>
+<string key="baseball" value="பந்து"/>
+<string key="airResistance" value="காற்றுத் தடை"/>
+<string key="fire" value="எறி"/>
+<string key="erase" value="அழி"/>
+<string key="tankshell" value="எறி கணை"/>
+</SimStrings>

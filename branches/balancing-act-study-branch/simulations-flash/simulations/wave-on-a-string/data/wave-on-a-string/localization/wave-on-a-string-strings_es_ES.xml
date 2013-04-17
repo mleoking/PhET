@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_es_ES.xml created Sun Jan 06 13:48:58 CET 2013 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.14.00 (69024) oct 9, 2012--><SimStrings>
+<string key="manual" value="Manual"/>
+<string key="resetTimer" value="detener"/>
+<string key="damping" value="Amortiguación"/>
+<string key="simTitle" value="Onda en una cuerda"/>
+<string key="showHelp" value="Mostrar Ayuda"/>
+<string key="pulse" value="Pulso"/>
+<string key="amplitude" value="Amplitud"/>
+<string key="pausePlay" value="pausa/play"/>
+<string key="step" value="paso"/>
+<string key="tension" value="tension"/>
+<string key="startTimer" value="comenzar/parar"/>
+<string key="pulseWidth" value="Amplitud del pulso"/>
+<string key="rulerHelp" value="regla desplazable"/>
+<string key="high" value="alta"/>
+<string key="timer" value="cronómetro"/>
+<string key="oscillate" value="Oscilar"/>
+<string key="rulers" value="reglas"/>
+<string key="frequency" value="Frecuencia"/>
+<string key="fixedEnd" value="Extremo Fijo"/>
+<string key="hideHelp" value="Ocultar ayuda"/>
+<string key="refLineHelp" value="Línea de referencia desplazable"/>
+<string key="translation.credits" value="Javier Alonso"/>
+<string key="looseEnd" value="Extremo Libre"/>
+<string key="noEnd" value="Sin Final"/>
+<string key="paused" value="Parada"/>
+<string key="reset" value="Comenzar"/>
+<string key="pulse2" value="Pulso"/>
+<string key="low" value="baja"/>
+</SimStrings>

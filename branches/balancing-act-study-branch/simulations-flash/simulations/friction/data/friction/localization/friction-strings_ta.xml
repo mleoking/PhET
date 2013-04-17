@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_ta.xml created Fri Aug 05 21:02:57 EDT 2011 using: friction 2.03.00 (51676), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="மஞ்சள் அணுவை \nபச்சை அணுவோடு உரசு"/>
+<string key="physics" value="இயற்பியல்"/>
+<string key="reset" value="மீளமை"/>
+<string key="simTitle" value="உராய்வு"/>
+<string key="translation.credits" value="C.R.Selvakumar"/>
+<string key="chemistry" value="வேதியியல்"/>
+</SimStrings>

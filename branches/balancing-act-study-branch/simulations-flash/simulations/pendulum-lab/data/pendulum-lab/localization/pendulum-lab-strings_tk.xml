@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_tk.xml created Tue Aug 28 15:28:00 UZT 2012 using: pendulum-lab 2.03.00 (52288), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="resetStopwatch" value="yza gaýyt"/>
+<string key="earth" value="Ýer"/>
+<string key="showPhotoGateTimer" value="foto-gapy taýmer"/>
+<string key="planetX" value="Planeta X"/>
+<string key="acceleration" value="tizlenme"/>
+<string key="showEnergyOf" value="Energiýany görkez:"/>
+<string key="velocity" value="tizlik"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="realTime" value="hakyky wagt"/>
+<string key="length" value="uzynlyk"/>
+<string key="lots" value="köp"/>
+<string key="friction" value="sürtülme"/>
+<string key="showSecondPendulum" value="2-nji maýatnigi görkez"/>
+<string key="jupiter" value="Ýupiter"/>
+<string key="moon" value="Aý"/>
+<string key="energyOf" value="Energiýa:"/>
+<string key="simStrings" value="Maýatnik laboratoriýasy"/>
+<string key="noneFriction" value="hiç"/>
+<string key="total" value="Jemi"/>
+<string key="mass2" value="massa 2:"/>
+<string key="pendulum" value="Maýatnik:"/>
+<string key="startPauseStopwatch" value="başla/arakesme"/>
+<string key="show" value="Görkez:"/>
+<string key="length2" value="uzynlyk 2:"/>
+<string key="photoGateTimer" value="foto-gapy taýmer"/>
+<string key="thermal" value="Ýylylyk"/>
+<string key="pausePlay" value="arakesme et/başla"/>
+<string key="reset" value="Yza gaýt"/>
+<string key="mass" value="massa"/>
+<string key="quarterTime" value="1/4 wagt"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="noneEnergy" value="hiç"/>
+<string key="simTitle" value="Maýatnik laboratoriýasy"/>
+<string key="otherTools" value="başga gurallar"/>
+<string key="paused" value="arakesme"/>
+<string key="angleUnit" value="gradus"/>
+<string key="sixteenthTime" value="1/16 wagt"/>
+</SimStrings>
+
+
+
+
+

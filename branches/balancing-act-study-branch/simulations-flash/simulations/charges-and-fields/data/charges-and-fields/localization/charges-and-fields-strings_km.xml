@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--145_charges-and-fields_km.xml created Thu Aug 09 09:57:19 ICT 2012 using: charges-and-fields 2.04.00 (52655), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="directionOnly" value="ទិសដៅ​តែ​មួយ"/>
+<string key="grid" value="ក្រឡា"/>
+<string key="clearAll" value="សម្អាត​ទាំងអស់"/>
+<string key="simTitle" value="បន្ទុក និង​ដែន"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="បង្ហាញ​ចំនួន"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="១ ម៉ែត្រ"/>
+<string key="showEField" value="បង្ហាញ​ដែនអគ្គិសនី E"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="បង្ហាញ hi-res V"/>
+<string key="EFieldSensors" value="ទិសដៅ​ដែន​អគ្គិសនី E"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="សម្អាត"/>
+<string key="plot" value="ប្លូ"/>
+<string key="equipotential" value="អេគីប៉ូតង់ស្យែល"/>
+<string key="angleUnit" value="ដឺក្រេ"/>
+<string key="showLoRes" value="បង្ហាញ lo-res V"/>
+<string key="moreSpeedLessRes" value="ល្បឿន​បន្ថែម/less res"/>
+<string key="tapeMeasure" value="ម៉ែត្រ​រុំ"/>
+<string key="voltage" value="តង់ស្យុង"/>
+</SimStrings>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_de.xml created Thu May 31 14:30:31 CEST 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) Dez 8, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Reibe die gelben Atome gegen die grünen."/>
+<string key="physics" value="Physik"/>
+<string key="reset" value="Reset"/>
+<string key="simTitle" value="Reibung"/>
+<string key="translation.credits" value="Robert Jung, Jena"/>
+<string key="chemistry" value="Chemie"/>
+</SimStrings>

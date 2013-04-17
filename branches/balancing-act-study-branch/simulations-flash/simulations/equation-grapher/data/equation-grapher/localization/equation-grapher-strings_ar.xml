@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_ar.xml created Fri Mar 15 14:55:52 CET 2013 using: equation-grapher 2.02.00 (52283), translation-utility 2.14.00 (69024) oct. 9, 2012--><SimStrings>
+<string key="showYEq" value="إظهار y ="/>
+<string key="erase" value="مسح"/>
+<string key="save" value="حفظ"/>
+<string key="zero" value="صفر"/>
+<string key="simTitle" value="تمثيل المعادلة"/>
+<string key="translation.credits" value="بوحملة السعيد - حاسي بحبح - الجلفة - الجزائر&#10;said0326@gmail.com"/>
+</SimStrings>

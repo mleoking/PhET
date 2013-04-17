@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_nl.xml created Sun Sep 23 14:19:49 CEST 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.13.00 (59150) dec 8, 2011--><SimStrings>
+<string key="dragLabel" value="wrijving"/>
+<string key="userChoice" value="gebruikerskeuze"/>
+<string key="altitudeLabel" value="hoogte (m)"/>
+<string key="football" value="rugbybal"/>
+<string key="golfball" value="golfbal"/>
+<string key="simTitle" value="Projectielbeweging"/>
+<string key="collision" value="Botsing!"/>
+<string key="adultHuman" value="Volwassene"/>
+<string key="time" value="tijd (s)"/>
+<string key="diameter" value="diameter (m)"/>
+<string key="initSpeed" value="beginsnelheid (m/s)"/>
+<string key="bowlingball" value="bowlingbal"/>
+<string key="piano" value="piano"/>
+<string key="sound" value="Geluid"/>
+<string key="range" value="afstand (m)"/>
+<string key="height" value="hoogte (m)"/>
+<string key="mass" value="massa (kg)"/>
+<string key="pumpkin" value="pompoen"/>
+<string key="score" value="Punt!"/>
+<string key="translation.credits" value="Carlo Smits (NL)"/>
+<string key="angle" value="hoek (graden)"/>
+<string key="baseball" value="honkbal"/>
+<string key="airResistance" value="Luchtweerstand"/>
+<string key="fire" value="Vuur"/>
+<string key="erase" value="Wis"/>
+<string key="tankshell" value="tank-kogel"/>
+</SimStrings>

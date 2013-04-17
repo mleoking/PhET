@@ -1,0 +1,10 @@
+The primary mathematical model on which this simulation is based is the equation for heat transfer between two objects.  This equation is (essentially):
+
+dQ/dt = -kAT
+
+where Q is the amount of energy transferred, k is the heat transfer constant, A is the area of contact, and T is the temperature difference.
+
+A number of simplifications have been made, including:
+- Items must be in contact with one another to exchange heat energy.
+
+Realistic values have been used for specific heat, density, and heat transfer rate for most items, but in some cases non-actual values were used to make the main concepts more accessible.  One example is that the rate of heat exchange with air is much higher than in the real world so that items don't take forever to cool off.

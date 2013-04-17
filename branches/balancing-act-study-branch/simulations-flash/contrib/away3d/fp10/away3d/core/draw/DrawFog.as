@@ -1,0 +1,2 @@
+﻿package away3d.core.draw{	import away3d.core.clip.*;
+	import away3d.materials.*;	     /**    * Fog drawing primitive    */    public class DrawFog extends DrawPrimitive    {    	/**    	 * The material used to render the drawing primitive.    	 */		public var material:IFogMaterial;		    	/**    	 * The clipping object used to render the drawing primitive.    	 */		public var clip:Clipping;				/**		 * @inheritDoc		 */		public override function render():void        {			 material.renderFog(this);        }     }}

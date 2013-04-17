@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_ru.xml created Wed Apr 18 17:47:00 MSD 2012 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="cm" value="см"/>
+<string key="resistanceEq" value="сопротивление="/>
+<string key="ohm" value="Ом"/>
+<string key="simTitle" value="сопротивление проводника "/>
+</SimStrings>

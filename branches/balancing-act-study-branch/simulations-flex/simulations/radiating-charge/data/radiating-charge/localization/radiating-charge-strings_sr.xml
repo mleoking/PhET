@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_sr.xml created Sun Feb 03 22:22:21 CET 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.13.00 (59150) Dec 8, 2011--><SimStrings>
+<string key="stopCharge" value="заустави наелектрисање"/>
+<string key="bump" value="&quot;чврга&quot; "/>
+<string key="amplitude" value="амплитуда"/>
+<string key="radiating-charge.simTitle" value="Зрачење наелектрисања у кретању"/>
+<string key="translation.credits" value="Превео Владан Ал. Младеновић све примедбе на&gt; vladan.al.m@gmail.com"/>
+<string key="speed" value="брзина"/>
+<string key="frictionManual" value="ручно"/>
+<string key="duration" value="трајање"/>
+<string key="noFrictionManual" value="без трења"/>
+<string key="linear" value="линеарно"/>
+<string key="reset" value="на почетак"/>
+<string key="frequency" value="фреквенција"/>
+<string key="circular" value="кружно"/>
+<string key="showVelocity" value="покажи брзину"/>
+<string key="paused" value="ПАУЗА"/>
+<string key="restart" value="рестарт"/>
+<string key="sinusoidal" value="синусоидално"/>
+</SimStrings>

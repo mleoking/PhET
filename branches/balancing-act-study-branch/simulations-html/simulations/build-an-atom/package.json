@@ -1,0 +1,9 @@
+{
+  "name": "phet-atom-sim",
+  "version": "0.0.6",
+  "license": "BSD",
+  "dependencies": {
+    "grunt": "~0.3.17",
+    "grunt-contrib-requirejs": "~0.3.3"
+  }
+}

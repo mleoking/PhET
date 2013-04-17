@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_tk.xml created Mon Sep 03 11:31:49 UZT 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="simSpeed" value="tizlik"/>
+<string key="sameFrequency" value="meňzeş ýygylyk"/>
+<string key="sameSpring" value="meňzeş pružina k"/>
+<string key="slow" value="haýal"/>
+<string key="mixedMAndK" value="garyşyk m we k"/>
+<string key="numberOfResonators" value="Rezonatorlaryň sany"/>
+<string key="pause" value="arakesme"/>
+<string key="amplitude" value="amplituda"/>
+<string key="frequencyEqualsXHz" value="ýygylyk = {0} Hz"/>
+<string key="step" value="ädim"/>
+<string key="cm" value="sm"/>
+<string key="driver" value="ÝÖREDIJI"/>
+<string key="on" value="aç"/>
+<string key="ruler" value="Lineýka"/>
+<string key="resonance.simTitle" value="Rezonans"/>
+<string key="springConstant" value="pružinanyň gatylygy"/>
+<string key="frequency" value="ýygylyk"/>
+<string key="resetAll" value="Hemmesini yzyna gaýtar"/>
+<string key="mass" value="massa"/>
+<string key="sameMass" value="meňzeş massa m"/>
+<string key="resonator" value="Rezonator"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="hz" value="Gers"/>
+<string key="gravityColon" value="Agyrlyk güýji:"/>
+<string key="play" value="oýnat"/>
+<string key="paused" value="ARAKESME"/>
+<string key="off" value="ýap"/>
+<string key="dampingConstant" value="öçme koeffisienti"/>
+<string key="normal" value="normal"/>
+<string key="selectPreset" value="öňünden sazlanan"/>
+</SimStrings>
+

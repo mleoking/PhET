@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_el.xml created Fri Feb 27 15:55:49 EET 2009 using: wave-on-a-string 1.00.00 (22505), translation-utility 1.11.00 (29003)-->
+<SimStrings>
+<string key="manual" value="χειροκίνητο"/>
+<string key="resetTimer" value="επανεκίνηση"/>
+<string key="damping" value="απόσβεση"/>
+<string key="showHelp" value="δείξε βοήθεια"/>
+<string key="pulse" value="παλμός"/>
+<string key="amplitude" value="πλάτος"/>
+<string key="pausePlay" value="σταμάτημα/ξεκίνημα"/>
+<string key="step" value="βήμα"/>
+<string key="tension" value="τάση"/>
+<string key="startTimer" value="ξεκίνημα/σταμάτημα"/>
+<string key="pulseWidth" value="εύρος παλμού"/>
+<string key="rulerHelp" value="κινητός χάρακας"/>
+<string key="high" value="ηψηλό"/>
+<string key="wiggleWrench" value="κίνησε το δαχτυλίδι!"/>
+<string key="timer" value="χρονόμετρο"/>
+<string key="oscillate" value="ταλάντωση"/>
+<string key="rulers" value="χάρακες"/>
+<string key="frequency" value="συχνότητα"/>
+<string key="wrenchHelp" value="κινητό δαχτυλίδι"/>
+<string key="fixedEnd" value="σταθερή άκρη"/>
+<string key="refLineHelp" value="κινητή γραμμή αναφοράς"/>
+<string key="hideHelp" value="κρύψε βοήθεια"/>
+<string key="timerHelp" value="κινητός χάρακας"/>
+<string key="looseEnd" value="χαλαρή άκρη"/>
+<string key="noEnd" value="χωρίς άκρη"/>
+<string key="paused" value="σταματημένο"/>
+<string key="reset" value="Επανεκίνηση"/>
+<string key="pulse2" value="παλμός"/>
+<string key="low" value="χαμηλό"/>
+</SimStrings>

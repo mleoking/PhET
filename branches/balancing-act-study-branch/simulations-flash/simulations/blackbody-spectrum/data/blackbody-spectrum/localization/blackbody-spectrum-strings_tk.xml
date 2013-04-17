@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_tk.xml created Mon Jul 30 16:03:49 UZT 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="translation.credits" value="PICTT"/>
+<string key="zoomIn" value="görnüşi ulalt"/>
+<string key="intensity" value="INTENSIWLIK"/>
+<string key="simTitle" value="Gara jisimiň spektry"/>
+<string key="zoomOut" value="görnüşi kiçelt"/>
+<string key="clear" value="Arassala"/>
+<string key="sun" value="Gün"/>
+<string key="save" value="Ýatda sakla"/>
+<string key="showRuler" value="lineýkany görkez"/>
+<string key="wavelength" value="tolkun-uzynlyk"/>
+<string key="oven" value="gyzdyryjy"/>
+<string key="earth" value="ýer"/>
+<string key="lightBulb" value="lampa"/>
+</SimStrings>

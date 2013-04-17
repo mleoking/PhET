@@ -1,0 +1,75 @@
+PhET Weekly Progress Report
+John Blanco
+April 27th, 2011
+
+Time period covered: April 21st through April 27th.
+
+Isotopes and Atomic Mass – 5.0 hrs
+
+•	Internationalized.
+•	Implemented an algorithm to prevent isotopes in the test chamber from being piled on top of one another.
+•	Reviewed implementation of overlap-prevention algorithm with Sam.
+•	Deployed new version, which can be seen here: http://www.colorado.edu/physics/phet/dev/build-an-atom/2.03.03/
+
+Gene Machine II: Protein Synthesis - 10.0 hrs
+
+•	Reviewed notes from Ingrid R, compared against comments for MCDB group.
+•	Research, brainstorming, and design.
+•	Discussed some thoughts and ideas with Sam R and Kathy P.
+
+Bending Light – 5.5
+
+•	Code review and testing.  Logged several tickets as a result of this review, see #2811, #2832, #2833, #2834.
+•	Regression tested Molecules and Light as well as Greenhouse (due to dependencies on shared code that was also reviewed).
+
+Nuclear Physics - 3.0 hrs
+- Alpha Decay
+•	Fixed issue with drag handles, see #2280.
+- Nuclear Fission
+•	Fixed issue with Arabic translation, see #2821.
+- Radioactive Dating Game
+•	Icorporated new images supplied by Noah P.
+- Redeployed to production server.
+
+States of Matter & Atomic Interactions - 1.0 hrs
+
+•	Fixed translation issues found during KSU credits testing, see #2823.
+•	Redployed to production server.
+
+Common Code - 0.5 hrs 
+
+•	Reviewed issue about tiny slider knob, assigned to Oliver N for verification, see #2682.
+
+Installer - 1.0
+
+•	Investigated having an installer for the activities, updated Unfuddle ticket.
+
+Contacts - 3.0 hrs
+
+•	Exchanged emails with several different contacts about foundations at some large companies.
+
+ADA Compliance - 1.0 hrs
+
+•	Corresponded with person referred to us by Kathy's contact, logged info in ticket, see #2772.
+
+Unfuddle - 4.0 hrs
+
+•	Review and update of some older tickets.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+•	Weekly PhET status meeting.
+•	PhET developer meeting.
+•	Weekly status report.
+•	Vacation and sick leave reporting.
+•	Review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Will be out Monday, May 9th.
+
+What’s Next
+
+•	Work on design of Protein Synthesis sim, begin implementation.
+•	Set up new PC.

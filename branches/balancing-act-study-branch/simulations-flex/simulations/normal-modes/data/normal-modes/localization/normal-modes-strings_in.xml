@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_in.xml created Mon Aug 13 09:28:38 ICT 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) Des 8, 2011--><SimStrings>
+<string key="modeSpectrumDisplay" value="Tampilan Spektrum Pola"/>
+<string key="phase:" value="Fase:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="Posisi ke-nol"/>
+<string key="start" value="Mulai "/>
+<string key="modeNumbersXY" value="Bilangan Pola"/>
+<string key="polarization:" value="Atur&lt;br&gt;Polarisasi:"/>
+<string key="amplitude:" value="Amplitudo:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="Spektrum Pola Normal"/>
+<string key="frequency:" value="Frekuensi:"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="Tampilkan Fase"/>
+<string key="normal-modes.simTitle" value="Pola - pola Normal"/>
+<string key="stop" value="Henti"/>
+<string key="showSprings" value="Tampilkan Pegas"/>
+<string key="resetPositions" value="Posisi Awal"/>
+<string key="normalMode:" value="Pola Normal:"/>
+<string key="translation.credits" value="Anne Sirait&#10;STKIP - Surya&#10;annesirait@gmail.com / annesirait@stkipsurya.ac.id"/>
+<string key="paused" value="JEDA"/>
+</SimStrings>

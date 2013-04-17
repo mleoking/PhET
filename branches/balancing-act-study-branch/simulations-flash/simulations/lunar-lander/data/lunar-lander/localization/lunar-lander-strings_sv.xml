@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_sv.xml created Tue Jan 31 00:37:14 CET 2012 using: lunar-lander 2.04.00 (53815), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="help2" value="Återställ"/>
+<string key="landingSpeedEq" value="Landningshastighet ="/>
+<string key="help1" value="Tangentbordskontroller:"/>
+<string key="label7" value="Hur många platta zoner kan du röra innan bränslet är slut? \nExtra poäng för mjuklandningar (v &lt; 2 m/s). \nGame over om du träffar ett klippblock eller kraschlandar (v &gt; 6 m/s). "/>
+<string key="label6" value="Mellanslag = Full dragkraft"/>
+<string key="label5" value="Tippa höger"/>
+<string key="label4" value="Mindre dragkraft"/>
+<string key="label3" value="Tippa vänster"/>
+<string key="unpause" value="Avsluta paus"/>
+<string key="velVector" value="Hastighetsvektor"/>
+<string key="simTitle" value="Månlandare"/>
+<string key="label2" value="Mer dragkraft"/>
+<string key="accVector" value="Accelerationsvektor"/>
+<string key="label1" value="Kontrollera månlandaren med tangenter."/>
+<string key="vectors" value="Vektorer"/>
+<string key="hitBoulder" value="Träffade klippblock. \nBen skadat. \nBränsle förlorat."/>
+<string key="altitude" value="höjd(m)"/>
+<string key="softLanding" value="Mjuklandning:"/>
+<string key="sound" value="Ljud"/>
+<string key="range" value="räckvidd(m)"/>
+<string key="hardLandingsColon" value="hårda landningar:"/>
+<string key="help" value="Hjälp/Paus"/>
+<string key="longHelp" value="Landa i så många olika platta zoner du kan innan ditt bränsle tar slut. \n ~ Efter landning, starta genom att öka dragkraften. \n ~ Inga poäng för landning i samma zon mer än en gång. \n~ Mer poäng för landning i mindre eller i zoner svårare-att nå:. \n     Från enkla stora zoner = 5 poäng till dödssnäva zoner = 50 poäng \n~ 10 extra poäng för en mjuklandning (v &lt;2 m / s) \n~ Game over om du träffar ett klippblock. (Du kan inte landa på klippblock!)\n ~ Game over om du kraschlandar (v&gt; 12 m / s)."/>
+<string key="score" value="poäng:"/>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="thrust" value="dragkraft(N)"/>
+<string key="crash2" value="Kraschlandning. Besättning död."/>
+<string key="softLandingsColon" value="mjuklandning:"/>
+<string key="crash1" value="Kraschlandning, ben skadade."/>
+<string key="paused" value="Pausad"/>
+<string key="reset" value="Återställ"/>
+<string key="hardLanding" value="Hård landning"/>
+<string key="help3" value="Paus"/>
+<string key="fuel" value="bränsle(kg)"/>
+</SimStrings>

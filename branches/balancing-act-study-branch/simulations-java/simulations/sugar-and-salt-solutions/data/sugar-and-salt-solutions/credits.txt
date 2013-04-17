@@ -1,0 +1,1 @@
+phet-credits lead-design=Kelly Lancaster software-development=Sam Reid design-team=Julia Chamberlain, Emily B. Moore, Trish Loeblein, Kathy Perkins, Robert Parson, Laurie Langdon interviews=Kelly Lancaster, Julia Chamberlain

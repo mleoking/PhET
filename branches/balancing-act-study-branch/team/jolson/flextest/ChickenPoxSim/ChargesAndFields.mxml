@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" xmlns:cmp="*" width="800" height="500">
+        <cmp:ChargesAndFieldsApplication id="app" x="0" y="0"/>
+</mx:Application>

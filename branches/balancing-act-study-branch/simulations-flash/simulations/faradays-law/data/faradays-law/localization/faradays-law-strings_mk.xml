@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_mk.xml created Thu Jul 12 18:24:53 CEST 2012 using: faradays-law 2.02.00 (52648), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="twoCoils" value="2 навивки"/>
+<string key="translation.credits" value="Превод: Зоран Христовски"/>
+<string key="noSound" value="Без звук"/>
+<string key="showFieldLines" value="Покажи ги линиите на полето"/>
+<string key="voltage" value="НАПОН"/>
+<string key="simTitle" value="Фарадеев закон за електромагнетна индукција"/>
+<string key="flipMagnet" value="Сврти го магнетот"/>
+<string key="oneCoil" value="1 навивка"/>
+<string key="moveMe" value="Помести ме!"/>
+</SimStrings>

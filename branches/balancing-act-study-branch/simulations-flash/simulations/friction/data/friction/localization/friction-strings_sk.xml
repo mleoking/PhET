@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_sk.xml created Fri Sep 21 15:12:26 CEST 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) dec 8, 2011--><SimStrings>
+<string key="rubYellowAtoms" value="Šúchajte žlté častice \npo zelených"/>
+<string key="physics" value="Fyzika"/>
+<string key="reset" value="Obnoviť"/>
+<string key="simTitle" value="Trenie"/>
+<string key="translation.credits" value="RNDr. Ľubomír Červený &lt;br&gt;http://www.cerveny.sk"/>
+<string key="chemistry" value="Chémia"/>
+</SimStrings>

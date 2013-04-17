@@ -1,0 +1,2 @@
+Check-Mark-u2713.png source=PhET notes=Check Mark and u2713 are the name and value of this Unicode character 
+Heavy-Ballot-X-u2718.png source=PhET notes=Heavy Ballot X and u2718 are the name and value of this Unicode character

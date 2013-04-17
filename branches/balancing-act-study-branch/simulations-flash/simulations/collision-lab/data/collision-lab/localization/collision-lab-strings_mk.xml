@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_mk.xml created Tue Jul 10 20:46:15 CEST 2012 using: collision-lab 2.00.00 (65086), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="ShowValues.velocityCaption" value="Брзина (м/с)"/>
+<string key="ControlPanel.showValues" value="Покажи ги вредностите"/>
+<string key="PlayPauseButtons.step" value="Чекор напред"/>
+<string key="DataTable.velocity" value="Брзина"/>
+<string key="MomentumView.total" value="вкупно"/>
+<string key="DataTable.positionWithUnits" value="Позиција (м)"/>
+<string key="ControlPanel.sound" value="Звук"/>
+<string key="ControlPanel.showMomentumVectors" value="Вектори на импулсот"/>
+<string key="ShowValues.speedCaption" value="Брзина (м/с)"/>
+<string key="ControlPanel.oneHundredPercent" value="Живо"/>
+<string key="DataTable.lessData" value="- податоци"/>
+<string key="DataTable.momentumWithUnits" value="Импулс (кг м/с)"/>
+<string key="translation.credits" value="Превод: Зоран Христовски"/>
+<string key="MomentumView.momenta" value="Импулс"/>
+<string key="ControlPanel.elasticityReadout" value="Еластичност {0}%"/>
+<string key="DataTable.ball" value="Топка"/>
+<string key="TableView.kineticEnergy" value="Кинетичка енергија = {0} J"/>
+<string key="ControlPanel.showVelocities" value="Вектори на брзината"/>
+<string key="ControlPanel.showPaths" value="Покажи ги патеките"/>
+<string key="DataTable.mass" value="маса"/>
+<string key="DataTable.addBall" value="Додај топка"/>
+<string key="DataTable.position" value="Позиција"/>
+<string key="PlayPauseButtons.pause" value="Пауза"/>
+<string key="ControlPanel.2d" value="2 димензии"/>
+<string key="DataTable.moreData" value="+ податоци "/>
+<string key="ControlPanel.reflectingBorder" value="Еластичен ѕид"/>
+<string key="DataTable.momentum" value="Импулс"/>
+<string key="DataTable.removeBall" value="Отстрани топка"/>
+<string key="ShowValues.momentumCaption" value="Импулс (кг м/с)"/>
+<string key="ControlPanel.resetAll" value="Се на почеток"/>
+<string key="ControlPanel.momentaDiagram" value="Импулс"/>
+<string key="ControlPanel.elasticity" value="Еластичност"/>
+<string key="ControlPanel.showCenterOfMass" value="Центар на масата"/>
+<string key="ControlPanel.zeroPercent" value="Залепено"/>
+<string key="DataTable.velocityWithUnits" value="Брзина (м/с)"/>
+<string key="DataTable.massWithUnits" value="маса (кг)"/>
+<string key="TableView.timeRate" value="брзина"/>
+<string key="simTitle" value="Судари во механиката"/>
+<string key="PlayPauseButtons.play" value="Почни"/>
+<string key="MomentumView.tipToTail" value="Надоврзување на вектори"/>
+<string key="PlayPauseButtons.back" value="Чекор назад"/>
+<string key="ControlPanel.kineticEnergy" value="Кинетичка енергија"/>
+<string key="TableView.time" value="Време  = {0} s"/>
+<string key="ControlPanel.1d" value="1 димензија"/>
+<string key="PlayPauseButtons.rewind" value="Врати"/>
+</SimStrings>

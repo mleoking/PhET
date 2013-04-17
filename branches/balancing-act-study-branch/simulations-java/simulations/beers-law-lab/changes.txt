@@ -1,0 +1,376 @@
+11/16/12 #3199, take advantage of improvements to FaucetNode and make the slider thumb larger
+10/7/12 #3423, replace BLLCanvas base class with CenteredStageCanvas from piccolo-phet
+7/31/12 #3395, move -startModule program arg to PhetApplication.startApplication
+# 1.02.00 (64232) May 17, 2012
+> minor layout fixes for translations
+5/16/12 #3332, if the body of a meter is not fully inside the stage,  move it so that it is
+5/14/12 #3322, code review: javadoc fix
+5/14/12 #3332, fix centering of values in meters when the value is the widest element
+# 1.01.00 (64146) May 14, 2012
+5/14/12 first public version of Beer's Law Lab sim
+5/14/12 check in snapshot of Google design doc
+5/14/12 #3330, fixed drain faucet issue by fixing a bug with piccolo-phet sliders
+5/11/12 #3327, migrate WavelengthControl bounds workaround to piccolo-phet
+5/11/12 #3322, code review: address comments in Solvent
+5/11/12 #3322, code review: improve javadoc for ConcentrationTransform
+5/11/12 #3322, code review: make solution base class abstract
+# 1.00.05 (64123) May 11, 2012
+5/10/12 first pass at model.txt for Beer's Law tab
+5/10/12 cleaned up version of concentration probe from NP
+5/10/12 created screenshot for beers-law-lab (with JC)
+5/9/12 dev: start with the module number specified on the command line
+5/9/12 migrated HorizontalTiledNode to piccolo-phet
+5/9/12 rename TiledBackgroundNode to HorizontalTiledNode
+5/9/12 document workaround for WavelengthControl bounds issue
+5/9/12 minor documentation cleanup
+5/9/12 adjust offset of concentration probe image to account its new shape, so that origin is at center of crosshairs
+5/9/12 resize concentration meter probe image file, make probe appear slightly larger
+5/9/12 new image file for concentration meter probe, provided by NP
+4/27/12 Beers: Reverted units change in the concentration tab.
+# 1.00.04 (63704) Apr 24, 2012
+4/24/12 Publishing to dev for use in interviews.
+4/24/12 Beers: changed the units shown in the concentration tab.  Was, for example mM, now is mmol/L.
+3/29/12 generalize and migrate ToggleButtonNode and MomentaryButtonNode to piccolo-phet
+3/22/12 restore flavors in build.properties
+# 1.00.03 (62761) Mar 22, 2012
+3/22/12 dev version for KL that contains only Beer's Law Lab in *_all.jar
+3/22/12 temporarily comment out all flavors except Beers in build.properties
+3/20/12 Beers: restore Wavelength control
+# 1.00.02 (62641) Mar 20, 2012
+3/20/12 interview version with Wavelength control hidden
+3/20/12 Beers: temporarily hide Wavelength control for interviews
+# 1.00.01 (62562) Mar 15, 2012
+3/15/12 2nd tab is feature complete
+3/13/12 Beers: support for up/down arrows in Concentration text field
+3/12/12 #3276, #3277 changes to WavelengthControl
+3/12/12 Beers: simplify Beam model and view to a single rectangle, instead of 3 segments [62487]
+3/10/12 add molar absorptivity data for Drink Mix
+3/9/12 increase cuvette height to 3cm, move cuvette down an additional 0.15cm
+# 1.00.00 (62368) Mar 9, 2012
+3/9/12 Concentration 1.00 release
+3/8/12 fill more of the cuvette with solution (92% vs 85%)
+3/8/12 Beers: change KMnO4 color chip to match first tab, RGB=[80,0,120]
+3/8/12 try making top of cuvette look open
+3/8/12 double width of cuvette stroke (1.5 to 3)
+# 0.00.19 (62349) Mar 8, 2012
+3/8/12 Beers: first dev version that uses experimental data to map wavelength to molar aborptivity
+3/8/12 remove duplicate stroking of light beam
+3/8/12 hook up experimental data to absorbance model
+3/8/12 clean up concentration value view transform
+3/8/12 add JC's experimental data to lookup tables for mapping wavelength to molar absorptivity
+# 0.00.18 (62340) Mar 8, 2012
+3/8/12 Concentration 1.00 release candidate
+3/8/12 change "lambdaMax" label to "fixed" on wavelength radio button
+3/8/12 format Color Scheme Editor output so that it can be directly pasted back into Java code
+3/8/12 convert JC's spreadsheet to something that can be used by Java (CSV format, swap rows and columns)
+3/7/12 add workaround for #3267, problem with wavelength slider
+3/7/12 BeersLawSolution: doc, eliminate duplication of colors, convert colors from hex to RGB
+3/7/12 eliminate duplication of saturated concentration values
+3/7/12 reduce width of concentration text field
+3/7/12 render ruler after Reset All button, so that Reset All button doesn't get obscured
+3/7/12 move model-view location debugger to upper-right
+3/7/12 simplify wavelength control, replace enum with boolean
+3/7/12 when lambdaMax radio button is selected, set light wavelength to current solution's lambdaMax
+3/7/12 Beers: rename "solid beam" to "beam" throughout, since there's only one representation now
+3/7/12 Beers: delete "photon view" feature, representation can't handle the range [62302],[62303],[62311]
+# 0.00.17 (62294) Mar 7, 2012
+3/7/12 Concentration: new color scheme from JC
+3/7/12 restore wavelength control
+3/7/12 cleanup uses of ChangeObserver (used mainly to rewire view components to mutable model properties)
+# 0.00.16 (62265) Mar 6, 2012
+3/6/12 dev version with Color Scheme Editor
+3/6/12 update view when color scheme changes (everything except precipitate that already exists)
+3/6/12 user interface completed for color scheme editor (not everything is updating properly yet, since colors were never intended to be mutable)
+3/6/12 Concentration: add color schemes to model, stub button for opening editor
+3/6/12 reorganize class for dev model properties, rename ConcentrationModelDialog
+3/6/12 remove all photons on Reset All
+3/6/12 center ruler under cuvette
+3/6/12 tweak size and velocity of photons, use image caching to improve performance
+3/6/12 put a gray outline around the beam, so that lighter colors are still visible
+3/6/12 add ruler insets to model, start with ruler aligned with left edge of cuvette
+3/6/12 change label "% Transmittance" to "Transmittance" on detector
+3/5/12 first pass at photon beam (model and view), does not interact with solution or detector
+3/5/12 rename Beam to SolidBeam
+3/2/12 Beers: make solutions more transparent so that it's easier to see probe inside solution
+3/2/12 setPickable(false) on cuvette components, so that probe can be manipulated when it's inside the cuvette
+3/2/12 make entire probe look like it's passing through the cuvette
+# 0.00.15 (62131) Mar 2, 2012
+3/2/12 first pass at making probe look like it's passing through the cuvette (half in, half out)
+3/2/12 sim-sharing: add non-interactive message for detector body
+3/2/12 sim-sharing: indicate whether probe is in beam when dragging probe
+3/2/12 Beers: add transparency to solution in cuvette, so that detector will be visible as it passes through
+3/2/12 move probe/beam intersection tests to beam model
+3/2/12 Beers: make detector work inside cuvette
+3/2/12 factor out model classes for A and T
+3/2/12 use transmittance (T) in model, convert to percent transmittance (%T) in view
+3/2/12 bug fix: concentration slider doesn't show correct initial non-zero value
+3/1/12 Beers: make AT detector non movable
+3/1/12 Beers: start with 100 units of concentration for each solution
+3/1/12 static methods for A and %T models
+3/1/12 make sensor diameter an attribute of the detector probe
+# 0.00.14 (62016) Feb 29, 2012
+2/28/12 add stub for photon view
+2/28/12 add clock to Beers model, in preparation for animating photons
+2/28/12 move LightRepresentation property to view
+2/28/12 fix rendering order so that behavior looks plausible when probe is close to light
+2/28/12 display correct value on AT detector based on its location
+2/28/12 update beam only when it's visible
+2/28/12 major simplification of BeamNode
+2/28/12 add model of light beam, detect interaction with detector probe
+2/28/12 change drag bounds of ruler so that it can't get lost behind control panel
+# 0.00.13 (61715) Feb 23, 2012
+2/23/12 Beers: resize cuvette only using arrow (event handlers were attache to the wrong node)
+2/23/12 Concentration: replace various getters with public final fields in model classes
+2/23/12 Concentration: verified that this sim is fully instrumented for data collection
+2/23/12 Concentration: add non-interactive simsharing message for solution
+2/23/12 Concentration: screenshot
+2/23/12 reduce cuvette stroke width from 2 to 1.5 so it doesn't look so heavy
+2/23/12 increase font size on ruler
+2/23/12 Beers: increase vertical space for radio buttons in AT body (increase height of image files)
+2/23/12 fix transparency at corners of meter body images
+2/23/12 revised model.txt with JC's contributions
+2/23/12 Beers: reset all solutions on Reset All
+2/23/12 Concentration: fix for: make shaker empty, then drain out a little bit of solution, one grain of solute comes out of the shaker while activating the drain
+2/23/12 Beers: setOpaque(false) for radio buttons
+2/22/12 color center and right beam segments based on wavelength and %T, use gradient for beam segment in cuvette
+2/22/12 show vertical diameter line in detector, for debugging
+2/22/12 restore ability to move detector
+# 0.00.12 (61619) Feb 22, 2012
+2/22/12 dev version to verify absorbance (A) and transmittance (T) models
+2/22/12 change molar absorptivity for Drink Mix, remove molar scaling factor from model
+2/22/12 check in JC's latest spreadsheet
+2/22/12 temporarily make detector position fixed
+2/22/12 add alpha to left segment of beam
+2/22/12 fix molar conversion factor for Drink Mix
+2/22/12 make beam unpickable so that we can grab detector probe through beam
+2/22/12 add molar conversion factor to model
+2/22/12 revert %T model: %T = 100 * 10^(-A)
+2/22/12 change %T model: %T = 100 * e^(-A)
+2/22/12 fix snapping of cuvette width to nearest 0.1cm
+2/22/12 change detector to 2 decimal places, to match data in spreadsheet
+2/22/12 change to vertical layout of "Light View" radio buttons, so there's more room to move the detector probe between the light and cuvette
+2/22/12 make AT detector show "-" when light is off
+2/22/12 check in JC's latest spreadsheet
+2/22/12 change %T model: %T = 100 * 10^(-A)
+2/21/12 add "%" after %T value in AT detector
+2/21/12 move duplicate code for particle nodes into a base class
+2/21/12 doc and minor tweaks for potential code review of Concentration sim
+2/21/12 create implementation-notes.txt and add notes for Concentration tab
+2/21/12 create model.txt and write description for Concentration tab
+2/21/12 first pass at %T model (but something isn't right)
+2/21/12 wire up %T property (value not correctly computed yet)
+2/21/12 first pass at integrating absorbance model (detector always shows absorbance, no matter where it's placed)
+2/21/12 check in JC's latest measured data for molar absorption
+2/21/12 add max molar absorption to BeersLawSolution (looked these up in JC's spreadsheet)
+2/21/12 change request: use RGB=[255,0,255] for max color of KMnO4 (this was min color in 1st tab)
+2/21/12 make all view classes package private, except canvas
+2/21/12 move button classes to proper packages
+2/21/12 specify a color range for the concentration range in Beer's solutions
+2/21/12 move Solute to concentration.model package
+2/21/12 remove Solute from Beer's model, too much baggage that's specific to Concentration model, and too many differences
+2/21/12 snap cuvette width to the closest 0.1cm interval when the user stops dragging
+2/21/12 remove "pure water" from Beer's Law tab, it creates problems, and all solutions are pure water when concentration=0 [61532]
+2/21/12 reduce cuvette height by 0.25 cm so that it's easier to drag detector probe around bottom of cuvette
+2/21/12 add height to ruler model
+2/21/12 design decision: don't change appear of arrow at min/max range of cuvette width
+2/21/12 remove molar mass from model, it appears in design doc but isn't used for anything
+2/21/12 use toggle button on light
+2/21/12 make the light 40% taller, so we can increase the lens diameter
+# 0.00.11 (61522) Feb 21, 2012
+2/21/12 dev version for discussion of design issues with JC
+2/20/12 beam segment to right of cuvette
+2/20/12 beam segment in solution
+2/20/12 fix divide-by-zero error for pure water
+2/20/12 beam segment between light and cuvette
+2/20/12 add lambdaMax to solution model
+2/20/12 delete wavelength feature, too expensive to hide and continue to support [61509]
+2/20/12 concentration slider
+# 0.00.10 (61504) Feb 20, 2012
+2/20/12 first dev version of "Concentration" flavor
+2/20/12 add translucent background to label on dropper, so that labels are visible on all solution colors
+2/20/12 first pass at concentration text field
+2/17/12 make distance between light and cuvette something that's easy to measure (1.5cm)
+2/17/12 add "Concentration" flavor to this project
+2/16/12 use white text on detector
+2/16/12 change Kool-Aid to "Drink mix"
+2/16/12 add unlabeled major ticks to ruler at 1/2 cm increments
+2/14/12 delete attempt at using HSliderNode node for concentration slider
+2/14/12 add concentration slider, not wired up yet
+2/14/12 add ruler to model, to take advantage of resetting its location on Reset All
+2/14/12 flesh out concentration control a bit more
+2/14/12 change units on concentration control to match appropriate units for specific solution
+2/14/12 hide concentration control for pure water
+2/14/12 base class for solutions
+2/14/12 add stroke around color chips in combo boxes, sames as for fluids
+2/14/12 add pure water to the list of solutions (even though it's not technically a solution)
+2/14/12 use different solution models for the 2 tabs, needs are very different
+2/11/12 add wire to AT detector, standardize wire colors
+2/11/12 preliminary pass at AT detector
+2/11/12 debug node that display model and view locations
+2/9/12 make center of concentration probe transparent, so you can see the fluid that the crosshairs are on [61163]
+2/9/12 fix: concentration meter continues to read a value after dropper is turned off
+# 0.00.09 (61151) Feb 9, 2012
+2/9/12 change request: make concentration meter cable curvy (ala Bending Light)
+2/9/12 change request: move initial location of concentration probe below left of body (outside beaker)
+2/6/12 add location to Light model
+2/6/12 use public CompositeProperty for derived properties
+2/6/12 placeholder for concentration control
+2/6/12 reuse the Solute combo box for Solutions, parameterize the format of the combo box item labels
+2/6/12 first pass at drag handle for cuvette width, has a few warts
+2/2/12 add images for absorbance meter
+2/2/12 change color of concentration meter/probe/wire, so it's different from absorbance meter
+2/2/12 encapsulate algorithm used to create the stroke color from a solution color
+2/2/12 add Water solvent
+2/2/12 add sim-sharing for non-interactive objects in the play area
+2/2/12 add cuvette model and view
+2/2/12 add model-view transform, specify the ruler length as a function of the max cuvette width
+2/2/12 add ruler to view
+2/2/12 add Reset All button to 2nd tab, in same location as 1st tab
+2/2/12 wrapper for WavelengthControl to use Property<Double>
+# 0.00.08 (60959) Feb 2, 2012
+2/2/12 add interviews flavor (with data collection enabled) to build.properties
+2/2/12 add wavelength control (from piccolo-phet)
+2/2/12 add basic light model and view
+2/2/12 more work on light controls
+2/1/12 intermediate pass at light controls
+2/1/12 set up framework for 2nd tab canvas and model
+2/1/12 repackage in preparation for starting second tab
+2/1/12 ===== begin implementation of "Beer's Law" tab =============================================================
+2/1/12 added sim-sharing message for attempt to interact with unmovable meter body
+2/1/12 change request: use a minimum view height for a solution with non-zero volume, so that it's visible to the user and detectable by the concentration probe
+1/31/12 move symobls to their own file, so that ResourceGenerator can be used for strings and images
+1/31/12 add hand cursor to dropper, to indicate that it's movable
+1/31/12 until combo box popup can be properly addressed (see #3242), move solute control panel (which includes combo box) to the front
+1/31/12 prevent concentration probe from being dragged off the bottom of the stage
+# 0.00.07 (60842) Jan 31, 2012
+1/31/12 implement reset for Shaker, so it doesn't dispense solute when Reset All resets its location
+1/31/12 dispense solute particles when shaker is moving
+1/31/12 delete shaker particles when they reach the surface of the solution, add corresponding amount of solute to the solution
+1/31/12 handle collisions between solute particles and beaker wall
+1/30/12 make solute particles accelerate properly
+1/30/12 adjust Solute fields related to particles
+1/30/12 create shaker particles with random orientations
+1/26/12 make concentration meter expand to fit title
+1/26/12 create TiledBackgroundNode, takes 3 images and tiles them to fit a specified width
+1/25/12 separate strings for Concentration tab and meter title
+1/25/12 add strings for "Beer's Law" tab
+1/25/12 add faint stroke to all fluids (solution, faucets, stock)
+1/23/12 fix flat spot on top of concentration probe image
+1/19/12 remove excessive negative space from concentration meter
+1/19/12 put units under concentration meter title
+1/19/11 move shaker and dropper in front of solute control panel
+1/19/12 make body of concentration meter non-draggable
+# 0.00.06 (60455) Jan 18, 2012
+1/16/12 migrate ColorRange to phetcommon, for use in dilutions
+1/12/12 add a thin black line around solution
+1/12/12 show only the solute names (no formulae) in the solute combo box
+1/12/12 use 3 decimal places and larger value font for concentration meter
+1/12/12 capitalize first letter of solute names
+1/11/12 Simsharing: add UserComponent chaining for FaucetNode and its FaucetSlider
+1/11/12 add shaker orientation to model, used for direction of initial particle velocity
+1/10/12 remove shaker particles when the solute is changed
+1/10/12 make "Remove Solute" button remove any solute that is falling between the shaker and beaker
+1/10/12 first pass at particles exiting shaker (motion is not physical, particles disappear when they reach y=500)
+1/10/12 use ImmutableVector2D for all model locations
+1/10/12 rotate button on dropper so that lighting direction is consistent
+1/10/12 move origin of MomentaryButtonNode to center, to facilitate rotation and layout
+1/10/12 move origin of faucet node to center of output pipe, so that it's consistent with the faucet model
+1/10/12 make meter and model properties dialog use the same number of decimal places for concentration values
+1/10/12 constrain meter from being dragged behind control panel; move control panel with combo box to front, so that combo box popup is aways on top
+1/10/12 derive height of solute fluid stream
+1/10/12 use precipitate color for particles that come out of the shaker
+1/10/12 adjust location of "Saturated!" indicator, use light gray background instead of white
+1/10/12 base class for solute particles, specializations for precipitate particles and shaker particles
+1/10/12 move precipitate particle orientation into model
+1/10/12 make precipitate particles sit precisely on bottom of beaker
+1/10/12 change min colors for K2CrO4 (RGB=255,255,199) and KMnO4 (RGB=255,0,255)
+1/10/12 enable dropper when amount of solute is reduced below max
+# 0.00.05 (60092) Jan 10, 2012
+1/10/12 move dropper-specific image dependencies into DropperNode
+1/10/12 add background image for empty dropper
+1/10/12 add Dropper.empty, handle proper interaction with Shaker.enabled
+1/10/12 replace Shaker.enabled with Shaker.empty
+# 0.00.04 (60076) Jan 10, 2012
+1/10/12 dev version for discussion of whether to make dropper transparent or translucent
+1/10/12 dropper with transparent glass
+# 0.00.03 (60074) Jan 10, 2012
+1/10/12 dev version for discussion of whether to make dropper transparent or translucent
+1/10/12 new dropper image, created by Noah P.
+# 0.00.02 (60062) Jan 9, 2012
+1/9/12 early dev version for discussion of dropper issues
+1/9/12 use an unlicensed placeholder for dropper that will have proper shape and prospective
+1/9/12 experimented with 3D beaker, JC and KP decided to stick with 2D
+1/5/12 simplistic version of stock solution inside dropper glass, doesn't conform to glass shape
+1/5/12 move responsibility for visibility of shaker and dropper into the model
+1/5/12 make concentration meter read all liquids: solution in beaker, solvent faucet, drain faucet, dropper (handle intersection in view)
+1/5/12 compute color of stock solution based on stock concentration
+1/5/12 add color range for solutes (min-max), max is saturated, min is >0, interpolate based on concentration
+1/5/12 initialize with zero solute
+1/5/12 change dropper's horizontal drag bounds to be full width of beaker (like shaker)
+1/5/12 disable "Remove Solute" button when there is no solute in the beaker
+1/5/12 change drag bounds for shaker, OK if top part of shaker goes off top edge of play area
+# 0.00.01 (59868) Jan 4, 2012
+1/4/12 early dev version for discussion of design issues with JC
+1/3/12 add precipitate and particles to the model
+1/3/12 add relative location of shaker holes to model
+1/3/12 move shaker origin to center holes in shaker image
+1/3/12 add node for debugging origin of shaker and dropper
+1/3/12 make location of ticks configurable, move ticks to left edge of beaker
+1/3/12 use a different probe for concentration meter that doesn't have problem with wire showing in center
+12/27/11 constraining dragging of concentration meter and probe to the stage
+12/27/11 move SoluteForm enum into Solute model class
+12/27/11 disable evaporation slider when beaker is empty
+12/27/11 add "evaporator" to model
+12/27/11 add sim-sharing parameter "isInSolution" for dragging of meter probe
+12/27/11 dev: move model properties to a dialog, accessible via a button in play area
+12/27/11 create dev package
+12/27/11 add concentration meter (model and view)
+12/27/11 remove solute from solution when changing solute
+12/26/11 fix "Saturated!" indicator for empty beaker
+12/26/11 a little work on add/removeSolvent and add/removeSolute in model
+12/26/11 fix dropper button, doesn't disable when beaker is full
+12/26/11 move origin of dropper to hole that dispenses stock solution
+12/26/11 replace ImmutableVector2D with Point2D for non-public fields
+12/26/11 first pass at stock solution coming out of dropper (not aligned with dropper hole)
+12/26/11 reorganize time-based portion of model
+12/26/11 model of shaker dispensing solute
+12/26/11 implement evaporation
+12/26/11 add dropper dispensing solution to model
+12/26/11 disable dropper when beaker is full (add disabled button to piccolo-phet image suite)
+12/26/11 add solvent, drain solution as clock ticks
+12/26/11 add clock to model
+12/26/11 add solution in beaker
+12/26/11 add precipitate on bottom of beaker
+12/26/11 add "Saturated!" indicator
+12/26/11 add solvent and "fluid" to model, make faucet outputs show fluid
+12/26/11 add fluid coming out of faucets
+12/22/11 add sim-sharing to evaporation control
+12/22/11 add sim-sharing to faucet sliders
+12/21/11 #3193, fix "flow rate" issue in FaucetNode. Delete adapter code workaround from beers-law-lab model.
+12/21/11 add faucets model and view
+12/21/11 add beaker model and view
+12/21/11 define font sizes in constants class
+12/21/11 add debug node for model properties
+12/21/11 refine some controls
+12/20/11 grabbed evaporation control from sugar-and-salt-solutions
+12/20/11 add "Remove Solute" button
+12/20/11 icons for shaker and dropper
+12/20/11 add drag constraints for shaker and dropper
+12/20/11 add drag constraint to MovableDragHandler
+12/20/11 drag handler for shaker and dropper
+12/20/11 model elements for shaker and dropper
+12/20/11 add some sim-sharing support
+12/20/11 add additional strings for 1st tab, for new features that were added
+12/20/11 add momentary button to dropper
+12/20/11 add dropper with dynamic label (no button yet)
+12/20/11 add shaker with dynamic label
+12/20/11 workaround for #3190 (combo box popup causes control panel to resize)
+12/20/11 add "solute form" to model and control panel
+12/20/11 grab solute control from dilutions
+12/20/11 specify solutes as in design document
+12/20/11 added string resources for 1st tab
+12/20/11 added more basic infrastructure
+12/20/11 grabbed relevant model code from dilutions
+12/19/11 grabbed shaker image from sugar-and-salt-solutions
+12/19/11 ===== begin implementation of "Concentration" tab =============================================================
+12/7/11 created project skeleton

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_tk.xml created Wed Aug 15 16:07:13 UZT 2012 using: geometric-optics 2.05.00 (52650), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="draggableScreen" value="süýşürilýän ekran"/>
+<string key="draggableLens" value="süýşürilýän linzalar"/>
+<string key="screen" value="Ekran"/>
+<string key="draggableRuler" value="süýşürilýän lineýka"/>
+<string key="simTitle" value="Geometriki optikasy"/>
+<string key="showHelp" value="Kömegi görkez"/>
+<string key="moveMe" value="Meni süýşür"/>
+<string key="showGuides" value="Ugrukdyryjylary görkez"/>
+<string key="diameter" value="diametr (m)"/>
+<string key="ruler" value="Lineýka"/>
+<string key="focalPoint" value="fokus nokady"/>
+<string key="curvatureRadius" value="tegeleme radiusy (m)"/>
+<string key="changeObject" value="Obýekti üýtget"/>
+<string key="principalRays" value="Esasy şöhle"/>
+<string key="marginalRays" value="Gapdalky şöhleler"/>
+<string key="virtualImage" value="Wirtual şekil"/>
+<string key="noRays" value="Şöhle ýok"/>
+<string key="secondSource" value="2-nji nokat"/>
+<string key="hideHelp" value="Kömegi gizle"/>
+<string key="refractiveIndex" value="döwülmegiň görkezjisi"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="manyRays" value="Köp şöhle"/>
+</SimStrings>

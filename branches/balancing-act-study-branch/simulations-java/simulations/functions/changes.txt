@@ -1,0 +1,21 @@
+10/7/12 #3423, replaced AbstractFunctionsCanvas with CenteredStageCanvas
+# 0.00.05 (67912) Sep 12, 2012
+# 0.00.04 (67516) Aug 29, 2012
+# 0.00.03 (67514) Aug 29, 2012
+Fixed shapes for multi-argument functions
+Added different input/output shapes for different types
+Center the representation bar at the top of the screen
+Added a thin light border to the smiling face
+# 0.00.02 (67061) Aug 16, 2012
+Added a grid icon
+Added navigation bar
+Removed test package that included recording + recursion
+Prevent value from dragging left through function
+Added a stack of input cards
+Show rotation icon as 90 degrees
+Instead of "*2", show "x2" but not with the letter "x"
+Center icon/text within functions
+# 0.00.01 (66490) Aug 1, 2012
+Added new prototype for build a function
+Finished prototype for function creation
+Added stub project for generating templates and mockups

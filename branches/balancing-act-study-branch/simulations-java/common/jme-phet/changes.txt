@@ -1,0 +1,5 @@
+11/3/2011 Send a message when there is an error, see #3136
+10/17/2011 Reverted trial fix for rendering problems on 1.5, see #3122
+10/17/2011 Trial fix for rendering problems on 1.5, see #3122
+09/27/11 add handler for Mac Quit (Cmd-Q) menu item
+09/21/10 Added jme-phet

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_cs.xml created Fri Jan 20 23:11:44 CET 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.13.00 (59150) XII 8, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Úvod"/>
+<string key="properties.mass" value="Hmotnost"/>
+<string key="controlPanel.showVectorValues" value="Síly"/>
+<string key="forceArrows.contact" value="Kontaktní síla"/>
+<string key="mode.objectsOfSameVolume" value="Stejný objem"/>
+<string key="mysteryObject.densityColumnHeader" value="Hustota ({0})"/>
+<string key="material.aluminum" value="Hliník"/>
+<string key="properties.massKilogram" value="g"/>
+<string key="material.air" value="Vzduch"/>
+<string key="material.custom" value="Moje krychle"/>
+<string key="material.gasoline" value="Benzín"/>
+<string key="customObject.material" value="Materiál"/>
+<string key="mode.mysteryObjects" value="Neznámé"/>
+<string key="customObject.custom" value="Moje krychle"/>
+<string key="material.wood" value="Dřevo"/>
+<string key="properties.massKilogramValue" value="{0} g"/>
+<string key="mode.two" value="Dvě"/>
+<string key="material.styrofoam" value="Polystyren"/>
+<string key="material.honey" value="Med"/>
+<string key="material.apple" value="Jablko"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Led"/>
+<string key="translation.credits" value="Bronislav Návojský, ZŠ Havlíčkův Brod, Nuselská 3240"/>
+<string key="buoyancy.tab.playground" value="Vztlak"/>
+<string key="fluid.controls.intro.label" value="Kapalina"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Diamant"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Krychle"/>
+<string key="material.oliveOil" value="Olej"/>
+<string key="material.lead" value="Olovo"/>
+<string key="forceArrows.buoyancy" value="Vztlaková síla"/>
+<string key="properties.fluidDensity" value="Hustota kapaliny"/>
+<string key="mysteryObject.densityUnitsKgL" value="g/cm3"/>
+<string key="customObject.properties" value="Vlastnosti"/>
+<string key="forceArrows.gravity" value="Gravitační síla"/>
+<string key="material.brick" value="Cihla"/>
+<string key="mysteryObject.material" value="Materiál"/>
+<string key="mysteryObject.table.title" value="Hustoty různých materiálů"/>
+<string key="properties.weightPoundValue" value="{0} g"/>
+<string key="material.oil" value="Olej"/>
+<string key="properties.volumeLiterValue" value="{0} ml (cm3)"/>
+<string key="mode.objectsOfSameDensity" value="Stejná hustota"/>
+<string key="density.simTitle" value="Hustota"/>
+<string key="controlPanel.readouts" value="Ukázat hodnoty"/>
+<string key="properties.volumeMilliLiterValue" value="{0} ml (cm3)"/>
+<string key="mode.customObject" value="Náhodné"/>
+<string key="mode.objectsOfSameMass" value="Stejná hmotnost"/>
+<string key="application.resetAll" value="Resetovat vše"/>
+<string key="material.gold" value="Zlato"/>
+<string key="properties.densityValue" value="{0} g/cm3"/>
+<string key="forceArrowControlPanelTitle" value="Ukázat síly"/>
+<string key="properties.weightNewtonValue" value="{0} mN"/>
+<string key="customObject.name" value="Jméno"/>
+<string key="controlPanel.showMasses" value="Hmotnosti"/>
+<string key="material.water" value="Voda"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Hustota"/>
+<string key="material.waterBalloon" value="Balónek s vodou"/>
+<string key="mysteryObject.table.showTable" value="Zobrazit  tabulku"/>
+<string key="mode.one" value="Jedna"/>
+<string key="properties.volume" value="Objem"/>
+<string key="buoyancy.simTitle" value="Vztlak"/>
+<string key="properties.kilogramPerLiter" value="g/cm3"/>
+<string key="properties.volumeLiter" value="ml (cm3)"/>
+</SimStrings>

@@ -1,0 +1,11 @@
+###################################
+# License info for rotation
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+zoomBackgroundHorizontal.png author=PhET 
+zoomBackgroundVertical.png author=PhET 
+zoomInButton.png author=PhET 
+zoomInButtonPressed.png author=PhET 
+zoomOutButton.png author=PhET 
+zoomOutButtonPressed.png author=PhET 

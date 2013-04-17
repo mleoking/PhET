@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_mk.xml created Mon Jul 16 20:43:48 CEST 2012 using: pendulum-lab 2.03.00 (52288), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="resetStopwatch" value="почеток"/>
+<string key="earth" value="Земја"/>
+<string key="showPhotoGateTimer" value="мерач на период"/>
+<string key="planetX" value="Планета Х"/>
+<string key="acceleration" value="забрзување"/>
+<string key="showEnergyOf" value="Прикажи ја енергијата:"/>
+<string key="PE" value="потенцијална Е"/>
+<string key="velocity" value="брзина"/>
+<string key="translation.credits" value="Зоран Христовски"/>
+<string key="realTime" value="реално"/>
+<string key="length" value="должина"/>
+<string key="lots" value="повеќе"/>
+<string key="friction" value="триење"/>
+<string key="showSecondPendulum" value="Покажи друго нишало"/>
+<string key="start" value="Старт"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Јупитер"/>
+<string key="moon" value="Месец"/>
+<string key="energyOf" value="енергија"/>
+<string key="period" value="период:"/>
+<string key="simStrings" value="Нишало"/>
+<string key="noneFriction" value="без"/>
+<string key="total" value="вкупна"/>
+<string key="mass2" value="маса 2:"/>
+<string key="pendulum" value="Нишало:"/>
+<string key="startPauseStopwatch" value="старт/пауза"/>
+<string key="show" value="Прикажи:"/>
+<string key="length2" value="должина 2:"/>
+<string key="photoGateTimer" value="мериме период"/>
+<string key="thermal" value="топлотна"/>
+<string key="pausePlay" value="пауза/старт"/>
+<string key="reset" value="почеток"/>
+<string key="mass" value="маса"/>
+<string key="quarterTime" value="1/4 од времето"/>
+<string key="KE" value="кинетичка Е"/>
+<string key="gEqZero" value="g=0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="без"/>
+<string key="simTitle" value="Нишало"/>
+<string key="otherTools" value="други алатки"/>
+<string key="angleUnit" value="степен"/>
+<string key="paused" value="запрено"/>
+<string key="sixteenthTime" value="1/16 од времето"/>
+</SimStrings>

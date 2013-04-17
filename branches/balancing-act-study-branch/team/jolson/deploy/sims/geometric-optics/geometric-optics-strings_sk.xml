@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="draggableScreen" value="presuň tienidlo"/>
+<string key="draggableLens" value="presuň šošovku"/>
+<string key="screen" value="Tienidlo"/>
+<string key="draggableRuler" value="presuň pravítko"/>
+<string key="showHelp" value="Zobraz pomocníka"/>
+<string key="moveMe" value="Zmeň polohu !"/>
+<string key="showGuides" value="Zobraziť svetlovod"/>
+<string key="diameter" value="priemer (m)"/>
+<string key="ruler" value="Pravítko"/>
+<string key="focalPoint" value="ohnisko"/>
+<string key="curvatureRadius" value="polomer krivosti (m)"/>
+<string key="changeObject" value="Zmeniť objekt"/>
+<string key="principalRays" value="Význačné lúče"/>
+<string key="marginalRays" value="Krajné lúče"/>
+<string key="virtualImage" value="Neskutočný obraz"/>
+<string key="noRays" value="Bez lúčov"/>
+<string key="secondSource" value="Druhý bod"/>
+<string key="hideHelp" value="Skry pomocníka"/>
+<string key="refractiveIndex" value="index lomu"/>
+<string key="manyRays" value="Veľa lúčov"/>
+</SimStrings>

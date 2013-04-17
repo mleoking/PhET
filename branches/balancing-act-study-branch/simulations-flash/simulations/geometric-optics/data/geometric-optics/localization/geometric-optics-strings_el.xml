@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_el.xml created Mon Mar 16 04:30:15 EET 2009 using: geometric-optics 1.00.00 (22386), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="draggableScreen" value="συρόμενη οθόνη"/>
+<string key="draggableLens" value="συρόμενος φακός"/>
+<string key="screen" value="Οθόνη"/>
+<string key="draggableRuler" value="συρόμενος χάρακας"/>
+<string key="showHelp" value="Εμφάνισε βοήθεια"/>
+<string key="moveMe" value="Κούνα με!"/>
+<string key="showGuides" value="Εμφάνισε οδηγούς"/>
+<string key="diameter" value="διάμετρος (μ)"/>
+<string key="ruler" value="Χάρακας"/>
+<string key="focalPoint" value="εστιακό σημείο"/>
+<string key="curvatureRadius" value="ακτίνα καμπυλ. (μ)"/>
+<string key="changeObject" value="Άλλαξε αντικείμενο"/>
+<string key="principalRays" value="Κύριες ακτίνες"/>
+<string key="marginalRays" value="Οριακές ακτίνες"/>
+<string key="virtualImage" value="Φανταστικό είδωλο"/>
+<string key="noRays" value="Χωρίς ακτίνες"/>
+<string key="secondSource" value="2ο σημείο"/>
+<string key="hideHelp" value="Απόκρυψη βοήθειας"/>
+<string key="refractiveIndex" value="δείκτης διάθλασης"/>
+<string key="manyRays" value="Πολλές ακτίνες"/>
+</SimStrings>

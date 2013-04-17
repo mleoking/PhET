@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_fi.xml created Thu Jun 16 19:52:22 EEST 2011 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.10.00 (48775) helmi 9, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Johdanto"/>
+<string key="properties.mass" value="Massa"/>
+<string key="controlPanel.showVectorValues" value="Voimien arvot"/>
+<string key="forceArrows.contact" value="Kosketus"/>
+<string key="mode.objectsOfSameVolume" value="Sama tilavuus"/>
+<string key="mysteryObject.densityColumnHeader" value="Tiheys ({0})"/>
+<string key="material.aluminum" value="Alumiini"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Ilma"/>
+<string key="material.custom" value="Oma laatikko"/>
+<string key="material.gasoline" value="Bensiini"/>
+<string key="customObject.material" value="Materiaali"/>
+<string key="mode.mysteryObjects" value="Tuntematon"/>
+<string key="customObject.custom" value="Oma laatikko"/>
+<string key="material.wood" value="Puu"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="Kaksi"/>
+<string key="material.styrofoam" value="Styroksi"/>
+<string key="material.honey" value="Hunaja"/>
+<string key="material.apple" value="Omena"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Jää"/>
+<string key="translation.credits" value="Rami Nuotio"/>
+<string key="buoyancy.tab.playground" value="Leikkikenttä"/>
+<string key="fluid.controls.intro.label" value="Neste"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Timantti"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Laatikot"/>
+<string key="material.oliveOil" value="Oliiviöljy"/>
+<string key="material.lead" value="Lyijy"/>
+<string key="forceArrows.buoyancy" value="Noste"/>
+<string key="properties.fluidDensity" value="Nesteen tiheys"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="Ominaisuudet"/>
+<string key="forceArrows.gravity" value="Painovoima"/>
+<string key="material.brick" value="Tiili"/>
+<string key="mysteryObject.material" value="Materiaali"/>
+<string key="mysteryObject.table.title" value="Materiaalien tiheyksiä"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="Öljy"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
+<string key="mode.objectsOfSameDensity" value="Sama tiheys"/>
+<string key="density.simTitle" value="Tiheys"/>
+<string key="controlPanel.readouts" value="Lukemat"/>
+<string key="properties.volumeMilliLiterValue" value="{0} mL"/>
+<string key="mode.customObject" value="Oma"/>
+<string key="mode.objectsOfSameMass" value="Sama massa"/>
+<string key="application.resetAll" value="Aloita alusta"/>
+<string key="material.gold" value="Kulta"/>
+<string key="properties.densityValue" value="{0} kg/L"/>
+<string key="forceArrowControlPanelTitle" value="Näytä voimat"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="nimi"/>
+<string key="controlPanel.showMasses" value="Massat"/>
+<string key="material.water" value="Vesi"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Tiheys"/>
+<string key="material.waterBalloon" value="Vesipallo"/>
+<string key="mysteryObject.table.showTable" value="Näytä taulukko"/>
+<string key="mode.one" value="Yksi"/>
+<string key="properties.volume" value="Tilavuus"/>
+<string key="buoyancy.simTitle" value="Noste"/>
+<string key="properties.kilogramPerLiter" value="kg/L"/>
+<string key="properties.volumeLiter" value="L"/>
+</SimStrings>

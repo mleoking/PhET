@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_in.xml created Wed Aug 08 15:32:40 ICT 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) Des 8, 2011--><SimStrings>
+<string key="rubYellowAtoms" value="Gosok  atom kuning ke hijau"/>
+<string key="physics" value="Fisika"/>
+<string key="reset" value="Set Ulang"/>
+<string key="simTitle" value="Gesekan"/>
+<string key="translation.credits" value="STKIP Surya"/>
+<string key="chemistry" value="Kimia"/>
+</SimStrings>

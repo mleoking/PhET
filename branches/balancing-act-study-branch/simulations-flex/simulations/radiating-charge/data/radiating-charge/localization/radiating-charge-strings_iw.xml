@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_iw.xml created Thu Feb 14 15:33:01 EET 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) Oct 9, 2012-->
+<SimStrings>
+<string key="stopCharge" value="עצור מטען"/>
+<string key="bump" value="התנגשות"/>
+<string key="amplitude" value="משרעת"/>
+<string key="radiating-charge.simTitle" value="מטען קורן"/>
+<string key="speed" value="מהירות"/>
+<string key="duration" value="משך"/>
+<string key="noFrictionManual" value="ללא חיכוך"/>
+<string key="frictionManual" value="ידני"/>
+<string key="linear" value="קוי"/>
+<string key="reset" value="איפוס"/>
+<string key="frequency" value="תדירות"/>
+<string key="circular" value="מעגלי"/>
+<string key="showVelocity" value="וקטור המהירות"/>
+<string key="paused" value="מושהה"/>
+<string key="restart" value="התחלה מחדש"/>
+<string key="sinusoidal" value="סינוסואידלי"/>
+</SimStrings>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_pt_BR.xml created Tue May 29 11:07:39 BRT 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) Dez 8, 2011-->
+<SimStrings>
+<string key="sameFrequency" value="mesma frequência"/>
+<string key="sameSpring" value="mesma mola k"/>
+<string key="slow" value="LEnto"/>
+<string key="mixedMAndK" value="Variar m e k"/>
+<string key="numberOfResonators" value="número de ressonadores"/>
+<string key="kg" value="Kg"/>
+<string key="pause" value="pausar"/>
+<string key="amplitude" value="amplitude"/>
+<string key="frequencyEqualsXHz" value="frequência = {0} Hz"/>
+<string key="sloMo" value="MODO LENTO"/>
+<string key="step" value="passo a passo"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="MOTOR"/>
+<string key="on" value="ligado"/>
+<string key="ruler" value="Régua"/>
+<string key="resonance.simTitle" value="Ressonância"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="Constante da mola"/>
+<string key="frequency" value="frequência"/>
+<string key="resetAll" value="Reiniciar tudo"/>
+<string key="mass" value="massa"/>
+<string key="sameMass" value="mesma massa m"/>
+<string key="resonator" value="Ressonador"/>
+<string key="translation.credits" value="Douglas Luan. Formoso. Universidade Federal dos Vales do Jequitinhonha e Mucuri - ICET"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Gravidade:"/>
+<string key="play" value="iniciar"/>
+<string key="paused" value="PAUSADO"/>
+<string key="off" value="desligado"/>
+<string key="dampingConstant" value="constante de amortecimento"/>
+<string key="normal" value="normal"/>
+<string key="selectPreset" value="Selecionar Predefinido"/>
+</SimStrings>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_ja.xml created Tue May 01 18:24:33 JST 2012 using: arithmetic 2.03.00 (51677), translation-utility 2.12.00 (57171) 10 4, 2011-->
+<SimStrings>
+<string key="level" value="レベル"/>
+<string key="typeAnswer" value="答えを入力し\nエンターキ―を押してください"/>
+<string key="clickToSelect" value="四角に入るものをクリック"/>
+<string key="correct" value="正解！"/>
+<string key="end" value="終了"/>
+<string key="isWrong" value="不正解"/>
+<string key="start" value="開始"/>
+<string key="simTitle" value="計算"/>
+<string key="time" value="時間（秒）"/>
+<string key="finalTime" value="総合時間（秒）"/>
+<string key="multiply" value="かけ算"/>
+<string key="tryAgain" value="もう一度！"/>
+<string key="sound" value="音"/>
+<string key="divide" value="わり算"/>
+<string key="factor" value="因数"/>
+<string key="minute" value="分"/>
+<string key="finalScore" value="総合スコア"/>
+<string key="nbrRight" value="正解"/>
+<string key="mustTypeNbr" value="数字を\n入力してください"/>
+<string key="score" value="スコア："/>
+<string key="scorePer" value="スコア"/>
+<string key="translation.credits" value="Kochi Univeristy of Technology"/>
+<string key="nbrWrong" value="不正解"/>
+<string key="reset" value="リセット"/>
+<string key="clock" value="時計"/>
+<string key="title" value="計算練習"/>
+</SimStrings>

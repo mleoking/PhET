@@ -1,0 +1,65 @@
+PhET Weekly Progress Report
+John Blanco
+March 22nd, 2012
+
+Time period covered: March 15th through March 21st.
+
+Gene Expression - 18.5 hrs
+
+o	Added the recycling of RNA polymerase in order to enable the RNA production rate to be higher.
+o	Increased the speed to transcription.
+o	Made mRNA fade out after it is produced in case users use full screen mode.
+o	Made molecules always be fully opaque when over the DNA (other behavior looked odd).
+o	Made polymerase fade out after transcription before being "teleported" back to the area near the start of the transcribed region.
+o	Made the biomolecules on the DNA be on a lower "layer" in the z-order of the canvas so that molecules won't go between them and the DNA.
+
+Energy Forms and Changes - 3.0 hrs
+
+o	Set up the project in the code base.
+o	Added all the basic infrastructure classes (application, module, model, canvas).
+o	Added drawing to first tab, published as dev version 0.00.01.
+
+States of Matter - 2.0 hrs
+
+o	Reviewed SOM changes for better temperature behavior with Emily M, see #3274.
+o	Published updated version to dev.
+
+Fourier - 0.5 hrs
+
+o	Tried to reproduce an issue with odd-looking graphs on an XP machine, see #3282.
+
+Common Code - 2.0 hrs
+
+o	Participated in discussions about Piccolo-based slider nodes.
+o	Verified fixes to the WavelengthControl, see #3276.
+
+Sim Sharing - 2.0 hrs
+
+o	Server discussions with Jim McKown & Doug Johnson.
+o	Review of ticket about database logging (see #3224), broke out separate ticket for what to do if server becomes inaccessible while data is being logged, see #3295.
+
+Installers - 1.5 hrs
+
+o	Tried to reproduce (with help from Sam R) an issue reported by a user where the installation wasn't working on a Mac, see #3291.
+
+Environment - 1.0 hrs
+
+o	Upgraded to the latest version of IntelliJ in order to resolve an issue with SVN commits.
+o	Updated old XP machine so that it can be used for testing.
+
+Interviewing - 3.0
+
+o	Interviewed and attended a talk by math postdoc candidate Ian W.
+o	Attended talk by math postdoc candidate Karina H.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Input hours for February into the tracking spreadsheet.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	Planning to be out all next week (week of March 26th) and the following Monday (April 2nd).

@@ -1,0 +1,38 @@
+PhET Progress Report
+John Blanco
+September 24, 2008
+
+States of Matter Sim - 26 hrs
+
+•	Implemented the ability for the container to explode (blow lid off top) if pressure gets too high.
+•	Completed the legend for the forces on Interaction Potential, finished implementation.
+•	Implemented negative slope on phase diagram for water.
+•	Changed the "gray out" behavior of the sliders in the Interaction Potential control panel to match that requested in meeting.
+•	Got feedback from Noah from first interview with this sim, added handle to lid as a result.
+•	Fixed issues with reset behavior found during testing.
+•	Improved the look of the pin that holds the atom in place on the Interaction Potential tab.
+•	Added gradients that SHOULD be safe for Macs (yet to be tested).
+•	Have partially implemented other fixes for problems found when testing on Mac platform.
+
+Common Code - 2.5 hrs
+
+•	Worked with Sam R. on improving and incorporating play/pause buttons.
+
+Nuclear Physics - 2.0
+
+•	Added button to play area on Reactor tab for firing Neutrons.
+•	Various other cleanup, such as fixing an incorrect label.
+•	Published to dev and solicited feedback.
+
+Meetings & Email - 2.5 hrs
+
+•	Regular weekly status meeting.
+•	Various discussions with Noah P, Paul B, Sam R, and Kathy in person and via email.
+
+Tools and Infrastructure - 7.0 hrs
+
+•	Cut over from the SourceForge SVN repository to the Unfuddle repository.
+•	Worked on setting up my home PC for doing PhET work (this was done on the day we were asked to leave early for the football game).
+•	Updated to the latest version of Tortoise.
+
+

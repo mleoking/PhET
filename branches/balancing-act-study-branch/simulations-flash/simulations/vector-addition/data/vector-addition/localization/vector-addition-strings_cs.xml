@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_cs.xml created Sun Apr 22 20:34:05 CEST 2012 using: vector-addition 2.02.00 (52287), translation-utility 2.13.00 (59150) XII 8, 2011-->
+<SimStrings>
+<string key="showSum" value="Součet"/>
+<string key="simTitle" value="Sčítání vektorů"/>
+<string key="grabOne" value="Přetáhni"/>
+<string key="clearAll" value="Vymazat"/>
+<string key="componentDisplay" value="Zobrazit součásti"/>
+<string key="y" value="y"/>
+<string key="style3" value="Styl 3"/>
+<string key="none" value="žádný"/>
+<string key="showGrid" value="Mřížka"/>
+<string key="style2" value="Styl 2"/>
+<string key="x" value="x"/>
+<string key="style1" value="Styl 1"/>
+</SimStrings>

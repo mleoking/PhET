@@ -1,0 +1,18 @@
+/* Copyright 2002-2012, University of Colorado */
+
+/* This is an HTML element selector example */
+p {
+    color: red;
+    font-size: 16px;
+}
+
+/* This is an ID selector example */
+#para1 {
+    text-align: center;
+    color: #daa520;
+}
+
+/* This is a class selector example */
+.center {
+    text-align: center;
+}

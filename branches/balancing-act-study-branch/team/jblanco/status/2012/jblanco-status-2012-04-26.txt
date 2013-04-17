@@ -1,0 +1,72 @@
+PhET Weekly Progress Report
+John Blanco
+April 26th, 2012
+
+Time period covered: April 19th through April 25th.
+
+Gene Expression - 17.0 hrs
+
+o	Reviewed during physics meeting.
+o	Worked with people who are in the know about licensing to determine how to license image of E. Coli expressing green fluorescent protein.
+o	Tested snap-to behavior for transcription factors, discussed with Ariel P, decided to leave as is for now.
+o	Centered the slider for number of cells on the 3rd tab, repositioned cells to avoid overlap.
+o	Grouped controls on the third tab into collapsible control panels.
+o	Changed the layout of the third tab to make it work with new arrangement for parameter controllers.
+o	Looked into adding parameters for negative transcription factors to the multi-cell model.  George E says, "It wouldn't be too hard."
+o	Integrated what is hopefully the final image of E. Coli expressing GFP into the 3rd tab.
+o	Changed the wording of several of the parameter panels.
+o	Spent some time on code cleanup.
+o	Reviewed with Ariel P.
+
+Energy Forms and Changes - 7.0 hrs
+
+o	Participated in review during Physics meeting.
+o	Created the initial versions of the thermometers and made them draggable.
+o	Added texture to the brick.
+o	Fixed issue with dropping beaker above blocks that are on the burner.
+o	Worked with Noah P on the appearance of the thermometers and the brick, since these involve graphics images.
+o	Started working on motion limits for movable model elements.
+
+Beer's Law - 1.5 hrs
+
+o	Modified the units used in the control that selects the solution on the 2nd tab, published to dev.  This was requested by Julia C for interviews.
+
+States of Matter - 2.0 hrs
+
+o	Published version with latest common code for review by the team.
+o	Published to the production server, or at least tried.  Something appears to have gone wrong with this, and JO is investigating.
+
+Fractions - 0.5 hrs
+
+o	Participated in review during Physics meeting.
+
+Line Graphing - 0.5 hrs
+
+o	Participated in review during Physics meeting.
+
+Balancing Act - 0.5 hrs
+
+o	Updated ticket where user reports an issue, see #3308.
+
+Common Code - 4.0 hrs
+
+o	Worked on supporting different knob shapes on Piccolo-based sliders.
+
+Environment - 1.0 hrs
+
+o	Wrote up some thoughts on functional programming for Kathy P.
+
+Web Site - 1.0 hrs
+
+o	Worked with JO to restart Tomcat when the site became unresponsive on Wed April 25 at around 2:30 pm.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	Nothing on the immediate horizon.

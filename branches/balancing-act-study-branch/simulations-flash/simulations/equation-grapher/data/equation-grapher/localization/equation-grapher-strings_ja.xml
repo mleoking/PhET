@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_ja.xml created Tue May 01 19:24:07 JST 2012 using: equation-grapher 2.02.00 (52283), translation-utility 2.12.00 (57171) 10 4, 2011-->
+<SimStrings>
+<string key="showYEq" value="y=  "/>
+<string key="erase" value="削除"/>
+<string key="save" value="保存"/>
+<string key="zero" value="ゼロ"/>
+<string key="simTitle" value="2次式のグラフ"/>
+<string key="translation.credits" value="Kochi University of Technology"/>
+</SimStrings>

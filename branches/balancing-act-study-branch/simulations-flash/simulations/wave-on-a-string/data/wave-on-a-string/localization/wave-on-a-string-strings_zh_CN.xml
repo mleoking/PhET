@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_zh_CN.xml created Wed Apr 06 16:03:16 CST 2011 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="manual" value="手动"/>
+<string key="resetTimer" value="重置"/>
+<string key="damping" value="阻尼"/>
+<string key="simTitle" value="波一弦"/>
+<string key="showHelp" value="显示帮助"/>
+<string key="pulse" value="脉冲"/>
+<string key="amplitude" value="振幅"/>
+<string key="pausePlay" value="暂停/播放"/>
+<string key="step" value="步进"/>
+<string key="tension" value="张力"/>
+<string key="startTimer" value="开始/暂停"/>
+<string key="pulseWidth" value="脉冲宽度"/>
+<string key="rulerHelp" value="拖动尺子"/>
+<string key="high" value="高"/>
+<string key="wiggleWrench" value="老虎钳"/>
+<string key="timer" value="计时器"/>
+<string key="oscillate" value="自动"/>
+<string key="rulers" value="尺子"/>
+<string key="frequency" value="频率"/>
+<string key="wrenchHelp" value="拖动老虎钳"/>
+<string key="fixedEnd" value="固定端"/>
+<string key="hideHelp" value="隐藏帮助"/>
+<string key="refLineHelp" value="拖动参考线"/>
+<string key="translation.credits" value="张大红"/>
+<string key="timerHelp" value="拖动计时器"/>
+<string key="looseEnd" value="松动端"/>
+<string key="noEnd" value="无边界"/>
+<string key="paused" value="暂停"/>
+<string key="reset" value="重置"/>
+<string key="pulse2" value="脉冲"/>
+<string key="low" value="低"/>
+</SimStrings>

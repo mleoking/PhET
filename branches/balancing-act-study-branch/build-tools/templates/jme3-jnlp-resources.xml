@@ -1,0 +1,16 @@
+  <resources os="Windows">
+    <j2se version="1.4+"/>
+    <nativelib href="native_windows.jar"/>
+  </resources>
+  <resources os="Linux">
+    <j2se version="1.4+"/>
+    <nativelib href="native_linux.jar"/>
+  </resources>
+  <resources os="Mac OS X">
+    <j2se version="1.4+"/>
+    <nativelib href="native_macosx.jar"/>
+  </resources>
+  <resources os="SunOS" arch="x86">
+    <j2se version="1.4+"/>
+    <nativelib href="native_solaris.jar"/>
+  </resources>

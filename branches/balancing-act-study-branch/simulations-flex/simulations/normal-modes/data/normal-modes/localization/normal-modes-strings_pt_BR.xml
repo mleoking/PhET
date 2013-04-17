@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_pt_BR.xml created Wed May 30 22:46:15 BRT 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) Dez 8, 2011-->
+<SimStrings>
+<string key="start" value="Iniciar"/>
+<string key="amplitude:" value="Amplitude:"/>
+<string key="translation.credits" value="Douglas Luan de Souza.Comunidade Formoso. UFVJM- Instituto de Ciência, Engenharia e Tecnologia."/>
+<string key="phase:" value="Fase"/>
+<string key="showSprings" value="Mostrar Molas"/>
+<string key="modeSpectrum" value="Espectro no Modo Normal"/>
+<string key="resetPositions" value="Posições Iniciais"/>
+<string key="frequency:" value="Frequência:"/>
+<string key="normalMode:" value="Modo Normal"/>
+<string key="modeSpectrumDisplay" value="Mostrar Modo do Espectro"/>
+<string key="normal-modes.simTitle" value="Modos Normais"/>
+<string key="modeNumbersXY" value="Modo dos Números x,y."/>
+<string key="stop" value="Parar"/>
+<string key="polarization:" value="Controle de &lt;br&gt;Polarização:"/>
+<string key="zeroPositions" value="Zerar Posições"/>
+<string key="paused" value="PAUSADO"/>
+<string key="showPhases" value="Mostrar Fases"/>
+</SimStrings>

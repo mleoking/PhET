@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_fa.xml created Sat May 19 21:46:11 IRDT 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="modeSpectrumDisplay" value="نمايش طيف مد"/>
+<string key="phase:" value="فاز"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="موقعيت صفر"/>
+<string key="start" value="شروع"/>
+<string key="modeNumbersXY" value="x,y تعداد مد "/>
+<string key="polarization:" value="کنترل&lt;br&gt;قطبش:"/>
+<string key="amplitude:" value="دامنه"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="طيف مد طبيعي"/>
+<string key="frequency:" value="بسامد"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="فازها را نشان بده"/>
+<string key="normal-modes.simTitle" value="مد طبيعي"/>
+<string key="stop" value="توقف"/>
+<string key="showSprings" value="فنرها را نشان بده"/>
+<string key="resetPositions" value="موقعيت اوليه"/>
+<string key="normalMode:" value="مد طبيعي"/>
+<string key="translation.credits" value="&lt;html&gt;خلیلی بروجنی&lt;br&gt;khalily@gmail.com&lt;br&gt;www.avang.org&lt;/html&gt;"/>
+<string key="paused" value="مکث"/>
+</SimStrings>

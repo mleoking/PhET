@@ -1,0 +1,60 @@
+PhET Weekly Progress Report
+John Blanco
+September 28th, 2011
+
+Time period covered: September 22nd through September 28th.
+
+Balance and Torque - 17.5 hrs
+
+•	Reviewed and discussed plan for HS version in weekly Physics group meeting.
+•	Changed the game so that mass deduction challenges would be interspersed throughout the various levels, getting harder as the level increases.
+•	Discussed various plans with Ariel.
+•	Made bold tick marks on every other slot instead of every 4th one.
+•	Made Reset All return the tool kit to the initial position.
+•	Fixed issue where some of the challenges would end up with the fixed mass on the right side.
+•	Made the image names, their source files, and the names used in the code all be consistent.
+•	Annotated images in the license file.
+•	Resized some of the graphics so that they would not be scaled up, which improves visual appearance.
+•	Made the mass deduction challenges static.
+•	After feedback, made the mass deduction challenges back to being dynamic.
+•	Changed the mass labels on the mystery objects from being invisible to being question marks.
+•	Added multi-mass challenges, currently at level 4 only.
+
+Gene Expression Basics - 4.0 hrs
+
+•	Created separate view class for mRNA.
+•	Fixed bug where model didn't recognize that transcription factors had been removed from the DNA on a Reset All.
+•	Looked at Optical Tweezers - code and sim behavior - for example of wound up DNA strand.
+•	Worked on algorithm for causing the mRNA to curl up when synthesized.
+
+Molecule Polarity - 4.0 hrs
+
+•	Code review, see Unfuddle #3088.
+
+Common Code - 1.5 hrs
+
+•	Participated in email discussion about varying the color schemes of sims to better support projectors and handouts.
+•	Participated in discussion via Unfuddle ticket #3086.
+
+Environment- 1.0 hrs
+
+•	Looking for solutions to some issues with SVN - which seemed to originate at Unfuddle's end.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Weekly status meeting.
+•	Weekly Physics team meeting.
+•	Weekly status report.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 7.0 hrs
+
+•	4 hrs sick leave on Monday, September 26th.
+•	3 hrs vacation time on Wednesday, September 28th.
+
+What’s Next
+
+•	Continue developing Balance & Torque simulation - finish game, move towards initial publication.
+•	Continue developing Gene Expression simulation.
+•	Continue developing States of Matter: Basics.

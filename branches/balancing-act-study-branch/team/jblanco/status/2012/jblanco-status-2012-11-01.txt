@@ -1,0 +1,64 @@
+PhET Progress Report, J. Blanco, 11-1-2012
+
+PhET Weekly Progress Report
+John Blanco
+November 1st, 2012
+
+Time period covered: October 25th through October 31st.
+
+Energy Forms and Changes - 7.0 hrs
+
+o	Fixed issues with energy chunk behavior when switching biker in and out.
+o	Made biker only transfer energy when generator in place.
+o	Integrated new images supplied by Noah P, including "tired" biker and new legs for the biker.
+o	Redid the water to look more natural, using an approach similar to that used in Fluid Pressure and Flow.
+
+Build an Atom - 1.0 hrs
+
+o	Analyzed a crash report supplied by a user, followed up with more questions.  See #3468.
+
+Tablet Investigation - 16.0 hrs
+
+o	Worked with Sam R on setting up auto update.
+o	Did a partial rewrite of the Sole Source Justifications for Quick Left and Bust Out Solutions to make them more specific.
+o	Worked with CU purchasing department to figure out issues with sole source justification.
+o	Supplied CU purchasing with information about rates and discounts for Quick Left and Bust Out Solutions.
+o	Discussed tablets to target and to test upon, did some research on market breakdown for tablet market.
+o	Reviewed data supplied by Oliver about tablets that access our site.
+o	Discussion with Ariel P about HTML5 plan and direction.
+o	Status meeting with Competentum on Masses and Springs progress.
+o	Experimented with CAAT as a scene graph.
+o	Experimented with Kinetic as a scene graph.
+o	Experimented with using media events to change font size and thus resize a control panel.
+
+Fund Raising - 5.0 hrs
+
+o	Wrote and submitted a proposal for a $5k ASSETT grant for using technology for improving education of CU students.
+
+Common Code - 2.0 hrs
+
+o	Worked with Sam R to track down a bug in Forces and Motion, which ultimately led to DefaultDecimalFormat.
+o	Tested other simulations that may be affected by the DefaultDecimalFormat bug.
+
+Customer Support - 0.5 hrs
+
+o	Tested Faraday's Electromagnetic Lab on Linux, since Steve Pollack relayed an issue from a student who was having problems with it.  Worked fine.
+
+Installers - 2.0 hrs
+
+o	Tested installers built by auto build.  Also tested on Oliver's PC, where the link issue described in #3467 does not appear to be present.
+o	Turned the weekly build back on.
+
+Meetings, Email, and Other Administrative Overhead - 5.5 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal Unfuddle ticket overhead.
+o	Entered hours in hours tracking spreadsheet.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  1.0 hrs
+
+o	Doctor appointment.
+
+

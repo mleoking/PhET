@@ -1,0 +1,12 @@
+use css class to identify the object instead of id
+# 00.00.08 (70269) Nov 13, 2012
+Improved energy conservation on the spline
+Allow canvas to fill the window
+# 00.00.07 (70193) Nov 12, 2012
+# 00.00.06 (70149) Nov 9, 2012
+# 00.00.05 (70094) Nov 8, 2012
+# 00.00.04 (70083) Nov 7, 2012
+Fixed a bug that was preventing spline traversal on firefox
+# 00.00.03 (70081) Nov 7, 2012
+# 00.00.02 (70063) Nov 7, 2012
+# 00.00.01 (70058) Nov 7, 2012

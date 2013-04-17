@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_da.xml created Sun Nov 21 18:15:46 CET 2010 using: collision-lab 0.01.00 (45337), translation-utility 2.09.00 (44031) sep 14, 2010-->
+<SimStrings>
+<string key="PlayPauseButtons.step" value="Trin"/>
+<string key="MomentumView.total" value="total"/>
+<string key="ControlPanel.sound" value="Lyd"/>
+<string key="ControlPanel.showMomentumVectors" value="Kraftvektorer"/>
+<string key="ControlPanel.oneHundredPercent" value="100%"/>
+<string key="DataTable.lessData" value="Færre data"/>
+<string key="MomentumView.momenta" value="Moment"/>
+<string key="DataTable.ball" value="bold"/>
+<string key="TableView.kineticEnergy" value="Kinetisk Energi = {0} J"/>
+<string key="ControlPanel.showVelocities" value="Hastighedsvektorer"/>
+<string key="ControlPanel.showPaths" value="Vis spor"/>
+<string key="DataTable.mass" value="vægt"/>
+<string key="DataTable.addBall" value="Tilføj kugle"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="PlayPauseButtons.pause" value="Pause"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="To demensionel"/>
+<string key="DataTable.moreData" value="Flere data"/>
+<string key="ControlPanel.reflectingBorder" value="Reflekterende kant"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.removeBall" value="Fjern kugle"/>
+<string key="DataTable.x" value="x"/>
+<string key="ControlPanel.resetAll" value="Nulstil alt"/>
+<string key="ControlPanel.momentaDiagram" value="Momentdiagram"/>
+<string key="ControlPanel.elasticity" value="Frastødning"/>
+<string key="ControlPanel.showCenterOfMass" value="Massemidtpunkt"/>
+<string key="ControlPanel.zeroPercent" value="0%"/>
+<string key="TableView.timeRate" value="Tidsskridt"/>
+<string key="simTitle" value="Stød-laboratorium"/>
+<string key="PlayPauseButtons.play" value="Spil"/>
+<string key="PlayPauseButtons.back" value="Tilbage"/>
+<string key="MomentumView.tipToTail" value="sammenhængende vektorer"/>
+<string key="TableView.time" value="Tid = {0} s"/>
+<string key="PlayPauseButtons.rewind" value="Tilbage"/>
+<string key="ControlPanel.1d" value="En demensionel"/>
+</SimStrings>

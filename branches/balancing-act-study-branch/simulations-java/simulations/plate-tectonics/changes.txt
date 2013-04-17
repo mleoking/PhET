@@ -1,0 +1,228 @@
+# 1.02.00 (71914) Jan 30, 2013
+> Added warning dialog for Mac OS X with Java 7
+# 1.01.07 (71904) Jan 29, 2013
+# 1.01.06 (71850) Jan 24, 2013
+# 1.01.05 (71312) Dec 13, 2012
+# 1.01.04 (71216) Dec 11, 2012
+# 1.01.03 (71205) Dec 11, 2012
+# 1.01.02 (71183) Dec 10, 2012
+# 1.01.01 (70623) Nov 25, 2012
+# 1.01.01 (70621) Nov 25, 2012
+# 1.01.00 (67125) Aug 20, 2012
+> Internationalization fix for Convergent, Divergent and Transform
+# 1.00.00 (67114) Aug 19, 2012
+# 0.00.60 (67112) Aug 19, 2012
+"Young Oceanic Crust" labels are always added on rift zones
+# 0.00.59 (67105) Aug 18, 2012
+Fixed center-of-earth temperature bug
+# 0.00.58 (67101) Aug 17, 2012
+"Young Oceanic Crust" label will now appear on crust created next to old oceanic crust (not just continental crust)
+Fixed temperature anomaly between ocean floor and water
+Added "Error" dialog for startup failures
+Vertical angle of the "blue transform" arrows lowered for the "front" direction
+Added in "New Crust" button that resets the model but leaves all of the view controls intact
+# 0.00.57 (67024) Aug 15, 2012
+Added "Reset All" button to the Crust (1st) tab
+# 0.00.56 (66990) Aug 14, 2012
+Dropping a sensor / tool outside of the screen causes it to be brought back into the toolbox
+Fixed inner core boundary temperature
+Fixed thermometer so it doesn't "bottom out" at 0 C (correctly shows air temperature now)
+# 0.00.55 (66877) Aug 13, 2012
+Resize time control panel when in manual mode
+The handle arrows are now clickable and can control the animation
+Handle arrows' vertical angles match the local earth curvature
+Handle arrows moved closer to the handle itself
+Flipped label light/dark for the "Both" coloring mode
+Refined the time control panel (will now disable controls once the time limit is reached)
+Fixed crash behavior with the Density Meter
+# 0.00.54 (66778) Aug 9, 2012
+# 0.00.53 (66755) Aug 9, 2012
+Allowing software fallback (no debug flag)
+# 0.00.52 (66753) Aug 9, 2012
+Allowing software fallback + debug flag
+# 0.00.51 (66752) Aug 9, 2012
+Back to normal graphics settings
+# 0.00.50 (66751) Aug 9, 2012
+Debugging version without antialiasing and with reduced depth buffer precision
+# 0.00.49 (66750) Aug 9, 2012
+Debugging version without antialiasing
+# 0.00.48 (66746) Aug 9, 2012
+Multiple bug fixes (crashing and/or slowness)
+# 0.00.47 (65618) Jul 2, 2012
+Fixed tool drag areas and drag handling
+Fixed garbled layout when launched with small screen-sizes.
+# 0.00.46 (65470) Jun 27, 2012
+Lithosphere-Aesthenosphere boundary linked in the middle and handled for the subduction case (and disappears in most other cases)
+Moved "full density meter" icon arrow to the right.
+# 0.00.45 (65376) Jun 21, 2012
+# 0.00.44 (65375) Jun 21, 2012
+# 0.00.43 (65372) Jun 21, 2012
+Tools are moved back into the toolbox when they are not visible on the screen after zooming in
+Added density-sensor dial "highlight" band
+# 0.00.42 (64996) Jun 12, 2012
+Added inertia to the dial for the "single-dial" density meter
+Dials swapped for the two-dial density meter
+Added developer option to switch between both types of density meters
+Increased label font sizes
+# 0.00.41 (64769) Jun 7, 2012
+"Young Oceanic Crust" label appears in continental divergence case when there is room
+Fixed boundary-label overlay over subducting crust (or other intersection issues)
+Mantle label pushed down in continental collision cases
+Non-divergent crust / lithosphere labels made stationary
+Added "boundary" labeling between mantle and lithosphere.
+Density sensor now will read out correct land / water density values when positioned over the earth "top" i.e. water surface or earth surface.
+# 0.00.40 (64654) Jun 5, 2012
+Changed density meter to have smaller "sensitive" dial and larger "less sensitive" dial (experimental)
+# 0.00.39 (64652) Jun 4, 2012
+Added density "roll-over" style with miniature density meters
+Fixed mantle and core density scale to realistic values (was just a constant for mantle density)
+Moved ruler units label to work around layout issue
+# 0.00.38 (64551) May 31, 2012
+Thermometer "roll-over" style changes (larger, and to the side)
+# 0.00.37 (64541) May 31, 2012
+Integration of same-thread Piccolo rendering for tools so they don't lag by multiple frames
+Fixed multiple bugs with the thermometer node and the "mini" thermometers
+Fixed temperature model for the 1st (crust) tab
+Initial mini-thermometers shown to scale, but with threading issues
+Added initial version of thermometer wrapping, rewrote temperature handling
+Added in the correct radial mapping inverse for sensors, so they function normally when zoomed out
+Fixed temperature issue where it went below absolute zero in the atmosphere
+Performance improvements
+# 0.00.36 (63925) May 3, 2012
+# 0.00.35 (63911) May 2, 2012
+Fixed jitter on 1st tab labels during zoom
+Labeling on 2nd tab (demo version)
+# 0.00.34 (63770) Apr 26, 2012
+Initial density meter "scaling" based on zoom level.
+# 0.00.33 (63768) Apr 26, 2012
+Initial thermometer "scaling" based on zoom level.
+Ruler handles zooming by resizing in "even decimal" increments
+Thermometer / density meter handle zooming by staying at a constant "screen" size.
+# 0.00.32 (63628) Apr 19, 2012
+# 0.00.31 (63331) Apr 11, 2012
+Instrumented 2nd tab
+Instrumented 1st tab
+Fixed young-young automatic handling on 2nd tab (by default, will select divergent motion)
+Updated with SpeedometerNode changes (SR)
+# 0.00.30 (62920) Apr 2, 2012
+Fixed smoke variation with step size
+Fixed plate "smoothing" in divergent and subduction cases, fixing the main "step" bug
+Significant model changes for a better working "subduction/overriding" model that works with the step button (still work to go on it)
+# 0.00.29 (62874) Mar 29, 2012
+Removed "Step" button temporarily
+Fixed continental-continental collisions for handling any timestep size (fixes the "step" bug for this motion type)
+Fixed mountain size consistency in continental-continental collision for the 2nd tab
+Removed "back" arrows for handles that can't be dragged back (for now, they still appear on the opposite side if you have the same crust types)
+# 0.00.28 (62693) Mar 21, 2012
+Fixed: various mouse-press and drag issues, including the play/pause pressing bug noted earlier
+Fixed: bug where borders of the "draggable crust pieces" were cut off when window was resized
+Fixed: hard color boundary between above/below sea level terrain was causing "instant" changes of flashing terrain
+Fixed: bug where dragging two young oceanic plates together (even though not visually allowed) would crash sim
+# 0.00.27 (62534) Mar 13, 2012
+Added smoke to volcanoes
+# 0.00.26 (62495) Mar 12, 2012
+Improved transform fault valley
+Exaggerated sea-floor spreading ridge
+# 0.00.25 (62442) Mar 12, 2012
+On reset, tools are put back in toolbox
+Fixed time speed control reset
+Fixed crust piece dragging with resized window bug
+Temporarily removing "Show Labels" on 2nd tab until those labels are implemented
+Sensors now read out correct values in 2nd tab (point-intersection model working)
+Fixed Rewind button "enabled" refreshing state
+Fixed window resizing bug
+Fixed Mac slider bugs by switching to new time slider style
+# 0.00.24 (62430) Mar 11, 2012
+Density meter updated to speedometer-style (by SR)
+Added fault valley for transform motion
+Added random terrain variations in 2nd tab
+Added subduction mountain generation
+Reduced subduction trench depth
+# 0.00.23 (62415) Mar 11, 2012
+Added initial version for "subduction" animation
+# 0.00.22 (62388) Mar 9, 2012
+Main view in 2nd tab is zoomed in further to see more detail (grain and continental collision were also slightly adjusted to match)
+Handles in the manual mode drag at 1/4 of the rate
+Increased ocean-surface coloring contrast to show off mid-oceanic ridge
+Asthenosphere now doesn't move in the 2nd tab
+Changed oceanic lithosphere heights
+Fixed triangles in the "rift" view
+# 0.00.21 (62367) Mar 9, 2012
+Rift boundary changes
+Disallowing divergent/transform behavior between oceanic/continental
+# 0.00.20 (61724) Feb 24, 2012
+Renamed the Options panel to "View", and moved the reset/rewind buttons out of it
+Renamed "combined" coloring to "Both"
+Added magma to rifting behavior
+Increased vertical resolution for cross section, and reduced horizontal resolution.
+# 0.00.19 (61657) Feb 23, 2012
+Initial (rough and blocky) version of the rift boundary
+Added experimental "combined" temperature-density view
+Mountain refinement in collsisions
+# 0.00.18 (61414) Feb 16, 2012
+2/16/12 Experimenting with "mountains" in continental collision
+# 0.00.17 (61306) Feb 13, 2012
+Added ability to limit simulation time on animations
+Added "Rewind" button to the plate motion tab
+Increased the "texture" contrast
+Added approximate continental collision model, crust/terrain changes to accommodate.
+# 0.00.16 (61097) Feb 8, 2012
+# 0.00.15 (61094) Feb 8, 2012
+2/8/12 Texturing on all surfaces, significant model changes, and transform animation
+# 0.00.14 (60935) Feb 1, 2012
+Added texturing to cross sections
+# 0.00.13 (60651) Jan 26, 2012
+Changed the angle and position of the camera in the Crust tab when handling zoom
+# 0.00.12 (60562) Jan 24, 2012
+Density fixes for above-ground levels (water / air) for Crust tab
+More consistent title fonts
+Added in Legend with tentative positioning and styling
+Changed the temperature false-color to range from gray to red
+Better color handling (light/dark) for labels in the Crust tab
+Full hemisphere of earth shown on Crust tab when zoomed out
+Hid FPS readout by default, added developer option to enable it
+Consolidated the time control readout, so now the inner visibility is toggled
+# 0.00.10 (59979) Jan 6, 2012
+Added "Temperature / Density" views on 1st tab
+# 0.00.09 (59977) Jan 6, 2012
+Can now only drag plates by their handles. Handle top matches mouse position as well as possible
+Don't show handle on plate if it is a lighter plate
+Handle rotation based on movement
+Changed handle to stick-and-ball style
+Reduced ruler size in toolbox for more visibility
+Added manual mode time readout
+Ruler drags from the top
+Bugfix for 2nd tab dragging of tools that doesn't trigger the manual mode motion
+# 0.00.08 (59921) Jan 5, 2012
+Added majority of UI for controlling the 2nd tab (manual and auto mode).
+Now allows mode changes after animation has started
+Added simplified handle prototypes
+Added temporary (inaccurate) "divergent" boundary animation (reverse of convergent)
+Added extra continental crust piece for 2nd tab
+Updated 2nd tab view location to a slight side-angle
+Fixed reset "freeze" bug
+Flipped ruler tick mark labels vertically, added a 4x multiplier to the ruler on the 2nd tab
+# 0.00.07 (59864) Jan 3, 2012
+1/3/12 Added UI for 2nd tab "Auto" mode with clock, added inaccurate example "convergence" model
+# 0.00.06 (59809) Jan 2, 2012
+1/2/12 Added start of 2nd tab model (blocky start positions) with drag-drop of crust and initial 2nd tab reset functionality
+# 0.00.05 (59777) Dec 29, 2011
+Added 2nd tab toolbox, mode-control box and crust chooser box with draggable crust pieces
+Added 1st tab labels and redid density gradients (and various internals)
+# 0.00.04 (59661) Dec 23, 2011
+12/23/11 First LWJGL version, + animation, zoom, and other tweaks
+# 0.00.03 (57593) Oct 13, 2011
+10/13/11 Added roundness, heavy refactoring for performance, etc.
+# 0.00.02 (57349) Oct 6, 2011
+Decreased quality of cross-section display and terrain for performance.
+# 0.00.01 (57345) Oct 6, 2011
+Added thermometer
+Moved ruler in front of everything else (other tools will have the same behavior)
+Made ruler draggable
+Changed tab names to "Crust" and "Plate Motion"
+Added ruler to toolbox
+Added in a 3D test version of a ruler
+Internationalized current strings
+Updated strings file
+Fixed build properties so plate-tectonics will build and run with PBG
+Moved textures from jME3-testdata.jar:Textures/Terrain/splat/ to plate-tectonics data directory

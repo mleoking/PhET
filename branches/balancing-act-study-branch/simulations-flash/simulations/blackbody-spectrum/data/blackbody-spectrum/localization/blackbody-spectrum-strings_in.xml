@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_in.xml created Mon Aug 06 13:49:54 ICT 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) Des 8, 2011--><SimStrings>
+<string key="r" value="M"/>
+<string key="translation.credits" value="STKIP Surya"/>
+<string key="zoomIn" value="perbesar"/>
+<string key="intensity" value="Intensitas"/>
+<string key="simTitle" value="Spektrum Benda hitam"/>
+<string key="zoomOut" value="perkecil"/>
+<string key="clear" value="Bersih"/>
+<string key="g" value="H"/>
+<string key="sun" value="Matahari"/>
+<string key="tempInK" value="T(K)"/>
+<string key="save" value="Simpan"/>
+<string key="showRuler" value="Penggaris"/>
+<string key="wavelength" value="panjang gelombang"/>
+<string key="b" value="B"/>
+<string key="oven" value="Oven"/>
+<string key="earth" value="Bumi"/>
+<string key="lightBulb" value="Lampu"/>
+</SimStrings>

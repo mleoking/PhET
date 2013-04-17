@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_sv.xml created Tue Jan 31 00:57:15 CET 2012 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="help2" value="flyttbar referenslinje"/>
+<string key="help1" value="flyttbar linjal"/>
+<string key="energyOf" value="Energi "/>
+<string key="none" value="ingen"/>
+<string key="moon" value="Måne"/>
+<string key="resetTimer" value="återställ"/>
+<string key="earth" value="Jorden"/>
+<string key="noShow" value="Visa inte"/>
+<string key="simTitle" value="Massa &amp; fjäder"/>
+<string key="showHelp" value="Visa hjälp"/>
+<string key="softness" value="mjukhet fjäder 3"/>
+<string key="pause" value="paus"/>
+<string key="friction" value="friktion"/>
+<string key="quarterTime" value="1/4 tid"/>
+<string key="startTimer" value="start/paus"/>
+<string key="dontBother" value="Bry dig inte"/>
+<string key="showEnergyOf" value="Visa energi"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="realTime" value="real tid"/>
+<string key="16thTime" value="1/16 tid"/>
+<string key="nothinOK" value="Ingenting! OK?"/>
+<string key="lots" value="massor"/>
+<string key="sound" value="Ljud"/>
+<string key="thermal" value="Termisk"/>
+<string key="stopWatch" value="Stopur"/>
+<string key="hideHelp" value="Dölj hjälp"/>
+<string key="soft" value="mjuk"/>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="hard" value="hård"/>
+<string key="paused" value="Pausad"/>
+<string key="noHelp" value="Ingen hjälp"/>
+<string key="help4" value="flyttbar tidtagare"/>
+<string key="help3" value="Flytta vikt åt sidan för att lossa från fjäder"/>
+<string key="hangMe" value="Häng mig!"/>
+<string key="total" value="Total"/>
+</SimStrings>

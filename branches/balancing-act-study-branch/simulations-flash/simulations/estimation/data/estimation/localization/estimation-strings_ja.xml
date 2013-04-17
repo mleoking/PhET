@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_ja.xml created Tue May 01 20:10:10 JST 2012 using: estimation 2.02.00 (51675), translation-utility 2.12.00 (57171) 10 4, 2011-->
+<SimStrings>
+<string key="ratioOfAreasIs" value="面積の比は"/>
+<string key="closeEnough" value="惜しい！\n正確な値は："/>
+<string key="levelColon" value="レベル:"/>
+<string key="score" value="スコア"/>
+<string key="EnterNumber" value="数字を入力してください。"/>
+<string key="selectTrainingOrGame" value="練習とプレー　どっち？"/>
+<string key="percentUnderOver" value="推定傾向（少なめ/多め）%"/>
+<string key="estimation" value="推定ゲーム"/>
+<string key="next" value="次"/>
+<string key="ratioOfLengths" value="線分の長さの比　 \n正方形と円の面積の比 \n立方体と球の体積の比"/>
+<string key="exactAnswer" value="正確な値"/>
+<string key="level" value="レベル"/>
+<string key="howMany" value="大きい方に小さい方は\n何個入る？"/>
+<string key="noCreditIf" value="スコアなしの基準は"/>
+<string key="home" value="ホーム"/>
+<string key="whatIsRatioOfVolumes" value="体積の比はいくら？"/>
+<string key="tooFarOff" value="大外れ！\n正しい答えは："/>
+<string key="translation.credits" value="Kochi University of Technology"/>
+<string key="scorePerTimeColon" value="スコア/ 時間:"/>
+<string key="PleasePickANumber" value="1から10000の範囲から数字を選んでください。"/>
+<string key="answerIsOutside" value="答えが上記の範囲外になった場合"/>
+<string key="train" value="練習"/>
+<string key="strategyHelp" value="攻略のヒント"/>
+<string key="whatIsRatioOfAreas" value="面積の比はいくら？"/>
+<string key="scorePerTime" value="スコア/ 時間"/>
+<string key="gameOver" value="ゲームオーバー"/>
+<string key="play" value="プレイ"/>
+<string key="fullCreditIf" value="満点の基準"/>
+<string key="back" value="戻る"/>
+<string key="levelOneColon" value="レベル 1: 長さ \nレベル 2: 長さと面積 \nレベル 3: 長さと面積と体積"/>
+<string key="yourAnswer" value="あなたの答え"/>
+<string key="or" value="もしくは"/>
+<string key="sound" value="音"/>
+<string key="accuracyIsSmaller" value="精度は下記のうち、小さい方。"/>
+<string key="averageAccuracy" value="平均精度"/>
+<string key="gameRules" value="ゲームのルール"/>
+<string key="ratioOfVolumesIs" value="体積の比は"/>
+<string key="time" value="時間（秒）"/>
+<string key="numberEstimates" value="推定値"/>
+<string key="simTitle" value="推定ゲーム"/>
+<string key="yourAnswerIs" value="答が　長さについては解答に30%内、面積については60%内の精度"/>
+<string key="enter" value="入力"/>
+<string key="endGame" value="ゲーム終了"/>
+<string key="nextLowerCase" value="次"/>
+</SimStrings>

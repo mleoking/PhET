@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_et.xml created Tue Nov 22 19:59:09 CET 2011 using: faradays-law 2.02.00 (52648), translation-utility 2.12.00 (57171) Okt 3, 2011-->
+<SimStrings>
+<string key="twoCoils" value="2 pooli"/>
+<string key="n" value="N"/>
+<string key="translation.credits" value="S.K."/>
+<string key="noSound" value="Heli puudub"/>
+<string key="showFieldLines" value="Näita välja jõujooni"/>
+<string key="voltage" value="pinge"/>
+<string key="simTitle" value="Faraday seadus"/>
+<string key="flipMagnet" value="Pööra magnet ümber"/>
+<string key="oneCoil" value="1 pool"/>
+<string key="moveMe" value="Liiguta mind!"/>
+<string key="s" value="S"/>
+</SimStrings>

@@ -1,0 +1,56 @@
+# 1.03.00 (71951) Feb 1, 2013
+# 1.02.00 (71949) Feb 1, 2013
+2/1/13 > Initial deploy to PhET site
+# 1.01.00 (71925) Jan 30, 2013
+1/30/13 Initial deployment to PhET site.
+# 1.00.28 (71923) Jan 30, 2013
+1/30/13 Publication Version
+# 1.00.27 (71500) Jan 3, 2013
+1/3/13 Fiddling with update rate.
+# 1.00.26 (71497) Jan 3, 2013
+1/3/13 Switched from frame-based to time-based animation.
+# 1.00.25 (69057) Oct 9, 2012
+10/9/12 Minor bug fix.
+# 1.00.24 (68780) Oct 4, 2012
+10/4/12 Out-of-bounds recenters charge, no change in motionType
+# 1.00.23 (66826) Aug 10, 2012
+8/10/12 Linear motion speed control has finite acceleration.
+# 1.00.22 (66766) Aug 9, 2012
+8/9/12 PlayPause button now an icon.
+# 1.00.21 (66744) Aug 9, 2012
+8/9/12 Offscreen bug fixed.
+# 1.00.20 (66669) Aug 7, 2012
+8/7/12 Using NiceRadioButtons.
+# 1.00.19 (66364) Jul 27, 2012
+7/27/12 Minor updates.
+# 1.00.18 (66216) Jul 25, 2012
+7/25/12 Ready for interviews.
+# 1.00.17 (65941) Jul 17, 2012
+7/17/12 Attempting dev deploy after some issues with dev.
+# 1.00.16 (65753) Jul 11, 2012
+# 1.00.15 (65752) Jul 11, 2012
+# 1.00.14 (65748) Jul 11, 2012
+7/11/12 Added current speed indicator to control panel
+# 1.00.13 (65723) Jul 11, 2012
+7/11/12 Added velocity vector, subpanel for controls of selected motion.
+# 1.00.12 (65702) Jul 9, 2012
+7/9/12 Added velocity vector
+# 1.00.11 (65390) Jun 22, 2012
+6/22/12 Corrected strings.
+# 1.00.10 (65388) Jun 22, 2012
+6/22/12 Added friction to default manual mode.
+# 1.00.09 (65371) Jun 21, 2012
+6/21/12 Fixed bug in spring.
+# 1.00.08 (65368) Jun 21, 2012
+6/21/12 New spring graphic.
+# 1.00.07 (65357) Jun 21, 2012
+6/21/12 Corrected strings.
+# 1.00.06 (65354) Jun 21, 2012
+6/21/12 Changed pull-down menu to radio buttons.
+# 1.00.05 (65198) Jun 18, 2012
+6/18/12 Ready for interviewing.
+# 1.00.04 (65197) Jun 18, 2012
+# 1.00.03 (65196) Jun 18, 2012
+6/18/12 Ready for interviewing.
+# 1.00.02 (65082) Jun 14, 2012
+6/14/12 First deploy.

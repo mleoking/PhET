@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_gl.xml created Fri Oct 19 09:47:12 CEST 2012 using: collision-lab 2.01.00 (69163), translation-utility 2.14.00 (69024) oct 9, 2012--><SimStrings>
+<string key="ShowValues.velocityCaption" value="Velocidade (m/s)"/>
+<string key="ControlPanel.showValues" value="Mostrar Valores"/>
+<string key="PlayPauseButtons.step" value="Adiante"/>
+<string key="DataTable.velocity" value="Velocidade"/>
+<string key="MomentumView.total" value="Vista total"/>
+<string key="DataTable.positionWithUnits" value="Posición (m)"/>
+<string key="ShowValues.speedReadout" value="| v | = {0}"/>
+<string key="ControlPanel.sound" value="Son"/>
+<string key="ControlPanel.showMomentumVectors" value="Vectores Momento"/>
+<string key="ShowValues.speedCaption" value="Velocidade (m/s)"/>
+<string key="ControlPanel.oneHundredPercent" value="Elástico"/>
+<string key="DataTable.lessData" value="Menos datos"/>
+<string key="DataTable.momentumWithUnits" value="Momento (kg·m/s)"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;Ramón Cid&lt;br&gt;IES de SAR&lt;br&gt;Santiago (Spain)&lt;br&gt;www.lhc-closer.es&lt;html&gt;"/>
+<string key="MomentumView.momenta" value="Momentos"/>
+<string key="DataTable.units.kilogramMetersPerSecond" value="kg·m/s"/>
+<string key="ControlPanel.elasticityReadout" value="Elástico {0}%"/>
+<string key="DataTable.ball" value="Bola"/>
+<string key="TableView.kineticEnergy" value="Enerxía Cinética = {0} J"/>
+<string key="advancedTab" value="Avanzado"/>
+<string key="ControlPanel.showVelocities" value="Vectores velocidade"/>
+<string key="ControlPanel.showPaths" value="Mostrar traxectorias"/>
+<string key="DataTable.mass" value="Masa"/>
+<string key="DataTable.addBall" value="Engadir bola"/>
+<string key="DataTable.position" value="Posición"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="DataTable.units.kilograms" value="kg"/>
+<string key="DataTable.units.metersPerSecond" value="m/s"/>
+<string key="ShowValues.momentumReadout" value="p = {0}"/>
+<string key="PlayPauseButtons.pause" value="Pausa"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.reflectingBorder" value="Borde elástico"/>
+<string key="ControlPanel.2d" value="2 Dimensións"/>
+<string key="DataTable.moreData" value="Máis datos"/>
+<string key="DataTable.removeBall" value="Sacar bola"/>
+<string key="DataTable.momentum" value="Momento"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.x" value="x"/>
+<string key="ShowValues.momentumCaption" value="Momento (kg·m/s)"/>
+<string key="ControlPanel.resetAll" value="Reiniciar todo"/>
+<string key="ControlPanel.momentaDiagram" value="Diagrama de momentos"/>
+<string key="ControlPanel.elasticity" value="Elástico"/>
+<string key="DataTable.units.meters" value="m"/>
+<string key="ControlPanel.showCenterOfMass" value="Centro de masas"/>
+<string key="ControlPanel.zeroPercent" value="Inelástico"/>
+<string key="DataTable.velocityWithUnits" value="Velocidade (m/s)"/>
+<string key="ShowValues.absoluteMomentumReadout" value="| p | = {0}"/>
+<string key="TableView.returnBalls" value="Devolver bolas"/>
+<string key="DataTable.massWithUnits" value="Masa (kg)"/>
+<string key="introductionTab" value="Introdución"/>
+<string key="TableView.timeRate" value="Velocidade da Sim"/>
+<string key="simTitle" value="Colisión Lab"/>
+<string key="ShowValues.velocityReadout" value="v = {0}"/>
+<string key="PlayPauseButtons.play" value="Ir"/>
+<string key="ControlPanel.kineticEnergy" value="Enerxía Cinética"/>
+<string key="MomentumView.tipToTail" value="desde o final ao comezo"/>
+<string key="PlayPauseButtons.back" value="Atrás"/>
+<string key="TableView.time" value="Tempo = {0} s"/>
+<string key="ControlPanel.1d" value="1 Dimensión"/>
+<string key="PlayPauseButtons.rewind" value="Reiniciar"/>
+</SimStrings>

@@ -1,0 +1,61 @@
+PhET Weekly Progress Report
+John Blanco
+July 5, 2010
+
+Neuron – 11.0 hrs
+
+•	Refactored so that the view treats real particles and playback particles identically.
+•	Restructured the model to separate out transient particles from background so they can be recorded separately.
+•	Added support for saving enough information about particle positions to support playback.
+•	Completed adding support of record and playback of the particle positions.
+•	Added support for record and playback of charge information.
+•	Added support for record and playback of internal and external ion concentration information.
+•	Tested the record-and-feedback feature and fixed all minor issues found.
+•	Published a version for review and feedback.
+
+Greenhouse - 2.0 hrs
+
+•	Created initial, mostly stubbed out version of the Photon Absorption model and integrated it with the view.
+
+CCK - 1.0 hr
+
+•	Worked on possible approaches to issues with enforcing the .cck file extension, see #2397.
+•	Did sanity testing of latest production version at Sam's request and reported results to him.
+
+Web Site - 1.0 hrs
+
+•	Logged an issue about white space on the sides of the main page, first raised by Mike Dubson.
+•	Supported Dano on some cleanup of the old web site.
+
+Installer Builder for Wicket-Based Web Site - 3.0 hrs
+
+•	Fixed issues with the cron job on Figaro, it is now working correctly.
+•	Resolved issues with the KSU installer, now building correctly.
+•	At this point, both the YF and KSU installer-builders successfully build their installers, but neither have been verified.
+•	Logged an issue about white space on the sides of the main page, first raised by Mike Dubson.
+
+Common Code - 2.0 hrs
+
+•	Met with Chris and Sam to discuss coordinate systems in Piccolo
+
+Customer Support - 1.0 hrs
+
+•	Supported Kelly Reed of Putnum who is working on setting up the PhET sims for the Young and Freedman book.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 16.0 hrs
+
+•	Took Friday, July 2nd, as a vacation day.
+•	Monday, July 5th, was a holiday.
+
+What’s Next
+
+•	Gather input, review, and finalize initial implementation of record-and-playback for Neuron, then support Noah P. in conducting interviews.
+•	Finish implementing photon emission for Greenhouse.
+•	Design and implement the representation of the molecules for Greenhouse, work on absorption.
+•	Continue port to Piccolo of existing tabs in Greenhouse.
+•	Continue work on Membrane Diffusion sim.

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_sk.xml created Thu Feb 05 18:38:36 CET 2009 using: ohms-law 1.00.00 (22498), translation-utility 1.09.00 (26682)-->
+<SimStrings>
+<string key="currentEq" value="prúd ="/>
+<string key="resistance" value="odpor"/>
+<string key="sound" value="zvuk"/>
+<string key="voltage" value="napätie"/>
+</SimStrings>

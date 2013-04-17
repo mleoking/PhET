@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_pl.xml created Thu Jul 05 10:13:19 CEST 2012 using: stern-gerlach 2.02.00 (52653), translation-utility 2.13.00 (59150) gru 8, 2011--><SimStrings>
+<string key="angle3" value="kąt 3"/>
+<string key="angle2" value="kąt 2"/>
+<string key="slow" value="powoli"/>
+<string key="randomXZ" value="losowe xz"/>
+<string key="simTitle" value="Eksperyment Sterna-Gerlacha"/>
+<string key="sternGerlachExperiment" value="Eksperyment Sterna-Gerlacha"/>
+<string key="spinOrientation" value="spin \norientacja"/>
+<string key="up" value="górą"/>
+<string key="down" value="dołem"/>
+<string key="sound" value="dźwięk"/>
+<string key="fast" value="szybko"/>
+<string key="numberOfMagnets" value="liczba \n magnesów"/>
+<string key="fireAtom" value="wystrzel atom"/>
+<string key="autoFire" value="automatycznie"/>
+<string key="translation.credits" value="Andrzej Batorski"/>
+<string key="angle" value="kąt"/>
+<string key="reset" value="resetuj"/>
+<string key="resetCount" value="zresetuj licznik"/>
+</SimStrings>

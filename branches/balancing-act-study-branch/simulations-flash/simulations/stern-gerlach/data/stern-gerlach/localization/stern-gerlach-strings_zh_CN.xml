@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_zh_CN.xml created Wed Mar 23 15:07:14 CST 2011 using: stern-gerlach 2.01.00 (37325), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="+z" value="+z"/>
+<string key="+x" value="+x"/>
+<string key="angle3" value="角度3"/>
+<string key="angle2" value="角度2"/>
+<string key="slow" value="减慢"/>
+<string key="randomXZ" value="随机XZ"/>
+<string key="simTitle" value="（自旋量子化）实验"/>
+<string key="sternGerlachExperiment" value="（自旋量子化）实验"/>
+<string key="spinOrientation" value="自旋    &#10;方向"/>
+<string key="on" value="开"/>
+<string key="up" value="上"/>
+<string key="down" value="下"/>
+<string key="sound" value="音效"/>
+<string key="fast" value="加速"/>
+<string key="numberOfMagnets" value="磁极的数量"/>
+<string key="-z" value="-z"/>
+<string key="translation.credits" value="Hudielan"/>
+<string key="autoFire" value="自动发射"/>
+<string key="fireAtom" value="发射原子"/>
+<string key="angle" value="角度"/>
+<string key="reset" value="重设"/>
+<string key="resetCount" value="重设计数"/>
+<string key="off" value="关"/>
+</SimStrings>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_fr.xml created Fri Nov 11 18:28:49 CET 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.12.00 (57171) oct. 3, 2011-->
+<SimStrings>
+<string key="PlayPauseButtons.step" value="avant"/>
+<string key="MomentumView.total" value="Tot."/>
+<string key="ControlPanel.sound" value="Son"/>
+<string key="ControlPanel.showMomentumVectors" value="Vect. qté de mouv."/>
+<string key="ControlPanel.oneHundredPercent" value="100 %"/>
+<string key="DataTable.lessData" value=" - de données"/>
+<string key="translation.credits" value="&lt;html&gt; Emmanuel KEITH &lt;br&gt; professeurs de mathématiques &lt;br&gt; Collège Eugène Delacroix, France &lt;/html&gt;"/>
+<string key="MomentumView.momenta" value="Qté de mouv."/>
+<string key="DataTable.ball" value="balle"/>
+<string key="TableView.kineticEnergy" value="Energie cinétique = {0} J"/>
+<string key="ControlPanel.showVelocities" value="Vecteurs vitesse"/>
+<string key="ControlPanel.showPaths" value="Montrer le parcours"/>
+<string key="DataTable.mass" value="masse"/>
+<string key="DataTable.addBall" value="Ajouter des balles"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="PlayPauseButtons.pause" value="Pause"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="2 Dimensions"/>
+<string key="DataTable.moreData" value="+ de données"/>
+<string key="ControlPanel.reflectingBorder" value="Bords réflechissants"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.removeBall" value="Retirer une balle"/>
+<string key="DataTable.x" value="x"/>
+<string key="ControlPanel.resetAll" value="R.a.z"/>
+<string key="ControlPanel.momentaDiagram" value="Diag.de qté de mouv."/>
+<string key="ControlPanel.elasticity" value="Elasticité"/>
+<string key="ControlPanel.showCenterOfMass" value="Centre des masses"/>
+<string key="ControlPanel.zeroPercent" value="0%"/>
+<string key="TableView.timeRate" value="Temps"/>
+<string key="simTitle" value="Labo de collision"/>
+<string key="PlayPauseButtons.play" value="Lecture"/>
+<string key="PlayPauseButtons.back" value="Arrière"/>
+<string key="MomentumView.tipToTail" value="de la pointe au talon"/>
+<string key="TableView.time" value="Temps= {0} s"/>
+<string key="PlayPauseButtons.rewind" value="Rembobiner"/>
+<string key="ControlPanel.1d" value="1 Dimension"/>
+</SimStrings>

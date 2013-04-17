@@ -1,0 +1,26 @@
+Graphing Absolute Value (design notes)
+
+equation form: y = a|x - h| + k
+
+From http://www.sparknotes.com/math/algebra2/specialgraphs/section4.rhtml:
+In general, the graph of the absolute value function f(x) = a|x - h| + k is a "V" with vertex (h, k),
+slope m = a on the right side of the vertex ( x > h ) and slope m = - a on the left side of the vertex ( x < h ).
+The graph of f(x) = -a|x - h| + k is an upside-down "V" with vertex (h, k), slope m = -a for x > h
+and slope m = a for x < h.
+
+Equals (=) relational operator only, no inequalities.
+
+On graph:
+- (h,k) manipulator
+- rise/run (2 mirror image points, linked)
+- rise/run brackets on both
+- 2 point tools
+- label lines centered below V (V points at equation)
+
+Controls:
+Save Line
+Erase Lines
+check box: y = |x|
+check box: y = -|x|
+check box: Slope
+turn absolute value operator on/off? (when off, need to write in point-slope form)

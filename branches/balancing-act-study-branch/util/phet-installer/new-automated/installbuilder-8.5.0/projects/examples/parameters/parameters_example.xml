@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <shortName>parametersexample</shortName>
+    <fullName>BitRock Parameters Example Installer</fullName>
+    <version>1.0</version>
+    <installerFilename>${project.shortName}-${project.version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
+    <licenseFile>docs/license.txt</licenseFile>
+    <wrapLicenseFileText>1</wrapLicenseFileText>
+
+    <componentList>
+        <component>
+            <description>Default Component</description>
+            <name>default</name>
+            <folderList></folderList>
+        </component>
+    </componentList>
+    
+    <parameterList>
+
+      	<licenseParameter>
+	    <title>Second License Agreement</title>
+	    <name>other_license</name>
+            <file>docs/otherLicense.txt</file>
+	    <wrapText>1</wrapText>
+	</licenseParameter>
+       
+        <parameterGroup>
+	    <name>welcome_label</name>
+            <title>Introduction</title>
+	    <parameterList>
+	        <labelParameter>
+	            <name>non_linux_user</name>
+		    <title>Introduction</title>
+		    <description>Dear ${platform_name} user, you'll now try an example installer that will display to you examples of the InstallBuilder parameters functionality.</description>
+		    <image>img/icon.png</image>
+		    <ruleList>
+		        <compareText>
+		          <text>${platform_name}</text>
+			  <logic>does_not_equal</logic>
+			  <value>linux</value>
+			</compareText>
+		    </ruleList>
+		</labelParameter>
+		
+		<labelParameter>
+	            <name>linux_user</name>
+		    <title>Introduction</title>
+		    <description>Dear Linux ${linux_distribution} user, you'll now try an example installer that will display to you examples of the InstallBuilder parameters functionality.</description>
+                    <image>img/icon.png</image>
+		    <ruleList>
+	                <platformTest>
+		          <type>linux</type>
+			</platformTest>
+		    </ruleList>
+		</labelParameter>
+	    </parameterList>
+	</parameterGroup>
+	
+        <directoryParameter>
+            <name>installdir</name>
+            <description>Installation directory</description>
+            <explanation>Please specify the directory where ${project.fullName} will be installed</explanation>
+	    <insertAfter>welcome_label</insertAfter>
+            <value>${platform_install_prefix}/${project.shortName}-${project.version}</value>
+            <default>${platform_install_prefix}/${project.shortName}-${project.version}</default>
+            <allowEmptyValue>0</allowEmptyValue>
+            <ask>yes</ask>
+            <cliOptionName>prefix</cliOptionName>
+	    <leftImage></leftImage>
+            <mustBeWritable>yes</mustBeWritable>
+            <mustExist>0</mustExist>
+            <width>30</width>
+	</directoryParameter>
+
+	<parameterGroup>
+	    <name>user_data</name>
+	    <title>User data</title>
+	    <explanation>Please insert the desired username and password</explanation>
+	    <parameterList>
+	        <stringParameter>
+		    <name>username</name>
+		    <description>User Name</description>
+		    <value>admin</value>
+		    <allowEmptyValue>0</allowEmptyValue>
+		</stringParameter>
+		<passwordParameter>
+		    <name>userpasswd</name>
+		    <title>User Password</title>
+		    <description>Password</description>
+		    <value></value>
+		    <default></default>
+		    <cliOptionName></cliOptionName>
+		    <descriptionRetype>Re-enter</descriptionRetype>
+		    <width>40</width>
+		    <validationActionList>
+                        <throwError>
+			    <text>You need to provide a non-empty password</text>
+			    <ruleList>
+                                <compareText text="${cmspassword}" logic="equals" value="" />
+			    </ruleList>
+			</throwError>
+		    </validationActionList>
+		</passwordParameter>
+	    </parameterList>
+	</parameterGroup>
+
+	<booleanParameter>
+            <name>install_db</name>
+            <title>Install a database</title>
+            <description>Do you want to install a database?</description>
+            <default>1</default>
+	</booleanParameter>
+
+	<choiceParameter>
+	    <name>preferred_database</name>
+	    <title>Choose a database</title>
+	    <explanation>Choose a database to be installed and configured</explanation>
+            <default>mysql</default>
+            <cliOptionName>${project.shortName}_database</cliOptionName>
+            <displayType>radiobuttons</displayType>
+	    <optionList>
+	        <option>
+                    <text>MySQL</text>
+                    <image>img/mysql.png</image>
+                    <value>mysql</value>
+                    <description>The project will be configured to use MySQL database.</description>
+		</option>
+		<option>
+                    <text>PostgreSQL</text>
+                    <image>img/postgres.png</image>
+                    <value>postgres</value>
+                    <description>The project will be configured to use PostgreSQL database.</description>
+		</option>
+		<option>
+                    <text>SQLite</text>
+                    <image>img/sqlite.png</image>
+                    <value>sqlite</value>
+                    <description>The project will be configured to use SQLite database.</description>
+		</option>
+            </optionList>
+	    <ruleList>
+	        <compareValues>
+	            <value1>${install_db}</value1>
+		    <logic>equals</logic>
+		    <value2>1</value2>
+		</compareValues>
+	    </ruleList>
+	</choiceParameter>
+
+	<parameterGroup>
+	    <name>apps_and_server</name>
+            <title>Web framework and server</title>
+	    <explanation>Is there anything else you wish to install?</explanation>
+	    <parameterList>
+	        <booleanParameter>
+		    <name>install_webframework</name>
+		    <value>1</value>
+		    <description>Install a web framework</description>
+		    <displayStyle>checkbox-left</displayStyle>
+		</booleanParameter>
+		<booleanParameter>
+		    <name>install_server</name>
+		    <value>1</value>
+		    <description>Install a web server (this is an example of a right aligned checkbox)</description>
+		    <displayStyle>checkbox-right</displayStyle>
+		</booleanParameter>
+	    </parameterList>
+	</parameterGroup>
+
+	<choiceParameter>
+	    <name>preferred_apps</name>
+            <title>Web Frameworks</title>
+	    <explanation>Choose the web frameworks you want to install</explanation>
+            <default>django</default>
+            <cliOptionName>${project.shortName}_apps</cliOptionName>
+            <displayType>radiobuttons</displayType>
+	    <optionList>
+                <option>
+                    <text>Django</text>
+                    <value>django</value>
+                    <description>A web framework for Python.</description>
+		</option>
+		<option>
+                    <text>Ruby on Rails</text>
+                    <value>ror</value>
+                    <description>The famous web framework for Ruby.</description>
+		</option>
+		<option>
+                    <text>Cake</text>
+                    <value>cake</value>
+                    <description>A web framework for PHP.</description>
+		</option>
+            </optionList>
+	    <ruleList>
+	        <compareValues>
+	            <value1>${install_webframework}</value1>
+		    <logic>equals</logic>
+		    <value2>1</value2>
+		</compareValues>
+	    </ruleList>
+	</choiceParameter>
+
+	<choiceParameter>
+	    <name>preferred_server</name>
+            <title>Web Servers</title>
+	    <explanation>Choose the web server you want to install</explanation>
+            <default>apache</default>
+            <cliOptionName>${project.shortName}_server</cliOptionName>
+            <displayType>combobox</displayType>
+	    <optionList>
+                <option>
+                    <text>Apache</text>
+                    <value>apache</value>
+		</option>
+		<option>
+                    <text>Lighttpd</text>
+                    <value>light</value>
+		</option>
+            </optionList>
+	    <ruleList>
+	        <compareValues>
+	            <value1>${install_server}</value1>
+		    <logic>equals</logic>
+		    <value2>1</value2>
+		</compareValues>
+	    </ruleList>
+	</choiceParameter>
+
+	<fileParameter>
+	    <name>chooseAFile</name>
+            <title>Configuration File</title>
+            <explanation>Please include a file</explanation>
+	    <mustExist>1</mustExist>
+	</fileParameter>
+
+        <booleanParameterGroup>
+            <name>advanced</name>
+            <description>Advanced Mode</description>
+            <parameterList>
+                <choiceParameter>
+                    <name>emailNotifications</name>
+                    <description>Email notifications</description>
+                    <value>always</value>
+                    <allowEmptyValue>1</allowEmptyValue>
+                    <displayType>combobox</displayType>
+                    <ordering>default</ordering>
+                    <width>40</width>
+                    <optionList>
+                        <option description="Always send notifications" text="Always" value="always" />
+                        <option description="Never send notifications" text="Never" value="never" />
+                    </optionList>
+                </choiceParameter>
+                <stringParameter name="subject" description="Notifications Subject" value="[NOTIFICATION] #" />
+                <directoryParameter name="cacheDir" description="Cache Dir" value="${system_temp_directory}/cache" />
+            </parameterList>
+        </booleanParameterGroup>
+
+        <choiceParameterGroup>
+            <name>keyChoice</name>
+            <description>Select how to provide your license key</description>
+            <explanation></explanation>
+            <value></value>
+            <default></default>
+            <parameterList>
+                <fileParameter>
+                    <name>keyFile</name>
+                    <description>Load from file</description>
+                </fileParameter>
+                <stringParameter>
+                    <name>licenseText</name>
+                    <description>Enter license key</description>
+                </stringParameter>
+            </parameterList>
+        </choiceParameterGroup>
+
+        <booleanParameterGroup>
+            <name>registerNested</name>
+            <description>Register Installation</description>
+            <value>1</value>
+            <validationType>ifSelected</validationType>
+            <parameterList>
+                <stringParameter>
+                    <name>registerUser</name>
+                    <description>Username</description>
+                </stringParameter>
+                <choiceParameterGroup>
+                    <name>registerKeyChoice</name>
+                    <description>Select how to provide your license key</description>
+                    <parameterList>
+                        <fileParameter>
+                            <name>registerKeyFile</name>
+                            <description>Load from file</description>
+                        </fileParameter>
+                        <stringParameter>
+                            <name>registerLicenseText</name>
+                            <description>Enter license key</description>
+                        </stringParameter>
+                    </parameterList>
+                </choiceParameterGroup>
+            </parameterList>
+        </booleanParameterGroup>
+
+	<infoParameter>
+  	    <name>final_review</name>
+	    <title>Almost done</title>
+	    <value>These were some examples of what parameters in InstallBuilder allow you to do in a simple and intuitive way.
+
+After the installation there will be more examples of parameters.</value>
+	</infoParameter>
+
+	<linkParameter>
+            <name>open_browser</name>
+            <title>Open Browser</title>
+            <explanation>You can also add parameters to be shown after the installation is complete.
+Here's a link parameter:</explanation>
+	    <insertAfter>installation</insertAfter>
+            <clickedActionList>
+                <launchBrowser>
+                    <url>http://www.bitrock.com</url>
+                </launchBrowser>
+            </clickedActionList>
+            <description>Open BitRock Website</description>
+        </linkParameter>
+
+    </parameterList>
+</project>

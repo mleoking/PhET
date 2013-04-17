@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_sk.xml created Sat Sep 22 01:16:41 CEST 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) dec 8, 2011--><SimStrings>
+<string key="r" value="Č"/>
+<string key="translation.credits" value="RNDr. Ľubomír Červený &lt;br&gt; http://www.cerveny.sk"/>
+<string key="zoomIn" value="zväčšiť"/>
+<string key="intensity" value="intenzita"/>
+<string key="simTitle" value="Žiarenie čierneho telesa"/>
+<string key="zoomOut" value="zmenšiť"/>
+<string key="clear" value="Zmazať"/>
+<string key="g" value="Z"/>
+<string key="sun" value="slnko"/>
+<string key="tempInK" value="T(K)"/>
+<string key="save" value="Uložiť"/>
+<string key="showRuler" value="zobraziť pravítko"/>
+<string key="wavelength" value="vlnová dĺžka"/>
+<string key="b" value="M"/>
+<string key="oven" value="trúba na pečenie"/>
+<string key="earth" value="zem"/>
+<string key="lightBulb" value="vlákno žiarovky"/>
+</SimStrings>

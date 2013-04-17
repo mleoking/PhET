@@ -1,0 +1,46 @@
+<languageVersion: 1.0;>
+
+kernel normalMapping
+<   namespace : "AIF";
+    vendor : "Adobe Systems, Inc.";
+    version : 2;
+    description : "normalMapping"; >
+{
+    
+    parameter float4 diffuseMatrixR;
+    parameter float4 diffuseMatrixG;
+    parameter float4 diffuseMatrixB;
+    parameter float4 diffuseMatrixO;
+    parameter float4 ambientMatrixO;
+    
+    parameter float4 specularMatrixR;
+    parameter float4 specularMatrixG;
+    parameter float4 specularMatrixB;
+    parameter float4 specularMatrixO;
+    
+    input image4 src;
+    
+    input image4 normalmap;
+    
+    
+    output pixel4 dst;
+    
+    // evaluatePixel(): The function of the filter that actually does the 
+    //                  processing of the image.  This function is called once 
+    //                  for each pixel of the output image.
+    void
+    evaluatePixel()
+    {
+        // Obtain the texture pixel color
+        float4 textureColor = sampleNearest(src, outCoord());
+        
+        // Obtain the normalmap pixel color
+        float4 mapColor = sampleNearest(normalmap, outCoord());
+        
+        // set the output
+        float4 diffuse = textureColor*(max(mapColor.r*diffuseMatrixR + mapColor.g*diffuseMatrixG + mapColor.b*diffuseMatrixB + diffuseMatrixO, float4(0.0, 0.0, 0.0, 0.0)) + ambientMatrixO);
+        float4 specular = mapColor.r*specularMatrixR + mapColor.g*specularMatrixG + mapColor.b*specularMatrixB + specularMatrixO;
+        dst = diffuse + clamp(specular, float4(0.0, 0.0, 0.0, 0.0), float4(1.0, 1.0, 1.0, 1.0));
+    }
+}
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_fi.xml created Mon May 09 00:05:40 EEST 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.10.00 (48775) helmi 9, 2011-->
+<SimStrings>
+<string key="pause" value="pysäytä"/>
+<string key="earth" value="Maa"/>
+<string key="dontBother" value="[tarpeeton]"/>
+<string key="16thTime" value="hidastettu 1/16"/>
+<string key="nothinOK" value="[tarpeeton]"/>
+<string key="mass1Label" value="50 g"/>
+<string key="mass3Label" value="250 g"/>
+<string key="planetX" value="Planeetta X"/>
+<string key="showEnergyOf" value="Näytä energia"/>
+<string key="mass5Label" value="b"/>
+<string key="hangMe" value="Ripusta minut!"/>
+<string key="resetTimer" value="nollaa"/>
+<string key="hard" value="jäykkä"/>
+<string key="mass7Label" value="100 g"/>
+<string key="translation.credits" value="Rami Nuotio"/>
+<string key="stopWatch" value="Ajastin"/>
+<string key="none" value="pieni"/>
+<string key="realTime" value="reaaliaikainen"/>
+<string key="startTimer" value="käynnistä/pysäytä"/>
+<string key="help4" value="siirrettävä ajastin"/>
+<string key="help3" value="Irrota massa jousesta vetämällä  sivuttain"/>
+<string key="showHelp" value="Näytä ohje"/>
+<string key="lots" value="suuri"/>
+<string key="help2" value="siirrettävä vertailusuora"/>
+<string key="help1" value="siirrettävä viivain"/>
+<string key="friction" value="kitka"/>
+<string key="PEelas" value="Epjousi"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Kuu"/>
+<string key="energyOf" value="Energia:"/>
+<string key="total" value="Ekok"/>
+<string key="sound" value="Ääni"/>
+<string key="PEgrav" value="Epgrav"/>
+<string key="mass2Label" value="100 g"/>
+<string key="mass4Label" value="a"/>
+<string key="mass6Label" value="c"/>
+<string key="thermal" value="lämpö"/>
+<string key="quarterTime" value="hidastettu 1/4"/>
+<string key="KE" value="Ek"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="Piilota ohje"/>
+<string key="noHelp" value="[tarpeeton]"/>
+<string key="soft" value="löysä"/>
+<string key="softness" value="Jousen 3 jäykkyys"/>
+<string key="simTitle" value="Jouset ja massat"/>
+<string key="totalE" value="Kokonaisenergia"/>
+<string key="noShow" value="Ei mitään"/>
+<string key="paused" value="Pysäytetty"/>
+</SimStrings>

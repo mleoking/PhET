@@ -1,0 +1,3 @@
+Matching Game:
+The model is immutable, while the view is mutable. This had to be done for performance reasons,
+and is accomplished by introducing "ids" into the model and mapping them back to view objects.

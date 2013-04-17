@@ -1,0 +1,49 @@
+PhET Weekly Progress Report
+John Blanco
+March 15th, 2012
+
+Time period covered: March 8th through March 14th.
+
+Gene Expression - 26.0 hrs
+
+o	Added a motion strategy that cause objects to wander towards their destination, rather than moving directly there (in collaboration with Sam R).
+o	Added the ability to have the DNA "pull in" transcription factors and polymerase in order to increase the rate of mRNA production on the 2nd tab.
+o	Reviewed design and plans in the weekly Physics meeting.
+o	Fixed issues with polymerase getting stuck when attempting to traverse DNA while also at end of motion bounds.
+o	Improved interaction between transcription factors, DNA, and polymerase when the transcription factors are added to or removed from the model.
+o	Removed the "Zoomed Out at Start" feature that had been previously requested.
+o	Implemented a pseudo 3D behavior that allows biomolecules to appear to be closer or further.
+o	Testing and bug fixes.
+
+States of Matter - 1.5 hrs
+
+o	Made some changes to the model in order to make the water start to look frozen at the usual freezing point of 273 Kelvin, see #3274.
+o	Set up meeting with Emily M to discuss and finalize temperature behavior in the model.
+
+Energy Forms and Changes - 2.0 hrs
+
+o	Reviewed design with Noah P.
+
+Tablet Investigation - 1.5 hrs
+
+o	Attempted several optimizations to try and improve the performance of HTML5 version of Masses and Springs on Android platform.  None of the attempted changes worked.  Some research showed that many people have lamented on line about the slowness of the HTML5 canvas on Android.
+
+Sim Sharing - 2.0 hrs
+
+o	Met with Jim McKown of JILA to discuss setup of new server, passed off the server to him.  See #3152.
+o	Tested changes to WavelengthControl for addition of sim sharing feature, see #3277.
+
+Environment - 1.0 hrs
+
+o	Tracked down the missing Mac.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	Planning to be out the week of March 26th and the following Monday (April 2nd).

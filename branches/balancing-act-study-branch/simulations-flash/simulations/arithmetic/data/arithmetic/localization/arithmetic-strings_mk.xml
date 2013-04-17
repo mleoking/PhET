@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_mk.xml created Wed Jul 06 14:05:13 CEST 2011 using: arithmetic 2.03.00 (51677), translation-utility 2.10.00 (48775) фев. 9, 2011-->
+<SimStrings>
+<string key="level" value="НИВО"/>
+<string key="typeAnswer" value="Отчукај одговор,\n потоа  Enter"/>
+<string key="clickToSelect" value="Кликни на точно\n квадратче"/>
+<string key="correct" value="Точно!"/>
+<string key="end" value="Крај"/>
+<string key="isWrong" value="е неточно."/>
+<string key="start" value="Почеток"/>
+<string key="simTitle" value="АРИТМЕТИКА"/>
+<string key="time" value="Време(s)"/>
+<string key="finalTime" value="Вкупно време:"/>
+<string key="multiply" value="помножи"/>
+<string key="tryAgain" value="Пробај повторно."/>
+<string key="sound" value="Звук"/>
+<string key="divide" value="Подели"/>
+<string key="factor" value="Множител"/>
+<string key="minute" value="минута"/>
+<string key="finalScore" value="Вкупен резултат:"/>
+<string key="nbrRight" value="точен број:"/>
+<string key="mustTypeNbr" value="Отчукај\n број"/>
+<string key="score" value="Резултат:"/>
+<string key="scorePer" value="резултат"/>
+<string key="translation.credits" value="Зоран Христовски"/>
+<string key="nbrWrong" value="погрешен број:"/>
+<string key="reset" value="ресетирај"/>
+<string key="clock" value="саат"/>
+<string key="title" value="АРИТМЕТИЧКА ВЕЖБАНКА"/>
+</SimStrings>

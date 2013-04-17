@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_tk.xml created Tue Aug 14 09:40:18 UZT 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Sary atomlary \n ýaşyl atomlaryň üstünden sürt."/>
+<string key="physics" value="Fizika"/>
+<string key="reset" value="Yza gaýt"/>
+<string key="simTitle" value="Sürtülme"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="chemistry" value="Himiýa"/>
+</SimStrings>

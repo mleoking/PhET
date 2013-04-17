@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_sr.xml created Fri Jul 02 21:07:19 CEST 2010 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.01.00 (31673) May 14, 2009-->
+<SimStrings>
+<string key="manual" value="РУЧНО"/>
+<string key="resetTimer" value="НА ПОЧЕТАК"/>
+<string key="damping" value="СЛАБЉЕЊЕ"/>
+<string key="simTitle" value="ТАЛАС НА ЖИЦИ"/>
+<string key="showHelp" value="ПОМОЋ"/>
+<string key="pulse" value="ПУЛС"/>
+<string key="amplitude" value="АМПЛИТУДА"/>
+<string key="pausePlay" value="ПАУЗА/ПОЧНИ"/>
+<string key="step" value="КОРАК"/>
+<string key="tension" value="ЗАТЕГНУТОСТ"/>
+<string key="startTimer" value="СТАРТ/ПАУЗА"/>
+<string key="pulseWidth" value="ШИРИНА ПУЛСА"/>
+<string key="rulerHelp" value="ПОМИЧНИ ЛЕЊИР"/>
+<string key="high" value="ВЕЛИКА"/>
+<string key="wiggleWrench" value="ПРОТРЕСИ!"/>
+<string key="timer" value="САТ"/>
+<string key="oscillate" value="ОСЦИЛУЈ"/>
+<string key="rulers" value="ЛЕЊИР"/>
+<string key="frequency" value="ФРЕКВЕНЦИЈА"/>
+<string key="wrenchHelp" value="ПОМИЧНИ КЉУЧ"/>
+<string key="fixedEnd" value="ПРИЧВРШЋЕН КРАЈ"/>
+<string key="refLineHelp" value="ПОМИЧНИ РЕФЕРЕНТНИ НИВО"/>
+<string key="hideHelp" value="САКРИЈ ПОМОЋ"/>
+<string key="timerHelp" value="ПОМИЧНИ САТ"/>
+<string key="looseEnd" value="СЛОБОДАН КРАЈ"/>
+<string key="noEnd" value="БЕСКОНАЧНОСТ"/>
+<string key="paused" value="ЗАУСТАВЉЕНО"/>
+<string key="reset" value="НА ПОЧЕТАК"/>
+<string key="pulse2" value="Окидач пулса"/>
+<string key="low" value="МАЛА"/>
+</SimStrings>

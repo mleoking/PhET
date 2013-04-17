@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_tk.xml created Mon Aug 06 16:45:13 UZT 2012 using: faradays-law 2.02.00 (52648), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="twoCoils" value="2 sarym"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="noSound" value="Sessiz"/>
+<string key="showFieldLines" value="Meýdanyň çyzyklaryny görkez"/>
+<string key="voltage" value="naprýaženiýe"/>
+<string key="simTitle" value="Faradeýiň kanuny"/>
+<string key="flipMagnet" value="Magniti agdar"/>
+<string key="oneCoil" value="1 sarym"/>
+<string key="moveMe" value="Meni süýşür!"/>
+</SimStrings>

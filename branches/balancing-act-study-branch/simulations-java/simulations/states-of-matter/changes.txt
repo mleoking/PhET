@@ -1,0 +1,169 @@
+# 1.10.01 (64019) May 8, 2012
+5/8/12 Deploying to dev to test a bug fix, see #3325.
+Fixed an issue for a scenario involving blowing off the lid with very cold water, and then returning the lid.  See #3325.
+# 1.10.00 (63806) Apr 27, 2012
+4/27/12 >Redeploying to production server with several important fixes and enhancements.
+# 1.09.03 (63654) Apr 19, 2012
+4/19/12 Deploying to dev to get the latest common code for pre-release testing.
+# 1.09.02 (62804) Mar 23, 2012
+3/23/12 Deploying to dev for review by the design team of some changes and fixes.
+> Modified phase diagram behavior to be smoother and to always track to the phase interface.
+> Adjusted the set point for liquid temperature so that water is between 0 and 100 degrees C when set to the liquid state.
+Rewrote HSliderNode to use VSliderNode as a composite, see #3255
+# 1.09.01 (62570) Mar 15, 2012
+3/15/12 Deploying to dev for review of some changes to temperature scaling.
+> Modified the internal model temperatures used in order to make water look like it is starting to freeze when at 0 degrees C.
+> Fixed an issue where the substances would look strange if users were changing state when the sim was paused.
+# 1.09.00 (58569) Nov 14, 2011
+11/14/11 >Publication of the States of Matter Basics version to the production web site.
+# 1.08.10 (58434) Nov 8, 2011
+11/8/11 Deploying to dev with a slight mod to the tick mark position on the stove control.
+# 1.08.09 (58432) Nov 8, 2011
+11/8/11 Deploying to dev for review by the design team.
+> Changed the "0" label on the middle of the stove to be just a tick mark.
+> Changed labels on stove to say "Heat" and "Cool" and internationalized these labels.
+> Modified the stove to be one large unit with a vertical slider on the front.
+# 1.08.08 (58303) Nov 2, 2011
+11/2/11 Deploying to dev for review by design team.
+> Added a key handler that allows the user to make use of the arrow keys to control the amount of heating or cooling.
+Fixed an issue with translated versions where long strings could cause the "Reset All" button to be pushed off the left edge of the canvas.
+> Changed repulsive force arrow on the Atomic Interactions tab to be magenta to make it more distinct from the attractive force arrow.
+# 1.08.07 (58112) Oct 28, 2011
+10/28/11 Deploying as a release candidate for review by the team.
+# 1.08.06 (57793) Oct 19, 2011
+> Moved "Kelvin/Celsius" option from "Options" menu into "Teacher" menu
+> Made it so the selected atom/molecule changes when clicking on the image next to the radio button in the control panel
+> Changed Argon color from blue-green to pink
+# 1.08.05 (57713) Oct 17, 2011
+10/17/11 Deploying to dev for review.
+> Fixed an issue where the clock would remain paused after the reset button was pressed.  This was true on all tabs.
+Made the hint for moving the finger up and down only point down when at top of range.
+Made the flame and ice images transparent.
+Changed the color of all border titles in the control panels to be black instead of gray.
+> Added a "Teacher" menu and added an option for setting the background to be white on all tabs.
+> Added an options menu and added options for selecting Celsius or Kelvin as the temperature units.
+# 1.08.04 (57476) Oct 11, 2011
+10/11/11 Deploying a version where the "Return Lid" feature is somewhat better behaved.
+Modified the Return Lid feature to make put the remaining particles into the gaseous state regardless of their current energy.
+# 1.08.03 (57473) Oct 11, 2011
+10/11/11 Deploying to dev for interviews and feedback.
+Added strokes (black lines) around the atoms/molecules on the control panel to make them more visible.
+> Added the ability to return the lid to the container after it has been blown off.
+> Added a "hint" to the finger node to make it more obvious that it can be moved.  This hint is only shown when the mouse is over the finger.
+Darkened the control panels a little bit so that the recently added molecules would be a bit more visible.
+> Added images of the atoms/molecules to the control panel.
+> Improved the artwork used for the flame in the stove node.
+Added gradient to the slider node of the track.
+Modified the stove node to have black labels (more visible).
+# 1.08.02 (57327) Oct 5, 2011
+10/5/11 Deploying to dev for feedback from the design team.
+> Created a new stove node that fixes problems with the old one and looks better.
+> Moved the "Reset All" button on the phase changes tab from the control panel to the play area.
+> Made the phase diagram be hidden by default in the "Basics" version.
+10/5/2011 Removed the option to selected "Adjustable Attraction" in the basic version.
+10/5/2011 Removed the interaction potential diagram from the "Basics" version.
+> Modified pressure gauge label that said "Pressure Gauge" to instead say "Pressure".
+> Modified control panel label that said "Molecules" to instead say "Atoms & Molecules".
+> Modified atom colors to be more consistent with other chemistry simulations.
+> Removed confirmation dialog from Reset All to make it less intimidating.
+> Moved the Reset All button into the play area on the Solid, Liquid, and Gas tab.
+# 1.08.01 (57031) Sep 29, 2011
+9/23/2011 Changed heat control slider from swing to piccolo
+# 1.08.00 (51142) Apr 25, 2011
+4/25/11 > Added new translation credits features and fixed layout issues with some translations.
+# 1.07.06 (51131) Apr 25, 2011
+4/25/11 Deploying to dev for testing of some recent fixes.
+# 1.07.05 (51039) Apr 21, 2011
+# 1.07.04 (51022) Apr 21, 2011
+# 1.07.03 (50944) Apr 20, 2011
+4/19/11 Changed 'push-pin.png' from MS Clip Art to Open Clip Art, see #2800
+# 1.07.02 (49946) Mar 18, 2011
+3/18/11 Deploying a test version without the 3rd tab.
+# 1.07.01 (48782) Feb 9, 2011
+2/9/11 Deploying in order to test KSU credits feature
+# 1.07.00 (38040) Jan 11, 2010
+1/11/10 public version for milestone "full redeploy, 2010 Q1"
+# 1.06.03 (37383) Dec 11, 2009
+12/11/09 test version for milestone "full redeploy, 2010 Q1"
+# 1.06.02 (37253) Dec 9, 2009
+12/9/09 Added a wiggle me for Atomic Interactions, also made positions of adjustable atoms change when size changed.
+# 1.06.01 (37170) Dec 7, 2009
+12/7/09 Added a wiggle-me, made adjustable atoms move to low potential point when changed.
+# 1.06.00 (34366) Aug 21, 2009
+8/21/09 Initial publication of the Atomic Interactions sim to the production web site.
+# 1.05.00 (34365) Aug 21, 2009
+8/21/09 Initial publication to the production server of the Atomic Interactions simulation.
+# 1.04.08 (34323) Aug 19, 2009
+8/19/09 Revised the order of atom combo selections based on feedback from Jack B.
+# 1.04.07 (34174) Aug 17, 2009
+8/17/09 Implemented a number of changes requested after the 1st round of student interviews.
+# 1.04.06 (34119) Aug 14, 2009
+8/14/09 Implemented several changes based on results of first set of student interviews.
+# 1.04.05 (34116) Aug 14, 2009
+8/14/09 Made several changes that were requested after initial student interviews
+# 1.04.04 (33687) Jul 28, 2009
+7/28/09 Moved icons to the state control buttons.
+# 1.04.03 (33684) Jul 28, 2009
+7/28/09 Moved the icons on to the state change buttons.  Requested by Trish L.
+# 1.04.02 (32540) Jun 17, 2009
+6/17/09 Interaction Potential (aka Atomic Interaction) improvements: Made atoms fuzzy, lined them up with graph, and allowed them to overlap.
+# 1.04.01 (31191) Apr 30, 2009
+4/30/09 Changed the name for the Interaction Potential app to Atomic Interactions
+# 1.04.00 (30732) Apr 21, 2009
+4/21/09 Batch deploy as part of IOM milestone with revision 30731
+# 1.03.00 (30671) Apr 21, 2009
+4/21/09 Batch deploy as part of IOM milestone with revision 30670
+# 1.02.04 (30356) Apr 10, 2009
+4/10/09 > Added support for heterogeneous molecules and oxygen bonding.
+# 1.02.03 (30169) Apr 1, 2009
+4/1/09 Added the ability to select heterogeneous atoms in the interaction potential sim
+# 1.02.02 (29629) Mar 22, 2009
+3/22/09 Batch deploy for Alpha Simulation Tests 2, svn 29628
+# 1.02.01 (29574) Mar 20, 2009
+3/20/09 >Set initial temperature of adjustable molecules to be warmer, fixed issue where close button overlapped diagram.
+# 1.02.00 (28877) Feb 20, 2009
+Fixed a problem where the sim would throw an exception when running from web start.
+# 1.01.00 (28875) Feb 20, 2009
+Fixed a problem where the download JAR was asking for the sim to run.  Also removed temporary software agreement.
+# 1.00.01 (28821) Feb 19, 2009
+Batch deploy for alpha Simulation Tests, svn 28773
+# 1.00.00 (27715) 01-27-2009
+Updated version number to 1.0, no functional changes.
+# 0.05.00 (27620) 01-23-2009
+Set control panel color back to gray, made gas particles spread instantly around container again.
+# 0.04.18 (27529) 01-21-2009
+Modified the colors of the menu bar, the tab panel, and the selected tabs.
+# 0.04.17 (27491) 01-20-2009
+Modified the behavior for transitioning to the gaseous state for oxygen and water, changed the control panel color.
+# 0.04.16 (27440) 01-19-2009
+Changed control panel color, made phase diagram invisible when adjustable atom selected, made phase transition to gas less random looking.
+# 0.04.15 (27260) 01-14-2009
+Accidental deployment - please disregard.
+# 0.04.14 (27257) 01-14-2009
+Made the phase indicator on the phase diagram follow the demarcation line when epsilon changes.
+# 0.04.13 (27234) 01-13-2009
+Revised the way that changing epsilon affects the phase indication on the phase diagram.
+# 0.04.12 (27231) 01-13-2009
+Added the ability to change the phase indication on the phase diagram when the epsilon value is changed.
+Modified the look and behavior of the graphs on the Phase Changes tab so that they would appear more consistent.
+Changed the way that "triple point" and "critical point" are labeled in the phase changes graph so that they would translate better.
+Made the stove control get wider for longer string labels.  This was done to improve translation support.
+Added an atom with adjustable interaction potential to the Phase Changes tab, modified the way the users shows and hides the graphs.
+Made the controls on the side panel for adjusting the atom size and interaction strength only appear for the adjustable atom.
+Made the resizing of the adjustable atom on the Interaction Potential tab work better.
+Removed the Interaction Potential diagram from the 2nd tab (Phase Changes).
+12/3/2008 - Removed many of the old classes that had been created when John De Goes started this sim long ago.
+******* 0.04.03
+Made container explode at a given pressure rather than waiting until the simulation algorithm couldn't keep up.
+Adjusted the time constant for pressure calculations to make the pressure gauge change more rapidly.  This was done because the pressure was still showing a positive value when the molecules has been cooled to stillness.
+Changed the behavior of the 2nd tab (Phase Changes) such that switching between chemicals places the molecules into the solid form.
+Fixed a problem where reset or switching molecules would not turn the stove off if it had been set to be turned on via the arrow keys.
+Fixed a problem where the pressure on the second tab was not getting set to zero when Reset All was pushed or when switching between molecules.
+Fixed a problem where neon would not get set back to the solid form if it had been heated to a gas and then the Reset All button was pressed.
+Fixed a problem where a molecule that was injected in the container would appear briefly outside the container (at point 0,0) before being moved to the correct position.
+Made the minimum allowable size smaller for multi-atom molecules so that they could be more easily crushed if desired.
+11/2008 - Did a major refactoring of the muliple-particle model, which underlies the first two tabs.  This was done to improve maintainability and performance.
+******* 0.04.00 (2629) 
+Cleaned up a lot of things in preparation for deployment to the "Under Construction" area of the web site.
+10/14/2008 - Changed the composite thermometer node to have the digital readout on top rather than on the side in order to make room for more things on the top of the container.
+******* 0.00.57 (25266) 

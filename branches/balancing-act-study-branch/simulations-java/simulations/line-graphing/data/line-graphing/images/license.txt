@@ -1,0 +1,5 @@
+Check-Mark-u2713.png author=PhET notes=copied from balancing-chemical-equations
+Heavy-Ballot-X-u2718.png author=PhET notes=copied from balancing-chemical-equations
+point_tool_body.png author=PhET notes=created by Ariel Paul
+point_tool_tip.png author=PhET notes=created by Ariel Paul
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_ko.xml created Sat Aug 07 17:29:11 KST 2010 using: charges-and-fields 2.03.00 (37296), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="directionOnly" value="방향만"/>
+<string key="grid" value="그리드"/>
+<string key="clearAll" value="모두 자우기"/>
+<string key="simTitle" value="하전과 전기장"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="수치 표시"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 미터"/>
+<string key="showEField" value="E-장 표시"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="고해상도 V 표시"/>
+<string key="EFieldSensors" value="전기장 센서"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="지우기"/>
+<string key="plot" value="그리기"/>
+<string key="equipotential" value="등퍼텐셜선"/>
+<string key="angleUnit" value="도"/>
+<string key="showLoRes" value="저해상도 V 표시"/>
+<string key="moreSpeedLessRes" value="고속/저해상도 "/>
+<string key="tapeMeasure" value="줄자 측정"/>
+<string key="voltage" value="전압"/>
+</SimStrings>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_ar.xml created Sun Dec 16 12:48:31 WET 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.14.00 (69024) oct. 9, 2012--><SimStrings>
+<string key="dragLabel" value="معامل السحب"/>
+<string key="userChoice" value="اختيار المستخدم"/>
+<string key="altitudeLabel" value="(m) H  الارتفاع "/>
+<string key="football" value="كرة القدم"/>
+<string key="golfball" value="كرة الكولف"/>
+<string key="simTitle" value="حركة قذيفة"/>
+<string key="collision" value="تصادم!"/>
+<string key="adultHuman" value="انسان"/>
+<string key="time" value="(s) t الزمن  "/>
+<string key="buick" value="سيارة"/>
+<string key="diameter" value="(m) D القطر "/>
+<string key="initSpeed" value="(m/s) Vi السرعة البدئية "/>
+<string key="bowlingball" value="كرة البولينج"/>
+<string key="piano" value="الة البيانو "/>
+<string key="sound" value="الصوت"/>
+<string key="range" value="(m)  Xp المدى"/>
+<string key="height" value="(m) h الارتفاع "/>
+<string key="mass" value="(Kg) m الكتلة"/>
+<string key="pumpkin" value="(Citrouille) اليقطين"/>
+<string key="score" value="النتيجة!"/>
+<string key="translation.credits" value="MOROCCO - Droui"/>
+<string key="angle" value="(deg)  الزاوية "/>
+<string key="baseball" value="كرة البيسبول"/>
+<string key="airResistance" value="مقاومة الهواء"/>
+<string key="fire" value="اطلق"/>
+<string key="erase" value="امسح"/>
+<string key="tankshell" value="قذيفة مدفع"/>
+</SimStrings>

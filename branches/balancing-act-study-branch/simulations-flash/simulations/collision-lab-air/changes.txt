@@ -1,0 +1,22 @@
+Workaround for iOS where "." is treated properly without adding a leading "0"
+Added resized icons in properly
+Moved the units label row down towards the data
+Removed padding around the "units" row in the data table
+Fixed data table "mass" entry: can now enter in "." first, will fill to "0." as in other columns
+Moved Momentum Diagram down, slightly shrunk excess control panel area to fit
+Momentum Diagram slider and +/- buttons given larger hit areas
+Added spacing between rows in the "Data Table" area (more room for sliders)
+Removed "Show Paths" feature
+Increased hit-boxes around the slider knobs
+Increased hit-boxes around play/restart/step/back buttons, balls, and their velocity targets
+Removed flickering on the slider
+Limited number of balls to a max of 3
+Disabled grabbable control panels for ipad
+Advanced tab: Improved performance when paused and dragging one of 5 balls.  Originally 1 frame per 10 sec, now 5fps or so
+Centered slider knobs on the track
+Pointed slider knobs down (to point at labels)
+Moved labels so they don't interfere with larger slider knobs
+Increased the size of slider knobs
+Made control panel 20% bigger
+Changed FLA to build for AIR iOS
+Fork for AIR version

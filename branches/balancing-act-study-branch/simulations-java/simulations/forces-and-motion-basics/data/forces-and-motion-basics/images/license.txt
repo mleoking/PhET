@@ -1,0 +1,10 @@
+cloud1.png notes = http://openclipart.org/detail/99229/landscape-by-rg1024
+DrakoonSonne.png notes = http://openclipart.org/detail/166921/drakoon-sun-by-jogdragoon
+brick-tile.png notes = http://openclipart.org/detail/9523/-by--9523
+barrel.png source=PhET notes=balancing act
+boy-standing.png source=PhET notes=balancing act
+girl-standing.png source=PhET notes=balancing act
+mystery-object-01.png source=PhET notes=balancing act
+trash-can.png source=PhET notes=balancing act
+ollie.gif source=PhET notes=motion-series
+water-bucket.png source=PhET notes=Noah

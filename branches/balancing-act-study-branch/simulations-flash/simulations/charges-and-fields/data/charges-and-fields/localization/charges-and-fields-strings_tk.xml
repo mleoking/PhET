@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_tk.xml created Tue Jul 31 12:03:04 UZT 2012 using: charges-and-fields 2.04.00 (52655), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="directionOnly" value="diňe ugurlar"/>
+<string key="grid" value="tor"/>
+<string key="clearAll" value="Doly arassala"/>
+<string key="simTitle" value="Zarýadlar we meýdanlar"/>
+<string key="showNumbers" value="Sanlary görkez"/>
+<string key="oneMeter" value="1 metr"/>
+<string key="showEField" value="E-meýdany görkez"/>
+<string key="showHiRes" value="V ýokary dürslük"/>
+<string key="EFieldSensors" value="E-meýdan sensorlary"/>
+<string key="clear" value="arassala"/>
+<string key="plot" value="çyz"/>
+<string key="equipotential" value="deň potensialy bolan"/>
+<string key="angleUnit" value="gradus"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="showLoRes" value="V pes dürslük"/>
+<string key="tapeMeasure" value="ölçeýji lenta"/>
+<string key="moreSpeedLessRes" value="uly tizlik/kiçi tizlik"/>
+<string key="voltage" value="naprýaženiýe"/>
+</SimStrings>

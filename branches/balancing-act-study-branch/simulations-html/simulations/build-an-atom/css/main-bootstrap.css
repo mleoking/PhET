@@ -1,0 +1,330 @@
+/* Copyright 2002-2012, University of Colorado */
+body {
+    background: #FDFDD0;
+}
+
+#canvas-container {
+    position: absolute;
+    width: 60%;
+    height: 95%;
+    min-height: 95%;
+    left: 0;
+}
+
+/* Over-ride the bootstap default of elminating outlines on hover and active elements */
+a:focus:hover,
+a:focus:active {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+
+
+/* For debug - uncomment to show border of the canvas. */
+/*#atom-construction-canvas {*/
+/*-webkit-box-shadow: inset 0px 0px 6px 0px #000;*/
+/*box-shadow: inset 0px 0px 6px 0px #000;*/
+/*}*/
+
+/* ------------------------------ Widget Control Panel ------------------------------ */
+
+#control-panel {
+    position: absolute;
+    width: 40%;
+    right: 0%;
+}
+
+#control-panel .widget-box {
+    float: right;
+    clear: both;
+    width: 91%;
+    min-height: 1em;
+    min-width: 440px;
+    background: rgb(255, 255, 153);
+    margin: 1%;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#control-panel .widget-box .accordion-inner {
+  border: none;
+}
+
+#control-panel .widget-box a.collapsed i.icon-plus {
+  display: inline-block;
+}
+
+#control-panel .widget-box a.collapsed i.icon-minus {
+  display: none;
+}
+
+#control-panel .widget-box a i.icon-minus {
+  display: inline-block;
+}
+
+#control-panel .widget-box a i.icon-plus {
+  display: none;
+}
+
+/* ------------------------------ Periodic Table ------------------------------ */
+
+#periodic-table table {
+    border-collapse: separate;
+    empty-cells: hide;
+    border-spacing: 1px;
+    width: 80%;
+}
+
+#periodic-table table tr {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#periodic-table table td {
+    border: 1px solid black;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+#periodic-table table td.active {
+    background: #fff;
+    border-color: red;
+    font-weight: bold;
+    /* without display: block, active cells start getting cut off by the zoom, starting with Boron*/
+    display: block;
+
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
+
+    -webkit-animation: pulseBorderColor 1s infinite 500ms;
+    -moz-animation: pulseBorderColor 1s infinite 500ms;
+    -o-animation: pulseBorderColor 1s infinite 500ms;
+    animation: pulseBorderColor 1s infinite 500ms;
+}
+
+@-webkit-keyframes pulseBorderColor {
+  0%   { border-color: red; }
+  100%  { border-color: black; }
+}
+@-moz-keyframes pulseBorderColor {
+  0%   { border-color: red; }
+  100%  { border-color: black; }
+}
+@-o-keyframes pulseBorderColor {
+  0%   { border-color: red; }
+  100%  { border-color: black; }
+}
+@keyframes pulseBorderColor {
+  0%   { border-color: red; }
+  100%  { border-color: black; }
+  
+}
+
+/* ------------------------------ Detailed Element Symbol ------------------------------ */
+
+#control-panel .widget-box #detailed-element-symbol {
+    border: 2px solid black;
+    background: white;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    float: left;
+    margin: 10px;
+    font-size: 1.4em;
+    padding: 0;
+}
+
+#detailed-element-symbol h1 {
+    margin: 0;
+    text-align: center;
+    line-height: 100px;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    z-index: 1;
+}
+
+#detailed-element-symbol span {
+    position: absolute;
+    font-weight: bold;
+    z-index: 5;
+}
+
+#detailed-element-symbol .atomic-weight {
+    top: 5px;
+    left: 5px;
+}
+
+#detailed-element-symbol .atomic-number {
+    bottom: 5px;
+    left: 5px;
+    color: red;
+}
+
+#detailed-element-symbol .charge {
+    top: 5px;
+    right: 5px;
+}
+
+/* ------------------------------ Mass Number ------------------------------ */
+
+#mass-number-container {
+    position: relative;
+    height: 110px;
+    margin: 0 0 10px 10px;
+    background: url(../images/atom_builder_scale.png) no-repeat bottom left;
+}
+
+#mass-number-container .mass-number {
+    width: 60px;
+    height: 22px;
+    position: absolute;
+    bottom: 4px;
+    left: 21px;
+    background: #fff;
+    font-weight: bold;
+    text-align: center;
+}
+
+#mass-number-container .orbital-view {
+    width: 62px;
+    height: 62px;
+    background: url(../images/small_electron_rings.png) no-repeat;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+}
+
+/* ------------------------------ Net Charge Widget ------------------------------ */
+
+#net-charge-container #net-charge-meter {
+    width: 94px;
+    height: 88px;
+    background: url(../images/charge_meter_with_window.png) no-repeat;
+    position: relative;
+    font-size: 1.4em;
+    margin: 10px 0 10px 10px;
+    float: left;
+}
+
+#net-charge-container #net-charge-meter .dial {
+    position: absolute;
+    width: 94px;
+    height: 50px;
+    overflow: hidden;
+}
+
+#net-charge-container #net-charge-meter .needle {
+    height: 90px;
+    top: 8px;
+    background: black;
+    margin-top: 8px;
+    width: 3px;
+    display: block;
+    position: absolute;
+    left: 45px;
+
+  -webkit-transition: all 0.3s ease-out; 
+     -moz-transition: all 0.3s ease-out; 
+       -o-transition: all 0.3s ease-out; 
+          transition: all 0.3s ease-out; 
+
+}
+
+#net-charge-container #net-charge-meter .needle i {
+  position: absolute;
+  top:-12px;
+  left:-5px;
+  display: block;
+}
+
+
+#net-charge-container .dial:hover .needle {
+  -webkit-transform: rotate(45deg);
+     -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+       -o-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+
+
+#net-charge-container .net-charge {
+    width: 60px;
+    height: 30px;
+    position: absolute;
+    bottom: 8px;
+    left: 17px;
+    background: #fff;
+    font-weight: bold;
+    text-align: center;
+    line-height: 30px;
+}
+
+#net-charge-container #charge-pairing-graph {
+    float: left;
+    list-style: none;
+    margin-top: 2em;
+}
+
+#net-charge-container #charge-pairing-graph li {
+  float: left;
+  border: 1px solid black;
+  border-left: none;
+  border-right: none;
+  text-align: center;
+  height: 42px;
+  width: 20px;
+}
+
+#net-charge-container #charge-pairing-graph li:first-of-type {
+  border-left: 1px solid #000;
+}
+
+#net-charge-container #charge-pairing-graph li.no-border {
+  border: none;
+  border-left: 1px solid #000;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+/* ------------------------------ Media Queries ------------------------------ */
+
+@media only screen and (max-width: 990px) {
+
+    #canvas-container {
+        width: 100%;
+        position: static;
+    }
+
+    #control-panel {
+        width: 100%;
+        position: static;
+    }
+
+    #control-panel .widget-box {
+        width: 97%;
+    }
+}
+
+@media all and (orientation:portrait)  {
+
+    #canvas-container {
+        width: 100%;
+        position: static;
+    }
+
+    #control-panel {
+        width: 100%;
+        position: static;
+    }
+
+    #control-panel .widget-box {
+        width: 97%;
+    }
+}
+

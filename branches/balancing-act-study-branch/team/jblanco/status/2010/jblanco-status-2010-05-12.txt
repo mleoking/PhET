@@ -1,0 +1,69 @@
+PhET Weekly Progress Report
+John Blanco
+May 12, 2010
+
+Lac Operon - 6.5 hrs
+
+•	Made LacY be transcribed by RNA polymerase even if the LacZ gene isn't present (requested by Jared T).
+•	Modified the meter caption (requested by Jared T).
+•	Worked with Noah P and Kathy P to come up with a name.
+•	Published "The Gene Machine - Lac Operon" to the production server.
+
+Neuron Sim - 7.0 hrs
+
+•	Tweaked gate colors to be more distinctly different to color blind people.
+•	Worked on understanding how the RepaintManager works.  This was part of the optimization efforts.
+•	Did a number of experiments to determine how the CPU usage could be reduced, including:
+-	Reduced frame rate
+-	Reduced the number of particles
+-	Enabled region management debug and see if repainting large areas is causing the large CPU consumption.
+•	Discussed optimization approaches with Chris M and Sam R.
+•	Started work on the design of the record-and-playback feature.
+
+Installer Builder - 4.0 hrs
+
+•	Worked the Jonathan O to organize the effort to make the installer-builder work with the new web site.
+•	Started modifying the existing installer-builder code to rip the web site from the new location.
+
+Greenhouse - 8.0 hrs
+
+•	Created a new module for the upcoming Photon Absorption tab, placed static picture on the tab.
+•	Added new module for Greenhouse Effect that will use Piccolo instead of the old Phet custom library.
+•	Added background and control panel to new module.
+•	Planned out first portion of the porting effort.
+
+Capacitor Lab - 3.0 hrs
+
+•	Worked with Chris on issues relating to the drag handles.
+
+Nuclear Physics - 5.0 hrs
+
+•	Modified the wording in Radioactive Dating Game from "Guess" to "Estimate".  This was requested by Sam McKagan (see #2318).
+•	Fixed an issue with Alpha Decay where the drag handles would move in the wrong direction (see #2280).
+•	Investigated an issue raised by Sam McKagan about slider on bucket in 2nd tab of Radioactive Dating Game (see #2320).
+•	Published new version to dev and solicited feedback.
+•	Performed regression testing of all variants of Nuclear Physics.
+
+Miscellaneous - 1.5
+
+•	Responded to phethelp email from a guy wondering about how to launch downloaded JAR files.
+•	Discussed a couple of other phethelp issues with Marj.
+•	Updated the Unfuddle Notifier with the latest project schema.
+•	Investigated and set up a better backup system for my laptop.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Weekly PhET meeting.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+What’s Next
+
+•	Finish optimizing Neuron.
+•	Implement concentration readout on Neuron.
+•	Design and implement record-and-playback on Neuron.
+•	Continue port of Greenhouse to use Piccolo.
+•	Possibly implement Membrane Diffusion sim (based on input from biology folks).
+•	Finish getting the installer-builder to work with the new web site.
+
+

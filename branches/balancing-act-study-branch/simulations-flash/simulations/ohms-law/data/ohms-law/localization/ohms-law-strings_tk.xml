@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_tk.xml created Wed Oct 12 15:57:37 PKT 2011 using: ohms-law 2.03.00 (51206), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<SimStrings>
+<string key="currentEq" value="elektriki tok"/>
+<string key="resistance" value="garşylyk"/>
+<string key="simTitle" value="Omuň kanuny"/>
+<string key="sound" value="ses"/>
+<string key="voltage" value="güýç"/>
+</SimStrings>

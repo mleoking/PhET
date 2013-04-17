@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_pl.xml created Thu Jul 05 05:19:36 CEST 2012 using: calculus-grapher 2.08.00 (55025), translation-utility 2.13.00 (59150) gru 8, 2011--><SimStrings>
+<string key="integral" value="całka"/>
+<string key="grid" value="siatka"/>
+<string key="dragMe" value="przeciągnij!"/>
+<string key="hill" value="górka"/>
+<string key="cursor" value="kursor"/>
+<string key="simTitle" value="Zobacz Całkę"/>
+<string key="offset" value="przesuń"/>
+<string key="freeform" value="dowolny kształt"/>
+<string key="pedestal" value="prostokąt"/>
+<string key="line" value="ltrójkąt"/>
+<string key="drawingTools" value="narzędzia do rysowania"/>
+<string key="zero" value="zero"/>
+<string key="view" value="zobacz"/>
+<string key="sine" value="sinus"/>
+<string key="smooth" value="wygładź"/>
+<string key="tilt" value="pochyl"/>
+<string key="parabola" value="parabola"/>
+<string key="translation.credits" value="Andrzej Batorski"/>
+<string key="derivative" value="pochodna"/>
+<string key="undo" value="cofnij"/>
+</SimStrings>

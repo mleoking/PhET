@@ -1,0 +1,6 @@
+###################################
+# License info for efield
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+electron9.gif author=PhET 

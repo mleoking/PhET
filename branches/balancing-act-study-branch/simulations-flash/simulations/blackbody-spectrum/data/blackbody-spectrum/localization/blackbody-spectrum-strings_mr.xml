@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_mr.xml created Sat Jun 02 18:48:47 IST 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="r" value="R"/>
+<string key="translation.credits" value="योगेश nyogi2004@gmail.com"/>
+<string key="zoomIn" value=" \n पट मोठे करा"/>
+<string key="intensity" value="तीव्रता"/>
+<string key="simTitle" value="कृष्णिका वर्णपंक्ती"/>
+<string key="zoomOut" value="\n पटा लहान करा"/>
+<string key="clear" value="स्वच्छ"/>
+<string key="g" value="G"/>
+<string key="sun" value="सूर्य"/>
+<string key="tempInK" value="T(K)"/>
+<string key="save" value="साठवा"/>
+<string key="showRuler" value="मापनपट्टी दर्शवा"/>
+<string key="wavelength" value="तरंगलांबी"/>
+<string key="b" value="B"/>
+<string key="oven" value="ओव्हन"/>
+<string key="earth" value="पृथ्वी"/>
+<string key="lightBulb" value="लाईट बल्ब"/>
+</SimStrings>

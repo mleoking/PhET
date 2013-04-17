@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_tr.xml created Wed Dec 31 23:48:33 EET 2003 using: blackbody-spectrum 2.01.00 (39582), translation-utility 2.10.00 (48775) Şub 9, 2011-->
+<SimStrings>
+<string key="r" value="K"/>
+<string key="translation.credits" value="meryem görecek baybars"/>
+<string key="zoomIn" value="yaklaştır"/>
+<string key="intensity" value="şiddet"/>
+<string key="simTitle" value="siyah cisim ışıması"/>
+<string key="zoomOut" value="uzaklaştır"/>
+<string key="clear" value="temizle"/>
+<string key="g" value="Y"/>
+<string key="sun" value="güneş"/>
+<string key="tempInK" value="Kelvin (sıcaklık değeri)"/>
+<string key="save" value="kaydet"/>
+<string key="showRuler" value="cetveli göster"/>
+<string key="wavelength" value="dalga boyu"/>
+<string key="b" value="M"/>
+<string key="oven" value="fırın"/>
+<string key="earth" value="dünya"/>
+<string key="lightBulb" value="ampul"/>
+</SimStrings>

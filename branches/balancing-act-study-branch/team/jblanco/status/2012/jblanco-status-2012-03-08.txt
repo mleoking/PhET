@@ -1,0 +1,51 @@
+PhET Weekly Progress Report
+John Blanco
+March 8th, 2012
+
+Time period covered: March 1st through March 7th.
+
+Gene Expression - 18.5 hrs
+
+o	Met with Mike K and Emily M to go over interviews, discuss sim design.
+o	Wrote up notes from meeting, organized and prioritized input, put into to-do document.
+o	Changed to start with first tab zoomed out.
+o	Fixed problems with labels on genes on first tab.
+o	Made movement of biomolecules attaching to DNA to be less "aggressive" (suggested by Mike K).
+o	Reduced max concentration of transcription factors to about half of what it was.
+o	Changed the model underlying the behavior that governs how biomolecules detach from the DNA to be based on exponential decay.
+o	Implemented adjustable affinities on 2nd tab.
+
+Tablet Investigation - 12.0 hrs
+
+o	Added handling of rotation events to HTML5 sim "Simple Build an Atom".
+o	Improved the HTML5 version of "Masses and Springs" to the point where we would be comfortable sharing it with the CK-12 Foundation (in collaboration with Sam R).
+    o Got masses to hang from springs.
+    o Got masses to fall to ground when not hanging anywhere.
+    o Got springs to oscillate.
+    o Implemented friction.
+    o Implemented reset button.
+    o Added handling of rotation of the iPad - redraws screen (though doesn't lay it out, so it doesn't look great).
+o	Wrote up draft email for sharing with CK-12 Foundation and sent to Kathy P.
+
+States of Matter - 1.5 hrs
+
+o	Implemented pre-stepping of the model on forced phase transitions in order to avoid odd-looking patterns when sim is paused, see #3273.
+
+Energy Forms and Changes - 1.0 hrs
+
+o	Discussed design in weekly physics meeting.
+
+Nuclear Fission - 1.0 hrs
+
+o	Responded to user who raised issue about U-239, closed ticket (see #3266).
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	Planning to be out the week of March 26th and the following Monday (April 2nd).

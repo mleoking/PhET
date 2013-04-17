@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_zh_CN.xml created Sat Feb 18 21:19:05 CST 2012 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
+<SimStrings>
+<string key="cm" value="厘米"/>
+<string key="resistanceEq" value="电阻  ="/>
+<string key="ohm" value="欧姆"/>
+<string key="simTitle" value="电线的电阻"/>
+<string key="translation.credits" value="陈江涛 华南师范大学 cjtmw@163.com"/>
+</SimStrings>

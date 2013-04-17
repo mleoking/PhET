@@ -1,0 +1,6 @@
+<h1><%= symbol %></h1>
+<% if(number !== 0 ){ %>
+<span class="atomic-weight"><%= weight %></span>
+<span class="atomic-number"><%= number %></span>
+<span class="charge"><% if( charge > 0 ){ print("+"); } %><%= charge %></span>
+<% } %>

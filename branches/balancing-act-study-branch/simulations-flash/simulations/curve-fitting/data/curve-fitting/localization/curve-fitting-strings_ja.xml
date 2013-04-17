@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_ja.xml created Wed Sep 19 15:40:51 JST 2012 using: curve-fitting 2.02.00 (52265), translation-utility 2.13.00 (59150) 12 8, 2011--><SimStrings>
+<string key="cEquals" value="c ="/>
+<string key="clearAll" value="リセット"/>
+<string key="deviations" value="偏差を表示"/>
+<string key="bEquals" value="b ="/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="四次"/>
+<string key="simTitle" value="曲線あてはめ"/>
+<string key="bestFit" value="自動で最適化"/>
+<string key="quadratic" value="二次"/>
+<string key="bucketHelp2" value="データを削除"/>
+<string key="bucketHelp1" value="データを配置"/>
+<string key="cubic" value="三次"/>
+<string key="noFit" value="近似曲線なし"/>
+<string key="eEquals" value="e ="/>
+<string key="dEquals" value="d ="/>
+<string key="adjustableFit2" value="近似式："/>
+<string key="dataPointHelp" value="誤差範囲\n（変更可）"/>
+<string key="bestFit2" value="近似式："/>
+<string key="correlation" value="相関係数"/>
+<string key="hideHelp" value="ヘルプを隠す"/>
+<string key="bucketLabel" value="ここから\nドラッグ"/>
+<string key="chiSqHelp5" value="：一致しすぎ（誤差範囲が小さすぎる）"/>
+<string key="chiSqHelp4" value="：適合度が高い（緑）"/>
+<string key="chiSqHelp3" value="：適合度が低い（赤）"/>
+<string key="chiSqHelp2" value="N = データの数 \n f =近似に用いるパラメータの数 \n（f = 4 三次関数近似の場合）"/>
+<string key="help" value="ヘルプ"/>
+<string key="chiSqHelp1" value="既約カイ二乗値"/>
+<string key="adjustableFit" value="手動で調節"/>
+<string key="translation.credits" value="高知工科大学"/>
+<string key="linear" value="一次"/>
+</SimStrings>

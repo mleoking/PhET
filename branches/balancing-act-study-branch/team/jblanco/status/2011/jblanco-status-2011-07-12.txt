@@ -1,0 +1,63 @@
+PhET Weekly Progress Report
+John Blanco
+July 12th, 2011
+
+Time period covered: June 29th through July 12.  This is a two-week period due to vacation.
+
+Balance and Torque - 16.0 hrs
+
+•	Added the ability to have different "mass sets" in the masses box.
+•	Drew up the person that will be used as a mass on the balance.
+•	Added person to the masses box and as one of the masses.
+•	Met with design team for review and planning.
+•	Renamed project in SVN from "torque" to "balance-and-torque"
+
+Isotopes - 1.0 hrs
+
+•	Published a version for review.  Changes included white background, bigger knobs, and a bug fix.
+•	Reviewed comments from Kelly about some minor changes.
+
+Gene Expression Basics - 1.0 hrs
+
+•	Added some initial prototype RNA Polymerase.
+
+States of Matter - 1.0 hrs
+
+•	Met with Emily M to discuss a middle school version.
+•	Logged bug about heating/cooling control.
+
+Common Code - 1.5 hrs
+
+•	Worked on ways to handle loss of focus for the Piccolo combo box (in collaboration with Sam R).
+
+Installers - 2.0 hrs
+
+•	Tested the DVD installer, verified that Oliver did the same.
+•	Worked with JO to change wording of web site, since some foreign language activities exist.
+•	Changed installer-builder filters so that "Subscribe to Newsletter" link will go to web site instead of being broken on the locally installed version (see #2998).
+•	Tested other aspects of requested changes for #2998, still needs some work.
+
+Environment - 6.0 hrs
+
+•	Discussed pros and cons of using Scala for simulation development with Sam R and Chris M.
+•	Worked on issues with Outlook failing to run properly after returning from vacation.
+•	Cut over to the multi-IML setup (in collaboration with Sam R).
+
+Meetings, Email, and Other Administrative Overhead - 8.0 hrs
+
+•	Weekly PhET status meeting.
+•	Developer meeting.
+•	Entered my DEPA.
+•	Weekly status report.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 40 hrs
+
+•	Took vacation on July 1st, 5th through 7th.
+•	Monday, July 4th, was a holiday.
+
+What’s Next
+
+•	Continue working on Gene Expression simulation.
+•	Continue working on Balance & Torque simulation.

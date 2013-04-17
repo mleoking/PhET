@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_ja.xml created Wed May 02 17:55:12 JST 2012 using: wave-on-a-string 2.03.00 (51205), translation-utility 2.12.00 (57171) 10 4, 2011-->
+<SimStrings>
+<string key="manual" value="手動"/>
+<string key="resetTimer" value="リセット"/>
+<string key="damping" value="減衰度"/>
+<string key="simTitle" value="弦を伝わる波"/>
+<string key="showHelp" value="ヘルプ"/>
+<string key="pulse" value="パルス"/>
+<string key="amplitude" value="振幅"/>
+<string key="pausePlay" value="停止/ 再生"/>
+<string key="step" value="進む"/>
+<string key="tension" value="張力"/>
+<string key="startTimer" value="スタート/ 停止"/>
+<string key="pulseWidth" value="パルス幅"/>
+<string key="rulerHelp" value="定規（ドラッグ）"/>
+<string key="high" value="大きい"/>
+<string key="wiggleWrench" value="レンチを振ろう！"/>
+<string key="timer" value="タイマー"/>
+<string key="oscillate" value="自動(正弦波）"/>
+<string key="rulers" value="定規"/>
+<string key="frequency" value="振動数"/>
+<string key="wrenchHelp" value="レンチ    (ドラッグ)"/>
+<string key="fixedEnd" value="端を固定する"/>
+<string key="hideHelp" value="ヘルプ非表示"/>
+<string key="refLineHelp" value="基準線（ドラッグ）"/>
+<string key="translation.credits" value="Kochi University of Technology"/>
+<string key="timerHelp" value="タイマー（ドラッグ）"/>
+<string key="looseEnd" value="端を固定しない"/>
+<string key="noEnd" value="端が無い場合"/>
+<string key="paused" value="一時停止"/>
+<string key="reset" value="リセット"/>
+<string key="pulse2" value="パルス"/>
+<string key="low" value="小さい"/>
+</SimStrings>

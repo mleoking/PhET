@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_mk.xml created Mon Jul 09 20:53:29 CEST 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="r" value="R"/>
+<string key="translation.credits" value="Превод: Зоран Христовски"/>
+<string key="zoomIn" value="зголеми"/>
+<string key="intensity" value="интензитет"/>
+<string key="simTitle" value="Зрачење на црно тело"/>
+<string key="zoomOut" value="намали"/>
+<string key="clear" value="Избриши"/>
+<string key="g" value="G"/>
+<string key="sun" value="Сонце"/>
+<string key="tempInK" value="T(K)"/>
+<string key="save" value="Зачувај"/>
+<string key="showRuler" value="лењир"/>
+<string key="wavelength" value="бранова должина"/>
+<string key="b" value="B"/>
+<string key="oven" value="рерна"/>
+<string key="earth" value="Земја"/>
+<string key="lightBulb" value="сијалица"/>
+</SimStrings>

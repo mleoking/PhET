@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_ko.xml created Thu Apr 04 15:38:19 KST 2013 using: pendulum-lab 2.03.00 (52288), translation-utility 2.14.00 (69024) 10월 10, 2012--><SimStrings>
+<string key="resetStopwatch" value="초기화"/>
+<string key="earth" value="지구"/>
+<string key="showPhotoGateTimer" value="촬영 시계"/>
+<string key="planetX" value="X 행성"/>
+<string key="acceleration" value="가속"/>
+<string key="showEnergyOf" value="에너지 보기"/>
+<string key="PE" value="퍼텐셜에너지"/>
+<string key="velocity" value="속력"/>
+<string key="translation.credits" value="이화국 전북대 명예교수(www.whakuk.com)"/>
+<string key="realTime" value="실시간"/>
+<string key="length" value="길이"/>
+<string key="lots" value="많음"/>
+<string key="friction" value="마찰"/>
+<string key="showSecondPendulum" value="두번째 추 보기"/>
+<string key="start" value="시작"/>
+<string key="jupiter" value="목성"/>
+<string key="moon" value="달"/>
+<string key="energyOf" value="에너지"/>
+<string key="period" value="주기:"/>
+<string key="simStrings" value="추 실험"/>
+<string key="noneFriction" value="없음"/>
+<string key="total" value="합계"/>
+<string key="mass2" value="질량 2:"/>
+<string key="pendulum" value="추:"/>
+<string key="startPauseStopwatch" value="시작/정지"/>
+<string key="show" value="보기"/>
+<string key="length2" value="길이 2:"/>
+<string key="photoGateTimer" value="촬영 시계"/>
+<string key="thermal" value="열"/>
+<string key="pausePlay" value="정지/작동"/>
+<string key="reset" value="초기화"/>
+<string key="mass" value="질량"/>
+<string key="quarterTime" value="1/4 시간"/>
+<string key="KE" value="운동에너지"/>
+<string key="noneEnergy" value="없음"/>
+<string key="simTitle" value="추 실험"/>
+<string key="otherTools" value="다른 도구"/>
+<string key="angleUnit" value="도"/>
+<string key="paused" value="정지됨"/>
+<string key="sixteenthTime" value="1/16 시간"/>
+</SimStrings>

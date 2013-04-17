@@ -1,0 +1,9 @@
+{
+    "name":"concentration-caat",
+    "version":"0.0.0",
+    "license":"GPL",
+    "dependencies":{
+        "grunt":"~0.3.17",
+        "grunt-contrib-requirejs":"~0.3.3"
+    }
+}

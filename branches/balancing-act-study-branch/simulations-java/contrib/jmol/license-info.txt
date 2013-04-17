@@ -1,0 +1,1 @@
+jmol license=LGPL licensefile=license-jmol.txt name=Jmol description=an open-source Java viewer for chemical structures in 3D copyright=The Jmol Development Team 1998-2007 website=http://jmol.sourceforge.net/

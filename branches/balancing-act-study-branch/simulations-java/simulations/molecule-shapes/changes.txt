@@ -1,0 +1,254 @@
+# 1.05.00 (71917) Jan 30, 2013
+> Added warning dialog for Mac OS X with Java 7
+# 1.04.09 (71903) Jan 29, 2013
+# 1.04.08 (71851) Jan 24, 2013
+# 1.04.07 (71328) Dec 15, 2012
+# 1.04.06 (71309) Dec 13, 2012
+# 1.04.05 (71308) Dec 13, 2012
+# 1.04.04 (71306) Dec 13, 2012
+# 1.04.03 (71217) Dec 11, 2012
+# 1.04.02 (70619) Nov 25, 2012
+# 1.04.01 (70618) Nov 25, 2012
+# 1.04.00 (69129) Oct 12, 2012
+> Switched 3D libraries for better Windows XP / graphics card support
+# 1.03.09 (69002) Oct 8, 2012
+Fixed JNLP launching issue.
+Fixed 1-frame bond delay
+# 1.03.08 (68999) Oct 8, 2012
+# 1.03.07 (68939) Oct 7, 2012
+# 1.03.06 (68781) Oct 4, 2012
+# 1.03.05 (68225) Sep 20, 2012
+# 1.03.04 (67697) Sep 6, 2012
+# 1.03.03 (67697) Sep 6, 2012
+# 1.03.02 (65432) Jun 25, 2012
+# 1.03.01 (65431) Jun 25, 2012
+# 1.03.00 (63332) Apr 11, 2012
+4/11/12 > Added "Real Molecules" tab
+# 1.02.12 (63276) Apr 10, 2012
+Improved CO2 and BeCl2 initial bond angle placement
+"Show Lone Pairs" now disabled when there are no main lone pairs (even if there are lone pairs on terminal atoms)
+# 1.02.11 (62872) Mar 29, 2012
+Basics 1st tab bond angle font size increase
+A few fixes for the "Basics" version
+# 1.02.10 (62828) Mar 27, 2012
+Removed the "kit" tab 2 version on "Basics" sim
+# 1.02.09 (62755) Mar 22, 2012
+# 1.02.08 (62754) Mar 22, 2012
+Made the "drop-down" tab 2 the only option
+# 1.02.07 (62738) Mar 22, 2012
+Re-enabled the kit-only and drop-down-only versions of the sim (thanks for CM for fixing the underlying issue)
+# 1.02.06 (62734) Mar 22, 2012
+Please use the NON-STUDY version: Temporarily showing both tab versions as a workaround to a sim-sharing code issue.
+> Renamed "Geometry Name" to "Name"
+Tweaked bond angle readout spacing in 2nd tab
+Increased font size in the molecules drop-down box
+Moved the real/model selection top and center, and increased size
+> Brought the "options" box back up under the "molecules" box (included widening in the 2nd tab due to the now-wider molecules box)
+Switched CO2 and H2O order in drop-down box
+# 1.02.05 (61124) Feb 8, 2012
+Increased bond angle font size for 2nd tab by 50%
+Added sim sharing messages to the relevant developer controls.
+Added a developer control to toggle 2nd tab bond visibility before viewing it.
+Added a developer control to toggle visibility on the Real / Model radio buttons. If off, switch to "Real" view only
+Made the "Molecule" box larger
+Moved "Options" box to the bottom right side
+Added "Show All Lone Pairs" to the Teacher menu
+# 1.02.04 (61078) Feb 7, 2012
+Fixed: The first tab needs to read "model" while the second tab reads 'real molecules'
+# 1.02.03 (61076) Feb 7, 2012
+Renamed tab 1 to "Model"
+Tab 2: Removed "show outer lone pairs" checkbox
+# 1.02.02 (61032) Feb 6, 2012
+Simsharing: Updated tab messages
+# 1.02.01 (61024) Feb 5, 2012
+# 1.02.00 (60769) Jan 30, 2012
+> Added "Basics" version
+# 1.01.17 (60662) Jan 26, 2012
+Removed 2nd tab versions for a testable/publishable version
+1/18/12 replace duplicate Teacher menu with MoleculeShapesTeacherMenu, a specialization of the phetcommon menu (so we don't have to address sim-sharing twice)
+Real/Model radio buttons horizontal on the dropdown tab
+Removed BeCl2
+Changed the ordering of molecules in the dropdown tab
+1/3/11 #3202, sim-sharing changes related to Swing controls
+# 1.01.16 (59280) Dec 12, 2011
+Added developer options to show/hide 2nd tab versions.
+Fixed radio button multiple-clicking bug
+Text change to "Show Outer Lone Pairs"
+# 1.01.15 (59263) Dec 12, 2011
+Removed "study" versions (for now). OK'ed with SR
+Slight change to 2nd tab scale (compromise between small molecule angle visibility and large molecule terminal lone pair visibility)
+Added terminal lone pairs
+A few other bond length fixes
+"Model" bond lengths on 2nd tab correspond to the "Real" bond lengths
+Fixed a few obscure bugs
+Fixed "Real" / "Model" swapping and rotation-matching for things like XeF2
+Significantly improved angle-based repulsion for the "Real" molecules
+Fixed "kit" radio button clicking bug
+Added "Basics" support for 2nd tab
+# 1.01.14 (59229) Dec 9, 2011
+12/9/11 dev version for Mac testing
+Added white background with black text for kit version of 2nd tab
+Subscript fixes for kit version of 2nd tab
+Tab handling fixes
+# 1.01.13 (59114) Dec 6, 2011
+12/6/11 Added Real / Model views and rotational matching between them, along with kit-version of 2nd tab
+12/6/11 #3174, consolidated sim-sharing strings: put sim-specific strings in MoleculeShapesSimSharing, use common strings where appropriate
+# 1.01.12 (58941) Nov 30, 2011
+11/30/11 Interface progress for the "dropdown box" version of tab 2
+# 1.01.11 (58797) Nov 25, 2011
+11/25/11 Testing for 2nd tab
+# 1.01.10 (58368) Nov 4, 2011
+For the Colorado and Utah studies, enable the "less than" and "greater than" text.
+# 1.01.09 (58349) Nov 4, 2011
+Added a message for middle-button press, see #3136
+# 1.01.08 (58345) Nov 3, 2011
+Fixed threading issue for message sending when bonds created by dragging, see #3136
+Changed "bondsRemoved" to "bondsChanged", see #3144
+# 1.01.07 (58331) Nov 3, 2011
+Added a message for background color change, see #3144
+Report on both electron and molecule geometry when they change, see #3136
+# 1.01.06 (58278) Nov 2, 2011
+Added system response for structure change, see #3136
+# 1.01.05 (58221) Nov 1, 2011
+# 1.01.04 (58186) Oct 31, 2011
+10/31/11 Updated message formatting, see #3136
+# 1.01.03 (58151) Oct 31, 2011
+Redeploy after changing message output style, see #3136
+Added a separate flavor for sim event reporting, see #3136
+# 1.01.02 (58068) Oct 27, 2011
+# 1.01.01 (58066) Oct 27, 2011
+Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
+Added simsharing project as a dependency of molecule-shapes for testing, should be removed before any more public deploys of this sim
+Added sim sharing events for dragging atoms, electron pairs or rotating the view
+Added SimSharingEvents and reporting from creating/destroying bonds and all checkboxes
+# 1.01.00 (57968) Oct 24, 2011
+# 1.00.04 (57962) Oct 24, 2011
+> Fixed: molecule shapes are sometimes incorrect because single, double and triple bonds are treated differently, see #3128
+10/24/11 Treat 1-3 bonds equivalently in AttractorModel and MoleculeModel, see #3128
+# 1.00.03 (57720) Oct 17, 2011
+10/17/11 Error reporting tweak for JME
+10/17/2011 Reverted trial fix for rendering problems on 1.5, see #3122
+# 1.00.03 (57702) Oct 17, 2011
+10/17/2011 Trial fix for rendering problems on 1.5, see #3122
+# 1.00.02 (57616) Oct 13, 2011
+10/13/11 Changed Basics colors
+# 1.00.01 (57533) Oct 12, 2011
+10/12/11 Added "Basics" simulation version
+Added Molecule Shapes: Basics
+# 1.00.00 (57427) Oct 10, 2011
+# 0.02.00 (57424) Oct 10, 2011
+Removed unused items from data
+Removed '<' and '>' from bond angles when lone pairs exist
+# 0.00.42 (57341) Oct 5, 2011
+Added in '<' and '>' for bond angle differences for when lone pairs exist
+Potentially fixed the "missing wedge" bug for bond angle sectors
+# 0.00.41 (57259) Oct 4, 2011
+Fixed bug where atoms could come off of their bonds
+Added optimizations to work around remaining memory leak
+Fixed multiple memory leak bugs
+# 0.00.40 (57078) Sep 29, 2011
+Mode changed to "White Background"
+# 0.00.39 (57076) Sep 29, 2011
+"Teacher" menu i18nized, changed to one checkbox for "Projector Mode" option.
+# 0.00.38 (57065) Sep 29, 2011
+# 0.00.37 (57060) Sep 29, 2011
+Minor text change for "Teacher" menu
+Center atom made purple
+Removed "Real Examples" panel from the 1st tab
+Bugfixes
+# 0.00.36 (56939) Sep 23, 2011
+9/23/11 Added colors options (projector mode), lots of code changes
+# 0.00.35 (56504) Sep 13, 2011
+Increased the font size of the real example name
+Bugfix: don't crash on clicking "Real Example" area without any molecules
+Added H3O+ ion
+# 0.00.34 (56451) Sep 12, 2011
+Added test version of "forward/back" arrows for the "Real Examples" area.
+# 0.00.33 (56443) Sep 12, 2011
+Corrected O2 lone pairs
+Bond angle checkbox disabled (by default) now when there are less than 2 bonds
+Geometry name color tweaks (EM's recommendations)
+# 0.00.32 (56409) Sep 11, 2011
+Added colors to the geometry names, added developer control to modify them
+Added proper control panel resizing for i18n
+Filled in many-lone-pair geometry configuration names
+Slightly changed startup bond positions to yield a good 180-degree bond spread
+Added developer option to change the color of "Remove All" button
+Changed "Reset" to "Remove All", moved to under the lone pair control panel
+Added H2
+Control panel color tweaks
+Removed ball-and-stick / spacefill options
+Added 1 lone pair to O2
+Reduced the padding between bond icons
+Added better visibility handling for the "draggable" lone pair icon and show lone pairs checkbox. (Switches to visible when all lone pairs are removed)
+Changed the show/hide lone pairs button into a checkbox in the "Options" area
+Fixed "Reset" for bond angles
+# 0.00.31 (56306) Sep 7, 2011
+Added developer control to toggle whether the "show bond angles" checkbox is disabled when there are less than 2 bonds
+Adding XeOF4, phosphate ion, sulfite ion, chlorate ion
+Keep Reset button at the bottom
+HF, HCl changed to 3 lone pairs (assuming F and Cl as the central atoms)
+# 0.00.30 (56236) Sep 6, 2011
+180-degree bond angle support (and stabilization)
+Bond angle visibility improvements
+Adding CH3Cl, HCl
+Fixed SOF4
+Don't auto-rotate the real example molecule after dragging
+# 0.00.29 (56162) Sep 5, 2011
+Deadlock, synchronization and threading improvements. Ditched SwingUtilities.invokeAndWait due to issues.
+# 0.00.28 (56151) Sep 3, 2011
+Increased mouse rotation sensitivity in the main play area
+Added minimize/maximize button to the Real Examples
+Renamed Real Molecules to Real Examples, a la one demo version
+# 0.00.27 (56134) Sep 3, 2011
+# 0.00.26 (56132) Sep 3, 2011
+9/3/11 Performance improvements
+# 0.00.25 (56123) Sep 2, 2011
+Bugfixes and improvements
+"Real Molecule" area
+Bond angles improvements and added checkbox
+Many dev options
+# 0.00.24 (56007) Aug 31, 2011
+8/31/11 Spacefill testing version
+# 0.00.23 (56005) Aug 31, 2011
+8/31/11 JME3 real molecule view
+# 0.00.22 (55934) Aug 30, 2011
+8/30/11 Jmol real view tests
+# 0.00.21 (55849) Aug 27, 2011
+Many UI updates
+Removed vecmath from build file since it is already contained in a jme3 jar
+# 0.00.20 (55844) Aug 27, 2011
+# 0.00.19 (55841) Aug 26, 2011
+# 0.00.18 (55840) Aug 26, 2011
+8/26/11 Many UI updates
+# 0.00.17 (55682) Aug 23, 2011
+Start with two single bonds, positioned to show a nice animation at the start
+Added background color modification dialog in developer menu
+Added dialog on startup failure
+Fixed antialiasing startup bug
+# 0.00.16 (55371) Aug 17, 2011
+# 0.00.15 (55357) Aug 16, 2011
+If the mouse is in front of a grabbable object, show a hand cursor
+Fixed: Cursor remains as East-West cursor when in the play area
+# 0.00.14 (55300) Aug 16, 2011
+# 0.00.13 (55221) Aug 15, 2011
+# 0.00.12 (55201) Aug 14, 2011
+# 0.00.11 (55172) Aug 13, 2011
+# 0.00.10 (55009) Aug 9, 2011
+# 0.00.09 (54317) Jul 20, 2011
+# 0.00.08 (53658) Jun 30, 2011
+Use java.io.tmpdir for storing the native libraries
+# 0.00.07 (53655) Jun 30, 2011
+Updated main to use PhetFrame
+Launch the jme canvas within a tabbed PiccoloPhetApplication
+Launch the jme application within a PhetFrame, adding the file and help-> about menus
+Launch the jme application within a swing window
+Removed unused code for skipping java.library.path modification
+# 0.00.06 (53639) Jun 30, 2011
+Feasibility test for skipping java.library.path modification
+# 0.00.05 (53630) Jun 30, 2011
+# 0.00.04 (53629) Jun 30, 2011
+# 0.00.03 (53601) Jun 30, 2011
+# 0.00.02 (53600) Jun 30, 2011
+# 0.00.01 (53577) Jun 29, 2011
+Added Molecule Shapes

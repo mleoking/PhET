@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_sv.xml created Tue Jan 31 23:44:08 CET 2012 using: my-solar-system 2.03.00 (52285), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="slingshot" value="Slangbella"/>
+<string key="binaryStarPlanet" value="Binär stjärna, planet"/>
+<string key="sunAndPlanet" value="Sol och planet"/>
+<string key="body4" value="kropp 4"/>
+<string key="numberOfBodies" value="antal \nkroppar"/>
+<string key="body3" value="kropp 3"/>
+<string key="body2" value="kropp 2"/>
+<string key="body1" value="kropp 1"/>
+<string key="velocity" value="hastighet"/>
+<string key="doubleDouble" value="Dubbel dubbel"/>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="massEquals" value="massa ="/>
+<string key="hyperbolics" value="Hyperbol"/>
+<string key="help8" value=" I  motsats till Runge-Kulta, bevarar Verletalgoritmen energin i oscillerande system och skapar stabila banor. Som med alla fixed-timestep algoritmer ger Verlet ofysikaliska resultat när kroppar kommer för nära varandra och den resulterande accelerationen blir för stor. För att förebygga detta slås kroppar som kommer för nära varandra samman i en momentbevarande kollision."/>
+<string key="help6" value="Denna simulering använder sig av en &quot;fixed-timestep velocity-Verlet&quot; algoritm för att integrera planetbanor."/>
+<string key="stop" value="Stopp"/>
+<string key="help5" value="När &quot;System centrerat&quot; är markerad kommer systemets masscentrum-rörelse att avlägsnas."/>
+<string key="help4" value="För nuvarande position och hastighet, tryck Stopp och håll musen över kroppen."/>
+<string key="help3" value="Håll massorna till mindre än ett par tusen eller rikera att få underliga resultat."/>
+<string key="help2" value="Avstånd, massor och tider är i godtyckliga enheter. Skapa dina egna!"/>
+<string key="help1" value="Skapa ditt eget solsystem genom att dr kroppar och V symbolen(V är hastighet) \neller skriv i grundinställningarn från start."/>
+<string key="help0" value="Mitt solsystem och planetbanesimulator"/>
+<string key="doubleSlingshot" value="Dubbel slangbåge"/>
+<string key="systemCentered" value="Systemet centrerat"/>
+<string key="showTraces" value="Visa spår"/>
+<string key="back" value="tillbaka"/>
+<string key="tapeMeasure" value="Måttband"/>
+<string key="accurate" value="korrekt"/>
+<string key="help" value="Hjälp"/>
+<string key="selectPreset" value="Välj förinställt"/>
+<string key="showGrid" value="Visa rutnät"/>
+<string key="timeEquals" value="tid ="/>
+<string key="ellipses" value="Elipser"/>
+<string key="trojanAsteroids" value="Trojanasteroider"/>
+<string key="fourStarBallet" value="Fyrstjärne ballet"/>
+<string key="reset" value="Återställ"/>
+<string key="mass" value="massa"/>
+<string key="fast" value="snabb"/>
+<string key="simTitle" value="Mitt solsystem"/>
+<string key="sunPlanetMoon" value="Sol, planet, måne"/>
+<string key="initialSettings" value="Grundindtällningar:"/>
+<string key="sunPlanetComet" value="Sol, planet, komet"/>
+</SimStrings>

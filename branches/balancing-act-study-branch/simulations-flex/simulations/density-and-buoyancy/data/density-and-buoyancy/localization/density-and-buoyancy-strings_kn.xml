@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_kn.xml created Wed Feb 13 10:25:18 IST 2013 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.14.00 (69024) Oct 10, 2012-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="ಪರಿಚಯ"/>
+<string key="properties.mass" value="ದ್ರವ್ಯ ರಾಶಿ"/>
+<string key="controlPanel.showVectorValues" value="ಬಲ "/>
+<string key="forceArrows.contact" value="ಸಂಪರ್ಕ"/>
+<string key="mode.objectsOfSameVolume" value="ಒಂದೇ ಪರಿಮಾಣ"/>
+<string key="mysteryObject.densityColumnHeader" value="ಸಾಂಧ್ರತೆ ({0})"/>
+<string key="material.aluminum" value="ಅಲ್ಯೂಮೀನಿಯಂ"/>
+<string key="material.air" value="ಗಾಳಿ"/>
+<string key="material.custom" value="ನನ್ನ ವಿಭಾಗ"/>
+<string key="material.gasoline" value="ಪೆಟ್ರೋಲ್"/>
+<string key="customObject.material" value="ವಸ್ತುಗಳು"/>
+<string key="mode.mysteryObjects" value="ರಹಸ್ಯ"/>
+<string key="customObject.custom" value="ನನ್ನ ವಿಭಾಗ"/>
+<string key="material.wood" value="ಮರ"/>
+<string key="mode.two" value="ಎರಡು"/>
+<string key="material.styrofoam" value="ಫೋಮ್ ಶೀಟ್"/>
+<string key="material.honey" value="ಜೇನು ತುಪ್ಪ"/>
+<string key="material.apple" value="ಸೇಬು"/>
+<string key="material.ice" value="ಮಂಜು ಗೆಡ್ಡೆ"/>
+<string key="translation.credits" value="&lt;html&gt; ರಾಮಕೃಷ್ಣ ಮಿಷನ್, ಶಿವನಹಳ್ಳಿ &lt;br&gt;http://www.rkmission-shivanahalli.org&lt;/html&gt;"/>
+<string key="buoyancy.tab.playground" value="ಪ್ಲವನತೆ ಚಟುವಟಿಕೆ"/>
+<string key="fluid.controls.intro.label" value="ದ್ರವ"/>
+<string key="material.diamond" value="ವಜ್ರ"/>
+<string key="mode.title" value="ವಿಭಾಗ"/>
+<string key="material.oliveOil" value="ಹರಳೆಣ್ಣೆ "/>
+<string key="material.lead" value="ಸೀಸ"/>
+<string key="forceArrows.buoyancy" value="ಪ್ಲವನತೆ"/>
+<string key="properties.fluidDensity" value="ದ್ರವದ ಸಾಂಧ್ರತೆ"/>
+<string key="customObject.properties" value="ಗುಣಲಕ್ಷಣಗಳು"/>
+<string key="forceArrows.gravity" value="ಗುರುತ್ವ"/>
+<string key="mysteryObject.table.title" value="ಬೇರೆ ಬೇರೆ ವಸ್ತುಗಳ ಸಾಂಧ್ರತೆ"/>
+<string key="material.brick" value="ಇಟ್ಟಿಗೆ"/>
+<string key="mysteryObject.material" value="ವಸ್ತು"/>
+<string key="material.oil" value="ಎಣ್ಣೆ"/>
+<string key="mode.objectsOfSameDensity" value="ಒಂದೇ ಸಾಂಧ್ರತೆ"/>
+<string key="density.simTitle" value="ಸಾಂಧ್ರತೆ"/>
+<string key="controlPanel.readouts" value="ವಿಚಾರ"/>
+<string key="mode.customObject" value="ಆಯ್ಕೆ ಮಾಡು"/>
+<string key="mode.objectsOfSameMass" value="ಒಂದೇ ಧ್ರವ್ಯ ರಾಶಿ"/>
+<string key="application.resetAll" value="ಪುನರಾರಂಭ "/>
+<string key="material.gold" value="ಚಿನ್ನ"/>
+<string key="forceArrowControlPanelTitle" value="ಬಲ ತೋರಿಸು"/>
+<string key="customObject.name" value="ಹೆಸರು"/>
+<string key="controlPanel.showMasses" value="ದ್ರವ್ಯರಾಶಿಗಳು"/>
+<string key="material.water" value="ನೀರು"/>
+<string key="properties.density" value="ಸಾಂಧ್ರತೆ"/>
+<string key="material.waterBalloon" value="ನೀರು ಬಲೂನ್ "/>
+<string key="mysteryObject.table.showTable" value="ಪಟ್ಟಿ ತೋರಿಸು"/>
+<string key="mode.one" value="ಒಂದು"/>
+<string key="properties.volume" value="ಪರಿಮಾಣ"/>
+<string key="buoyancy.simTitle" value="ಪ್ಲವನತೆ(ಬಾಯನ್ಸಿ)"/>
+</SimStrings>

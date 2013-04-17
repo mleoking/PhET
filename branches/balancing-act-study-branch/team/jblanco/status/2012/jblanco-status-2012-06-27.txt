@@ -1,0 +1,54 @@
+PhET Progress Report, J. Blanco, 6-27-2012
+
+PhET Weekly Progress Report
+John Blanco
+June 27th, 2012
+
+Time period covered: June 21st through June 26th (this period consists of 4 work days instead of the usual 5 due to a switch of the team meeting time).
+
+Energy Forms and Changes - 22.0 hrs
+
+o	Got clipping working so that energy chunks in the water appear to be occluded by blocks in the water.
+o	Discussed an alternative representation of energy with the team (the "infrared goggles" view).  Decided against primarily because it presents heat, not energy.
+o	Implemented the "sticky thermometer" that tracks the movable thermal model elements.
+o	Changed captions for the speed control.
+o	Moved some of the 3D projection information into the model for simplification of some model behavior.
+o	Made changes to the energy chunk exchange behavior that causes the chunks exchanged between the beaker liquid and anything immersed in the liquid to remain visible.
+o	Prevented  energy exchange between a system of thermal containers (i.e. containers that are interacting) and air until the temperature difference between elements of the system reaches a threshold.
+o	Fixed an issue where a block inside the beaker on the burner would not be able to get the energy chunks that it needs.
+
+Gene Expression Basics - 1.5 hrs
+
+o	Worked with Ariel P and Trish L to change wording of the caption for the "Real Cells" dialog.
+
+Fractions - 0.25 hrs
+
+o	Reviewed in Physics meeting.
+
+Plate Tectonics - 0.25 hrs
+
+o	Reviewed in Physics meeting.
+
+Build a Function - 0.5 hrs
+
+o	Brainstormed various ways to interconnect functions with Sam R over Skype and Teamviewer.
+
+Fraction Matcher - 0.25 hrs
+
+o	Initial planning and preparation for code review.
+
+Environment - 1.0 hrs
+
+o	Added my input to and edited PhET's response to a questionnaire from Unfuddle about how we use their system.  The hope is that it may be a chance to get some things improved.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Logged May hours in tracking spreadsheet.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 8 hrs
+
+o	Took Friday, June 22nd as a vacation day.

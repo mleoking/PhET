@@ -1,0 +1,64 @@
+PhET Weekly Progress Report
+John Blanco
+April 5th, 2012
+
+Time period covered: March 22nd through April 4th.  This is a two week period due to vacation and a holiday.
+
+Gene Expression - 6.0 hrs
+
+o	Reviewed and discussed in Chem group meeting.
+o	Reviewed with Mike K and Kathy P.
+o	Fixed issue with polymerase not returning to the transcribed region.
+o	Made motion towards the attachment areas a little faster on 2nd tab in order to increase transcription rate.
+o	Fixed an issue where molecules could end up moving outside their motion bounds when attaching to the DNA strand.
+
+Energy Forms and Changes - 7.0 hrs
+
+o	Added clock control panel for 1st tab.
+o	Added shelves for the first tab.
+o	Started adding the objects that can be moved around by the user.
+o	Added infrastructure for 2nd tab.
+
+States of Matter - 5.0 hrs
+
+o	Reviewed and discussed in Chem Group Meeting.
+o	Fixed issue where temperature of liquid water was above 100 degrees C.
+o	Made temperatures work for all substances, i.e. they are at the correct temperature when set to liquid state.
+o	Changed the phase diagram such that the red dot always stays on the phase boundary.
+o	Published a version for review by team.
+o	Reviewed some input from a user.
+
+Nuclear Physics - 1.0 hrs
+
+o	Collected data about a surge in use after the tsunami in Japan, sent to Jerry Peterson.
+
+Common Code - 2.0 hrs
+
+o	Meeting with developers to discuss Piccolo-based slider controls.
+o	Added license info for squeezer background image.
+o	Created a test harness for testing different knob shapes.
+
+Sim Sharing - 2.0 hrs
+
+o	Server discussions with Jim McKown & Doug Johnson.
+o	Worked with Jim McKown to resolve issue where server could not be reached outside of server room.
+
+Interviewing - 1.0 hrs
+
+o	Interviewed math postdoc candidate Karina H.
+
+Sim Sponsorship - 1.0 hrs
+
+o	Reviewed marketing materials and provided feedback.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 48 hrs
+
+o	Holiday - March 30th (Spring Break).
+o	5 vacation days.

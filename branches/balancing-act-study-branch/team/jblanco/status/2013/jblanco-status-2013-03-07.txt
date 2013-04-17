@@ -1,0 +1,83 @@
+PhET Progress Report, J. Blanco, 3-7-2013
+
+PhET Weekly Progress Report
+John Blanco
+March 7th, 2013
+
+Time period covered: February 28th through March 6th.
+
+HTML5 Startup - Example Simulation - 3.0 hrs
+
+o	Worked on getting the "grunt" build process to produce minified files that load and run.
+o	Improved the look and behavior of the buttons on the control panel.
+
+HTML5 Startup - Mobile Learner Lab - 2.0 hrs
+
+o	Finished working on contract (with Oliver and Kathy) and sent to Dmitry.  It is now signed.
+
+HTML5 Startup - Ohm's Law - 1.5 hrs
+
+o	Reviewed initial commits to Ohm's Law, provided feedback.
+o	Tested Ohm's Law, provided feedback.
+
+HTML5 Startup - Resistance in a Wire - 0.5 hrs
+
+o	Quick look at initial submission of code.
+
+HTML5 Startup - Process Development - 4.0 hrs
+
+o	Meeting on how to collaborate better, improve information flow between developers.
+o	Write up and send out notes from latest Sam B collaboration.
+o	Discuss updating contract with Quick Left with Oliver N and Kathy P.
+o	Set up meeting with Sam B to train developers on effective use of Chrome Developer Tools.
+o	Read through HTML5 strategic plan and added comments.
+
+HTML5 Startup - Build an Atom - 5.0 hrs
+
+o	Cleaned up version on GitHub to meet current structure guidelines, got it working.
+o	Started migration to Scenery from Easel.
+
+HTML5 Startup - Common Code - 1.5 hrs
+
+o	Fixed issue with BooleanProperty and Inheritance.
+
+Energy Forms and Changes - 12.5 hrs
+
+o	Reviewed and prioritized to do list with Noah P.
+o	Fixed: Allow water temp to reach boiling on thermometer (2nd highest tick).
+o	Fixed: Reset on 2nd tab should eliminate the steam right away (if the beaker is steaming).
+o	Fixed issue where energy chunks can get stuck on generator (dotted line ones)
+o	Made energy chunks not cluster at output of steam pot.
+o	Made energy chunks not clump on solar panel.
+o	Made the direction of energy chunks from the sun a little less random.
+o	Removed ice permanently.
+o	Worked on jittery E's.
+
+Circuit Construction Kit - 0.5 hrs
+
+o	Followed up with Ido Roll about how CCK work was going.  He responded that all was working well.
+o	Updated and closed ticket, see #3497.
+
+Build an Atom (Java Version) - 1.0 hrs
+
+o	Discussed at design meeting, heard Emily Moore's presentation about findings with this.
+
+Customer Support - 0.5 hrs
+
+o	Pinged the Oregon Virtual School District to see if they need any support.
+
+Environment - 1.0 hrs
+
+o	Upgrade to version 12 of IntelliJ.
+o	Worked on Cygwin and Git Bash configuration files to better support command line Git commands.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status meeting.
+o	Weekly design meeting.
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  3.0 hrs
+
+o	Took vacation on Wednesday, March 6th, to attend funeral and reception.

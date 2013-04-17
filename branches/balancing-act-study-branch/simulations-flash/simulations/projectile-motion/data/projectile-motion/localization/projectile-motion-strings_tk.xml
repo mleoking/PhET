@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_tk.xml created Wed Aug 29 10:00:00 UZT 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="dragLabel" value="garşylyk koeffisienti"/>
+<string key="userChoice" value="ulanyjynyň saýlany"/>
+<string key="altitudeLabel" value="belentlik (m)"/>
+<string key="football" value="futbol pökgi"/>
+<string key="golfball" value="golf topy"/>
+<string key="simTitle" value="Topyň hereketi"/>
+<string key="collision" value="Çakyşma"/>
+<string key="adultHuman" value="uly adam"/>
+<string key="time" value="wagt (s)"/>
+<string key="buick" value="Býuik ulag"/>
+<string key="diameter" value="diametr (m)"/>
+<string key="initSpeed" value="başdaky tizlik"/>
+<string key="bowlingball" value="bouling şary"/>
+<string key="piano" value="pianino"/>
+<string key="sound" value="Ses"/>
+<string key="range" value="çäkler (m)"/>
+<string key="height" value="beýiklik (m)"/>
+<string key="mass" value="massa (kg)"/>
+<string key="pumpkin" value="kädi"/>
+<string key="score" value="Utuk!"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="angle" value="burç (gradus)"/>
+<string key="baseball" value="beýsbol topy"/>
+<string key="airResistance" value="Howanyň garşylygy"/>
+<string key="fire" value="At"/>
+<string key="erase" value="Ýok et"/>
+<string key="tankshell" value="gap"/>
+</SimStrings>

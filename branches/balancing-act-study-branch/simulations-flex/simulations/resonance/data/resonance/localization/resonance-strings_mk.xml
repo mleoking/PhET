@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_mk.xml created Tue Jul 17 20:10:19 CEST 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="simSpeed" value="брзина на сим."/>
+<string key="sameFrequency" value="иста фреквенција"/>
+<string key="sameSpring" value="истеи константи на пружината k"/>
+<string key="slow" value="бавно"/>
+<string key="mixedMAndK" value="совпаднати m и  k"/>
+<string key="numberOfResonators" value="Број на Резонатори"/>
+<string key="pause" value="пауза"/>
+<string key="amplitude" value="амплитуда"/>
+<string key="frequencyEqualsXHz" value="фреквенција = {0} Hz"/>
+<string key="sloMo" value="Забавено!"/>
+<string key="step" value="чекор"/>
+<string key="driver" value="ВИБРАТОР"/>
+<string key="on" value="вкл."/>
+<string key="ruler" value="Лењир"/>
+<string key="resonance.simTitle" value="Резонанса"/>
+<string key="springConstant" value="константа на пружината"/>
+<string key="resetAll" value="Се на почеток"/>
+<string key="frequency" value="фреквенција"/>
+<string key="mass" value="маса"/>
+<string key="sameMass" value="исти маси m "/>
+<string key="resonator" value="Резонатор бр.:"/>
+<string key="translation.credits" value="Зоран Христовски"/>
+<string key="play" value="почни"/>
+<string key="gravityColon" value="Гравитација:"/>
+<string key="paused" value="ПАУЗА!"/>
+<string key="off" value="искл."/>
+<string key="dampingConstant" value="константа на пригушување"/>
+<string key="normal" value="нормално"/>
+<string key="selectPreset" value="Однапред подесено"/>
+</SimStrings>

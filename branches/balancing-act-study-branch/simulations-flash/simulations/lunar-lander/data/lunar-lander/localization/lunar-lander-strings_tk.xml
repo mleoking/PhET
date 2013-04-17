@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_tk.xml created Tue Aug 21 18:19:26 UZT 2012 using: lunar-lander 2.04.00 (53815), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="help2" value="Yza gaýt"/>
+<string key="landingSpeedEq" value="Gonma tizligi"/>
+<string key="help1" value="Klawiatura kontroly:"/>
+<string key="label7" value="Ýangyç gutarmaka näçe sany tekiz zona degip geçmäge başararsyň? \n Ýumşak gonma üçin goşmaça utuk (v &lt; 2 m/s). \n Daşa ursaň ýa-da heläk bolsaň oýun gutarýar (v &gt; 6 m/s)."/>
+<string key="label6" value="Älem zolagy = Doly itergini sazla"/>
+<string key="label5" value="Saga eg"/>
+<string key="label4" value="Çala it"/>
+<string key="label3" value="Çepe eg"/>
+<string key="unpause" value="Dowam et"/>
+<string key="velVector" value="Tizlik wektorlary"/>
+<string key="simTitle" value="Aýyň üstüne gonýan enjam"/>
+<string key="label2" value="Gaty it"/>
+<string key="accVector" value="Tizlenme wektory"/>
+<string key="label1" value="Gonmagy klawiaturaly kontrol et"/>
+<string key="vectors" value="Wektorlar"/>
+<string key="hitBoulder" value="Daşa uruldy. \n Aýaklara şikes ýetdi. \n Ýangyç ýitdi."/>
+<string key="altitude" value="belentlik (m)"/>
+<string key="softLanding" value="Ýumşak gonma."/>
+<string key="sound" value="Ses"/>
+<string key="range" value="çäkler (m)"/>
+<string key="hardLandingsColon" value="gaty gonmalar:"/>
+<string key="help" value="Kömek/Arakesme"/>
+<string key="longHelp" value="~ Ýangyç gutarmaka mümkin boldugyça köp tekiz zonalara gon.\n~ Gonaňdan soň itergi berip uç.\n~ Şol bir zona bir gezekden köp gonsaň hiç baýrak berilmez.\n~ Kiçi ýa-da ýetmäge agyr bolan zonalara gonaňda has köp utuk ball berilýär:  \n     Aňsat uly zona üçin= 5 ball   -   Agyr kiçi zona üçin= 50 ball \n~ 10 ball goşmaça berilýär ýumşak gonma üçin ( v &lt; 2 m/s).\n~Daşa degseň oýun gutarýar. (Daşlara gonmak bolanok!)\n~ Ýere urup heläk bolsaň oýun gutarýar (v &gt; 12 m/s)."/>
+<string key="score" value="utuk ball:"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="thrust" value="Itergi (N)"/>
+<string key="crash2" value="Heläk boldy,  topar öldi."/>
+<string key="softLandingsColon" value="ýumşak gonmalar:"/>
+<string key="crash1" value="Heläk boldy, aýaklara şikes ýetdi."/>
+<string key="paused" value="Arakesme"/>
+<string key="reset" value="Yza gaýt"/>
+<string key="hardLanding" value="Gonma gaty geçdi"/>
+<string key="help3" value="Arakesme"/>
+<string key="fuel" value="Ýangyç (kg)"/>
+</SimStrings>

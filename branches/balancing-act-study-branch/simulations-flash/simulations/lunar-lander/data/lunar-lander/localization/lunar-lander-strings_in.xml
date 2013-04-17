@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_in.xml created Wed Aug 08 09:32:56 ICT 2012 using: lunar-lander 2.04.00 (53815), translation-utility 2.13.00 (59150) Des 8, 2011--><SimStrings>
+<string key="empty" value="E"/>
+<string key="hardLanding" value="Pendaratan Sulit"/>
+<string key="score" value="Nilai:"/>
+<string key="unpause" value="Jalankan"/>
+<string key="range" value="Jangkuan (m)"/>
+<string key="fuel" value="Bahan bakar (kg)"/>
+<string key="translation.credits" value="Anne Sirait&#10;STKIP - Surya&#10;annesirait@gmail.com / annesirait@stkipsurya.ac.id"/>
+<string key="altitude" value="Ketinggian (m)"/>
+<string key="help3" value="Jeda"/>
+<string key="help2" value="Atur Ulang"/>
+<string key="help1" value="Kontrol keyboard"/>
+<string key="hitBoulder" value="Menabrak Bebatuan.\nKaki Rusak. \nBahan Bakar Habis"/>
+<string key="start" value="Mulai"/>
+<string key="hardLandingsColon" value="Pendaratan Sulit"/>
+<string key="vY" value="v_y(m/s)"/>
+<string key="vX" value="v_x(m/s)"/>
+<string key="help" value="Bantuan/Jeda"/>
+<string key="sound" value="Suara"/>
+<string key="vectors" value="Vektor"/>
+<string key="reset" value="Atur Ulang"/>
+<string key="longHelp" value="~ Mendaratlah di sebanyak mungkin zona datar yang berbeda sebelum bahan bakar habis.\n~ Setelah mendarat, &quot;take-off&quot; dengan menambah tenaga dorong.\n~ Tidak ada nilai jika mendarat di zona yang sama lebih dari sekali.\n~ Tambahan nilai jika mendarat di zona sempit atau zona yang sulit dicapai:  \n    Zona luas mudah = 5 nilai hingga Zona sempit berbahaya = 50 nilai\n~ Nilai tambahan 10 untuk pendaratan yang mulus( v &lt; 2 m/s).\n~ &quot;Game over&quot; jika mengenai bebatuan. (Anda tidak bisa mendarat di bebatuan!)\n~ &quot;Game over&quot; jika pendaratan gagal (v &gt; 12 m/s)."/>
+<string key="r" value="R"/>
+<string key="p" value="P"/>
+<string key="accVector" value="Vektor Percepatan"/>
+<string key="softLanding" value="Pendaratan Mulus"/>
+<string key="thrust" value="Tenaga Dorong (N)"/>
+<string key="simTitle" value="Pendaratan Lunar"/>
+<string key="label7" value="Berapa banyak zona datar yang dapat dilakukan pendaratan sebelum bahan bakar habis? \nTambahan nilai untuk pendaratan mulus(v &lt; 2 m/s). \nGame over jika menabrak penghalang atau pendaratan gagal(v &gt; 6 m/s)."/>
+<string key="label6" value="Space Bar = Kendali Belokan"/>
+<string key="label5" value="Belok Kanan"/>
+<string key="crash2" value="Kecelakaan pendaratan, kru tewas."/>
+<string key="label4" value="Kurangi Dorongan"/>
+<string key="label3" value="Belok Kiri"/>
+<string key="crash1" value="Kecelakaan pendaratan, kaki rusak."/>
+<string key="softLandingsColon" value="Pendaratan Mulus:"/>
+<string key="full" value="F"/>
+<string key="label2" value="Tambah Dorongan"/>
+<string key="paused" value="Jeda"/>
+<string key="label1" value="Mengontrol pendarat dengan keyboard"/>
+<string key="landingSpeedEq" value="Kecepatan Pendaratan ="/>
+<string key="velVector" value="Vektor Kecepatan"/>
+</SimStrings>

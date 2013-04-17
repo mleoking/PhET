@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_pl.xml created Thu Jul 05 18:24:52 CEST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) gru 8, 2011--><SimStrings>
+<string key="amplitude:" value="amplituda:"/>
+<string key="translation.credits" value="Andrzej Batorski"/>
+<string key="phase:" value="faza:"/>
+<string key="showSprings" value="pokaż sprężyny"/>
+<string key="modeSpectrum" value="spektrum moda normalnego"/>
+<string key="resetPositions" value="położenie. pocz."/>
+<string key="frequency:" value="częstotliwość:"/>
+<string key="normalMode:" value="mod normalny:"/>
+<string key="modeSpectrumDisplay" value="wyświetl spektrum moda"/>
+<string key="normal-modes.simTitle" value="Mody Normalne"/>
+<string key="modeNumbersXY" value="numery modów x, y."/>
+<string key="polarization:" value="kierunek&lt;br&gt;drgań:"/>
+<string key="zeroPositions" value="wyzeruj "/>
+<string key="paused" value="ZATRZYMANE"/>
+<string key="showPhases" value="pokaż fazy"/>
+</SimStrings>

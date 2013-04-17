@@ -1,0 +1,8 @@
+###################################
+# License info for forces-1d
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+smash0.wav 
+smash1.wav 
+smash2.wav 

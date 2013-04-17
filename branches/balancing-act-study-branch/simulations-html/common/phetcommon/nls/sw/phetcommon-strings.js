@@ -1,0 +1,25 @@
+//Conversion from C:\workingcopy\phet\svn-1.7\trunk\simulations-java\common\phetcommon\data\phetcommon\localization\phetcommon-strings_sw.properties
+define( {
+            "Common.HelpPanel.ShowHelp": "Thuso!",
+            "Common.HelpMenu.Title": "Thuso",
+            "Common.ClockControlPanel.Play": "Tshameka",
+            "Common.BasicPhetPanel.Title": "Boela Morago",
+            "Common.PhetSlider.Description": "Palo e e sa dumelelwang.",
+            "Common.HelpMenu.About": "Ka ga",
+            "Common.BasicPhetPanel.LogoToolTip": "Ganetsa foreime e etletseng",
+            "Common.PhetSlider.OutOfRange": "Palo e Tswile mo Tekanong",
+            "Common.HelpPanel.HideHelp": "Fitlha Thuso",
+            "Common.PhetSlider.Minimum": "Nnye",
+            "Common.FileMenu.Exit": "Etswa",
+            "Common.ClockControlPanel.Step": "Setepe",
+            "Common.HelpMenu.AboutMnemonic": "k",
+            "Common.PhetSlider.Maximum": "Bofelo",
+            "Common.HelpPanel.MegaHelp": "Thuso Yotlhe",
+            "Common.HelpMenu.TitleMnemonic": "t",
+            "Common.HelpMenu.AboutTitle": "Ka ga",
+            "Common.FileMenu.TitleMnemonic": "f",
+            "Common.PhetSlider.YouEntered": "O Tsentse",
+            "Common.FileMenu.Title": "Faele",
+            "Common.ClockControlPanel.Pause": "Khutsa",
+            "Common.FileMenu.ExitMnemonic": "e"
+        } );
