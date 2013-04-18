@@ -1,0 +1,79 @@
+PhET Progress Report, J. Blanco, 4-18-2013
+
+PhET Weekly Progress Report
+John Blanco
+April 18th, 2013
+
+Time period covered: April 11th through April 17th.
+
+Energy Forms and Changes - 6.0 hrs
+
+o	Worked with design team to refine the color choices in order to resolve some issues revealed through color blindness testing.
+o	Reviewed and provided feedback on the meta data written up by Noah P.
+o	Removed unused images, updated license file.
+o	Investigated issue with rendering of transparent tea pot that occurs on some Macs.
+o	Published version 1.0 to the production server.
+
+Balancing Act - 5.0 hrs
+
+o	Implemented 1st set of changes requested for study.
+o	Set up and conducted meeting to discuss changes.
+o	Wrote up and circulated meeting notes, including notes on additional requested features.
+o	Discussed instrumentation of Collision Lab, Kathy said she would let them know that it would be too expensive.
+o	Set up a branch in SVN for the next round of changes.
+
+Build an Atom (HTML5 version) - 9.0 hrs
+
+o	Discussed design changes during weekly design meeting.
+o	Implemented particle dragging working through the model.
+o	Added electron shells.
+o	Got nucleus assembly algorithm working using vectors and Fort.
+o	Got electron placement algorithm working using vectors and Fort.
+o	Got code working for returning particles to buckets.
+o	Added element label and nucleus target.
+
+Ohm's Law (HTML5 version) - 3.5 hr
+
+o	Fixed an issue with submodules and common code.
+o	Published latest version to dev.
+o	Started multi-platform testing.
+
+Resistance in a Wire (HTML5 version) - 2.5 hr
+
+o	Reviewed Ariel's tickets.
+o	Published latest version to dev for testing.
+o	Started multi-platform testing.
+
+John Travoltage (HTML5 version) - 0.5 hrs
+
+o	Discussed design during weekly design meeting.
+
+Accessibility in HTML5 - 2.0 hrs
+
+o	Read through parts of the ARIA spec.
+o	Participated in a meeting with the Toronto group.
+
+HTML5 Startup - Process Development - 4.0 hrs
+
+o	Weekly developer meetings to discuss issues and processes.
+o	Worked with Oliver to determine how many PhET users are using FireFox and Chrome on Apple.  Decided it is enough that we should support.
+o	Developer meeting/collaboration, covered text bounds, MLL+Fort, SVG issues, and Git best practices.
+
+HTML5 Startup - MLL Management - 1.5 hrs
+
+o	Exchanged emails with Dmitry about additional costs for 1st two sims, approved them.
+o	Added change request process to the HTML5 Development Process for Contractors document.
+
+Environment - 1.5 hrs
+
+o	Set up new Mac and new iPad.
+
+Meetings, Email, and Other Administrative Overhead - 4.5 hrs
+
+o	Weekly status meeting.
+o	Talked with Chris M on the phone to catch him up on what happened while he was away.
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  0 hrs
+
