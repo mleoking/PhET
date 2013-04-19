@@ -688,6 +688,8 @@ public class Plank extends ShapeModelElement {
                                                                                mass.getMass() ) );
             massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.distanceFromPlankCenter, i ),
                                                                                mapMassToDistFromCenter.get( mass ) ) );
+            massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.massValueShown, i ),
+                                                                               !mass.isMystery() ) );
         }
         return massStateParameterSet;
     }
