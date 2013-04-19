@@ -1,3 +1,6 @@
+Added a parameter to the sim sharing message that describes masses on the plank at the beginning of a challenge that indicates whether the mass values are visible.
+Added a parameter to the message that is sent when masses are added to the plank that indicates whether the mass value is visible.
+Changed the wording of the prompt used for studies.
 # 1.03.06 (72767) Apr 12, 2013
 4/12/13 Publishing to dev for review with the Stanford research team.
 Added additional information to the "challengePresented" sim sharing messages that indicates the state of the plank at the start of the challenge.
