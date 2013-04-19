@@ -4,8 +4,10 @@ package edu.colorado.phet.balanceandtorque.common.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -26,9 +28,25 @@ public class RotatingRulerNode extends PNode {
 
     public RotatingRulerNode( final Plank plank, final ModelViewTransform mvt, BooleanProperty visibleProperty ) {
 
+        int numTickMarks = 17;
+        String[] tickMarkLabels = new String[numTickMarks];
+        if ( BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ) {
+            for ( int i = 0; i < numTickMarks; i++ ){
+                int labelValue =  Math.abs( i - ( numTickMarks / 2) );
+                tickMarkLabels[i] = labelValue == 0 ? "" : Integer.toString( labelValue );
+            }
+        }
+        else {
+            DecimalFormat format = new DecimalFormat( "0.##" );
+            for ( int i = 0; i < numTickMarks; i++ ){
+                double labelValue =  Math.abs( ( i - ( numTickMarks / 2) ) * Plank.LENGTH / (numTickMarks + 1) );
+                tickMarkLabels[i] = labelValue == 0 ? "" : format.format( labelValue );
+            }
+        }
+
         final TopTickMarkRulerNode rulerNode = new TopTickMarkRulerNode( mvt.modelToViewDeltaX( Plank.LENGTH - 0.5 ),
                                                                          60,
-                                                                         new String[] { "2", "1.75", "1.5", "1.25", "1", "0.75", "0.5", "0.25", "", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2" },
+                                                                         tickMarkLabels,
                                                                          "",
                                                                          0,
                                                                          12 );
@@ -77,7 +95,9 @@ public class RotatingRulerNode extends PNode {
 
     private static class LabelUnitsNode extends PText {
         private LabelUnitsNode() {
-            setText( BalanceAndTorqueResources.Strings.METERS );
+            if ( !BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ){
+                setText( BalanceAndTorqueResources.Strings.METERS );
+            }
             setFont( new PhetFont( 16 ) );
         }
     }

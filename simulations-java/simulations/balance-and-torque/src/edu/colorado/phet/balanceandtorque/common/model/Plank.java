@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.PositionedVector;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -32,6 +33,8 @@ import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.Mode
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelComponents.plank;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys.*;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys.distanceFromPlankCenter;
+import static edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
 
 /**
@@ -234,13 +237,14 @@ public class Plank extends ShapeModelElement {
 
             // Send the sim sharing event indicating that this mass was added
             // to the plank.
+            double distanceFromCenterForMessage = USE_QUARTER_METER_INCREMENTS ? Math.round( distanceFromCenter * 4 ) : distanceFromCenter;
             SimSharingManager.sendModelMessage( plank,
                                                 modelElement,
                                                 massAddedToPlank,
                                                 new ParameterSet().
                                                         with( new Parameter( massUserComponent, mass.getUserComponent().toString() ) ).
                                                         with( new Parameter( massValue, mass.getMass() ) ).
-                                                        with( new Parameter( distanceFromPlankCenter, distanceFromCenter ) ).
+                                                        with( new Parameter( distanceFromPlankCenter, distanceFromCenterForMessage ) ).
                                                         with( new Parameter( massValueShown, !mass.isMystery() ) ) );
         }
 
@@ -682,12 +686,16 @@ public class Plank extends ShapeModelElement {
         ParameterSet massStateParameterSet = new ParameterSet();
         for ( int i = 0; i < massesOnSurface.size(); i++ ) {
             Mass mass = massesOnSurface.get( i );
+            double distanceFromPlankCenter = mapMassToDistFromCenter.get( mass );
+            if ( USE_QUARTER_METER_INCREMENTS ){
+                distanceFromPlankCenter = Math.round( 4 * distanceFromPlankCenter );
+            }
             massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.massUserComponent, i ),
                                                                                mass.getUserComponent().toString() ) );
             massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.massValue, i ),
                                                                                mass.getMass() ) );
             massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.distanceFromPlankCenter, i ),
-                                                                               mapMassToDistFromCenter.get( mass ) ) );
+                                                                               distanceFromPlankCenter ) );
             massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.massValueShown, i ),
                                                                                !mass.isMystery() ) );
         }
