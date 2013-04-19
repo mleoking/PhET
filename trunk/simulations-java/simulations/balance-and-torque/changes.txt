@@ -1,3 +1,5 @@
+# 1.03.07 (72839) Apr 19, 2013
+4/19/13 Deploying custom version for Stanford study
 Added code that will present the increments on the plank as integer values rather than quarter meters, see #3537.
 Added a parameter to the sim sharing message that describes masses on the plank at the beginning of a challenge that indicates whether the mass values are visible.
 Added a parameter to the message that is sent when masses are added to the plank that indicates whether the mass value is visible.
