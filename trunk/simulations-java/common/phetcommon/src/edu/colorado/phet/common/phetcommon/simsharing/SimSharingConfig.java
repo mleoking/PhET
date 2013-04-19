@@ -81,7 +81,7 @@ public class SimSharingConfig {
      *  Balancing Act study that will be done in conjunction with researchers
      *  at Stanford.  Time frame is February 2012.  See #3207.
      */
-    public static final SimSharingConfig BALANCING_ACT_SPRING_2012 = new SimSharingConfig( "balancing-act-spring-2012", true, true, true, true, "Please enter ID:", WORDS );
+    public static final SimSharingConfig BALANCING_ACT_SPRING_2012 = new SimSharingConfig( "balancing-act-spring-2012", true, true, true, true, "Please enter your user ID:", WORDS );
 
     /*
      *  Molecule Shapes study to be done in Feb 2012. See #3238.
