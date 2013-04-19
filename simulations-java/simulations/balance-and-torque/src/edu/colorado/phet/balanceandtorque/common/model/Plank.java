@@ -240,7 +240,8 @@ public class Plank extends ShapeModelElement {
                                                 new ParameterSet().
                                                         with( new Parameter( massUserComponent, mass.getUserComponent().toString() ) ).
                                                         with( new Parameter( massValue, mass.getMass() ) ).
-                                                        with( new Parameter( distanceFromPlankCenter, distanceFromCenter ) ) );
+                                                        with( new Parameter( distanceFromPlankCenter, distanceFromCenter ) ).
+                                                        with( new Parameter( massValueShown, !mass.isMystery() ) ) );
         }
 
         return massAdded;
