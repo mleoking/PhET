@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--radiating-charge-strings_fa.xml created Tue Feb 19 11:13:01 IRST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) Oct 9, 2012-->
+<!--radiating-charge-strings_fa.xml created Sun Apr 21 15:09:03 IRDT 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) Oct 9, 2012-->
 <SimStrings>
 <string key="duration" value="مدت"/>
 <string key="bump" value="بار را تکان بده"/>
-<string key="radiating-charge.simTitle" value="با در حال تابش"/>
+<string key="radiating-charge.simTitle" value="بار در حال تابش"/>
 <string key="stopCharge" value="بار را متوقف کن"/>
 <string key="sinusoidal" value="سينوسي"/>
 <string key="amplitude" value="دامنه"/>
