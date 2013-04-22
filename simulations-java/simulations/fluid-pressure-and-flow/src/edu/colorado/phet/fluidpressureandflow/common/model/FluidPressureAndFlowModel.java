@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.FPAFVelocitySensor;
 
 /**
@@ -47,7 +48,7 @@ public abstract class FluidPressureAndFlowModel implements PressureSensor.Contex
     public final Property<UnitSet> units;
 
     //Air pressure
-    private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.get(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+    private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, Units.feetToMeters( 500 ), standardAirPressure.get(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
 
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
