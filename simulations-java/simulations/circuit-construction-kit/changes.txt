@@ -1,3 +1,5 @@
+# 3.20.15 (72861) Apr 24, 2013
+4/24/13 redeploy sponsorship prototype, requested by KD
 # 3.20.14 (72343) Feb 27, 2013
 2/27/13 Deploying version for use in research study.
 Sim Sharing: Changed message order for wires so that "moved" messages precede "junction formed" messages when dragging a component creates a junction.
