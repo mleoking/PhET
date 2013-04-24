@@ -1,3 +1,4 @@
+4/23/2013: Made 2 changes to JS style to match idiomatic.js
 2/19/2013: changed HTML to 2 space indenting to match CSS and JavaScript
 1/15/2012: Code style: Allow simple methods on one line for JavaScript, see #3253
 2/13/2012: Code Style: Allow simple methods on one line, see #3253
