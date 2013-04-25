@@ -1,0 +1,67 @@
+PhET Progress Report, J. Blanco, 4-25-2013
+
+PhET Weekly Progress Report
+John Blanco
+April 25th, 2013
+
+Time period covered: April 18th through April 24th.
+
+Build an Atom (HTML5 version) - 17.0 hrs
+
+o	Got nucleus arrangement algorithm working with Dot + Scenery.
+o	Discussed new design for HTML5 version.
+o	Got scaling and centering to work.
+o	Integrated with the new PhET HTML5 sim framework ("joist").
+o	Got labels for the element name, ion state, and stability to update as atom is configured.
+o	Added atom marker.
+o	Implemented nucleus layering algorithm (in collaboration with Sam R).
+o	Added initial version of reset button.
+o	Discussed design of 2nd tab and plan for some early prototyping with Ariel P.
+
+Ohm's Law (HTML5 version) - 4.5 hrs
+
+o	Reviewed Mike D's suggestions with him, logged tickets for several.
+o	Tested on various platforms, logged issues that resulted.
+o	Made voltage labels easier to read on the battery.
+o	Various adjustments to the layout based on Mike D's suggestions.
+o	Integrated alternative sounds for battery add/remove.
+
+Resistance in a Wire (HTML5 version) - 3.5 hrs
+
+o	Reviewed Mike D's suggestions with him, logged tickets for several.
+o	Converted project to use submodules for common code.
+o	Tested on various platforms, logged issues that resulted.
+o	Changed layout so that equation is on the top and resistor is on the bottom.
+
+John Travoltage (HTML5 version) - 0.5 hrs
+
+o	Reviewed design document and provided comments.
+
+Example Sim - 0.5 hrs
+
+o	Converted to use the new and more complete model-view transform type.
+
+HTML5 Startup: Process Development - 4.0 hrs
+
+o	Provided feedback on Noah P's MLL document, added section on change requests.
+o	Weekly developer meetings to discuss various issues around HTML5.
+
+HTML5 Startup: MLL Management - 0.5 hrs
+
+o	Started discussion with Dmitry about the readiness for the next simulation.
+
+Balancing Act: Changes for Stanford study - 4.0 hrs
+
+o	Changed the ruler to be in increments of 1 rather than 0.25, both in the sim and the log file.
+o	Added a field in messages about masses on the planks that indicates whether or not the label is shown.
+o	Slight change to the wording of the prompt for entering user ID.
+o	Met with Min Chi to review changes, discuss next steps.
+
+Meetings, Email, and Other Administrative Overhead - 4.5 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  0 hrs
+
