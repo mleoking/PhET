@@ -89,7 +89,6 @@ solar_panel_post_2.png source=PhET author=Noah P
 sun_icon.png source=PhET author=Noah P
 teapot_icon.png source=PhET author=Noah P
 teapot_large.png source=PhET author=Noah P
-temp.txt source=PhET author=Noah P
 thermometer_medium_back.png source=PhET author=Noah P
 thermometer_medium_front.png source=PhET author=Noah P
 water_icon.png source=PhET author=Noah P
