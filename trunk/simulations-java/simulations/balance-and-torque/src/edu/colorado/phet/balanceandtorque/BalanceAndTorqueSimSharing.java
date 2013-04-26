@@ -67,7 +67,7 @@ public class BalanceAndTorqueSimSharing {
 
     public static enum ParameterKeys implements IParameterKey {
         massValue, distanceFromPlankCenter, plankTiltAngle, massUserComponent,
-        pointsEarned, massValueShown, proposedAnswer
+        pointsEarned, massValueShown, proposedAnswer, correctAnswer
     }
 
     public static Format MASS_VALUE_FORMATTER = new DefaultDecimalFormat( "0.0#" );

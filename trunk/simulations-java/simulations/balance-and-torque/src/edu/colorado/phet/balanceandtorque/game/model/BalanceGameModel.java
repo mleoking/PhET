@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -450,7 +451,9 @@ public class BalanceGameModel {
         SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
                                             balanceChallenge.getModelComponentType(),
                                             challengePresented,
-                                            plank.getMassStateParameterSet() );
+                                            plank.getMassStateParameterSet().with( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.correctAnswer,
+                                                                                                  balanceChallenge.getCorrectAnswerString() )
+                                            ) );
     }
 
     /**

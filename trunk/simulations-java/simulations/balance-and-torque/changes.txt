@@ -1,3 +1,4 @@
+Added a field to the "challengePresented" sim sharing message that indicates the correct answer to the challenge.
 Added a new sim sharing message that indicates the user's proposed answer to each challenge presented during the game.
 # 1.03.07 (72839) Apr 19, 2013
 4/19/13 Deploying custom version for Stanford study
