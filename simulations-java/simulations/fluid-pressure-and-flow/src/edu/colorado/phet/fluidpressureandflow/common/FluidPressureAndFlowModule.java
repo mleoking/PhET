@@ -33,10 +33,10 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
         super( tabUserComponent, name, model.getClock() );
         this.model = model;
         //Show the meter stick if the units are in meters
-        meterStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.METRIC ) );
+        meterStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.METRIC ).or( new ValueEquals<UnitSet>( model.units, UnitSet.ATMOSPHERES ) ) );
 
         //Show the yard stick if the units are in feet (whether in atm or psi pressure unit)
-        yardStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.ENGLISH ).or( new ValueEquals<UnitSet>( model.units, UnitSet.ATMOSPHERES ) ) );
+        yardStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.ENGLISH ) );
 
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );
