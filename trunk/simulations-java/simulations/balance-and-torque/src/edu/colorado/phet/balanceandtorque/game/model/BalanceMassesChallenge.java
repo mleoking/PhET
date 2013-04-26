@@ -100,4 +100,18 @@ public class BalanceMassesChallenge extends BalanceGameChallenge {
         // Create the actual challenge.
         return new BalanceMassesChallenge( fixedMassesList, movableMassesList, solutionList );
     }
+
+    @Override public String getCorrectAnswerString() {
+        // NOTE: It is conceivable that challenges where multiple masses need
+        // to be placed in multiple locations could be supported, but as of
+        // this writing, they are not.  If they ever are, the assertion below
+        // will fail, and this method will need enhancement.
+        assert movableMasses.size() == 1;
+        for ( MassDistancePair massDistancePair : balancedConfiguration ) {
+            if ( massDistancePair.distance > 0 ){
+                return Double.toString( massDistancePair.distance );
+            }
+        }
+        return "NoSolution";
+    }
 }

@@ -240,4 +240,12 @@ public abstract class BalanceGameChallenge {
      * @return model component ID for this challenge.
      */
     abstract public IModelComponentType getModelComponentType();
+
+    /**
+     * Used for sim sharing support.
+     *
+     * @return A string suitable for sim sharing messages that indicates the
+     * correct answer.
+     */
+    abstract public String getCorrectAnswerString();
 }
