@@ -100,8 +100,7 @@ public class MassValueEntryNode extends PNode {
     }
 
     /**
-     * Submit the age guess by interpreting the value and notifying any
-     * listeners.
+     * Submit the guess by interpreting the value and notifying any listeners.
      */
     private void submitProposedAnswer() {
 

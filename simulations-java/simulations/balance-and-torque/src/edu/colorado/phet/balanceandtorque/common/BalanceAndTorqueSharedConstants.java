@@ -12,4 +12,5 @@ public class BalanceAndTorqueSharedConstants {
     // was added to support the Stanford study, since they found that the
     // decimal values confused younger students.  See #3537.
     public static final boolean USE_QUARTER_METER_INCREMENTS = true;
+
 }

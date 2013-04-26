@@ -13,6 +13,7 @@ import java.util.Map;
 import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.PositionedVector;
+import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -645,6 +646,14 @@ public class Plank extends ShapeModelElement {
             }
         }
         return openSnapToLocations;
+    }
+
+    public List<MassDistancePair> getMassDistancePairs() {
+        List<MassDistancePair> massDistancePairs = new ArrayList<MassDistancePair>(  );
+        for ( Mass mass : mapMassToDistFromCenter.keySet() ) {
+            massDistancePairs.add( new MassDistancePair( mass, mapMassToDistFromCenter.get( mass ) ) );
+        }
+        return massDistancePairs;
     }
 
     /**

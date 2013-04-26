@@ -29,6 +29,8 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.DISTANCE_VALUE_FORMATTER;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.MASS_VALUE_FORMATTER;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
 
 /**
@@ -221,6 +223,7 @@ public class BalanceGameModel {
     }
 
     public void startGame() {
+
         // Initialize the game timers, counters, etc.
         scoreProperty.set( 0 );
         challengeCount = 0;
@@ -242,8 +245,19 @@ public class BalanceGameModel {
      * the plank.
      */
     public void checkAnswer() {
+
         // Verify that this method isn't being used inappropriately.
         assert getCurrentChallenge() instanceof BalanceMassesChallenge;
+
+        // Log a message about the user's proposed answer.
+        List<Double> massDistances = new ArrayList<Double>(  );
+        for ( MassDistancePair massDistancePair : plank.getMassDistancePairs() ){
+            if ( massDistancePair.distance > 0 ){
+                massDistances.add( massDistancePair.distance );
+            }
+        }
+        assert( massDistances.size() == 1 ); // Complex challenges with multiple movable masses aren't supported, mod this if they are added.
+        sendProposedAnswerMessage( DISTANCE_VALUE_FORMATTER.format( BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ? massDistances.get( 0 ) * 4 : massDistances.get( 0 )) );
 
         // Turn off the column(s) so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
@@ -259,8 +273,12 @@ public class BalanceGameModel {
      * @param mass
      */
     public void checkAnswer( double mass ) {
+
         // Verify that this method isn't being used inappropriately.
         assert getCurrentChallenge() instanceof MassDeductionChallenge;
+
+        // Log a message about the user's proposed answer.
+        sendProposedAnswerMessage( Double.toString( mass ) );
 
         // Handle the user's proposed answer.
         handleProposedAnswer( mass == getTotalFixedMassValue() );
@@ -273,8 +291,12 @@ public class BalanceGameModel {
      * @param tiltPrediction
      */
     public void checkAnswer( TiltPrediction tiltPrediction ) {
+
         // Verify that this method isn't being used inappropriately.
         assert getCurrentChallenge() instanceof TiltPredictionChallenge;
+
+        // Log a message about the user's proposed answer.
+        sendProposedAnswerMessage( tiltPrediction.toString() );
 
         // Turn off the column(s) so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
@@ -282,6 +304,14 @@ public class BalanceGameModel {
         handleProposedAnswer( ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_LEFT_SIDE && plank.getTorqueDueToMasses() > 0 ) ||
                               ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE && plank.getTorqueDueToMasses() < 0 ) ||
                               ( tiltPrediction == TiltPrediction.STAY_BALANCED && plank.getTorqueDueToMasses() == 0 ) );
+    }
+
+    // Send a sim sharing message that represents the user's proposed answer.
+    private void sendProposedAnswerMessage( String proposedAnswer ){
+        SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
+                                            getCurrentChallenge().getModelComponentType(),
+                                            proposedAnswerSubmitted,
+                                            new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.proposedAnswer, proposedAnswer ) ) );
     }
 
     /**

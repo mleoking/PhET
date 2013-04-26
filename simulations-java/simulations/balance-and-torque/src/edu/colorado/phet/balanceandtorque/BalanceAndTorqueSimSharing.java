@@ -1,12 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque;
 
+import java.text.Format;
+
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
  * Class where all the user components are defined for items in the sim, which
@@ -58,11 +61,15 @@ public class BalanceAndTorqueSimSharing {
 
     public static enum ModelActions implements IModelAction {
         massAddedToPlank, massRemovedFromPlank, startedTilting, stoppedTilting,
-        challengePresented, correctAnswerSubmitted, incorrectAnswerSubmitted
+        challengePresented, proposedAnswerSubmitted, correctAnswerSubmitted,
+        incorrectAnswerSubmitted
     }
 
     public static enum ParameterKeys implements IParameterKey {
         massValue, distanceFromPlankCenter, plankTiltAngle, massUserComponent,
-        pointsEarned, massValueShown
+        pointsEarned, massValueShown, proposedAnswer
     }
+
+    public static Format MASS_VALUE_FORMATTER = new DefaultDecimalFormat( "0.0#" );
+    public static Format DISTANCE_VALUE_FORMATTER = new DefaultDecimalFormat( "0.0#" );
 }

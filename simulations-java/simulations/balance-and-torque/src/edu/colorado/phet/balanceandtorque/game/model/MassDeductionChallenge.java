@@ -46,6 +46,10 @@ public class MassDeductionChallenge extends BalanceGameChallenge {
         return massDeductionChallenge;
     }
 
+    @Override public String getCorrectAnswerString() {
+        assert fixedMassDistancePairs.size() == 1;
+        return Double.toString( fixedMassDistancePairs.get( 0 ).mass.getMass() );
+    }
 
     /**
      * Convenience function for create a mass deduction challenge.

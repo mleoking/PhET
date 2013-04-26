@@ -57,4 +57,21 @@ public class TiltPredictionChallenge extends BalanceGameChallenge {
         // Create the actual challenge.
         return new TiltPredictionChallenge( fixedMassesList );
     }
+
+    @Override public String getCorrectAnswerString() {
+        assert movableMasses.size() == 0; // All masses should be fixed.
+        double netTorque = 0;
+        for ( MassDistancePair fixedMassDistancePair : fixedMassDistancePairs ) {
+            netTorque += fixedMassDistancePair.distance * fixedMassDistancePair.mass.getMass();
+        }
+        if ( netTorque == 0 ){
+            return TiltPrediction.STAY_BALANCED.toString();
+        }
+        else if ( netTorque < 0 ){
+            return TiltPrediction.TILT_DOWN_ON_LEFT_SIDE.toString();
+        }
+        else {
+            return TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE.toString();
+        }
+    }
 }
