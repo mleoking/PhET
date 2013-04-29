@@ -1,3 +1,4 @@
+# 1.02.00 (72882) Apr 29, 2013
 # 1.01.03 (72872) Apr 25, 2013
 > Tab 1: Use metric lengths measurements instead of English when Atmospheres is selected
 # 1.01.02 (72842) Apr 22, 2013
