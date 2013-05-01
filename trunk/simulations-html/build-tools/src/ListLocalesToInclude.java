@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileFilter;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Sam
- * Date: 5/1/13
- * Time: 2:34 PM
- * To change this template use File | Settings | File Templates.
+ * Generate the list of locales to be required for a simulation, so that
+ * all provided translations will appear in the minified file so they can be selected
+ * dynamically at runtime, see https://github.com/phetsims/ohms-law/issues/16
+ *
+ * @author Sam Reid
  */
 public class ListLocalesToInclude {
     public static void main( String[] args ) {
