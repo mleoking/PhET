@@ -1,0 +1,70 @@
+PhET Progress Report, J. Blanco, 5-2-2013
+
+PhET Weekly Progress Report
+John Blanco
+May 2nd, 2013
+
+Time period covered: April 25th through May 1st.
+
+Build an Atom (HTML5 version) - 15.0 hrs
+
+o	Discussed in weekly design meeting.
+o	Worked with JO on best practices for layering and text layout.
+o	Fixed an issue where release messages could get missed in touch-based environments.
+o	Added reset to first tab and go it working.
+o	Fixed some issues with electron positioning in the electron shells.
+o	Added infrastructure for 2nd tab.
+o	Created interactive symbol and added it to 2nd tab.
+
+Ohm's Law (HTML5 version) - 5.0 hrs
+
+o	Got grunt minification process working.
+o	Deployed minified version.
+o	Resolved an issue with image handling.
+o	Worked on an issue with i18n which Sam R ultimately resolved.
+o	Did some cleanup of the code.
+o	Testing.
+
+Resistance in a Wire (HTML5 version) - 3.0 hrs
+
+o	Re-opened issue about disappearance of dots in the resistor.
+o	Integrated new image loading approach.
+o	Got grunt minification working.
+o	Deployed minified version to dev.
+o	Testing.
+
+John Travoltage (HTML5 version) - 1.0 hrs
+
+o	Pinged design team about readiness of specification, eventually converted it to PDF and sent it to MLL.
+
+HTML5 Startup: Process Development - 4.0 hrs
+
+o	Reviewed Noah P's MLL document.
+o	Worked with Ariel to set up a machine to be able to update from GitHub and serve sims to touch devices.
+o	Weekly developer meeting and collaboration.
+
+HTML5 Startup: MLL Management - 0.5 hrs
+
+o	Sent 'John Travoltage' spec for review and bid.
+o	Sent latest JavaScript style control file.
+
+Balancing Act: Changes for Stanford study - 6.0 hrs
+
+o	Added a feature where answers to game challenges that are proposed by users are logged via sim sharing.
+o	Added a field to sim sharing messages for 'challengePresented' that includes the correct answer to the challenge.
+o	Published a new version and sent out the link for review.
+o	Set up and held review meeting with Min Chi.
+o	Wrote up Min's next set of requested changes and provided an estimate.
+
+Miscellaneous - 1.0 hrs
+
+o	Met with Peter (university of Utrecht) and David (from CU) about possible information exchange and collaboration.
+
+Meetings, Email, and Other Administrative Overhead - 4.5 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  0 hrs
+
