@@ -1,3 +1,5 @@
+# 2.03.10 (72888) May 5, 2013
+5/5/13 Precision on time readout changed to 0.01s.
 # 2.03.09 (61002) Feb 2, 2012
 # 2.03.08 (60972) Feb 2, 2012
 2/2/12 Bug fix: projectile height readout correct.
