@@ -84,6 +84,9 @@ public class MonthlyReportFilter {
                 "OVSD\n" +
                 "Research, Surveys, Interviews & Observations\n" +
                 "Scenery\n" +
+                "Kite\n" +
+                "Scenery-phet\n" +
+                "Joist\n" +
                 "Sim-sharing\n" +
                 "Sun\n" +
                 "Translations\n" +
@@ -142,7 +145,7 @@ public class MonthlyReportFilter {
         if ( category.equals( "wicket-deploy" ) ) { return mapCategory( "website" ); }
         if ( category.equals( "wicket-site" ) ) { return mapCategory( "website" ); }
         if ( category.equals( "support" ) ) { return mapCategory( "phet help" ); }
-        if ( category.equals( "git" ) ) { return mapCategory( "Respository, SVN, CVS" ); }
+        if ( category.equals( "git" ) ) { return mapCategory( "environment" ); }
         if ( category.equals( "sbt" ) ) { return mapCategory( "build process" ); }
         if ( category.equals( "newsletter" ) ) { return mapCategory( "website" ); }
         if ( category.equals( "conference" ) ) { return mapCategory( "meetings" ); }
@@ -194,9 +197,21 @@ public class MonthlyReportFilter {
         if ( category.equals( "energy-skate-park-basics-processing" ) ) { return mapCategory( "ipad" ); }
         if ( category.equals( "accessibility" ) ) { return mapCategory( "scenery" ); }
         if ( category.equals( "i18n" ) ) { return mapCategory( "html5" ); }
+        if ( category.equals( "riaw" ) ) { return mapCategory( "resistance-in-a-wire" ); }
+        if ( category.equals( "base" ) ) { return mapCategory( "balloons-and-static-electricity" ); }
+        if ( category.equals( "famb" ) ) { return mapCategory( "forces-and-motion-basics" ); }
+        if ( category.equals( "jt" ) ) { return mapCategory( "john-travoltage" ); }
+        if ( category.equals( "svg" ) ) { return mapCategory( "scenery" ); }
+        if ( category.equals( "fpaf" ) ) { return mapCategory( "fluid-pressure-and-flow" ); }
+        if ( category.equals( "john-travoltage" ) ) { return mapCategory( "travoltage" ); }
 
-        System.out.println( "No match found for the category: " + category );
-        return "unknown: " + category;
+        if ( category.equals( category.toLowerCase() ) ) {
+            System.out.println( "No match found for the category: " + category );
+            return "unknown: " + category;
+        }
+        else {
+            return mapCategory( category.toLowerCase() );
+        }
     }
 
     private boolean matchesCategory( String documented, String standardized ) {
