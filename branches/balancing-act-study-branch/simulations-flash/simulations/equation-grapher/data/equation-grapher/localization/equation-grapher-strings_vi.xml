@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_vi.xml created Wed Nov 18 17:37:23 ICT 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.03.00 (36202) thg 10 30, 2009-->
-<SimStrings>
-<string key="showYEq" value="Hiển thị đồ thị y ="/>
-<string key="erase" value="Xóa"/>
-<string key="save" value="Lưu"/>
-<string key="zero" value="Zero"/>
-<string key="simTitle" value="Equation Grapher"/>
-</SimStrings>

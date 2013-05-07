@@ -1,1 +1,0 @@
-jade license=LGPL permission licensefile=src/phet-jade-license.txt name=JADE description=The JAva Dynamics Engine copyright=Raymond Sheh website=http://rsheh.web.cse.unsw.edu.au/homepage/jade/

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_es_PE.xml created Sat Oct 13 10:46:54 COT 2012 using: ohms-law 2.03.00 (51206), translation-utility 2.14.00 (69024) oct 9, 2012--><SimStrings>
-<string key="currentEq" value="Corriente="/>
-<string key="resistance" value="Resistencia"/>
-<string key="simTitle" value="Ley de Ohm"/>
-<string key="sound" value="Sonido"/>
-<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO (UNFV)(LIMA-PERÚ) hecmall@hotmail.com; hecmall@outlook.com"/>
-<string key="voltage" value="Voltaje"/>
-</SimStrings>

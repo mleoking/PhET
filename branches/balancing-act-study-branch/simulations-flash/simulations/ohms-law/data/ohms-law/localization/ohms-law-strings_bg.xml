@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_bg.xml created Fri Mar 08 13:11:43 EET 2013 using: ohms-law 2.03.00 (51206), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
-<string key="currentEq" value="ток ="/>
-<string key="resistance" value="съпротивление"/>
-<string key="simTitle" value="Закон на ОМ"/>
-<string key="sound" value="звук"/>
-<string key="voltage" value="напреж."/>
-</SimStrings>

@@ -1,1 +1,0 @@
-This directory is for Chris Malley's stuff.

@@ -1,1 +1,0 @@
-Added utility function, multiple least-squares solving methods, and collision fitting
