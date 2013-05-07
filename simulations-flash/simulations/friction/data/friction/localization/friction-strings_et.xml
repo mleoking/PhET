@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_et.xml created Thu Dec 03 14:39:41 EET 2009 using: friction 2.00.00 (30671), translation-utility 2.03.00 (36202) Okt 29, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="vea kollased aaatomid \nroheliste juurde"/>
-<string key="physics" value="füüsika"/>
-<string key="reset" value="alusta uuesti"/>
-<string key="simTitle" value="Hõõrdumine"/>
-<string key="chemistry" value="keemia"/>
-</SimStrings>

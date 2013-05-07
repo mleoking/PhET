@@ -1,1 +1,0 @@
-noise.png source=PhET notes=Made by JO

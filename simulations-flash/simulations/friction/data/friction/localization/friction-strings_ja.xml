@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_ja.xml created Fri Feb 01 10:04:55 JST 2013 using: friction 2.03.00 (51676), translation-utility 2.14.00 (69024) 10 10, 2012--><SimStrings>
-<string key="rubYellowAtoms" value="黄色い粒をドラッグして\n緑の粒とこすり合わせる"/>
-<string key="physics" value="楽しい物理"/>
-<string key="reset" value="リセット"/>
-<string key="simTitle" value="摩擦"/>
-<string key="translation.credits" value="高知工科大学"/>
-<string key="chemistry" value="わかる化学"/>
-</SimStrings>

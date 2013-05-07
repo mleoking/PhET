@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_ta.xml created Fri Jan 18 23:42:11 IST 2013 using: ohms-law 2.03.00 (51206), translation-utility 2.14.00 (69024) Oct 10, 2012--><SimStrings>
-<string key="currentEq" value="மின்னோட்டம்"/>
-<string key="resistance" value="தடை"/>
-<string key="simTitle" value="ஓமின் விதி"/>
-<string key="sound" value="ஒலி"/>
-<string key="translation.credits" value="திலீபன் ஸ்டாலின்&#10;www.stemd4schools.com"/>
-<string key="voltage" value="மின்னழுத்தம்"/>
-</SimStrings>

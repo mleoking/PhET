@@ -1,1 +1,0 @@
-commons-collections license=Apache licensefile=LICENSE.txt name=Apache Commons Collections description=Commons-Collections seek to build upon the JDK classes by providing new interfaces, implementations and utilities. copyright=2001-2008 The Apache Software Foundation website=http://commons.apache.org/collections/

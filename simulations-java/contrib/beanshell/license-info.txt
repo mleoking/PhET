@@ -1,1 +1,0 @@
-beanshell license=Sun Public License + GPL/LGPL licensefile=lgpl-3.0.txt name=BeanShell description=Lightweight scripting for Java copyright=http://www.beanshell.org/ website=http://www.beanshell.org/

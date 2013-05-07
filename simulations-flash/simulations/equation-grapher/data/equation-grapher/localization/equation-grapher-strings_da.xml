@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_da.xml created Sat Nov 13 09:28:59 CET 2010 using: equation-grapher 2.01.00 (37298), translation-utility 2.09.00 (44031) sep 14, 2010-->
-<SimStrings>
-<string key="showYEq" value="Vis y ="/>
-<string key="erase" value="Slet"/>
-<string key="save" value="Gem"/>
-<string key="zero" value="Nulstil"/>
-<string key="simTitle" value="Graftegner"/>
-</SimStrings>

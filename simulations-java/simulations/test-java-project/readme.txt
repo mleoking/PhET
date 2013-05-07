@@ -1,1 +1,0 @@
-This is a test project with a few simulations and languages to help us test the build-and-deploy process without manipulating live sims.

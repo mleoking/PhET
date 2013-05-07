@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_eu.xml created Sat Feb 12 00:20:32 CET 2011 using: ohms-law 2.01.00 (37318), translation-utility 2.10.00 (48775) feb 9, 2011-->
-<SimStrings>
-<string key="currentEq" value="Intentsitatea ="/>
-<string key="resistance" value="erresistentzia"/>
-<string key="simTitle" value="Ohm-en legea"/>
-<string key="sound" value="Soinua"/>
-<string key="voltage" value="tentsioa"/>
-</SimStrings>
