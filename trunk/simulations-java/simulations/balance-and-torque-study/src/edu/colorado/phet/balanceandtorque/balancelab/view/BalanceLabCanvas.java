@@ -25,7 +25,7 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
-    private static final int GAME_BUTTON_HIDDEN_TIME = 60; // In seconds.
+    private static final int GAME_BUTTON_HIDDEN_TIME = 2; // In seconds.
 
     protected MassKitSelectionNode fullMassKitSelectionNode;
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
@@ -51,7 +51,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
         // Control the mass kit visibility.
         massKitMode.addObserver( new VoidFunction1<MassKitMode>() {
-            @Override public void apply( MassKitMode massKitMode ) {
+            public void apply( MassKitMode massKitMode ) {
                 fullMassKit.setVisible( massKitMode == MassKitMode.FULL );
                 simpleMassKit.setVisible( massKitMode == MassKitMode.SIMPLE );
             }
@@ -71,7 +71,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         // Add button for moving to the game.
         gameButton = new TextButtonNode( "Game", new PhetFont( 24, true ), Color.CYAN );
         gameButton.addActionListener( new ActionListener() {
-            @Override public void actionPerformed( ActionEvent e ) {
+            public void actionPerformed( ActionEvent e ) {
                 inGame.set( true );
             }
         } );
@@ -79,7 +79,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
         // Set up the timer used to control visibility of the game button.
         gameButtonVizTimer = new Timer( 1000, new ActionListener() {
-            @Override public void actionPerformed( ActionEvent e ) {
+            public void actionPerformed( ActionEvent e ) {
                 gameButtonVizCountdown--;
                 if ( gameButtonVizCountdown <= 0 ) {
                     gameButtonVizTimer.stop();

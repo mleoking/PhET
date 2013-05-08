@@ -52,6 +52,7 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
                 boolean firstTimeGameCanvasShown = true;
                 if ( inGame ) {
                     setSimulationPanel( balanceGameCanvas );
+                    balanceGameModel.startGame();
                 }
                 else {
                     balanceLabCanvas.restartGameButtonVizCountdown();
