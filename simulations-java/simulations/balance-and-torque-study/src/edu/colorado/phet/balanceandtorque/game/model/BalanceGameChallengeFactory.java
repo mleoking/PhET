@@ -57,7 +57,7 @@ public class BalanceGameChallengeFactory {
     private static final Random RAND = new Random();
 
     // Challenges per challenge set.
-    public static final int CHALLENGES_PER_SET = 6;
+    public static final int CHALLENGES_PER_SET = 8;
 
     // Parameters that control how many attempts are made to generate a unique
     // balance challenge.
@@ -231,36 +231,14 @@ public class BalanceGameChallengeFactory {
     public static List<BalanceGameChallenge> generateChallengeSet( int level ) {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
         if ( level == 1 ) {
-            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( SIMPLE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-        }
-        else if ( level == 2 ) {
             balanceChallengeList.add( generateUniqueChallenge( EASY_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( EASY_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-        }
-        else if ( level == 3 ) {
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( EASY_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-        }
-        else if ( level == 4 ) {
             balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( MODERATE_MASS_DEDUCTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_TEST, USED_MASS_DEDUCTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_BALANCE_CHALLENGE_GENERATOR, UNIQUE_MASSES_TEST, USED_BALANCE_CHALLENGES ) );
         }
         else {
             // This level is either out of range or not implemented yet.

@@ -32,7 +32,6 @@ import edu.colorado.phet.balanceandtorque.game.model.TiltPredictionChallenge;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameScoreboardNode;
-import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -95,7 +94,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private final PNode controlLayer = new PNode();
 
     // Game nodes.
-    private PNode gameSettingsNode;
     private PNode gameOverNode = null;
 
     // Nodes for entering and displaying specific mass values.
@@ -137,7 +135,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     /**
      * Constructor for the balance game canvas.
      *
-     * @param model
+     * @param model - Game model.
      */
     public BalanceGameCanvas( final BalanceGameModel model ) {
         this.model = model;
@@ -209,20 +207,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 } );
             }
         } );
-
-        // Create and add the game settings node.
-        VoidFunction0 startFunction = new VoidFunction0() {
-            public void apply() {
-                model.startGame();
-            }
-        };
-        gameSettingsNode = new PSwing( new GameSettingsPanel( model.gameSettings, startFunction, Color.YELLOW ) ) {{
-            scale( 1.5 );
-            setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
-                       DEFAULT_STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
-
-        }};
-        rootNode.addChild( gameSettingsNode );
 
         // Hook up the audio player to the sound settings.
         model.gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
@@ -451,7 +435,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Utility method for hiding all of the game nodes whose visibility changes
     // during the course of a challenge.
     private void hideAllGameNodes() {
-        setNodeVisibility( false, smilingFace, frowningFace, gameSettingsNode, scoreboard, challengeTitleNode, checkAnswerButton, tryAgainButton,
+        setNodeVisibility( false, smilingFace, frowningFace, scoreboard, challengeTitleNode, checkAnswerButton, tryAgainButton,
                            nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tiltPredictionSelectorNode );
     }
 
@@ -465,7 +449,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Show the nodes appropriate to the state
         if ( newState == OBTAINING_GAME_SETUP ) {
-            show( gameSettingsNode );
             hideChallenge();
             if ( gameOverNode != null ) {
                 rootNode.removeChild( gameOverNode );
