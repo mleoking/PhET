@@ -1,8 +1,6 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.balanceandtorque.balancelab.view;
 
-import java.awt.GridLayout;
-
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -14,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.massKitSelector;
 
@@ -43,7 +40,6 @@ public class SimpleMassKitSelectionNode extends KitSelectionNode<PNode> {
                                        new BrickStackCreatorNode( 1, model, mvt, canvas ),
                                        new BrickStackCreatorNode( 2, model, mvt, canvas )
                                )
-
                )
         );
     }
