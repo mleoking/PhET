@@ -20,18 +20,17 @@ import edu.colorado.phet.common.games.GameSimSharing;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.DISTANCE_VALUE_FORMATTER;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.MASS_VALUE_FORMATTER;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
 
 /**
@@ -114,11 +113,17 @@ public class BalanceGameModel {
     // Fulcrum on which the plank pivots
     private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, FULCRUM_HEIGHT );
 
+    // Property that is used to bump the user back to the lab if they submit an
+    // incorrect answer.
+    private final BooleanProperty inGame;
+
+
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
 
-    public BalanceGameModel() {
+    public BalanceGameModel( final BooleanProperty inGame ) {
+        this.inGame = inGame;
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
@@ -251,14 +256,14 @@ public class BalanceGameModel {
         assert getCurrentChallenge() instanceof BalanceMassesChallenge;
 
         // Log a message about the user's proposed answer.
-        List<Double> massDistances = new ArrayList<Double>(  );
-        for ( MassDistancePair massDistancePair : plank.getMassDistancePairs() ){
-            if ( massDistancePair.distance > 0 ){
+        List<Double> massDistances = new ArrayList<Double>();
+        for ( MassDistancePair massDistancePair : plank.getMassDistancePairs() ) {
+            if ( massDistancePair.distance > 0 ) {
                 massDistances.add( massDistancePair.distance );
             }
         }
-        assert( massDistances.size() == 1 ); // Complex challenges with multiple movable masses aren't supported, mod this if they are added.
-        sendProposedAnswerMessage( DISTANCE_VALUE_FORMATTER.format( BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ? massDistances.get( 0 ) * 4 : massDistances.get( 0 )) );
+        assert ( massDistances.size() == 1 ); // Complex challenges with multiple movable masses aren't supported, mod this if they are added.
+        sendProposedAnswerMessage( DISTANCE_VALUE_FORMATTER.format( BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ? massDistances.get( 0 ) * 4 : massDistances.get( 0 ) ) );
 
         // Turn off the column(s) so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
@@ -308,7 +313,7 @@ public class BalanceGameModel {
     }
 
     // Send a sim sharing message that represents the user's proposed answer.
-    private void sendProposedAnswerMessage( String proposedAnswer ){
+    private void sendProposedAnswerMessage( String proposedAnswer ) {
         SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
                                             getCurrentChallenge().getModelComponentType(),
                                             proposedAnswerSubmitted,
@@ -362,14 +367,8 @@ public class BalanceGameModel {
             scoreProperty.set( scoreProperty.get() + pointsEarned );
         }
         else {
-            // The user got it wrong.
-            incorrectGuessesOnCurrentChallenge++;
-            if ( incorrectGuessesOnCurrentChallenge < getCurrentChallenge().maxAttemptsAllowed ) {
-                gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN );
-            }
-            else {
-                gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON );
-            }
+            // The user got it wrong.  Switch back to "lab" mode.
+            inGame.set( false );
         }
 
         // Send up a sim sharing message about the result.
