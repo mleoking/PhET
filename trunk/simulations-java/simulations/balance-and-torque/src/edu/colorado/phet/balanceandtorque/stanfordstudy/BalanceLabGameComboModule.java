@@ -48,7 +48,7 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
 
         // Switch canvas when the mode changes.
         inGame.addObserver( new VoidFunction1<Boolean>() {
-            @Override public void apply( Boolean inGame ) {
+            public void apply( Boolean inGame ) {
                 boolean firstTimeGameCanvasShown = true;
                 if ( inGame ) {
                     setSimulationPanel( balanceGameCanvas );
