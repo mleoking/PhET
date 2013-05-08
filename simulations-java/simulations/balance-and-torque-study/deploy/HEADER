@@ -1,0 +1,24 @@
+<html>
+<p>
+<big><big><b>
+balance-and-torque 1.03.08 (72876) Apr 26, 2013
+</b></big></big>
+<p>
+<b>Launch:</b>
+<p>
+<ul>
+<li>balancing-act-study-spring-2012 : <a href="balancing-act-study-spring-2012_en.jnlp">production</a> : <a href="balancing-act-study-spring-2012_en-dev.jnlp">dev</a> : <a href="balancing-act-study-spring-2012_en-interviews.jnlp">interviews</a></li>
+<li>Balancing Act : <a href="balancing-act_en.jnlp">production</a> : <a href="balancing-act_en-dev.jnlp">dev</a> : <a href="balancing-act_en-interviews.jnlp">interviews</a></li>
+</ul>
+<p>
+<b>What's New:</b>
+<p>
+<ul>
+<li>4/26/13 Publishing version for review with research team
+<li>Added a field to the "challengePresented" sim sharing message that indicates the correct answer to the challenge.
+<li>Added a new sim sharing message that indicates the user's proposed answer to each challenge presented during the game.
+</ul>
+<p>
+<p>
+<a href="changes.txt">Full change log</a>
+</html>

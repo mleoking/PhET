@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="balance-and-torque">
+<simulations>
+<simulation name="balancing-act-study-spring-2012" locale="cs">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="da">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="de">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="el">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="es">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="es_ES">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="es_PE">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="eu">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="fa">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="fi">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="fr">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="gl">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="hu">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="hy">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="in">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="it">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="iw">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="ja">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="km">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="ko">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="mk">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="mr">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="nl">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="pl">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="pt">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="pt_BR">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="ru">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="sk">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="sr">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="sv">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="th">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="tk">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="tr">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="uz">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="vi">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="zh_CN">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="zh_TW">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act-study-spring-2012" locale="en">
+<title><![CDATA[balancing-act-study-spring-2012]]></title>
+</simulation>
+<simulation name="balancing-act" locale="cs">
+<title><![CDATA[Rovnováha]]></title>
+</simulation>
+<simulation name="balancing-act" locale="da">
+<title><![CDATA[Balance akt]]></title>
+</simulation>
+<simulation name="balancing-act" locale="de">
+<title><![CDATA[Balanceakt]]></title>
+</simulation>
+<simulation name="balancing-act" locale="el">
+<title><![CDATA[Ισορροπία ροπών]]></title>
+</simulation>
+<simulation name="balancing-act" locale="es">
+<title><![CDATA[Malabarismo]]></title>
+</simulation>
+<simulation name="balancing-act" locale="es_ES">
+<title><![CDATA[Balancing Act]]></title>
+</simulation>
+<simulation name="balancing-act" locale="es_PE">
+<title><![CDATA[Ley de Equilibrio]]></title>
+</simulation>
+<simulation name="balancing-act" locale="eu">
+<title><![CDATA[Balantza orekatzen]]></title>
+</simulation>
+<simulation name="balancing-act" locale="fa">
+<title><![CDATA[قانون گشتاورها]]></title>
+</simulation>
+<simulation name="balancing-act" locale="fi">
+<title><![CDATA[Tasapainottaminen]]></title>
+</simulation>
+<simulation name="balancing-act" locale="fr">
+<title><![CDATA[Action d'équilibrage]]></title>
+</simulation>
+<simulation name="balancing-act" locale="gl">
+<title><![CDATA[Lei de Equilibrio]]></title>
+</simulation>
+<simulation name="balancing-act" locale="hu">
+<title><![CDATA[Erőegyensúly]]></title>
+</simulation>
+<simulation name="balancing-act" locale="hy">
+<title><![CDATA[Balancing Act]]></title>
+</simulation>
+<simulation name="balancing-act" locale="in">
+<title><![CDATA[Tindakan Menyeimbangkan]]></title>
+</simulation>
+<simulation name="balancing-act" locale="it">
+<title><![CDATA[Leve]]></title>
+</simulation>
+<simulation name="balancing-act" locale="iw">
+<title><![CDATA[פעולת איזון]]></title>
+</simulation>
+<simulation name="balancing-act" locale="ja">
+<title><![CDATA[Balancing Act]]></title>
+</simulation>
+<simulation name="balancing-act" locale="km">
+<title><![CDATA[សកម្មភាពដែលមានតុល្យភាព]]></title>
+</simulation>
+<simulation name="balancing-act" locale="ko">
+<title><![CDATA[균형잡기]]></title>
+</simulation>
+<simulation name="balancing-act" locale="mk">
+<title><![CDATA[Рамнотежа]]></title>
+</simulation>
+<simulation name="balancing-act" locale="mr">
+<title><![CDATA[संतुलिकरण]]></title>
+</simulation>
+<simulation name="balancing-act" locale="nl">
+<title><![CDATA[Balanceer Act]]></title>
+</simulation>
+<simulation name="balancing-act" locale="pl">
+<title><![CDATA[Równowaga]]></title>
+</simulation>
+<simulation name="balancing-act" locale="pt">
+<title><![CDATA[Balancing Act]]></title>
+</simulation>
+<simulation name="balancing-act" locale="pt_BR">
+<title><![CDATA[Balançando]]></title>
+</simulation>
+<simulation name="balancing-act" locale="ru">
+<title><![CDATA[Уравновешивание ]]></title>
+</simulation>
+<simulation name="balancing-act" locale="sk">
+<title><![CDATA[Vyvažovanie]]></title>
+</simulation>
+<simulation name="balancing-act" locale="sr">
+<title><![CDATA[Равнотежа]]></title>
+</simulation>
+<simulation name="balancing-act" locale="sv">
+<title><![CDATA[Balansakt]]></title>
+</simulation>
+<simulation name="balancing-act" locale="th">
+<title><![CDATA[ทำให้สมดุล]]></title>
+</simulation>
+<simulation name="balancing-act" locale="tk">
+<title><![CDATA[Deňagramlyk işi]]></title>
+</simulation>
+<simulation name="balancing-act" locale="tr">
+<title><![CDATA[Denge Hareketi]]></title>
+</simulation>
+<simulation name="balancing-act" locale="uz">
+<title><![CDATA[Действие по балансированию]]></title>
+</simulation>
+<simulation name="balancing-act" locale="vi">
+<title><![CDATA[Cân bằng]]></title>
+</simulation>
+<simulation name="balancing-act" locale="zh_CN">
+<title><![CDATA[平衡探究实验]]></title>
+</simulation>
+<simulation name="balancing-act" locale="zh_TW">
+<title><![CDATA[Balancing Act 平衡動作]]></title>
+</simulation>
+<simulation name="balancing-act" locale="en">
+<title><![CDATA[Balancing Act]]></title>
+</simulation>
+</simulations>
+</project>

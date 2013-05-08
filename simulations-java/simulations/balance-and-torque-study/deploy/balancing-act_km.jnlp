@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- JNLP File for &#6047;&#6016;&#6040;&#6098;&#6040;&#6039;&#6070;&#6038;&#6026;&#6082;&#6043;&#6040;&#6070;&#6035;&#6031;&#6075;&#6043;&#6098;&#6041;&#6039;&#6070;&#6038; -->
+
+<jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/dev/balance-and-torque/1.03.08" href="balancing-act_km.jnlp">
+
+    <information>
+
+        <title>&#6047;&#6016;&#6040;&#6098;&#6040;&#6039;&#6070;&#6038;&#6026;&#6082;&#6043;&#6040;&#6070;&#6035;&#6031;&#6075;&#6043;&#6098;&#6041;&#6039;&#6070;&#6038;</title>
+
+        <vendor>University of Colorado, Department of Physics</vendor>
+
+        <description>The &#6047;&#6016;&#6040;&#6098;&#6040;&#6039;&#6070;&#6038;&#6026;&#6082;&#6043;&#6040;&#6070;&#6035;&#6031;&#6075;&#6043;&#6098;&#6041;&#6039;&#6070;&#6038; Simulation</description>
+
+        <offline-allowed/>
+
+    </information>
+
+    <resources>
+
+        <j2se version="1.4+"/>
+
+        <property name="javaws.phet.locale" value="km" />
+<property name="javaws.user.language" value="km" />
+
+        <jar href="balance-and-torque_all.jar"/>
+
+    </resources>
+
+    
+
+    
+
+    <application-desc main-class="edu.colorado.phet.balanceandtorque.BalancingActApplication">
+
+        
+
+    </application-desc>
+
+</jnlp>
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- JNLP File for &#1602;&#1575;&#1606;&#1608;&#1606; &#1711;&#1588;&#1578;&#1575;&#1608;&#1585;&#1607;&#1575; -->
+
+<jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/dev/balance-and-torque/1.03.08" href="balancing-act_fa.jnlp">
+
+    <information>
+
+        <title>&#1602;&#1575;&#1606;&#1608;&#1606; &#1711;&#1588;&#1578;&#1575;&#1608;&#1585;&#1607;&#1575;</title>
+
+        <vendor>University of Colorado, Department of Physics</vendor>
+
+        <description>The &#1602;&#1575;&#1606;&#1608;&#1606; &#1711;&#1588;&#1578;&#1575;&#1608;&#1585;&#1607;&#1575; Simulation</description>
+
+        <offline-allowed/>
+
+    </information>
+
+    <resources>
+
+        <j2se version="1.4+"/>
+
+        <property name="javaws.phet.locale" value="fa" />
+<property name="javaws.user.language" value="fa" />
+
+        <jar href="balance-and-torque_all.jar"/>
+
+    </resources>
+
+    
+
+    
+
+    <application-desc main-class="edu.colorado.phet.balanceandtorque.BalancingActApplication">
+
+        
+
+    </application-desc>
+
+</jnlp>
+
