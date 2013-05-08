@@ -1,3 +1,5 @@
+# 2.03.11 (72896) May 8, 2013
+5/8/13 Improved height readout.
 # 2.03.10 (72888) May 5, 2013
 5/5/13 Precision on time readout changed to 0.01s.
 # 2.03.09 (61002) Feb 2, 2012
