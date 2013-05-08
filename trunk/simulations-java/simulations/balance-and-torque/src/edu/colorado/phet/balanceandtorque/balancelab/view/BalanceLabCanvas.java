@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
-
 /**
  * Main view class for the "Balance Lab" module.
  *
@@ -36,7 +35,6 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
     public enum MassKitMode {SIMPLE, FULL}
 
-    ;
     public Property<MassKitMode> massKitMode = new Property<MassKitMode>( MassKitMode.SIMPLE );
 
     public BalanceLabCanvas( final BalanceModel model, final BooleanProperty inGame ) {

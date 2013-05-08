@@ -11,6 +11,8 @@ import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Strings.BALANCE_LAB;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.balanceLabTab;
+import static edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas.MassKitMode.FULL;
+import static edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas.MassKitMode.SIMPLE;
 
 /**
  * A module that acts as a combination of the "Balance Lab" and "Balance Game"
@@ -47,12 +49,15 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
         // Switch canvas when the mode changes.
         inGame.addObserver( new VoidFunction1<Boolean>() {
             @Override public void apply( Boolean inGame ) {
+                boolean firstTimeGameCanvasShown = true;
                 if ( inGame ) {
                     setSimulationPanel( balanceGameCanvas );
                 }
                 else {
                     balanceLabCanvas.restartGameButtonVizCountdown();
                     setSimulationPanel( balanceLabCanvas );
+                    balanceLabCanvas.massKitMode.set( firstTimeGameCanvasShown ? SIMPLE : FULL );
+                    firstTimeGameCanvasShown = false;
                 }
             }
         } );
