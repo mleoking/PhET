@@ -1,5 +1,5 @@
-// Copyright 2002-2013, University of Colorado
-package edu.colorado.phet.balanceandtorque.stanfordstudy.model;
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.balanceandtorque.game.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -15,13 +15,6 @@ import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.TiltSupportColumn;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallengeFactory;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceMassesChallenge;
-import edu.colorado.phet.balanceandtorque.game.model.MassDeductionChallenge;
-import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
-import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
-import edu.colorado.phet.balanceandtorque.game.model.TiltPredictionChallenge;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameSimSharing;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -31,29 +24,29 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.DISTANCE_VALUE_FORMATTER;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.MASS_VALUE_FORMATTER;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
 
 /**
- * Main model class for a simplified version of the balance game that only
- * has one level, that that bumps the user back to the previous screen if they
- * miss a question.  This was created explicitly for the Stanford study.
+ * Main model class for the balance game.
  *
  * @author John Blanco
  */
-public class SingleLevelBalanceGameModel {
+public class BalanceGameModel {
 
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
 
     // Constants that define some of the attributes of the game.
-    public static final int MAX_LEVELS = 1;
+    public static final int MAX_LEVELS = 4;
     private static final int MAX_POINTS_PER_PROBLEM = 2;
     private static final int MAX_SCORE_PER_GAME = BalanceGameChallengeFactory.CHALLENGES_PER_SET * MAX_POINTS_PER_PROBLEM;
 
@@ -125,7 +118,7 @@ public class SingleLevelBalanceGameModel {
     // Constructor(s)
     //------------------------------------------------------------------------
 
-    public SingleLevelBalanceGameModel() {
+    public BalanceGameModel() {
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
@@ -258,14 +251,14 @@ public class SingleLevelBalanceGameModel {
         assert getCurrentChallenge() instanceof BalanceMassesChallenge;
 
         // Log a message about the user's proposed answer.
-        List<Double> massDistances = new ArrayList<Double>();
-        for ( MassDistancePair massDistancePair : plank.getMassDistancePairs() ) {
-            if ( massDistancePair.distance > 0 ) {
+        List<Double> massDistances = new ArrayList<Double>(  );
+        for ( MassDistancePair massDistancePair : plank.getMassDistancePairs() ){
+            if ( massDistancePair.distance > 0 ){
                 massDistances.add( massDistancePair.distance );
             }
         }
-        assert ( massDistances.size() == 1 ); // Complex challenges with multiple movable masses aren't supported, mod this if they are added.
-        sendProposedAnswerMessage( DISTANCE_VALUE_FORMATTER.format( BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ? massDistances.get( 0 ) * 4 : massDistances.get( 0 ) ) );
+        assert( massDistances.size() == 1 ); // Complex challenges with multiple movable masses aren't supported, mod this if they are added.
+        sendProposedAnswerMessage( DISTANCE_VALUE_FORMATTER.format( BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ? massDistances.get( 0 ) * 4 : massDistances.get( 0 )) );
 
         // Turn off the column(s) so that the plank can move.
         supportColumnState.set( ColumnState.NONE );
@@ -315,7 +308,7 @@ public class SingleLevelBalanceGameModel {
     }
 
     // Send a sim sharing message that represents the user's proposed answer.
-    private void sendProposedAnswerMessage( String proposedAnswer ) {
+    private void sendProposedAnswerMessage( String proposedAnswer ){
         SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
                                             getCurrentChallenge().getModelComponentType(),
                                             proposedAnswerSubmitted,
