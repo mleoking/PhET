@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
@@ -64,7 +63,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         gameButtonVizTimer = new Timer( 1000, new ActionListener() {
             @Override public void actionPerformed( ActionEvent e ) {
                 gameButtonVizCountdown--;
-                if ( gameButtonVizCountdown <= 0 ){
+                if ( gameButtonVizCountdown <= 0 ) {
                     gameButtonVizTimer.stop();
                     gameButton.setVisible( true );
                 }
@@ -72,7 +71,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         } );
     }
 
-    public void restartGameButtonVizCountdown(){
+    public void restartGameButtonVizCountdown() {
         gameButton.setVisible( false );
         gameButtonVizTimer.restart();
     }
