@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Timer;
+
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -24,7 +26,12 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
+    private static final int GAME_BUTTON_HIDDEN_TIME = 60; // In seconds.
+
     protected MassKitSelectionNode massKitSelectionNode;
+    private int gameButtonVizCountdown = GAME_BUTTON_HIDDEN_TIME;
+    private final Timer gameButtonVizTimer;
+    private final TextButtonNode gameButton;
 
     public BalanceLabCanvas( final BalanceModel model, final BooleanProperty inGame ) {
         super( model );
@@ -45,13 +52,29 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
                                 massKit.getFullBoundsReference().getMinY() - controlPanel.getFullBoundsReference().height - 10 );
 
         // Add button for moving to the game.
-        TextButtonNode gameButton = new TextButtonNode( "Game", new PhetFont( 24, true ), Color.CYAN );
+        gameButton = new TextButtonNode( "Game", new PhetFont( 24, true ), Color.CYAN );
         gameButton.addActionListener( new ActionListener() {
             @Override public void actionPerformed( ActionEvent e ) {
                 inGame.set( true );
             }
         } );
         nonMassLayer.addChild( gameButton );
+
+        // Set up the timer used to control visibility of the game button.
+        gameButtonVizTimer = new Timer( 1000, new ActionListener() {
+            @Override public void actionPerformed( ActionEvent e ) {
+                gameButtonVizCountdown--;
+                if ( gameButtonVizCountdown <= 0 ){
+                    gameButtonVizTimer.stop();
+                    gameButton.setVisible( true );
+                }
+            }
+        } );
+    }
+
+    public void restartGameButtonVizCountdown(){
+        gameButton.setVisible( false );
+        gameButtonVizTimer.restart();
     }
 
     @Override public void reset() {
