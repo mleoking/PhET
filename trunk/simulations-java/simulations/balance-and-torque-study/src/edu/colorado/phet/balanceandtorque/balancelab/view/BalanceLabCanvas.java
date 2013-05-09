@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
@@ -29,11 +28,11 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
-    private static final int GAME_BUTTON_HIDDEN_TIME = 2; // In seconds.
+    private static final int CHALLENGE_UNAVAILABLE_TIME = 2; // In seconds.
 
     protected MassKitSelectionNode fullMassKitSelectionNode;
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
-    private int gameButtonVizCountdown = GAME_BUTTON_HIDDEN_TIME;
+    private Property<Integer> gameButtonVizCountdown = new Property<Integer>( CHALLENGE_UNAVAILABLE_TIME );
     private final Timer gameButtonVizTimer;
     private final HTMLImageButtonNode gameButton;
 
@@ -83,7 +82,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
                                  controlPanel.getFullBoundsReference().getMaxY() + 20 );
 
         // Add button for moving to the game.
-        gameButton = new HTMLImageButtonNode( "<center>Begin<br>Challenge</center>", new PhetFont(24, true), Color.CYAN );
+        gameButton = new HTMLImageButtonNode( "<center>Begin<br>Challenge</center>", new PhetFont( 24, false ), Color.CYAN );
         gameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 inGame.set( true );
@@ -91,21 +90,34 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         } );
         nonMassLayer.addChild( gameButton );
 
+        // Add the countdown display.
+        final PNode countdownDisplay = new MinSecNode( gameButtonVizCountdown );
+        nonMassLayer.addChild( countdownDisplay );
+
         // Set up the timer used to control visibility of the game button.
         gameButtonVizTimer = new Timer( 1000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                gameButtonVizCountdown--;
-                if ( gameButtonVizCountdown <= 0 ) {
+                gameButtonVizCountdown.set( gameButtonVizCountdown.get() - 1 );
+                if ( gameButtonVizCountdown.get() <= 0 ) {
                     gameButtonVizTimer.stop();
-                    gameButton.setVisible( true );
                 }
+            }
+        } );
+
+        // Listen to the countdown and set various states and visibility.
+        gameButtonVizCountdown.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer seconds ) {
+                countdownDisplay.centerFullBoundsOnPoint( gameButton.getCenterX(), gameButton.getCenterY() );
+                countdownDisplay.setVisible( seconds > 0 );
+                gameButton.setEnabled( seconds <= 0 );
+                gameButton.setTransparency( seconds <= 0 ? 1.0f : 0.5f );
             }
         } );
     }
 
     public void restartGameButtonVizCountdown() {
-        gameButton.setVisible( false );
         gameButtonVizTimer.restart();
+        gameButtonVizCountdown.set( CHALLENGE_UNAVAILABLE_TIME );
     }
 
     @Override public void reset() {
