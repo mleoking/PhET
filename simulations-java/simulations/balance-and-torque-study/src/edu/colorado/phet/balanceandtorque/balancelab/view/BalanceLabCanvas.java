@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -34,7 +35,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
     private int gameButtonVizCountdown = GAME_BUTTON_HIDDEN_TIME;
     private final Timer gameButtonVizTimer;
-    private final TextButtonNode gameButton;
+    private final HTMLImageButtonNode gameButton;
 
     public enum MassKitMode {SIMPLE, FULL}
 
@@ -45,14 +46,13 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
         // Add node which will intercept mouse events when the plank is moving.
         final PNode interceptorNode = new PhetPPath( new Rectangle2D.Double( 0, 0, DEFAULT_STAGE_SIZE.getWidth(), DEFAULT_STAGE_SIZE.getHeight() ),
-                                                     new Color( 200, 200, 200, 20 ) );
+                                                     new Color( 200, 200, 200, 4 ) );
         addWorldChild( interceptorNode );
         model.getPlank().isStill.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean isStill ) {
                 interceptorNode.setVisible( !isStill );
             }
         } );
-
 
         // Add the mass kits, which is the place where the user will get the
         // objects that can be placed on the balance.
@@ -83,7 +83,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
                                  controlPanel.getFullBoundsReference().getMaxY() + 20 );
 
         // Add button for moving to the game.
-        gameButton = new TextButtonNode( "Game", new PhetFont( 24, true ), Color.CYAN );
+        gameButton = new HTMLImageButtonNode( "<center>Begin<br>Challenge</center>", new PhetFont(24, true), Color.CYAN );
         gameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 inGame.set( true );
