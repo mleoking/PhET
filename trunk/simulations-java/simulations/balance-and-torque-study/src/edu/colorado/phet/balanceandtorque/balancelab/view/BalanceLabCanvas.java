@@ -28,7 +28,7 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
-    private static final int CHALLENGE_UNAVAILABLE_TIME = 10; // In seconds.
+    private static final int CHALLENGE_UNAVAILABLE_TIME = 60; // In seconds.
 
     protected MassKitSelectionNode fullMassKitSelectionNode;
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
@@ -42,16 +42,6 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
     public BalanceLabCanvas( final BalanceModel model, final BooleanProperty inGame ) {
         super( model );
-
-        // Add node which will intercept mouse events when the plank is moving.
-        final PNode interceptorNode = new PhetPPath( new Rectangle2D.Double( 0, 0, DEFAULT_STAGE_SIZE.getWidth(), DEFAULT_STAGE_SIZE.getHeight() ),
-                                                     new Color( 200, 200, 200, 4 ) );
-        addWorldChild( interceptorNode );
-        model.getPlank().isStill.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean isStill ) {
-                interceptorNode.setVisible( !isStill );
-            }
-        } );
 
         // Add the mass kits, which is the place where the user will get the
         // objects that can be placed on the balance.
