@@ -28,7 +28,7 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
-    private static final int CHALLENGE_UNAVAILABLE_TIME = 2; // In seconds.
+    private static final int CHALLENGE_UNAVAILABLE_TIME = 10; // In seconds.
 
     protected MassKitSelectionNode fullMassKitSelectionNode;
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
@@ -89,6 +89,8 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
             }
         } );
         nonMassLayer.addChild( gameButton );
+        gameButton.setOffset( controlPanel.getFullBoundsReference().getMinX() - gameButton.getFullBoundsReference().width - 20,
+                              controlPanel.getFullBoundsReference().getY() );
 
         // Add the countdown display.
         final PNode countdownDisplay = new MinSecNode( gameButtonVizCountdown );
