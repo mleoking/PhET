@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Basic model for depicting masses on a balance, used as a base class for
@@ -63,6 +64,16 @@ public abstract class BalanceModel implements Resettable {
     // Bar that attaches the fulcrum to the pivot point.
     private final AttachmentBar attachmentBar = new AttachmentBar( plank );
 
+    // Observer that turns on column support whenever a mass is user controlled.  Added for Stanford study.
+    private VoidFunction1<Boolean> columnReEnabler = new VoidFunction1<Boolean>() {
+        public void apply( Boolean userControlled ) {
+            if ( userControlled ){
+                columnState.set( ColumnState.DOUBLE_COLUMNS );
+            }
+        }
+    };
+
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -98,6 +109,7 @@ public abstract class BalanceModel implements Resettable {
      */
     public void addMass( final Mass mass ) {
         massList.add( mass );
+        mass.userControlled.addObserver( columnReEnabler );
     }
 
     /**
@@ -107,6 +119,7 @@ public abstract class BalanceModel implements Resettable {
      */
     protected void removeMass( final Mass mass ) {
         massList.remove( mass );
+        mass.userControlled.removeObserver( columnReEnabler );
     }
 
     /**
