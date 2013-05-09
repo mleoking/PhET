@@ -1,10 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.balancelab.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.Timer;
 
@@ -13,11 +14,13 @@ import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -82,6 +85,8 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         gameButton.setOffset( controlPanel.getFullBoundsReference().getMinX() - gameButton.getFullBoundsReference().width - 20,
                               controlPanel.getFullBoundsReference().getY() );
 
+        addWorldChild( new StarNode( 50, 100, Color.BLUE ){{ setOffset( 100, 100 );}} );
+
         // Add the countdown display.
         final PNode countdownDisplay = new MinSecNode( gameButtonVizCountdown );
         nonMassLayer.addChild( countdownDisplay );
@@ -115,5 +120,24 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
     @Override public void reset() {
         super.reset();
         fullMassKitSelectionNode.reset();
+    }
+
+    private static class StarNode extends PhetPPath {
+        private static final Stroke STROKE = new BasicStroke( 2 );
+        private static final int NUM_POINTS = 5;
+
+        private StarNode( double innerRadius, double outerRadius, Color initialColor ) {
+            super( initialColor, STROKE, Color.BLACK);
+            DoubleGeneralPath starPath = new DoubleGeneralPath();
+            double angle = 0;
+            starPath.moveTo( Math.cos( angle ) * outerRadius, Math.sin( angle ) * outerRadius );
+            for ( int i = 0; i < NUM_POINTS * 2; i++ ) {
+                angle += Math.PI / NUM_POINTS;
+                double length = i % 2 == 0 ? innerRadius : outerRadius;
+                starPath.lineTo( Math.cos( angle ) * length, Math.sin( angle ) * length );
+            }
+            starPath.closePath();
+            setPathTo( starPath.getGeneralPath() );
+        }
     }
 }
