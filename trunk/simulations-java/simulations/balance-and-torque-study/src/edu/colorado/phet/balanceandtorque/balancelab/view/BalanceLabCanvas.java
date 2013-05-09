@@ -4,6 +4,7 @@ package edu.colorado.phet.balanceandtorque.balancelab.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.Timer;
 
@@ -14,7 +15,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -39,6 +42,17 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
     public BalanceLabCanvas( final BalanceModel model, final BooleanProperty inGame ) {
         super( model );
+
+        // Add node which will intercept mouse events when the plank is moving.
+        final PNode interceptorNode = new PhetPPath( new Rectangle2D.Double( 0, 0, DEFAULT_STAGE_SIZE.getWidth(), DEFAULT_STAGE_SIZE.getHeight() ),
+                                                     new Color( 200, 200, 200, 20 ) );
+        addWorldChild( interceptorNode );
+        model.getPlank().isStill.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean isStill ) {
+                interceptorNode.setVisible( !isStill );
+            }
+        } );
+
 
         // Add the mass kits, which is the place where the user will get the
         // objects that can be placed on the balance.

@@ -115,7 +115,7 @@ public class Plank extends ShapeModelElement {
 
     // Boolean that tracks whether the plank is still (i.e. perfectly balanced
     // or prevented from tipping by supports or the ground).
-    private boolean isStill = true;
+    public final BooleanProperty isStill = new BooleanProperty( true );
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -474,7 +474,7 @@ public class Plank extends ShapeModelElement {
             angularAcceleration = currentNetTorque / MOMENT_OF_INERTIA;
             angularAcceleration = Math.abs( angularAcceleration ) > 0.00001 ? angularAcceleration : 0;
             angularVelocity += angularAcceleration;
-            angularVelocity = Math.abs( angularVelocity ) > 0.00001 ? angularVelocity : 0;
+            angularVelocity = Math.abs( angularVelocity ) > 0.0001 ? angularVelocity : 0;
 
             // Update the angle of the plank's tilt based on the angular velocity.
             double previousTiltAngle = tiltAngle;
@@ -491,19 +491,19 @@ public class Plank extends ShapeModelElement {
             }
 
             // If the plank just started or stopped tipping, send a message.
-            if ( angularVelocity != 0 && isStill ) {
+            if ( angularVelocity != 0 && isStill.get() ) {
                 SimSharingManager.sendModelMessage( plank,
                                                     modelElement,
                                                     startedTilting,
                                                     new ParameterSet( new Parameter( ParameterKeys.plankTiltAngle, previousTiltAngle ) ) );
-                isStill = false;
+                isStill.set( false );
             }
-            else if ( angularVelocity == 0 && !isStill ) {
+            else if ( angularVelocity == 0 && !isStill.get() ) {
                 SimSharingManager.sendModelMessage( plank,
                                                     modelElement,
                                                     stoppedTilting,
                                                     new ParameterSet( new Parameter( ParameterKeys.plankTiltAngle, previousTiltAngle ) ) );
-                isStill = true;
+                isStill.set( true );
             }
 
             // Update the shape of the plank and the positions of the masses on
