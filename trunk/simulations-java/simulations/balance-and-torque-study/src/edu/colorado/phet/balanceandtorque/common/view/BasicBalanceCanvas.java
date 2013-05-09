@@ -203,8 +203,9 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
             }} );
             addChild( new PropertyCheckBoxNode( massLabelsCheckBox, MASS_LABELS, massLabelVisibilityProperty ) );
             addChild( new PropertyCheckBoxNode( rulersCheckBox, RULERS, distancesVisibleProperty ) );
-            addChild( new PropertyCheckBoxNode( forceFromObjectsCheckBox, FORCES_FROM_OBJECTS, forceVectorsFromObjectsVisibleProperty ) );
-            addChild( new PropertyCheckBoxNode( levelCheckBox, LEVEL, levelIndicatorVisibleProperty ) );
+            // Forces and level removed for Stanford study.
+//            addChild( new PropertyCheckBoxNode( forceFromObjectsCheckBox, FORCES_FROM_OBJECTS, forceVectorsFromObjectsVisibleProperty ) );
+//            addChild( new PropertyCheckBoxNode( levelCheckBox, LEVEL, levelIndicatorVisibleProperty ) );
         }} );
         controlPanel.setOffset( DEFAULT_STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width - 20, 100 );
         nonMassLayer.addChild( controlPanel );
