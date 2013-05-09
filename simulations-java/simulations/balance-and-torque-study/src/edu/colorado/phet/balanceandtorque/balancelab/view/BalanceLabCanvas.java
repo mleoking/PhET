@@ -18,9 +18,9 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -85,7 +85,19 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         gameButton.setOffset( controlPanel.getFullBoundsReference().getMinX() - gameButton.getFullBoundsReference().width - 20,
                               controlPanel.getFullBoundsReference().getY() );
 
-        addWorldChild( new StarNode( 50, 100, Color.BLUE ){{ setOffset( 100, 100 );}} );
+        // Add the star-shaped button that the user will use to move to the
+        // challenge.
+        PNode starNode = new StarNode( 60, 90, Color.BLUE );
+        starNode.setOffset( 100, 100 );
+        starNode.addChild( new HTMLNode( "<center>Begin<br>Challenge</center>", Color.WHITE, new PhetFont( 20, true ) ) {{
+            setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
+        }} );
+
+        addWorldChild( starNode );
+
+        // Add the explanatory text about moving to the challenge.
+
+
 
         // Add the countdown display.
         final PNode countdownDisplay = new MinSecNode( gameButtonVizCountdown );
@@ -123,13 +135,13 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
     }
 
     private static class StarNode extends PhetPPath {
-        private static final Stroke STROKE = new BasicStroke( 2 );
+        private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         private static final int NUM_POINTS = 5;
 
         private StarNode( double innerRadius, double outerRadius, Color initialColor ) {
-            super( initialColor, STROKE, Color.BLACK);
+            super( initialColor, STROKE, Color.BLACK );
             DoubleGeneralPath starPath = new DoubleGeneralPath();
-            double angle = 0;
+            double angle = -Math.PI / 2;
             starPath.moveTo( Math.cos( angle ) * outerRadius, Math.sin( angle ) * outerRadius );
             for ( int i = 0; i < NUM_POINTS * 2; i++ ) {
                 angle += Math.PI / NUM_POINTS;
