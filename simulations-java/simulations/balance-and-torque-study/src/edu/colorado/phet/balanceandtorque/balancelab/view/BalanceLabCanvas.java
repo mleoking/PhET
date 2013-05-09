@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -31,12 +32,12 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
-    private static final int CHALLENGE_UNAVAILABLE_TIME = 60; // In seconds.
+    private static final int CHALLENGE_UNAVAILABLE_TIME = 5; // In seconds.
 
     protected MassKitSelectionNode fullMassKitSelectionNode;
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
-    private Property<Integer> gameButtonVizCountdown = new Property<Integer>( CHALLENGE_UNAVAILABLE_TIME );
-    private final Timer gameButtonVizTimer;
+    private Property<Integer> challengeAllowedCountdown = new Property<Integer>( CHALLENGE_UNAVAILABLE_TIME );
+    private final Timer challengeAllowedTimer;
     private final HTMLImageButtonNode gameButton;
 
     public enum MassKitMode {SIMPLE, FULL}
@@ -87,41 +88,42 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
         // Add the star-shaped button that the user will use to move to the
         // challenge.
-        PNode starNode = new StarNode( 48, 80, Color.BLUE );
-        starNode.setOffset( 100, 100 );
-        starNode.addChild( new HTMLNode( "<center>Begin<br>Challenge</center>", Color.WHITE, new PhetFont( 16, true ) ) {{
+        final StarButton starButton = new StarButton( 48, 80, false );
+        starButton.setOffset( 100, 100 );
+        starButton.addChild( new HTMLNode( "<center>Begin<br>Challenge</center>", Color.WHITE, new PhetFont( 16, true ) ) {{
             setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 - 4 );
         }} );
-
-        addWorldChild( starNode );
+        nonMassLayer.addChild( starButton );
 
         // Add the explanatory text about moving to the challenge.
-        PNode explanationText = new HTMLNode( "The challenge <br> is open, but <br> you can still <br> explore if you <br> want.",
+        final PNode explanationText = new HTMLNode( "The challenge <br> is open, but <br> you can still <br> explore if you <br> want.",
                                               Color.BLACK,
                                               new PhetFont( 16, false ));
-        explanationText.setOffset( starNode.getFullBoundsReference().getCenterX() - explanationText.getFullBoundsReference().width / 2,
-                                   starNode.getFullBoundsReference().getMaxY() + 5 );
-        addWorldChild( explanationText );
+        explanationText.setOffset( starButton.getFullBoundsReference().getCenterX() - explanationText.getFullBoundsReference().width / 2,
+                                   starButton.getFullBoundsReference().getMaxY() + 5 );
+        nonMassLayer.addChild( explanationText );
 
         // Add the countdown display.
-        final PNode countdownDisplay = new MinSecNode( gameButtonVizCountdown );
+        final PNode countdownDisplay = new MinSecNode( challengeAllowedCountdown );
         nonMassLayer.addChild( countdownDisplay );
 
         // Set up the timer used to control visibility of the game button.
-        gameButtonVizTimer = new Timer( 1000, new ActionListener() {
+        challengeAllowedTimer = new Timer( 1000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                gameButtonVizCountdown.set( gameButtonVizCountdown.get() - 1 );
-                if ( gameButtonVizCountdown.get() <= 0 ) {
-                    gameButtonVizTimer.stop();
+                challengeAllowedCountdown.set( challengeAllowedCountdown.get() - 1 );
+                if ( challengeAllowedCountdown.get() <= 0 ) {
+                    challengeAllowedTimer.stop();
                 }
             }
         } );
 
         // Listen to the countdown and set various states and visibility.
-        gameButtonVizCountdown.addObserver( new VoidFunction1<Integer>() {
+        challengeAllowedCountdown.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer seconds ) {
-                countdownDisplay.centerFullBoundsOnPoint( gameButton.getCenterX(), gameButton.getCenterY() );
+                countdownDisplay.centerFullBoundsOnPoint( starButton.getFullBoundsReference().getCenterX(), starButton.getFullBoundsReference().getCenterY() );
                 countdownDisplay.setVisible( seconds > 0 );
+                starButton.setEnabled( seconds <= 0 );
+                explanationText.setVisible( seconds <= 0 );
                 gameButton.setEnabled( seconds <= 0 );
                 gameButton.setTransparency( seconds <= 0 ? 1.0f : 0.5f );
             }
@@ -129,8 +131,8 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
     }
 
     public void restartGameButtonVizCountdown() {
-        gameButtonVizTimer.restart();
-        gameButtonVizCountdown.set( CHALLENGE_UNAVAILABLE_TIME );
+        challengeAllowedTimer.restart();
+        challengeAllowedCountdown.set( CHALLENGE_UNAVAILABLE_TIME );
     }
 
     @Override public void reset() {
@@ -138,12 +140,19 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         fullMassKitSelectionNode.reset();
     }
 
-    private static class StarNode extends PhetPPath {
+    private static class StarButton extends PhetPPath {
         private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        private static final Color ENABLED_STROKE_COLOR = Color.BLACK;
+        private static final Color DISABLED_STROKE_COLOR = Color.LIGHT_GRAY;
+        private static final Color ENABLED_FILL_COLOR = Color.BLUE;
+        private static final Color DISABLED_FILL_COLOR = Color.LIGHT_GRAY;
+        private static final float DISABLED_OPACITY = 0.5f;
         private static final int NUM_POINTS = 5;
 
-        private StarNode( double innerRadius, double outerRadius, Color initialColor ) {
-            super( initialColor, STROKE, Color.BLACK );
+        private CursorHandler myCursorHandler = new CursorHandler();
+
+        private StarButton( double innerRadius, double outerRadius, boolean initialEnabledState ) {
+            super( ENABLED_FILL_COLOR, STROKE, Color.BLACK );
             DoubleGeneralPath starPath = new DoubleGeneralPath();
             double angle = -Math.PI / 2;
             starPath.moveTo( Math.cos( angle ) * outerRadius, Math.sin( angle ) * outerRadius );
@@ -154,6 +163,19 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
             }
             starPath.closePath();
             setPathTo( starPath.getGeneralPath() );
+            setEnabled( initialEnabledState );
+        }
+
+        private void setEnabled( boolean enabled ){
+            setStrokePaint( enabled ? ENABLED_STROKE_COLOR : DISABLED_STROKE_COLOR );
+            setPaint( enabled ? ENABLED_FILL_COLOR : DISABLED_FILL_COLOR );
+            setTransparency( enabled ? 1.0f : DISABLED_OPACITY );
+            if ( enabled ){
+                addInputEventListener( myCursorHandler );
+            }
+            else{
+                removeInputEventListener( myCursorHandler );
+            }
         }
     }
 }
