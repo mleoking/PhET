@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MinSecNode extends PNode {
 
-    private Font FONT = new PhetFont( 70, true );
+    private Font FONT = new PhetFont( 65, true );
     private Format SECONDS_FORMATTER = new DefaultDecimalFormat( "00" );
 
     public MinSecNode( Property<Integer> seconds ) {
