@@ -87,17 +87,21 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
         // Add the star-shaped button that the user will use to move to the
         // challenge.
-        PNode starNode = new StarNode( 60, 90, Color.BLUE );
+        PNode starNode = new StarNode( 48, 80, Color.BLUE );
         starNode.setOffset( 100, 100 );
-        starNode.addChild( new HTMLNode( "<center>Begin<br>Challenge</center>", Color.WHITE, new PhetFont( 20, true ) ) {{
-            setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
+        starNode.addChild( new HTMLNode( "<center>Begin<br>Challenge</center>", Color.WHITE, new PhetFont( 16, true ) ) {{
+            setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 - 4 );
         }} );
 
         addWorldChild( starNode );
 
         // Add the explanatory text about moving to the challenge.
-
-
+        PNode explanationText = new HTMLNode( "The challenge <br> is open, but <br> you can still <br> explore if you <br> want.",
+                                              Color.BLACK,
+                                              new PhetFont( 16, false ));
+        explanationText.setOffset( starNode.getFullBoundsReference().getCenterX() - explanationText.getFullBoundsReference().width / 2,
+                                   starNode.getFullBoundsReference().getMaxY() + 5 );
+        addWorldChild( explanationText );
 
         // Add the countdown display.
         final PNode countdownDisplay = new MinSecNode( gameButtonVizCountdown );
