@@ -1,0 +1,56 @@
+PhET Progress Report, J. Blanco, 5-9-2013
+
+PhET Weekly Progress Report
+John Blanco
+May 9th, 2013
+
+Time period covered: May 2nd through May 8th.
+
+Balancing Act: Changes for Stanford study - 16.0 hrs
+
+o	Various discussions with and support of the Stanford group.
+o	Worked with Sam R on getting data logging working again.
+o	Made several attempts to branch BA sim for Stanford study, ultimately resorted to a full copy.
+o	Implement feature where only one tab shown, a button allows switch to 2nd tab (game) click anywhere switches back (proof of concept)
+o	Added countdown timer before challenge is available.
+o	Added feature where user is bumped back into the Balance Lab when a challenge question is missed.
+o	Added feature where user is bumped back into the Balance Lab when a challenge question is missed.
+o	Made the mass kits be greatly reduced the first time the user sees it.
+o	Removed mystery masses from the mass kits.
+o	Added feature where user can't grab masses when plank is moving.
+
+Build an Atom (HTML5 version) - 2.0 hrs
+
+o	Discussed in weekly design meeting.
+o	Started implementation of periodic table node.
+
+Ohm's Law (HTML5 version) - 2.0 hrs
+
+o	Posted version for review, solicited input from team.
+o	Worked on i18n issue (with Sam R).
+o	Reopened issues that weren't acceptably resolved.
+o	Reviewed with Mike D.
+
+Resistance in a Wire (HTML5 version) - 1.0 hrs
+
+o	Posted version for review, solicited input from team.
+o	Reopened issues that weren't acceptably resolved.
+o	Reviewed with Mike D.
+
+John Travoltage (HTML5 version) - 0.5 hrs
+
+o	Gave go-ahead to Dmitry to start on this.
+
+HTML5 Startup: Process Development - 1.5 hrs
+
+o	Weekly developer meeting and collaboration.
+o	i18n discussion.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 13 hrs
+
