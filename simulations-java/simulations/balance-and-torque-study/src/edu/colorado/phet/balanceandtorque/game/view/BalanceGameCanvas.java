@@ -141,7 +141,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
      *
      * @param model - Game model.
      */
-    public BalanceGameCanvas( final BalanceGameModel model ) {
+    public BalanceGameCanvas( final BalanceGameModel model, final BooleanProperty inGame ) {
         this.model = model;
 
         // Set up the canvas-screen transform.
@@ -355,7 +355,11 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add the nodes that will send the user back to the lab if they get
         // the wrong answer.
         backToLabLayer.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, DEFAULT_STAGE_SIZE.getWidth(), DEFAULT_STAGE_SIZE.getHeight() ), new Color( 150, 150, 150, 100 ) ) );
-        backToLabLayer.addChild( new ReturnToLabDialog(){{
+        backToLabLayer.addChild( new ReturnToLabDialog( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                inGame.set( false );
+            }
+        } ){{
             centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() / 2 );
         }} );
 

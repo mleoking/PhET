@@ -43,7 +43,7 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
         setSimulationPanel( balanceLabCanvas );
         balanceGameModel = new BalanceGameModel();
         balanceGameModel.getClock().start(); // This is needed since it won't be started by the framework.
-        balanceGameCanvas = new BalanceGameCanvas( this.balanceGameModel );
+        balanceGameCanvas = new BalanceGameCanvas( this.balanceGameModel, inGame );
         setClockControlPanel( null );
 
         // Switch canvas when the mode changes.
