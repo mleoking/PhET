@@ -113,10 +113,6 @@ public class BalanceGameModel {
     // Fulcrum on which the plank pivots
     private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, FULCRUM_HEIGHT );
 
-    // Property that is used to bump the user back to the lab if they submit an
-    // incorrect answer.
-    private final BooleanProperty inGame;
-
     // Externally visible property that tracks the number of correct answers
     // submitted by the user.
     public Property<Integer> correctAnswers = new Property<Integer>( 0 );
@@ -126,8 +122,7 @@ public class BalanceGameModel {
     // Constructor(s)
     //------------------------------------------------------------------------
 
-    public BalanceGameModel( final BooleanProperty inGame ) {
-        this.inGame = inGame;
+    public BalanceGameModel() {
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
@@ -372,8 +367,8 @@ public class BalanceGameModel {
             scoreProperty.set( scoreProperty.get() + pointsEarned );
         }
         else {
-            // The user got it wrong.  Switch back to "lab" mode.
-            inGame.set( false );
+            // The user got it wrong.  No second chance for the Stanford study.
+            gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON );
         }
 
         // Send up a sim sharing message about the result.

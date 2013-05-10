@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
@@ -32,11 +33,7 @@ import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
 import edu.colorado.phet.balanceandtorque.game.model.TiltPredictionChallenge;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameOverNode;
-import edu.colorado.phet.common.games.GameScoreboardNode;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -46,6 +43,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.OutlineTextNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
@@ -93,6 +91,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private PNode rootNode;
     private final PNode challengeLayer = new PNode();
     private final PNode controlLayer = new PNode();
+    private final PNode backToLabLayer = new PNode();
 
     // Game nodes.
     private PNode gameOverNode = null;
@@ -129,6 +128,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     private ModelViewTransform mvt;
 
+    // Property that is used to bump the user back to the lab if they submit an
+    // incorrect answer.
+//    private final BooleanProperty inGame;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -163,6 +166,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add the layers.
         rootNode.addChild( controlLayer );
         rootNode.addChild( challengeLayer );
+        rootNode.addChild( backToLabLayer );
 
         // Add the fulcrum, the columns, etc.
         challengeLayer.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
@@ -348,6 +352,13 @@ public class BalanceGameCanvas extends PhetPCanvas {
             }
         } );
 
+        // Add the nodes that will send the user back to the lab if they get
+        // the wrong answer.
+        backToLabLayer.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, DEFAULT_STAGE_SIZE.getWidth(), DEFAULT_STAGE_SIZE.getHeight() ), new Color( 150, 150, 150, 100 ) ) );
+        backToLabLayer.addChild( new ReturnToLabDialog(){{
+            centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() / 2 );
+        }} );
+
         // Register for changes to the game state and update accordingly.
         model.gameStateProperty.addObserver( new VoidFunction1<BalanceGameModel.GameState>() {
             public void apply( BalanceGameModel.GameState gameState ) {
@@ -402,7 +413,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // during the course of a challenge.
     private void hideAllGameNodes() {
         setNodeVisibility( false, smilingFace, frowningFace, statusNode, challengeTitleNode, checkAnswerButton, tryAgainButton,
-                           nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tiltPredictionSelectorNode );
+                           nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tiltPredictionSelectorNode,
+                           backToLabLayer );
     }
 
     // When the game state changes, update the view with the appropriate
@@ -451,12 +463,14 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN ) {
             GAME_AUDIO_PLAYER.wrongAnswer();
-            show( statusNode, tryAgainButton, frowningFace );
+            show( statusNode, frowningFace );
             showChallengeGraphics();
+
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON ) {
             GAME_AUDIO_PLAYER.wrongAnswer();
-            show( statusNode, displayCorrectAnswerButton, frowningFace );
+            show( backToLabLayer );
+//            show( statusNode, displayCorrectAnswerButton, frowningFace );
             showChallengeGraphics();
         }
         else if ( newState == DISPLAYING_CORRECT_ANSWER ) {
