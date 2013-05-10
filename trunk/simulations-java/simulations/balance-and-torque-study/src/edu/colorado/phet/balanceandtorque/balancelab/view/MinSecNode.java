@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -23,25 +24,22 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MinSecNode extends PNode {
 
-    private static final Font FONT = new PhetFont( 60, true );
+    private static final Font FONT = new PhetFont( 50, true );
     private static final Format SECONDS_FORMATTER = new DefaultDecimalFormat( "00" );
     private static final Color COLOR = Color.YELLOW;
-    private static final Dimension2D SIZE = new PDimension( 150, 80 );
 
     public MinSecNode( Property<Integer> seconds ) {
-        final PNode enclosingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE.getWidth(), SIZE.getHeight() ),
-                                            new BasicStroke(1),
-                                            COLOR );
+        final PPath enclosingBox = new PhetPPath( new BasicStroke( 1 ), COLOR );
         addChild( enclosingBox );
-
         seconds.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer secondsValue ) {
                 int minutes = secondsValue / 60;
                 int seconds = secondsValue - ( minutes * 60 );
-                enclosingBox.removeAllChildren();
                 PNode readoutText = new PhetPText( minutes + ":" + SECONDS_FORMATTER.format( seconds ), FONT, COLOR );
-
-                readoutText.centerFullBoundsOnPoint( SIZE.getWidth() / 2, SIZE.getHeight() / 2 );
+                enclosingBox.removeAllChildren();
+                Dimension2D enclosingBoxSize = new PDimension( readoutText.getFullBoundsReference().width * 1.1, readoutText.getFullBoundsReference().height * 1.02 );
+                enclosingBox.setPathTo( new Rectangle2D.Double( 0, 0, enclosingBoxSize.getWidth(), enclosingBoxSize.getHeight() ) );
+                readoutText.centerFullBoundsOnPoint( enclosingBoxSize.getWidth() / 2, enclosingBoxSize.getHeight() / 2 );
                 enclosingBox.addChild( readoutText );
             }
         } );
