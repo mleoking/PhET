@@ -17,7 +17,7 @@ import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.User
 public class BalanceGameModule extends SimSharingPiccoloModule {
 
     public BalanceGameModule() {
-        this( new BalanceGameModel( new BooleanProperty( true )) );
+        this( new BalanceGameModel() );
         setLogoPanel( null ); // Do this so that the logo panel won't appear if this module is used alone.
     }
 
