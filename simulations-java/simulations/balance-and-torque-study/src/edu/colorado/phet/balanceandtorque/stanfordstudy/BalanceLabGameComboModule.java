@@ -59,6 +59,7 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
         setSimulationPanel( balanceLabCanvas );
         balanceGameModel = new BalanceGameModel();
         balanceGameModel.getClock().start(); // This is needed since it won't be started by the framework.
+        balanceGameModel.startGame();
         balanceGameCanvas = new BalanceGameCanvas( this.balanceGameModel, inGame );
         setClockControlPanel( null );
 
@@ -69,8 +70,8 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
             public void apply( Boolean inGame ) {
                 if ( inGame ) {
                     balanceLabModel.reset();
+                    balanceGameModel.resumeGame();
                     setSimulationPanel( balanceGameCanvas );
-                    balanceGameModel.startGame();
                     gamePlayedAtLeastOnce = true;
                 }
                 else {
