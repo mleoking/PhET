@@ -29,7 +29,6 @@ public class GameStatusNode extends PNode {
     private static final PhetFont FONT = new PhetFont( 24 );
     private static final Dimension2D SIZE = new PDimension( 800, 50 );
 
-
     public GameStatusNode( final int totalChallenges, final Property<Integer> challengesCompleted ) {
         final PNode backgroundRect = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE.getWidth(), SIZE.getHeight() ),
                                               BACKGROUND_FILL_COLOR,
