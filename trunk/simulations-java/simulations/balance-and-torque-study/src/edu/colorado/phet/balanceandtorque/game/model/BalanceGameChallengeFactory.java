@@ -57,7 +57,7 @@ public class BalanceGameChallengeFactory {
     private static final Random RAND = new Random();
 
     // Challenges per challenge set.
-    public static final int CHALLENGES_PER_SET = 2;
+    public static final int CHALLENGES_PER_SET = 8;
 
     // Parameters that control how many attempts are made to generate a unique
     // balance challenge.
@@ -233,12 +233,12 @@ public class BalanceGameChallengeFactory {
         if ( level == 1 ) {
             balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( SIMPLE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( EASY_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( EASY_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-//            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( EASY_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( EASY_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( MODERATE_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( ADVANCED_TILT_PREDICTION_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
         }
         else {
             // This level is either out of range or not implemented yet.
