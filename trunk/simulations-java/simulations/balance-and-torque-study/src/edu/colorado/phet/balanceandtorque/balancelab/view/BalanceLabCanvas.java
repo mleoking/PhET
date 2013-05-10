@@ -134,14 +134,12 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
     private static class StarButton extends PhetPPath {
         private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        private static final Color ENABLED_STROKE_COLOR = Color.BLACK;
+        private static final Color ENABLED_STROKE_COLOR = Color.WHITE;
         private static final Color DISABLED_STROKE_COLOR = Color.LIGHT_GRAY;
         private static final Color ENABLED_FILL_COLOR = Color.BLUE;
         private static final Color DISABLED_FILL_COLOR = Color.LIGHT_GRAY;
         private static final float DISABLED_OPACITY = 0.5f;
         private static final int NUM_POINTS = 5;
-
-        private CursorHandler myCursorHandler = new CursorHandler();
 
         private StarButton( double innerRadius, double outerRadius, boolean initialEnabledState, PInputEventListener inputEventHandler ) {
             super( ENABLED_FILL_COLOR, STROKE, Color.BLACK );
