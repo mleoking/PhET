@@ -15,7 +15,7 @@ public class ListLocalesToInclude {
         System.out.println( "  //Only the strings specified in the config file get loaded unless you explicitly require them,\n" +
                             "  // see https://github.com/phetsims/ohms-law/issues/16" );
         File f = new File( args[0] );//the nls directory
-        String simName = args[1];//like 'ohms-law-strings'
+        String simName = f.getParentFile().getName();//like 'ohms-law'
         for ( File file : f.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.isDirectory() && !pathname.getName().equals( "root" );
