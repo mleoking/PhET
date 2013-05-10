@@ -588,6 +588,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
         return (long) ( seconds * 1000 );
     }
 
+    public PNode getChallengeLayer() {
+        return challengeLayer;
+    }
+
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
