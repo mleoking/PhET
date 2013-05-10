@@ -105,7 +105,6 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
                         ) );
                         missedChallengeNode.setOffset( PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE.getWidth() / 2 - missedChallengeNode.getFullBoundsReference().width / 2, 20 );
                     }
-                    balanceLabCanvas.restartGameButtonVizCountdown();
                     setSimulationPanel( balanceLabCanvas );
                     balanceLabCanvas.massKitMode.set( firstTimeGameCanvasShown ? SIMPLE : FULL );
                     firstTimeGameCanvasShown = false;

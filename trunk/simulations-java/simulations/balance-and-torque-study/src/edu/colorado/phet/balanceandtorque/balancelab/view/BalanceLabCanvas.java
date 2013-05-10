@@ -111,6 +111,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
                 }
             }
         } );
+        challengeAllowedTimer.restart();
 
         // Listen to the countdown and set various states and visibility.
         challengeAllowedCountdown.addObserver( new VoidFunction1<Integer>() {
@@ -134,11 +135,6 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
                 overallCountdownTimer.setVisible( secondsRemaining < BalanceLabGameComboModule.TOTAL_ALLOWED_TIME );
             }
         } );
-    }
-
-    public void restartGameButtonVizCountdown() {
-        challengeAllowedTimer.restart();
-        challengeAllowedCountdown.set( CHALLENGE_UNAVAILABLE_TIME );
     }
 
     @Override public void reset() {
