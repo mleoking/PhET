@@ -304,7 +304,8 @@ public class BalanceGameModel {
         sendProposedAnswerMessage( tiltPrediction.toString() );
 
         // Turn off the column(s) so that the plank can move.
-        supportColumnState.set( ColumnState.NONE );
+        // Columns NOT turned off for the Stanford study version.
+//        supportColumnState.set( ColumnState.NONE );
 
         handleProposedAnswer( ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_LEFT_SIDE && plank.getTorqueDueToMasses() > 0 ) ||
                               ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE && plank.getTorqueDueToMasses() < 0 ) ||
