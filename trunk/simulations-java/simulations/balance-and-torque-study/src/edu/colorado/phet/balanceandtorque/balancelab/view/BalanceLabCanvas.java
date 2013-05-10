@@ -11,6 +11,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
+import edu.colorado.phet.balanceandtorque.stanfordstudy.BalanceLabGameComboModule;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -45,7 +46,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
     public Property<MassKitMode> massKitMode = new Property<MassKitMode>( MassKitMode.SIMPLE );
 
-    public BalanceLabCanvas( final BalanceModel model, final BooleanProperty inGame ) {
+    public BalanceLabCanvas( final BalanceModel model, final BooleanProperty inGame, Property<Integer> totalTimeCountdown ) {
         super( model );
 
         // Add the mass kits, which is the place where the user will get the
@@ -97,9 +98,9 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
                                    starButton.getFullBoundsReference().getMaxY() + 5 );
         nonMassLayer.addChild( explanationText );
 
-        // Add the countdown display.
-        final PNode countdownDisplay = new MinSecNode( challengeAllowedCountdown );
-        nonMassLayer.addChild( countdownDisplay );
+        // Add the challenge-enabled countdown display.
+        final PNode challengeEnabledCountdownDisplay = new MinSecNode( challengeAllowedCountdown );
+        nonMassLayer.addChild( challengeEnabledCountdownDisplay );
 
         // Set up the timer used to control visibility of the game button.
         challengeAllowedTimer = new Timer( 1000, new ActionListener() {
@@ -114,10 +115,23 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         // Listen to the countdown and set various states and visibility.
         challengeAllowedCountdown.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer seconds ) {
-                countdownDisplay.centerFullBoundsOnPoint( starButton.getFullBoundsReference().getCenterX(), starButton.getFullBoundsReference().getCenterY() );
-                countdownDisplay.setVisible( seconds > 0 );
+                challengeEnabledCountdownDisplay.centerFullBoundsOnPoint( starButton.getFullBoundsReference().getCenterX(), starButton.getFullBoundsReference().getCenterY() );
+                challengeEnabledCountdownDisplay.setVisible( seconds > 0 );
                 starButton.setEnabled( seconds <= 0 );
                 explanationText.setVisible( seconds <= 0 );
+            }
+        } );
+
+        // Add the overall game countdown timer.
+        final PNode overallCountdownTimer = new MinSecNode( totalTimeCountdown ) {{
+            setOffset( 10, DEFAULT_STAGE_SIZE.getHeight() - getFullBoundsReference().height - 10 );
+        }};
+        nonMassLayer.addChild( overallCountdownTimer );
+
+        // Only display overall countdown timer once it has started counting down.
+        totalTimeCountdown.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer secondsRemaining ) {
+                overallCountdownTimer.setVisible( secondsRemaining < BalanceLabGameComboModule.TOTAL_ALLOWED_TIME );
             }
         } );
     }
