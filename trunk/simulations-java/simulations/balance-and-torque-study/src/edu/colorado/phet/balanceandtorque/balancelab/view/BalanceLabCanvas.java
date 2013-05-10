@@ -6,11 +6,13 @@ import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.Timer;
 
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
+import edu.colorado.phet.balanceandtorque.game.view.GameOverNode;
 import edu.colorado.phet.balanceandtorque.stanfordstudy.BalanceLabGameComboModule;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -35,7 +37,7 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
-    private static final int CHALLENGE_UNAVAILABLE_TIME = 5; // In seconds.
+    private static final int CHALLENGE_UNAVAILABLE_TIME = 60; // In seconds.
 
     protected MassKitSelectionNode fullMassKitSelectionNode;
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
@@ -129,10 +131,18 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         }};
         nonMassLayer.addChild( overallCountdownTimer );
 
-        // Only display overall countdown timer once it has started counting down.
+        // Monitor the remaining time and make some state changes accordingly.
         totalTimeCountdown.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer secondsRemaining ) {
                 overallCountdownTimer.setVisible( secondsRemaining < BalanceLabGameComboModule.TOTAL_ALLOWED_TIME );
+                if ( secondsRemaining <= 0 ) {
+                    // Prevent the user from playing any more.
+                    addWorldChild( new PhetPPath( new Rectangle2D.Double( 0, 0, DEFAULT_STAGE_SIZE.getWidth(), DEFAULT_STAGE_SIZE.getHeight() ),
+                                                  new Color( 50, 50, 50, 100 ) ) );
+                    addWorldChild( new GameOverNode() {{
+                        centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() / 2 );
+                    }} );
+                }
             }
         } );
     }

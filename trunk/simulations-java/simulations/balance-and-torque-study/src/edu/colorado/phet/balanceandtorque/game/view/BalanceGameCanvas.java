@@ -238,6 +238,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
             public void apply( Integer secondsRemaining ) {
                 if ( secondsRemaining <= 0 ) {
                     hideAllGameNodes();
+                    hideChallenge();
                     showGameOverNode();
                 }
             }

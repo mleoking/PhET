@@ -58,6 +58,9 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
     private Timer totalTimeTimer = new Timer( 1000, new ActionListener() {
         public void actionPerformed( ActionEvent e ) {
             totalTimeCountdown.set( totalTimeCountdown.get() - 1 );
+            if ( totalTimeCountdown.get() == 0 ) {
+                totalTimeTimer.stop();
+            }
         }
     } );
 
@@ -115,7 +118,6 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
 
     @Override public void reset() {
         balanceLabModel.reset();
-        // TODO: Any need to reset game?
     }
 
     public enum Mode {LAB, GAME}
