@@ -27,7 +27,7 @@ public class BrickStack extends ShapeMass {
 
     private static final double BRICK_WIDTH = 0.2; // In meters.
     public static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
-    public static final double BRICK_MASS = 5; // In kg.
+    public static final double BRICK_MASS = 1; // In kg.
 
     // Instance counts for various brick stacks.
     private static final Map<Integer, Integer> instanceCountMap = new HashMap<Integer, Integer>();
@@ -101,6 +101,12 @@ public class BrickStack extends ShapeMass {
                 userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfThreeBricks, instanceCountMap.get( numBricks ) );
                 break;
             case 4:
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
+                break;
+            case 5:
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
+                break;
+            case 6:
                 userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
                 break;
             case 8:
