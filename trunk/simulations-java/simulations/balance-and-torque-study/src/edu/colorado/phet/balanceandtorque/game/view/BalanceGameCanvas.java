@@ -35,6 +35,7 @@ import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -47,7 +48,6 @@ import edu.colorado.phet.common.piccolophet.nodes.OutlineTextNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
 import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.*;
@@ -85,8 +85,8 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Game model.
     private final BalanceGameModel model;
 
-    // Scoreboard that tracks user's score while playing the game.
-    private final GameScoreboardNode scoreboard;
+    // Scoreboard that displays the game status while the user is playing.
+    private final GameStatusNode statusNode;
 
     // Canvas layers.
     private PNode rootNode;
@@ -216,48 +216,12 @@ public class BalanceGameCanvas extends PhetPCanvas {
         } );
 
         // Create and add the game scoreboard.
-        scoreboard = new GameScoreboardNode( BalanceGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
-            setBackgroundWidth( DEFAULT_STAGE_SIZE.getWidth() * 0.85 );
-            model.getClock().addClockListener( new ClockAdapter() {
-                @Override
-                public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    if ( model.isTimerEnabled() && model.isBestTimeRecorded( model.getLevel() ) ) {
-                        setTime( convertSecondsToMilliseconds( model.getElapsedTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ) );
-                    }
-                    else {
-                        setTime( convertSecondsToMilliseconds( model.getElapsedTime() ) );
-                    }
-                }
-            } );
-            model.getScoreProperty().addObserver( new SimpleObserver() {
-                public void update() {
-                    setScore( model.getScoreProperty().get() );
-                }
-            } );
-            model.getGameSettings().timerEnabled.addObserver( new SimpleObserver() {
-                public void update() {
-                    setTimerVisible( model.getGameSettings().timerEnabled.get() );
-                }
-            } );
-            model.getGameSettings().level.addObserver( new SimpleObserver() {
-                public void update() {
-                    setLevel( model.getGameSettings().level.get() );
-                }
-            } );
-        }};
-
-        // Set up listener for the button on the score board that indicates that
-        // a new game is desired.
-        scoreboard.addGameScoreboardListener( new GameScoreboardNode.GameScoreboardListener() {
-            public void newGamePressed() {
-                model.showGameInitDialog();
-            }
-        } );
+        statusNode = new GameStatusNode( 8, new Property<Integer>( 0 ) );
 
         // Add the scoreboard.
-        scoreboard.setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - scoreboard.getFullBoundsReference().width / 2,
-                              DEFAULT_STAGE_SIZE.getHeight() - scoreboard.getFullBoundsReference().height - 20 );
-        rootNode.addChild( scoreboard );
+        statusNode.setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - statusNode.getFullBoundsReference().width / 2,
+                              DEFAULT_STAGE_SIZE.getHeight() - statusNode.getFullBoundsReference().height - 20 );
+        rootNode.addChild( statusNode );
 
         // Add the title.  It is blank to start with, and is updated later at
         // the appropriate state change.
@@ -436,7 +400,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     // Utility method for hiding all of the game nodes whose visibility changes
     // during the course of a challenge.
     private void hideAllGameNodes() {
-        setNodeVisibility( false, smilingFace, frowningFace, scoreboard, challengeTitleNode, checkAnswerButton, tryAgainButton,
+        setNodeVisibility( false, smilingFace, frowningFace, statusNode, challengeTitleNode, checkAnswerButton, tryAgainButton,
                            nextChallengeButton, displayCorrectAnswerButton, massValueEntryNode, massValueAnswerNode, tiltPredictionSelectorNode );
     }
 
@@ -458,7 +422,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         else if ( newState == PRESENTING_INTERACTIVE_CHALLENGE ) {
             updateTitle();
-            show( scoreboard, challengeTitleNode );
+            show( statusNode, challengeTitleNode );
             if ( model.getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog ) {
                 massValueEntryNode.clear();
                 show( massValueEntryNode );
@@ -481,21 +445,21 @@ public class BalanceGameCanvas extends PhetPCanvas {
         else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
             GAME_AUDIO_PLAYER.correctAnswer();
             smilingFace.setScore( model.getChallengeCurrentPointValue() );
-            show( scoreboard, nextChallengeButton, smilingFace );
+            show( statusNode, nextChallengeButton, smilingFace );
             showChallengeGraphics();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN ) {
             GAME_AUDIO_PLAYER.wrongAnswer();
-            show( scoreboard, tryAgainButton, frowningFace );
+            show( statusNode, tryAgainButton, frowningFace );
             showChallengeGraphics();
         }
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON ) {
             GAME_AUDIO_PLAYER.wrongAnswer();
-            show( scoreboard, displayCorrectAnswerButton, frowningFace );
+            show( statusNode, displayCorrectAnswerButton, frowningFace );
             showChallengeGraphics();
         }
         else if ( newState == DISPLAYING_CORRECT_ANSWER ) {
-            show( scoreboard, nextChallengeButton );
+            show( statusNode, nextChallengeButton );
             if ( model.getCurrentChallenge().getChallengeViewConfig().showMassEntryDialog ) {
                 massValueAnswerNode.update();
                 show( massValueAnswerNode );
