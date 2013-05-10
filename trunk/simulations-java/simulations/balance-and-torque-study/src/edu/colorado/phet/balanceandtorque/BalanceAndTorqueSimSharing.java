@@ -31,7 +31,8 @@ public class BalanceAndTorqueSimSharing {
 
         // Movable masses
         singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
-        stackOfEightBricks, mediumTrashCan, mediumBucket, tire, television,
+        stackOfFiveBricks, stackOfSixBricks, stackOfEightBricks, mediumTrashCan,
+        mediumBucket, tire, television,
         sodaBottle, smallRock, smallTrashCan, pottedPlant, tinyRock, flowerPot,
         cinderBlock, mediumRock, largeTrashCan, mysteryMass, barrel,
         fireExtinguisher, bigRock, largeBucket, fireHydrant, man, woman, boy,
