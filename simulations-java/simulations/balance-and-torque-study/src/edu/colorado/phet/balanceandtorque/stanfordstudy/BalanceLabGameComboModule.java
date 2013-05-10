@@ -69,7 +69,7 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
     private BalanceLabGameComboModule( BalanceLabModel model ) {
         super( balanceLabTab, BALANCE_LAB, model.getClock() );
         this.balanceLabModel = model;
-        balanceLabCanvas = new BalanceLabCanvas( model, inGame );
+        balanceLabCanvas = new BalanceLabCanvas( model, inGame, totalTimeCountdown );
         balanceLabCanvas.addWorldChild( missedChallengeNode );
         setSimulationPanel( balanceLabCanvas );
         balanceGameModel = new BalanceGameModel();
