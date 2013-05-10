@@ -16,16 +16,16 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class ChallengesCompletedNode extends PNode {
+public class GameOverNode extends PNode {
 
     private static final Font TEXT_FONT = new PhetFont( 36 );
-    private static final Color BACKGROUND_COLOR = new Color( 255, 255, 122 );
+    private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
 
     /**
      * Constructor.
      */
-    public ChallengesCompletedNode() {
-        addChild( new ControlPanelNode( new HTMLNode( "<center>You have successfully<br>completed all challenges.<br><br>Nice job!</center>", Color.BLACK, TEXT_FONT ),
+    public GameOverNode() {
+        addChild( new ControlPanelNode( new HTMLNode( "<center>Game Over.</center>", Color.BLACK, TEXT_FONT ),
                                         BACKGROUND_COLOR,
                                         new BasicStroke( 1 ),
                                         Color.BLACK,
