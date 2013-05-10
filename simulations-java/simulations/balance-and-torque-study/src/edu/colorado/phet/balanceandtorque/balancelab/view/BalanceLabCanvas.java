@@ -18,10 +18,12 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -38,7 +40,6 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
     private Property<Integer> challengeAllowedCountdown = new Property<Integer>( CHALLENGE_UNAVAILABLE_TIME );
     private final Timer challengeAllowedTimer;
-    private final HTMLImageButtonNode gameButton;
 
     public enum MassKitMode {SIMPLE, FULL}
 
@@ -75,20 +76,13 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         simpleMassKit.setOffset( controlPanelCenterX - simpleMassKit.getFullBoundsReference().width / 2,
                                  controlPanel.getFullBoundsReference().getMaxY() + 20 );
 
-        // Add button for moving to the game.
-        gameButton = new HTMLImageButtonNode( "<center>Begin<br>Challenge</center>", new PhetFont( 24, false ), Color.CYAN );
-        gameButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        // Add the star-shaped button that the user will use to move to the
+        // challenge.
+        final StarButton starButton = new StarButton( 48, 80, false, new PBasicInputEventHandler() {
+            @Override public void mouseClicked( PInputEvent event ) {
                 inGame.set( true );
             }
         } );
-        nonMassLayer.addChild( gameButton );
-        gameButton.setOffset( controlPanel.getFullBoundsReference().getMinX() - gameButton.getFullBoundsReference().width - 20,
-                              controlPanel.getFullBoundsReference().getY() );
-
-        // Add the star-shaped button that the user will use to move to the
-        // challenge.
-        final StarButton starButton = new StarButton( 48, 80, false );
         starButton.setOffset( 100, 100 );
         starButton.addChild( new HTMLNode( "<center>Begin<br>Challenge</center>", Color.WHITE, new PhetFont( 16, true ) ) {{
             setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 - 4 );
@@ -97,8 +91,8 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
         // Add the explanatory text about moving to the challenge.
         final PNode explanationText = new HTMLNode( "The challenge <br> is open, but <br> you can still <br> explore if you <br> want.",
-                                              Color.BLACK,
-                                              new PhetFont( 16, false ));
+                                                    Color.BLACK,
+                                                    new PhetFont( 16, false ) );
         explanationText.setOffset( starButton.getFullBoundsReference().getCenterX() - explanationText.getFullBoundsReference().width / 2,
                                    starButton.getFullBoundsReference().getMaxY() + 5 );
         nonMassLayer.addChild( explanationText );
@@ -124,8 +118,6 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
                 countdownDisplay.setVisible( seconds > 0 );
                 starButton.setEnabled( seconds <= 0 );
                 explanationText.setVisible( seconds <= 0 );
-                gameButton.setEnabled( seconds <= 0 );
-                gameButton.setTransparency( seconds <= 0 ? 1.0f : 0.5f );
             }
         } );
     }
@@ -151,7 +143,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
 
         private CursorHandler myCursorHandler = new CursorHandler();
 
-        private StarButton( double innerRadius, double outerRadius, boolean initialEnabledState ) {
+        private StarButton( double innerRadius, double outerRadius, boolean initialEnabledState, PInputEventListener inputEventHandler ) {
             super( ENABLED_FILL_COLOR, STROKE, Color.BLACK );
             DoubleGeneralPath starPath = new DoubleGeneralPath();
             double angle = -Math.PI / 2;
@@ -164,18 +156,16 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
             starPath.closePath();
             setPathTo( starPath.getGeneralPath() );
             setEnabled( initialEnabledState );
+            addInputEventListener( inputEventHandler );
+            addInputEventListener( new CursorHandler() );
         }
 
-        private void setEnabled( boolean enabled ){
+        private void setEnabled( boolean enabled ) {
             setStrokePaint( enabled ? ENABLED_STROKE_COLOR : DISABLED_STROKE_COLOR );
             setPaint( enabled ? ENABLED_FILL_COLOR : DISABLED_FILL_COLOR );
             setTransparency( enabled ? 1.0f : DISABLED_OPACITY );
-            if ( enabled ){
-                addInputEventListener( myCursorHandler );
-            }
-            else{
-                removeInputEventListener( myCursorHandler );
-            }
+            setPickable( enabled );
+            setChildrenPickable( enabled );
         }
     }
 }
