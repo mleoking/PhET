@@ -558,7 +558,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private void showGameOverNode() {
         // Add the node.
         rootNode.addChild( new ChallengesCompletedNode() {{
-            centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() / 2 );
+            centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() * 0.33 );
         }} );
     }
 

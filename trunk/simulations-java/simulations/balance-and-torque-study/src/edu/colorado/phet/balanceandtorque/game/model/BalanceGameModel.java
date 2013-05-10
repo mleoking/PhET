@@ -20,7 +20,6 @@ import edu.colorado.phet.common.games.GameSimSharing;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
@@ -527,6 +526,10 @@ public class BalanceGameModel {
             totalMass += massDistancePair.mass.getMass();
         }
         return totalMass;
+    }
+
+    public void resumeGame() {
+        gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
     //-------------------------------------------------------------------------
