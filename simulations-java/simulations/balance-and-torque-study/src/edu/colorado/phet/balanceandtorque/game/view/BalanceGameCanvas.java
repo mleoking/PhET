@@ -10,7 +10,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
@@ -32,7 +31,6 @@ import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
 import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
 import edu.colorado.phet.balanceandtorque.game.model.TiltPredictionChallenge;
 import edu.colorado.phet.common.games.GameAudioPlayer;
-import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -359,7 +357,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
             public void actionPerformed( ActionEvent e ) {
                 inGame.set( false );
             }
-        } ){{
+        } ) {{
             centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() / 2 );
         }} );
 
@@ -558,24 +556,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }
 
     private void showGameOverNode() {
-        assert gameOverNode == null; // Test that any previous ones were cleaned up.
-
-        // Create the "game over" node based on the results.
-        gameOverNode = new GameOverNode( model.getLevel(), model.getScoreProperty().get(), model.getMaximumPossibleScore(), new DecimalFormat( "##" ),
-                                         convertSecondsToMilliseconds( model.getElapsedTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ),
-                                         model.isNewBestTime(), model.gameSettings.timerEnabled.get() ) {{
-            scale( 1.5 );
-            setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
-                       DEFAULT_STAGE_SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
-            addGameOverListener( new GameOverNode.GameOverListener() {
-                public void newGamePressed() {
-                    model.showGameInitDialog();
-                }
-            } );
-        }};
-
         // Add the node.
-        rootNode.addChild( gameOverNode );
+        rootNode.addChild( new ChallengesCompletedNode() {{
+            centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() / 2 );
+        }} );
     }
 
     private PNode createMassNode( Mass mass ) {
