@@ -117,6 +117,10 @@ public class BalanceGameModel {
     // incorrect answer.
     private final BooleanProperty inGame;
 
+    // Externally visible property that tracks the number of correct answers
+    // submitted by the user.
+    public Property<Integer> correctAnswers = new Property<Integer>( 0 );
+
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -356,6 +360,7 @@ public class BalanceGameModel {
         if ( answerIsCorrect ) {
             // The user answered the challenge correctly.
             gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
+            correctAnswers.set( correctAnswers.get() + 1 );
             if ( incorrectGuessesOnCurrentChallenge == 0 ) {
                 // User got it right the first time.
                 pointsEarned = MAX_POINTS_PER_PROBLEM;
