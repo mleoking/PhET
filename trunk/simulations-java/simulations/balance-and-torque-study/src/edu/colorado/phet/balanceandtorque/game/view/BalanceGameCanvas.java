@@ -408,9 +408,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
                                                                          rulerVisibilityProperty );
         rulerVisibilityCheckBox.setFont( new PhetFont( 16 ) );
         rulerVisibilityCheckBox.setBackground( new Color( 0, 0, 0, 0 ) );
-        controlLayer.addChild( new PSwing( rulerVisibilityCheckBox ) {{
-            setOffset( mvt.modelToViewX( 3 ) - getFullBoundsReference().width / 2, mvt.modelToViewY( -0.25 ) );
-        }} );
+        // Ruler removed by request for Stanford study.
+//        controlLayer.addChild( new PSwing( rulerVisibilityCheckBox ) {{
+//            setOffset( mvt.modelToViewX( 3 ) - getFullBoundsReference().width / 2, mvt.modelToViewY( -0.25 ) );
+//        }} );
 
         // Add the ruler node.
         challengeLayer.addChild( new RotatingRulerNode( model.getPlank(), mvt, rulerVisibilityProperty ) );
