@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.balancelab.view;
 
-import java.text.MessageFormat;
-
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -52,21 +50,22 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                                                    new BrickStackCreatorNode( 6, model, mvt, canvas )
                                          )
                                )
-               ),
-               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.PEOPLE, "1" ) ),
-                               new HBox(
-                                       new BoyCreatorNode( model, mvt, canvas ),
-                                       new AdultMaleHumanCreatorNode( model, mvt, canvas )
-                               )
-               ),
-               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.PEOPLE, "2" ) ),
-                               new HBox(
-                                       new YoungGirlCreatorNode( model, mvt, canvas ),
-                                       new AdultFemaleHumanCreatorNode( model, mvt, canvas )
-                               )
                )
 
-               // Mystery masses removed for the Stanford study.
+               // People and mystery masses removed for the Stanford study.
+
+//               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.PEOPLE, "1" ) ),
+//                               new HBox(
+//                                       new BoyCreatorNode( model, mvt, canvas ),
+//                                       new AdultMaleHumanCreatorNode( model, mvt, canvas )
+//                               )
+//               ),
+//               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.PEOPLE, "2" ) ),
+//                               new HBox(
+//                                       new YoungGirlCreatorNode( model, mvt, canvas ),
+//                                       new AdultFemaleHumanCreatorNode( model, mvt, canvas )
+//                               )
+//               )
 
 //               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.MYSTERY_OBJECTS, "1" ) ),
 //                               new VBox(
