@@ -24,6 +24,6 @@ public class BalanceGameModule extends SimSharingPiccoloModule {
     private BalanceGameModule( BalanceGameModel model ) {
         super( gameTab, GAME, model.getClock() );
         setClockControlPanel( null );
-        setSimulationPanel( new BalanceGameCanvas( model ) );
+        setSimulationPanel( new BalanceGameCanvas( model, new BooleanProperty( true ) ) );
     }
 }

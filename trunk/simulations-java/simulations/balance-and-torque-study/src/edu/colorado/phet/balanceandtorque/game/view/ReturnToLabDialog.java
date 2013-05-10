@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.game.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -42,7 +43,7 @@ public class ReturnToLabDialog extends PNode {
     /**
      * Constructor.
      */
-    public ReturnToLabDialog() {
+    public ReturnToLabDialog( ActionListener buttonActionListener ) {
 
         // Add the textual prompt.
         PText prompt = new PText( "That wasn't the right answer." );
@@ -53,8 +54,9 @@ public class ReturnToLabDialog extends PNode {
 
         // Create the button.
         returnToLabButton = new TextButtonNode( "Back to practice screen", new PhetFont( 20 ), Color.YELLOW );
+        returnToLabButton.addActionListener( buttonActionListener );
 
         // Lay out the node.
-        addChild( new ControlPanelNode( new VBox( 10, prompt, returnToLabButton ), BACKGROUND_COLOR ) );
+        addChild( new ControlPanelNode( new VBox( 10, prompt, returnToLabButton ), BACKGROUND_COLOR, new BasicStroke( 1 ), Color.BLACK, 30 ) );
     }
 }
