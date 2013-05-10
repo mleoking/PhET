@@ -19,16 +19,16 @@ import edu.umd.cs.piccolo.PNode;
 public class GameOverNode extends PNode {
 
     private static final Font TEXT_FONT = new PhetFont( 36 );
-    private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+    private static final Color BACKGROUND_COLOR = new Color( 255, 204, 5 );
 
     /**
      * Constructor.
      */
     public GameOverNode() {
-        addChild( new ControlPanelNode( new HTMLNode( "<center>Game Over.</center>", Color.BLACK, TEXT_FONT ),
+        addChild( new ControlPanelNode( new HTMLNode( "<center>Game Over</center>", Color.BLACK, TEXT_FONT ),
                                         BACKGROUND_COLOR,
-                                        new BasicStroke( 1 ),
-                                        Color.BLACK,
+                                        new BasicStroke( 2 ),
+                                        Color.DARK_GRAY,
                                         30 ) );
     }
 }
