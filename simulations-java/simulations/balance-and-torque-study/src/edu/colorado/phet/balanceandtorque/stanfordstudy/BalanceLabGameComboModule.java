@@ -2,12 +2,17 @@
 package edu.colorado.phet.balanceandtorque.stanfordstudy;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
 import edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.view.BalanceGameCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -32,6 +37,8 @@ import static edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanva
  */
 public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
 
+    public static final int TOTAL_ALLOWED_TIME = 15 * 60;
+
     private final BalanceLabModel balanceLabModel;
     private final BalanceLabCanvas balanceLabCanvas;
     private final BalanceGameModel balanceGameModel;
@@ -45,6 +52,14 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
 
     // Node that displays missed challenges.
     private PNode missedChallengeNode = new PNode();
+
+    // Timer and countdown value for overall game timer.
+    private Property<Integer> totalTimeCountdown = new Property<Integer>( TOTAL_ALLOWED_TIME );
+    private Timer totalTimeTimer = new Timer( 1000, new ActionListener() {
+        public void actionPerformed( ActionEvent e ) {
+            totalTimeCountdown.set( totalTimeCountdown.get() - 1 );
+        }
+    } );
 
     public BalanceLabGameComboModule() {
         this( new BalanceLabModel() );
@@ -60,7 +75,7 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
         balanceGameModel = new BalanceGameModel();
         balanceGameModel.getClock().start(); // This is needed since it won't be started by the framework.
         balanceGameModel.startGame();
-        balanceGameCanvas = new BalanceGameCanvas( this.balanceGameModel, inGame );
+        balanceGameCanvas = new BalanceGameCanvas( this.balanceGameModel, inGame, totalTimeCountdown );
         setClockControlPanel( null );
 
         // Switch canvas when the mode changes.
@@ -73,6 +88,9 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
                     balanceGameModel.resumeGame();
                     setSimulationPanel( balanceGameCanvas );
                     gamePlayedAtLeastOnce = true;
+                    if ( !totalTimeTimer.isRunning() ) {
+                        totalTimeTimer.restart();
+                    }
                 }
                 else {
                     if ( gamePlayedAtLeastOnce ) {

@@ -4,6 +4,7 @@ package edu.colorado.phet.balanceandtorque.game;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.view.BalanceGameCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Strings.GAME;
@@ -24,6 +25,6 @@ public class BalanceGameModule extends SimSharingPiccoloModule {
     private BalanceGameModule( BalanceGameModel model ) {
         super( gameTab, GAME, model.getClock() );
         setClockControlPanel( null );
-        setSimulationPanel( new BalanceGameCanvas( model, new BooleanProperty( true ) ) );
+        setSimulationPanel( new BalanceGameCanvas( model, new BooleanProperty( true ), new Property<Integer>( 0 ) ) );
     }
 }

@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
+import edu.colorado.phet.balanceandtorque.balancelab.view.MinSecNode;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
@@ -32,6 +33,7 @@ import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
 import edu.colorado.phet.balanceandtorque.game.model.TiltPredictionChallenge;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -139,7 +141,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
      *
      * @param model - Game model.
      */
-    public BalanceGameCanvas( final BalanceGameModel model, final BooleanProperty inGame ) {
+    public BalanceGameCanvas( final BalanceGameModel model, final BooleanProperty inGame, Property<Integer> totalTimeCountdown ) {
         this.model = model;
 
         // Set up the canvas-screen transform.
@@ -224,7 +226,22 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add the scoreboard.
         statusNode.setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - statusNode.getFullBoundsReference().width / 2,
                               DEFAULT_STAGE_SIZE.getHeight() - statusNode.getFullBoundsReference().height - 20 );
-        rootNode.addChild( statusNode );
+        controlLayer.addChild( statusNode );
+
+        // Add the countdown time readout.
+        controlLayer.addChild( new MinSecNode( totalTimeCountdown ) {{
+            setOffset( DEFAULT_STAGE_SIZE.getWidth() - getFullBoundsReference().width - 10, 10 );
+        }} );
+
+        // Monitor the time and disable the game if the time reaches zero.
+        totalTimeCountdown.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer secondsRemaining ) {
+                if ( secondsRemaining <= 0 ) {
+                    hideAllGameNodes();
+                    showGameOverNode();
+                }
+            }
+        } );
 
         // Add the title.  It is blank to start with, and is updated later at
         // the appropriate state change.
@@ -497,7 +514,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
             else {
                 GAME_AUDIO_PLAYER.gameOverImperfectScore();
             }
-            showGameOverNode();
+            showChallengesCompletedNode();
             hideChallenge();
         }
     }
@@ -555,9 +572,16 @@ public class BalanceGameCanvas extends PhetPCanvas {
         challengeLayer.setChildrenPickable( false );
     }
 
-    private void showGameOverNode() {
+    private void showChallengesCompletedNode() {
         // Add the node.
         rootNode.addChild( new ChallengesCompletedNode() {{
+            centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() * 0.33 );
+        }} );
+    }
+
+    private void showGameOverNode() {
+        // Add the node.
+        rootNode.addChild( new GameOverNode() {{
             centerFullBoundsOnPoint( DEFAULT_STAGE_SIZE.getWidth() / 2, DEFAULT_STAGE_SIZE.getHeight() * 0.33 );
         }} );
     }
