@@ -24,6 +24,7 @@ import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
 import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
 import edu.colorado.phet.balanceandtorque.common.view.TiltedSupportColumnNode;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
+import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallengeFactory;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceMassesChallenge;
 import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
@@ -216,7 +217,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         } );
 
         // Create and add the game scoreboard.
-        statusNode = new GameStatusNode( 8, new Property<Integer>( 0 ) );
+        statusNode = new GameStatusNode( BalanceGameChallengeFactory.CHALLENGES_PER_SET, model.correctAnswers );
 
         // Add the scoreboard.
         statusNode.setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - statusNode.getFullBoundsReference().width / 2,
