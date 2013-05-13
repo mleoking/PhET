@@ -1,3 +1,5 @@
+# 1.03.09 (72971) May 13, 2013
+5/13/13 Publishing to dev for review by research team.
 Created this "branched" version, implemented a bunch of new behavior to support a study be a group at Stanford.
 # 1.03.08 (72876) Apr 26, 2013
 4/26/13 Publishing version for review with research team
