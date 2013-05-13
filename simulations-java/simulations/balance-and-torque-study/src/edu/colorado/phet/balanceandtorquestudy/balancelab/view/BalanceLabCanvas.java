@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.balancelab.view;
+package edu.colorado.phet.balanceandtorquestudy.balancelab.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,10 +10,10 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.Timer;
 
-import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.view.BasicBalanceCanvas;
-import edu.colorado.phet.balanceandtorque.game.view.GameOverNode;
-import edu.colorado.phet.balanceandtorque.stanfordstudy.BalanceLabGameComboModule;
+import edu.colorado.phet.balanceandtorquestudy.common.model.BalanceModel;
+import edu.colorado.phet.balanceandtorquestudy.common.view.BasicBalanceCanvas;
+import edu.colorado.phet.balanceandtorquestudy.game.view.GameOverNode;
+import edu.colorado.phet.balanceandtorquestudy.stanfordstudy.BalanceLabGameComboModule;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;

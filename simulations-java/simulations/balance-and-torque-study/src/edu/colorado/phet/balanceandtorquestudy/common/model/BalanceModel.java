@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.model;
+package edu.colorado.phet.balanceandtorquestudy.common.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.common.BalanceAndTorqueSharedConstants;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -67,7 +67,7 @@ public abstract class BalanceModel implements Resettable {
     // Observer that turns on column support whenever a mass is user controlled.  Added for Stanford study.
     private VoidFunction1<Boolean> columnReEnabler = new VoidFunction1<Boolean>() {
         public void apply( Boolean userControlled ) {
-            if ( userControlled ){
+            if ( userControlled ) {
                 columnState.set( ColumnState.DOUBLE_COLUMNS );
             }
         }

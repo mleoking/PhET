@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.view;
+package edu.colorado.phet.balanceandtorquestudy.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
-import edu.colorado.phet.balanceandtorque.common.model.masses.MysteryMass;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.view.ImageMassNode;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.MysteryMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

@@ -1,9 +1,9 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.model.masses;
+package edu.colorado.phet.balanceandtorquestudy.common.model.masses;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
+import edu.colorado.phet.balanceandtorquestudy.common.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;

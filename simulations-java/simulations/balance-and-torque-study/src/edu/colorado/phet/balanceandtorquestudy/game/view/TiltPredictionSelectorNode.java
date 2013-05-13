@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.view;
+package edu.colorado.phet.balanceandtorquestudy.game.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -11,10 +11,10 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
-import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorquestudy.game.model.TiltPrediction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;

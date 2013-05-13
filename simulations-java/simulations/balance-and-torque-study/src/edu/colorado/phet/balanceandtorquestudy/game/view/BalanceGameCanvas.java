@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.view;
+package edu.colorado.phet.balanceandtorquestudy.game.view;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,26 +11,26 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
-import edu.colorado.phet.balanceandtorque.balancelab.view.MinSecNode;
-import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.common.view.FulcrumAbovePlankNode;
-import edu.colorado.phet.balanceandtorque.common.view.LevelIndicatorNode;
-import edu.colorado.phet.balanceandtorque.common.view.LevelSupportColumnNode;
-import edu.colorado.phet.balanceandtorque.common.view.MassNodeFactory;
-import edu.colorado.phet.balanceandtorque.common.view.PlankNode;
-import edu.colorado.phet.balanceandtorque.common.view.RotatingRulerNode;
-import edu.colorado.phet.balanceandtorque.common.view.TiltedSupportColumnNode;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallengeFactory;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceMassesChallenge;
-import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
-import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
-import edu.colorado.phet.balanceandtorque.game.model.TiltPredictionChallenge;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.view.AttachmentBarNode;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.view.MinSecNode;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorquestudy.common.model.LevelSupportColumn;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.common.view.FulcrumAbovePlankNode;
+import edu.colorado.phet.balanceandtorquestudy.common.view.LevelIndicatorNode;
+import edu.colorado.phet.balanceandtorquestudy.common.view.LevelSupportColumnNode;
+import edu.colorado.phet.balanceandtorquestudy.common.view.MassNodeFactory;
+import edu.colorado.phet.balanceandtorquestudy.common.view.PlankNode;
+import edu.colorado.phet.balanceandtorquestudy.common.view.RotatingRulerNode;
+import edu.colorado.phet.balanceandtorquestudy.common.view.TiltedSupportColumnNode;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameChallenge;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameChallengeFactory;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceMassesChallenge;
+import edu.colorado.phet.balanceandtorquestudy.game.model.MassDistancePair;
+import edu.colorado.phet.balanceandtorquestudy.game.model.TiltPrediction;
+import edu.colorado.phet.balanceandtorquestudy.game.model.TiltPredictionChallenge;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -48,8 +48,8 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
-import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.*;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.*;
+import static edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameModel.GameState.*;
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
 /**

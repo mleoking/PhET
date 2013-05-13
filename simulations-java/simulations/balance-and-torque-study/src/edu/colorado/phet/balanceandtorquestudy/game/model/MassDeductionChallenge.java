@@ -1,15 +1,15 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.model;
+package edu.colorado.phet.balanceandtorquestudy.game.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelComponentTypes.massDeductionChallenge;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.ModelComponentTypes.massDeductionChallenge;
 
 /**
  * A challenge, used in the balance game, in which the user attempts to

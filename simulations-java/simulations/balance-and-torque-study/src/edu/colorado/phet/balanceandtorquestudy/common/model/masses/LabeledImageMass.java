@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.model.masses;
+package edu.colorado.phet.balanceandtorquestudy.common.model.masses;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;

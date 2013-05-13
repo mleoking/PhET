@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.balancelab.view;
+package edu.colorado.phet.balanceandtorquestudy.balancelab.view;
 
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.common.model.BalanceModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 

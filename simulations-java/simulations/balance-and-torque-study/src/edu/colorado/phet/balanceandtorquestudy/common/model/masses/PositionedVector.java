@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.model.masses;
+package edu.colorado.phet.balanceandtorquestudy.common.model.masses;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 

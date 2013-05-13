@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.balancelab.view;
+package edu.colorado.phet.balanceandtorquestudy.balancelab.view;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -7,9 +7,9 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
-import edu.colorado.phet.balanceandtorque.common.view.MassDragHandler;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.ImageMass;
+import edu.colorado.phet.balanceandtorquestudy.common.view.MassDragHandler;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

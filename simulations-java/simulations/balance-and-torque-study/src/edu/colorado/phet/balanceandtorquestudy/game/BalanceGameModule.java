@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game;
+package edu.colorado.phet.balanceandtorquestudy.game;
 
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
-import edu.colorado.phet.balanceandtorque.game.view.BalanceGameCanvas;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorquestudy.game.view.BalanceGameCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Strings.GAME;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.gameTab;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.GAME;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.gameTab;
 
 /**
  * The "Game" module.

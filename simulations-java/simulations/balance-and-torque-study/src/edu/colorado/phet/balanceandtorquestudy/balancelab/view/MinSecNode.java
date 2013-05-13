@@ -1,4 +1,4 @@
-package edu.colorado.phet.balanceandtorque.balancelab.view;
+package edu.colorado.phet.balanceandtorquestudy.balancelab.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

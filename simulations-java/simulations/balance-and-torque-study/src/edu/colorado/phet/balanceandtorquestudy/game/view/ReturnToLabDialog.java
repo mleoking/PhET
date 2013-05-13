@@ -1,31 +1,17 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.view;
+package edu.colorado.phet.balanceandtorquestudy.game.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFormattedTextField;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class presents a dialog to the user that informs them that the need to

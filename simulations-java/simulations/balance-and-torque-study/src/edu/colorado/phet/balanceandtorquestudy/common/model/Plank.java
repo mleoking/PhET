@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.model;
+package edu.colorado.phet.balanceandtorquestudy.common.model;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -10,10 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.common.model.masses.PositionedVector;
-import edu.colorado.phet.balanceandtorque.game.model.MassDistancePair;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.PositionedVector;
+import edu.colorado.phet.balanceandtorquestudy.game.model.MassDistancePair;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -30,12 +29,11 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelComponents.plank;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys.*;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys.distanceFromPlankCenter;
-import static edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants.*;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.ModelActions.*;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.ModelComponents.plank;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.ParameterKeys;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.ParameterKeys.*;
+import static edu.colorado.phet.balanceandtorquestudy.common.BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
 
 /**
@@ -649,7 +647,7 @@ public class Plank extends ShapeModelElement {
     }
 
     public List<MassDistancePair> getMassDistancePairs() {
-        List<MassDistancePair> massDistancePairs = new ArrayList<MassDistancePair>(  );
+        List<MassDistancePair> massDistancePairs = new ArrayList<MassDistancePair>();
         for ( Mass mass : mapMassToDistFromCenter.keySet() ) {
             massDistancePairs.add( new MassDistancePair( mass, mapMassToDistFromCenter.get( mass ) ) );
         }
@@ -696,7 +694,7 @@ public class Plank extends ShapeModelElement {
         for ( int i = 0; i < massesOnSurface.size(); i++ ) {
             Mass mass = massesOnSurface.get( i );
             double distanceFromPlankCenter = mapMassToDistFromCenter.get( mass );
-            if ( USE_QUARTER_METER_INCREMENTS ){
+            if ( USE_QUARTER_METER_INCREMENTS ) {
                 distanceFromPlankCenter = Math.round( 4 * distanceFromPlankCenter );
             }
             massStateParameterSet = massStateParameterSet.with( new Parameter( new ParameterKeyWithID( ParameterKeys.massUserComponent, i ),

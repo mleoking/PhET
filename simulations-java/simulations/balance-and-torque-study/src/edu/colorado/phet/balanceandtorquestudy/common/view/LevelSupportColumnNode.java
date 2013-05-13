@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.view;
+package edu.colorado.phet.balanceandtorquestudy.common.view;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -9,8 +9,8 @@ import java.awt.Insets;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorquestudy.common.model.LevelSupportColumn;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.redXRemoveSupportsButton;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.redXRemoveSupportsButton;
 
 /**
  * Node that represents a support column with a flat top in the view.

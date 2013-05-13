@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque;
+package edu.colorado.phet.balanceandtorquestudy;
 
 import java.awt.image.BufferedImage;
 

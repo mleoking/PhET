@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.balanceandtorque.balancelab.view;
+package edu.colorado.phet.balanceandtorquestudy.balancelab.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -8,8 +8,8 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.balanceandtorque.common.model.AttachmentBar;
-import edu.colorado.phet.balanceandtorque.common.view.ModelObjectNode;
+import edu.colorado.phet.balanceandtorquestudy.common.model.AttachmentBar;
+import edu.colorado.phet.balanceandtorquestudy.common.view.ModelObjectNode;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

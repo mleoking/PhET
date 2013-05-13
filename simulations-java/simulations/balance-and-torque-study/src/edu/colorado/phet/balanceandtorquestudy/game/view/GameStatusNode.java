@@ -1,4 +1,4 @@
-package edu.colorado.phet.balanceandtorque.game.view;
+package edu.colorado.phet.balanceandtorquestudy.game.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -31,11 +31,11 @@ public class GameStatusNode extends PNode {
 
     public GameStatusNode( final int totalChallenges, final Property<Integer> challengesCompleted ) {
         final PNode backgroundRect = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE.getWidth(), SIZE.getHeight() ),
-                                              BACKGROUND_FILL_COLOR,
-                                              BACKGROUND_STROKE,
-                                              BACKGROUND_STROKE_COLOR );
+                                                    BACKGROUND_FILL_COLOR,
+                                                    BACKGROUND_STROKE,
+                                                    BACKGROUND_STROKE_COLOR );
         addChild( backgroundRect );
-        final PText statusMessage = new PhetPText( "X", FONT ){{
+        final PText statusMessage = new PhetPText( "X", FONT ) {{
             setOffset( 10, SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
         }};
         backgroundRect.addChild( statusMessage );

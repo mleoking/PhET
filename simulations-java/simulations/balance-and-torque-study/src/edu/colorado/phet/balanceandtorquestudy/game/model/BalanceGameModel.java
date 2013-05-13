@@ -1,20 +1,20 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.model;
+package edu.colorado.phet.balanceandtorquestudy.game.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
-import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
-import edu.colorado.phet.balanceandtorque.common.model.AttachmentBar;
-import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.FulcrumAbovePlank;
-import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
-import edu.colorado.phet.balanceandtorque.common.model.Plank;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.common.model.masses.TiltSupportColumn;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.common.BalanceAndTorqueSharedConstants;
+import edu.colorado.phet.balanceandtorquestudy.common.model.AttachmentBar;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorquestudy.common.model.FulcrumAbovePlank;
+import edu.colorado.phet.balanceandtorquestudy.common.model.LevelSupportColumn;
+import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.TiltSupportColumn;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameSimSharing;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -29,8 +29,8 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.DISTANCE_VALUE_FORMATTER;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.DISTANCE_VALUE_FORMATTER;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.ModelActions.*;
 
 /**
  * Main model class for the balance game.

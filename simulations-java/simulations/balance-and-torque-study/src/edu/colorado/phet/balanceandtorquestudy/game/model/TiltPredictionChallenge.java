@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.model;
+package edu.colorado.phet.balanceandtorquestudy.game.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
-import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 
 /**
@@ -64,10 +64,10 @@ public class TiltPredictionChallenge extends BalanceGameChallenge {
         for ( MassDistancePair fixedMassDistancePair : fixedMassDistancePairs ) {
             netTorque += fixedMassDistancePair.distance * fixedMassDistancePair.mass.getMass();
         }
-        if ( netTorque == 0 ){
+        if ( netTorque == 0 ) {
             return TiltPrediction.STAY_BALANCED.toString();
         }
-        else if ( netTorque < 0 ){
+        else if ( netTorque < 0 ) {
             return TiltPrediction.TILT_DOWN_ON_LEFT_SIDE.toString();
         }
         else {

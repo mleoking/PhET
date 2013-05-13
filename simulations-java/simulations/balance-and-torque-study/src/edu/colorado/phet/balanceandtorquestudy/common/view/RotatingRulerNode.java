@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.view;
+package edu.colorado.phet.balanceandtorquestudy.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
-import edu.colorado.phet.balanceandtorque.common.model.Plank;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.common.BalanceAndTorqueSharedConstants;
+import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -31,15 +31,15 @@ public class RotatingRulerNode extends PNode {
         int numTickMarks = 17;
         String[] tickMarkLabels = new String[numTickMarks];
         if ( BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ) {
-            for ( int i = 0; i < numTickMarks; i++ ){
-                int labelValue =  Math.abs( i - ( numTickMarks / 2) );
+            for ( int i = 0; i < numTickMarks; i++ ) {
+                int labelValue = Math.abs( i - ( numTickMarks / 2 ) );
                 tickMarkLabels[i] = labelValue == 0 ? "" : Integer.toString( labelValue );
             }
         }
         else {
             DecimalFormat format = new DecimalFormat( "0.##" );
-            for ( int i = 0; i < numTickMarks; i++ ){
-                double labelValue =  Math.abs( ( i - ( numTickMarks / 2) ) * Plank.LENGTH / (numTickMarks + 1) );
+            for ( int i = 0; i < numTickMarks; i++ ) {
+                double labelValue = Math.abs( ( i - ( numTickMarks / 2 ) ) * Plank.LENGTH / ( numTickMarks + 1 ) );
                 tickMarkLabels[i] = labelValue == 0 ? "" : format.format( labelValue );
             }
         }
@@ -95,7 +95,7 @@ public class RotatingRulerNode extends PNode {
 
     private static class LabelUnitsNode extends PText {
         private LabelUnitsNode() {
-            if ( !BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ){
+            if ( !BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ) {
                 setText( BalanceAndTorqueResources.Strings.METERS );
             }
             setFont( new PhetFont( 16 ) );

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.view;
+package edu.colorado.phet.balanceandtorquestudy.game.view;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,9 +13,9 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameChallenge;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameChallenge;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameModel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;

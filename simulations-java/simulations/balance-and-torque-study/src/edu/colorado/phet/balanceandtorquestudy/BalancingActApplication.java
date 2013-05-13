@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque;
+package edu.colorado.phet.balanceandtorquestudy;
 
-import edu.colorado.phet.balanceandtorque.balancelab.BalanceLabModule;
-import edu.colorado.phet.balanceandtorque.game.BalanceGameModule;
-import edu.colorado.phet.balanceandtorque.intro.IntroModule;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.BalanceLabModule;
+import edu.colorado.phet.balanceandtorquestudy.game.BalanceGameModule;
+import edu.colorado.phet.balanceandtorquestudy.intro.IntroModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;

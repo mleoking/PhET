@@ -1,5 +1,5 @@
 // Copyright 2002-2013, University of Colorado
-package edu.colorado.phet.balanceandtorque.stanfordstudy;
+package edu.colorado.phet.balanceandtorquestudy.stanfordstudy;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
-import edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas;
-import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
-import edu.colorado.phet.balanceandtorque.game.view.BalanceGameCanvas;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.model.BalanceLabModel;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.view.BalanceLabCanvas;
+import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameModel;
+import edu.colorado.phet.balanceandtorquestudy.game.view.BalanceGameCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -23,10 +23,10 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Strings.BALANCE_LAB;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.balanceLabTab;
-import static edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas.MassKitMode.FULL;
-import static edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas.MassKitMode.SIMPLE;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.BALANCE_LAB;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.balanceLabTab;
+import static edu.colorado.phet.balanceandtorquestudy.balancelab.view.BalanceLabCanvas.MassKitMode.FULL;
+import static edu.colorado.phet.balanceandtorquestudy.balancelab.view.BalanceLabCanvas.MassKitMode.SIMPLE;
 
 /**
  * A module that acts as a combination of the "Balance Lab" and "Balance Game"
