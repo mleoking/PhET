@@ -5,8 +5,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
@@ -20,14 +20,14 @@ public class MysteryMass extends LabeledImageMass {
     private static final List<LabeledImageMassConfig> MYSTERY_MASS_CONFIGURATIONS = new ArrayList<LabeledImageMassConfig>() {{
         // Note that the height value needs to be somewhat coordinated with the
         // image for things to look good.
-        add( new LabeledImageMassConfig( 20.0, BalanceAndTorqueResources.Images.MYSTERY_OBJECT_01, 0.25, BalanceAndTorqueResources.Strings.MASS_LABEL_A, true ) );
-        add( new LabeledImageMassConfig( 5.0, BalanceAndTorqueResources.Images.MYSTERY_OBJECT_02, 0.30, BalanceAndTorqueResources.Strings.MASS_LABEL_B, true ) );
-        add( new LabeledImageMassConfig( 15.0, BalanceAndTorqueResources.Images.MYSTERY_OBJECT_03, 0.35, BalanceAndTorqueResources.Strings.MASS_LABEL_C, true ) );
-        add( new LabeledImageMassConfig( 10.0, BalanceAndTorqueResources.Images.MYSTERY_OBJECT_04, 0.40, BalanceAndTorqueResources.Strings.MASS_LABEL_D, true ) );
-        add( new LabeledImageMassConfig( 2.5, BalanceAndTorqueResources.Images.MYSTERY_OBJECT_05, 0.25, BalanceAndTorqueResources.Strings.MASS_LABEL_E, true ) );
-        add( new LabeledImageMassConfig( 52.5, BalanceAndTorqueResources.Images.MYSTERY_OBJECT_06, 0.35, BalanceAndTorqueResources.Strings.MASS_LABEL_F, true ) );
-        add( new LabeledImageMassConfig( 25, BalanceAndTorqueResources.Images.MYSTERY_OBJECT_07, 0.40, BalanceAndTorqueResources.Strings.MASS_LABEL_G, true ) );
-        add( new LabeledImageMassConfig( 7.5, BalanceAndTorqueResources.Images.MYSTERY_OBJECT_08, 0.30, BalanceAndTorqueResources.Strings.MASS_LABEL_H, true ) );
+        add( new LabeledImageMassConfig( 20.0, BalanceAndTorqueStudyResources.Images.MYSTERY_OBJECT_01, 0.25, BalanceAndTorqueStudyResources.Strings.MASS_LABEL_A, true ) );
+        add( new LabeledImageMassConfig( 5.0, BalanceAndTorqueStudyResources.Images.MYSTERY_OBJECT_02, 0.30, BalanceAndTorqueStudyResources.Strings.MASS_LABEL_B, true ) );
+        add( new LabeledImageMassConfig( 15.0, BalanceAndTorqueStudyResources.Images.MYSTERY_OBJECT_03, 0.35, BalanceAndTorqueStudyResources.Strings.MASS_LABEL_C, true ) );
+        add( new LabeledImageMassConfig( 10.0, BalanceAndTorqueStudyResources.Images.MYSTERY_OBJECT_04, 0.40, BalanceAndTorqueStudyResources.Strings.MASS_LABEL_D, true ) );
+        add( new LabeledImageMassConfig( 2.5, BalanceAndTorqueStudyResources.Images.MYSTERY_OBJECT_05, 0.25, BalanceAndTorqueStudyResources.Strings.MASS_LABEL_E, true ) );
+        add( new LabeledImageMassConfig( 52.5, BalanceAndTorqueStudyResources.Images.MYSTERY_OBJECT_06, 0.35, BalanceAndTorqueStudyResources.Strings.MASS_LABEL_F, true ) );
+        add( new LabeledImageMassConfig( 25, BalanceAndTorqueStudyResources.Images.MYSTERY_OBJECT_07, 0.40, BalanceAndTorqueStudyResources.Strings.MASS_LABEL_G, true ) );
+        add( new LabeledImageMassConfig( 7.5, BalanceAndTorqueStudyResources.Images.MYSTERY_OBJECT_08, 0.30, BalanceAndTorqueStudyResources.Strings.MASS_LABEL_H, true ) );
     }};
 
     // Data structure that tracks instances of each configuration, used for

@@ -3,8 +3,8 @@ package edu.colorado.phet.balanceandtorquestudy.common.model.masses;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Images;
 import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources.Images;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 
 

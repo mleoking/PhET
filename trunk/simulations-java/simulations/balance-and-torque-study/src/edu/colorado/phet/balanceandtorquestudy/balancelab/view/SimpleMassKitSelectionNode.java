@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.balanceandtorquestudy.balancelab.view;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.common.model.BalanceModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -34,7 +34,7 @@ public class SimpleMassKitSelectionNode extends KitSelectionNode<PNode> {
     public SimpleMassKitSelectionNode( final Property<Integer> selectedKit, final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( massKitSelector,
                selectedKit,
-               new Kit<PNode>( new TitleNode( BalanceAndTorqueResources.Strings.BRICKS ),
+               new Kit<PNode>( new TitleNode( BalanceAndTorqueStudyResources.Strings.BRICKS ),
                                new HBox(
                                        30,
                                        new BrickStackCreatorNode( 1, model, mvt, canvas ),

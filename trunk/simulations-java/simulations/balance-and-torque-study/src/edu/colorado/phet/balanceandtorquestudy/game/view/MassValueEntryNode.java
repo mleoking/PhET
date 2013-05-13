@@ -13,7 +13,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameChallenge;
 import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameModel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -50,7 +50,7 @@ public class MassValueEntryNode extends PNode {
         this.canvas = canvas;
 
         // Add the textual prompt.
-        PText prompt = new PText( BalanceAndTorqueResources.Strings.MASS_EQUALS );
+        PText prompt = new PText( BalanceAndTorqueStudyResources.Strings.MASS_EQUALS );
         prompt.setFont( TEXT_FONT );
 
         // Create the sub-panel that will contain the edit box for entering
@@ -65,7 +65,7 @@ public class MassValueEntryNode extends PNode {
         numericalValueEntryPanel.add( numberEntryField );
 
         // Add the units label.
-        PText unitsLabel = new PText( BalanceAndTorqueResources.Strings.KG );
+        PText unitsLabel = new PText( BalanceAndTorqueStudyResources.Strings.KG );
         unitsLabel.setFont( TEXT_FONT );
 
         // Add a handler for the case where the user presses the Enter key.
@@ -79,7 +79,7 @@ public class MassValueEntryNode extends PNode {
         PSwing valueEntryPSwing = new PSwing( numericalValueEntryPanel );
 
         // Create the button for checking the answer.
-        checkAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.CHECK_ANSWER, new PhetFont( 20 ), Color.YELLOW );
+        checkAnswerButton = new TextButtonNode( BalanceAndTorqueStudyResources.Strings.CHECK_ANSWER, new PhetFont( 20 ), Color.YELLOW );
 
         // Register to send the user's guess when the button is pushed.
         checkAnswerButton.addActionListener( new ActionListener() {

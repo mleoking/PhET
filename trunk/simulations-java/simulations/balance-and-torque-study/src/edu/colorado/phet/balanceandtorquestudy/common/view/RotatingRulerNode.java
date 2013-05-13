@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.common.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -96,7 +96,7 @@ public class RotatingRulerNode extends PNode {
     private static class LabelUnitsNode extends PText {
         private LabelUnitsNode() {
             if ( !BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS ) {
-                setText( BalanceAndTorqueResources.Strings.METERS );
+                setText( BalanceAndTorqueStudyResources.Strings.METERS );
             }
             setFont( new PhetFont( 16 ) );
         }

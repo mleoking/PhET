@@ -4,8 +4,8 @@ package edu.colorado.phet.balanceandtorquestudy.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentTy
  */
 public class TiltPredictionChallenge extends BalanceGameChallenge {
 
-    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueResources.Strings.WHAT_WILL_HAPPEN, false, true );
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueStudyResources.Strings.WHAT_WILL_HAPPEN, false, true );
 
     // Number of attempts that the user gets to answer this challenge.
     private static final int NUM_ATTEMPTS_ALLOWED = 2;

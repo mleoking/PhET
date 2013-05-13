@@ -4,8 +4,8 @@ package edu.colorado.phet.balanceandtorquestudy.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
@@ -24,7 +24,7 @@ import static edu.colorado.phet.balanceandtorquestudy.common.BalanceAndTorqueSha
  */
 public class BalanceMassesChallenge extends BalanceGameChallenge {
 
-    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueResources.Strings.BALANCE_ME, false, false );
+    private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( BalanceAndTorqueStudyResources.Strings.BALANCE_ME, false, false );
 
     /**
      * Constructor.

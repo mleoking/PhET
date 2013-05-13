@@ -26,6 +26,6 @@ public class BalancingActApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, BalanceAndTorqueResources.PROJECT_NAME, "balancing-act", BalancingActApplication.class );
+        new PhetApplicationLauncher().launchSim( args, BalanceAndTorqueStudyResources.PROJECT_NAME, "balancing-act", BalancingActApplication.class );
     }
 }

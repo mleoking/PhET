@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
-import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.BALANCE_LAB;
 import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.balanceLabTab;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources.Strings.BALANCE_LAB;
 
 /**
  * The "Balance Lab" module.
