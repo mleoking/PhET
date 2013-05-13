@@ -18,6 +18,7 @@ public class BalanceAndTorqueStudyResources {
         public static final String ADD_SUPPORTS = RESOURCES.getLocalizedString( "addSupports" );
         public static final String BALANCE_LAB = RESOURCES.getLocalizedString( "balanceLab" );
         public static final String BALANCE_ME = RESOURCES.getLocalizedString( "balanceMe" );
+        public static final String BALANCING__ACT__NAME = RESOURCES.getLocalizedString( "balancing-act.name" );
         public static final String BRICKS = RESOURCES.getLocalizedString( "bricks" );
         public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "checkAnswer" );
         public static final String DISPLAY_CORRECT_ANSWER = RESOURCES.getLocalizedString( "displayCorrectAnswer" );
