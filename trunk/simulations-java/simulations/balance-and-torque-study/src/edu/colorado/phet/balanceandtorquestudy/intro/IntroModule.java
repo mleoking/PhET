@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.intro;
+package edu.colorado.phet.balanceandtorquestudy.intro;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.intro.model.IntroModel;
-import edu.colorado.phet.balanceandtorque.intro.view.IntroCanvas;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.intro.model.IntroModel;
+import edu.colorado.phet.balanceandtorquestudy.intro.view.IntroCanvas;
 import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.introTab;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.introTab;
 
 /**
  * The "Intro" module.

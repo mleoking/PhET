@@ -1,10 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.balancelab.model;
+package edu.colorado.phet.balanceandtorquestudy.balancelab.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.common.model.BalanceModel;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;

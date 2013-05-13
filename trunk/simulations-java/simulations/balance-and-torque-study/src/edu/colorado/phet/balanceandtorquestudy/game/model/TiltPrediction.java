@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.model;
+package edu.colorado.phet.balanceandtorquestudy.game.model;
 
 /**
  * Enum for predictions about how the plank will behave when the columns are

@@ -1,21 +1,21 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.view;
+package edu.colorado.phet.balanceandtorquestudy.common.view;
 
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
-import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
-import edu.colorado.phet.balanceandtorque.balancelab.view.MysteryVectorNode;
-import edu.colorado.phet.balanceandtorque.balancelab.view.PositionedVectorNode;
-import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
-import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.view.AttachmentBarNode;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.view.MysteryVectorNode;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.view.PositionedVectorNode;
+import edu.colorado.phet.balanceandtorquestudy.common.model.BalanceModel;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorquestudy.common.model.LevelSupportColumn;
+import edu.colorado.phet.balanceandtorquestudy.common.model.Plank.MassForceVector;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -37,9 +37,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Strings.*;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserActions.removedMass;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.MASS_LABELS;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.RULERS;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserActions.removedMass;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.massLabelsCheckBox;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.rulersCheckBox;
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
 /**

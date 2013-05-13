@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.model.masses;
+package edu.colorado.phet.balanceandtorquestudy.common.model.masses;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -7,8 +7,8 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
-import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ShapeMass;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;

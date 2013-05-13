@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.balancelab;
+package edu.colorado.phet.balanceandtorquestudy.balancelab;
 
-import edu.colorado.phet.balanceandtorque.balancelab.model.BalanceLabModel;
-import edu.colorado.phet.balanceandtorque.balancelab.view.BalanceLabCanvas;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.model.BalanceLabModel;
+import edu.colorado.phet.balanceandtorquestudy.balancelab.view.BalanceLabCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Strings.BALANCE_LAB;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.balanceLabTab;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.BALANCE_LAB;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.balanceLabTab;
 
 /**
  * The "Balance Lab" module.

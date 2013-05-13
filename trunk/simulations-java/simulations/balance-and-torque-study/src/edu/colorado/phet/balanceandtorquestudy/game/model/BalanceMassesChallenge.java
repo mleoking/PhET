@@ -1,19 +1,18 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.model;
+package edu.colorado.phet.balanceandtorquestudy.game.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
-import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
-import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.Plank;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.DISTANCE_VALUE_FORMATTER;
-import static edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.DISTANCE_VALUE_FORMATTER;
+import static edu.colorado.phet.balanceandtorquestudy.common.BalanceAndTorqueSharedConstants.USE_QUARTER_METER_INCREMENTS;
 
 /**
  * A challenge, used in the balance game, in which the user must attempt to
@@ -112,7 +111,7 @@ public class BalanceMassesChallenge extends BalanceGameChallenge {
         // will fail, and this method will need enhancement.
         assert movableMasses.size() == 1;
         for ( MassDistancePair massDistancePair : balancedConfiguration ) {
-            if ( massDistancePair.distance > 0 ){
+            if ( massDistancePair.distance > 0 ) {
                 return DISTANCE_VALUE_FORMATTER.format( USE_QUARTER_METER_INCREMENTS ? massDistancePair.distance * 4 : massDistancePair.distance );
             }
         }

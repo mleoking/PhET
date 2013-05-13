@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.game.model;
+package edu.colorado.phet.balanceandtorquestudy.game.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 
 /**
@@ -245,7 +245,7 @@ public abstract class BalanceGameChallenge {
      * Used for sim sharing support.
      *
      * @return A string suitable for sim sharing messages that indicates the
-     * correct answer.
+     *         correct answer.
      */
     abstract public String getCorrectAnswerString();
 }

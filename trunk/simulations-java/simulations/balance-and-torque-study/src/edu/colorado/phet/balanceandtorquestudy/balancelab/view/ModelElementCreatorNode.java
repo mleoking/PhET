@@ -1,12 +1,12 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.balanceandtorque.balancelab.view;
+package edu.colorado.phet.balanceandtorquestudy.balancelab.view;
 
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
+import edu.colorado.phet.balanceandtorquestudy.common.model.BalanceModel;
+import edu.colorado.phet.balanceandtorquestudy.common.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserActions.createdMass;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserActions.createdMass;
 
 /**
  * Base class for the Piccolo nodes that appear in the view, generally in some
@@ -77,8 +77,8 @@ public abstract class ModelElementCreatorNode extends PComposite {
                 modelElement = addElementToModel( getModelPosition( event.getCanvasPosition() ) );
                 SimSharingManager.sendUserMessage( modelElement.getUserComponent(), modelElement.getUserComponentType(), createdMass );
                 ParameterSet dragParameterSet = new ParameterSet().
-                    with( new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() )).
-                    with( new Parameter( ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() ) );
+                        with( new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() ) ).
+                        with( new Parameter( ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() ) );
                 SimSharingManager.sendUserMessage( modelElement.getUserComponent(), modelElement.getUserComponentType(), UserActions.startDrag, dragParameterSet );
             }
 
@@ -91,8 +91,8 @@ public abstract class ModelElementCreatorNode extends PComposite {
             public void mouseReleased( final PInputEvent event ) {
                 // The user has released this node.
                 ParameterSet dragParameterSet = new ParameterSet().
-                    with( new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() ) ).
-                    with( new Parameter( ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() ) );
+                        with( new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() ) ).
+                        with( new Parameter( ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() ) );
                 SimSharingManager.sendUserMessage( modelElement.getUserComponent(), modelElement.getUserComponentType(), UserActions.endDrag, dragParameterSet );
                 modelElement.release();
                 modelElement = null;

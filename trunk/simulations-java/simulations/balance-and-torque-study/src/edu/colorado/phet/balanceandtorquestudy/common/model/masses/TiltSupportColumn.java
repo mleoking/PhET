@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.model.masses;
+package edu.colorado.phet.balanceandtorquestudy.common.model.masses;
 
 import java.awt.Shape;
 
-import edu.colorado.phet.balanceandtorque.common.model.ShapeModelElement;
+import edu.colorado.phet.balanceandtorquestudy.common.model.ShapeModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**

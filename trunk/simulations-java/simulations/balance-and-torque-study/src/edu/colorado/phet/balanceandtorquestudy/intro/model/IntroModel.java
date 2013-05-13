@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.intro.model;
+package edu.colorado.phet.balanceandtorquestudy.intro.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.model.masses.FireExtinguisher;
-import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.balanceandtorque.common.model.masses.SmallTrashCan;
+import edu.colorado.phet.balanceandtorquestudy.common.model.BalanceModel;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.FireExtinguisher;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorquestudy.common.model.masses.SmallTrashCan;
 
 /**
  * Primary model class for the intro tab in the balancing act simulation.

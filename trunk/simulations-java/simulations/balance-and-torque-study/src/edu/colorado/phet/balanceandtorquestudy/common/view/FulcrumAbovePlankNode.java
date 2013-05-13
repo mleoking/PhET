@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.common.view;
+package edu.colorado.phet.balanceandtorquestudy.common.view;
 
 import java.awt.Color;
 
-import edu.colorado.phet.balanceandtorque.common.model.FulcrumAbovePlank;
+import edu.colorado.phet.balanceandtorquestudy.common.model.FulcrumAbovePlank;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 /**
