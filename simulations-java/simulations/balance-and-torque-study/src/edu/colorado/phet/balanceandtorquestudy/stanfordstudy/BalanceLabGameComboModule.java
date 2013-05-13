@@ -23,8 +23,8 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.BALANCE_LAB;
 import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.balanceLabTab;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources.Strings.BALANCE_LAB;
 import static edu.colorado.phet.balanceandtorquestudy.balancelab.view.BalanceLabCanvas.MassKitMode.FULL;
 import static edu.colorado.phet.balanceandtorquestudy.balancelab.view.BalanceLabCanvas.MassKitMode.SIMPLE;
 

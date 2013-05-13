@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.balancelab.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorquestudy.balancelab.view.MinSecNode;
 import edu.colorado.phet.balanceandtorquestudy.common.model.ColumnState;
@@ -110,16 +110,16 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }};
 
     // Buttons.
-    private TextButtonNode checkAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.CHECK_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
+    private TextButtonNode checkAnswerButton = new TextButtonNode( BalanceAndTorqueStudyResources.Strings.CHECK_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
         setUserComponent( checkAnswer );
     }};
-    private TextButtonNode tryAgainButton = new TextButtonNode( BalanceAndTorqueResources.Strings.TRY_AGAIN, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
+    private TextButtonNode tryAgainButton = new TextButtonNode( BalanceAndTorqueStudyResources.Strings.TRY_AGAIN, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
         setUserComponent( tryAgain );
     }};
-    private TextButtonNode nextChallengeButton = new TextButtonNode( BalanceAndTorqueResources.Strings.NEXT, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
+    private TextButtonNode nextChallengeButton = new TextButtonNode( BalanceAndTorqueStudyResources.Strings.NEXT, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
         setUserComponent( nextChallenge );
     }};
-    private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.DISPLAY_CORRECT_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
+    private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( BalanceAndTorqueStudyResources.Strings.DISPLAY_CORRECT_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
         setUserComponent( displayAnswer );
     }};
 
@@ -400,7 +400,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add a check box for controlling whether the ruler is visible.
         BooleanProperty rulerVisibilityProperty = new BooleanProperty( false );
         PropertyCheckBox rulerVisibilityCheckBox = new PropertyCheckBox( rulersCheckBox,
-                                                                         BalanceAndTorqueResources.Strings.SHOW_RULERS,
+                                                                         BalanceAndTorqueStudyResources.Strings.SHOW_RULERS,
                                                                          rulerVisibilityProperty );
         rulerVisibilityCheckBox.setFont( new PhetFont( 16 ) );
         rulerVisibilityCheckBox.setBackground( new Color( 0, 0, 0, 0 ) );

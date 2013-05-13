@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.common.model.BalanceModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -32,7 +32,7 @@ public abstract class MassCreatorNode extends ModelElementCreatorNode {
         super( model, mvt, canvas );
         if ( showMassLabel ) {
             String valueText = MASS_FORMATTER.format( mass );
-            setCaption( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, valueText, BalanceAndTorqueResources.Strings.KG ) );
+            setCaption( MessageFormat.format( BalanceAndTorqueStudyResources.Strings.PATTERN_0_VALUE_1_UNITS, valueText, BalanceAndTorqueStudyResources.Strings.KG ) );
         }
     }
 }

@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorquestudy.common.view.MassDragHandler;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -42,11 +42,11 @@ public class ImageMassNode extends PNode {
         massLabel = new PText() {{
             setFont( new PhetFont( 14 ) );
             if ( mass.isMystery() ) {
-                setText( BalanceAndTorqueResources.Strings.UNKNOWN_MASS_LABEL );
+                setText( BalanceAndTorqueStudyResources.Strings.UNKNOWN_MASS_LABEL );
             }
             else {
                 String valueText = MASS_VALUE_FORMAT.format( mass.getMass() );
-                setText( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, valueText, BalanceAndTorqueResources.Strings.KG ) );
+                setText( MessageFormat.format( BalanceAndTorqueStudyResources.Strings.PATTERN_0_VALUE_1_UNITS, valueText, BalanceAndTorqueStudyResources.Strings.KG ) );
             }
         }};
         addChild( massLabel );

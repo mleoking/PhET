@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorquestudy.balancelab.view;
 
 import java.awt.Color;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.PositionedVector;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -35,7 +35,7 @@ public class MysteryVectorNode extends PNode {
     public MysteryVectorNode( final Property<PositionedVector> positionedVectorProperty,
                               BooleanProperty visibilityProperty, final ModelViewTransform mvt ) {
         // Create the label and add it as a child.
-        final OutlineTextNode mysterySymbolNode = new OutlineTextNode( BalanceAndTorqueResources.Strings.UNKNOWN_MASS_LABEL, new PhetFont( FONT_SIZE, true ), Color.WHITE, Color.BLACK, 1 );
+        final OutlineTextNode mysterySymbolNode = new OutlineTextNode( BalanceAndTorqueStudyResources.Strings.UNKNOWN_MASS_LABEL, new PhetFont( FONT_SIZE, true ), Color.WHITE, Color.BLACK, 1 );
         addChild( mysterySymbolNode );
         // Listen to the vector and update the node when changes occur.
         positionedVectorProperty.addObserver( new VoidFunction1<PositionedVector>() {

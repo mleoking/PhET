@@ -6,8 +6,8 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.balancelab.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorquestudy.balancelab.view.MysteryVectorNode;
 import edu.colorado.phet.balanceandtorquestudy.balancelab.view.PositionedVectorNode;
@@ -37,11 +37,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
-import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.MASS_LABELS;
-import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources.Strings.RULERS;
 import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserActions.removedMass;
 import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.massLabelsCheckBox;
 import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.rulersCheckBox;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources.Strings.MASS_LABELS;
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources.Strings.RULERS;
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
 /**
@@ -164,7 +164,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
 
         // Add the buttons that will control whether or not the support columns
         // are in place.
-        final TextButtonNode addSupportsButton = new TextButtonNode( BalanceAndTorqueResources.Strings.ADD_SUPPORTS, new PhetFont( 14 ) ) {{
+        final TextButtonNode addSupportsButton = new TextButtonNode( BalanceAndTorqueStudyResources.Strings.ADD_SUPPORTS, new PhetFont( 14 ) ) {{
             setUserComponent( BalanceAndTorqueSimSharing.UserComponents.addSupportsButton );
             setBackground( Color.YELLOW );
             addInputEventListener( new ButtonEventHandler() {
@@ -177,7 +177,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         }};
         nonMassLayer.addChild( addSupportsButton );
 
-        final TextButtonNode removeSupportsButton = new TextButtonNode( BalanceAndTorqueResources.Strings.REMOVE_SUPPORTS, new PhetFont( 14 ) ) {{
+        final TextButtonNode removeSupportsButton = new TextButtonNode( BalanceAndTorqueStudyResources.Strings.REMOVE_SUPPORTS, new PhetFont( 14 ) ) {{
             setUserComponent( BalanceAndTorqueSimSharing.UserComponents.removeSupportsButton );
             setBackground( Color.YELLOW );
             addInputEventListener( new ButtonEventHandler() {
@@ -200,7 +200,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
         controlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 5, 1 ) ) {{
-            addChild( new PText( BalanceAndTorqueResources.Strings.SHOW ) {{
+            addChild( new PText( BalanceAndTorqueStudyResources.Strings.SHOW ) {{
                 setFont( new PhetFont( 18 ) );
             }} );
             addChild( new PropertyCheckBoxNode( massLabelsCheckBox, MASS_LABELS, massLabelVisibilityProperty ) );

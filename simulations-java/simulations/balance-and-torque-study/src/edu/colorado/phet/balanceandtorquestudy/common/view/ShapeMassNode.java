@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.common.model.ShapeMass;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -130,7 +130,7 @@ public class ShapeMassNode extends PNode {
             final PText massText = new PText( FORMATTER.format( mass ) );
             massText.setFont( FONT );
             addChild( massText );
-            addChild( new PText( BalanceAndTorqueResources.Strings.KG ) {{
+            addChild( new PText( BalanceAndTorqueStudyResources.Strings.KG ) {{
                 setFont( FONT );
                 setOffset( massText.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                            massText.getFullBoundsReference().getMaxY() - 5 );

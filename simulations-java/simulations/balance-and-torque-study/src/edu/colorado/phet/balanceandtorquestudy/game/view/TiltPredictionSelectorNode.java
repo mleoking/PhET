@@ -11,8 +11,8 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorquestudy.game.model.TiltPrediction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -49,17 +49,17 @@ public class TiltPredictionSelectorNode extends PNode {
 
     public TiltPredictionSelectorNode( Property<BalanceGameModel.GameState> gameStateProperty ) {
         PNode panelContents = new HBox( new TiltPredictionSelectionPanel( BalanceAndTorqueSimSharing.UserComponents.tiltLeftButton,
-                                                                          BalanceAndTorqueResources.Images.PLANK_TIPPED_LEFT,
+                                                                          BalanceAndTorqueStudyResources.Images.PLANK_TIPPED_LEFT,
                                                                           TiltPrediction.TILT_DOWN_ON_LEFT_SIDE,
                                                                           tiltPredictionProperty,
                                                                           gameStateProperty ),
                                         new TiltPredictionSelectionPanel( BalanceAndTorqueSimSharing.UserComponents.stayBalancedButton,
-                                                                          BalanceAndTorqueResources.Images.PLANK_BALANCED,
+                                                                          BalanceAndTorqueStudyResources.Images.PLANK_BALANCED,
                                                                           TiltPrediction.STAY_BALANCED,
                                                                           tiltPredictionProperty,
                                                                           gameStateProperty ),
                                         new TiltPredictionSelectionPanel( BalanceAndTorqueSimSharing.UserComponents.tiltRightButton,
-                                                                          BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT,
+                                                                          BalanceAndTorqueStudyResources.Images.PLANK_TIPPED_RIGHT,
                                                                           TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE,
                                                                           tiltPredictionProperty,
                                                                           gameStateProperty ) );
