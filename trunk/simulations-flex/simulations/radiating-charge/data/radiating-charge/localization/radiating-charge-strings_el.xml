@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_el.xml created Sun May 12 12:00:20 EEST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) Οκτ 9, 2012--><SimStrings>
+<string key="duration" value="διάρκεια"/>
+<string key="bump" value="Σύγκρουση"/>
+<string key="radiating-charge.simTitle" value="Φορτίο ακτινοβολίας"/>
+<string key="stopCharge" value="Διακοπή φορτίου"/>
+<string key="sinusoidal" value="Ημιτονοειδή"/>
+<string key="amplitude" value="Πλάτος"/>
+<string key="speedOfLight" value="c"/>
+<string key="noFrictionManual" value="Χωρίς τριβή"/>
+<string key="frequency" value="Συχνότητα"/>
+<string key="restart" value="Επανεκκίνηση"/>
+<string key="showVelocity" value="Εμφάνιση ταχύτητας"/>
+<string key="speed" value="Ταχύτητα"/>
+<string key="translation.credits" value="Γιάννης Κασκαμανίδης"/>
+<string key="frictionManual" value="Χειροκίνητα"/>
+<string key="linear" value="Γραμμικά"/>
+<string key="paused" value="ΣΕ ΠΑΥΣΗ"/>
+<string key="reset" value="Επαναφορά"/>
+<string key="circular" value="Κυκλικά"/>
+</SimStrings>
