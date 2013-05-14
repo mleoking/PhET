@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_pl.xml created Sat Jul 04 23:55:54 CEST 2009 using: wave-on-a-string 2.00.00 (30671), translation-utility 2.01.00 (31673) maj 14, 2009-->
-<SimStrings>
+<!--wave-on-a-string-strings_pl.xml created Sat May 04 22:26:37 CEST 2013 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
 <string key="manual" value="Ręcznie"/>
 <string key="resetTimer" value="zresetuj"/>
 <string key="damping" value="Tłumienie"/>
@@ -17,16 +16,16 @@
 <string key="high" value="duże"/>
 <string key="wiggleWrench" value="Porusz kluczem"/>
 <string key="timer" value="Stoper"/>
-<string key="oscillate" value="Potrząśnij"/>
+<string key="oscillate" value="Oscylator"/>
 <string key="rulers" value="Linijki"/>
 <string key="frequency" value="Częstotliwość"/>
 <string key="wrenchHelp" value="Porusz klucz"/>
-<string key="fixedEnd" value="Kaniec nieruchomy"/>
-<string key="refLineHelp" value="Przesuwalne linie odniesienia"/>
+<string key="fixedEnd" value="koniec nieruchomy"/>
+<string key="refLineHelp" value="przesuwalne linie odniesienia"/>
 <string key="hideHelp" value="Ukryj pomoc"/>
 <string key="timerHelp" value="przesuwalny stoper"/>
-<string key="looseEnd" value="Koniec swobodny"/>
-<string key="noEnd" value="Brak końca"/>
+<string key="looseEnd" value="koniec swobodny"/>
+<string key="noEnd" value="brak końca"/>
 <string key="paused" value="Zatrzymane"/>
 <string key="reset" value="Zresetuj"/>
 <string key="pulse2" value="Impuls"/>
