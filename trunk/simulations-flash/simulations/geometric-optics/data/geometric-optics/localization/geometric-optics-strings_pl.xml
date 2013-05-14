@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--geometric-optics-strings_pl.xml created Thu Jan 24 13:50:48 CET 2013 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
+<!--geometric-optics-strings_pl.xml created Sat May 04 23:56:18 CEST 2013 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
 <string key="draggableScreen" value="ruchomy ekran"/>
 <string key="draggableLens" value="ruchoma soczewka"/>
 <string key="screen" value="Ekran"/>
 <string key="draggableRuler" value="ruchoma linijka"/>
+<string key="simTitle" value="Optyka geometryczna"/>
 <string key="showHelp" value="Pokaż pomoc"/>
-<string key="moveMe" value="Jestem mobilny!"/>
+<string key="moveMe" value="Przesuń mnie!"/>
 <string key="showGuides" value="Pokaż uchwyty"/>
-<string key="diameter" value="wys. soczewki [m]"/>
+<string key="diameter" value="średnica [m]"/>
 <string key="ruler" value="Linijka"/>
 <string key="focalPoint" value="ognisko"/>
 <string key="curvatureRadius" value="prom. krzywizny [m]"/>
-<string key="changeObject" value="Narzędzia dodatk"/>
+<string key="changeObject" value="Zmień obiekt"/>
 <string key="principalRays" value="prom. podst."/>
 <string key="marginalRays" value="prom. skrajne"/>
 <string key="virtualImage" value="Obraz pozorny"/>
