@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--my-solar-system-strings_pl.xml created Fri Jul 03 21:59:34 CEST 2009 using: my-solar-system 2.00.00 (30671), translation-utility 2.01.00 (31673) maj 14, 2009-->
-<SimStrings>
+<!--my-solar-system-strings_pl.xml created Sat May 04 18:35:26 CEST 2013 using: my-solar-system 2.04.00 (72347), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
 <string key="slingshot" value="Ukł. wyrzucający "/>
 <string key="binaryStarPlanet" value="Ukł. podwójny, planeta"/>
 <string key="sunAndPlanet" value="Słońce i planety"/>
@@ -16,15 +15,15 @@
 <string key="yEquals" value="y ="/>
 <string key="hyperbolics" value="Hiperbole"/>
 <string key="xEquals" value="x ="/>
-<string key="help9" value="Prawa autorskie PhET oraz Uniwersytetu Kolorado - Boulder"/>
-<string key="help8" value="W przeciwieństwie do algorytmu Runge-Kutta, algorytm Verleta stosuje zasadę zasadę zachowania energii w okładzie oscylującym otrzymując stabilne orbity. Niestety w przypadku zbytniego zbliżenia ciał algorytm Verleta daje wyniki niezgodne z prawami fizyki. Aby ominąć ten problem ciała, które  się zbliżą zderzają się zgodnie z zasadą zachowania pędu."/>
+<string key="help9" value="Prawa autorskie PhET oraz Uniwersytet Kolorado w Boulder"/>
+<string key="help8" value="W przeciwieństwie do Runge-Kutta, algorytm Verleta stosuje zasadę zachowania energii w układzie oscylującym otrzymując stabilne orbity. W przypadku zbytniego zbliżenia ciał algorytm Verleta daje wyniki niezgodne z prawami fizyki. Aby ominąć ten problem, zbliżające się ciała zderzają się zgodnie z zasadą zachowania pędu."/>
 <string key="help6" value="Symulacja korzysta z algorytmu Verleta; używa stałych odcinków prędkości w celu całkowania orbit"/>
 <string key="stop" value="Stop"/>
 <string key="help5" value="Wprowadzenie ukladu centralnego, powoduje automatycznie wyłączenie układu środka masy"/>
-<string key="help4" value="Aby zobaczyć aktualne współrzędne i prędkości naciśnij Stop a następnie umieść wskaźnik myszy nad danym ciałem."/>
+<string key="help4" value="Aby zobaczyć położenie i prędkości naciśnij Stop i przesuń mysz nad obiekt."/>
 <string key="help3" value="Używaj mas mniejszych od kilku tysięcy, by uniknąć dziwnych wyników."/>
-<string key="help2" value="Odległości, masy oraz czasy wyrażone są w jednostkach względnych;&#10;wprowadź swoje własne!"/>
-<string key="help1" value="Zbuduj swój własny Układ Słoneczny przeciągając obiekty oraz sumbole V(prędkość); możesz równiesz wpisać parametry początkowe w tabeli"/>
+<string key="help2" value="Odległości, masy oraz czasy wyrażone są w jednostkach względnych. Wprowadź swoje własne!"/>
+<string key="help1" value="Zbuduj swój własny Układ Słoneczny przeciągając obiekty oraz symbole V(prędkość) lub wypełniając początkową tabelę ustawień."/>
 <string key="help0" value="Układ Słoneczny - symulator orbit"/>
 <string key="doubleSlingshot" value="Ukł. wyrzuc. podwójny"/>
 <string key="vYEquals" value="vy ="/>
@@ -45,7 +44,7 @@
 <string key="trojanAsteroids" value="Trojańczycy"/>
 <string key="fourStarBallet" value="Balet 4 gwiazd"/>
 <string key="position" value="Pozycja"/>
-<string key="reset" value="Zresetuj"/>
+<string key="reset" value="Skasuj"/>
 <string key="mass" value="masa"/>
 <string key="fast" value="szybko"/>
 <string key="simTitle" value="Mój Układ Słoneczny"/>
