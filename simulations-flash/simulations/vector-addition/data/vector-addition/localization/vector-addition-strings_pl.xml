@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--vector-addition-strings_pl.xml created Fri Jul 03 14:44:48 CEST 2009 using: vector-addition 2.00.00 (30671), translation-utility 2.01.00 (31673) maj 14, 2009-->
-<SimStrings>
+<!--vector-addition-strings_pl.xml created Tue May 07 22:51:38 CEST 2013 using: vector-addition 2.02.00 (52287), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
 <string key="showSum" value="Pokaż sumę"/>
 <string key="simTitle" value="Dodawanie wektorów"/>
-<string key="grabOne" value="Wektor"/>
-<string key="clearAll" value="Wyczyść wszystko"/>
+<string key="grabOne" value="Weź"/>
+<string key="clearAll" value="Wyczyść"/>
 <string key="componentDisplay" value="Pokaż współrzędne"/>
 <string key="y" value="y"/>
 <string key="style3" value="Sposób 3"/>
