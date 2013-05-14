@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_pl.xml created Fri Jan 11 22:04:07 CET 2013 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
+<!--arithmetic-strings_pl.xml created Tue Apr 30 15:34:35 CEST 2013 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) paź 9, 2012--><SimStrings>
 <string key="level" value="poziom"/>
 <string key="typeAnswer" value="Wpisz odpowiedź i naciśnij Enter"/>
 <string key="clickToSelect" value="Kliknij, aby wybrać poprawny kwadrat"/>
@@ -8,15 +8,15 @@
 <string key="isWrong" value=" jest źle."/>
 <string key="start" value="Start"/>
 <string key="simTitle" value="Arytmetyka"/>
-<string key="time" value="Czas (sec)"/>
-<string key="finalTime" value="całkowity czas"/>
+<string key="time" value="Czas (sek)"/>
+<string key="finalTime" value="całkowity czas:"/>
 <string key="multiply" value="Pomnóż"/>
-<string key="tryAgain" value="Spróbuj ponownie"/>
+<string key="tryAgain" value="Spróbuj ponownie."/>
 <string key="sound" value="Dźwięk"/>
 <string key="divide" value="Podziel"/>
 <string key="factor" value="Czynnik"/>
 <string key="minute" value="minuty"/>
-<string key="finalScore" value="końcowy wynik"/>
+<string key="finalScore" value="końcowy wynik:"/>
 <string key="nbrRight" value="prawidłowa liczba:"/>
 <string key="mustTypeNbr" value="Wpisz liczbę"/>
 <string key="score" value="Wynik:"/>
