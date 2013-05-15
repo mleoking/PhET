@@ -1,3 +1,5 @@
+# 1.03.12 (73024) May 15, 2013
+5/15/13 Custom version that saves logs in C:/STUDENT/
 # 1.03.11 (72975) May 13, 2013
 5/13/13 Redeploy  to fix launch issue.
 # 1.03.10 (72974) May 13, 2013
