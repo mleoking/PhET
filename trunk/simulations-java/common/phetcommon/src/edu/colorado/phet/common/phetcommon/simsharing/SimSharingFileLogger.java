@@ -25,8 +25,11 @@ public class SimSharingFileLogger implements Log {
     }
 
     private void createLogWriter() {
-        file = new File( System.getProperty( "user.home" ), "phet-logs/" +
-                                                            new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
+//        file = new File( System.getProperty( "user.home" ), "phet-logs/" +
+//                                                            new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
+        // Hard coded path for Stanford study, BACK OUT AFTER PUBLISHING 1 VERSION.
+        file = new File( "C:/STUDENT/", "phet-logs/" +
+                                        new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
         file.getParentFile().mkdirs();
         System.out.println( "Logging sim-sharing messages to file: " + file );//TODO this should use logger
         try {
