@@ -1,3 +1,5 @@
+# 2.02.02 (73027) May 15, 2013
+5/15/13 Doubled range of x,y.
 # 2.02.01 (73022) May 15, 2013
 # 2.02.00 (52283) May 21, 2011
 5/21/11 > added new translation credits features
