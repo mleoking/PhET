@@ -37,7 +37,7 @@ import static edu.colorado.phet.balanceandtorquestudy.balancelab.view.BalanceLab
  */
 public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
 
-    public static final int TOTAL_ALLOWED_TIME = 15 * 60;
+    public static final int TOTAL_ALLOWED_TIME = 20 * 60;
 
     private final BalanceLabModel balanceLabModel;
     private final BalanceLabCanvas balanceLabCanvas;
