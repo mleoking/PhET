@@ -88,7 +88,7 @@ public class BalanceLabGameComboModule extends SimSharingPiccoloModule {
             public void apply( Boolean inGame ) {
                 if ( inGame ) {
                     balanceLabModel.reset();
-                    balanceGameModel.resumeGame();
+                    balanceGameModel.startGame();
                     setSimulationPanel( balanceGameCanvas );
                     gamePlayedAtLeastOnce = true;
                     if ( !totalTimeTimer.isRunning() ) {
