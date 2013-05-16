@@ -233,6 +233,7 @@ public class BalanceGameModel {
         challengeCount = 0;
         incorrectGuessesOnCurrentChallenge = 0;
         gameStartTime = clock.getWallTime();
+        correctAnswers.set( 0 );
 
         // Set up the challenges.
         challengeList = BalanceGameChallengeFactory.generateChallengeSet( getLevel() );
