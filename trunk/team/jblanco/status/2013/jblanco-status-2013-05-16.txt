@@ -1,0 +1,71 @@
+PhET Progress Report, J. Blanco, 5-16-2013
+
+PhET Weekly Progress Report
+John Blanco
+May 16th, 2013
+
+Time period covered: May 9th through May 15th.
+
+Balancing Act: Changes for Stanford study - 20.0 hrs
+
+o	Added countdown timer prior to allowing users to interact with the challenge.
+o	Added feature where pillars come back if user interacts with a mass.
+o	Met with Min Chi and Dan Schwartz to review and work
+o	Changed layout and appearance of button and text from moving from lab to challenge set.
+o	Removed ability to show force vectors and level indicator on first screen.
+o	Got rid of "lockout" feature, since it was frustrating and not really needed.
+o	Removed ability to show ruler on 2nd tab.
+o	Changed the challenges so that the pillars are not removed when user gets correct answer.
+o	Made the game pick up where the user left off.
+o	Made the bricks all be 1kg instead of 5.
+o	Added stacks of 5 & 6 bricks to the first tab.
+o	Removed the people from the mass kit.
+o	Implemented an overall game timer that disables further interaction after a certain time.
+o	Worked with Sam R on an issue with authentication with MongoDB.
+o	Set up JNLP files with proxy arguments to the JVM in an attempt to get through proxy at school.  Didn't work.
+o	Supported Min and Howard during testing at school where study data will be collected.  Tried a number of ways for collection the data, ultimately worked out a custom version that stores logs in a preserved directory.
+
+Build an Atom (HTML5 version) - 5.0 hrs
+
+o	Implemented periodic table in Scenery.
+o	Started on display of atom for 2nd tab.
+o	Made SymbolTableView extend tab views.
+
+Ohm's Law (HTML5 version) - 4.0 hrs
+
+o	Logged issues resulting from team testing.
+o	Changed layout of reset and sound buttons.
+o	Moved current arrow to lower right (from upper right).
+o	Adjusted scaling algorithm, reviewed with Mike D.
+o	Adjusted initial and final sizes of letters in the formula.
+o	Tested fixes made by MLL.
+
+Resistance in a Wire (HTML5 version) - 2.0 hrs
+
+o	Logged issues resulting from team testing.
+o	Changed layout of reset button.
+o	Tested fixes made by MLL.
+    - Disappearing dots
+    - I getting occluded
+
+HTML5 Startup: Process Development - 2.0 hrs
+
+o	Weekly developer meeting and collaboration.
+
+HTML5 Startup: MLL Management - 1.5 hrs
+
+o	Started email discussion with Dmitry about submodules vs peer directories.
+o	Various email exchanges about finalizing OL and RIAW.
+
+Installer - 1.0 hrs
+
+o	Supported Oliver N in getting a working version (got a backup off of Figaro), need to figure out why current one is broken.
+
+Meetings, Email, and Other Administrative Overhead - 4.5 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
