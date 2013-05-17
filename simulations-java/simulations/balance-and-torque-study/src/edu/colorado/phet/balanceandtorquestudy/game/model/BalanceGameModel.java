@@ -303,13 +303,17 @@ public class BalanceGameModel {
         // Log a message about the user's proposed answer.
         sendProposedAnswerMessage( tiltPrediction.toString() );
 
-        // Turn off the column(s) so that the plank can move.
-        // Columns NOT turned off for the Stanford study version.
-//        supportColumnState.set( ColumnState.NONE );
+        // Figure out if user got it right.
+        boolean answerIsCorrect = ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_LEFT_SIDE && plank.getTorqueDueToMasses() > 0 ) ||
+                                  ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE && plank.getTorqueDueToMasses() < 0 ) ||
+                                  ( tiltPrediction == TiltPrediction.STAY_BALANCED && plank.getTorqueDueToMasses() == 0 );
 
-        handleProposedAnswer( ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_LEFT_SIDE && plank.getTorqueDueToMasses() > 0 ) ||
-                              ( tiltPrediction == TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE && plank.getTorqueDueToMasses() < 0 ) ||
-                              ( tiltPrediction == TiltPrediction.STAY_BALANCED && plank.getTorqueDueToMasses() == 0 ) );
+        if ( answerIsCorrect ) {
+            // Turn off the column(s) so that the plank can move.
+            supportColumnState.set( ColumnState.NONE );
+        }
+
+        handleProposedAnswer( answerIsCorrect );
     }
 
     // Send a sim sharing message that represents the user's proposed answer.
