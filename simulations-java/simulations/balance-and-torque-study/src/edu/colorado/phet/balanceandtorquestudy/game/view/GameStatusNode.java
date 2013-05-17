@@ -35,14 +35,13 @@ public class GameStatusNode extends PNode {
                                                     BACKGROUND_STROKE,
                                                     BACKGROUND_STROKE_COLOR );
         addChild( backgroundRect );
-        final PText statusMessage = new PhetPText( "X", FONT ) {{
-            setOffset( 10, SIZE.getHeight() / 2 - getFullBoundsReference().height / 2 );
-        }};
+        final PText statusMessage = new PhetPText( "X", FONT );
         backgroundRect.addChild( statusMessage );
 
         challengesCompleted.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer integer ) {
                 statusMessage.setText( "You have completed " + challengesCompleted.get() + " of " + totalChallenges + " challenges." );
+                statusMessage.centerFullBoundsOnPoint( SIZE.getWidth() / 2, SIZE.getHeight() / 2 );
             }
         } );
     }
