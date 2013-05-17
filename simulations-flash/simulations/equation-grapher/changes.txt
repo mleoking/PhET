@@ -1,3 +1,5 @@
+# 2.02.03 (73044) May 17, 2013
+5/17/13 Added integer-only behavior to sliders.
 # 2.02.02 (73027) May 15, 2013
 5/15/13 Doubled range of x,y.
 # 2.02.01 (73022) May 15, 2013
