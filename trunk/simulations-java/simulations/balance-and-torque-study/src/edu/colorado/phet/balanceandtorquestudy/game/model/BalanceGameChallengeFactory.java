@@ -274,10 +274,10 @@ public class BalanceGameChallengeFactory {
             balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_EQUAL_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_SUBORDINATE_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_CONFLICT_DOMINATE_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_CONFLICT_EQUAL_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_CONFLICT_SUBORDINATE_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_SUBORDINATE_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
             balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_CONFLICT_EQUAL_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
-            balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_CONFLICT_EQUAL_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
+            balanceChallengeList.add( generateUniqueChallenge( TILT_PREDICTION_CONFLICT_SUBORDINATE_CHALLENGE_GENERATOR, UNIQUE_FIXED_MASSES_AND_DISTANCES_TEST, USED_TILT_PREDICTION_CHALLENGES ) );
         }
         else {
             // This level is either out of range or not implemented yet.
@@ -351,77 +351,74 @@ public class BalanceGameChallengeFactory {
     }
 
     private static BalanceGameChallenge generateTiltPredictionConflictDominateChallenge() {
-        int numBricks1 = 0, numBricks2 = 0;
-        double distance1 = 0, distance2 = 0;
+        int numBricks1, numBricks2;
+        double distance1, distance2;
         do {
-            while ( numBricks1 <= numBricks2 ) {
+            do {
                 numBricks1 = RAND.nextInt( MAX_BRICKS_IN_TP_CHALLENGE_STACKS ) + 1;
                 numBricks2 = RAND.nextInt( MAX_BRICKS_IN_TP_CHALLENGE_STACKS ) + 1;
-            }
+            } while ( numBricks1 <= numBricks2 );
 
-            while ( distance1 >= distance2 ) {
+            do {
                 distance1 = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                               Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE );
                 distance2 = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                               Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE );
-            }
+            } while ( distance1 >= distance2 );
         } while ( numBricks1 * distance1 <= numBricks2 * distance2 );
 
         // Create the actual challenge from the pieces.
         return TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                distance1,
-                                               new BrickStack( numBricks1 ),
+                                               new BrickStack( numBricks2 ),
                                                -distance2 );
     }
 
     private static BalanceGameChallenge generateTiltPredictionConflictSubordinateChallenge() {
-        int numBricks1 = 0, numBricks2 = 0;
-        double distance1 = 0, distance2 = 0;
+        int numBricks1, numBricks2;
+        double distance1, distance2;
         do {
-            while ( numBricks1 <= numBricks2 ) {
+            do {
                 numBricks1 = RAND.nextInt( MAX_BRICKS_IN_TP_CHALLENGE_STACKS ) + 1;
                 numBricks2 = RAND.nextInt( MAX_BRICKS_IN_TP_CHALLENGE_STACKS ) + 1;
-            }
+            } while ( numBricks1 <= numBricks2 );
 
-            while ( distance1 >= distance2 ) {
+            do {
                 distance1 = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                               Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE );
                 distance2 = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                               Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE );
-            }
+            } while ( distance1 >= distance2 );
         } while ( numBricks1 * distance1 >= numBricks2 * distance2 );
 
         // Create the actual challenge from the pieces.
         return TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                distance1,
-                                               new BrickStack( numBricks1 ),
+                                               new BrickStack( numBricks2 ),
                                                -distance2 );
     }
 
     private static BalanceGameChallenge generateTiltPredictionConflictEqualChallenge() {
-        int numBricks1 = 0, numBricks2 = 0;
-        double distance1 = 0, distance2 = 0;
-        int passes = 0;
+        int numBricks1, numBricks2;
+        double distance1, distance2;
         do {
-            while ( numBricks1 <= numBricks2 ) {
+            do {
                 numBricks1 = RAND.nextInt( MAX_BRICKS_IN_TP_CHALLENGE_STACKS ) + 1;
                 numBricks2 = RAND.nextInt( MAX_BRICKS_IN_TP_CHALLENGE_STACKS ) + 1;
-            }
+            } while ( numBricks1 <= numBricks2 );
 
-            while ( distance1 >= distance2 ) {
+            do {
                 distance1 = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                               Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE );
                 distance2 = generateRandomValidPlankDistance( Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                               Plank.LENGTH / 2 - Plank.INTER_SNAP_TO_MARKER_DISTANCE );
-            }
-            passes++;
+            } while ( distance1 >= distance2 );
         } while ( numBricks1 * distance1 != numBricks2 * distance2 );
 
-        System.out.println( "passes to generate equal challenge = " + passes );
         // Create the actual challenge from the pieces.
         return TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                distance1,
-                                               new BrickStack( numBricks1 ),
+                                               new BrickStack( numBricks2 ),
                                                -distance2 );
     }
 
