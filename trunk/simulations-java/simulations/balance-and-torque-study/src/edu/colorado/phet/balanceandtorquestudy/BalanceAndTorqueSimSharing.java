@@ -51,12 +51,12 @@ public class BalanceAndTorqueSimSharing {
         backToPracticeScreenDialog
     }
 
-    public static enum ModelComponents implements IUserComponent, IModelComponent {
-        plank
-    }
-
     public static enum UserActions implements IUserAction {
         createdMass, removedMass
+    }
+
+    public static enum ModelComponents implements IUserComponent, IModelComponent {
+        plank, supportColumns
     }
 
     public static enum ModelComponentTypes implements IModelComponentType {
@@ -72,12 +72,13 @@ public class BalanceAndTorqueSimSharing {
     public static enum ModelActions implements IModelAction {
         massAddedToPlank, massRemovedFromPlank, startedTilting, stoppedTilting,
         challengePresented, proposedAnswerSubmitted, correctAnswerSubmitted,
-        incorrectAnswerSubmitted
+        incorrectAnswerSubmitted, removed, added
     }
 
     public static enum ParameterKeys implements IParameterKey {
         massValue, distanceFromPlankCenter, plankTiltAngle, massUserComponent,
-        pointsEarned, massValueShown, proposedAnswer, correctAnswer
+        pointsEarned, massValueShown, proposedAnswer, correctAnswer,
+        plankTiltState
     }
 
     public static Format MASS_VALUE_FORMATTER = new DefaultDecimalFormat( "0.0#" );

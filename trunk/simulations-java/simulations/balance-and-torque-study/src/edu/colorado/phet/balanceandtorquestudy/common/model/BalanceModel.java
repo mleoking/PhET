@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorquestudy.common.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -12,6 +13,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -83,6 +88,35 @@ public abstract class BalanceModel implements Resettable {
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clock.getDt() );
+            }
+        } );
+
+        // Send sim sharing messages about column state.
+        columnState.addObserver( new VoidFunction1<ColumnState>() {
+            public void apply( ColumnState columnState ) {
+
+                if ( columnState == ColumnState.NONE ) {
+                    String plankTiltState;
+                    if ( plank.getTorqueDueToMasses() > 0 ) {
+                        plankTiltState = "tiltingLeft";
+                    }
+                    else if ( plank.getTorqueDueToMasses() < 0 ) {
+                        plankTiltState = "tiltingRight";
+                    }
+                    else {
+                        plankTiltState = "remainingLevel";
+                    }
+                    SimSharingManager.sendModelMessage( BalanceAndTorqueSimSharing.ModelComponents.supportColumns,
+                                                        ModelComponentTypes.modelElement,
+                                                        BalanceAndTorqueSimSharing.ModelActions.removed,
+                                                        new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.plankTiltState, plankTiltState ) )
+                    );
+                }
+                else {
+                    SimSharingManager.sendModelMessage( BalanceAndTorqueSimSharing.ModelComponents.supportColumns,
+                                                        ModelComponentTypes.modelElement,
+                                                        BalanceAndTorqueSimSharing.ModelActions.added );
+                }
             }
         } );
     }
