@@ -104,7 +104,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     protected TiltPredictionSelectorNode tiltPredictionSelectorNode;
 
     // Create the smiling and frowning faces and center them on the screen.
-    private final SmileFaceWithScoreNode smilingFace = new SmileFaceWithScoreNode();
+    private final PNode smilingFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR );
     private final PNode frowningFace = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR ) {{
         frown();
     }};
@@ -477,7 +477,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
         }
         else if ( newState == SHOWING_CORRECT_ANSWER_FEEDBACK ) {
             GAME_AUDIO_PLAYER.correctAnswer();
-            smilingFace.setScore( model.getChallengeCurrentPointValue() );
             show( statusNode, nextChallengeButton, smilingFace );
             showChallengeGraphics();
         }
@@ -599,39 +598,5 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     public PNode getChallengeLayer() {
         return challengeLayer;
-    }
-
-    //-------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //-------------------------------------------------------------------------
-
-    /**
-     * Node that represents a smiling face with the additional points gained
-     * for getting the answer correct shown immediately below it.
-     */
-    private static class SmileFaceWithScoreNode extends PNode {
-
-        private static final Font SCORE_FONT = new PhetFont( 60, true );
-        private OutlineTextNode scoreNode;
-        private FaceNode faceNode;
-
-        private SmileFaceWithScoreNode() {
-            faceNode = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR );
-            addChild( faceNode );
-            scoreNode = new OutlineTextNode( "X", SCORE_FONT, Color.YELLOW, Color.BLACK, 1 );
-            addChild( scoreNode );
-        }
-
-        public void setScore( int score ) {
-            if ( score >= 0 ) {
-                scoreNode.setText( "+" + Integer.toString( score ) );
-                scoreNode.setOffset( faceNode.getFullBoundsReference().getMaxX() - scoreNode.getFullBoundsReference().width + 10,
-                                     faceNode.getFullBoundsReference().getMaxY() - scoreNode.getFullBoundsReference().height );
-            }
-            else {
-                System.out.println( getClass().getName() + " - Warning: Attempt to set zero or negative score." );
-                scoreNode.setText( "" );
-            }
-        }
     }
 }
