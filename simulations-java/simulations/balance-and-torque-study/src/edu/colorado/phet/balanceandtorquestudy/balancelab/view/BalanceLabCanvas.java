@@ -16,6 +16,9 @@ import edu.colorado.phet.balanceandtorquestudy.game.view.GameOverNode;
 import edu.colorado.phet.balanceandtorquestudy.stanfordstudy.BalanceLabGameComboModule;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -28,6 +31,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
 
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.UserComponents.beginChallengeButton;
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
 /**
@@ -83,6 +87,7 @@ public class BalanceLabCanvas extends BasicBalanceCanvas {
         // challenge.
         final StarButton starButton = new StarButton( 48, 80, false, new PBasicInputEventHandler() {
             @Override public void mouseClicked( PInputEvent event ) {
+                SimSharingManager.sendUserMessage( beginChallengeButton, UserComponentTypes.button, UserActions.pressed );
                 inGame.set( true );
             }
         } );
