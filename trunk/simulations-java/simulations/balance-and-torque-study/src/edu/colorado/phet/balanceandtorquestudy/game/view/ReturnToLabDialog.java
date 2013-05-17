@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -40,6 +41,7 @@ public class ReturnToLabDialog extends PNode {
 
         // Create the button.
         returnToLabButton = new TextButtonNode( "Back to practice screen", new PhetFont( 20 ), Color.YELLOW );
+        returnToLabButton.setUserComponent( BalanceAndTorqueSimSharing.UserComponents.backToPracticeScreenButton );
         returnToLabButton.addActionListener( buttonActionListener );
 
         // Lay out the node.
