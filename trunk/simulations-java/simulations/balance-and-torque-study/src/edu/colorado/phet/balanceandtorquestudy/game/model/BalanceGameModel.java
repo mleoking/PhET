@@ -457,7 +457,8 @@ public class BalanceGameModel {
                                             challengePresented,
                                             plank.getMassStateParameterSet()
                                                     .with( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.correctAnswer, balanceChallenge.getCorrectAnswerString() ) )
-                                                    .with( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.challengeNumber, correctAnswers.get() + 1 ) ) );
+                                                    .with( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.challengeNumber, correctAnswers.get() + 1 ) )
+                                                    .with( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.challengeID, balanceChallenge.challengeID ) ) );
     }
 
     /**

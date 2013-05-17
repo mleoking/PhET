@@ -1,3 +1,4 @@
+Added a unique identifier for each challenge, logged it as part of the "challengePresented" message.
 Made the columns go away in the game if the user gets the correct answer.
 Added logging of challenge number as a parameter in 'challengePresented' message.
 # 1.03.13 (73052) May 17, 2013

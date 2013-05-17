@@ -39,6 +39,9 @@ public abstract class BalanceGameChallenge {
     // challenge.
     public final int maxAttemptsAllowed;
 
+    static int instanceCount = 0;
+    public final int challengeID;
+
     /**
      * Constructor.
      *
@@ -56,6 +59,7 @@ public abstract class BalanceGameChallenge {
     public BalanceGameChallenge( ColumnState initialColumnState, int maxAttemptsAllowed ) {
         this.initialColumnState = initialColumnState;
         this.maxAttemptsAllowed = maxAttemptsAllowed;
+        challengeID = instanceCount++;
     }
 
     /**
