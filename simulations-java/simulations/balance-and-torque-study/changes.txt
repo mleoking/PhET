@@ -1,3 +1,4 @@
+Added logging of challenge number as a parameter in 'challengePresented' message.
 # 1.03.13 (73052) May 17, 2013
 5/17/13 Deploying to dev for testing by research team
 Added sim sharing model message for when supports are removed that also indicates tilt direction of the plank, see #3537.
