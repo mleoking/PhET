@@ -41,7 +41,7 @@ public class BalanceAndTorqueSimSharing {
         // Buttons
         redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
         checkAnswer, tryAgain, displayAnswer, nextChallenge, tiltLeftButton,
-        stayBalancedButton, tiltRightButton,
+        stayBalancedButton, tiltRightButton, beginChallengeButton,
 
         // Kits
         massKitSelector
