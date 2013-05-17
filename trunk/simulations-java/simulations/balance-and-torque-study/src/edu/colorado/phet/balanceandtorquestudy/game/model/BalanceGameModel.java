@@ -47,14 +47,29 @@ public class BalanceGameModel {
     public static final int MAX_LEVELS = 1;
     private static final int MAX_POINTS_PER_PROBLEM = 2;
     private static final int MAX_SCORE_PER_GAME = BalanceGameChallengeFactory.CHALLENGES_PER_SET * MAX_POINTS_PER_PROBLEM;
+    private static final int NUM_CHALLENGES = 8;
 
     // Information about the relationship between the plank and fulcrum.
     private static final double FULCRUM_HEIGHT = 0.85; // In meters.
     private static final double PLANK_HEIGHT = 0.75; // In meters.
 
+    // Types of tilt prediction challenges used.
+    private static final List<TiltPredictionChallengeType> TILT_PREDICTION_CHALLENGE_TYPES = new ArrayList<TiltPredictionChallengeType>() {{
+        add( TiltPredictionChallengeType.DOMINATE );
+        add( TiltPredictionChallengeType.EQUAL );
+        add( TiltPredictionChallengeType.SUBORDINATE );
+        add( TiltPredictionChallengeType.CONFLICT_DOMINATE );
+        add( TiltPredictionChallengeType.CONFLICT_EQUAL );
+        add( TiltPredictionChallengeType.CONFLICT_SUBORDINATE );
+        add( TiltPredictionChallengeType.CONFLICT_EQUAL );
+        add( TiltPredictionChallengeType.CONFLICT_SUBORDINATE );
+    }};
+
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
+
+    private BalanceGameChallenge currentChallenge;
 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( BalanceAndTorqueSharedConstants.FRAME_RATE );
@@ -77,10 +92,6 @@ public class BalanceGameModel {
     // Counters used to track progress on the game.
     private int challengeCount = 0;
     private int incorrectGuessesOnCurrentChallenge = 0;
-
-    // Current set of challenges, which collectively comprise a single game, on
-    // which the user is currently working.
-    private List<BalanceGameChallenge> challengeList;
 
     // Fixed masses that sit on the plank and that the user must attempt to balance.
     public ObservableList<MassDistancePair> fixedMasses = new ObservableList<MassDistancePair>();
@@ -235,11 +246,11 @@ public class BalanceGameModel {
         gameStartTime = clock.getWallTime();
         correctAnswers.set( 0 );
 
-        // Set up the challenges.
-        challengeList = TiltPredictionChallengeFactory.generateChallengeSet();
+        // Set up the first challenge.
+        currentChallenge = TiltPredictionChallengeFactory.getNextChallenge( TILT_PREDICTION_CHALLENGE_TYPES.get( challengeCount ) );
 
         // Set up the model for the next challenge
-        setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );
+        setChallenge( currentChallenge, currentChallenge.initialColumnState );
 
         // Switch to the new state, will create graphics for the challenge
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
@@ -252,7 +263,7 @@ public class BalanceGameModel {
     public void checkAnswer() {
 
         // Verify that this method isn't being used inappropriately.
-        assert getCurrentChallenge() instanceof BalanceMassesChallenge;
+        assert currentChallenge instanceof BalanceMassesChallenge;
 
         // Log a message about the user's proposed answer.
         List<Double> massDistances = new ArrayList<Double>();
@@ -280,7 +291,7 @@ public class BalanceGameModel {
     public void checkAnswer( double mass ) {
 
         // Verify that this method isn't being used inappropriately.
-        assert getCurrentChallenge() instanceof MassDeductionChallenge;
+        assert currentChallenge instanceof MassDeductionChallenge;
 
         // Log a message about the user's proposed answer.
         sendProposedAnswerMessage( Double.toString( mass ) );
@@ -298,7 +309,7 @@ public class BalanceGameModel {
     public void checkAnswer( TiltPrediction tiltPrediction ) {
 
         // Verify that this method isn't being used inappropriately.
-        assert getCurrentChallenge() instanceof TiltPredictionChallenge;
+        assert currentChallenge instanceof TiltPredictionChallenge;
 
         // Log a message about the user's proposed answer.
         sendProposedAnswerMessage( tiltPrediction.toString() );
@@ -319,7 +330,7 @@ public class BalanceGameModel {
     // Send a sim sharing message that represents the user's proposed answer.
     private void sendProposedAnswerMessage( String proposedAnswer ) {
         SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
-                                            getCurrentChallenge().getModelComponentType(),
+                                            currentChallenge.getModelComponentType(),
                                             proposedAnswerSubmitted,
                                             new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.proposedAnswer, proposedAnswer ) ) );
     }
@@ -336,18 +347,6 @@ public class BalanceGameModel {
                                             modelComponentType,
                                             isCorrect ? correctAnswerSubmitted : incorrectAnswerSubmitted,
                                             new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.pointsEarned, pointsEarned ) ) );
-    }
-
-    /**
-     * Get the current challenge.
-     *
-     * @return The current challenge, null if there isn't one.
-     */
-    public BalanceGameChallenge getCurrentChallenge() {
-        if ( challengeList == null || challengeList.size() <= challengeCount ) {
-            return null;
-        }
-        return challengeList.get( challengeCount );
     }
 
     /**
@@ -377,14 +376,15 @@ public class BalanceGameModel {
         }
 
         // Send up a sim sharing message about the result.
-        sendAnswerCheckResult( challengeList.get( challengeCount ).getModelComponentType(), answerIsCorrect, pointsEarned );
+        sendAnswerCheckResult( currentChallenge.getModelComponentType(), answerIsCorrect, pointsEarned );
     }
 
     public void nextChallenge() {
         challengeCount++;
         incorrectGuessesOnCurrentChallenge = 0;
-        if ( challengeCount < challengeList.size() ) {
-            setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );
+        if ( challengeCount < NUM_CHALLENGES ) {
+            currentChallenge = TiltPredictionChallengeFactory.getNextChallenge( TILT_PREDICTION_CHALLENGE_TYPES.get( challengeCount ) );
+            setChallenge( currentChallenge, currentChallenge.initialColumnState );
             gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
         }
         else {
@@ -476,13 +476,11 @@ public class BalanceGameModel {
         // Restore the column(s) to the original state but don't move the
         // masses anywhere.  This makes it easier for the users to see why
         // their answer was incorrect.
-        supportColumnState.set( getCurrentChallenge().initialColumnState );
+        supportColumnState.set( currentChallenge.initialColumnState );
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
     public void displayCorrectAnswer() {
-        BalanceGameChallenge currentChallenge = getCurrentChallenge();
-
         // Put the challenge in its initial state, but with the columns turned
         // off.
         setChallenge( currentChallenge, ColumnState.NONE );
@@ -528,10 +526,14 @@ public class BalanceGameModel {
      */
     private double getTotalFixedMassValue() {
         double totalMass = 0;
-        for ( MassDistancePair massDistancePair : getCurrentChallenge().fixedMassDistancePairs ) {
+        for ( MassDistancePair massDistancePair : currentChallenge.fixedMassDistancePairs ) {
             totalMass += massDistancePair.mass.getMass();
         }
         return totalMass;
+    }
+
+    public BalanceGameChallenge getCurrentChallenge() {
+        return currentChallenge;
     }
 
     //-------------------------------------------------------------------------
