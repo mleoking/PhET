@@ -22,17 +22,11 @@ public class TiltPredictionChallengeFactory {
     // Class Data
     //-------------------------------------------------------------------------
 
-    // Used for randomization of challenges.
     private static final Random RAND = new Random();
+    private static final int MAX_NUM_BRICKS_IN_STACK = 6;
+    private static final int MAX_DISTANCE_INCREMENTS = 8;
 
-    // Challenges per challenge set.
-    public static final int CHALLENGES_PER_SET = 8;
-
-    // Determine the min and max distances from the center of the plank where
-    // masses may be positioned.
-    private static final double MAX_DISTANCE_FROM_BALANCE_CENTER_TO_MASS = ( Math.round( Plank.getLength() / Plank.INTER_SNAP_TO_MARKER_DISTANCE / 2 ) - 1 ) * Plank.INTER_SNAP_TO_MARKER_DISTANCE;
-
-    // Lists of all possible tilt-prediction challenges of each of the potential types.
+    // Lists of all valid tilt-prediction challenges for each of the defined types.
     private static final List<TiltPredictionChallenge> DOMINATE_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
     private static final List<TiltPredictionChallenge> EQUAL_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
     private static final List<TiltPredictionChallenge> SUBORDINATE_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
@@ -40,10 +34,10 @@ public class TiltPredictionChallengeFactory {
     private static final List<TiltPredictionChallenge> CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
     private static final List<TiltPredictionChallenge> CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
 
-    // Initialize the possible challenges.
+    // Initialize the possible challenge lists.
     static {
-        for ( int numBricks = 1; numBricks <= 6; numBricks++ ) {
-            for ( int distanceIncrement = 1; distanceIncrement <= 8; distanceIncrement++ ) {
+        for ( int numBricks = 1; numBricks <= MAX_NUM_BRICKS_IN_STACK; numBricks++ ) {
+            for ( int distanceIncrement = 1; distanceIncrement <= MAX_DISTANCE_INCREMENTS; distanceIncrement++ ) {
                 DOMINATE_TILT_PREDICTION_CHALLENGES.addAll( generateDominateChallengeList( numBricks, distanceIncrement ) );
                 EQUAL_TILT_PREDICTION_CHALLENGES.addAll( generateEqualChallengeList( numBricks, distanceIncrement ) );
                 SUBORDINATE_TILT_PREDICTION_CHALLENGES.addAll( generateSubordinateChallengeList( numBricks, distanceIncrement ) );
@@ -54,6 +48,7 @@ public class TiltPredictionChallengeFactory {
         }
     }
 
+    // Indexes for each challenge type.
     private static int dominateChallengeIndex = RAND.nextInt( DOMINATE_TILT_PREDICTION_CHALLENGES.size() );
     private static int equalChallengeIndex = RAND.nextInt( EQUAL_TILT_PREDICTION_CHALLENGES.size() );
     private static int subordinateChallengeIndex = RAND.nextInt( SUBORDINATE_TILT_PREDICTION_CHALLENGES.size() );
@@ -74,7 +69,7 @@ public class TiltPredictionChallengeFactory {
     //-------------------------------------------------------------------------
 
     /*
-     * Get a set of tilt-prediction challenges.
+     * Create a set of tilt-prediction challenges.
      */
     public static List<BalanceGameChallenge> generateChallengeSet() {
         List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
@@ -95,18 +90,17 @@ public class TiltPredictionChallengeFactory {
         balanceChallengeList.add( CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES.get( conflictSubordinateChallengeIndex ) );
         conflictSubordinateChallengeIndex = conflictSubordinateChallengeIndex + 1 % CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES.size();
 
-        // Check that the appropriate number of challenges are in the set.
-        assert balanceChallengeList.size() == CHALLENGES_PER_SET;
-
         return balanceChallengeList;
     }
 
-    private static List<TiltPredictionChallenge> generateDominateChallengeList( int numBricks, int distanceIncrement ) {
+    private static List<TiltPredictionChallenge> generateDominateChallengeList( int numBricks1, int distanceIncrement ) {
         List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
-                                                           distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                           new BrickStack( numBricks ),
-                                                           -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+        for ( int numBricks2 = 1; numBricks2 < numBricks1; numBricks2++ ) {
+            challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
+                                                               distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                               new BrickStack( numBricks2 ),
+                                                               -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+        }
         return challengeList;
     }
 
@@ -119,39 +113,62 @@ public class TiltPredictionChallengeFactory {
         return challengeList;
     }
 
-    private static List<TiltPredictionChallenge> generateSubordinateChallengeList( int numBricks, int distanceIncrement ) {
+    private static List<TiltPredictionChallenge> generateSubordinateChallengeList( int numBricks, int distanceIncrement1 ) {
         List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
-                                                           distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                           new BrickStack( numBricks ),
-                                                           -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+        for ( int distanceIncrement2 = 1; distanceIncrement2 < distanceIncrement1; distanceIncrement2++ ) {
+            challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
+                                                               distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                               new BrickStack( numBricks ),
+                                                               -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+        }
         return challengeList;
     }
 
-    private static List<TiltPredictionChallenge> generateConflictDominateChallengeList( int numBricks, int distanceIncrement ) {
+    private static List<TiltPredictionChallenge> generateConflictDominateChallengeList( int numBricks1, int distanceIncrement1 ) {
         List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
-                                                           distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                           new BrickStack( numBricks ),
-                                                           -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+        for ( int numBricks2 = 1; numBricks2 < numBricks1; numBricks2++ ) {
+            for ( int distanceIncrement2 = distanceIncrement1 + 1; distanceIncrement2 <= MAX_DISTANCE_INCREMENTS; distanceIncrement2++ ) {
+                if ( numBricks1 * distanceIncrement1 > numBricks2 * distanceIncrement2 ) {
+                    challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
+                                                                       distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                       new BrickStack( numBricks2 ),
+                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+
+                }
+            }
+        }
         return challengeList;
     }
 
-    private static List<TiltPredictionChallenge> generateConflictEqualChallengeList( int numBricks, int distanceIncrement ) {
+    private static List<TiltPredictionChallenge> generateConflictEqualChallengeList( int numBricks1, int distanceIncrement1 ) {
         List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
-                                                           distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                           new BrickStack( numBricks ),
-                                                           -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+        for ( int numBricks2 = 1; numBricks2 < numBricks1; numBricks2++ ) {
+            for ( int distanceIncrement2 = distanceIncrement1 + 1; distanceIncrement2 <= MAX_DISTANCE_INCREMENTS; distanceIncrement2++ ) {
+                if ( numBricks1 * distanceIncrement1 == numBricks2 * distanceIncrement2 ) {
+                    challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
+                                                                       distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                       new BrickStack( numBricks2 ),
+                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+
+                }
+            }
+        }
         return challengeList;
     }
 
-    private static List<TiltPredictionChallenge> generateConflictSubordinateChallengeList( int numBricks, int distanceIncrement ) {
+    private static List<TiltPredictionChallenge> generateConflictSubordinateChallengeList( int numBricks1, int distanceIncrement1 ) {
         List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
-                                                           distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                           new BrickStack( numBricks ),
-                                                           -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+        for ( int numBricks2 = 1; numBricks2 < numBricks1; numBricks2++ ) {
+            for ( int distanceIncrement2 = distanceIncrement1 + 1; distanceIncrement2 <= MAX_DISTANCE_INCREMENTS; distanceIncrement2++ ) {
+                if ( numBricks1 * distanceIncrement1 < numBricks2 * distanceIncrement2 ) {
+                    challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
+                                                                       distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                       new BrickStack( numBricks2 ),
+                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+
+                }
+            }
+        }
         return challengeList;
     }
 }
