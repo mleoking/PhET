@@ -1,3 +1,20 @@
+Added sim sharing model message for when supports are removed that also indicates tilt direction of the plank, see #3537.
+Added more specificity to challenge type information in log messages, see #3537.
+Added sim sharing message for the popup dialog that returns the user to the "practice screen", see #3537.
+Added explicit user component for the button for returning to the practice screen, see #3537.
+Fixed an issue where the "Begin Challenge" button wasn't logging sim sharing events, see #3537.
+Implemented and integrated a more deterministic way of generating tilt prediction challenges, see #3537.
+Added infrastructure for a more deterministic way of generating the tilt-prediction challenges, see #3537.
+Removed 'resumeGame' method, since it is no longer needed, see #3537.
+Centered the balance horizontally on the screen, see #3537.
+Centered text in game status node, see #3537.
+Moved the feedback faces a bit so that they never overlap with masses on the plank, see #3537.
+Removed the point indicator from the smiley face, see #3537.
+FIxed some issues with the custom challenges requested by Stanford, seem to be working correctly at this point, see #3537.
+Got rid of unneeded initial call to startGame, see #3537.
+First shot at generating the custom challenges requested for the Stanford study, see #3537.
+Made the game start over when resumed instead of picking up where it left off.
+Updated the total game time from 15 to 20 minutes, see #3537.
 # 1.03.12 (73024) May 15, 2013
 5/15/13 Custom version that saves logs in C:/STUDENT/
 # 1.03.11 (72975) May 13, 2013
