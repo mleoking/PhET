@@ -65,7 +65,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
     // Constants that control the appearance of the happy and sad faces, used
     // to provide feedback to the user.
-    private static final double FACE_DIAMETER = DEFAULT_STAGE_SIZE.getWidth() * 0.30;
+    private static final double FACE_DIAMETER = DEFAULT_STAGE_SIZE.getWidth() * 0.27;
     private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     private static final Color EYE_AND_MOUTH_COLOR = new Color( 0, 0, 0, 100 ); // translucent gray
 
@@ -277,7 +277,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
                                                             tiltPredictionSelectorNodeCenter.getY() );
 
         // Position and add the smiley and frowny faces.
-        Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 20 );
+        Point2D feedbackFaceCenter = new Point2D.Double( mvt.modelToViewX( 0 ), FACE_DIAMETER / 2 + 15 );
         smilingFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
         frowningFace.centerFullBoundsOnPoint( feedbackFaceCenter.getX(), feedbackFaceCenter.getY() );
         rootNode.addChild( smilingFace );
