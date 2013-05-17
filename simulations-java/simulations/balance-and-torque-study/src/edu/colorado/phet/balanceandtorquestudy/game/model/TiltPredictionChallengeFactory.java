@@ -8,6 +8,8 @@ import java.util.Random;
 import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.BrickStack;
 
+import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.ModelComponentTypes.*;
+
 /**
  * This is a specialized version of a factory class that generates challenges
  * for the game.  This version was created specifically for the Stanford study
@@ -99,7 +101,8 @@ public class TiltPredictionChallengeFactory {
             challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                                distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                                new BrickStack( numBricks2 ),
-                                                               -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+                                                               -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                               tiltPredictionDominateChallenge ) );
         }
         return challengeList;
     }
@@ -109,7 +112,8 @@ public class TiltPredictionChallengeFactory {
         challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
                                                            distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                            new BrickStack( numBricks ),
-                                                           -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+                                                           -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                           tiltPredictionEqualChallenge ) );
         return challengeList;
     }
 
@@ -119,7 +123,8 @@ public class TiltPredictionChallengeFactory {
             challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
                                                                distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                                new BrickStack( numBricks ),
-                                                               -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+                                                               -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                               tiltPredictionSubordinateChallenge ) );
         }
         return challengeList;
     }
@@ -132,7 +137,8 @@ public class TiltPredictionChallengeFactory {
                     challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                                        distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                                        new BrickStack( numBricks2 ),
-                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                       tiltPredictionConflictDominateChallenge ) );
 
                 }
             }
@@ -148,7 +154,8 @@ public class TiltPredictionChallengeFactory {
                     challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                                        distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                                        new BrickStack( numBricks2 ),
-                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                       tiltPredictionConflictEqualChallenge ) );
 
                 }
             }
@@ -164,7 +171,8 @@ public class TiltPredictionChallengeFactory {
                     challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                                        distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                                        new BrickStack( numBricks2 ),
-                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE ) );
+                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                                                       tiltPredictionConflictSubordinateChallenge ) );
 
                 }
             }

@@ -61,7 +61,12 @@ public class BalanceAndTorqueSimSharing {
 
     public static enum ModelComponentTypes implements IModelComponentType {
         // Game challenge types.
-        balanceMassesChallenge, massDeductionChallenge, tiltPredictionChallenge
+        balanceMassesChallenge, massDeductionChallenge, tiltPredictionChallenge,
+        tiltPredictionDominateChallenge, tiltPredictionEqualChallenge,
+        tiltPredictionSubordinateChallenge,
+        tiltPredictionConflictDominateChallenge,
+        tiltPredictionConflictEqualChallenge,
+        tiltPredictionConflictSubordinateChallenge
     }
 
     public static enum ModelActions implements IModelAction {
