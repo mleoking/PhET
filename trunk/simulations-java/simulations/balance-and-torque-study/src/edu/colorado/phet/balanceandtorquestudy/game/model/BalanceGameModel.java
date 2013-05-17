@@ -451,9 +451,9 @@ public class BalanceGameModel {
         SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
                                             balanceChallenge.getModelComponentType(),
                                             challengePresented,
-                                            plank.getMassStateParameterSet().with( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.correctAnswer,
-                                                                                                  balanceChallenge.getCorrectAnswerString() )
-                                            ) );
+                                            plank.getMassStateParameterSet()
+                                                    .with( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.correctAnswer, balanceChallenge.getCorrectAnswerString() ) )
+                                                    .with( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.challengeNumber, correctAnswers.get() + 1 ) ) );
     }
 
     /**
