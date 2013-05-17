@@ -46,8 +46,8 @@ public class BalanceGameModel {
     // Constants that define some of the attributes of the game.
     public static final int MAX_LEVELS = 1;
     private static final int MAX_POINTS_PER_PROBLEM = 2;
-    private static final int MAX_SCORE_PER_GAME = BalanceGameChallengeFactory.CHALLENGES_PER_SET * MAX_POINTS_PER_PROBLEM;
-    private static final int NUM_CHALLENGES = 8;
+    public static final int NUM_CHALLENGES = 8;
+    private static final int MAX_SCORE_PER_GAME = NUM_CHALLENGES * MAX_POINTS_PER_PROBLEM;
 
     // Information about the relationship between the plank and fulcrum.
     private static final double FULCRUM_HEIGHT = 0.85; // In meters.
