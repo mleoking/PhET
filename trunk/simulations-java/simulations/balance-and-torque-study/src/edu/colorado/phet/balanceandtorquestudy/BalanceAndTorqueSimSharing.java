@@ -45,7 +45,10 @@ public class BalanceAndTorqueSimSharing {
         backToPracticeScreenButton,
 
         // Kits
-        massKitSelector
+        massKitSelector,
+
+        // Other
+        backToPracticeScreenDialog
     }
 
     public static enum ModelComponents implements IUserComponent, IModelComponent {

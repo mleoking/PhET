@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueStudyResources;
 import edu.colorado.phet.balanceandtorquestudy.balancelab.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorquestudy.balancelab.view.MinSecNode;
@@ -34,6 +35,9 @@ import edu.colorado.phet.balanceandtorquestudy.game.model.TiltPredictionChalleng
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -489,7 +493,9 @@ public class BalanceGameCanvas extends PhetPCanvas {
         else if ( newState == SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON ) {
             GAME_AUDIO_PLAYER.wrongAnswer();
             show( backToLabLayer );
-//            show( statusNode, displayCorrectAnswerButton, frowningFace );
+            SimSharingManager.sendUserMessage( BalanceAndTorqueSimSharing.UserComponents.backToPracticeScreenDialog,
+                                               UserComponentTypes.popup,
+                                               UserActions.popupTriggered );
             showChallengeGraphics();
         }
         else if ( newState == DISPLAYING_CORRECT_ANSWER ) {
