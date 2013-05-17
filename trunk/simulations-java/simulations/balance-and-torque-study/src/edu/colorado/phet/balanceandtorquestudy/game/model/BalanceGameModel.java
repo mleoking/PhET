@@ -529,10 +529,6 @@ public class BalanceGameModel {
         return totalMass;
     }
 
-    public void resumeGame() {
-        gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
-    }
-
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
