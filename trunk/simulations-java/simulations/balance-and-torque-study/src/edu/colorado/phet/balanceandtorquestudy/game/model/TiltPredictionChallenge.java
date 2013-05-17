@@ -23,15 +23,22 @@ public class TiltPredictionChallenge extends BalanceGameChallenge {
     // Number of attempts that the user gets to answer this challenge.
     private static final int NUM_ATTEMPTS_ALLOWED = 2;
 
+    private final IModelComponentType modelComponentType;
+
     /**
      * Constructor.
      *
      * @param fixedMasses
      */
     public TiltPredictionChallenge( List<MassDistancePair> fixedMasses ) {
+        this( fixedMasses, BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
+    }
+
+    public TiltPredictionChallenge( List<MassDistancePair> fixedMasses, IModelComponentType modelComponentType ) {
         super( ColumnState.DOUBLE_COLUMNS, NUM_ATTEMPTS_ALLOWED );
         this.fixedMassDistancePairs.addAll( fixedMasses );
         this.movableMasses.addAll( movableMasses );
+        this.modelComponentType = modelComponentType;
     }
 
     @Override public ChallengeViewConfig getChallengeViewConfig() {
@@ -39,14 +46,15 @@ public class TiltPredictionChallenge extends BalanceGameChallenge {
     }
 
     @Override public IModelComponentType getModelComponentType() {
-        return BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge;
+        return modelComponentType;
     }
 
     /**
      * Convenience method for creating this type of challenge.
      */
     public static TiltPredictionChallenge create( Mass fixedMass1, double fixedMass1DistanceFromCenter,
-                                                  Mass fixedMass2, double fixedMass2DistanceFromCenter ) {
+                                                  Mass fixedMass2, double fixedMass2DistanceFromCenter,
+                                                  IModelComponentType modelComponentType ) {
         // Add the fixed masses and their distances from the center of the balance.
         List<MassDistancePair> fixedMassesList = new ArrayList<MassDistancePair>();
         MassDistancePair fixedMassDistancePair1 = new MassDistancePair( fixedMass1, -fixedMass1DistanceFromCenter );
@@ -55,7 +63,7 @@ public class TiltPredictionChallenge extends BalanceGameChallenge {
         fixedMassesList.add( fixedMassDistancePair2 );
 
         // Create the actual challenge.
-        return new TiltPredictionChallenge( fixedMassesList );
+        return new TiltPredictionChallenge( fixedMassesList, modelComponentType );
     }
 
     @Override public String getCorrectAnswerString() {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.Barrel;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.BigRock;
@@ -305,7 +306,8 @@ public class BalanceGameChallengeFactory {
         return TiltPredictionChallenge.create( new BrickStack( numBricks ),
                                                distanceFromPlankCenter,
                                                new BrickStack( numBricks ),
-                                               -distanceFromPlankCenter );
+                                               -distanceFromPlankCenter,
+                                               BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
     }
 
     private static BalanceGameChallenge generateTiltPredictionDominateChallenge() {
@@ -325,7 +327,8 @@ public class BalanceGameChallengeFactory {
         return TiltPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
                                                distanceFromPlankCenter,
                                                new BrickStack( numBricksInRightState ),
-                                               -distanceFromPlankCenter );
+                                               -distanceFromPlankCenter,
+                                               BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
     }
 
     private static BalanceGameChallenge generateTiltPredictionSubordinateChallenge() {
@@ -347,7 +350,8 @@ public class BalanceGameChallengeFactory {
         return TiltPredictionChallenge.create( new BrickStack( numBricks ),
                                                distance1,
                                                new BrickStack( numBricks ),
-                                               -distance2 );
+                                               -distance2,
+                                               BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
     }
 
     private static BalanceGameChallenge generateTiltPredictionConflictDominateChallenge() {
@@ -371,7 +375,8 @@ public class BalanceGameChallengeFactory {
         return TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                distance1,
                                                new BrickStack( numBricks2 ),
-                                               -distance2 );
+                                               -distance2,
+                                               BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
     }
 
     private static BalanceGameChallenge generateTiltPredictionConflictSubordinateChallenge() {
@@ -395,7 +400,8 @@ public class BalanceGameChallengeFactory {
         return TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                distance1,
                                                new BrickStack( numBricks2 ),
-                                               -distance2 );
+                                               -distance2,
+                                               BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
     }
 
     private static BalanceGameChallenge generateTiltPredictionConflictEqualChallenge() {
@@ -419,7 +425,8 @@ public class BalanceGameChallengeFactory {
         return TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
                                                distance1,
                                                new BrickStack( numBricks2 ),
-                                               -distance2 );
+                                               -distance2,
+                                               BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
     }
 
     /**
@@ -656,7 +663,8 @@ public class BalanceGameChallengeFactory {
         return TiltPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
                                                distanceFromPlankCenter,
                                                new BrickStack( numBricksInRightState ),
-                                               -distanceFromPlankCenter );
+                                               -distanceFromPlankCenter,
+                                               BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
     }
 
     /**
@@ -688,7 +696,8 @@ public class BalanceGameChallengeFactory {
         return TiltPredictionChallenge.create( new BrickStack( numBricksInLeftStack ),
                                                leftMassDistance,
                                                new BrickStack( numBricksInRightState ),
-                                               rightMassDistance );
+                                               rightMassDistance,
+                                               BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge );
     }
 
     private static TiltPredictionChallenge generateModerateTiltPredictionChallenge() {
