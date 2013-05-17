@@ -1,12 +1,13 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.balanceandtorquestudy.game.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.BrickStack;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 
 import static edu.colorado.phet.balanceandtorquestudy.BalanceAndTorqueSimSharing.ModelComponentTypes.*;
 
@@ -28,35 +29,526 @@ public class TiltPredictionChallengeFactory {
     private static final int MAX_NUM_BRICKS_IN_STACK = 6;
     private static final int MAX_DISTANCE_INCREMENTS = 8;
 
-    // Lists of all valid tilt-prediction challenges for each of the defined types.
-    private static final List<TiltPredictionChallenge> DOMINATE_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
-    private static final List<TiltPredictionChallenge> EQUAL_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
-    private static final List<TiltPredictionChallenge> SUBORDINATE_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
-    private static final List<TiltPredictionChallenge> CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
-    private static final List<TiltPredictionChallenge> CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
-    private static final List<TiltPredictionChallenge> CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES = new ArrayList<TiltPredictionChallenge>();
+    private static final Map<TiltPredictionChallengeType, Integer> NEXT_CHALLENGE_INDEXES = new HashMap<TiltPredictionChallengeType, Integer>() {{
+        put( TiltPredictionChallengeType.DOMINATE, 0 );
+        put( TiltPredictionChallengeType.EQUAL, 0 );
+        put( TiltPredictionChallengeType.SUBORDINATE, 0 );
+        put( TiltPredictionChallengeType.CONFLICT_DOMINATE, 0 );
+        put( TiltPredictionChallengeType.CONFLICT_EQUAL, 0 );
+        put( TiltPredictionChallengeType.CONFLICT_SUBORDINATE, 0 );
+    }};
 
-    // Initialize the possible challenge lists.
-    static {
-        for ( int numBricks = 1; numBricks <= MAX_NUM_BRICKS_IN_STACK; numBricks++ ) {
-            for ( int distanceIncrement = 1; distanceIncrement <= MAX_DISTANCE_INCREMENTS; distanceIncrement++ ) {
-                DOMINATE_TILT_PREDICTION_CHALLENGES.addAll( generateDominateChallengeList( numBricks, distanceIncrement ) );
-                EQUAL_TILT_PREDICTION_CHALLENGES.addAll( generateEqualChallengeList( numBricks, distanceIncrement ) );
-                SUBORDINATE_TILT_PREDICTION_CHALLENGES.addAll( generateSubordinateChallengeList( numBricks, distanceIncrement ) );
-                CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGES.addAll( generateConflictDominateChallengeList( numBricks, distanceIncrement ) );
-                CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGES.addAll( generateConflictEqualChallengeList( numBricks, distanceIncrement ) );
-                CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES.addAll( generateConflictSubordinateChallengeList( numBricks, distanceIncrement ) );
-            }
-        }
-    }
+    // Challenge configurations, supplied by Min Chi of Stanford.
+    private static final int[][] DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS = new int[][] {
+            { 6, 6, 2, 6 },
+            { 3, 5, 5, 5 },
+            { 4, 7, 2, 7 },
+            { 4, 4, 1, 4 },
+            { 5, 4, 6, 4 },
+            { 5, 3, 6, 3 },
+            { 1, 3, 2, 3 },
+            { 3, 4, 5, 4 },
+            { 4, 5, 6, 5 },
+            { 4, 7, 6, 7 },
+            { 1, 2, 5, 2 },
+            { 6, 2, 4, 2 },
+            { 4, 2, 6, 2 },
+            { 1, 3, 3, 3 },
+            { 3, 4, 6, 4 },
+            { 6, 2, 1, 2 },
+            { 3, 6, 1, 6 },
+            { 5, 2, 1, 2 },
+            { 1, 1, 4, 1 },
+            { 2, 5, 6, 5 },
+            { 6, 1, 3, 1 },
+            { 3, 2, 1, 2 },
+            { 1, 6, 6, 6 },
+            { 2, 4, 5, 4 },
+            { 1, 2, 4, 2 },
+            { 3, 8, 4, 8 },
+            { 3, 4, 1, 4 },
+            { 3, 6, 2, 6 },
+            { 1, 4, 5, 4 },
+            { 1, 8, 5, 8 },
+            { 6, 1, 1, 1 },
+            { 6, 4, 4, 4 },
+            { 2, 2, 3, 2 },
+            { 5, 8, 6, 8 },
+            { 3, 2, 5, 2 },
+            { 1, 8, 2, 8 },
+            { 2, 3, 4, 3 },
+            { 5, 5, 4, 5 },
+            { 2, 5, 5, 5 },
+            { 1, 7, 3, 7 },
+            { 5, 1, 3, 1 },
+            { 5, 5, 6, 5 },
+            { 6, 7, 4, 7 },
+            { 6, 8, 3, 8 },
+            { 2, 3, 5, 3 },
+            { 5, 6, 2, 6 },
+            { 6, 8, 4, 8 },
+            { 5, 1, 2, 1 },
+            { 2, 8, 4, 8 },
+            { 6, 2, 5, 2 },
+            { 2, 5, 3, 5 },
+            { 3, 8, 5, 8 },
+            { 4, 7, 3, 7 },
+            { 3, 1, 5, 1 },
+            { 5, 1, 6, 1 },
+            { 6, 3, 5, 3 },
+            { 1, 6, 2, 6 },
+            { 3, 5, 4, 5 },
+            { 4, 4, 3, 4 },
+            { 3, 6, 6, 6 },
+            { 5, 5, 3, 5 },
+            { 6, 8, 1, 8 },
+            { 5, 7, 3, 7 },
+            { 4, 5, 2, 5 },
+            { 4, 8, 3, 8 },
+            { 3, 3, 2, 3 },
+            { 6, 8, 5, 8 },
+            { 1, 3, 4, 3 },
+            { 1, 4, 2, 4 },
+            { 4, 2, 3, 2 },
+            { 3, 1, 6, 1 },
+            { 6, 5, 1, 5 },
+            { 6, 7, 5, 7 },
+            { 3, 6, 4, 6 },
+            { 3, 3, 1, 3 },
+            { 1, 1, 5, 1 },
+            { 1, 8, 6, 8 },
+            { 3, 5, 6, 5 },
+            { 1, 5, 6, 5 },
+            { 3, 3, 5, 3 },
+            { 4, 4, 6, 4 },
+            { 5, 2, 4, 2 },
+            { 6, 2, 3, 2 },
+            { 3, 8, 6, 8 },
+            { 6, 3, 1, 3 },
+            { 5, 1, 1, 1 },
+            { 4, 3, 5, 3 },
+            { 6, 8, 2, 8 },
+            { 6, 1, 2, 1 },
+            { 5, 5, 1, 5 },
+            { 4, 2, 2, 2 },
+            { 4, 6, 3, 6 },
+            { 6, 7, 3, 7 },
+            { 6, 5, 5, 5 },
+            { 4, 8, 2, 8 },
+            { 2, 5, 1, 5 },
+            { 5, 4, 1, 4 },
+            { 2, 7, 4, 7 },
+            { 6, 4, 1, 4 },
+            { 4, 2, 1, 2 },
+            { 3, 3, 6, 3 },
+            { 4, 3, 3, 3 },
+            { 1, 5, 5, 5 },
+            { 4, 7, 1, 7 },
+            { 4, 6, 2, 6 },
+            { 4, 6, 6, 6 },
+            { 1, 3, 5, 3 },
+            { 1, 8, 4, 8 },
+            { 1, 5, 2, 5 },
+            { 2, 7, 5, 7 },
+            { 6, 5, 2, 5 },
+            { 2, 8, 5, 8 },
+            { 2, 4, 6, 4 },
+            { 5, 8, 4, 8 },
+            { 4, 4, 2, 4 },
+            { 5, 8, 1, 8 },
+            { 5, 2, 3, 2 },
+            { 2, 1, 4, 1 },
+            { 5, 3, 3, 3 },
+            { 5, 6, 3, 6 },
+            { 7, 6, 5, 6 }
+    };
 
-    // Indexes for each challenge type.
-    private static int dominateChallengeIndex = RAND.nextInt( DOMINATE_TILT_PREDICTION_CHALLENGES.size() );
-    private static int equalChallengeIndex = RAND.nextInt( EQUAL_TILT_PREDICTION_CHALLENGES.size() );
-    private static int subordinateChallengeIndex = RAND.nextInt( SUBORDINATE_TILT_PREDICTION_CHALLENGES.size() );
-    private static int conflictDominateChallengeIndex = RAND.nextInt( CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGES.size() );
-    private static int conflictEqualChallengeIndex = RAND.nextInt( CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGES.size() );
-    private static int conflictSubordinateChallengeIndex = RAND.nextInt( CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES.size() );
+    private static final int[][] EQUAL_TILT_PREDICTION_CHALLENGE_CONFIGS = new int[][] {
+            { 4, 3, 4, 3 },
+            { 1, 1, 1, 1 },
+            { 6, 6, 6, 6 },
+            { 1, 5, 1, 5 },
+            { 4, 5, 4, 5 },
+            { 5, 3, 5, 3 },
+            { 1, 3, 1, 3 },
+            { 6, 7, 6, 7 },
+            { 3, 7, 3, 7 },
+            { 3, 4, 3, 4 },
+            { 2, 3, 2, 3 },
+            { 3, 1, 3, 1 },
+            { 4, 4, 4, 4 },
+            { 1, 6, 1, 6 },
+            { 2, 1, 2, 1 },
+            { 5, 2, 5, 2 },
+            { 4, 8, 4, 8 },
+            { 5, 8, 5, 8 },
+            { 3, 2, 3, 2 },
+            { 6, 1, 6, 1 },
+            { 5, 7, 5, 7 },
+            { 2, 7, 2, 7 },
+            { 1, 4, 1, 4 },
+            { 6, 4, 6, 4 },
+            { 2, 6, 2, 6 },
+            { 5, 5, 5, 5 },
+            { 3, 3, 3, 3 },
+            { 1, 8, 1, 8 },
+            { 6, 5, 6, 5 },
+            { 6, 8, 6, 8 },
+            { 4, 1, 4, 1 },
+            { 3, 8, 3, 8 },
+            { 3, 5, 3, 5 },
+            { 4, 7, 4, 7 },
+            { 1, 7, 1, 7 },
+            { 2, 4, 2, 4 },
+            { 6, 2, 6, 2 },
+            { 6, 3, 6, 3 },
+            { 5, 6, 5, 6 },
+            { 5, 4, 5, 4 },
+            { 1, 2, 1, 2 },
+            { 2, 2, 2, 2 },
+            { 3, 6, 3, 6 },
+            { 2, 5, 2, 5 },
+            { 5, 1, 5, 1 },
+            { 4, 6, 4, 6 },
+            { 4, 2, 4, 2 },
+            { 2, 8, 2, 8 }
+    };
+
+    private static final int[][] SUBORDINATE_TILT_PREDICTION_CHALLENGE_CONFIGS = new int[][] {
+            { 1, 8, 1, 4 },
+            { 2, 8, 2, 3 },
+            { 5, 8, 5, 6 },
+            { 1, 8, 1, 7 },
+            { 3, 1, 3, 5 },
+            { 2, 7, 2, 5 },
+            { 5, 3, 5, 1 },
+            { 6, 7, 6, 3 },
+            { 3, 4, 3, 1 },
+            { 6, 5, 6, 8 },
+            { 1, 7, 1, 5 },
+            { 5, 6, 5, 4 },
+            { 6, 8, 6, 7 },
+            { 1, 8, 1, 2 },
+            { 2, 7, 2, 2 },
+            { 3, 5, 3, 4 },
+            { 6, 6, 6, 8 },
+            { 1, 3, 1, 6 },
+            { 5, 4, 5, 1 },
+            { 3, 5, 3, 8 },
+            { 4, 1, 4, 5 },
+            { 5, 2, 5, 1 },
+            { 5, 2, 5, 4 },
+            { 5, 6, 5, 8 },
+            { 5, 8, 5, 7 },
+            { 6, 6, 6, 4 },
+            { 1, 5, 1, 4 },
+            { 3, 4, 3, 7 },
+            { 6, 7, 6, 1 },
+            { 4, 1, 4, 7 },
+            { 2, 4, 2, 1 },
+            { 1, 1, 1, 2 },
+            { 4, 2, 4, 7 },
+            { 5, 3, 5, 2 },
+            { 1, 1, 1, 3 },
+            { 1, 4, 1, 7 },
+            { 3, 6, 3, 5 },
+            { 3, 3, 3, 5 },
+            { 2, 6, 2, 5 },
+            { 2, 3, 2, 1 },
+            { 6, 1, 6, 3 },
+            { 6, 5, 6, 3 },
+            { 4, 3, 4, 2 },
+            { 6, 6, 6, 7 },
+            { 4, 7, 4, 5 },
+            { 5, 7, 5, 6 },
+            { 5, 3, 5, 8 },
+            { 4, 6, 4, 4 },
+            { 6, 2, 6, 4 },
+            { 1, 2, 1, 8 },
+            { 1, 7, 1, 1 },
+            { 2, 3, 2, 5 },
+            { 6, 4, 6, 3 },
+            { 1, 7, 1, 6 },
+            { 1, 7, 1, 3 },
+            { 4, 5, 4, 4 },
+            { 2, 1, 2, 5 },
+            { 5, 4, 5, 3 },
+            { 1, 1, 1, 7 },
+            { 1, 2, 1, 5 },
+            { 2, 2, 2, 1 },
+            { 6, 7, 6, 5 },
+            { 6, 3, 6, 6 },
+            { 2, 8, 2, 2 },
+            { 3, 5, 3, 6 },
+            { 5, 6, 5, 5 },
+            { 1, 6, 1, 4 },
+            { 1, 3, 1, 7 },
+            { 5, 5, 5, 6 },
+            { 2, 2, 2, 5 },
+            { 5, 6, 5, 1 },
+            { 1, 1, 1, 5 },
+            { 3, 7, 3, 1 },
+            { 5, 1, 5, 6 },
+            { 4, 2, 4, 6 },
+            { 1, 7, 1, 8 },
+            { 1, 4, 1, 2 },
+            { 3, 7, 3, 8 },
+            { 4, 2, 4, 5 },
+            { 3, 4, 3, 6 },
+            { 4, 7, 4, 4 },
+            { 5, 1, 5, 4 },
+            { 4, 1, 4, 3 },
+            { 4, 8, 4, 6 },
+            { 6, 3, 6, 1 },
+            { 1, 5, 1, 8 },
+            { 2, 6, 2, 1 },
+            { 3, 8, 3, 5 },
+            { 2, 2, 2, 7 },
+            { 3, 8, 3, 6 },
+            { 6, 8, 6, 5 },
+            { 4, 7, 4, 3 },
+            { 6, 1, 6, 8 },
+            { 1, 3, 1, 1 },
+            { 2, 8, 2, 5 },
+            { 2, 8, 2, 6 },
+            { 2, 1, 2, 2 },
+            { 2, 7, 2, 4 },
+            { 1, 5, 1, 6 },
+            { 1, 2, 1, 6 },
+            { 1, 4, 1, 3 },
+            { 5, 5, 5, 1 },
+            { 4, 6, 4, 7 },
+            { 4, 6, 4, 1 },
+            { 3, 6, 3, 3 },
+            { 5, 2, 5, 8 },
+            { 4, 5, 4, 7 },
+            { 4, 1, 4, 4 },
+            { 6, 5, 6, 1 },
+            { 1, 6, 1, 1 },
+            { 1, 7, 1, 4 },
+            { 4, 8, 4, 1 },
+            { 1, 3, 1, 8 },
+            { 4, 2, 4, 1 },
+            { 2, 3, 2, 7 },
+            { 4, 8, 4, 3 },
+            { 1, 6, 1, 8 },
+            { 1, 6, 1, 7 },
+            { 2, 6, 2, 3 },
+            { 3, 2, 3, 8 },
+            { 3, 7, 3, 6 },
+            { 3, 6, 3, 2 },
+            { 3, 2, 3, 5 },
+            { 1, 8, 1, 5 },
+            { 4, 7, 4, 1 },
+            { 2, 6, 2, 4 },
+            { 1, 1, 1, 6 },
+            { 4, 8, 4, 2 },
+            { 4, 5, 4, 2 },
+            { 3, 3, 3, 6 },
+            { 1, 6, 1, 5 },
+            { 4, 1, 4, 6 },
+            { 4, 2, 4, 3 },
+            { 3, 8, 3, 3 },
+            { 5, 3, 5, 7 },
+            { 1, 3, 1, 4 },
+            { 2, 6, 2, 8 },
+            { 1, 2, 1, 7 },
+            { 2, 5, 2, 8 },
+            { 4, 8, 4, 7 },
+            { 3, 3, 3, 2 },
+            { 1, 2, 1, 3 },
+            { 2, 4, 2, 7 },
+            { 1, 4, 1, 1 },
+            { 2, 5, 2, 3 },
+            { 6, 1, 6, 6 },
+            { 5, 8, 5, 3 },
+            { 2, 1, 2, 4 },
+            { 4, 3, 4, 8 },
+            { 6, 8, 6, 1 },
+            { 4, 5, 4, 8 },
+            { 3, 3, 3, 8 },
+            { 3, 6, 3, 8 },
+            { 3, 5, 3, 1 },
+            { 4, 7, 4, 6 },
+            { 5, 5, 5, 2 },
+            { 3, 8, 3, 1 },
+            { 5, 5, 5, 7 },
+            { 6, 2, 6, 7 },
+            { 2, 4, 2, 3 },
+            { 5, 7, 5, 2 },
+            { 6, 3, 6, 5 },
+            { 4, 8, 4, 5 },
+            { 1, 4, 1, 5 },
+            { 3, 7, 3, 2 },
+            { 6, 2, 6, 8 },
+            { 6, 1, 6, 4 }
+    };
+    private static final int[][] CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS = new int[][] {
+            { 2, 5, 1, 7 },
+            { 5, 6, 4, 7 },
+            { 3, 2, 1, 4 },
+            { 1, 7, 3, 5 },
+            { 3, 4, 1, 6 },
+            { 5, 3, 2, 6 },
+            { 4, 7, 3, 8 },
+            { 6, 4, 2, 8 },
+            { 6, 3, 2, 8 },
+            { 1, 8, 6, 2 },
+            { 2, 5, 4, 3 },
+            { 1, 6, 5, 2 },
+            { 3, 7, 6, 4 },
+            { 1, 6, 4, 2 },
+            { 3, 5, 1, 7 },
+            { 1, 8, 3, 3 },
+            { 2, 8, 4, 5 },
+            { 5, 3, 1, 7 },
+            { 5, 3, 2, 7 },
+            { 4, 3, 1, 8 },
+            { 1, 4, 3, 2 },
+            { 5, 8, 6, 7 },
+            { 1, 8, 5, 4 },
+            { 4, 4, 2, 7 },
+            { 1, 6, 2, 5 },
+            { 1, 7, 2, 4 },
+            { 2, 6, 5, 3 },
+            { 3, 8, 5, 5 },
+            { 3, 6, 5, 4 },
+            { 3, 5, 4, 4 },
+            { 5, 4, 3, 6 },
+            { 2, 7, 4, 5 },
+            { 4, 5, 2, 7 },
+            { 4, 6, 2, 8 },
+            { 2, 5, 1, 6 },
+            { 1, 8, 2, 5 },
+            { 3, 3, 1, 6 },
+            { 2, 4, 1, 7 },
+            { 6, 6, 5, 7 },
+            { 1, 5, 3, 3 },
+            { 4, 2, 1, 5 },
+            { 1, 4, 2, 3 },
+            { 5, 7, 4, 8 },
+            { 2, 7, 5, 3 },
+            { 4, 3, 1, 7 },
+            { 3, 6, 4, 5 },
+            { 6, 2, 1, 8 },
+            { 4, 7, 6, 5 },
+            { 3, 3, 1, 5 },
+            { 2, 8, 4, 6 },
+            { 3, 5, 2, 7 },
+            { 2, 4, 1, 5 },
+            { 2, 8, 3, 7 },
+            { 2, 8, 6, 3 },
+            { 1, 7, 5, 3 },
+            { 4, 2, 1, 7 },
+            { 2, 7, 4, 4 },
+            { 3, 6, 2, 7 },
+            { 2, 3, 1, 4 },
+            { 2, 6, 1, 7 },
+            { 3, 8, 5, 6 },
+            { 1, 7, 4, 4 },
+            { 4, 8, 5, 7 },
+            { 6, 5, 3, 8 },
+            { 5, 2, 1, 6 },
+            { 3, 5, 1, 8 },
+            { 3, 7, 5, 5 },
+            { 2, 7, 5, 4 },
+            { 5, 2, 1, 7 },
+            { 1, 8, 2, 6 },
+            { 3, 3, 1, 8 },
+            { 1, 8, 6, 3 },
+            { 6, 6, 4, 8 },
+            { 6, 5, 4, 7 },
+            { 1, 8, 3, 6 },
+            { 5, 5, 3, 8 },
+            { 2, 8, 3, 6 },
+            { 1, 8, 3, 5 },
+    };
+
+    private static final int[][] CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGE_CONFIGS = new int[][] {
+            { 3, 8, 4, 6 },
+            { 3, 4, 6, 2 },
+            { 1, 8, 4, 2 },
+            { 6, 1, 3, 2 },
+            { 2, 2, 4, 1 },
+            { 3, 4, 2, 6 },
+            { 2, 8, 4, 4 },
+            { 4, 6, 3, 8 },
+            { 2, 6, 4, 3 },
+            { 2, 6, 3, 4 },
+            { 1, 6, 2, 3 },
+            { 3, 2, 6, 1 },
+            { 6, 4, 3, 8 },
+            { 6, 2, 4, 3 },
+            { 4, 3, 6, 2 },
+            { 1, 4, 2, 2 },
+            { 3, 8, 6, 4 },
+            { 6, 1, 2, 3 },
+            { 6, 2, 3, 4 },
+            { 2, 3, 1, 6 },
+            { 2, 3, 6, 1 },
+            { 1, 8, 2, 4 },
+            { 4, 1, 2, 2 },
+            { 1, 6, 3, 2 },
+            { 4, 2, 1, 8 },
+            { 4, 3, 2, 6 },
+            { 4, 4, 2, 8 },
+            { 2, 2, 1, 4 },
+            { 2, 4, 1, 8 },
+            { 3, 2, 1, 6 }
+    };
+
+    private static final int[][] CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGE_CONFIGS = new int[][] {
+            { 3, 4, 5, 2 },
+            { 6, 1, 5, 2 },
+            { 5, 1, 3, 3 },
+            { 3, 4, 6, 1 },
+            { 5, 2, 3, 4 },
+            { 6, 1, 3, 4 },
+            { 2, 4, 6, 1 },
+            { 6, 3, 5, 4 },
+            { 6, 4, 5, 5 },
+            { 6, 3, 4, 5 },
+            { 4, 4, 5, 3 },
+            { 3, 3, 5, 1 },
+            { 2, 2, 3, 1 },
+            { 3, 1, 2, 2 },
+            { 3, 3, 6, 1 },
+            { 5, 1, 2, 4 },
+            { 5, 1, 2, 3 },
+            { 4, 2, 3, 3 },
+            { 6, 2, 3, 5 },
+            { 5, 3, 4, 4 },
+            { 4, 5, 6, 3 },
+            { 4, 2, 5, 1 },
+            { 4, 4, 6, 2 },
+            { 3, 5, 6, 2 },
+            { 3, 2, 4, 1 },
+            { 5, 2, 6, 1 },
+            { 3, 2, 5, 1 },
+            { 6, 1, 4, 2 },
+            { 5, 2, 4, 3 },
+            { 5, 4, 6, 3 },
+            { 6, 1, 4, 3 },
+            { 4, 1, 3, 2 },
+            { 3, 3, 4, 2 },
+            { 5, 1, 4, 2 },
+            { 5, 5, 6, 4 },
+            { 4, 1, 2, 3 },
+            { 6, 2, 4, 4 },
+            { 2, 3, 5, 1 },
+            { 6, 2, 5, 3 },
+            { 2, 4, 5, 1 },
+            { 5, 1, 3, 2 },
+            { 6, 1, 2, 5 },
+            { 4, 2, 6, 1 },
+            { 6, 1, 2, 4 },
+            { 6, 1, 3, 3 },
+            { 5, 3, 6, 2 },
+            { 4, 3, 6, 1 },
+            { 2, 5, 6, 1 },
+            { 4, 3, 5, 2 },
+            { 2, 3, 4, 1 },
+    };
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -70,113 +562,64 @@ public class TiltPredictionChallengeFactory {
     // Methods
     //-------------------------------------------------------------------------
 
-    /*
-     * Create a set of tilt-prediction challenges.
-     */
-    public static List<BalanceGameChallenge> generateChallengeSet() {
-        List<BalanceGameChallenge> balanceChallengeList = new ArrayList<BalanceGameChallenge>();
-        balanceChallengeList.add( DOMINATE_TILT_PREDICTION_CHALLENGES.get( dominateChallengeIndex ) );
-        dominateChallengeIndex = dominateChallengeIndex + 1 % DOMINATE_TILT_PREDICTION_CHALLENGES.size();
-        balanceChallengeList.add( EQUAL_TILT_PREDICTION_CHALLENGES.get( equalChallengeIndex ) );
-        equalChallengeIndex = equalChallengeIndex + 1 % EQUAL_TILT_PREDICTION_CHALLENGES.size();
-        balanceChallengeList.add( SUBORDINATE_TILT_PREDICTION_CHALLENGES.get( subordinateChallengeIndex ) );
-        subordinateChallengeIndex = subordinateChallengeIndex + 1 % SUBORDINATE_TILT_PREDICTION_CHALLENGES.size();
-        balanceChallengeList.add( CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGES.get( conflictDominateChallengeIndex ) );
-        conflictDominateChallengeIndex = conflictDominateChallengeIndex + 1 % CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGES.size();
-        balanceChallengeList.add( CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGES.get( conflictEqualChallengeIndex ) );
-        conflictEqualChallengeIndex = conflictEqualChallengeIndex + 1 % CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGES.size();
-        balanceChallengeList.add( CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES.get( conflictSubordinateChallengeIndex ) );
-        conflictSubordinateChallengeIndex = conflictSubordinateChallengeIndex + 1 % CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES.size();
-        balanceChallengeList.add( CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGES.get( conflictEqualChallengeIndex ) );
-        conflictEqualChallengeIndex = conflictEqualChallengeIndex + 1 % CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGES.size();
-        balanceChallengeList.add( CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES.get( conflictSubordinateChallengeIndex ) );
-        conflictSubordinateChallengeIndex = conflictSubordinateChallengeIndex + 1 % CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGES.size();
+    public static final TiltPredictionChallenge getNextChallenge( TiltPredictionChallengeType challengeType ) {
+        int[] challengeConfig;
+        IModelComponentType modelComponentType;
+        int index = NEXT_CHALLENGE_INDEXES.get( challengeType );
 
-        return balanceChallengeList;
-    }
+        switch( challengeType ) {
 
-    private static List<TiltPredictionChallenge> generateDominateChallengeList( int numBricks1, int distanceIncrement ) {
-        List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        for ( int numBricks2 = 1; numBricks2 < numBricks1; numBricks2++ ) {
-            challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
-                                                               distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                               new BrickStack( numBricks2 ),
-                                                               -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                               tiltPredictionDominateChallenge ) );
+            case DOMINATE:
+                modelComponentType = tiltPredictionDominateChallenge;
+                challengeConfig = DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS[index];
+                NEXT_CHALLENGE_INDEXES.put( challengeType, ( index + 1 ) % DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS.length );
+                break;
+
+            case EQUAL:
+                modelComponentType = tiltPredictionEqualChallenge;
+                challengeConfig = EQUAL_TILT_PREDICTION_CHALLENGE_CONFIGS[index];
+                NEXT_CHALLENGE_INDEXES.put( challengeType, ( index + 1 ) % EQUAL_TILT_PREDICTION_CHALLENGE_CONFIGS.length );
+                break;
+
+            case SUBORDINATE:
+                modelComponentType = tiltPredictionSubordinateChallenge;
+                challengeConfig = SUBORDINATE_TILT_PREDICTION_CHALLENGE_CONFIGS[index];
+                NEXT_CHALLENGE_INDEXES.put( challengeType, ( index + 1 ) % SUBORDINATE_TILT_PREDICTION_CHALLENGE_CONFIGS.length );
+                break;
+
+            case CONFLICT_DOMINATE:
+                modelComponentType = tiltPredictionConflictDominateChallenge;
+                challengeConfig = CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS[index];
+                NEXT_CHALLENGE_INDEXES.put( challengeType, ( index + 1 ) % CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS.length );
+                break;
+
+            case CONFLICT_EQUAL:
+                modelComponentType = tiltPredictionConflictEqualChallenge;
+                challengeConfig = CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGE_CONFIGS[index];
+                NEXT_CHALLENGE_INDEXES.put( challengeType, ( index + 1 ) % CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGE_CONFIGS.length );
+                break;
+
+            case CONFLICT_SUBORDINATE:
+                modelComponentType = tiltPredictionConflictSubordinateChallenge;
+                challengeConfig = CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGE_CONFIGS[index];
+                NEXT_CHALLENGE_INDEXES.put( challengeType, ( index + 1 ) % CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGE_CONFIGS.length );
+                break;
+
+            default:
+                System.out.println( "Error: Unhandled challenge type" );
+                modelComponentType = null;
+                challengeConfig = null;
+                break;
         }
-        return challengeList;
+
+        return generateChallengeFromConfigArray( challengeConfig, modelComponentType );
     }
 
-    private static List<TiltPredictionChallenge> generateEqualChallengeList( int numBricks, int distanceIncrement ) {
-        List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
-                                                           distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                           new BrickStack( numBricks ),
-                                                           -distanceIncrement * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                           tiltPredictionEqualChallenge ) );
-        return challengeList;
-    }
-
-    private static List<TiltPredictionChallenge> generateSubordinateChallengeList( int numBricks, int distanceIncrement1 ) {
-        List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        for ( int distanceIncrement2 = 1; distanceIncrement2 < distanceIncrement1; distanceIncrement2++ ) {
-            challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks ),
-                                                               distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                               new BrickStack( numBricks ),
-                                                               -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                               tiltPredictionSubordinateChallenge ) );
-        }
-        return challengeList;
-    }
-
-    private static List<TiltPredictionChallenge> generateConflictDominateChallengeList( int numBricks1, int distanceIncrement1 ) {
-        List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        for ( int numBricks2 = 1; numBricks2 < numBricks1; numBricks2++ ) {
-            for ( int distanceIncrement2 = distanceIncrement1 + 1; distanceIncrement2 <= MAX_DISTANCE_INCREMENTS; distanceIncrement2++ ) {
-                if ( numBricks1 * distanceIncrement1 > numBricks2 * distanceIncrement2 ) {
-                    challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
-                                                                       distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                                       new BrickStack( numBricks2 ),
-                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                                       tiltPredictionConflictDominateChallenge ) );
-
-                }
-            }
-        }
-        return challengeList;
-    }
-
-    private static List<TiltPredictionChallenge> generateConflictEqualChallengeList( int numBricks1, int distanceIncrement1 ) {
-        List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        for ( int numBricks2 = 1; numBricks2 < numBricks1; numBricks2++ ) {
-            for ( int distanceIncrement2 = distanceIncrement1 + 1; distanceIncrement2 <= MAX_DISTANCE_INCREMENTS; distanceIncrement2++ ) {
-                if ( numBricks1 * distanceIncrement1 == numBricks2 * distanceIncrement2 ) {
-                    challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
-                                                                       distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                                       new BrickStack( numBricks2 ),
-                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                                       tiltPredictionConflictEqualChallenge ) );
-
-                }
-            }
-        }
-        return challengeList;
-    }
-
-    private static List<TiltPredictionChallenge> generateConflictSubordinateChallengeList( int numBricks1, int distanceIncrement1 ) {
-        List<TiltPredictionChallenge> challengeList = new ArrayList<TiltPredictionChallenge>();
-        for ( int numBricks2 = 1; numBricks2 < numBricks1; numBricks2++ ) {
-            for ( int distanceIncrement2 = distanceIncrement1 + 1; distanceIncrement2 <= MAX_DISTANCE_INCREMENTS; distanceIncrement2++ ) {
-                if ( numBricks1 * distanceIncrement1 < numBricks2 * distanceIncrement2 ) {
-                    challengeList.add( TiltPredictionChallenge.create( new BrickStack( numBricks1 ),
-                                                                       distanceIncrement1 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                                       new BrickStack( numBricks2 ),
-                                                                       -distanceIncrement2 * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                                                       tiltPredictionConflictSubordinateChallenge ) );
-
-                }
-            }
-        }
-        return challengeList;
+    private static final TiltPredictionChallenge generateChallengeFromConfigArray( int[] config, IModelComponentType challengeType ) {
+        return TiltPredictionChallenge.create( new BrickStack( config[0] ),
+                                               config[1] * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                               new BrickStack( config[2] ),
+                                               -config[3] * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
+                                               challengeType );
     }
 }

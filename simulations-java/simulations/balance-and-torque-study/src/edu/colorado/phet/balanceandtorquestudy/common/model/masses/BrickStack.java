@@ -104,10 +104,10 @@ public class BrickStack extends ShapeMass {
                 userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
                 break;
             case 5:
-                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFiveBricks, instanceCountMap.get( numBricks ) );
                 break;
             case 6:
-                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfSixBricks, instanceCountMap.get( numBricks ) );
                 break;
             case 8:
                 userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfEightBricks, instanceCountMap.get( numBricks ) );
