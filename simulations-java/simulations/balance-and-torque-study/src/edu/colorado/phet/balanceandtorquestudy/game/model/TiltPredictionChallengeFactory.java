@@ -3,7 +3,6 @@ package edu.colorado.phet.balanceandtorquestudy.game.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.BrickStack;
@@ -24,10 +23,6 @@ public class TiltPredictionChallengeFactory {
     //-------------------------------------------------------------------------
     // Class Data
     //-------------------------------------------------------------------------
-
-    private static final Random RAND = new Random();
-    private static final int MAX_NUM_BRICKS_IN_STACK = 6;
-    private static final int MAX_DISTANCE_INCREMENTS = 8;
 
     private static final Map<TiltPredictionChallengeType, Integer> NEXT_CHALLENGE_INDEXES = new HashMap<TiltPredictionChallengeType, Integer>() {{
         put( TiltPredictionChallengeType.DOMINATE, 0 );
@@ -566,6 +561,7 @@ public class TiltPredictionChallengeFactory {
         int[] challengeConfig;
         IModelComponentType modelComponentType;
         int index = NEXT_CHALLENGE_INDEXES.get( challengeType );
+        String challengeID = challengeType.toString() + "-" + index;
 
         switch( challengeType ) {
 
@@ -612,14 +608,15 @@ public class TiltPredictionChallengeFactory {
                 break;
         }
 
-        return generateChallengeFromConfigArray( challengeConfig, modelComponentType );
+        return generateChallengeFromConfigArray( challengeConfig, modelComponentType, challengeID );
     }
 
-    private static final TiltPredictionChallenge generateChallengeFromConfigArray( int[] config, IModelComponentType challengeType ) {
+    private static final TiltPredictionChallenge generateChallengeFromConfigArray( int[] config, IModelComponentType challengeType, String challengeID ) {
         return TiltPredictionChallenge.create( new BrickStack( config[0] ),
                                                config[1] * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                new BrickStack( config[2] ),
                                                -config[3] * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
-                                               challengeType );
+                                               challengeType,
+                                               challengeID );
     }
 }
