@@ -236,7 +236,7 @@ public class BalanceGameModel {
         correctAnswers.set( 0 );
 
         // Set up the challenges.
-        challengeList = BalanceGameChallengeFactory.generateChallengeSet( getLevel() );
+        challengeList = TiltPredictionChallengeFactory.generateChallengeSet();
 
         // Set up the model for the next challenge
         setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );
