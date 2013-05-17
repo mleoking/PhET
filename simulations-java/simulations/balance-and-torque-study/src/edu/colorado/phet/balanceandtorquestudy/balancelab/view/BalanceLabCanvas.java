@@ -37,7 +37,7 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  */
 public class BalanceLabCanvas extends BasicBalanceCanvas {
 
-    private static final int CHALLENGE_UNAVAILABLE_TIME = 60; // In seconds.
+    private static final int CHALLENGE_UNAVAILABLE_TIME = 5; // In seconds.
 
     protected MassKitSelectionNode fullMassKitSelectionNode;
     protected SimpleMassKitSelectionNode simpleMassKitSelectionNode;
