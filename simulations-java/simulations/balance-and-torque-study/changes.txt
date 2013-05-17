@@ -1,3 +1,5 @@
+# 1.03.14 (73058) May 17, 2013
+5/17/13 Publishing to dev for review by research team.
 Implemented specific set of challenges requested by researchers.
 Added a unique identifier for each challenge, logged it as part of the "challengePresented" message.
 Made the columns go away in the game if the user gets the correct answer.
