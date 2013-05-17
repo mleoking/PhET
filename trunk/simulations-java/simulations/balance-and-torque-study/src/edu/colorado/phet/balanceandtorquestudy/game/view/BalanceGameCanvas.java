@@ -153,7 +153,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // out, larger ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.40 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.75 ) ),
+                new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.50 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.75 ) ),
                 150 );
 
         // Root of our scene graph
