@@ -1,9 +1,9 @@
-<?xml version="1.0" ?>
+﻿<?xml version="1.0" ?>
 <SimStrings>
   <string key="rulers" value="Rulers" />
   <string key="timer" value="Timer" />
   <string key="amplitude" value="Amplitude" />
-  <string key="frequency" value="Frequency" />
+  <string key="frequency" value="Frequency(Hz)" />
   <string key="pulseWidth" value="Pulse Width" />
   <string key="damping" value="Damping" />
   <string key="tension" value="tension" />
