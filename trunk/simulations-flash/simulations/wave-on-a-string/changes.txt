@@ -1,3 +1,5 @@
+# 2.04.04 (73063) May 23, 2013
+5/23/13 String change: Frequency(Hz)
 # 2.04.03 (73061) May 23, 2013
 5/23/13 Frequency output now in Hz.
 # 2.04.02 (73020) May 15, 2013
