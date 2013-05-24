@@ -3,6 +3,7 @@ package edu.colorado.phet.balanceandtorquestudy.game.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import edu.colorado.phet.balanceandtorquestudy.common.model.Plank;
 import edu.colorado.phet.balanceandtorquestudy.common.model.masses.BrickStack;
@@ -24,14 +25,7 @@ public class TiltPredictionChallengeFactory {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final Map<TiltPredictionChallengeType, Integer> NEXT_CHALLENGE_INDEXES = new HashMap<TiltPredictionChallengeType, Integer>() {{
-        put( TiltPredictionChallengeType.DOMINATE, 0 );
-        put( TiltPredictionChallengeType.EQUAL, 0 );
-        put( TiltPredictionChallengeType.SUBORDINATE, 0 );
-        put( TiltPredictionChallengeType.CONFLICT_DOMINATE, 0 );
-        put( TiltPredictionChallengeType.CONFLICT_EQUAL, 0 );
-        put( TiltPredictionChallengeType.CONFLICT_SUBORDINATE, 0 );
-    }};
+    private static final Random RAND = new Random();
 
     // Challenge configurations, supplied by Min Chi of Stanford.
     private static final int[][] DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS = new int[][] {
@@ -545,6 +539,17 @@ public class TiltPredictionChallengeFactory {
             { 2, 3, 4, 1 },
     };
 
+    // Indexes into the various challenge sets.
+    private static final Map<TiltPredictionChallengeType, Integer> NEXT_CHALLENGE_INDEXES = new HashMap<TiltPredictionChallengeType, Integer>() {{
+        put( TiltPredictionChallengeType.DOMINATE, RAND.nextInt( DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS.length ) );
+        put( TiltPredictionChallengeType.EQUAL, RAND.nextInt( EQUAL_TILT_PREDICTION_CHALLENGE_CONFIGS.length ) );
+        put( TiltPredictionChallengeType.SUBORDINATE, RAND.nextInt( SUBORDINATE_TILT_PREDICTION_CHALLENGE_CONFIGS.length ) );
+        put( TiltPredictionChallengeType.CONFLICT_DOMINATE, RAND.nextInt( CONFLICT_DOMINATE_TILT_PREDICTION_CHALLENGE_CONFIGS.length ) );
+        put( TiltPredictionChallengeType.CONFLICT_EQUAL, RAND.nextInt( CONFLICT_EQUAL_TILT_PREDICTION_CHALLENGE_CONFIGS.length ) );
+        put( TiltPredictionChallengeType.CONFLICT_SUBORDINATE, RAND.nextInt( CONFLICT_SUBORDINATE_TILT_PREDICTION_CHALLENGE_CONFIGS.length ) );
+    }};
+
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -557,7 +562,7 @@ public class TiltPredictionChallengeFactory {
     // Methods
     //-------------------------------------------------------------------------
 
-    public static final TiltPredictionChallenge getNextChallenge( TiltPredictionChallengeType challengeType ) {
+    public static TiltPredictionChallenge getNextChallenge( TiltPredictionChallengeType challengeType ) {
         int[] challengeConfig;
         IModelComponentType modelComponentType;
         int index = NEXT_CHALLENGE_INDEXES.get( challengeType );
@@ -611,7 +616,7 @@ public class TiltPredictionChallengeFactory {
         return generateChallengeFromConfigArray( challengeConfig, modelComponentType, challengeID );
     }
 
-    private static final TiltPredictionChallenge generateChallengeFromConfigArray( int[] config, IModelComponentType challengeType, String challengeID ) {
+    private static TiltPredictionChallenge generateChallengeFromConfigArray( int[] config, IModelComponentType challengeType, String challengeID ) {
         return TiltPredictionChallenge.create( new BrickStack( config[0] ),
                                                config[1] * Plank.INTER_SNAP_TO_MARKER_DISTANCE,
                                                new BrickStack( config[2] ),
