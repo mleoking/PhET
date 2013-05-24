@@ -1,3 +1,6 @@
+Made the challenges start from a random index so that not all students see the same challenges.
+Made mass labels be off by default.
+Set the pre-challenge timeout back to 60 seconds.
 # 1.03.14 (73058) May 17, 2013
 5/17/13 Publishing to dev for review by research team.
 Implemented specific set of challenges requested by researchers.
