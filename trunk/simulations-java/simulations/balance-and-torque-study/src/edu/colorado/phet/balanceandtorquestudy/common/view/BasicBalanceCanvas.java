@@ -55,7 +55,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
 
     protected final ModelViewTransform mvt;
 
-    public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( true );
+    public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( false );
     public final BooleanProperty distancesVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );
