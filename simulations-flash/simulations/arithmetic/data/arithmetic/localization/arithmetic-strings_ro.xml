@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_ro.xml created Mon May 27 17:00:25 EEST 2013 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="level" value="Nivel"/>
+<string key="typeAnswer" value="Tasteaza raspunsul, apasa Enter"/>
+<string key="clickToSelect" value="Click pentru selectia corecta a patratului"/>
+<string key="correct" value="Corect!"/>
+<string key="end" value="Termina"/>
+<string key="isWrong" value="este gresit."/>
+<string key="start" value="Start"/>
+<string key="simTitle" value="Aritmetica"/>
+<string key="time" value="Timp(secunde)"/>
+<string key="finalTime" value="Timp final:"/>
+<string key="multiply" value="Inmultire"/>
+<string key="tryAgain" value="Incearca din nou."/>
+<string key="sound" value="Sunet"/>
+<string key="divide" value="Impartire"/>
+<string key="factor" value="Perechi"/>
+<string key="minute" value="minute"/>
+<string key="finalScore" value="Scor final:"/>
+<string key="nbrRight" value="Numere corecte:"/>
+<string key="mustTypeNbr" value="Trebuie sa tastezi un numar."/>
+<string key="score" value="Scor:"/>
+<string key="scorePer" value="Scor"/>
+<string key="translation.credits" value="Handaric Gheorghe cl. a8-a A Scoala Gimnaziala Borlesti coordonat de Prof. Ing. Dinu Radu "/>
+<string key="nbrWrong" value="Numere gresite:"/>
+<string key="reset" value="Reset"/>
+<string key="clock" value="Cronometru"/>
+<string key="title" value="Exercitii de aritmetica"/>
+</SimStrings>
