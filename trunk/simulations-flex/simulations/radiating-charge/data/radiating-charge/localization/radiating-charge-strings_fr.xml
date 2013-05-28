@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_fr.xml created Mon May 27 22:28:57 CEST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) oct. 9, 2012-->
+<SimStrings>
+<string key="duration" value="Durée"/>
+<string key="bump" value="Choc"/>
+<string key="radiating-charge.simTitle" value="Charge radiante"/>
+<string key="stopCharge" value="Arrêter la charge"/>
+<string key="sinusoidal" value="Sinusoïdal"/>
+<string key="amplitude" value="Amplitude"/>
+<string key="speedOfLight" value="c"/>
+<string key="noFrictionManual" value="Sans frottement"/>
+<string key="frequency" value="Fréquence"/>
+<string key="restart" value="Redémarré"/>
+<string key="showVelocity" value="Montrer la vitesse"/>
+<string key="speed" value="Vitesse"/>
+<string key="translation.credits" value="&lt;html&gt; traduite par Emmanuel KEITH &lt;br/&gt; Professeur de mathématiques &lt;br/&gt; Collège Eugène Delacroix, France &lt;/html&gt;"/>
+<string key="frictionManual" value="Manuel"/>
+<string key="linear" value="Linéaire"/>
+<string key="paused" value="En pause"/>
+<string key="reset" value="Reset"/>
+<string key="circular" value="Circulaire"/>
+</SimStrings>
