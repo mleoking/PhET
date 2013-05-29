@@ -1,7 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -136,7 +138,7 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
         PNode beltNode = new BeltNode( model.belt, mvt );
 
         // Create the reset button.
-        ResetAllButtonNode resetButton = new ResetAllButtonNode( new Resettable[]{this, model}, this, 20, Color.black, new Color( 255, 153, 0 ) );
+        ResetAllButtonNode resetButton = new ResetAllButtonNode( new Resettable[] { this, model }, this, 20, Color.black, new Color( 255, 153, 0 ) );
         resetButton.setConfirmationEnabled( false );
 
         //------- Node Layering -----------------------------------------------
@@ -159,7 +161,7 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
 
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
-        rootNode.addChild( showEnergyControlPanel );
+//        rootNode.addChild( showEnergyControlPanel );
         rootNode.addChild( energyChunkLegend );
         rootNode.addChild( resetButton );
         rootNode.addChild( energySourcesCarouselController );
@@ -170,7 +172,7 @@ public class EnergySystemsCanvas extends PhetPCanvas implements Resettable {
 
         // Clock controls.  Positions tweaked to match first tab appearance.
         clockControl.setOffset( STAGE_SIZE.getWidth() / 2 - clockControl.getFullBoundsReference().getWidth() / 2,
-                                STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height * 0.90  );
+                                STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height * 0.90 );
         clockControlBackground.setOffset( STAGE_SIZE.getWidth() / 2 - clockControlBackground.getFullBoundsReference().getWidth() / 2,
                                           clockControl.getFullBoundsReference().getMinY() + 5 );
 
