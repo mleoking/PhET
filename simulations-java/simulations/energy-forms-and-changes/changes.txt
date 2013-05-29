@@ -1,3 +1,5 @@
+# 1.00.01 (73103) May 29, 2013
+5/29/13 Deploy to dev for use in a study.
 Removed ability to turn on the energy chunks.  This is for a custom version that will be used in a study.  This change will be reverted after deployment.
 # 1.00.00 (72825) Apr 17, 2013
 4/17/13 Initial deploy to production server
