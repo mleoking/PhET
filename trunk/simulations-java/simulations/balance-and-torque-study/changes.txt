@@ -1,6 +1,3 @@
-# 1.03.16 (73100) May 29, 2013
-5/29/13 Publishing a version to dev that does not allow the user to turn on the energy chunks.
-Removed the ability to show the energy chunks.  This is for a custom version that will be used in a study, and this change will be reverted once published.
 # 1.03.15 (73084) May 24, 2013
 5/24/13 Deploy to dev for testing by research group, possible use in study.
 Made the challenges start from a random index so that not all students see the same challenges.
