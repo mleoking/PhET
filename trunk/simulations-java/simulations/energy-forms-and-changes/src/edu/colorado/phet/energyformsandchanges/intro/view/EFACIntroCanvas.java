@@ -1,7 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
@@ -162,7 +164,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             PNode energyChunkNode = EnergyChunkNode.createEnergyChunkNode( EnergyType.THERMAL );
             energyChunkNode.setScale( 1.0 );
             energyChunkNode.setPickable( false );
-            PNode label = new PhetPText( EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS, new PhetFont( 20 ) ){{
+            PNode label = new PhetPText( EnergyFormsAndChangesResources.Strings.ENERGY_SYMBOLS, new PhetFont( 20 ) ) {{
                 setPickable( false );
                 setChildrenPickable( false );
             }};
@@ -183,9 +185,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                         model.energyChunksVisible.set( !model.energyChunksVisible.get() );
                     }
                 } );
-                addInputEventListener( new CursorHandler(  ) );
+                addInputEventListener( new CursorHandler() );
             }};
-            backLayer.addChild( controlPanel );
+//            backLayer.addChild( controlPanel );
         }
 
         // Add developer control for printing out energy values.
