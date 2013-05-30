@@ -14,7 +14,7 @@ import edu.colorado.phet.flashcommon.controls.NiceRadioButtonGroup;
 import edu.colorado.phet.flashcommon.controls.PlayPauseButton;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
-import edu.colorado.phet.triglab.model.FieldModel;
+import edu.colorado.phet.triglab.model.TrigModel;
 import edu.colorado.phet.triglab.view.MainView;
 
 import flash.display.Sprite;
@@ -34,7 +34,7 @@ import mx.events.ItemClickEvent;
 
 public class ControlPanel extends Canvas {
     private var myMainView:MainView;
-    private var myFieldModel:FieldModel;
+    private var myFieldModel:TrigModel;
     private var background:VBox;
     private var firstPanel: VBox;            //main control panel, contains radio buttons for motion type
     private var secondPanel: VBox;           //unused currently
@@ -104,7 +104,7 @@ public class ControlPanel extends Canvas {
 
 
 
-    public function ControlPanel( mainView:MainView, model:FieldModel ) {
+    public function ControlPanel( mainView:MainView, model:TrigModel ) {
         super();
         this.myMainView = mainView;
         this.myFieldModel = model;

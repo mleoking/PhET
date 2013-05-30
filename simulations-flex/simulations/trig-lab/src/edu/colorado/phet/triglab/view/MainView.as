@@ -12,7 +12,7 @@ import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.triglab.*;
 import edu.colorado.phet.triglab.TrigLabApplication;
 import edu.colorado.phet.triglab.control.ControlPanel;
-import edu.colorado.phet.triglab.model.FieldModel;
+import edu.colorado.phet.triglab.model.TrigModel;
 
 import flash.display.StageQuality;
 
@@ -27,13 +27,13 @@ import flash.display.Sprite;
 import mx.containers.Canvas;
 import mx.controls.sliderClasses.Slider;
 
-//main view and communications hub for Radiating Charge sim
+//main view and communications hub for Trig Lab
+// sim
 public class MainView extends Canvas {
 
-    public var myFieldModel:FieldModel;
-    public var myChargeView:ChargeView;
-    public var myFieldView:FieldView;
-    public var myVelocityArrowView: VelocityArrowView;
+    public var myTrigModel:TrigModel;
+    public var myUnitCircleView:UnitCircleView;
+    public var myGraphView:GraphView;
     public var myControlPanel:ControlPanel;
     public var topCanvas:TrigLabCanvas;
 
@@ -41,8 +41,7 @@ public class MainView extends Canvas {
     public var stageH: Number;
     public var stageW: Number;
 
-    //Internalized strings are located at:
-    //
+
 
     public function MainView( topCanvas:TrigLabCanvas, stageW: Number, stageH: Number ) {
         //this.topCanvas = topCanvas;   //this line is unnecessary (isn't it?)
@@ -50,14 +49,13 @@ public class MainView extends Canvas {
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
-        this.myFieldModel = new FieldModel(this);
-        this.myVelocityArrowView = new VelocityArrowView( this, myFieldModel );
-        this.myChargeView = new ChargeView( this, myFieldModel ) ;
-        this.myFieldView = new FieldView(this, myFieldModel );
-        this.myControlPanel = new ControlPanel( this, this.myFieldModel );
+        this.myTrigModel = new TrigModel(this);
+        this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
+        this.myGraphView = new GraphView(this, myTrigModel );
+        this.myControlPanel = new ControlPanel( this, this.myTrigModel );
 
-        this.addChild( new SpriteUIComponent( this.myFieldView ));
-        this.addChild( new SpriteUIComponent( this.myChargeView ));
+        this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
+        this.addChild( new SpriteUIComponent( this.myGraphView ));
         this.addChild( myControlPanel );
         this.myControlPanel.x = 0.8*stageW;
         this.myControlPanel.y = 0.02*stageH;
