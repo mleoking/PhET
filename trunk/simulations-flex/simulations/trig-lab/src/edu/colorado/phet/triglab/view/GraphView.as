@@ -8,17 +8,17 @@
 package edu.colorado.phet.triglab.view {
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
-import edu.colorado.phet.triglab.model.FieldModel;
+import edu.colorado.phet.triglab.model.TrigModel;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 
 import flash.display.Graphics;
 
 import flash.display.Sprite;
 
-public class FieldView extends Sprite{
+public class GraphView extends Sprite{
 
     private var myMainView: MainView;
-    private var myFieldModel: FieldModel;
+    private var myFieldModel: TrigModel;
     private var nbrLines:int;           //nbr of field lines, passed in from the Field model
     private var nbrPhotonsPerLine:int;  //nbr of photons per field line, passed in from the Field model
     private var originX:Number;         //location of origin, in screen coordinates
@@ -27,7 +27,7 @@ public class FieldView extends Sprite{
     private var pausedSign:NiceLabel;   //visible when sim is paused
     private var paused_str:String;
 
-    public function FieldView( myMainView: MainView,  myFieldModel: FieldModel ) {
+    public function GraphView( myMainView: MainView,  myFieldModel: TrigModel ) {
         this.myMainView = myMainView;
         this.myFieldModel = myFieldModel;
         this.nbrLines = this.myFieldModel.nbrLines;

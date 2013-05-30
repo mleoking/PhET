@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.triglab.view {
-import edu.colorado.phet.triglab.model.FieldModel;
+import edu.colorado.phet.triglab.model.TrigModel;
 
 import flash.display.CapsStyle;
 
@@ -18,49 +18,26 @@ import flash.events.TimerEvent;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
 
-public class ChargeView extends Sprite {
+public class UnitCircleView extends Sprite {
 
     private var myMainView: MainView;
-    private var myFieldModel: FieldModel;
-    //private var chargeGraphic:Sprite;
-    private var springGraphic:Sprite;
+    private var myTrigModel: TrigModel;
 
-    //private var springGraphic2: Sprite;   //for use when mouse_over, before mouse_down
+
     private var grabArea: Sprite;
-    private var grabbed: Boolean;   //true if charge is grabbed
+    private var grabbed: Boolean;   //true if angle selection ball is grabbed
 
     private var stageW: int;
     private var stageH: int;
-    private var delX:Number;        //x-component of displacement between charge and mouse (spring end)
-    private var delY:Number;        //y-component of displacement between charge and mouse (spring end)
-    private var originX:Number;     // location, in screen coordinates, of origin
-    private var originY:Number;     //
-    private var dt:Number;          //time step, in seconds
-    private var springTimer:Timer;  //spring timer
-    private var chargeGraphic:Sprite;
-    [Embed(source='radiatingChargeGraphics.swf',symbol='chargeBall')]
-    public static var ChargeGraphic: Class;
 
-    public function ChargeView( myMainView:MainView, myFieldModel:FieldModel) {
+
+
+    public function UnitCircleView( myMainView:MainView, myTrigModel:TrigModel) {
         this.myMainView = myMainView;
-        this.myFieldModel = myFieldModel;
-        this.myFieldModel.registerView( this );
-
+        this.myTrigModel = myTrigModel;
+        this.myTrigModel.registerView( this );
         this.grabArea = new Sprite();
-        this.originX = stageW/2;
-        this.originY = stageH/2;
-
-        this.springGraphic = new Sprite();
-        this.delX = 0;
-        this.delY = 0;
         this.grabbed = false;
-        this.dt = this.myFieldModel.getDT();
-        this.springTimer = new Timer( this.dt * 1000 );
-
-        this.chargeGraphic = new ChargeGraphic();//new Sprite();
-        this.chargeGraphic.x = originX;
-        this.chargeGraphic.y = originY;
-        //this.springGraphic2 = new Sprite();
         this.initialize();
     }
 
@@ -141,7 +118,7 @@ public class ChargeView extends Sprite {
         g.endFill();
         this.delX = this.mouseX - this.chargeGraphic.x;
         this.delY = -( this.mouseY - this.chargeGraphic.y );
-        this.myFieldModel.setForce( delX,  delY );
+        this.myTrigModel.setForce( delX,  delY );
     }
 
 //    private function setSpringGraphic2WithNoForce():void{
@@ -174,7 +151,7 @@ public class ChargeView extends Sprite {
         g.clear();
         this.delX = 0;
         this.delY = 0;
-        this.myFieldModel.setForce( delX,  delY );
+        this.myTrigModel.setForce( delX,  delY );
     }
 
     private function makeChargeGrabbable():void{
@@ -186,12 +163,12 @@ public class ChargeView extends Sprite {
         this.chargeGraphic.addEventListener( MouseEvent.ROLL_OUT, stopShowSpring );
 
         function startShowSpring( evt: MouseEvent ):void{
-//            var motion:String = myFieldModel.motionType_str;
-//            var manual:String = myFieldModel.manual_str;
-//            var noFriction:String = myFieldModel.noFriction_str;
-            var motion: int = myFieldModel.motionType;
-            var manual: int = myFieldModel.MANUAL_WITH_FRICTION;
-            var noFriction: int = myFieldModel.MANUAL_NO_FRICTION;
+//            var motion:String = myTrigModel.motionType_str;
+//            var manual:String = myTrigModel.manual_str;
+//            var noFriction:String = myTrigModel.noFriction_str;
+            var motion: int = myTrigModel.motionType;
+            var manual: int = myTrigModel.MANUAL_WITH_FRICTION;
+            var noFriction: int = myTrigModel.MANUAL_NO_FRICTION;
             if( motion == manual || motion == noFriction ){
                 thisObject.chargeGraphic.buttonMode = true;
 //                if( !thisObject.grabbed ){
@@ -220,9 +197,9 @@ public class ChargeView extends Sprite {
         }
 
         function startTargetDrag( evt: MouseEvent ): void {
-            var motion: int = myFieldModel.motionType;
-            var manual: int = myFieldModel.MANUAL_WITH_FRICTION;
-            var noFriction: int = myFieldModel.MANUAL_NO_FRICTION;
+            var motion: int = myTrigModel.motionType;
+            var manual: int = myTrigModel.MANUAL_WITH_FRICTION;
+            var noFriction: int = myTrigModel.MANUAL_NO_FRICTION;
             if( motion == manual || motion == noFriction ){
                 thisObject.chargeGraphic.buttonMode = true;
                 thisObject.grabbed = true;
@@ -251,10 +228,10 @@ public class ChargeView extends Sprite {
     }//end makeChargeGrabbable
 
     public function update():void{
-        this.chargeGraphic.x = this.stageW/2 + this.myFieldModel.xC;
-        this.chargeGraphic.y = this.stageH/2 - this.myFieldModel.yC;
-        if( myFieldModel.outOfBounds ){
-            myFieldModel.outOfBounds = false;
+        this.chargeGraphic.x = this.stageW/2 + this.myTrigModel.xC;
+        this.chargeGraphic.y = this.stageH/2 - this.myTrigModel.yC;
+        if( myTrigModel.outOfBounds ){
+            myTrigModel.outOfBounds = false;
             //myMainView.myControlPanel.resetAll();
             myMainView.myControlPanel.recenterCharge();
         }
