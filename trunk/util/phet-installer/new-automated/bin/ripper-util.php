@@ -36,7 +36,14 @@
     // and downloads the HTML files, images, etc that comprise the site.
     //--------------------------------------------------------------------------
     function ripper_rip_website($config) {
-        flushing_echo("Ripping website, config = ".$config);
+
+        // Log info about the ripper.
+        flushing_echo('Ripping website with:');
+        $ripper_version = exec(RIPPER_EXE.' --version');
+        flushing_echo('   config = '.$config);
+        flushing_echo('   ripper = '.RIPPER_EXE);
+        flushing_echo('   version = '.$ripper_version);
+
         if ($config == "PHET"){
             $ripper_args = RIPPER_ARGS_PHET;
         }
