@@ -38,16 +38,41 @@
         $start_time = exec( "date" );
         flushing_echo( "Starting full rip and rebuild of PhET installers at time $start_time" );
 
+        // Build installers without activities.
+        perform_build_steps( "PHET", OUTPUT_DIR, OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME  );
+
+        // Build installers with activities.
+        perform_build_steps( "PHET_WITH_ACTIVITIES", INSTALLERS_WITH_ACTIVITIES_DIR, OUTPUT_DIR.DVD_ROM_INSTALLER_FILE_NAME );
+
+        // If specified, deploy the installers to the production web site.
+        if ( $args->flag( 'deploy' ) ){
+           deploy_all();
+        }
+
+        // Output the time of completion.
+        $end_time = exec( "date" );
+        flushing_echo( "\nCompleted rebuild at time $end_time" );
+
+        // Release the lock.
+        file_unlock( LOCK_FILE_STEM_NAME );
+    }
+
+    function perform_build_steps( $rip_config, $output_dir, $rommable_output_dir ){
+
         // Remove previous copy of web site.
         ripper_remove_website_copy();
 
+        // Log the time at which the rip started.
+        $rip_start_time = exec( "date" );
+        flushing_echo( "Rip for config $rip_config started at time $rip_start_time" );
+
         // Rip the web site.
-        ripper_rip_website( "PHET" );
+        ripper_rip_website( $rip_config );
         ripper_download_sims();
 
         // Log the time at which the rip completed.
         $rip_finish_time = exec( "date" );
-        flushing_echo( "Rip without activities completed at time $rip_finish_time" );
+        flushing_echo( "Rip for config $rip_config completed at time $rip_finish_time" );
 
         // Make sure permissions of the ripped website are correct.
         file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
@@ -66,43 +91,11 @@
 
         // Build the local installers, meaning installers that can be used to
         // install a local mirror of the PhET web site.
-        installer_build_local_mirror_installers( BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, OUTPUT_DIR );
+        installer_build_local_mirror_installers( BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, $output_dir );
 
         // Build the rommable distribution, which contains all of the installers
         // installers and is suitable for burning on CD.
-        installer_build_rommable_distribution( OUTPUT_DIR, OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME );
-
-        // Re-rip the site, but this time include the activities.  This should
-        // be an update of the initial rip, since we didn't delete that rip
-        // before kicking off this one.
-        ripper_rip_website( "PHET_WITH_ACTIVITIES" );
-
-        // Log the time at which the rip completed.
-        $rip_finish_time = exec( "date" );
-        flushing_echo( "Rip with activities completed at time $rip_finish_time" );
-
-        // Make sure permissions of the ripped website are correct.
-        file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
-
-        // Build the local installers, meaning installers that can be used to
-        // install a local mirror of the PhET web site.
-        installer_build_local_mirror_installers( BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, INSTALLERS_WITH_ACTIVITIES_DIR );
-
-        // Build the rommable distribution, which contains all of the installers
-        // installers and is suitable for burning on DVD.
-        installer_build_rommable_distribution( INSTALLERS_WITH_ACTIVITIES_DIR, OUTPUT_DIR.DVD_ROM_INSTALLER_FILE_NAME );
-
-        // If specified, deploy the installers to the production web site.
-        if ( $args->flag( 'deploy' ) ){
-           deploy_all();
-        }
-
-        // Output the time of completion.
-        $end_time = exec( "date" );
-        flushing_echo( "\nCompleted rebuild at time $end_time" );
-
-        // Release the lock.
-        file_unlock( LOCK_FILE_STEM_NAME );
+        installer_build_rommable_distribution( $output_dir, $rommable_output_dir );
     }
 
     //--------------------------------------------------------------------------
