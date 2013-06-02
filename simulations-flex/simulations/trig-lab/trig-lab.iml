@@ -3,7 +3,7 @@
   <component name="FlexBuildConfigurationManager" active="trig-lab">
     <configurations>
       <configuration name="trig-lab" main-class="edu.colorado.phet.triglab.TrigLabApplication" output-file="trig-lab.swf" output-folder="$MODULE_DIR$/../../out">
-        <dependencies target-player="10">
+        <dependencies target-player="9">
           <entries>
             <entry module-name="flexcommon" build-configuration-name="flexcommon">
               <dependency linkage="Merged" />

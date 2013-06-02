@@ -30,6 +30,7 @@ import mx.events.ItemClickEvent;
 
 /**
  * Control Panel for Radiating Charge sim
+ * Control panel must be flex canvas to use flex auto-layout
  */
 
 public class ControlPanel extends Canvas {
@@ -294,22 +295,6 @@ public class ControlPanel extends Canvas {
     private function initializeStrings():void{
         //pause_str = FlexSimStrings.get( "pause", "Pause" );
         //play_str = FlexSimStrings.get( "play", "Play" );
-        stop_str = FlexSimStrings.get( "stopCharge", "Stop Charge" );
-        restart_str = FlexSimStrings.get( "restart", "Restart" );
-        reset_str = FlexSimStrings.get("reset", "Reset");
-        manualNoFricton_str = FlexSimStrings.get( "noFrictionManual", "No Friction" );
-        manualWithFricton_str = FlexSimStrings.get( "frictionManual", "Manual");
-        linear_str = FlexSimStrings.get( "linear", "Linear" );
-        sinusoid_str = FlexSimStrings.get( "sinusoidal", "Sinusoidal" );
-        circular_str = FlexSimStrings.get( "circular", "Circular" );
-        bump_str = FlexSimStrings.get( "bump", "Bump" );
-        //random_str = FlexSimStrings.get( "random", "Random" );
-        amplitude_str = FlexSimStrings.get( "amplitude", "amplitude" );
-        frequency_str = FlexSimStrings.get( "frequency", "frequency" );
-        speed_str = FlexSimStrings.get( "speed", "speed" );
-        c_str = FlexSimStrings.get( "speedOfLight", "c");
-        duration_str = FlexSimStrings.get( "duration", "duration" );
-        showVelocity_str = FlexSimStrings.get ("showVelocity", "Show velocity" );
     }
 
     private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
