@@ -36,6 +36,7 @@ public class TrigModel {
 
     private function initialize():void{
         _theta = 0;
+        this.updateViews();
     }  //end initialize()
 
     public function get theta():Number{
@@ -84,20 +85,5 @@ public class TrigModel {
     }//end updateView()
 
 
-
-//    public function get motionType_str():String {
-//        return motionType;
-//    }
-//
-//    public function set motionType_str( value:String ):void {
-//        motionType = value;
-//    }
-
-//    public function get STOPPING():int {
-//        return _STOPPING;
-
-//    public function get motionType(): int {
-//        return _motionType;
-//    }
 } //end of class
 } //end of package
