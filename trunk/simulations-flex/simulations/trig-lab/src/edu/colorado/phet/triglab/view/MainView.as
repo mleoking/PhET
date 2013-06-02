@@ -27,14 +27,14 @@ import flash.display.Sprite;
 import mx.containers.Canvas;
 import mx.controls.sliderClasses.Slider;
 
-//main view and communications hub for Trig Lab
-// sim
+//main view and communications hub for Trig Lab sim
+
 public class MainView extends Canvas {
 
     public var myTrigModel:TrigModel;
     public var myUnitCircleView:UnitCircleView;
     public var myGraphView:GraphView;
-    public var myControlPanel:ControlPanel;
+    //public var myControlPanel:ControlPanel;
     public var topCanvas:TrigLabCanvas;
 
     public var phetLogo: PhetIcon;
@@ -52,13 +52,13 @@ public class MainView extends Canvas {
         this.myTrigModel = new TrigModel(this);
         this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
         this.myGraphView = new GraphView(this, myTrigModel );
-        this.myControlPanel = new ControlPanel( this, this.myTrigModel );
+        //this.myControlPanel = new ControlPanel( this, this.myTrigModel );
 
         this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
         this.addChild( new SpriteUIComponent( this.myGraphView ));
-        this.addChild( myControlPanel );
-        this.myControlPanel.x = 0.8*stageW;
-        this.myControlPanel.y = 0.02*stageH;
+        //this.addChild( myControlPanel );
+        //this.myControlPanel.x = 0.8*stageW;
+        //this.myControlPanel.y = 0.02*stageH;
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.setColor( 0x3fd7fc );
