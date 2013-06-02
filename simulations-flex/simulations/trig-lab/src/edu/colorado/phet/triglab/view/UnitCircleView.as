@@ -16,6 +16,7 @@ import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.events.TimerEvent;
+import flash.geom.Point;
 import flash.utils.Timer;
 
 public class UnitCircleView extends Sprite {
@@ -23,8 +24,9 @@ public class UnitCircleView extends Sprite {
     private var myMainView: MainView;
     private var myTrigModel: TrigModel;
 
-    private var unitCircleGraph = new Sprite(); //unit circle centered on xy axes
-    private var gridLines = new Sprite();       //optional gridlines on unit circle
+    private var unitCircleGraph: Sprite ; //unit circle centered on xy axes
+    private var triangleDiagram: Sprite;  //triangle drawn on unit circle, the ratio of the sides are the trig functions
+    private var gridLines: Sprite ;       //optional gridlines on unit circle
     private var angleHandle: Sprite;//grabbable handle for setting angle on unit Circle
     private var radius:Number;      //radius of unit circle in pixels
     private var grabbed: Boolean;   //true if angle selection ball is grabbed
@@ -39,6 +41,7 @@ public class UnitCircleView extends Sprite {
         this.myTrigModel = myTrigModel;
         this.myTrigModel.registerView( this );
         this.unitCircleGraph = new Sprite();
+        this.triangleDiagram = new Sprite();
         this.gridLines = new Sprite();
         this.angleHandle = new Sprite();
         this.grabbed = false;
@@ -48,15 +51,16 @@ public class UnitCircleView extends Sprite {
     private function initialize():void{
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this.radius = 100;
+        this.radius = 200;
         this.addChild( unitCircleGraph );
         this.unitCircleGraph.addChild( gridLines );
+        this.unitCircleGraph.addChild( triangleDiagram );
         this.unitCircleGraph.addChild( this.angleHandle );
-
+        this.drawUnitCircle();
+        this.unitCircleGraph.x = 0.5*stageW;
+        this.unitCircleGraph.y = 0.5*stageH;
         this.drawAngleHandle();
-
         this.makeAngleHandleGrabbable();
-        this.update();
 
     } //end of initialize
 
@@ -78,6 +82,23 @@ public class UnitCircleView extends Sprite {
         }
     }  //end drawUnitCircle()
 
+    private function drawTriangle():void{
+        var gTriangle: Graphics = this.triangleDiagram.graphics;
+        var xLeg: Number = this.radius*myTrigModel.cos;
+        var yLeg: Number = this.radius*myTrigModel.sin;
+        with( gTriangle ){
+            clear();
+            lineStyle( 1, 0xff0000, 1 );
+            moveTo( 0, 0 );
+            lineTo( xLeg, yLeg );
+            lineStyle( 3, 0x0000ff,  1) ;
+            moveTo( 0, 0 );
+            lineTo( xLeg,  0 );
+            lineTo( xLeg,  yLeg );
+
+        }
+    }
+
     private function drawAngleHandle():void{
         var gBall: Graphics = this.angleHandle.graphics;
         var ballRadius: Number = 10;
@@ -89,16 +110,16 @@ public class UnitCircleView extends Sprite {
             endFill();
 
         }
-        var grabArea = new Sprite();
+        var grabArea: Sprite = new Sprite();
         this.angleHandle.addChild( grabArea );
         //draw invisible grab area
         var gGrab: Graphics = grabArea.graphics;
-        var radius: Number = 100;
+        var grabRadius: Number = 50;
         with( gGrab ){
             clear();
             lineStyle( 1, 0xffffff, 0 );
-            beginFill( 0x00ff00,.5 );
-            drawCircle( 0, 0, radius );
+            beginFill( 0x00ff00,0.2 );
+            drawCircle( 0, 0, grabRadius );
             endFill();
         }
     }//end drawAngleHandle();
@@ -107,30 +128,32 @@ public class UnitCircleView extends Sprite {
 
     private function makeAngleHandleGrabbable():void{
         var thisObject:Object = this;
+        var clickOffset: Point;
         this.angleHandle.buttonMode = true;
         this.angleHandle.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
-        //this.angleHandle.addEventListener( MouseEvent.ROLL_OVER, startShowSpring );
-        //this.angleHandle.addEventListener( MouseEvent.ROLL_OUT, stopShowSpring );
 
         function startTargetDrag( evt: MouseEvent ): void {
             thisObject.grabbed = true;
-            stage.addEventListener( MouseEvent.MOUSE_MOVE, moveTarget );
+            clickOffset = new Point( evt.localX, evt.localY );
+            stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
         }
 
-        function moveTarget( evt: MouseEvent ):void{
-
-        }
 
         function stopTargetDrag( evt: MouseEvent ): void {
             thisObject.grabbed = false;
+            clickOffset = null;
             evt.updateAfterEvent();
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
         }
 
         function dragTarget( evt: MouseEvent ): void {
-            //do nothing.  Motion is handled by springTimer function
+            var xInPix: Number = thisObject.unitCircleGraph.mouseX - clickOffset.x;
+            var yInPix: Number = thisObject.unitCircleGraph.mouseY - clickOffset.y;
+            var angleInRads: Number = Math.atan2( yInPix,  xInPix );
+            thisObject.myTrigModel.theta = angleInRads;
+            evt.updateAfterEvent();
         }//end of dragTarget()
 
 
@@ -143,6 +166,7 @@ public class UnitCircleView extends Sprite {
 
     public function update():void{
         this.positionAngleHandle( myTrigModel.theta );
+        this.drawTriangle();
     }
 
 }  //end of class

@@ -33,7 +33,7 @@ public class MainView extends Canvas {
 
     public var myTrigModel:TrigModel;
     public var myUnitCircleView:UnitCircleView;
-    public var myGraphView:GraphView;
+    //public var myGraphView:GraphView;
     //public var myControlPanel:ControlPanel;
     public var topCanvas:TrigLabCanvas;
 
@@ -51,17 +51,17 @@ public class MainView extends Canvas {
         this.stageW = stageW;
         this.myTrigModel = new TrigModel(this);
         this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
-        this.myGraphView = new GraphView(this, myTrigModel );
+        //this.myGraphView = new GraphView(this, myTrigModel );
         //this.myControlPanel = new ControlPanel( this, this.myTrigModel );
 
         this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
-        this.addChild( new SpriteUIComponent( this.myGraphView ));
+        //this.addChild( new SpriteUIComponent( this.myGraphView ));
         //this.addChild( myControlPanel );
         //this.myControlPanel.x = 0.8*stageW;
         //this.myControlPanel.y = 0.02*stageH;
 
         this.phetLogo = new PhetIcon();
-        this.phetLogo.setColor( 0x3fd7fc );
+        this.phetLogo.setColor( 0x0000ff );
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
         this.addChild( new SpriteUIComponent( phetLogo ) );
@@ -70,8 +70,7 @@ public class MainView extends Canvas {
 
 
     public function initializeAll(): void {
-//        this.myModel.pauseSim();
-        //stage.quality = StageQuality.LOW;
+        myTrigModel.theta = 0;
 
     }//end of initializeAll()
 
