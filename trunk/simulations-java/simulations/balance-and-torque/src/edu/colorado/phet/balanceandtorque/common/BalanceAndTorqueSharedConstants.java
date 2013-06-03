@@ -11,6 +11,5 @@ public class BalanceAndTorqueSharedConstants {
     // actual values, or whether quarter meter increments are used.  This
     // was added to support the Stanford study, since they found that the
     // decimal values confused younger students.  See #3537.
-    public static final boolean USE_QUARTER_METER_INCREMENTS = true;
-
+    public static final boolean USE_QUARTER_METER_INCREMENTS = false;
 }
