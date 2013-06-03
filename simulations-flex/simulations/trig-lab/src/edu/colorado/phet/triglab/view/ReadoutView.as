@@ -22,6 +22,7 @@ import flash.display.Sprite;
 import mx.containers.Canvas;
 import mx.containers.HBox;
 import mx.containers.VBox;
+import mx.controls.Label;
 
 //view of readout panel which displays current angle in rads or degrees, values of sine, cos, tangent
 public class ReadoutView extends Canvas {
@@ -32,6 +33,7 @@ public class ReadoutView extends Canvas {
     private var angleBox: HBox;
     private var smallAngleReadout: NiceLabel;
     private var totalAngleReadout: NiceLabel;
+    private var cosineReadout: NiceLabel;
 
 
     //internationalized strings
@@ -79,6 +81,11 @@ public class ReadoutView extends Canvas {
         this.totalAngleReadout.setText(FlexSimStrings.get("angleEqualsXDegrees", "angle = {0} degrees", [totAngleInDeg_str]));
         this.background.addChild( new SpriteUIComponent ( this.totalAngleReadout ) );
 
+        this.cosineReadout = new NiceLabel();
+        var cosine_str:String = "0.500";
+        this.cosineReadout.setText(FlexSimStrings.get("cosineEqualsX", "cos = {0}", [cosine_str]));
+        this.background.addChild( new SpriteUIComponent( this.cosineReadout ));
+
     }//end init()
 
     private function initializeStrings():void{
@@ -98,6 +105,10 @@ public class ReadoutView extends Canvas {
         var totalAngleInDegrees: Number = this.myTrigModel.totalAngle*180/Math.PI;
         var totalAngleInDegrees_str: String = totalAngleInDegrees.toFixed( 0 );
         this.totalAngleReadout.setText(FlexSimStrings.get("angleEqualsXDegrees", "angle = {0} degrees", [totalAngleInDegrees_str]));
+
+        var cos: Number = this.myTrigModel.cos;
+        var cosine_str: String = cos.toFixed( 3 );
+        this.cosineReadout.setText(FlexSimStrings.get("cosineEqualsX", "cos = {0} ", [cosine_str]));
     }
 
     public function update():void{
