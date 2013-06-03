@@ -29,6 +29,11 @@ public class UnitCircleView extends Sprite {
     private var gridLines: Sprite ;       //optional gridlines on unit circle
     private var angleHandle: Sprite;//grabbable handle for setting angle on unit Circle
     private var radius:Number;      //radius of unit circle in pixels
+    private var previousAngle:Number;
+    private var smallAngle:Number
+    private var totalAngle:Number;
+    private var nbrHalfTurns:Number;
+
     private var grabbed: Boolean;   //true if angle selection ball is grabbed
 
     private var stageW: int;
@@ -61,7 +66,10 @@ public class UnitCircleView extends Sprite {
         this.unitCircleGraph.y = 0.5*stageH;
         this.drawAngleHandle();
         this.makeAngleHandleGrabbable();
-
+        this.smallAngle = 0;
+        this.previousAngle = 0;
+        this.totalAngle = 0;
+        this.nbrHalfTurns = 0;
     } //end of initialize
 
 
@@ -85,7 +93,7 @@ public class UnitCircleView extends Sprite {
     private function drawTriangle():void{
         var gTriangle: Graphics = this.triangleDiagram.graphics;
         var xLeg: Number = this.radius*myTrigModel.cos;
-        var yLeg: Number = this.radius*myTrigModel.sin;
+        var yLeg: Number = -this.radius*myTrigModel.sin;
         with( gTriangle ){
             clear();
             lineStyle( 1, 0xff0000, 1 );
@@ -152,20 +160,26 @@ public class UnitCircleView extends Sprite {
             var xInPix: Number = thisObject.unitCircleGraph.mouseX - clickOffset.x;
             var yInPix: Number = thisObject.unitCircleGraph.mouseY - clickOffset.y;
             var angleInRads: Number = Math.atan2( yInPix,  xInPix );
-            thisObject.myTrigModel.theta = angleInRads;
+            thisObject.smallAngle = -angleInRads;   //minus-sign to be consistent with convention: CCW = + angle
+            //trace("thisObject.smallAngle = "+thisObject.smallAngle)
+            thisObject.myTrigModel.smallAngle = -angleInRads;
+            //thisObject.updateTotalAngle();
             evt.updateAfterEvent();
         }//end of dragTarget()
 
 
     }//end makeAngleSelectorGrabbable
 
+
+
     private function positionAngleHandle( angleInRads: Number ):void{
         this.angleHandle.x = this.radius*Math.cos( angleInRads );
-        this.angleHandle.y = this.radius*Math.sin( angleInRads );
+        this.angleHandle.y = -this.radius*Math.sin( angleInRads );
     }
 
     public function update():void{
-        this.positionAngleHandle( myTrigModel.theta );
+        this.positionAngleHandle( myTrigModel.smallAngle );
+        //this.updateTotalAngle();
         this.drawTriangle();
     }
 
