@@ -1,3 +1,5 @@
+# 1.04.00 (73116) Jun 3, 2013
+6/3/13 Deploying to production server in order to update preferred fonts.
 # 1.03.08 (72876) Apr 26, 2013
 4/26/13 Publishing version for review with research team
 Added a field to the "challengePresented" sim sharing message that indicates the correct answer to the challenge.
