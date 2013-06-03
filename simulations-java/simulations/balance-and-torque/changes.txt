@@ -1,3 +1,5 @@
+# 1.04.00 (73118) Jun 3, 2013
+6/3/13 Deploying to production server to incorporate latest preferred fonts.
 Cleaned up code created specifically for Stanford study, removed most of it.
 # 1.03.08 (72876) Apr 26, 2013
 4/26/13 Publishing version for review with research team
