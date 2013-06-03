@@ -62,8 +62,8 @@ public class UnitCircleView extends Sprite {
         this.unitCircleGraph.addChild( triangleDiagram );
         this.unitCircleGraph.addChild( this.angleHandle );
         this.drawUnitCircle();
-        this.unitCircleGraph.x = 0.5*stageW;
-        this.unitCircleGraph.y = 0.5*stageH;
+        this.unitCircleGraph.x = 0.3*stageW;
+        this.unitCircleGraph.y = 0.3*stageH;
         this.drawAngleHandle();
         this.makeAngleHandleGrabbable();
         this.smallAngle = 0;
@@ -109,7 +109,7 @@ public class UnitCircleView extends Sprite {
 
     private function drawAngleHandle():void{
         var gBall: Graphics = this.angleHandle.graphics;
-        var ballRadius: Number = 10;
+        var ballRadius: Number = 5;
         with( gBall ){
             clear();
             lineStyle( 1, 0x0000ff, 1.0 )
@@ -126,7 +126,7 @@ public class UnitCircleView extends Sprite {
         with( gGrab ){
             clear();
             lineStyle( 1, 0xffffff, 0 );
-            beginFill( 0x00ff00,0.2 );
+            beginFill( 0x00ff00,0 );
             drawCircle( 0, 0, grabRadius );
             endFill();
         }
@@ -160,10 +160,8 @@ public class UnitCircleView extends Sprite {
             var xInPix: Number = thisObject.unitCircleGraph.mouseX - clickOffset.x;
             var yInPix: Number = thisObject.unitCircleGraph.mouseY - clickOffset.y;
             var angleInRads: Number = Math.atan2( yInPix,  xInPix );
-            thisObject.smallAngle = -angleInRads;   //minus-sign to be consistent with convention: CCW = + angle
-            //trace("thisObject.smallAngle = "+thisObject.smallAngle)
+            thisObject.smallAngle = -angleInRads;   //minus-sign to be consistent with convention: CCW = +angle, CW = -angle
             thisObject.myTrigModel.smallAngle = -angleInRads;
-            //thisObject.updateTotalAngle();
             evt.updateAfterEvent();
         }//end of dragTarget()
 

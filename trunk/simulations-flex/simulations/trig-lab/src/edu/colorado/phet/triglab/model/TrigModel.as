@@ -21,11 +21,10 @@ public class TrigModel {
 
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView; //communications hub for model-view-controller
-    //private var _theta: Number;     //angle in radians
-    private var _smallAngle: Number;
-    private var _totalAngle: Number;
+    private var _smallAngle: Number;   //angle in radians between -pi and + pi, regardless of how many full revolutions around unit circle
+    private var _totalAngle: Number;   //total angle in radians between -infinity and +infinity
     private var previousAngle: Number;
-    private var nbrHalfTurns: Number;
+    private var nbrFullTurns: Number;  //number of full turns around unit circle
     private var _cos: Number;        //cosine of angle _theta
     private var _sin: Number;
     private var _tan: Number;
@@ -39,9 +38,8 @@ public class TrigModel {
 
 
     private function initialize():void{
-        //_theta = 0;
         this._smallAngle = 0;
-        this.nbrHalfTurns = 0;
+        this.nbrFullTurns = 0;
         this._totalAngle = 0;
         this.updateViews();
     }  //end initialize()
@@ -80,41 +78,17 @@ public class TrigModel {
         updateViews();
     }//end set theta();
 
+
     private function updateTotalAngle():void{
-        if( _smallAngle <= 0 && previousAngle > 0 ){
-            if( previousAngle > 2 ){
-                nbrHalfTurns += 1;
-            }else if( previousAngle < 1 && previousAngle > 0 && nbrHalfTurns != 0){
-                nbrHalfTurns -= 1;
-            }
-            trace( "nbrHalfTurns: "+nbrHalfTurns );
-
-        } else if( _smallAngle >= 0 && previousAngle < 0 ) {
-            if( previousAngle < -2 ){
-                nbrHalfTurns -= 1;
-            }else if( previousAngle < 0 && previousAngle > -1 && nbrHalfTurns != 0){
-                nbrHalfTurns += 1;
-            }
-            trace( "nbrHalfTurns: "+nbrHalfTurns );
+        if( _smallAngle <= 0  && previousAngle > 2 ){
+             this.nbrFullTurns += 1;
+        } else if ( _smallAngle >= 0 && previousAngle < -2) {
+            this.nbrFullTurns -= 1;
         }
-
+        this.totalAngle = nbrFullTurns*2*Math.PI + this._smallAngle;
         this.previousAngle = this._smallAngle;
-        if( nbrHalfTurns == 0 ){
-            this._totalAngle = this._smallAngle;
-        } else if ( nbrHalfTurns > 0 ){
-            if( _smallAngle >= 0 ){
-                this._totalAngle = nbrHalfTurns*Math.PI + this.smallAngle;
-            }else if ( _smallAngle < 0 ){
-                this._totalAngle = nbrHalfTurns*Math.PI + Math.PI + this.smallAngle;
-            }
-        } else if ( nbrHalfTurns < 0 ){
-            if( _smallAngle < 0 ){
-                this._totalAngle = nbrHalfTurns*Math.PI + this.smallAngle;
-            }else if ( _smallAngle >= 0 ){
-                this._totalAngle = nbrHalfTurns*Math.PI - Math.PI + this.smallAngle;
-            }
-        }
-    }//end updateTotalAngle
+
+    } //end updateTotalAngle()
 
     public function set totalAngle( totalAngle:Number ):void{
         _totalAngle = totalAngle;
