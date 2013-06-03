@@ -33,6 +33,7 @@ public class MainView extends Canvas {
 
     public var myTrigModel:TrigModel;
     public var myUnitCircleView:UnitCircleView;
+    public var myReadoutView: ReadoutView;
     //public var myGraphView:GraphView;
     //public var myControlPanel:ControlPanel;
     public var topCanvas:TrigLabCanvas;
@@ -51,10 +52,15 @@ public class MainView extends Canvas {
         this.stageW = stageW;
         this.myTrigModel = new TrigModel(this);
         this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
+        this.myReadoutView = new ReadoutView( this, myTrigModel );
         //this.myGraphView = new GraphView(this, myTrigModel );
         //this.myControlPanel = new ControlPanel( this, this.myTrigModel );
 
         this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
+        this.addChild( myReadoutView );
+        this.myReadoutView.x = 0.8*stageW;
+        this.myReadoutView.y = 0.1*stageH;
+
         //this.addChild( new SpriteUIComponent( this.myGraphView ));
         //this.addChild( myControlPanel );
         //this.myControlPanel.x = 0.8*stageW;
@@ -70,7 +76,7 @@ public class MainView extends Canvas {
 
 
     public function initializeAll(): void {
-        myTrigModel.theta = 0;
+        myTrigModel.smallAngle = 0;
 
     }//end of initializeAll()
 
