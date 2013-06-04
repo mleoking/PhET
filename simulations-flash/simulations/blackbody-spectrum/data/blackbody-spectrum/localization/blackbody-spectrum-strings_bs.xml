@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_bs.xml created Fri May 31 01:33:56 CEST 2013 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="r" value="R"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="zoomIn" value="povećaj"/>
+<string key="intensity" value="intenzitet"/>
+<string key="simTitle" value="ZRAČENJE CRNOG TIJELA"/>
+<string key="zoomOut" value="smanji"/>
+<string key="clear" value="Obriši"/>
+<string key="g" value="G"/>
+<string key="sun" value="Sunce"/>
+<string key="tempInK" value="T(K)"/>
+<string key="save" value="Zapamti"/>
+<string key="showRuler" value="lenjir"/>
+<string key="wavelength" value="talasna dužina"/>
+<string key="b" value="B"/>
+<string key="oven" value="rerna (pećnica)"/>
+<string key="earth" value="Zemlja"/>
+<string key="lightBulb" value="sijalica"/>
+</SimStrings>
