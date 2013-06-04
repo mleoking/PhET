@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_bs.xml created Sun May 26 10:14:21 CEST 2013 using: charges-and-fields 2.04.00 (52655), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="directionOnly" value="Samo smjer"/>
+<string key="grid" value="mreža"/>
+<string key="clearAll" value="Obriši sve"/>
+<string key="simTitle" value="ELEKTRIČNA POLJA TAČKASTIH &#10;NAELEKTRISANJA"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="Brojne vrij."/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 metar"/>
+<string key="showEField" value="Pokaži polje"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="V preciznije"/>
+<string key="EFieldSensors" value="Senzori E - polja"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="Obriši"/>
+<string key="plot" value="Crtaj"/>
+<string key="equipotential" value="Ekvipotencijalno"/>
+<string key="angleUnit" value="stepeni"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Corovic, dipl.fizicar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="showLoRes" value="V manje precizno"/>
+<string key="moreSpeedLessRes" value="brže/manje precizno"/>
+<string key="tapeMeasure" value="Mjerna traka"/>
+<string key="voltage" value="Napon"/>
+</SimStrings>
