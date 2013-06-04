@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_bs.xml created Fri May 31 01:25:10 CEST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="stopCharge" value="zaustavi naelektrisanje"/>
+<string key="bump" value="&quot;čvoruga&quot;"/>
+<string key="amplitude" value="amplituda"/>
+<string key="radiating-charge.simTitle" value="ZRAČENJE NAELEKTRISANJA U KRETANJU"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="speed" value="brzina"/>
+<string key="frictionManual" value="ručno"/>
+<string key="duration" value="trajanje"/>
+<string key="noFrictionManual" value="bez trenja"/>
+<string key="linear" value="linearno"/>
+<string key="reset" value="na početak"/>
+<string key="frequency" value="frekvencija"/>
+<string key="circular" value="kružno"/>
+<string key="showVelocity" value="pokaži brzinu"/>
+<string key="paused" value="PAUZA"/>
+<string key="restart" value="restart"/>
+<string key="sinusoidal" value="sinusoidalno"/>
+</SimStrings>
