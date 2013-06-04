@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_bs.xml created Fri May 24 20:00:20 CEST 2013 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="level" value="NIVO"/>
+<string key="typeAnswer" value="Otkucaj odgovor,\n zatim Enter"/>
+<string key="clickToSelect" value="Klikni na tačan\n kvadratić"/>
+<string key="correct" value="Tačno!"/>
+<string key="isWrong" value="je netačno."/>
+<string key="simTitle" value="ARITMETIKA"/>
+<string key="time" value="Vrijeme (s)"/>
+<string key="finalTime" value="Ukupno vrijeme:"/>
+<string key="multiply" value="Pomnoži"/>
+<string key="tryAgain" value="Pokušaj ponovo."/>
+<string key="sound" value="Zvuk"/>
+<string key="divide" value="Podijeli"/>
+<string key="factor" value="Činioc"/>
+<string key="minute" value="minuta"/>
+<string key="finalScore" value="Ukupan rezultat:"/>
+<string key="mustTypeNbr" value="Otkucaj\n broj"/>
+<string key="nbrRight" value="tačan broj:"/>
+<string key="scorePer" value="rezultat"/>
+<string key="score" value="Rezultat:"/>
+<string key="nbrWrong" value="pogrešan broj:"/>
+<string key="clock" value="sat"/>
+<string key="title" value="ARITMETIČKA VJEŽBANKA"/>
+</SimStrings>
