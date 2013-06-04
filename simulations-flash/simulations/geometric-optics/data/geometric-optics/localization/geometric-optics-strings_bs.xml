@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_bs.xml created Sat May 25 17:24:46 CEST 2013 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="draggableScreen" value="pomjerivi ekran"/>
+<string key="draggableLens" value="pomjerivo sočivo"/>
+<string key="screen" value="ekran"/>
+<string key="draggableRuler" value="pomjerivi lenjir"/>
+<string key="simTitle" value="Geometrijska optika"/>
+<string key="showHelp" value="Pokaži pomoć"/>
+<string key="moveMe" value="Pomjeraj me!"/>
+<string key="showGuides" value="pokaži graničnike"/>
+<string key="diameter" value="Prečnik sočiva (m)"/>
+<string key="ruler" value="lenjir"/>
+<string key="focalPoint" value="žiža (fokus)"/>
+<string key="curvatureRadius" value="Poluprečnik krivine \n &#10;(zakrivljenost sočiva)(m)"/>
+<string key="changeObject" value="Promijeni objekat"/>
+<string key="principalRays" value="Karakteristične zrake"/>
+<string key="marginalRays" value="Granične zrake"/>
+<string key="virtualImage" value="Imaginarna slika (lik)"/>
+<string key="noRays" value="Bez zraka"/>
+<string key="secondSource" value="druga tačka"/>
+<string key="hideHelp" value="sakrij fokus"/>
+<string key="refractiveIndex" value="indeks prelamanja"/>
+<string key="manyRays" value="Više zraka"/>
+</SimStrings>
