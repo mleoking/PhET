@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_bs.xml created Sat May 25 22:08:29 CEST 2013 using: equation-grapher 2.02.00 (52283), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="showYEq" value="pokaži y = "/>
+<string key="erase" value="Obriši"/>
+<string key="save" value="Zapamti"/>
+<string key="zero" value="Na nulu"/>
+<string key="simTitle" value="Grafik kvadratne funkcije"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Corovic, dipl.fizicar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+</SimStrings>
