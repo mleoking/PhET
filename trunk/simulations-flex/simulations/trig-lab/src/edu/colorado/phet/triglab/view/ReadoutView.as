@@ -32,17 +32,21 @@ public class ReadoutView extends Canvas {
     private var background: VBox;
     private var angleBox: HBox;
     private var smallAngleReadout: NiceLabel;
+    private var xyReadout: NiceLabel;
     private var totalAngleReadout: NiceLabel;
     private var cosineReadout: NiceLabel;
+    private var sineReadout: NiceLabel;
+    private var tangentReadout: NiceLabel;
 
 
     //internationalized strings
+    private var xy_str: String;
     private var angle_str:String;
+    private var degrees_str: String;
     private var sine_str: String;
     private var cosine_str: String;
     private var tangent_str: String;
     private var radians_str: String;
-    private var degrees_str: String;
 
     public function ReadoutView( myMainView: MainView,  myTrigModel: TrigModel ) {
         this.myMainView = myMainView;
@@ -54,34 +58,39 @@ public class ReadoutView extends Canvas {
     private function init():void{
         initializeStrings();
         this.background = new VBox();
-        with ( this.background ) {
-            setStyle( "backgroundColor", 0x66ff66 );
-            setStyle( "borderStyle", "solid" )
-            setStyle( "borderColor", 0x009900 );
-            setStyle( "cornerRadius", 15 );
-            setStyle( "borderThickness", 8 );
-            setStyle( "paddingTop", 20 );
-            setStyle( "paddingBottom", 20 );
-            setStyle( "paddingRight", 10 );
-            setStyle( "paddingLeft", 10 );
-            setStyle( "verticalGap", 15 );
-            setStyle( "horizontalAlign", "center" );
-        }
+//        with ( this.background ) {
+//            setStyle( "backgroundColor", 0x66ff66 );
+//            setStyle( "borderStyle", "solid" )
+//            setStyle( "borderColor", 0x009900 );
+//            setStyle( "cornerRadius", 15 );
+//            setStyle( "borderThickness", 8 );
+//            setStyle( "paddingTop", 20 );
+//            setStyle( "paddingBottom", 20 );
+//            setStyle( "paddingRight", 10 );
+//            setStyle( "paddingLeft", 10 );
+//            setStyle( "verticalGap", 15 );
+//            setStyle( "horizontalAlign", "center" );
+//        }
         //this.angleBox = new HBox();
         this.addChild( background );
-        //this.background.addChild( angleBox );
+        this.xyReadout = new NiceLabel( 25 );
+        var x_str:String = "0.455";
+        var y_str:String = "0.350";
+        this.xyReadout.setText( FlexSimStrings.get( "(x,y)Equals(X,Y)", "(x, y) = ( {0}, {1} )" , [x_str,  y_str]));
+        this.background.addChild( new SpriteUIComponent( this.xyReadout ) );
+
         this.smallAngleReadout = new NiceLabel( );
         //next two lines needed to set size of label
         var angleInDeg_str:String = "395";
         this.smallAngleReadout.setText(FlexSimStrings.get("angleEqualsXDegrees", "angle = {0} degrees", [angleInDeg_str]));
-        this.background.addChild( new SpriteUIComponent ( this.smallAngleReadout ) );
-        this.totalAngleReadout = new NiceLabel( );
+        //this.background.addChild( new SpriteUIComponent ( this.smallAngleReadout ) );
+        this.totalAngleReadout = new NiceLabel( 25 );
         //next two lines needed to set size of label
         var totAngleInDeg_str:String = "395";
         this.totalAngleReadout.setText(FlexSimStrings.get("angleEqualsXDegrees", "angle = {0} degrees", [totAngleInDeg_str]));
         this.background.addChild( new SpriteUIComponent ( this.totalAngleReadout ) );
 
-        this.cosineReadout = new NiceLabel();
+        this.cosineReadout = new NiceLabel( 25 );
         var cosine_str:String = "0.500";
         this.cosineReadout.setText(FlexSimStrings.get("cosineEqualsX", "cos = {0}", [cosine_str]));
         this.background.addChild( new SpriteUIComponent( this.cosineReadout ));
@@ -90,6 +99,7 @@ public class ReadoutView extends Canvas {
 
     private function initializeStrings():void{
         angle_str = FlexSimStrings.get("angle", "angle:");
+        degrees_str = FlexSimStrings.get( "degrees", "degrees")
         cosine_str = FlexSimStrings.get("cosine", "cosine:");
         sine_str = FlexSimStrings.get("sine", "sine:");
         tangent_str = FlexSimStrings.get("tangent", "tangent:");
@@ -97,7 +107,13 @@ public class ReadoutView extends Canvas {
         degrees_str = FlexSimStrings.get("degrees", "degrees");
     }
 
-    private function setAngleReadout(): void {
+    private function setReadouts(): void {
+        var xValue: Number = this.myTrigModel.x;
+        var xValue_str: String = xValue.toFixed( 3 );
+        var yValue: Number = this.myTrigModel.y;
+        var yValue_str: String = yValue.toFixed( 3 );
+        this.xyReadout.setText( FlexSimStrings.get( "(x,y)Equals(X,Y)", "( x, y ) = ( {0}, {1} )" , [xValue_str,  yValue_str]));
+
         var smallAngleInDegrees: Number = this.myTrigModel.smallAngle*180/Math.PI;
         var smallAngleInDegrees_str: String = smallAngleInDegrees.toFixed( 0 );
         this.smallAngleReadout.setText(FlexSimStrings.get("angleEqualsXDegrees", "angle = {0} degrees", [smallAngleInDegrees_str]));
@@ -112,7 +128,7 @@ public class ReadoutView extends Canvas {
     }
 
     public function update():void{
-         setAngleReadout();
+         setReadouts();
     }
 } //end of class
 } //end of package

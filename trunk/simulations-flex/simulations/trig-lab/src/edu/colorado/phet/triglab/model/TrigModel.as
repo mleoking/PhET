@@ -23,6 +23,8 @@ public class TrigModel {
     public var myMainView:MainView; //communications hub for model-view-controller
     private var _smallAngle: Number;   //angle in radians between -pi and + pi, regardless of how many full revolutions around unit circle
     private var _totalAngle: Number;   //total angle in radians between -infinity and +infinity
+    private var _x: Number;            //value of x on unit circle: x = cos(angle)
+    private var _y: Number;            //value of y on unit circle: y = sin(angle)
     private var previousAngle: Number;
     private var nbrFullTurns: Number;  //number of full turns around unit circle
     private var _cos: Number;        //cosine of angle _theta
@@ -56,6 +58,14 @@ public class TrigModel {
         return _totalAngle;
     }
 
+    public function get x():Number{
+        return _x;
+    }
+
+    public function get y():Number{
+        return _y;
+    }
+
     public function get cos():Number{
         return _cos;
     }
@@ -74,6 +84,8 @@ public class TrigModel {
         _cos = Math.cos( _smallAngle );
         _sin = Math.sin( _smallAngle );
         _tan = Math.tan( _smallAngle );
+        _x = _cos;
+        _y = _sin;
         this.updateTotalAngle();
         updateViews();
     }//end set theta();
