@@ -14,7 +14,7 @@ import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import flash.display.Graphics;
 
 import flash.display.Sprite;
-
+//View of xy graph of trig functions
 public class GraphView extends Sprite{
 
     private var myMainView: MainView;
@@ -26,7 +26,10 @@ public class GraphView extends Sprite{
     private var cosGraph: Sprite;
     private var sinGraph: Sprite;
     private var valueIndicator: Sprite;
-    private var whichGraph: String;     //the string is "cos", "sin", or "tan" depending on which graph is selected.
+    private var whichValueIndicator: String;     //the string is "cos", "sin", or "tan" depending on which graph is selected.
+    private var _showCos: Boolean;
+    private var _showSin: Boolean;
+    private var _showTan: Boolean;
 
 
     public function GraphView( myMainView: MainView,  myTrigModel: TrigModel ) {
@@ -45,7 +48,8 @@ public class GraphView extends Sprite{
     }
 
     private function init():void{
-        this.selectWhichGraph( "sin" );
+        this.selectWhichValueIndicator( "sin" );
+
         this.wavelengthInPix = 200;
         this.nbrWavelengths = 2*3;  //must be even number, so equal nbr of wavelengths are shown on right and left of origin.
         this.amplitudeInPix = 70;
@@ -120,9 +124,19 @@ public class GraphView extends Sprite{
         }
     } //end drawValueIndicator()
 
-    public function selectWhichGraph( trigFunction: String ):void{
+    public function set showCos( tOrF:Boolean ):void{
+        this._showCos = tOrF;
+    }
+    public function set showSin( tOrF:Boolean ):void{
+        this._showSin = tOrF;
+    }
+    public function set showTan( tOrF:Boolean ):void{
+        this._showTan = tOrF;
+    }
+
+    public function selectWhichValueIndicator( trigFunction: String ):void{
         if( trigFunction == "cos" || trigFunction == "sin" || trigFunction == "tan" ){
-            this.whichGraph = trigFunction;
+            this.whichValueIndicator = trigFunction;
         }else{
             trace("Invalid argument in function GraphView.selectWhichGraph()");
         }
@@ -131,11 +145,11 @@ public class GraphView extends Sprite{
     public function update():void{
         var angleInRads:Number = myTrigModel.totalAngle;
         valueIndicator.x = (wavelengthInPix*angleInRads/(2*Math.PI)) ;
-        if( whichGraph == "cos"){
+        if( whichValueIndicator == "cos"){
             valueIndicator.y = -amplitudeInPix*Math.cos( angleInRads );
-        }else if( whichGraph == "sin" ){
+        }else if( whichValueIndicator == "sin" ){
             valueIndicator.y = -amplitudeInPix*Math.sin( angleInRads );
-        }else if( whichGraph == "tan" ){
+        }else if( whichValueIndicator == "tan" ){
             valueIndicator.y = -amplitudeInPix*Math.tan( angleInRads );
         }
     }//end of update()

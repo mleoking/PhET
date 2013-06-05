@@ -58,8 +58,8 @@ public class MainView extends Canvas {
 
         this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
         this.addChild( myReadoutView );
-        this.myReadoutView.x = 0.8*stageW;
-        this.myReadoutView.y = 0.1*stageH;
+        this.myReadoutView.x = 0.5*stageW;
+        this.myReadoutView.y = 0.05*stageH;
 
         this.addChild( new SpriteUIComponent( this.myGraphView ));
         this.myGraphView.x = 0.6*stageW;
