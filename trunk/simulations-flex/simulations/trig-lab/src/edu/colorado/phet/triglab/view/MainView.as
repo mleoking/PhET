@@ -35,7 +35,7 @@ public class MainView extends Canvas {
     public var myUnitCircleView:UnitCircleView;
     public var myReadoutView: ReadoutView;
     public var myGraphView:GraphView;
-    //public var myControlPanel:ControlPanel;
+    public var myControlPanel:ControlPanel;
     public var topCanvas:TrigLabCanvas;
 
     public var phetLogo: PhetIcon;
@@ -54,7 +54,7 @@ public class MainView extends Canvas {
         this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
         this.myReadoutView = new ReadoutView( this, myTrigModel );
         this.myGraphView = new GraphView(this, myTrigModel );
-        //this.myControlPanel = new ControlPanel( this, this.myTrigModel );
+        this.myControlPanel = new ControlPanel( this, this.myTrigModel );
 
         this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
         this.addChild( myReadoutView );
@@ -64,9 +64,9 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( this.myGraphView ));
         this.myGraphView.x = 0.6*stageW;
         this.myGraphView.y = 0.75*stageH;
-        //this.addChild( myControlPanel );
-        //this.myControlPanel.x = 0.8*stageW;
-        //this.myControlPanel.y = 0.02*stageH;
+        this.addChild( myControlPanel );
+        this.myControlPanel.x = 0.8*stageW;
+        this.myControlPanel.y = 0.15*stageH;
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.setColor( 0x0000ff );
