@@ -57,13 +57,17 @@ public class MainView extends Canvas {
         this.myControlPanel = new ControlPanel( this, this.myTrigModel );
 
         this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
+        this.myUnitCircleView.x = 0.3*stageW;
+        this.myUnitCircleView.y = 0.27*stageW;
+
         this.addChild( myReadoutView );
-        this.myReadoutView.x = 0.5*stageW;
+        this.myReadoutView.x = 0.55*stageW;
         this.myReadoutView.y = 0.05*stageH;
 
         this.addChild( new SpriteUIComponent( this.myGraphView ));
         this.myGraphView.x = 0.6*stageW;
-        this.myGraphView.y = 0.75*stageH;
+        this.myGraphView.y = 0.77*stageH;
+
         this.addChild( myControlPanel );
         this.myControlPanel.x = 0.8*stageW;
         this.myControlPanel.y = 0.15*stageH;

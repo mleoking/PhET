@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.triglab.view {
 import edu.colorado.phet.triglab.model.TrigModel;
+import edu.colorado.phet.triglab.util.Util;
 
 import flash.display.CapsStyle;
 
@@ -57,13 +58,16 @@ public class UnitCircleView extends Sprite {
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
         this.radius = 200;
+        this.addChild( gridLines );
         this.addChild( unitCircleGraph );
-        this.unitCircleGraph.addChild( gridLines );
         this.unitCircleGraph.addChild( triangleDiagram );
         this.unitCircleGraph.addChild( this.angleHandle );
         this.drawUnitCircle();
-        this.unitCircleGraph.x = 0.3*stageW;
-        this.unitCircleGraph.y = 0.3*stageH;
+//        this.unitCircleGraph.x = 0.3*stageW;
+//        this.unitCircleGraph.y = 0.3*stageH;
+//        this.gridLines.x = this.unitCircleGraph.x;
+//        this.gridLines.y = this.unitCircleGraph.y;
+        this.drawGridLines();
         this.drawAngleHandle();
         this.makeAngleHandleGrabbable();
         this.smallAngle = 0;
@@ -84,11 +88,41 @@ public class UnitCircleView extends Sprite {
             lineTo( +f*radius,  0 );
             moveTo( 0, -f*radius );
             lineTo( 0, f*radius );
+            //draw arrow heads on axes
+            var length:Number = 10;
+            var halfWidth:Number = 6
+            //x-axis arrow
+            moveTo( f*radius, 0 );
+            lineTo( f*radius - length,  halfWidth );
+            moveTo( f*radius, 0 );
+            lineTo( f*radius - length,  -halfWidth );
+            //y-axis arrow
+            moveTo( 0, -f*radius);
+            lineTo( -halfWidth, -f*radius + length );
+            moveTo( 0, -f*radius );
+            lineTo( +halfWidth, -f*radius + length );
             //draw unit circle
             lineStyle( 2, 0x0000ff, 1 );  //blue
             drawCircle( 0, 0, radius );
         }
     }  //end drawUnitCircle()
+
+    private function drawGridLines():void{
+        //grid spacing = 0.5
+        var spacing: Number = 0.5*this.radius;
+        var gGrid: Graphics = this.gridLines.graphics;
+        gGrid.lineStyle( 2, 0xaaaaaa, 1 ); //light gray color
+        for( var i:int = -2; i <= 2; i++) {
+            with(gGrid){
+                //draw horizontal lines
+                moveTo(-2*spacing,  i*spacing );
+                lineTo(+2*spacing,  i*spacing );
+                //draw vertical lines
+                moveTo( i*spacing, -2*spacing );
+                lineTo( i*spacing, +2*spacing );
+            }//end with
+        }//end for
+    }//end drawGridLines
 
     private function drawTriangle():void{
         var gTriangle: Graphics = this.triangleDiagram.graphics;
@@ -96,16 +130,20 @@ public class UnitCircleView extends Sprite {
         var yLeg: Number = -this.radius*myTrigModel.sin;
         with( gTriangle ){
             clear();
+            //draw hypotenuse
             lineStyle( 1, 0xff0000, 1 );
             moveTo( 0, 0 );
             lineTo( xLeg, yLeg );
-            lineStyle( 3, 0x0000ff,  1) ;
+            //draw x-leg
+            lineStyle( 3, Util.COSCOLOR,  1) ;
             moveTo( 0, 0 );
             lineTo( xLeg,  0 );
+            //draw y-leg
+            lineStyle( 3, Util.SINCOLOR,  1) ;
+            moveTo( xLeg, 0 );
             lineTo( xLeg,  yLeg );
-
         }
-    }
+    }//end drawTriangle
 
     private function drawAngleHandle():void{
         var gBall: Graphics = this.angleHandle.graphics;

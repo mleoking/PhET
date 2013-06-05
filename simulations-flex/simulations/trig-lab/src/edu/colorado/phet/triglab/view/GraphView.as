@@ -10,6 +10,7 @@ import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.triglab.model.TrigModel;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
+import edu.colorado.phet.triglab.util.Util;
 
 import flash.display.Graphics;
 
@@ -92,7 +93,7 @@ public class GraphView extends Sprite{
         var gCos: Graphics = cosGraph.graphics;
         with( gCos ){
             clear();
-            lineStyle( 3, 0x0000ff );
+            lineStyle( 3, Util.COSCOLOR );
             for( var j:int = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
                 moveTo(j*wavelengthInPix, -amplitudeInPix*Math.cos( 0 ));
                 for( var i:int = 1; i <= N; i++ ){
@@ -104,7 +105,7 @@ public class GraphView extends Sprite{
         var gSin: Graphics = sinGraph.graphics;
         with( gSin ){
             clear();
-            lineStyle( 3, 0x008800 );
+            lineStyle( 3, Util.SINCOLOR );
             for( var j:int = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
                 moveTo(j*wavelengthInPix, -amplitudeInPix*Math.sin( 0 ));
                 for( var i:int = 1; i <= N; i++ ){
