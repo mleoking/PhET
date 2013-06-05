@@ -25,6 +25,7 @@ public class GraphView extends Sprite{
     private var axesGraph: Sprite;
     private var cosGraph: Sprite;
     private var sinGraph: Sprite;
+    private var tanGraph: Sprite;
     private var valueIndicator: Sprite;
     private var whichValueIndicator: String;     //the string is "cos", "sin", or "tan" depending on which graph is selected.
     private var _showCos: Boolean;
@@ -56,6 +57,7 @@ public class GraphView extends Sprite{
         this.axesGraph = new Sprite();
         this.cosGraph = new Sprite();
         this.sinGraph = new Sprite();
+        this.tanGraph = new Sprite();
         this.valueIndicator = new Sprite();
         this.drawAxesGraph();
         this.drawTrigFunctions();
@@ -126,12 +128,21 @@ public class GraphView extends Sprite{
 
     public function set showCos( tOrF:Boolean ):void{
         this._showCos = tOrF;
+        this.setVisibilityOfGraphs();
     }
     public function set showSin( tOrF:Boolean ):void{
         this._showSin = tOrF;
+        this.setVisibilityOfGraphs();
     }
     public function set showTan( tOrF:Boolean ):void{
         this._showTan = tOrF;
+        this.setVisibilityOfGraphs();
+    }
+
+    private function setVisibilityOfGraphs():void{
+        cosGraph.visible = _showCos;
+        sinGraph.visible = _showSin;
+        tanGraph.visible = _showTan;
     }
 
     public function selectWhichValueIndicator( trigFunction: String ):void{

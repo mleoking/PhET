@@ -144,6 +144,7 @@ public class ControlPanel extends Canvas {
 
     private function cosCheckBoxListener( evt: Event ):void{
         var selected:Boolean = evt.target.selected;
+        myMainView.myGraphView.showCos = selected;
 //        speedIndicatorContainer.visible = selected;
 //        myMainView.myVelocityArrowView.velocityArrow.visible = selected;
 //        setVisibilityOfControls();
@@ -151,10 +152,12 @@ public class ControlPanel extends Canvas {
     }
     private function sinCheckBoxListener( evt: Event ):void{
         var selected:Boolean = evt.target.selected;
+        myMainView.myGraphView.showSin = selected;
 
     }
     private function tanCheckBoxListener( evt: Event ):void{
         var selected:Boolean = evt.target.selected;
+        myMainView.myGraphView.showTan = selected;
 
     }
 //    private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
