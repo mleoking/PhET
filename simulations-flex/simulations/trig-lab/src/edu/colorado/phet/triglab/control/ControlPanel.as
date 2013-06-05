@@ -29,7 +29,7 @@ import mx.controls.RadioButtonGroup;
 import mx.events.ItemClickEvent;
 
 /**
- * Control Panel for Radiating Charge sim
+ * Control Panel for Trig Lab sim
  * Control panel must be flex canvas to use flex auto-layout
  */
 
@@ -80,15 +80,15 @@ public class ControlPanel extends Canvas {
         this.background = new VBox();
         //this.firstPanel = new VBox();
         with ( this.background ) {
-            setStyle( "backgroundColor", 0x000000 );    //0x88ff88
+            setStyle( "backgroundColor", 0x55ff55 );    //0x88ff88
             setStyle( "borderStyle", "solid" )
-            setStyle( "borderColor", 0x00ff00 );  //0x009900
+            setStyle( "borderColor", 0x009900 );  //0x009900
             setStyle( "cornerRadius", 10 );
-            setStyle( "borderThickness", 3 );
+            setStyle( "borderThickness", 2 );
             setStyle( "paddingTop", 15 );
             setStyle( "paddingBottom", 5 );
-            setStyle( "paddingRight", 5 );
-            setStyle( "paddingLeft", 5 );
+            setStyle( "paddingRight", 15 );
+            setStyle( "paddingLeft", 15 );
             setStyle( "verticalGap", 10 );
             setStyle( "horizontalAlign", "center" );
         }
@@ -97,6 +97,19 @@ public class ControlPanel extends Canvas {
         this.tan_cb = new CheckBox();
         cos_cb.addEventListener( Event.CHANGE, cosCheckBoxListener );
         var cosCheckBoxLabel: NiceLabel = new NiceLabel( 15, cos_str, false, cos_cb );
+        //cos_cb.setStyle( "label", cos_str );
+        cos_cb.label = cos_str;
+        cos_cb.setStyle( "fontSize", 25 );
+
+        sin_cb.addEventListener( Event.CHANGE, sinCheckBoxListener );
+        var sinCheckBoxLabel: NiceLabel = new NiceLabel( 15, sin_str, false, sin_cb );
+        sin_cb.label = sin_str;
+        sin_cb.setStyle( "fontSize", 25 );
+
+        tan_cb.addEventListener( Event.CHANGE, tanCheckBoxListener );
+        var tanCheckBoxLabel: NiceLabel = new NiceLabel( 15, tan_str, false, tan_cb );
+        tan_cb.label = tan_str;
+        tan_cb.setStyle( "fontSize", 25 );
 
         //layout controls
         this.addChild( background );
@@ -135,6 +148,14 @@ public class ControlPanel extends Canvas {
 //        myMainView.myVelocityArrowView.velocityArrow.visible = selected;
 //        setVisibilityOfControls();
         //trace("ControlPanel.showVelocityListener selected = " + selected );
+    }
+    private function sinCheckBoxListener( evt: Event ):void{
+        var selected:Boolean = evt.target.selected;
+
+    }
+    private function tanCheckBoxListener( evt: Event ):void{
+        var selected:Boolean = evt.target.selected;
+
     }
 //    private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
 //        nrb.group = presetMotion_nrbg;
