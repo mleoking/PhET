@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.triglab.view {
+import edu.colorado.phet.flashcommon.controls.NiceLabel;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.triglab.model.TrigModel;
 import edu.colorado.phet.triglab.util.Util;
 
@@ -33,7 +35,19 @@ public class UnitCircleView extends Sprite {
     private var previousAngle:Number;
     private var smallAngle:Number
     private var totalAngle:Number;
-    private var nbrHalfTurns:Number;
+    //private var nbrHalfTurns:Number;
+
+    //Labels
+    private var x_lbl: NiceLabel;       //x-label on x-axis
+    private var y_lbl: NiceLabel;       //y-label on y-axis
+    private var one_lbl: NiceLabel;     //1 label on radius
+    private var theta_lbl: NiceLabel;   //angle label
+
+    //internationalized strings
+    private var x_str: String;
+    private var y_str: String;
+    private var one_str: String;
+    private var theta_str: String;
 
     private var grabbed: Boolean;   //true if angle selection ball is grabbed
 
@@ -51,7 +65,17 @@ public class UnitCircleView extends Sprite {
         this.gridLines = new Sprite();
         this.angleHandle = new Sprite();
         this.grabbed = false;
+        this.internationalizeStrings();
+        this.x_lbl = new NiceLabel( 25, x_str );
+        this.y_lbl = new NiceLabel( 25, y_str )
         this.initialize();
+    }
+
+    private function internationalizeStrings():void{
+        this.x_str = FlexSimStrings.get( "x", "x");
+        this.y_str = FlexSimStrings.get( "y", "y");
+        this.one_str = FlexSimStrings.get( "one", "1");
+        this.theta_str = FlexSimStrings.get( "theta", "theta" );   //greek letter theta
     }
 
     private function initialize():void{
@@ -62,6 +86,8 @@ public class UnitCircleView extends Sprite {
         this.addChild( unitCircleGraph );
         this.unitCircleGraph.addChild( triangleDiagram );
         this.unitCircleGraph.addChild( this.angleHandle );
+        this.unitCircleGraph.addChild( x_lbl );
+        this.unitCircleGraph.addChild( y_lbl );
         this.drawUnitCircle();
 //        this.unitCircleGraph.x = 0.3*stageW;
 //        this.unitCircleGraph.y = 0.3*stageH;
@@ -73,7 +99,7 @@ public class UnitCircleView extends Sprite {
         this.smallAngle = 0;
         this.previousAngle = 0;
         this.totalAngle = 0;
-        this.nbrHalfTurns = 0;
+        //this.nbrHalfTurns = 0;
     } //end of initialize
 
 
@@ -105,6 +131,10 @@ public class UnitCircleView extends Sprite {
             lineStyle( 2, 0x0000ff, 1 );  //blue
             drawCircle( 0, 0, radius );
         }
+        x_lbl.x = f*radius - x_lbl.width - 10;
+        x_lbl.y = 5;
+        y_lbl.x = -y_lbl.width - 10;
+        y_lbl.y = -f*radius + 5;
     }  //end drawUnitCircle()
 
     private function drawGridLines():void{
@@ -215,7 +245,6 @@ public class UnitCircleView extends Sprite {
 
     public function update():void{
         this.positionAngleHandle( myTrigModel.smallAngle );
-        //this.updateTotalAngle();
         this.drawTriangle();
     }
 
