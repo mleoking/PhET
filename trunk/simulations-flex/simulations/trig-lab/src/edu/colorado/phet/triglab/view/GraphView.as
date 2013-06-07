@@ -27,8 +27,11 @@ public class GraphView extends Sprite{
     private var cosGraph: Sprite;
     private var sinGraph: Sprite;
     private var tanGraph: Sprite;
-    private var valueIndicator: Sprite;
+    private var valueIndicator: Sprite;          //red ball which shows current value on graph
+    private var verticalLineToCurrentValue: Sprite
+    private var gVertLine: Graphics;
     private var whichValueIndicator: String;     //the string is "cos", "sin", or "tan" depending on which graph is selected.
+    private var whichGraphToShow: int;           //0 = cos graph, 1 = sin graph, 2 = tan graph
     private var _showCos: Boolean;
     private var _showSin: Boolean;
     private var _showTan: Boolean;
@@ -50,7 +53,7 @@ public class GraphView extends Sprite{
     }
 
     private function init():void{
-        this.selectWhichValueIndicator( "sin" );
+        //this.selectWhichValueIndicator( "sin" );
 
         this.wavelengthInPix = 200;
         this.nbrWavelengths = 2*3;  //must be even number, so equal nbr of wavelengths are shown on right and left of origin.
@@ -60,12 +63,15 @@ public class GraphView extends Sprite{
         this.sinGraph = new Sprite();
         this.tanGraph = new Sprite();
         this.valueIndicator = new Sprite();
+        this.verticalLineToCurrentValue = new Sprite();
+        this.gVertLine = verticalLineToCurrentValue.graphics;
         this.drawAxesGraph();
         this.drawTrigFunctions();
         this.drawValueIndicator();
         this.addChild( axesGraph );
         this.addChild( cosGraph );
         this.addChild( sinGraph );
+        this.addChild( verticalLineToCurrentValue );
         this.addChild( valueIndicator );
 
     }
@@ -85,6 +91,25 @@ public class GraphView extends Sprite{
                 moveTo( n*wavelengthInPix/2, -ticLength );
                 lineTo( n*wavelengthInPix/2, +ticLength );
             }//end for
+            //draw arrows on ends of axes
+            //x-axis arrow
+            var length: Number = 10;
+            var halfWidth: Number = 6;
+            var xEnd: Number = wavelengthInPix*nbrWavelengths/2;
+            var yEnd: Number = 1.5*amplitudeInPix;
+            beginFill( 0x000000, 1 );
+            moveTo( xEnd - length,  halfWidth );
+            lineTo( xEnd, 0 );
+            lineTo( xEnd - length,  -halfWidth );
+            lineTo( xEnd - length,  halfWidth );
+            endFill();
+            //y-axis arrow
+            beginFill( 0x000000, 1)
+            moveTo( -halfWidth, -yEnd + length);
+            lineTo( 0, -yEnd );
+            lineTo( +halfWidth, -yEnd + length );
+            lineTo( -halfWidth, -yEnd + length);
+            endFill();
         }
     }//end drawAxesGraph()
 
@@ -146,24 +171,59 @@ public class GraphView extends Sprite{
         tanGraph.visible = _showTan;
     }
 
-    public function selectWhichValueIndicator( trigFunction: String ):void{
-        if( trigFunction == "cos" || trigFunction == "sin" || trigFunction == "tan" ){
-            this.whichValueIndicator = trigFunction;
-        }else{
-            trace("Invalid argument in function GraphView.selectWhichGraph()");
+//    //obsolete function
+//    public function selectWhichValueIndicator( trigFunction: String ):void{
+//        if( trigFunction == "cos" || trigFunction == "sin" || trigFunction == "tan" ){
+//            this.whichValueIndicator = trigFunction;
+//        }else{
+//            trace("Invalid argument in function GraphView.selectWhichGraph()");
+//        }
+//    }
+
+    public function selectWhichGraphToShow( graphNumber: int ):void{
+        this.whichGraphToShow = graphNumber;
+        cosGraph.visible = false;
+        sinGraph.visible = false;
+        tanGraph.visible = false;
+        if( graphNumber == 0 ){
+            cosGraph.visible = true;
+        }else if ( graphNumber == 1){
+            sinGraph.visible = true;
+
+        }else if ( graphNumber == 2 ){
+            tanGraph.visible = true;
+
+        }
+        this.resetVerticalLine();
+        this.update();
+    }//end selectWhichGraphToShow
+
+    private function resetVerticalLine():void{
+        gVertLine.clear();
+        if( whichGraphToShow == 0 ){
+            gVertLine.lineStyle( 6, Util.COSCOLOR, 1, false, "normal", "none" );
+        }else if ( whichGraphToShow == 1 ){
+            gVertLine.lineStyle( 6, Util.SINCOLOR, 1, false, "normal", "none" );
+        }else if ( whichGraphToShow == 2 ){
+            gVertLine.lineStyle( 6, Util.TANCOLOR, 1, false, "normal", "none" );
         }
     }
 
     public function update():void{
         var angleInRads:Number = myTrigModel.totalAngle;
         valueIndicator.x = (wavelengthInPix*angleInRads/(2*Math.PI)) ;
-        if( whichValueIndicator == "cos"){
+        //gVertLine.clear();
+        resetVerticalLine();
+        gVertLine.moveTo( valueIndicator.x, 0 ) ;
+        if( whichGraphToShow == 0){
             valueIndicator.y = -amplitudeInPix*Math.cos( angleInRads );
-        }else if( whichValueIndicator == "sin" ){
+        }else if( whichGraphToShow == 1 ){
             valueIndicator.y = -amplitudeInPix*Math.sin( angleInRads );
-        }else if( whichValueIndicator == "tan" ){
+        }else if( whichGraphToShow == 2 ){
             valueIndicator.y = -amplitudeInPix*Math.tan( angleInRads );
         }
+        gVertLine.lineTo( valueIndicator.x, valueIndicator.y ) ;
     }//end of update()
+
 }//end of class
 }//end of package

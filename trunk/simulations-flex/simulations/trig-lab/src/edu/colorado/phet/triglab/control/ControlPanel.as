@@ -37,24 +37,16 @@ public class ControlPanel extends Canvas {
     private var myMainView: MainView;
     private var myTrigModel: TrigModel;
     private var background: VBox;
-    private var cos_cb: CheckBox;
-    private var sin_cb: CheckBox;
-    private var tan_cb: CheckBox;
-    //private var firstPanel: VBox;            //main control panel, contains radio buttons for motion type
+//    private var cos_cb: CheckBox;
+//    private var sin_cb: CheckBox;
+//    private var tan_cb: CheckBox;
 
-//    private var stopButton:NiceButton2;
-//    private var resetAllButton:NiceButton2;
-//    private var restartButton:NiceButton2;
-//    private var restartButton_UI:SpriteUIComponent;
-//    private var bumpButton:NiceButton2;
-//    private var bumpButton_UI:SpriteUIComponent;
-//
-//    private var radioGroupVBox: VBox;        //inside main control panel
-//
-//    private var presetMotion_nrbg: NiceRadioButtonGroup;      //Flex component radio button are too inflexible and buggy for use
-//    private var manualNoFricton_nrb: NiceRadioButton;
-//    private var manualWithFricton_nrb: NiceRadioButton;
-//    private var linear_nrb: NiceRadioButton;
+    private var cosSinTan_nrbg: NiceRadioButtonGroup;
+    private var cos_nrb: NiceRadioButton;
+    private var sin_nrb: NiceRadioButton;
+    private var tan_nrb: NiceRadioButton;
+
+
 
 
 
@@ -71,7 +63,6 @@ public class ControlPanel extends Canvas {
         super();
         this.myMainView = mainView;
         this.myTrigModel = model;
-        //this.myFieldModel.registerView( this );
         this.init();
     }
 
@@ -92,45 +83,43 @@ public class ControlPanel extends Canvas {
             setStyle( "verticalGap", 10 );
             setStyle( "horizontalAlign", "center" );
         }
-        this.cos_cb = new CheckBox();
-        this.sin_cb = new CheckBox();
-        this.tan_cb = new CheckBox();
-        cos_cb.addEventListener( Event.CHANGE, cosCheckBoxListener );
-        var cosCheckBoxLabel: NiceLabel = new NiceLabel( 15, cos_str, false, cos_cb );
-        //cos_cb.setStyle( "label", cos_str );
-        cos_cb.label = cos_str;
-        cos_cb.setStyle( "fontSize", 25 );
+//        this.cos_cb = new CheckBox();
+//        this.sin_cb = new CheckBox();
+//        this.tan_cb = new CheckBox();
+//        cos_cb.addEventListener( Event.CHANGE, cosCheckBoxListener );
+//        var cosCheckBoxLabel: NiceLabel = new NiceLabel( 15, cos_str, false, cos_cb );
+//        //cos_cb.setStyle( "label", cos_str );
+//        cos_cb.label = cos_str;
+//        cos_cb.setStyle( "fontSize", 25 );
+//
+//        sin_cb.addEventListener( Event.CHANGE, sinCheckBoxListener );
+//        var sinCheckBoxLabel: NiceLabel = new NiceLabel( 15, sin_str, false, sin_cb );
+//        sin_cb.label = sin_str;
+//        sin_cb.setStyle( "fontSize", 25 );
+//
+//        tan_cb.addEventListener( Event.CHANGE, tanCheckBoxListener );
+//        var tanCheckBoxLabel: NiceLabel = new NiceLabel( 15, tan_str, false, tan_cb );
+//        tan_cb.label = tan_str;
+//        tan_cb.setStyle( "fontSize", 25 );
 
-        sin_cb.addEventListener( Event.CHANGE, sinCheckBoxListener );
-        var sinCheckBoxLabel: NiceLabel = new NiceLabel( 15, sin_str, false, sin_cb );
-        sin_cb.label = sin_str;
-        sin_cb.setStyle( "fontSize", 25 );
+        //set up radio buttons
+        this.cosSinTan_nrbg = new NiceRadioButtonGroup();
+        this.cos_nrb = new NiceRadioButton( cos_str,  true );
+        this.sin_nrb = new NiceRadioButton( sin_str,  false );
+        this.tan_nrb = new NiceRadioButton( tan_str,  false );
+        this.initializeNiceRadioButton( cos_nrb );
+        this.initializeNiceRadioButton( sin_nrb );
+        this.initializeNiceRadioButton( tan_nrb );
+        this.cosSinTan_nrbg.setListener( this );
+        this.cosSinTan_nrbg.selectButton( cos_nrb );
 
-        tan_cb.addEventListener( Event.CHANGE, tanCheckBoxListener );
-        var tanCheckBoxLabel: NiceLabel = new NiceLabel( 15, tan_str, false, tan_cb );
-        tan_cb.label = tan_str;
-        tan_cb.setStyle( "fontSize", 25 );
 
         //layout controls
         this.addChild( background );
-        this.background.addChild( cos_cb );
-        this.background.addChild( sin_cb );
-        this.background.addChild( tan_cb );
-//        background.addChild( firstPanel );
-//        firstPanel.addChild( new SpriteUIComponent( playPauseButton, true ) );
-////        firstPanel.addChild( new SpriteUIComponent( pauseButton, true ) );
-//        firstPanel.addChild( new SpriteUIComponent( stopButton, true ) );
-//        firstPanel.addChild( radioGroupVBox );
-//        //radio buttons
-//        this.firstPanel.addChild( radioGroupVBox );
+        this.background.addChild( new SpriteUIComponent( cos_nrb ) );
+        this.background.addChild( new SpriteUIComponent( sin_nrb ) );
+        this.background.addChild( new SpriteUIComponent( tan_nrb ) );
 
-//        //nice radio buttons
-//        this.radioGroupVBox.addChild( new SpriteUIComponent( manualWithFricton_nrb ) );
-//        this.radioGroupVBox.addChild( new SpriteUIComponent( manualNoFricton_nrb ) );
-//        this.radioGroupVBox.addChild( new SpriteUIComponent( linear_nrb ) );
-//        this.radioGroupVBox.addChild( new SpriteUIComponent( sinusoidal_nrb ) );
-//        this.radioGroupVBox.addChild( new SpriteUIComponent( circular_nrb ) );
-//        this.radioGroupVBox.addChild( new SpriteUIComponent( bump_nrb ) );
 
     }//end init()
 
@@ -142,27 +131,36 @@ public class ControlPanel extends Canvas {
         tan_str = FlexSimStrings.get( "tan", "tan" );
     }
 
-    private function cosCheckBoxListener( evt: Event ):void{
-        var selected:Boolean = evt.target.selected;
-        myMainView.myGraphView.showCos = selected;
-//        speedIndicatorContainer.visible = selected;
-//        myMainView.myVelocityArrowView.velocityArrow.visible = selected;
-//        setVisibilityOfControls();
-        //trace("ControlPanel.showVelocityListener selected = " + selected );
+    private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
+        nrb.group = cosSinTan_nrbg;
+        nrb.label.setFontColor( 0x000000 );
+        nrb.label.setFontSize( 25 );
+        nrb.setColorsOfDeselectedIcon( 0x888888, 0xeeeeee );
+        nrb.setColorsOfSelectedIcon( 0x888888, 0x000000 );
+        nrb.setLabelColors( 0x000000, 0x006600 );
     }
-    private function sinCheckBoxListener( evt: Event ):void{
-        var selected:Boolean = evt.target.selected;
-        myMainView.myGraphView.showSin = selected;
 
-    }
-    private function tanCheckBoxListener( evt: Event ):void{
-        var selected:Boolean = evt.target.selected;
-        myMainView.myGraphView.showTan = selected;
+    public function niceRadioGroupListener( selectedButtonIndex: int ):void{
+        var choice:int = selectedButtonIndex;
+        //0 = cos, 1 = sin, 2 = tan
+        this.myMainView.myGraphView.selectWhichGraphToShow( choice );
+        this.myMainView.myUnitCircleView.trigMode = choice;
+    }//end NiceRadioGroupListener
 
-    }
-//    private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
-//        nrb.group = presetMotion_nrbg;
-//        nrb.label.setFontColor( 0xffffff );
+//    private function cosCheckBoxListener( evt: Event ):void{
+//        var selected:Boolean = evt.target.selected;
+//        myMainView.myGraphView.showCos = selected;
+//
+//    }
+//    private function sinCheckBoxListener( evt: Event ):void{
+//        var selected:Boolean = evt.target.selected;
+//        myMainView.myGraphView.showSin = selected;
+//
+//    }
+//    private function tanCheckBoxListener( evt: Event ):void{
+//        var selected:Boolean = evt.target.selected;
+//        myMainView.myGraphView.showTan = selected;
+//
 //    }
 
 
@@ -174,40 +172,6 @@ public class ControlPanel extends Canvas {
     }
 
 
-//    public function niceRadioGroupListener( selectedButtonIndex: int ):void{
-//        this.myTrigModel.paused = false;
-//        this.playPauseButton.paused = false;
-////        this.pauseButton.setLabel( pause_str );
-//        var choice:int = selectedButtonIndex;
-//        //trace("ControlPanel.radioGroupListener  event = " + evt );
-//        //trace("ControlPanel.radioGroupListener  selectedValue = " + presetMotion_rgb.selectedValue );
-//        if( choice == 0 ){
-//            //do nothing
-//        }else if( choice == 1 ){
-//        }else if( choice == 2 ){
-//            if( isNaN(this.speedSlider.getVal()) ){
-//                this.speedSlider.setSliderWithoutAction( 0.5 );
-//            }
-//        }else if( choice == 3 ){      //sinusoidal motion
-//            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
-//            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-//        }else if( choice == 4 ){      //circular motion
-//            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
-//            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-//        }else if( choice == 5 ){
-////            if( isNaN(this.durationSlider.getVal()) ){
-////                this.myFieldModel.bumpDuration = 0.5;
-////                this.durationSlider.setSliderWithoutAction( 0.5 );
-////            }
-//            this.amplitudeSlider.minVal = this.minAmplitudeBump;
-//            this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
-//        }else if( choice == 6 ){ this.myTrigModel.setTypeOfMotion( 6 );
-//        }else {
-//            trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
-//        }
-//        this.myTrigModel.setTypeOfMotion( int( choice ) );
-//        this.setVisibilityOfControls();
-//    }//end NiceRadioGroupListener
 
 
 
