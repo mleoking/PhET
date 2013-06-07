@@ -21,6 +21,7 @@ import flash.events.TimerEvent;
 import flash.events.TimerEvent;
 import flash.geom.Point;
 import flash.utils.Timer;
+import flash.utils.clearInterval;
 
 public class UnitCircleView extends Sprite {
 
@@ -30,11 +31,13 @@ public class UnitCircleView extends Sprite {
     private var unitCircleGraph: Sprite ; //unit circle centered on xy axes
     private var triangleDiagram: Sprite;  //triangle drawn on unit circle, the ratio of the sides are the trig functions
     private var gridLines: Sprite ;       //optional gridlines on unit circle
+    private var angleArc: Sprite;         //arc showing the angle theta
     private var angleHandle: Sprite;//grabbable handle for setting angle on unit Circle
     private var radius:Number;      //radius of unit circle in pixels
-    private var previousAngle:Number;
-    private var smallAngle:Number
-    private var totalAngle:Number;
+    private var previousAngle: Number;
+    private var smallAngle: Number;   //angle between -pi and +pi in radians
+    private var totalAngle: Number;
+    private var _trigMode: int;      //0 when displaying cos graph, 1 for sin, 2 for tan
     //private var nbrHalfTurns:Number;
 
     //Labels
@@ -63,6 +66,7 @@ public class UnitCircleView extends Sprite {
         this.unitCircleGraph = new Sprite();
         this.triangleDiagram = new Sprite();
         this.gridLines = new Sprite();
+        this.angleArc = new Sprite();
         this.angleHandle = new Sprite();
         this.grabbed = false;
         this.internationalizeStrings();
@@ -85,6 +89,7 @@ public class UnitCircleView extends Sprite {
         this.addChild( gridLines );
         this.addChild( unitCircleGraph );
         this.unitCircleGraph.addChild( triangleDiagram );
+        this.unitCircleGraph.addChild( angleArc );
         this.unitCircleGraph.addChild( this.angleHandle );
         this.unitCircleGraph.addChild( x_lbl );
         this.unitCircleGraph.addChild( y_lbl );
@@ -99,6 +104,7 @@ public class UnitCircleView extends Sprite {
         this.smallAngle = 0;
         this.previousAngle = 0;
         this.totalAngle = 0;
+        this._trigMode = 0;      //start with trigMode = cos
         //this.nbrHalfTurns = 0;
     } //end of initialize
 
@@ -118,17 +124,21 @@ public class UnitCircleView extends Sprite {
             var length:Number = 10;
             var halfWidth:Number = 6
             //x-axis arrow
-            moveTo( f*radius, 0 );
-            lineTo( f*radius - length,  halfWidth );
-            moveTo( f*radius, 0 );
+            beginFill( 0x000000, 1 );
+            moveTo( f*radius - length,  halfWidth );
+            lineTo( f*radius, 0 );
             lineTo( f*radius - length,  -halfWidth );
+            lineTo( f*radius - length,  halfWidth );
+            endFill();
             //y-axis arrow
-            moveTo( 0, -f*radius);
-            lineTo( -halfWidth, -f*radius + length );
-            moveTo( 0, -f*radius );
+            beginFill( 0x000000, 1)
+            moveTo( -halfWidth, -f*radius + length);
+            lineTo( 0, -f*radius );
             lineTo( +halfWidth, -f*radius + length );
+            lineTo( -halfWidth, -f*radius + length);
+            endFill();
             //draw unit circle
-            lineStyle( 2, 0x0000ff, 1 );  //blue
+            lineStyle( 2, 0x000000, 1 );  //black
             drawCircle( 0, 0, radius );
         }
         x_lbl.x = f*radius - x_lbl.width - 10;
@@ -158,22 +168,65 @@ public class UnitCircleView extends Sprite {
         var gTriangle: Graphics = this.triangleDiagram.graphics;
         var xLeg: Number = this.radius*myTrigModel.cos;
         var yLeg: Number = -this.radius*myTrigModel.sin;
+        var xColor: uint = 0x000000;
+        var yColor: uint = 0x000000;
+        var hypColor: uint = 0x000000;
+        var xStroke: int = 6;
+        var yStroke: int = 2;
+        if( _trigMode == 0 ){
+            xColor = Util.COSCOLOR;
+            xStroke = 6;
+        }else if ( _trigMode == 1 ){
+            yColor = Util.SINCOLOR;
+            yStroke = 6;
+        }else if ( _trigMode == 2 ){
+            // do nothing
+        }
         with( gTriangle ){
             clear();
             //draw hypotenuse
-            lineStyle( 1, 0xff0000, 1 );
+            lineStyle( 2, hypColor, 1, false, "normal", "none" );
             moveTo( 0, 0 );
             lineTo( xLeg, yLeg );
             //draw x-leg
-            lineStyle( 3, Util.COSCOLOR,  1) ;
+            lineStyle( xStroke, xColor,  1, false, "normal", "none"  ) ;
             moveTo( 0, 0 );
             lineTo( xLeg,  0 );
             //draw y-leg
-            lineStyle( 3, Util.SINCOLOR,  1) ;
+            lineStyle( yStroke, yColor,  1, false, "normal", "none") ;
             moveTo( xLeg, 0 );
             lineTo( xLeg,  yLeg );
         }
     }//end drawTriangle
+
+    private function drawAngleArc():void{
+        var gArc: Graphics = this.angleArc.graphics;
+        var r: Number = 0.3*radius;
+        var sign: Number;
+        totalAngle = myTrigModel.totalAngle;
+        if( totalAngle != 0 ){
+            sign = Math.abs( totalAngle )/totalAngle;
+        }else{
+            sign = 0;
+        }
+        //trace( "UnitCircleView.drawAngleArc  sign of angle = " + sign + "totalAngle = " + totalAngle );
+        with( gArc ){
+            clear();
+            lineStyle( 1, 0x000000, 1 );
+            moveTo( r, 0 );
+            if( sign > 0 ){
+                for( var ang: Number = 0; ang <= totalAngle; ang += 0.02 ){
+                    r -= 0.02;
+                    lineTo( r*Math.cos( ang ), -r*Math.sin( ang ) )
+                }
+            }else if( sign < 0 ){
+                for( var ang: Number = 0; ang >= totalAngle; ang -= 0.02 ){
+                    r -= 0.02;
+                    lineTo( r*Math.cos( ang ), -r*Math.sin( ang ) )
+                }
+            }
+        } //end with
+    }//end drawAngleArc()
 
     private function drawAngleHandle():void{
         var gBall: Graphics = this.angleHandle.graphics;
@@ -184,7 +237,6 @@ public class UnitCircleView extends Sprite {
             beginFill( 0xff0000, 1.0 )    //ball is red
             drawCircle( 0, 0, ballRadius );
             endFill();
-
         }
         var grabArea: Sprite = new Sprite();
         this.angleHandle.addChild( grabArea );
@@ -243,9 +295,15 @@ public class UnitCircleView extends Sprite {
         this.angleHandle.y = -this.radius*Math.sin( angleInRads );
     }
 
+    public function set trigMode( mode: int):void {
+        this._trigMode = mode;  //0 for cos, 1 for sin, 2 for tan
+        this.drawTriangle();
+    }
+
     public function update():void{
         this.positionAngleHandle( myTrigModel.smallAngle );
         this.drawTriangle();
+        this.drawAngleArc();
     }
 
 }  //end of class
