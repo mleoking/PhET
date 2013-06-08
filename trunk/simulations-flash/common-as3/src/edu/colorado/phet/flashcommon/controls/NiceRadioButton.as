@@ -29,6 +29,13 @@ public class NiceRadioButton extends Sprite {
     private var overIcon: Sprite;
     public var label: NiceLabel;
     private var buttonHitArea: Sprite;
+    //colors
+    private var deselectedIconOuterColor: uint;
+    private var deselectedIconInnerColor: uint;
+    private var selectedIconOuterColor: uint;
+    private var selectedIconInnerColor: uint;
+    private var mouseOverLabelColor: uint;
+    private var labelColor: uint;
 
 
     public function NiceRadioButton( label_str: String, selected:Boolean = false ) {
@@ -45,12 +52,20 @@ public class NiceRadioButton extends Sprite {
         }
         this.drawOverIcon();
         this.overIcon.visible = false;
+        //set default colors of deselected and selected icons;  these colors work well on a black background
+        deselectedIconOuterColor = 0x888888;
+        deselectedIconInnerColor = 0x555555;
+        selectedIconOuterColor = 0x666666;
+        selectedIconInnerColor = 0xffffff;
+        mouseOverLabelColor = 0xffff00;
+        labelColor = 0xffffff;
+
         this.drawHitArea();
         this.addChild( icon );
         this.addChild( overIcon );
         this.addChild( label );
         label.x = icon.width;
-        label.y -= 3;
+        label.y -= 0.7*icon.height;
         this.addChild( buttonHitArea );
         this.activateButton();
     }
@@ -68,11 +83,28 @@ public class NiceRadioButton extends Sprite {
         var r: Number = 7;  //radius of circle
         with( gIcon ){
             clear();
-            lineStyle( 3, 0x888888 );
-            beginFill( 0x555555 );
+            lineStyle( 3, deselectedIconOuterColor );
+            beginFill( deselectedIconInnerColor );
             drawCircle( r, r, r );
             endFill();
         }
+    }
+
+    public function setColorsOfDeselectedIcon( outerColor: uint,  innerColor: uint):void{
+        this.deselectedIconOuterColor = outerColor;
+        this.deselectedIconInnerColor = innerColor;
+        this.drawDeselectedIcon();
+    }
+
+    public function setColorsOfSelectedIcon( outerColor: uint,  innerColor: uint):void{
+        this.selectedIconOuterColor = outerColor;
+        this.selectedIconInnerColor = innerColor;
+        this.drawSelectedIcon();
+    }
+
+    public function setLabelColors( mouseOutColor: uint,  mouseOverColor: uint ):void{
+        this.labelColor = mouseOutColor;
+        this.mouseOverLabelColor = mouseOverColor;
     }
 
     private function drawSelectedIcon():void{
@@ -80,8 +112,8 @@ public class NiceRadioButton extends Sprite {
         var r: Number = 7;  //radius of circle
         with(gIcon){
             clear();
-            lineStyle( 3, 0x666666 );
-            beginFill( 0xffffff );
+            lineStyle( 3, selectedIconOuterColor );
+            beginFill( selectedIconInnerColor );
             drawCircle( r, r, r );
             endFill();
         }
@@ -92,8 +124,8 @@ public class NiceRadioButton extends Sprite {
         var r: Number = 7;  //radius of circle
         with(gOverIcon){
             clear();
-            lineStyle( 3, 0xaaaa00 );
-            beginFill( 0xffff00 );
+            lineStyle( 3, mouseOverLabelColor );
+            beginFill( mouseOverLabelColor );
             drawCircle( r, r, r );
             endFill();
         }
@@ -128,7 +160,7 @@ public class NiceRadioButton extends Sprite {
                 localRef.overIcon.visible = false;
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseOver" ) {
-                localRef.label.setFontColor( 0xffff00 );
+                localRef.label.setFontColor( localRef.mouseOverLabelColor );
                 localRef.label.setBold(true)
                 localRef.overIcon.visible = true;
                 //trace("evt.name:"+evt.type);
@@ -137,7 +169,7 @@ public class NiceRadioButton extends Sprite {
 
 
             } else if ( evt.type == "mouseOut" ) {
-                localRef.label.setFontColor( 0xffffff );
+                localRef.label.setFontColor( localRef.labelColor );
                 localRef.overIcon.visible = false;
                 if( !localRef._selected ) {
                     localRef.label.setBold( false );
