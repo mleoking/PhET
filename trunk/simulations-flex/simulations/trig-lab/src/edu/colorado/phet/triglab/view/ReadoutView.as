@@ -37,6 +37,7 @@ public class ReadoutView extends Canvas {
     private var cosineReadout: NiceLabel;
     private var sineReadout: NiceLabel;
     private var tangentReadout: NiceLabel;
+    public var diagnosticReadout: NiceLabel = new NiceLabel();
 
 
     //internationalized strings
@@ -94,6 +95,10 @@ public class ReadoutView extends Canvas {
         var cosine_str:String = "0.500";
         this.cosineReadout.setText(FlexSimStrings.get("cosineEqualsX", "cos = {0}", [cosine_str]));
         this.background.addChild( new SpriteUIComponent( this.cosineReadout ));
+
+        this.background.addChild( new SpriteUIComponent( this.diagnosticReadout ));
+        this.diagnosticReadout.setFontSize( 20 );
+        this.diagnosticReadout.setText( " test ")
 
     }//end init()
 

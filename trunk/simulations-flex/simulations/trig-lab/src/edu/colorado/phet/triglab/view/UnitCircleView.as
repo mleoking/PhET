@@ -284,9 +284,7 @@ public class UnitCircleView extends Sprite {
             thisObject.myTrigModel.smallAngle = -angleInRads;
             evt.updateAfterEvent();
         }//end of dragTarget()
-
-
-    }//end makeAngleSelectorGrabbable
+    }//end makeAngleHandleGrabbable
 
 
 

@@ -26,7 +26,7 @@ public class TrigModel {
     private var _x: Number;            //value of x on unit circle: x = cos(angle)
     private var _y: Number;            //value of y on unit circle: y = sin(angle)
     private var previousAngle: Number;
-    private var nbrFullTurns: Number;  //number of full turns around unit circle
+    private var nbrFullTurns: Number;  //number of full turns around unit circle, increments at theta = pi (not theta = 0)
     private var _cos: Number;        //cosine of angle _theta
     private var _sin: Number;
     private var _tan: Number;
@@ -97,15 +97,27 @@ public class TrigModel {
         } else if ( _smallAngle >= 0 && previousAngle < -2) {
             this.nbrFullTurns -= 1;
         }
-        this.totalAngle = nbrFullTurns*2*Math.PI + this._smallAngle;
+        this._totalAngle = nbrFullTurns*2*Math.PI + this._smallAngle;
         this.previousAngle = this._smallAngle;
 
     } //end updateTotalAngle()
 
     public function set totalAngle( totalAngle:Number ):void{
         _totalAngle = totalAngle;
+        this.nbrFullTurns = Math.round( totalAngle/( 2*Math.PI ) );
+        //this.myMainView.myReadoutView.diagnosticReadout.setText( "nbrTurns =  " + String( nbrTurns ) ) ;
+        _cos = Math.cos( _totalAngle );
+        _sin = Math.sin( _totalAngle );
+        _tan = Math.tan( _totalAngle );
+        _x = _cos;
+        _y = _sin;
+        var moduloAngleInRads:Number = _totalAngle % ( 2*Math.PI );
+        this._smallAngle = moduloAngleInRads;
+        //this.myMainView.myReadoutView.diagnosticReadout.setText( String( moduloAngleInRads ) ) ;
         updateViews();
     }
+
+
 
 
     public function registerView( view: Object ): void {
