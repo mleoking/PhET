@@ -31,6 +31,7 @@ public class UnitCircleView extends Sprite {
     private var unitCircleGraph: Sprite ; //unit circle centered on xy axes
     private var triangleDiagram: Sprite;  //triangle drawn on unit circle, the ratio of the sides are the trig functions
     private var gridLines: Sprite ;       //optional gridlines on unit circle
+    private var labelsLayer: Sprite;      //optional labels x, y, 1, theta
     private var angleArc: Sprite;         //arc showing the angle theta
     private var angleHandle: Sprite;//grabbable handle for setting angle on unit Circle
     private var radius:Number;      //radius of unit circle in pixels
@@ -66,12 +67,15 @@ public class UnitCircleView extends Sprite {
         this.unitCircleGraph = new Sprite();
         this.triangleDiagram = new Sprite();
         this.gridLines = new Sprite();
+        this.labelsLayer = new Sprite();
         this.angleArc = new Sprite();
         this.angleHandle = new Sprite();
         this.grabbed = false;
         this.internationalizeStrings();
         this.x_lbl = new NiceLabel( 25, x_str );
         this.y_lbl = new NiceLabel( 25, y_str )
+        this.one_lbl = new NiceLabel( 25, one_str );
+        this.theta_lbl = new NiceLabel( 25, theta_str );
         this.initialize();
     }
 
@@ -89,10 +93,12 @@ public class UnitCircleView extends Sprite {
         this.addChild( gridLines );
         this.addChild( unitCircleGraph );
         this.unitCircleGraph.addChild( triangleDiagram );
+        this.unitCircleGraph.addChild( labelsLayer );
         this.unitCircleGraph.addChild( angleArc );
         this.unitCircleGraph.addChild( this.angleHandle );
         this.unitCircleGraph.addChild( x_lbl );
         this.unitCircleGraph.addChild( y_lbl );
+        this.labelsLayer.addChild( one_lbl );
         this.drawUnitCircle();
 //        this.unitCircleGraph.x = 0.3*stageW;
 //        this.unitCircleGraph.y = 0.3*stageH;
@@ -289,13 +295,29 @@ public class UnitCircleView extends Sprite {
 
 
     private function positionAngleHandle( angleInRads: Number ):void{
-        this.angleHandle.x = this.radius*Math.cos( angleInRads );
-        this.angleHandle.y = -this.radius*Math.sin( angleInRads );
+        var xInPix: Number = this.radius*Math.cos( angleInRads );
+        var yInPix: Number = this.radius*Math.sin( angleInRads );
+        this.angleHandle.x = xInPix;
+        this.angleHandle.y = -yInPix;
+        this.one_lbl.x = 0.5*xInPix;
+        this.one_lbl.y = - 0.5*yInPix - one_lbl.height;
+    }
+
+    private function positionLabels():void{
+        //this.one_lbl.x =
     }
 
     public function set trigMode( mode: int):void {
         this._trigMode = mode;  //0 for cos, 1 for sin, 2 for tan
         this.drawTriangle();
+    }
+
+    public function setGridLinesVisibility( tOrF: Boolean ):void{
+        this.gridLines.visible = tOrF;
+    }
+
+    public function setLabelsVisibility( tOrF: Boolean ):void{
+        this.labelsLayer.visible = tOrF;
     }
 
     public function update():void{

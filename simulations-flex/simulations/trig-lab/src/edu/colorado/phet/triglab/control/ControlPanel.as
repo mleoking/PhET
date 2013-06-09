@@ -37,6 +37,8 @@ public class ControlPanel extends Canvas {
     private var myMainView: MainView;
     private var myTrigModel: TrigModel;
     private var background: VBox;
+    private var radioButtonPanel: VBox;
+
 //    private var cos_cb: CheckBox;
 //    private var sin_cb: CheckBox;
 //    private var tan_cb: CheckBox;
@@ -46,15 +48,22 @@ public class ControlPanel extends Canvas {
     private var sin_nrb: NiceRadioButton;
     private var tan_nrb: NiceRadioButton;
 
+    private var showLabels_cb: CheckBox;
+    private var showLabels_lbl: NiceLabel;
+    private var showGrid_cb: CheckBox;
+    private var showGrid_lbl: NiceLabel;
+    private var resetButton: NiceButton2;
 
-
-
-
+    private var showLabelsPanel: HBox;
+    private var showGridPanel: HBox;
 
     //internationalized strings
-    private var cos_str:String;
-    private var sin_str:String;
-    private var tan_str:String;
+    private var cos_str: String;
+    private var sin_str: String;
+    private var tan_str: String;
+    private var showLabels_str: String;
+    private  var showGrid_str: String;
+    private var resetAll_str: String;
 
 
 
@@ -69,15 +78,28 @@ public class ControlPanel extends Canvas {
     private function init():void {
         this.initializeStrings();
         this.background = new VBox();
-        //this.firstPanel = new VBox();
+        this.radioButtonPanel = new VBox();
         with ( this.background ) {
+            setStyle( "backgroundColor", 0x55ff55 );    //0x88ff88
+            setStyle( "borderStyle", "solid" )
+            setStyle( "borderColor", 0x009900 );  //0x009900
+            setStyle( "cornerRadius", 15 );
+            setStyle( "borderThickness", 2 );
+            setStyle( "paddingTop", 15 );
+            setStyle( "paddingBottom", 5 );
+            setStyle( "paddingRight", 15 );
+            setStyle( "paddingLeft", 15 );
+            setStyle( "verticalGap", 10 );
+            setStyle( "horizontalAlign", "center" );
+        }
+        with ( this.radioButtonPanel ) {
             setStyle( "backgroundColor", 0x55ff55 );    //0x88ff88
             setStyle( "borderStyle", "solid" )
             setStyle( "borderColor", 0x009900 );  //0x009900
             setStyle( "cornerRadius", 10 );
             setStyle( "borderThickness", 2 );
             setStyle( "paddingTop", 15 );
-            setStyle( "paddingBottom", 5 );
+            setStyle( "paddingBottom", 0 );
             setStyle( "paddingRight", 15 );
             setStyle( "paddingLeft", 15 );
             setStyle( "verticalGap", 10 );
@@ -113,12 +135,34 @@ public class ControlPanel extends Canvas {
         this.cosSinTan_nrbg.setListener( this );
         this.cosSinTan_nrbg.selectButton( cos_nrb );
 
+        //set up checkboxes
+        this.showLabelsPanel = new HBox();
+        this.showLabels_cb = new CheckBox();
+        showLabels_cb.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
+        this.showGridPanel = new HBox();
+        this.showLabels_lbl = new NiceLabel( 20, showLabels_str );
+        this.showGrid_cb = new CheckBox();
+        showGrid_cb.addEventListener( Event.CHANGE, showGridCheckBoxListener );
+        this.showGrid_lbl = new NiceLabel( 20, showGrid_str );
+
+        //set up reset button
+        this.resetButton = new NiceButton2( 100, 30, resetAll_str, resetAll );
+
 
         //layout controls
         this.addChild( background );
-        this.background.addChild( new SpriteUIComponent( cos_nrb ) );
-        this.background.addChild( new SpriteUIComponent( sin_nrb ) );
-        this.background.addChild( new SpriteUIComponent( tan_nrb ) );
+        this.background.addChild( radioButtonPanel );
+        this.radioButtonPanel.addChild( new SpriteUIComponent( cos_nrb ) );
+        this.radioButtonPanel.addChild( new SpriteUIComponent( sin_nrb ) );
+        this.radioButtonPanel.addChild( new SpriteUIComponent( tan_nrb ) );
+        this.background.addChild( showLabelsPanel );
+        this.showLabelsPanel.addChild( showLabels_cb );
+        this.showLabelsPanel.addChild( new SpriteUIComponent( showLabels_lbl ));
+        this.background.addChild( showGridPanel );
+        this.showGridPanel.addChild( showGrid_cb );
+        this.showGridPanel.addChild( new SpriteUIComponent( showGrid_lbl ));
+        this.background.addChild( new SpriteUIComponent( resetButton, true ));
+
 
 
     }//end init()
@@ -129,6 +173,9 @@ public class ControlPanel extends Canvas {
         cos_str = FlexSimStrings.get( "cos", "cos" );
         sin_str = FlexSimStrings.get( "sin", "sin" );
         tan_str = FlexSimStrings.get( "tan", "tan" );
+        showLabels_str = FlexSimStrings.get( "showLabels", "Show Labels" );
+        showGrid_str = FlexSimStrings.get( "showGrid", "Show Grid" );
+        resetAll_str = FlexSimStrings.get( "resetAll", "Reset All" );
     }
 
     private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
@@ -146,6 +193,16 @@ public class ControlPanel extends Canvas {
         this.myMainView.myGraphView.selectWhichGraphToShow( choice );
         this.myMainView.myUnitCircleView.trigMode = choice;
     }//end NiceRadioGroupListener
+
+    private function showLabelsCheckBoxListener( evt: Event ):void{
+        var selected:Boolean = evt.target.selected;
+        this.myMainView.myUnitCircleView.setLabelsVisibility( selected );
+    }
+
+    private function showGridCheckBoxListener( evt: Event ):void{
+        var selected:Boolean = evt.target.selected;
+        this.myMainView.myUnitCircleView.setGridLinesVisibility( selected );
+    }
 
 //    private function cosCheckBoxListener( evt: Event ):void{
 //        var selected:Boolean = evt.target.selected;
