@@ -15,6 +15,9 @@ import edu.colorado.phet.triglab.util.Util;
 import flash.display.Graphics;
 
 import flash.display.Sprite;
+import flash.events.MouseEvent;
+import flash.geom.Point;
+
 //View of xy graph of trig functions
 public class GraphView extends Sprite{
 
@@ -30,7 +33,7 @@ public class GraphView extends Sprite{
     private var valueIndicator: Sprite;          //red ball which shows current value on graph
     private var verticalLineToCurrentValue: Sprite
     private var gVertLine: Graphics;
-    private var whichValueIndicator: String;     //the string is "cos", "sin", or "tan" depending on which graph is selected.
+    //private var whichValueIndicator: String;     //the string is "cos", "sin", or "tan" depending on which graph is selected.
     private var whichGraphToShow: int;           //0 = cos graph, 1 = sin graph, 2 = tan graph
     private var _showCos: Boolean;
     private var _showSin: Boolean;
@@ -40,8 +43,6 @@ public class GraphView extends Sprite{
     public function GraphView( myMainView: MainView,  myTrigModel: TrigModel ) {
         this.myMainView = myMainView;
         this.myTrigModel = myTrigModel;
-
-
         this.myTrigModel.registerView( this );
         this.initializeStrings();
         this.init();
@@ -53,10 +54,8 @@ public class GraphView extends Sprite{
     }
 
     private function init():void{
-        //this.selectWhichValueIndicator( "sin" );
-
-        this.wavelengthInPix = 200;
-        this.nbrWavelengths = 2*3;  //must be even number, so equal nbr of wavelengths are shown on right and left of origin.
+        this.wavelengthInPix = 300;
+        this.nbrWavelengths = 2*2;  //must be even number, so equal nbr of wavelengths are shown on right and left of origin.
         this.amplitudeInPix = 70;
         this.axesGraph = new Sprite();
         this.cosGraph = new Sprite();
@@ -68,12 +67,13 @@ public class GraphView extends Sprite{
         this.drawAxesGraph();
         this.drawTrigFunctions();
         this.drawValueIndicator();
+        this.makeValueIndicatorGrabbable();
         this.addChild( axesGraph );
         this.addChild( cosGraph );
         this.addChild( sinGraph );
+        this.addChild( tanGraph );
         this.addChild( verticalLineToCurrentValue );
         this.addChild( valueIndicator );
-
     }
 
     //xy axes, origin is at (0, 0) in the sprite
@@ -139,15 +139,40 @@ public class GraphView extends Sprite{
                 }//end for i
             }//end for j
         } //end with
+        var gTan: Graphics = tanGraph.graphics;
+        var yMax: Number = 2*wavelengthInPix;
+        with( gTan ){
+            clear();
+            lineStyle( 3, Util.TANCOLOR );
+            for( var j:int = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
+                moveTo(j*wavelengthInPix, -amplitudeInPix*Math.tan( 0 ));
+                for( var i:int = 1; i <= N; i++ ){
+                    var x:Number = 2*Math.PI*i/wavelengthInPix;
+                    var y:Number =  amplitudeInPix*Math.tan( x );
+                    if( Math.abs( y ) < yMax ){
+                        lineTo( i + j*wavelengthInPix, -y );
+                    }else{
+                         moveTo(  i + j*wavelengthInPix, -y );
+                    }
+
+                }//end for i
+            }//end for j
+        } //end with
     } //end drawTrigFuctions()
 
     private function drawValueIndicator():void{
         var g:Graphics = valueIndicator.graphics;
         with( g ){
             clear();
+            //draw red ball handle
             lineStyle( 1, 0x0000ff, 1 );
             beginFill( 0xff0000, 1 );
             drawCircle( 0, 0, 5 );
+            endFill();
+            //draw rectangular invisible grab area, offset below red ball indicator to avoid collision with UnitCircleView
+            lineStyle( 1, 0x000000, 0 );
+            beginFill( 0x000000, 0 );
+            drawRect( -30, -20, 60, 200 );
             endFill();
         }
     } //end drawValueIndicator()
@@ -208,6 +233,37 @@ public class GraphView extends Sprite{
             gVertLine.lineStyle( 6, Util.TANCOLOR, 1, false, "normal", "none" );
         }
     }
+
+    private function makeValueIndicatorGrabbable():void{
+        var thisObject:Object = this;
+        var clickOffset: Point;
+        this.valueIndicator.buttonMode = true;
+        this.valueIndicator.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
+
+        function startTargetDrag( evt: MouseEvent ): void {
+            //thisObject.myMainView.myReadoutView.diagnosticReadout.setText( "startDrag" );
+            clickOffset = new Point( evt.localX, evt.localY );
+            stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
+        }
+
+
+        function stopTargetDrag( evt: MouseEvent ): void {
+            //thisObject.myMainView.myReadoutView.diagnosticReadout.setText( "stopDrag" );
+            clickOffset = null;
+            evt.updateAfterEvent();
+            stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
+        }
+
+        function dragTarget( evt: MouseEvent ): void {
+            var xInPix: Number = thisObject.mouseX - clickOffset.x;
+            //thisObject.myMainView.myReadoutView.diagnosticReadout.setText( String( xInPix ) );
+            var angleInRads: Number = 2*Math.PI* ( xInPix / wavelengthInPix );
+            thisObject.myTrigModel.totalAngle = angleInRads;
+            evt.updateAfterEvent();
+        }//end of dragTarget()
+    }//end makeValueIndicatorGrabbable
 
     public function update():void{
         var angleInRads:Number = myTrigModel.totalAngle;
