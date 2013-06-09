@@ -66,7 +66,7 @@ public class MainView extends Canvas {
 
         this.addChild( new SpriteUIComponent( this.myGraphView ));
         this.myGraphView.x = 0.6*stageW;
-        this.myGraphView.y = 0.77*stageH;
+        this.myGraphView.y = 0.8*stageH;
 
         this.addChild( myControlPanel );
         this.myControlPanel.x = 0.8*stageW;

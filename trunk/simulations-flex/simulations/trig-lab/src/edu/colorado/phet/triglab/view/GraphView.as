@@ -140,7 +140,7 @@ public class GraphView extends Sprite{
             }//end for j
         } //end with
         var gTan: Graphics = tanGraph.graphics;
-        var yMax: Number = 2*wavelengthInPix;
+        var yMax: Number = 2;
         with( gTan ){
             clear();
             lineStyle( 3, Util.TANCOLOR );
@@ -148,11 +148,12 @@ public class GraphView extends Sprite{
                 moveTo(j*wavelengthInPix, -amplitudeInPix*Math.tan( 0 ));
                 for( var i:int = 1; i <= N; i++ ){
                     var x:Number = 2*Math.PI*i/wavelengthInPix;
-                    var y:Number =  amplitudeInPix*Math.tan( x );
-                    if( Math.abs( y ) < yMax ){
-                        lineTo( i + j*wavelengthInPix, -y );
+                    var yNbr: Number = Math.tan( x )
+                    var yInPix: Number =  amplitudeInPix*yNbr;
+                    if( Math.abs( yNbr ) < yMax ){
+                        lineTo( i + j*wavelengthInPix, -yInPix );
                     }else{
-                         moveTo(  i + j*wavelengthInPix, -y );
+                         moveTo(  i + j*wavelengthInPix, -yInPix );
                     }
 
                 }//end for i
@@ -278,7 +279,16 @@ public class GraphView extends Sprite{
         }else if( whichGraphToShow == 2 ){
             valueIndicator.y = -amplitudeInPix*Math.tan( angleInRads );
         }
-        gVertLine.lineTo( valueIndicator.x, valueIndicator.y ) ;
+        // Following code is needed to prevent lineTo drawing bug which occurs when
+        // drawing coordinates are infinite, caused by infinite value of tangent function
+        // at theta = +/-90 degrees
+        if( Math.abs( valueIndicator.y ) < 5*wavelengthInPix  ){    //arbitrary offscreen cutoff
+            gVertLine.lineTo( valueIndicator.x, valueIndicator.y ) ;
+        }else{
+            var sign: Number = valueIndicator.y/Math.abs( valueIndicator.y );
+            gVertLine.lineTo( valueIndicator.x, sign*5*wavelengthInPix ) ;
+        }
+
     }//end of update()
 
 }//end of class
