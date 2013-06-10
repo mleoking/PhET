@@ -299,12 +299,21 @@ public class UnitCircleView extends Sprite {
         var yInPix: Number = this.radius*Math.sin( angleInRads );
         this.angleHandle.x = xInPix;
         this.angleHandle.y = -yInPix;
-        this.one_lbl.x = 0.5*xInPix;
-        this.one_lbl.y = - 0.5*yInPix - one_lbl.height;
+        this.positionLabels();
     }
 
     private function positionLabels():void{
-        //this.one_lbl.x =
+        var angle: Number = myTrigModel.smallAngle;
+        var angleOffset: Number = 10*Math.PI/180;
+        var sign: int = 1;
+        var pi: Number = Math.PI;
+        if( ( angle > pi/2 && angle < pi ) ||( angle > -pi/2 && angle < 0 )){
+            sign = -1;
+        }
+        var xInPix: Number = this.radius*Math.cos( angle + sign*angleOffset );
+        var yInPix: Number = this.radius*Math.sin( angle + sign*angleOffset );
+        this.one_lbl.x = 0.6*xInPix - 0.5*one_lbl.width;
+        this.one_lbl.y = - 0.6*yInPix -0.5*one_lbl.height;
     }
 
     public function set trigMode( mode: int):void {
