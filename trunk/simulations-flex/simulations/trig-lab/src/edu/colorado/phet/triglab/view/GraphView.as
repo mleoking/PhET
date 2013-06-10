@@ -38,6 +38,8 @@ public class GraphView extends Sprite{
     private var _showCos: Boolean;
     private var _showSin: Boolean;
     private var _showTan: Boolean;
+    private var theta_str: String;
+    private var theta_lbl: NiceLabel;
 
 
     public function GraphView( myMainView: MainView,  myTrigModel: TrigModel ) {
@@ -50,7 +52,7 @@ public class GraphView extends Sprite{
     }
 
     private function initializeStrings():void{
-        //this.paused_str = FlexSimStrings.get( "paused", "PAUSED" );
+        this.theta_str = FlexSimStrings.get( "theta", "\u03b8")
     }
 
     private function init():void{
@@ -63,6 +65,7 @@ public class GraphView extends Sprite{
         this.tanGraph = new Sprite();
         this.valueIndicator = new Sprite();
         this.verticalLineToCurrentValue = new Sprite();
+        this.theta_lbl = new NiceLabel( 20, theta_str );
         this.gVertLine = verticalLineToCurrentValue.graphics;
         this.drawAxesGraph();
         this.drawTrigFunctions();
@@ -74,6 +77,7 @@ public class GraphView extends Sprite{
         this.addChild( tanGraph );
         this.addChild( verticalLineToCurrentValue );
         this.addChild( valueIndicator );
+        this.addChild( theta_lbl );
     }
 
     //xy axes, origin is at (0, 0) in the sprite
@@ -84,13 +88,20 @@ public class GraphView extends Sprite{
             lineStyle( 2, 0x000000, 1 );
             moveTo( -wavelengthInPix*nbrWavelengths/2, 0 );   //x-axis
             lineTo( wavelengthInPix*nbrWavelengths/2, 0 );
-            moveTo( 0, -1.5*amplitudeInPix );                 //y-axis
-            lineTo( 0, 1.5*amplitudeInPix );
+            moveTo( 0, -1.4*amplitudeInPix );                 //y-axis
+            lineTo( 0, 1.4*amplitudeInPix );
             var ticLength: int = 5;
-            for( var n:int = -nbrWavelengths; n <= nbrWavelengths; n++ ){
+            for( var n:int = -nbrWavelengths; n < nbrWavelengths; n++ ){
                 moveTo( n*wavelengthInPix/2, -ticLength );
                 lineTo( n*wavelengthInPix/2, +ticLength );
-            }//end for
+            }
+            for ( var s: int = -1; s <= 1; s += 2 ){
+                moveTo( -ticLength, s*amplitudeInPix );
+                lineTo( +ticLength, s*amplitudeInPix );
+            }
+            //position theta-label
+            this.theta_lbl.x = (nbrWavelengths/2)*wavelengthInPix - 2*theta_lbl.width;
+            this.theta_lbl.y = 0;
             //draw arrows on ends of axes
             //x-axis arrow
             var length: Number = 10;
@@ -131,10 +142,10 @@ public class GraphView extends Sprite{
         with( gSin ){
             clear();
             lineStyle( 3, Util.SINCOLOR );
-            for( var j:int = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
+            for( j = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
                 moveTo(j*wavelengthInPix, -amplitudeInPix*Math.sin( 0 ));
-                for( var i:int = 1; i <= N; i++ ){
-                    var x:Number = 2*Math.PI*i/wavelengthInPix;
+                for( i = 1; i <= N; i++ ){
+                    x = 2*Math.PI*i/wavelengthInPix;
                     lineTo( i + j*wavelengthInPix, -amplitudeInPix*Math.sin( x ));
                 }//end for i
             }//end for j
@@ -144,9 +155,9 @@ public class GraphView extends Sprite{
         with( gTan ){
             clear();
             lineStyle( 3, Util.TANCOLOR );
-            for( var j:int = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
+            for( j = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
                 moveTo(j*wavelengthInPix, -amplitudeInPix*Math.tan( 0 ));
-                for( var i:int = 1; i <= N; i++ ){
+                for( i = 1; i <= N; i++ ){
                     var x:Number = 2*Math.PI*i/wavelengthInPix;
                     var yNbr: Number = Math.tan( x )
                     var yInPix: Number =  amplitudeInPix*yNbr;
@@ -196,15 +207,6 @@ public class GraphView extends Sprite{
         sinGraph.visible = _showSin;
         tanGraph.visible = _showTan;
     }
-
-//    //obsolete function
-//    public function selectWhichValueIndicator( trigFunction: String ):void{
-//        if( trigFunction == "cos" || trigFunction == "sin" || trigFunction == "tan" ){
-//            this.whichValueIndicator = trigFunction;
-//        }else{
-//            trace("Invalid argument in function GraphView.selectWhichGraph()");
-//        }
-//    }
 
     public function selectWhichGraphToShow( graphNumber: int ):void{
         this.whichGraphToShow = graphNumber;

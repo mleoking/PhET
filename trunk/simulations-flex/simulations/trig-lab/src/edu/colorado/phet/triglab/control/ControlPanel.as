@@ -163,7 +163,7 @@ public class ControlPanel extends Canvas {
         this.showGridPanel.addChild( new SpriteUIComponent( showGrid_lbl ));
         this.background.addChild( new SpriteUIComponent( resetButton, true ));
 
-
+        this.resetAll();
 
     }//end init()
 
@@ -191,6 +191,7 @@ public class ControlPanel extends Canvas {
         var choice:int = selectedButtonIndex;
         //0 = cos, 1 = sin, 2 = tan
         this.myMainView.myGraphView.selectWhichGraphToShow( choice );
+        this.myMainView.myReadoutView.setVisibilityOfTrigReadout( choice );
         this.myMainView.myUnitCircleView.trigMode = choice;
     }//end NiceRadioGroupListener
 
@@ -221,11 +222,14 @@ public class ControlPanel extends Canvas {
 //    }
 
 
-
-
-
     public function resetAll():void{
-
+        myMainView.myUnitCircleView.setGridLinesVisibility( false );
+        myMainView.myUnitCircleView.setLabelsVisibility( false );
+        showGrid_cb.selected = false;
+        showLabels_cb.selected = false;
+        myTrigModel.smallAngle = 0;
+        niceRadioGroupListener( 0 );  //reset readouts to cosine function
+        cos_nrb.selected = true;
     }
 
 
