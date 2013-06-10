@@ -38,6 +38,7 @@ public class ControlPanel extends Canvas {
     private var myTrigModel: TrigModel;
     private var background: VBox;
     private var radioButtonPanel: VBox;
+    private var checkBoxPanel: VBox;
 
 //    private var cos_cb: CheckBox;
 //    private var sin_cb: CheckBox;
@@ -79,6 +80,7 @@ public class ControlPanel extends Canvas {
         this.initializeStrings();
         this.background = new VBox();
         this.radioButtonPanel = new VBox();
+        this.checkBoxPanel = new VBox();
         with ( this.background ) {
             setStyle( "backgroundColor", 0x55ff55 );    //0x88ff88
             setStyle( "borderStyle", "solid" )
@@ -103,7 +105,20 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingRight", 15 );
             setStyle( "paddingLeft", 15 );
             setStyle( "verticalGap", 10 );
-            setStyle( "horizontalAlign", "center" );
+            setStyle( "horizontalAlign", "left" );
+        }
+        with ( this.checkBoxPanel ) {
+            setStyle( "backgroundColor", 0x55ff55 );    //0x88ff88
+            setStyle( "borderStyle", "solid" )
+            setStyle( "borderColor", 0x009900 );  //0x009900
+            setStyle( "cornerRadius", 10 );
+            setStyle( "borderThickness", 2 );
+            setStyle( "paddingTop", 15 );
+            setStyle( "paddingBottom", 0 );
+            setStyle( "paddingRight", 15 );
+            setStyle( "paddingLeft", 15 );
+            setStyle( "verticalGap", 10 );
+            setStyle( "horizontalAlign", "left" );
         }
 //        this.cos_cb = new CheckBox();
 //        this.sin_cb = new CheckBox();
@@ -152,15 +167,18 @@ public class ControlPanel extends Canvas {
         //layout controls
         this.addChild( background );
         this.background.addChild( radioButtonPanel );
+        this.background.addChild( checkBoxPanel );
         this.radioButtonPanel.addChild( new SpriteUIComponent( cos_nrb ) );
         this.radioButtonPanel.addChild( new SpriteUIComponent( sin_nrb ) );
         this.radioButtonPanel.addChild( new SpriteUIComponent( tan_nrb ) );
-        this.background.addChild( showLabelsPanel );
+        this.checkBoxPanel.addChild( showLabelsPanel );
         this.showLabelsPanel.addChild( showLabels_cb );
         this.showLabelsPanel.addChild( new SpriteUIComponent( showLabels_lbl ));
-        this.background.addChild( showGridPanel );
+        this.showLabels_lbl.y = -0.25*showLabels_lbl.height;
+        this.checkBoxPanel.addChild( showGridPanel );
         this.showGridPanel.addChild( showGrid_cb );
         this.showGridPanel.addChild( new SpriteUIComponent( showGrid_lbl ));
+        this.showGrid_lbl.y = -0.25*showGrid_lbl.height;
         this.background.addChild( new SpriteUIComponent( resetButton, true ));
 
         this.resetAll();
@@ -173,8 +191,8 @@ public class ControlPanel extends Canvas {
         cos_str = FlexSimStrings.get( "cos", "cos" );
         sin_str = FlexSimStrings.get( "sin", "sin" );
         tan_str = FlexSimStrings.get( "tan", "tan" );
-        showLabels_str = FlexSimStrings.get( "showLabels", "Show Labels" );
-        showGrid_str = FlexSimStrings.get( "showGrid", "Show Grid" );
+        showLabels_str = FlexSimStrings.get( "labels", "Labels" );
+        showGrid_str = FlexSimStrings.get( "grid", "Grid" );
         resetAll_str = FlexSimStrings.get( "resetAll", "Reset All" );
     }
 
@@ -229,9 +247,8 @@ public class ControlPanel extends Canvas {
         showLabels_cb.selected = false;
         myTrigModel.smallAngle = 0;
         niceRadioGroupListener( 0 );  //reset readouts to cosine function
-        cos_nrb.selected = true;
+        cosSinTan_nrbg.selectButton( cos_nrb );
     }
-
 
 
 

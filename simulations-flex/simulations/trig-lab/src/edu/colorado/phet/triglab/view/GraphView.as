@@ -32,6 +32,7 @@ public class GraphView extends Sprite{
     private var tanGraph: Sprite;
     private var valueIndicator: Sprite;          //red ball which shows current value on graph
     private var verticalLineToCurrentValue: Sprite
+    private var arrowHead: Sprite;
     private var gVertLine: Graphics;
     //private var whichValueIndicator: String;     //the string is "cos", "sin", or "tan" depending on which graph is selected.
     private var whichGraphToShow: int;           //0 = cos graph, 1 = sin graph, 2 = tan graph
@@ -65,10 +66,12 @@ public class GraphView extends Sprite{
         this.tanGraph = new Sprite();
         this.valueIndicator = new Sprite();
         this.verticalLineToCurrentValue = new Sprite();
+        this.arrowHead = new Sprite();
         this.theta_lbl = new NiceLabel( 20, theta_str );
         this.gVertLine = verticalLineToCurrentValue.graphics;
         this.drawAxesGraph();
         this.drawTrigFunctions();
+        this.drawArrowHead();
         this.drawValueIndicator();
         this.makeValueIndicatorGrabbable();
         this.addChild( axesGraph );
@@ -76,6 +79,7 @@ public class GraphView extends Sprite{
         this.addChild( sinGraph );
         this.addChild( tanGraph );
         this.addChild( verticalLineToCurrentValue );
+        this.verticalLineToCurrentValue.addChild( arrowHead );
         this.addChild( valueIndicator );
         this.addChild( theta_lbl );
     }
@@ -123,6 +127,30 @@ public class GraphView extends Sprite{
             endFill();
         }
     }//end drawAxesGraph()
+
+    private function drawArrowHead():void{
+        var gAH: Graphics = arrowHead.graphics;
+        var color: uint
+        var length: Number = 15;
+        var halfWidth: Number = 6;
+        if( whichGraphToShow == 0 ){
+            color = Util.COSCOLOR;
+        }else if( whichGraphToShow == 1 ){
+            color = Util.SINCOLOR;
+        }else if( whichGraphToShow == 2 ){
+            color = Util.TANCOLOR;
+        }
+        with( gAH ){
+            clear();
+            lineStyle( 1, color );
+            beginFill( color );
+            moveTo( 0, 0 );
+            lineTo( -halfWidth, length );
+            lineTo( halfWidth, length );
+            lineTo( 0, 0 )
+            endFill()
+        }
+    }//end drawArrowHead
 
     private function drawTrigFunctions():void{
         var N:int = wavelengthInPix;
@@ -223,6 +251,7 @@ public class GraphView extends Sprite{
 
         }
         this.resetVerticalLine();
+        this.drawArrowHead();
         this.update();
     }//end selectWhichGraphToShow
 
@@ -270,25 +299,36 @@ public class GraphView extends Sprite{
 
     public function update():void{
         var angleInRads:Number = myTrigModel.totalAngle;
-        valueIndicator.x = (wavelengthInPix*angleInRads/(2*Math.PI)) ;
+        var xPos: Number = (wavelengthInPix*angleInRads/(2*Math.PI)) ;
+        var yPos: Number;
+        valueIndicator.x = xPos;
         //gVertLine.clear();
         resetVerticalLine();
-        gVertLine.moveTo( valueIndicator.x, 0 ) ;
+        gVertLine.moveTo( xPos, 0 ) ;
         if( whichGraphToShow == 0){
-            valueIndicator.y = -amplitudeInPix*Math.cos( angleInRads );
+            yPos = -amplitudeInPix*Math.cos( angleInRads );
         }else if( whichGraphToShow == 1 ){
-            valueIndicator.y = -amplitudeInPix*Math.sin( angleInRads );
+            yPos = -amplitudeInPix*Math.sin( angleInRads );
         }else if( whichGraphToShow == 2 ){
-            valueIndicator.y = -amplitudeInPix*Math.tan( angleInRads );
+            yPos = -amplitudeInPix*Math.tan( angleInRads );
         }
+        valueIndicator.y = yPos;
         // Following code is needed to prevent lineTo drawing bug which occurs when
         // drawing coordinates are infinite, caused by infinite value of tangent function
         // at theta = +/-90 degrees
-        if( Math.abs( valueIndicator.y ) < 5*wavelengthInPix  ){    //arbitrary offscreen cutoff
-            gVertLine.lineTo( valueIndicator.x, valueIndicator.y ) ;
+        if( Math.abs( yPos ) < 5*wavelengthInPix  ){    //arbitrary offscreen cutoff
+            gVertLine.lineTo( xPos,  yPos ) ;
+            if( Math.abs( yPos ) < 0.3*amplitudeInPix ){
+                arrowHead.scaleY = -3*yPos/amplitudeInPix;
+            }else{
+                arrowHead.scaleY = -Math.abs( yPos )/yPos;
+            }
+
+            arrowHead.x = xPos;
+            arrowHead.y = yPos;
         }else{
-            var sign: Number = valueIndicator.y/Math.abs( valueIndicator.y );
-            gVertLine.lineTo( valueIndicator.x, sign*5*wavelengthInPix ) ;
+            var sign: Number = yPos/Math.abs( yPos );
+            gVertLine.lineTo( xPos, sign*5*wavelengthInPix ) ;
         }
 
     }//end of update()
