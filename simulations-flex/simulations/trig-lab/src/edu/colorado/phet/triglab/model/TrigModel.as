@@ -114,7 +114,7 @@ public class TrigModel {
         var moduloAngleInRads:Number = _totalAngle - nbrFullTurns*2*Math.PI;
         this._smallAngle = moduloAngleInRads;
         var moduloAngleInDegs: Number = moduloAngleInRads*180/Math.PI;
-        this.myMainView.myReadoutView.diagnosticReadout.setText( String( moduloAngleInDegs ) ) ;
+        //this.myMainView.myReadoutView.diagnosticReadout.setText( String( moduloAngleInDegs ) ) ;
         updateViews();
     }
 
