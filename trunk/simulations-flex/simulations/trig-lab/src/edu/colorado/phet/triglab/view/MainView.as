@@ -61,7 +61,7 @@ public class MainView extends Canvas {
         this.myUnitCircleView.y = 0.27*stageW;
 
         this.addChild( myReadoutView );
-        this.myReadoutView.x = 0.55*stageW;
+        this.myReadoutView.x = 0.52*stageW;
         this.myReadoutView.y = 0.05*stageH;
 
         this.addChild( new SpriteUIComponent( this.myGraphView ));
@@ -69,8 +69,8 @@ public class MainView extends Canvas {
         this.myGraphView.y = 0.8*stageH;
 
         this.addChild( myControlPanel );
-        this.myControlPanel.x = 0.8*stageW;
-        this.myControlPanel.y = 0.15*stageH;
+        this.myControlPanel.x = 0.85*stageW;
+        this.myControlPanel.y = 0.05*stageH;
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.setColor( 0x0000ff );

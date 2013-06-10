@@ -31,9 +31,12 @@ public class UnitCircleView extends Sprite {
 
     private var unitCircleGraph: Sprite ; //unit circle centered on xy axes
     private var triangleDiagram: Sprite;  //triangle drawn on unit circle, the ratio of the sides are the trig functions
+    private var horizArrowHead: Sprite;   //arrow head on xLeg of triangle
+    private var vertArrowHead: Sprite;    //arrow head on yLeg of triangle
     private var gridLines: Sprite ;       //optional gridlines on unit circle
     private var labelsLayer: Sprite;      //optional labels x, y, 1, theta
     private var angleArc: Sprite;         //arc showing the angle theta
+    private var angleArcArrowHead: Sprite;//arrow head on end of arc showing angle theta
     private var angleHandle: Sprite;//grabbable handle for setting angle on unit Circle
     private var radius:Number;      //radius of unit circle in pixels
     private var previousAngle: Number;
@@ -69,9 +72,12 @@ public class UnitCircleView extends Sprite {
         this.myTrigModel.registerView( this );
         this.unitCircleGraph = new Sprite();
         this.triangleDiagram = new Sprite();
+        this.horizArrowHead = new Sprite();
+        this.vertArrowHead = new Sprite();
         this.gridLines = new Sprite();
         this.labelsLayer = new Sprite();
         this.angleArc = new Sprite();
+        this.angleArcArrowHead = new Sprite();
         this.angleHandle = new Sprite();
         this.grabbed = false;
         this.internationalizeStrings();
@@ -82,10 +88,12 @@ public class UnitCircleView extends Sprite {
         this.one_lbl = new NiceLabel( 30, one_str );
         this.theta_lbl = new NiceLabel( 30, theta_str );
         var tFormat: TextFormat = new TextFormat( "Times New Roman")
-        this.x2_lbl.setTextFormat( tFormat );
-        this.y2_lbl.setTextFormat( tFormat );
+        //this.x2_lbl.setTextFormat( tFormat );
+        //this.y2_lbl.setTextFormat( tFormat );
         this.one_lbl.setTextFormat( tFormat );
         this.theta_lbl.setTextFormat( tFormat );
+        this.one_lbl.setBold( true );
+        this.theta_lbl.setBold( true );
 
         this.initialize();
     }
@@ -104,8 +112,11 @@ public class UnitCircleView extends Sprite {
         this.addChild( gridLines );
         this.addChild( unitCircleGraph );
         this.unitCircleGraph.addChild( triangleDiagram );
+        this.triangleDiagram.addChild( horizArrowHead );
+        this.triangleDiagram.addChild( vertArrowHead );
         this.unitCircleGraph.addChild( labelsLayer );
         this.unitCircleGraph.addChild( angleArc );
+        this.angleArc.addChild( angleArcArrowHead );
         this.unitCircleGraph.addChild( this.angleHandle );
         this.unitCircleGraph.addChild( x_lbl );
         this.unitCircleGraph.addChild( y_lbl );
@@ -116,6 +127,7 @@ public class UnitCircleView extends Sprite {
         this.drawUnitCircle();
         this.drawGridLines();
         this.drawAngleHandle();
+        this.drawArrowHeads();
         this.makeAngleHandleGrabbable();
         this.smallAngle = 0;
         this.previousAngle = 0;
@@ -180,8 +192,47 @@ public class UnitCircleView extends Sprite {
         }//end for
     }//end drawGridLines
 
+    private function drawArrowHeads():void{
+        var length:Number = 25;
+        var halfWidth:Number = 8
+        var gH: Graphics = horizArrowHead.graphics;
+        with( gH ){
+            clear();
+            lineStyle( 1, Util.COSCOLOR );
+            beginFill( Util.COSCOLOR );
+            moveTo( 0, 0 );
+            lineTo( -length,  -halfWidth );
+            lineTo( -length,  halfWidth );
+            lineTo( 0, 0 );
+        }
+        var gV: Graphics = vertArrowHead.graphics;
+        with( gV ){
+            clear();
+            lineStyle( 1, Util.SINCOLOR );
+            beginFill( Util.SINCOLOR );
+            moveTo( 0, 0 );
+            lineTo( -halfWidth, length );
+            lineTo( halfWidth, length );
+            lineTo( 0, 0 );
+        }
+        var gAAA: Graphics = angleArcArrowHead.graphics;
+        with( gAAA ){
+            length = 10;
+            halfWidth = 3;
+            clear();
+            lineStyle( 1, Util.XYAXESCOLOR );
+            beginFill( Util.XYAXESCOLOR );
+            moveTo( 0, 0 );
+            lineTo( -halfWidth, length );
+            lineTo( halfWidth, length );
+            lineTo( 0, 0 );
+        }
+
+    }//end drawArrowHeads()
+
     private function drawTriangle():void{
         var gTriangle: Graphics = this.triangleDiagram.graphics;
+        var angle: Number = myTrigModel.smallAngle;
         var xLeg: Number = this.radius*myTrigModel.cos;
         var yLeg: Number = -this.radius*myTrigModel.sin;
         var xColor: uint = 0x000000;
@@ -192,9 +243,17 @@ public class UnitCircleView extends Sprite {
         if( _trigMode == 0 ){
             xColor = Util.COSCOLOR;
             xStroke = 6;
+            horizArrowHead.visible = true;
+            vertArrowHead.visible = false;
+            var fH: Number = 0.9;
+            var fV: Number = 1;
         }else if ( _trigMode == 1 ){
             yColor = Util.SINCOLOR;
             yStroke = 6;
+            horizArrowHead.visible = false;
+            vertArrowHead.visible = true;
+            fH = 1;
+            fV = 0.9;
         }else if ( _trigMode == 2 ){
             // do nothing
         }
@@ -207,11 +266,25 @@ public class UnitCircleView extends Sprite {
             //draw x-leg
             lineStyle( xStroke, xColor,  1, false, "normal", "none"  ) ;
             moveTo( 0, 0 );
-            lineTo( xLeg,  0 );
+            lineTo( fH*xLeg, 0 );
+            horizArrowHead.x = xLeg;
+            horizArrowHead.y = 0;
+            if( Math.abs(xLeg) < 0.3*radius ){
+                horizArrowHead.scaleX = 3*xLeg/radius;
+            }else{
+                horizArrowHead.scaleX = xLeg/Math.abs( xLeg );
+            }
             //draw y-leg
             lineStyle( yStroke, yColor,  1, false, "normal", "none") ;
             moveTo( xLeg, 0 );
-            lineTo( xLeg,  yLeg );
+            lineTo( xLeg,  fV*yLeg );
+            vertArrowHead.y = yLeg;
+            vertArrowHead.x = xLeg;
+            if( Math.abs(yLeg) < 0.3*radius ){
+                vertArrowHead.scaleY = -3*yLeg/radius;
+            }else{
+                vertArrowHead.scaleY = -yLeg/Math.abs( yLeg );
+            }
         }
     }//end drawTriangle
 
@@ -220,6 +293,7 @@ public class UnitCircleView extends Sprite {
         var r: Number = 0.3*radius;
         var sign: Number;
         totalAngle = myTrigModel.totalAngle;
+        smallAngle = myTrigModel.smallAngle;
         if( totalAngle != 0 ){
             sign = Math.abs( totalAngle )/totalAngle;
         }else{
@@ -242,6 +316,20 @@ public class UnitCircleView extends Sprite {
                 }
             }
         } //end with
+        //locate arrowHead on angle arc, if arc is big enough
+        if( Math.abs( totalAngle ) < 20*Math.PI/180 ){
+            angleArcArrowHead.visible = false;
+        }else{
+            angleArcArrowHead.visible = true;
+        }
+        angleArcArrowHead.x = r*Math.cos( totalAngle );
+        angleArcArrowHead.y = -r*Math.sin( totalAngle );
+        if( totalAngle < 0 ){
+            angleArcArrowHead.rotation = 180 - myTrigModel.smallAngle*180/Math.PI;
+        }else{
+            angleArcArrowHead.rotation = -myTrigModel.smallAngle*180/Math.PI;
+        }
+
     }//end drawAngleArc()
 
     private function drawAngleHandle():void{
@@ -313,35 +401,55 @@ public class UnitCircleView extends Sprite {
     }
 
     private function positionLabels():void{
-        var angle: Number = myTrigModel.smallAngle;
+        smallAngle = myTrigModel.smallAngle;
+        totalAngle = myTrigModel.totalAngle;
+        var pi: Number = Math.PI;
+        //set visibility of labels
+        if( Math.abs( totalAngle ) < 20*pi/180 ){
+            theta_lbl.visible = false;
+        }else{
+            theta_lbl.visible = true;
+        }
+        var sAngle: Number = Math.abs( smallAngle*180/pi );
+        if( sAngle < 10 || (180 - sAngle) < 10 ){
+            y2_lbl.visible = false;
+        } else{
+            y2_lbl.visible = true;
+        }
+        if( Math.abs(90 - sAngle) < 5 ){
+            x2_lbl.visible = false;
+        }else{
+            x2_lbl.visible = true;
+        }
         //position one-label
         var angleOffset: Number = 7*Math.PI/180;
         var sign: int = 1;
-        var pi: Number = Math.PI;
-        if( ( angle > pi/2 && angle < pi ) ||( angle > -pi/2 && angle < 0 )){
+
+        if( ( smallAngle > pi/2 && smallAngle < pi ) ||( smallAngle > -pi/2 && smallAngle < 0 )){
             sign = -1;
         }
-        var xInPix: Number = this.radius*Math.cos( angle + sign*angleOffset );
-        var yInPix: Number = this.radius*Math.sin( angle + sign*angleOffset );
+        var xInPix: Number = this.radius*Math.cos( smallAngle + sign*angleOffset );
+        var yInPix: Number = this.radius*Math.sin( smallAngle + sign*angleOffset );
         this.one_lbl.x = 0.6*xInPix - 0.5*one_lbl.width;
         this.one_lbl.y = - 0.6*yInPix -0.5*one_lbl.height;
         //position x-label
-        var xPos: Number = 0.5*radius*Math.cos( angle ) - 0.5*x2_lbl.width;
+        var xPos: Number = 0.5*radius*Math.cos( smallAngle ) - 0.5*x2_lbl.width;
         var yPos: Number = -0.1*x2_lbl.height;
-        if( angle < 0 ){ yPos = -x2_lbl.height }
+        if( smallAngle < 0 ){ yPos = -x2_lbl.height }
         x2_lbl.x = xPos;
         x2_lbl.y = yPos;
         //position y-label
         sign = 1;
-        if( ( angle > pi/2 && angle < pi ) ||( angle > -pi && angle < -pi/2 )){
+        if( ( smallAngle > pi/2 && smallAngle < pi ) ||( smallAngle > -pi && smallAngle < -pi/2 )){
             sign = -1;
         }
-        xPos = radius*Math.cos(angle) - 0.5*x2_lbl.width + sign*0.8*x2_lbl.width;
-        yPos = -0.5*radius*Math.sin( angle ) - 0.5*y2_lbl.height;
+        xPos = radius*Math.cos(smallAngle) - 0.5*x2_lbl.width + sign*0.8*x2_lbl.width;
+        yPos = -0.5*radius*Math.sin( smallAngle ) - 0.5*y2_lbl.height;
         y2_lbl.x = xPos;
         y2_lbl.y = yPos;
-        //position theta-label
-        var totalAngle: Number = myTrigModel.totalAngle;
+        //show and position theta-label on angle arc if arc is greater than 20 degs
+
+
         xPos = 0.37*radius*Math.cos( totalAngle/2 ) - 0.5*theta_lbl.width;
         yPos = -0.37*radius*Math.sin( totalAngle/2 ) - 0.5*theta_lbl.height;
         theta_lbl.x = xPos;
