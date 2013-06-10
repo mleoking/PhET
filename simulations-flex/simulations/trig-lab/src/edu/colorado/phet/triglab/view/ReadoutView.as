@@ -34,6 +34,7 @@ public class ReadoutView extends Canvas {
     private var smallAngleReadout: NiceLabel;
     private var xyReadout: NiceLabel;
     private var totalAngleReadout: NiceLabel;
+    private var trigReadoutContainer: Canvas;
     private var cosineReadout: NiceLabel;
     private var sineReadout: NiceLabel;
     private var tangentReadout: NiceLabel;
@@ -73,12 +74,12 @@ public class ReadoutView extends Canvas {
 //            setStyle( "horizontalAlign", "center" );
 //        }
         //this.angleBox = new HBox();
-        this.addChild( background );
+
         this.xyReadout = new NiceLabel( 25 );
         var x_str:String = "0.455";
         var y_str:String = "0.350";
         this.xyReadout.setText( FlexSimStrings.get( "(x,y)Equals(X,Y)", "(x, y) = ( {0}, {1} )" , [x_str,  y_str]));
-        this.background.addChild( new SpriteUIComponent( this.xyReadout ) );
+
 
         this.smallAngleReadout = new NiceLabel( );
         //next two lines needed to set size of label
@@ -89,17 +90,37 @@ public class ReadoutView extends Canvas {
         //next two lines needed to set size of label
         var totAngleInDeg_str:String = "395";
         this.totalAngleReadout.setText(FlexSimStrings.get("angleEqualsXDegrees", "angle = {0} degrees", [totAngleInDeg_str]));
-        this.background.addChild( new SpriteUIComponent ( this.totalAngleReadout ) );
+
+        this.trigReadoutContainer = new Canvas();
 
         this.cosineReadout = new NiceLabel( 25 );
         var cosine_str:String = "0.500";
         this.cosineReadout.setText(FlexSimStrings.get("cosineEqualsX", "cos = {0}", [cosine_str]));
-        this.background.addChild( new SpriteUIComponent( this.cosineReadout ));
 
-        this.background.addChild( new SpriteUIComponent( this.diagnosticReadout ));
+
+        this.sineReadout = new NiceLabel( 25 );
+        var sine_str:String = "0.500";
+        this.sineReadout.setText(FlexSimStrings.get("sineEqualsX", "sin = {0}", [sine_str]));
+
+
+        this.tangentReadout = new NiceLabel( 25 );
+        var tangent_str:String = "0.500";
+        this.tangentReadout.setText(FlexSimStrings.get("tangentEqualsX", "tan = {0}", [tangent_str]));
+
+
+
         this.diagnosticReadout.setFontSize( 20 );
         this.diagnosticReadout.setText( " test ")
 
+        //set layers:
+        this.addChild( background );
+        this.background.addChild( new SpriteUIComponent( this.xyReadout ) );
+        this.background.addChild( new SpriteUIComponent ( this.totalAngleReadout ) );
+        this.background.addChild( trigReadoutContainer );
+        this.trigReadoutContainer.addChild( new SpriteUIComponent( this.cosineReadout ));
+        this.trigReadoutContainer.addChild( new SpriteUIComponent( this.sineReadout ));
+        this.trigReadoutContainer.addChild( new SpriteUIComponent( this.tangentReadout ));
+        this.background.addChild( new SpriteUIComponent( this.diagnosticReadout ));
     }//end init()
 
     private function initializeStrings():void{
@@ -130,6 +151,27 @@ public class ReadoutView extends Canvas {
         var cos: Number = this.myTrigModel.cos;
         var cosine_str: String = cos.toFixed( 3 );
         this.cosineReadout.setText(FlexSimStrings.get("cosineEqualsX", "cos = {0} ", [cosine_str]));
+
+        var sin: Number = this.myTrigModel.sin;
+        sine_str = sin.toFixed( 3 );
+        this.sineReadout.setText(FlexSimStrings.get("sineEqualsX", "sin = {0} ", [sine_str]));
+
+        var tan: Number = this.myTrigModel.tan;
+        tangent_str = tan.toFixed( 3 );
+        this.tangentReadout.setText(FlexSimStrings.get("tangentEqualsX", "tan = {0} ", [tangent_str]));
+    }
+
+    public function setVisibilityOfTrigReadout( choice: int ):void{
+        cosineReadout.visible = false;
+        sineReadout.visible = false;
+        tangentReadout.visible = false;
+        if( choice == 0 ){
+            cosineReadout.visible = true;
+        }else if ( choice == 1 ){
+            sineReadout.visible = true;
+        }else if ( choice == 2 ){
+            tangentReadout.visible = true;
+        }
     }
 
     public function update():void{

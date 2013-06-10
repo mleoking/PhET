@@ -20,6 +20,7 @@ import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.events.TimerEvent;
 import flash.geom.Point;
+import flash.text.TextFormat;
 import flash.utils.Timer;
 import flash.utils.clearInterval;
 
@@ -76,10 +77,16 @@ public class UnitCircleView extends Sprite {
         this.internationalizeStrings();
         this.x_lbl = new NiceLabel( 25, x_str );
         this.y_lbl = new NiceLabel( 25, y_str )
-        this.x2_lbl = new NiceLabel( 25, x_str );
-        this.y2_lbl = new NiceLabel( 25, y_str )
-        this.one_lbl = new NiceLabel( 25, one_str );
-        this.theta_lbl = new NiceLabel( 25, theta_str );
+        this.x2_lbl = new NiceLabel( 30, x_str );
+        this.y2_lbl = new NiceLabel( 30, y_str )
+        this.one_lbl = new NiceLabel( 30, one_str );
+        this.theta_lbl = new NiceLabel( 30, theta_str );
+        var tFormat: TextFormat = new TextFormat( "Times New Roman")
+        this.x2_lbl.setTextFormat( tFormat );
+        this.y2_lbl.setTextFormat( tFormat );
+        this.one_lbl.setTextFormat( tFormat );
+        this.theta_lbl.setTextFormat( tFormat );
+
         this.initialize();
     }
 
@@ -87,7 +94,7 @@ public class UnitCircleView extends Sprite {
         this.x_str = FlexSimStrings.get( "x", "x");
         this.y_str = FlexSimStrings.get( "y", "y");
         this.one_str = FlexSimStrings.get( "one", "1");
-        this.theta_str = FlexSimStrings.get( "theta", "theta" );   //greek letter theta
+        this.theta_str = FlexSimStrings.get( "theta", "\u03b8" );   //greek letter theta
     }
 
     private function initialize():void{
@@ -105,6 +112,7 @@ public class UnitCircleView extends Sprite {
         this.labelsLayer.addChild( one_lbl );
         this.labelsLayer.addChild( x2_lbl );
         this.labelsLayer.addChild( y2_lbl );
+        this.labelsLayer.addChild( theta_lbl );
         this.drawUnitCircle();
         this.drawGridLines();
         this.drawAngleHandle();
@@ -307,7 +315,7 @@ public class UnitCircleView extends Sprite {
     private function positionLabels():void{
         var angle: Number = myTrigModel.smallAngle;
         //position one-label
-        var angleOffset: Number = 10*Math.PI/180;
+        var angleOffset: Number = 7*Math.PI/180;
         var sign: int = 1;
         var pi: Number = Math.PI;
         if( ( angle > pi/2 && angle < pi ) ||( angle > -pi/2 && angle < 0 )){
@@ -319,7 +327,7 @@ public class UnitCircleView extends Sprite {
         this.one_lbl.y = - 0.6*yInPix -0.5*one_lbl.height;
         //position x-label
         var xPos: Number = 0.5*radius*Math.cos( angle ) - 0.5*x2_lbl.width;
-        var yPos: Number = 0;
+        var yPos: Number = -0.1*x2_lbl.height;
         if( angle < 0 ){ yPos = -x2_lbl.height }
         x2_lbl.x = xPos;
         x2_lbl.y = yPos;
@@ -328,11 +336,17 @@ public class UnitCircleView extends Sprite {
         if( ( angle > pi/2 && angle < pi ) ||( angle > -pi && angle < -pi/2 )){
             sign = -1;
         }
-        xPos = radius*Math.cos(angle) - 0.5*x2_lbl.width + sign*x2_lbl.width;
+        xPos = radius*Math.cos(angle) - 0.5*x2_lbl.width + sign*0.8*x2_lbl.width;
         yPos = -0.5*radius*Math.sin( angle ) - 0.5*y2_lbl.height;
         y2_lbl.x = xPos;
         y2_lbl.y = yPos;
-    }
+        //position theta-label
+        var totalAngle: Number = myTrigModel.totalAngle;
+        xPos = 0.37*radius*Math.cos( totalAngle/2 ) - 0.5*theta_lbl.width;
+        yPos = -0.37*radius*Math.sin( totalAngle/2 ) - 0.5*theta_lbl.height;
+        theta_lbl.x = xPos;
+        theta_lbl.y = yPos;
+    }//end positionLabels()
 
     public function set trigMode( mode: int):void {
         this._trigMode = mode;  //0 for cos, 1 for sin, 2 for tan
