@@ -105,15 +105,16 @@ public class TrigModel {
     public function set totalAngle( totalAngle:Number ):void{
         _totalAngle = totalAngle;
         this.nbrFullTurns = Math.round( totalAngle/( 2*Math.PI ) );
-        //this.myMainView.myReadoutView.diagnosticReadout.setText( "nbrTurns =  " + String( nbrTurns ) ) ;
+        //this.myMainView.myReadoutView.diagnosticReadout.setText( "nbrTurns =  " + String( nbrFullTurns ) ) ;
         _cos = Math.cos( _totalAngle );
         _sin = Math.sin( _totalAngle );
         _tan = Math.tan( _totalAngle );
         _x = _cos;
         _y = _sin;
-        var moduloAngleInRads:Number = _totalAngle % ( 2*Math.PI );
+        var moduloAngleInRads:Number = _totalAngle - nbrFullTurns*2*Math.PI;
         this._smallAngle = moduloAngleInRads;
-        //this.myMainView.myReadoutView.diagnosticReadout.setText( String( moduloAngleInRads ) ) ;
+        var moduloAngleInDegs: Number = moduloAngleInRads*180/Math.PI;
+        this.myMainView.myReadoutView.diagnosticReadout.setText( String( moduloAngleInDegs ) ) ;
         updateViews();
     }
 

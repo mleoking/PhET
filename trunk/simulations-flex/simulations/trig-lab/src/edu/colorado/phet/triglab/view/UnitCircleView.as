@@ -44,6 +44,8 @@ public class UnitCircleView extends Sprite {
     //Labels
     private var x_lbl: NiceLabel;       //x-label on x-axis
     private var y_lbl: NiceLabel;       //y-label on y-axis
+    private var x2_lbl: NiceLabel;      //x-label on xyr triangle
+    private var y2_lbl: NiceLabel;      //y-lable on xyr triangle
     private var one_lbl: NiceLabel;     //1 label on radius
     private var theta_lbl: NiceLabel;   //angle label
 
@@ -74,6 +76,8 @@ public class UnitCircleView extends Sprite {
         this.internationalizeStrings();
         this.x_lbl = new NiceLabel( 25, x_str );
         this.y_lbl = new NiceLabel( 25, y_str )
+        this.x2_lbl = new NiceLabel( 25, x_str );
+        this.y2_lbl = new NiceLabel( 25, y_str )
         this.one_lbl = new NiceLabel( 25, one_str );
         this.theta_lbl = new NiceLabel( 25, theta_str );
         this.initialize();
@@ -99,11 +103,9 @@ public class UnitCircleView extends Sprite {
         this.unitCircleGraph.addChild( x_lbl );
         this.unitCircleGraph.addChild( y_lbl );
         this.labelsLayer.addChild( one_lbl );
+        this.labelsLayer.addChild( x2_lbl );
+        this.labelsLayer.addChild( y2_lbl );
         this.drawUnitCircle();
-//        this.unitCircleGraph.x = 0.3*stageW;
-//        this.unitCircleGraph.y = 0.3*stageH;
-//        this.gridLines.x = this.unitCircleGraph.x;
-//        this.gridLines.y = this.unitCircleGraph.y;
         this.drawGridLines();
         this.drawAngleHandle();
         this.makeAngleHandleGrabbable();
@@ -304,6 +306,7 @@ public class UnitCircleView extends Sprite {
 
     private function positionLabels():void{
         var angle: Number = myTrigModel.smallAngle;
+        //position one-label
         var angleOffset: Number = 10*Math.PI/180;
         var sign: int = 1;
         var pi: Number = Math.PI;
@@ -314,6 +317,21 @@ public class UnitCircleView extends Sprite {
         var yInPix: Number = this.radius*Math.sin( angle + sign*angleOffset );
         this.one_lbl.x = 0.6*xInPix - 0.5*one_lbl.width;
         this.one_lbl.y = - 0.6*yInPix -0.5*one_lbl.height;
+        //position x-label
+        var xPos: Number = 0.5*radius*Math.cos( angle ) - 0.5*x2_lbl.width;
+        var yPos: Number = 0;
+        if( angle < 0 ){ yPos = -x2_lbl.height }
+        x2_lbl.x = xPos;
+        x2_lbl.y = yPos;
+        //position y-label
+        sign = 1;
+        if( ( angle > pi/2 && angle < pi ) ||( angle > -pi && angle < -pi/2 )){
+            sign = -1;
+        }
+        xPos = radius*Math.cos(angle) - 0.5*x2_lbl.width + sign*x2_lbl.width;
+        yPos = -0.5*radius*Math.sin( angle ) - 0.5*y2_lbl.height;
+        y2_lbl.x = xPos;
+        y2_lbl.y = yPos;
     }
 
     public function set trigMode( mode: int):void {
