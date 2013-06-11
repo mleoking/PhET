@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_ht.xml created Thu Jan 17 18:21:05 CET 2013 using: collision-lab 2.01.00 (69163), translation-utility 2.14.00 (69024) oct. 9, 2012--><SimStrings>
+<string key="ShowValues.velocityCaption" value="vektè vitès"/>
+<string key="ControlPanel.showValues" value="Montre valè yo"/>
+<string key="PlayPauseButtons.step" value="Pa"/>
+<string key="DataTable.velocity" value="vektè vitès"/>
+<string key="MomentumView.total" value="total"/>
+<string key="DataTable.positionWithUnits" value="pozisyon"/>
+<string key="ShowValues.speedReadout" value="| v | ={0}"/>
+<string key="ControlPanel.sound" value="son"/>
+<string key="ControlPanel.showMomentumVectors" value="kantite mouvman vektè yo"/>
+<string key="ShowValues.speedCaption" value="vitès (m/s)"/>
+<string key="ControlPanel.oneHundredPercent" value="elastik"/>
+<string key="DataTable.lessData" value="Mwens done"/>
+<string key="DataTable.momentumWithUnits" value="kantite mouvman (kgm/s)"/>
+<string key="MomentumView.momenta" value="Moman yo"/>
+<string key="DataTable.units.kilogramMetersPerSecond" value="kg m/s"/>
+<string key="ControlPanel.elasticityReadout" value="elastisite {0} %"/>
+<string key="DataTable.ball" value="boul"/>
+<string key="TableView.kineticEnergy" value="Enèji mouvman ={0} J"/>
+<string key="advancedTab" value="Nivo avanse"/>
+<string key="ControlPanel.showVelocities" value="vektè vitès yo"/>
+<string key="ControlPanel.showPaths" value="Montre chemen yo"/>
+<string key="DataTable.mass" value="mas"/>
+<string key="DataTable.addBall" value="ajoute boul"/>
+<string key="DataTable.position" value="pozisyon"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="DataTable.units.kilograms" value="kg"/>
+<string key="DataTable.units.metersPerSecond" value="m/s"/>
+<string key="ShowValues.momentumReadout" value="p = {0}"/>
+<string key="PlayPauseButtons.pause" value="sispann"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="2 dimansyon yo"/>
+<string key="DataTable.moreData" value="plis done"/>
+<string key="ControlPanel.reflectingBorder" value="Bò ki reflechi"/>
+<string key="DataTable.removeBall" value="Retire boul"/>
+<string key="DataTable.momentum" value="kantite mouvman"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.x" value="x"/>
+<string key="ShowValues.momentumCaption" value="kantite mouvman (kg m/s)"/>
+<string key="ControlPanel.resetAll" value="Remete azewo"/>
+<string key="ControlPanel.momentaDiagram" value="dyagram moman yo"/>
+<string key="ControlPanel.elasticity" value="elastisite"/>
+<string key="DataTable.units.meters" value="m"/>
+<string key="ControlPanel.showCenterOfMass" value="sant mas"/>
+<string key="ControlPanel.zeroPercent" value="san elastik"/>
+<string key="DataTable.velocityWithUnits" value="vektè vitès (m/s)"/>
+<string key="ShowValues.absoluteMomentumReadout" value="| p | = {0}"/>
+<string key="TableView.returnBalls" value="tounen boul yo"/>
+<string key="DataTable.massWithUnits" value="mas (kg)"/>
+<string key="introductionTab" value="koumansman"/>
+<string key="TableView.timeRate" value="Vitès Sim"/>
+<string key="simTitle" value="Laboratwa kolizyon"/>
+<string key="ShowValues.velocityReadout" value="v = {0}"/>
+<string key="PlayPauseButtons.play" value="jwe"/>
+<string key="ControlPanel.kineticEnergy" value="Enèji mouvman"/>
+<string key="MomentumView.tipToTail" value="Koumansman alafen"/>
+<string key="PlayPauseButtons.back" value="retounenn"/>
+<string key="TableView.time" value="Tan = {0}"/>
+<string key="ControlPanel.1d" value="1 dimansyon"/>
+<string key="PlayPauseButtons.rewind" value="Rekoumanse"/>
+</SimStrings>
