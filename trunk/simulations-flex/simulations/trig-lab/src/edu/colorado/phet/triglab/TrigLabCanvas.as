@@ -30,7 +30,7 @@ public class TrigLabCanvas extends Canvas {
     }//end constructor
 
     public function init(): void {
-        setStyle( "backgroundColor", 0x000055 );    //Util.XYAXESCOLORbeige is 0xf1f191
+        setStyle( "backgroundColor", Util.BACKGROUNDCOLOR );    //Util.XYAXESCOLOR beige is 0xf1f191
         percentWidth = 100;
         percentHeight = 100;
         const myMainView : MainView = new MainView( this, RENDER_WIDTH, RENDER_HEIGHT )

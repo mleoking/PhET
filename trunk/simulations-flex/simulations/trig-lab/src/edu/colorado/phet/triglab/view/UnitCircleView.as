@@ -147,7 +147,7 @@ public class UnitCircleView extends Sprite {
         var f: Number = 1.3;     //extent of each axis is -f*radius to +f*radius
         with ( g ){
             clear();
-            lineStyle( 2, Util.XYAXESCOLOR, 1 );  //black
+            lineStyle( Util.THICKNESS3, Util.XYAXESCOLOR, 1 );  //black
             //draw xy axes
             moveTo( -f*radius,  0 );
             lineTo( +f*radius,  0 );
@@ -171,7 +171,7 @@ public class UnitCircleView extends Sprite {
             lineTo( -halfWidth, -f*radius + length);
             endFill();
             //draw unit circle
-            lineStyle( 2, Util.XYAXESCOLOR, 1 );  //black
+            lineStyle( Util.THICKNESS3, Util.XYAXESCOLOR, 1 );  //black
             drawCircle( 0, 0, radius );
         }
         x_lbl.x = f*radius - x_lbl.width - 10;
@@ -184,7 +184,7 @@ public class UnitCircleView extends Sprite {
         //grid spacing = 0.5
         var spacing: Number = 0.5*this.radius;
         var gGrid: Graphics = this.gridLines.graphics;
-        gGrid.lineStyle( 2, 0xaaaaaa, 1 ); //light gray color
+        gGrid.lineStyle( 2, 0x888888, 1 ); //light gray color
         for( var i:int = -2; i <= 2; i++) {
             with(gGrid){
                 //draw horizontal lines
@@ -243,7 +243,7 @@ public class UnitCircleView extends Sprite {
         var xColor: uint = Util.XYAXESCOLOR;
         var yColor: uint = Util.XYAXESCOLOR;
         var hypColor: uint = Util.XYAXESCOLOR;
-        var xStroke: int = 6;
+        var xStroke: int = 8;
         var yStroke: int = 2;
         if( _trigMode == 0 ){
             xColor = Util.COSCOLOR;
@@ -265,7 +265,7 @@ public class UnitCircleView extends Sprite {
         with( gTriangle ){
             clear();
             //draw hypotenuse
-            lineStyle( 2, hypColor, 1, false, "normal", "none" );
+            lineStyle( Util.THICKNESS3, hypColor, 1, false, "normal", "none" );
             moveTo( 0, 0 );
             lineTo( xLeg, yLeg );
             //draw x-leg
@@ -307,7 +307,7 @@ public class UnitCircleView extends Sprite {
         //trace( "UnitCircleView.drawAngleArc  sign of angle = " + sign + "totalAngle = " + totalAngle );
         with( gArc ){
             clear();
-            lineStyle( 1, Util.XYAXESCOLOR, 1 );
+            lineStyle( Util.THICKNESS2, Util.XYAXESCOLOR, 1 );
             moveTo( r, 0 );
             if( sign > 0 ){
                 for( var ang: Number = 0; ang <= totalAngle; ang += 0.02 ){
