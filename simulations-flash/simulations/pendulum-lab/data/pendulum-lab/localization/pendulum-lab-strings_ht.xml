@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_ht.xml created Thu Jan 17 11:23:04 EST 2013 using: pendulum-lab 2.03.00 (52288), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="resetStopwatch" value="redemare"/>
+<string key="earth" value="Tè"/>
+<string key="showPhotoGateTimer" value="kronomèt baryè foton"/>
+<string key="planetX" value="Planèt x"/>
+<string key="acceleration" value="akselerasyon"/>
+<string key="showEnergyOf" value="montre enèji a:"/>
+<string key="PE" value="PE"/>
+<string key="velocity" value="velosite"/>
+<string key="realTime" value="tan reyèl"/>
+<string key="length" value="longe"/>
+<string key="lots" value="anpil"/>
+<string key="friction" value="fwotman"/>
+<string key="showSecondPendulum" value="montre 2è pendil la "/>
+<string key="start" value="koumanse"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jipite"/>
+<string key="moon" value="laline"/>
+<string key="energyOf" value="enèji"/>
+<string key="period" value="peryod"/>
+<string key="simStrings" value="labo pendil la"/>
+<string key="noneFriction" value="pa genyen"/>
+<string key="total" value="total"/>
+<string key="mass2" value="mas 2:"/>
+<string key="pendulum" value="Pendil"/>
+<string key="startPauseStopwatch" value="koumanse?kanpe"/>
+<string key="show" value="montre:"/>
+<string key="length2" value="longe 2:"/>
+<string key="photoGateTimer" value=" kronomèt baryè foton "/>
+<string key="thermal" value="tèmik"/>
+<string key="pausePlay" value="kanpe/koumase"/>
+<string key="reset" value="redemare"/>
+<string key="mass" value="mas"/>
+<string key="quarterTime" value="yon ka tan"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="pa genyen"/>
+<string key="simTitle" value="labo pendil la"/>
+<string key="otherTools" value="lot zouti"/>
+<string key="angleUnit" value="deg"/>
+<string key="paused" value="kanpe"/>
+<string key="sixteenthTime" value="on sèzièm"/>
+</SimStrings>
