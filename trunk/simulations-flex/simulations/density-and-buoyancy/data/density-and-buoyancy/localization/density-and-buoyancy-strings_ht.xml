@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_Raphael_Salomon_and_ John_Rono_Chery_ht.xml created Thu Jan 17 11:19:01 EST 2013 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.14.00 (69024) oct. 9, 2012--><SimStrings>
+<string key="buoyancy.tab.intro" value="Entro"/>
+<string key="properties.mass" value="Mas"/>
+<string key="controlPanel.showVectorValues" value="valè fòs yo"/>
+<string key="forceArrows.contact" value="Kontak"/>
+<string key="mode.objectsOfSameVolume" value="Menm Volim"/>
+<string key="mysteryObject.densityColumnHeader" value="Dansite ({0})"/>
+<string key="material.aluminum" value="Aliminyòm"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Lè"/>
+<string key="material.custom" value="Blòk mwen an"/>
+<string key="material.gasoline" value="Gazolin"/>
+<string key="customObject.material" value="Materyèl"/>
+<string key="mode.mysteryObjects" value="Mistè"/>
+<string key="customObject.custom" value="Lo mwen an"/>
+<string key="material.wood" value="Bwa"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="De"/>
+<string key="material.styrofoam" value="Polyestirèn"/>
+<string key="material.honey" value="Myèl"/>
+<string key="material.apple" value="Pòm"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Glas"/>
+<string key="buoyancy.tab.playground" value="Flotabilite nan lakou rekreyasyon"/>
+<string key="fluid.controls.intro.label" value="Fliyid"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Dyaman"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Lo yo"/>
+<string key="material.oliveOil" value="Lwildoliv"/>
+<string key="material.lead" value=" Plon"/>
+<string key="forceArrows.buoyancy" value="Flotezon"/>
+<string key="properties.fluidDensity" value="Dansite Fliyid"/>
+<string key="mysteryObject.densityUnitsKgL" value="Kg/L"/>
+<string key="customObject.properties" value="Pwopriyete yo"/>
+<string key="forceArrows.gravity" value="Gravite"/>
+<string key="material.brick" value="Brik"/>
+<string key="mysteryObject.material" value="Materyèl"/>
+<string key="mysteryObject.table.title" value="Dansite plizyè materyèl "/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="Lwil"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
+<string key="mode.objectsOfSameDensity" value="Menm Dansite"/>
+<string key="density.simTitle" value="Dansite"/>
+<string key="controlPanel.readouts" value="Lekti yo"/>
+<string key="properties.volumeMilliLiterValue" value="{0} L"/>
+<string key="mode.customObject" value="Pèsonalize"/>
+<string key="mode.objectsOfSameMass" value="Menm Mas"/>
+<string key="application.resetAll" value="Reyajiste tout"/>
+<string key="material.gold" value="Lò"/>
+<string key="properties.densityValue" value="{0} kg/L"/>
+<string key="forceArrowControlPanelTitle" value="Demonstrasyon Fòs yo"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="Non"/>
+<string key="controlPanel.showMasses" value="Mas yo"/>
+<string key="material.water" value="Dlo"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Dansite"/>
+<string key="material.waterBalloon" value="Balon dlo"/>
+<string key="mysteryObject.table.showTable" value="prezantasyon tablo"/>
+<string key="mode.one" value="Youn"/>
+<string key="properties.volume" value="Volim"/>
+<string key="buoyancy.simTitle" value="antren, Flotabilite"/>
+<string key="properties.kilogramPerLiter" value="kg/L"/>
+<string key="properties.volumeLiter" value="L"/>
+</SimStrings>
