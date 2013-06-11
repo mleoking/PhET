@@ -68,6 +68,7 @@ public class GraphView extends Sprite{
         this.verticalLineToCurrentValue = new Sprite();
         this.arrowHead = new Sprite();
         this.theta_lbl = new NiceLabel( 20, theta_str );
+        this.theta_lbl.setFontColor( Util.XYAXESCOLOR );
         this.gVertLine = verticalLineToCurrentValue.graphics;
         this.drawAxesGraph();
         this.drawTrigFunctions();
@@ -89,7 +90,7 @@ public class GraphView extends Sprite{
         var gAxes: Graphics = axesGraph.graphics;
         with( gAxes ){
             clear();
-            lineStyle( 2, 0x000000, 1 );
+            lineStyle( 2, Util.XYAXESCOLOR, 1 );
             moveTo( -wavelengthInPix*nbrWavelengths/2, 0 );   //x-axis
             lineTo( wavelengthInPix*nbrWavelengths/2, 0 );
             moveTo( 0, -1.4*amplitudeInPix );                 //y-axis
@@ -112,14 +113,14 @@ public class GraphView extends Sprite{
             var halfWidth: Number = 6;
             var xEnd: Number = wavelengthInPix*nbrWavelengths/2;
             var yEnd: Number = 1.5*amplitudeInPix;
-            beginFill( 0x000000, 1 );
+            beginFill( Util.XYAXESCOLOR, 1 );
             moveTo( xEnd - length,  halfWidth );
             lineTo( xEnd, 0 );
             lineTo( xEnd - length,  -halfWidth );
             lineTo( xEnd - length,  halfWidth );
             endFill();
             //y-axis arrow
-            beginFill( 0x000000, 1)
+            beginFill( Util.XYAXESCOLOR, 1)
             moveTo( -halfWidth, -yEnd + length);
             lineTo( 0, -yEnd );
             lineTo( +halfWidth, -yEnd + length );
@@ -210,8 +211,8 @@ public class GraphView extends Sprite{
             drawCircle( 0, 0, 5 );
             endFill();
             //draw rectangular invisible grab area, offset below red ball indicator to avoid collision with UnitCircleView
-            lineStyle( 1, 0x000000, 0 );
-            beginFill( 0x000000, 0 );
+            lineStyle( 1, Util.XYAXESCOLOR, 0 );
+            beginFill( Util.XYAXESCOLOR, 0 );
             drawRect( -30, -20, 60, 200 );
             endFill();
         }
