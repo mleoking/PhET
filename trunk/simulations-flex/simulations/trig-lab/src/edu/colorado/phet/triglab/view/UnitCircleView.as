@@ -152,7 +152,7 @@ public class UnitCircleView extends Sprite {
             moveTo( -f*radius,  0 );
             lineTo( +f*radius,  0 );
             moveTo( 0, -f*radius );
-            lineTo( 0, f*radius );
+            lineTo( 0, 0.9*f*radius );
             //draw arrow heads on axes
             var length:Number = 10;
             var halfWidth:Number = 6
