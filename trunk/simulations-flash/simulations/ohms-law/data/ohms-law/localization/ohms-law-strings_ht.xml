@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_ht.xml created Wed Jan 16 11:56:51 PST 2013 using: ohms-law 2.03.00 (51206), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="currentEq" value="kouran"/>
+<string key="resistance" value="rezistans "/>
+<string key="simTitle" value="lwa Om"/>
+<string key="sound" value="bri"/>
+<string key="translation.credits" value="Adler   THOMAS / Abdias AUGUSTIN"/>
+<string key="voltage" value="tansyon "/>
+</SimStrings>
