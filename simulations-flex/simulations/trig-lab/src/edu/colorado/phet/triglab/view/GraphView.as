@@ -90,7 +90,7 @@ public class GraphView extends Sprite{
         var gAxes: Graphics = axesGraph.graphics;
         with( gAxes ){
             clear();
-            lineStyle( 2, Util.XYAXESCOLOR, 1 );
+            lineStyle( Util.THICKNESS3, Util.XYAXESCOLOR, 1 );
             moveTo( -wavelengthInPix*nbrWavelengths/2, 0 );   //x-axis
             lineTo( wavelengthInPix*nbrWavelengths/2, 0 );
             moveTo( 0, -1.4*amplitudeInPix );                 //y-axis

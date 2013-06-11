@@ -166,6 +166,7 @@ public class ReadoutView extends Canvas {
         setTextColor( cosineReadout );
         setTextColor( sineReadout );
         setTextColor( tangentReadout );
+        setTextColor( diagnosticReadout );
     }
 
     private function setTextColor( nLabel: NiceLabel ):void{
