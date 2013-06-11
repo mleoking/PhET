@@ -16,6 +16,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.triglab.model.TrigModel;
+import edu.colorado.phet.triglab.util.Util;
 
 import flash.display.Sprite;
 
@@ -159,6 +160,16 @@ public class ReadoutView extends Canvas {
         var tan: Number = this.myTrigModel.tan;
         tangent_str = tan.toFixed( 3 );
         this.tangentReadout.setText(FlexSimStrings.get("tangentEqualsX", "tan = {0} ", [tangent_str]));
+
+        setTextColor( xyReadout );
+        setTextColor( totalAngleReadout );
+        setTextColor( cosineReadout );
+        setTextColor( sineReadout );
+        setTextColor( tangentReadout );
+    }
+
+    private function setTextColor( nLabel: NiceLabel ):void{
+        nLabel.setFontColor( Util.XYAXESCOLOR );
     }
 
     public function setVisibilityOfTrigReadout( choice: int ):void{

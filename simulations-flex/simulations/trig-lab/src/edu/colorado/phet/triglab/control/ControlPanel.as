@@ -200,9 +200,9 @@ public class ControlPanel extends Canvas {
         nrb.group = cosSinTan_nrbg;
         nrb.label.setFontColor( 0x000000 );
         nrb.label.setFontSize( 25 );
-        nrb.setColorsOfDeselectedIcon( 0x888888, 0xeeeeee );
-        nrb.setColorsOfSelectedIcon( 0x888888, 0x000000 );
-        nrb.setLabelColors( 0x000000, 0x006600 );
+        nrb.setColorsOfDeselectedIcon( 0x888888, 0x999999 );
+        nrb.setColorsOfSelectedIcon( 0x000000, 0x000000 );
+        nrb.setLabelColors( 0x555555, 0x000000 );
     }
 
     public function niceRadioGroupListener( selectedButtonIndex: int ):void{

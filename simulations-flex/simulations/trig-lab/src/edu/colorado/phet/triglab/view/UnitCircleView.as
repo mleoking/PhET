@@ -82,9 +82,9 @@ public class UnitCircleView extends Sprite {
         this.grabbed = false;
         this.internationalizeStrings();
         this.x_lbl = new NiceLabel( 25, x_str );
-        this.y_lbl = new NiceLabel( 25, y_str )
+        this.y_lbl = new NiceLabel( 25, y_str );
         this.x2_lbl = new NiceLabel( 30, x_str );
-        this.y2_lbl = new NiceLabel( 30, y_str )
+        this.y2_lbl = new NiceLabel( 30, y_str );
         this.one_lbl = new NiceLabel( 30, one_str );
         this.theta_lbl = new NiceLabel( 30, theta_str );
         var tFormat: TextFormat = new TextFormat( "Times New Roman")
@@ -94,7 +94,12 @@ public class UnitCircleView extends Sprite {
         this.theta_lbl.setTextFormat( tFormat );
         this.one_lbl.setBold( true );
         this.theta_lbl.setBold( true );
-
+        this.x_lbl.setFontColor( Util.XYAXESCOLOR );
+        this.y_lbl.setFontColor( Util.XYAXESCOLOR );
+        this.x2_lbl.setFontColor( Util.XYAXESCOLOR );
+        this.y2_lbl.setFontColor( Util.XYAXESCOLOR );
+        this.one_lbl.setFontColor( Util.XYAXESCOLOR );
+        this.theta_lbl.setFontColor( Util.XYAXESCOLOR );
         this.initialize();
     }
 
@@ -142,7 +147,7 @@ public class UnitCircleView extends Sprite {
         var f: Number = 1.3;     //extent of each axis is -f*radius to +f*radius
         with ( g ){
             clear();
-            lineStyle( 2, 0x000000, 1 );  //black
+            lineStyle( 2, Util.XYAXESCOLOR, 1 );  //black
             //draw xy axes
             moveTo( -f*radius,  0 );
             lineTo( +f*radius,  0 );
@@ -152,21 +157,21 @@ public class UnitCircleView extends Sprite {
             var length:Number = 10;
             var halfWidth:Number = 6
             //x-axis arrow
-            beginFill( 0x000000, 1 );
+            beginFill( Util.XYAXESCOLOR, 1 );
             moveTo( f*radius - length,  halfWidth );
             lineTo( f*radius, 0 );
             lineTo( f*radius - length,  -halfWidth );
             lineTo( f*radius - length,  halfWidth );
             endFill();
             //y-axis arrow
-            beginFill( 0x000000, 1)
+            beginFill( Util.XYAXESCOLOR, 1)
             moveTo( -halfWidth, -f*radius + length);
             lineTo( 0, -f*radius );
             lineTo( +halfWidth, -f*radius + length );
             lineTo( -halfWidth, -f*radius + length);
             endFill();
             //draw unit circle
-            lineStyle( 2, 0x000000, 1 );  //black
+            lineStyle( 2, Util.XYAXESCOLOR, 1 );  //black
             drawCircle( 0, 0, radius );
         }
         x_lbl.x = f*radius - x_lbl.width - 10;
@@ -235,9 +240,9 @@ public class UnitCircleView extends Sprite {
         var angle: Number = myTrigModel.smallAngle;
         var xLeg: Number = this.radius*myTrigModel.cos;
         var yLeg: Number = -this.radius*myTrigModel.sin;
-        var xColor: uint = 0x000000;
-        var yColor: uint = 0x000000;
-        var hypColor: uint = 0x000000;
+        var xColor: uint = Util.XYAXESCOLOR;
+        var yColor: uint = Util.XYAXESCOLOR;
+        var hypColor: uint = Util.XYAXESCOLOR;
         var xStroke: int = 6;
         var yStroke: int = 2;
         if( _trigMode == 0 ){
@@ -302,7 +307,7 @@ public class UnitCircleView extends Sprite {
         //trace( "UnitCircleView.drawAngleArc  sign of angle = " + sign + "totalAngle = " + totalAngle );
         with( gArc ){
             clear();
-            lineStyle( 1, 0x000000, 1 );
+            lineStyle( 1, Util.XYAXESCOLOR, 1 );
             moveTo( r, 0 );
             if( sign > 0 ){
                 for( var ang: Number = 0; ang <= totalAngle; ang += 0.02 ){
