@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_ht.xml created Thu Jan 17 11:33:48 CST 2013 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.14.00 (69024) oct. 9, 2012--><SimStrings>
+<string key="pause" value="poz"/>
+<string key="earth" value="latè"/>
+<string key="dontBother" value="se pa lapèn"/>
+<string key="16thTime" value="1/16 nan tan an"/>
+<string key="nothinOK" value="pa gen anyen! Ok"/>
+<string key="mass1Label" value="50 gram"/>
+<string key="mass3Label" value="250 gram"/>
+<string key="planetX" value="planèt X"/>
+<string key="showEnergyOf" value="montre enèji nan"/>
+<string key="hangMe" value="kwoke'm"/>
+<string key="resetTimer" value="relanser"/>
+<string key="hard" value="rèd"/>
+<string key="mass7Label" value="100 gram"/>
+<string key="stopWatch" value="kwonomèt"/>
+<string key="none" value="anyen"/>
+<string key="realTime" value="tan reyèl"/>
+<string key="startTimer" value="komanse/poz"/>
+<string key="help4" value="kwonomèt la ka deplase"/>
+<string key="help3" value=" rale mas la sou kote pou ka dekwokel nan resò a"/>
+<string key="showHelp" value="montre èd"/>
+<string key="lots" value="ampil"/>
+<string key="help2" value="liy referans lan ka deplase"/>
+<string key="help1" value="règ la ka deplase"/>
+<string key="friction" value="friksyon"/>
+<string key="PEelas" value="PEelas"/>
+<string key="jupiter" value="jupiter"/>
+<string key="moon" value="lalyn"/>
+<string key="energyOf" value="enèji nan"/>
+<string key="total" value="toltal"/>
+<string key="sound" value="son"/>
+<string key="PEgrav" value="PEgrav"/>
+<string key="mass2Label" value="100 gram"/>
+<string key="thermal" value="tèmik"/>
+<string key="quarterTime" value="1/4 nan tan an"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="cache èd"/>
+<string key="noHelp" value="pa genyen èd"/>
+<string key="soft" value="mòl"/>
+<string key="softness" value="molès resò 3 a"/>
+<string key="simTitle" value="mas yo ak resò yo"/>
+<string key="totalE" value="total E"/>
+<string key="noShow" value="pa montre"/>
+<string key="paused" value="poze"/>
+</SimStrings>
