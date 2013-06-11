@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_sq.xml created Sun Jun 09 12:27:58 CEST 2013 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="manual" value="Manualisht"/>
+<string key="resetTimer" value="rivendos"/>
+<string key="damping" value="Shuarje"/>
+<string key="simTitle" value="Vala në një Sustë"/>
+<string key="showHelp" value="Trego Ndihmësin"/>
+<string key="pulse" value="Puls"/>
+<string key="amplitude" value="Amplituda"/>
+<string key="pausePlay" value="ndalo/fillo"/>
+<string key="step" value="hap"/>
+<string key="tension" value="tensioni"/>
+<string key="startTimer" value="fillo/ndalo"/>
+<string key="pulseWidth" value="Gjerësia e Pulsit"/>
+<string key="rulerHelp" value="vizore e lëvizshme"/>
+<string key="high" value="i lartë"/>
+<string key="wiggleWrench" value="Skaj i Lëvizshëm"/>
+<string key="timer" value="Kohëmatësi"/>
+<string key="oscillate" value="Lëkundje"/>
+<string key="rulers" value="Vizore"/>
+<string key="frequency" value="Frekuenca"/>
+<string key="wrenchHelp" value="Lëvize skajin"/>
+<string key="fixedEnd" value="Fund i Fiksuar"/>
+<string key="refLineHelp" value="vijë e lëvizshme"/>
+<string key="hideHelp" value="Fshef Ndihmësin"/>
+<string key="timerHelp" value="kohëmatës i lëvizshmëm"/>
+<string key="looseEnd" value="Fund i Lirë"/>
+<string key="noEnd" value="Pa Fund"/>
+<string key="paused" value="Ndaluar"/>
+<string key="reset" value="Rifillo"/>
+<string key="pulse2" value="Puls"/>
+<string key="low" value="i ulët"/>
+</SimStrings>
