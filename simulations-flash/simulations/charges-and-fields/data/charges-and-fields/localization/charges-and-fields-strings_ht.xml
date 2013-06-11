@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_ht.xml created Sun Jun 09 19:41:35 EDT 2013 using: charges-and-fields 2.04.00 (52655), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="directionOnly" value="Direksyon sèlman"/>
+<string key="grid" value="Mete yon gri"/>
+<string key="clearAll" value="Efase tout"/>
+<string key="simTitle" value="Chaj ak chan"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="Montre valè yo"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 mèt"/>
+<string key="showEField" value="Montre chan E a"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="Montre V ak rezolisyon wo"/>
+<string key="EFieldSensors" value="Endikatè pou chan E a"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="Efase"/>
+<string key="plot" value="Trase"/>
+<string key="equipotential" value="ekipotansyèl"/>
+<string key="angleUnit" value="deg"/>
+<string key="showLoRes" value="Montre V ak rezolisyon ba"/>
+<string key="moreSpeedLessRes" value="Plis vitès / Mwen rezolisyon"/>
+<string key="tapeMeasure" value="anrejistre mezi a"/>
+<string key="voltage" value="voltaj"/>
+</SimStrings>
