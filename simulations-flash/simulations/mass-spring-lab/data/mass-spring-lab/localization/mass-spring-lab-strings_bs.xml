@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_bs.xml created Mon Jun 03 15:07:04 CEST 2013 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="pause" value="Pauza"/>
+<string key="earth" value="Zemlja"/>
+<string key="dontBother" value="Nemojte gnjaviti!"/>
+<string key="16thTime" value="1/16 vremena"/>
+<string key="nothinOK" value="NE! OK?"/>
+<string key="mass1Label" value="50 gr"/>
+<string key="mass3Label" value="250 gr"/>
+<string key="planetX" value="Planeta X"/>
+<string key="showEnergyOf" value="Pokaži Energiju opruge broj"/>
+<string key="hangMe" value="POVUCI ME!"/>
+<string key="resetTimer" value="Na početak"/>
+<string key="hard" value="tvrda"/>
+<string key="mass7Label" value="100 gr"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="stopWatch" value="Hronometar"/>
+<string key="none" value="bez"/>
+<string key="realTime" value="reealno vrijeme"/>
+<string key="startTimer" value="start/pauza"/>
+<string key="help4" value="POMIČNI HRONOMETAR"/>
+<string key="help3" value="Pomjeri teg u strаnu dа bi gа skinuo sа opruge"/>
+<string key="showHelp" value="Pokaži pomoć"/>
+<string key="lots" value="puno"/>
+<string key="help2" value="POMIČNI REFERENTNI NIVO"/>
+<string key="help1" value="POMIČNI LENJIR"/>
+<string key="friction" value="TRENJE"/>
+<string key="PEelas" value="EPelast"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Mjesec"/>
+<string key="energyOf" value="Energija"/>
+<string key="total" value="Ukupna"/>
+<string key="sound" value="Zvuk"/>
+<string key="PEgrav" value="EPgrav"/>
+<string key="mass2Label" value="100 gr"/>
+<string key="thermal" value="Toplotna"/>
+<string key="quarterTime" value="1/4 vremena"/>
+<string key="KE" value="EK"/>
+<string key="hideHelp" value="Sakrij pomoć"/>
+<string key="noHelp" value="bez pomoći"/>
+<string key="soft" value="meka"/>
+<string key="softness" value="elastičnost opruge 3"/>
+<string key="simTitle" value="OPRUGE &amp; TEGOVI"/>
+<string key="totalE" value="UKUPNA E"/>
+<string key="noShow" value="Ne prikazuj"/>
+<string key="paused" value="Zaustavljeno"/>
+</SimStrings>
