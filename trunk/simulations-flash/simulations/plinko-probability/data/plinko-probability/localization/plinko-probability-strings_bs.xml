@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_bs.xml created Wed Jun 05 21:01:18 CEST 2013 using: plinko-probability 2.02.00 (53818), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="none" value="BEZ"/>
+<string key="number" value="PO BROJU"/>
+<string key="start" value="START"/>
+<string key="continuous" value="Neprekidno"/>
+<string key="simTitle" value="RASPODJELA VJEROVATNOĆE"/>
+<string key="fraction" value="PO UDJELU"/>
+<string key="rows" value="REDOVA"/>
+<string key="sound" value="ZVUK"/>
+<string key="oneBall" value="1Lopticu"/>
+<string key="path" value="PUTANJU"/>
+<string key="histogramDisplay" value="POKAŽI \nHISTOGRAM"/>
+<string key="p" value="P \nVJEROVATNOĆA"/>
+<string key="stop" value="STOP"/>
+<string key="ball" value="LOPTICU"/>
+<string key="help" value="POMOĆ"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="reset" value="NA POČETAK"/>
+<string key="show" value="POKAŽI:"/>
+<string key="autoScale" value="Auto-skala"/>
+</SimStrings>
