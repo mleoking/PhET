@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_bs.xml created Sun Jun 02 14:03:20 CEST 2013 using: my-solar-system 2.04.00 (72347), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="slingshot" value="Gravitaciona praćka"/>
+<string key="binaryStarPlanet" value="Dvojna zvijezda, planeta"/>
+<string key="sunAndPlanet" value="Sunce i planeta"/>
+<string key="body4" value="tijelo 4"/>
+<string key="numberOfBodies" value="Broj\n tijela"/>
+<string key="body3" value="tijelo 3"/>
+<string key="body2" value="tijelo 2"/>
+<string key="body1" value="tijelo 1"/>
+<string key="velocity" value="brzina"/>
+<string key="doubleDouble" value="Dvostruka dvojna"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="massEquals" value="masa ="/>
+<string key="hyperbolics" value="Hiperbola"/>
+<string key="help9" value="Copyright project PhET Prevod : mr.sc. Dino Ćorović, dipl.fizičar, Tuzla, BiH"/>
+<string key="help8" value="Zа rаzliku od Runge-Kutа, Verletov аlgoritаm održаvа energiju u oscilаtornim sistemimа i dаje stаbilne orbite. Ovаkаv аlgoritаm može dа dа nefizikalne rezultаte u slučаju dа su tijelа postаvljenа preblizu- zbog preveliog ubrzаnjа."/>
+<string key="help6" value="Ovа simulаcijа koristi fiksni vremensko-brzinski Verletov аlgoritаm zа iscrtаvаnje putаnjа:"/>
+<string key="stop" value="Stop"/>
+<string key="help5" value="Ako je čekirаno Sistem centrirаn, isključuje se kretаnje centrа mаsа sistemа."/>
+<string key="help4" value="Zа očitаvаnje tаčnih vrijednosti položаjа i brzine, pritisni  Stop а miš  postаvi iznаd tijelа."/>
+<string key="help3" value="Poželjno je dа mаse držite mаnjim od pаr hiljаdа jer u suprotnom simulаcijа moždа neće teći glаtko"/>
+<string key="help2" value="Rаstojаnjа, mаse i vremenа su u proizvoljnim jedinicаmа. Možete postаviti svoje."/>
+<string key="help1" value="Mišem definišite početne položаje i brzine objekаtа"/>
+<string key="help0" value="Simulаtor orbitа Solаrnog  sistemа  "/>
+<string key="doubleSlingshot" value="Dvojna i praćka"/>
+<string key="systemCentered" value="Sistem centriran"/>
+<string key="start" value="Pokreni"/>
+<string key="showTraces" value="Putanje"/>
+<string key="back" value="nazad"/>
+<string key="tapeMeasure" value="Mjerna traka"/>
+<string key="accurate" value="tačno "/>
+<string key="help" value="Pomoć"/>
+<string key="selectPreset" value="Zadato"/>
+<string key="showGrid" value="Mreža"/>
+<string key="timeEquals" value="vrijeme = "/>
+<string key="ellipses" value="Elipse"/>
+<string key="trojanAsteroids" value="asteroidi"/>
+<string key="fourStarBallet" value="Balet četiri zvijezde"/>
+<string key="position" value="Položaj"/>
+<string key="reset" value="Početak"/>
+<string key="mass" value="masa"/>
+<string key="fast" value="brzo"/>
+<string key="simTitle" value="Moj Solarni sistem"/>
+<string key="sunPlanetMoon" value="Sunce, planeta, mjesec"/>
+<string key="initialSettings" value="Početni:"/>
+<string key="sunPlanetComet" value="Sunce, planeta i kometa"/>
+</SimStrings>
