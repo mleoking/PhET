@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_bs.xml created Sat Jun 08 21:26:30 CEST 2013 using: stern-gerlach 2.02.00 (52653), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="angle3" value="UGAO 3"/>
+<string key="angle2" value="UGAO 2"/>
+<string key="slow" value="POLAKO"/>
+<string key="randomXZ" value="NASUMIČNO xz"/>
+<string key="simTitle" value="ŠTERN-GERLAHOV EKSPERIMENT"/>
+<string key="sternGerlachExperiment" value="ŠTERN-GERLAHOV EKSPERIMENT"/>
+<string key="spinOrientation" value="ORIJENTACIJA \nSPINA"/>
+<string key="on" value="UKLJ."/>
+<string key="up" value="GORE"/>
+<string key="down" value="DOLJE"/>
+<string key="sound" value="ZVUK"/>
+<string key="fast" value="BRZO"/>
+<string key="numberOfMagnets" value="BROJ \nMAGNETA:"/>
+<string key="fireAtom" value="ISPALI ATOM"/>
+<string key="autoFire" value="SAMOOKIDANJE"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="angle" value="UGAO"/>
+<string key="reset" value="NA POČETAK"/>
+<string key="resetCount" value="BROJAČ NA NULU"/>
+<string key="off" value="ISKLJ."/>
+</SimStrings>
