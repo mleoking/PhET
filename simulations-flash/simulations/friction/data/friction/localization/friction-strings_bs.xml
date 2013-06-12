@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_bs.xml created Sat Jun 08 10:06:16 CEST 2013 using: friction 2.03.00 (51676), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="rubYellowAtoms" value="Trljaj žute atome \no zelene"/>
+<string key="physics" value="FIZIKA"/>
+<string key="reset" value="OTPOČETKA"/>
+<string key="simTitle" value="Trenje (koncept)"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="chemistry" value="HEMIJA"/>
+</SimStrings>
