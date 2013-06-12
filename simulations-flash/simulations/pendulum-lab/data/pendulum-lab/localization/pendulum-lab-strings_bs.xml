@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_bs.xml created Sat Jun 01 17:01:54 CEST 2013 using: pendulum-lab 2.03.00 (52288), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="resetStopwatch" value="početak"/>
+<string key="earth" value="Zemlja"/>
+<string key="showPhotoGateTimer" value="mjerač perioda"/>
+<string key="planetX" value="Planeta X"/>
+<string key="acceleration" value="ubrzanje"/>
+<string key="showEnergyOf" value="Prikaži energiju:"/>
+<string key="PE" value="potencijalna E"/>
+<string key="velocity" value="brzinu"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="realTime" value="realno"/>
+<string key="length" value="dužina"/>
+<string key="lots" value="više"/>
+<string key="friction" value="trenje"/>
+<string key="showSecondPendulum" value="Pokaži drugo klatno"/>
+<string key="start" value="START"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Mjesec"/>
+<string key="energyOf" value="energija"/>
+<string key="period" value="period:"/>
+<string key="simStrings" value="KLATNO"/>
+<string key="noneFriction" value="bez"/>
+<string key="total" value="ukupna"/>
+<string key="mass2" value="masa 2:"/>
+<string key="pendulum" value="KLATNO:"/>
+<string key="startPauseStopwatch" value="START/PAUZA"/>
+<string key="show" value="Prikaži:"/>
+<string key="length2" value="dužina 2:"/>
+<string key="photoGateTimer" value="mjerimo period"/>
+<string key="thermal" value="toplotna"/>
+<string key="pausePlay" value="PAUZA/START"/>
+<string key="reset" value="početak"/>
+<string key="mass" value="masa"/>
+<string key="quarterTime" value="1/4 vremena"/>
+<string key="KE" value="kinetička E"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="bez"/>
+<string key="simTitle" value="Klatno"/>
+<string key="otherTools" value="mjerimo ..."/>
+<string key="angleUnit" value="stepen"/>
+<string key="paused" value="ZAUSTAVLJENO"/>
+<string key="sixteenthTime" value="1/16 vremena"/>
+</SimStrings>
