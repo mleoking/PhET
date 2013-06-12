@@ -21,7 +21,7 @@ public class Util extends Sprite {
     public static var XYAXESCOLOR: uint = 0x000000;
     public static var COSCOLOR: uint = 0x0000ff;
     public static var SINCOLOR: uint = 0x008800;
-    public static var TANCOLOR: uint = 0xFF9999;
+    public static var TANCOLOR: uint = 0xFF0000;
     public static var THICKNESS1: uint = 1;
     public static var THICKNESS2: uint = 2;
     public static var THICKNESS3: uint = 3;

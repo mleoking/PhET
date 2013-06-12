@@ -260,7 +260,14 @@ public class UnitCircleView extends Sprite {
             fH = 1;
             fV = 0.9;
         }else if ( _trigMode == 2 ){
-            // do nothing
+            xColor = Util.COSCOLOR;
+            yColor = Util.SINCOLOR;
+            xStroke = 6;
+            yStroke = 6;
+            horizArrowHead.visible = true;
+            vertArrowHead.visible = true;
+            fH = 0.9;
+            fV = 0.9;
         }
         with( gTriangle ){
             clear();
