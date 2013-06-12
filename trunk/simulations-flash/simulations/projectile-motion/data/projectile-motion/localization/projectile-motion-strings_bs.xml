@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_bs.xml created Sat Jun 01 21:31:18 CEST 2013 using: projectile-motion 2.03.00 (52266), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="dragLabel" value="faktor otpora"/>
+<string key="userChoice" value="korisnički"/>
+<string key="altitudeLabel" value="visina (m)"/>
+<string key="football" value="ragbi"/>
+<string key="golfball" value="golf"/>
+<string key="simTitle" value="Kretаnje projektilа "/>
+<string key="collision" value="SUDAR!"/>
+<string key="adultHuman" value="čovjek"/>
+<string key="time" value="vrijeme (s)"/>
+<string key="buick" value="Buick"/>
+<string key="diameter" value="prečnik (m)"/>
+<string key="initSpeed" value="početna brzina (m/s)"/>
+<string key="bowlingball" value="kugla"/>
+<string key="piano" value="klavir"/>
+<string key="sound" value="Zvuk"/>
+<string key="range" value="domet (m)"/>
+<string key="height" value="visina (m)"/>
+<string key="mass" value="masa (kg)"/>
+<string key="pumpkin" value="bundeva"/>
+<string key="score" value="Pogodak!"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="angle" value="ugao (stepeni)"/>
+<string key="baseball" value="bejzbol"/>
+<string key="airResistance" value="otpor vazduha"/>
+<string key="fire" value="PAAALI!"/>
+<string key="erase" value="Obriši"/>
+<string key="tankshell" value="granata"/>
+</SimStrings>
