@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_bs.xml created Fri Jun 07 08:46:22 CEST 2013 using: vector-addition 2.02.00 (52287), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="showSum" value="Vidljiv zbir"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="simTitle" value="Sabiranje vektora"/>
+<string key="grabOne" value="Uzmi!!!"/>
+<string key="clearAll" value="Počisti sve"/>
+<string key="componentDisplay" value="Pokaži komponente"/>
+<string key="y" value="y"/>
+<string key="style3" value="Treći način"/>
+<string key="none" value="Ne"/>
+<string key="showGrid" value="Vidi mrežu"/>
+<string key="style2" value="Drugi način"/>
+<string key="x" value="x"/>
+<string key="style1" value="Prvi način"/>
+</SimStrings>
