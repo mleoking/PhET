@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_bs.xml created Sat Jun 08 09:40:35 CEST 2013 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="manual" value="RUČNO"/>
+<string key="resetTimer" value="NA POČETAK"/>
+<string key="damping" value="SLABLJENJE"/>
+<string key="simTitle" value="TALAS NA ŽICI"/>
+<string key="showHelp" value="POMOĆ"/>
+<string key="pulse" value="PULS"/>
+<string key="amplitude" value="AMPLITUDA"/>
+<string key="pausePlay" value="PAUZA / POČNI"/>
+<string key="step" value="KORAK"/>
+<string key="tension" value="ZATEGNUTOST ŽICE"/>
+<string key="startTimer" value="START / PAUZA"/>
+<string key="pulseWidth" value="ŠIRINA PULSA"/>
+<string key="rulerHelp" value="POMIČNI LENJIR"/>
+<string key="high" value="VELIKA"/>
+<string key="wiggleWrench" value="PROTRESI!"/>
+<string key="timer" value="SAT"/>
+<string key="oscillate" value="OSCILUJ"/>
+<string key="rulers" value="LENJIR"/>
+<string key="frequency" value="FREKVENCIJA"/>
+<string key="wrenchHelp" value="POMIČNI KLJUČ"/>
+<string key="fixedEnd" value="PRIČVRŠĆEN KRAJ"/>
+<string key="hideHelp" value="SAKRIJ POMOĆ"/>
+<string key="refLineHelp" value="POMIČNI REFERENTNI NIVO"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="timerHelp" value="POMIČNI SAT"/>
+<string key="looseEnd" value="SLOBODAN KRAJ"/>
+<string key="noEnd" value="BESKONAČNOST"/>
+<string key="paused" value="ZAUSTAVLJENO"/>
+<string key="reset" value="NA POČETAK"/>
+<string key="pulse2" value="Okidač pulsa"/>
+<string key="low" value="MALA"/>
+</SimStrings>
