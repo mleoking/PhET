@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_bs.xml created Fri May 31 16:01:30 CEST 2013 using: curve-fitting 2.02.00 (52265), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="cEquals" value="c = "/>
+<string key="clearAll" value="Obriši sve"/>
+<string key="deviations" value="vidi odstupanja"/>
+<string key="bEquals" value="b = "/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="4-stepen"/>
+<string key="simTitle" value="Interpolаcijа podаtаkа polinomom (krivom)"/>
+<string key="bestFit" value="Najbolja aproks."/>
+<string key="quadratic" value="Kvadratna"/>
+<string key="bucketHelp2" value="ili ih vrati nazad"/>
+<string key="bucketHelp1" value="Uzmi podatke ..."/>
+<string key="cubic" value="Kubna"/>
+<string key="noFit" value="Bez aproks."/>
+<string key="eEquals" value="e = "/>
+<string key="dEquals" value="d = "/>
+<string key="adjustableFit2" value="Prilagodi sam:"/>
+<string key="dataPointHelp" value="može se proširiti traka greške"/>
+<string key="bestFit2" value="Najbolja aproksimacija:"/>
+<string key="correlation" value="koeficijent korelacije"/>
+<string key="hideHelp" value="Sakrij pomoć"/>
+<string key="bucketLabel" value="Podaci"/>
+<string key="chiSqHelp5" value=": previše dobrа ( greškа suviše mаlа)"/>
+<string key="chiSqHelp4" value=": dobrа аproksimаcijа (zelenа zonа)"/>
+<string key="chiSqHelp3" value=":   lošа аproksimаcijа (crvenа zonа)"/>
+<string key="chiSqHelp2" value="N = broj podаtаkа  f = broj pаrаmetаrа u аproksimаciji (f = 4 zа kubnu аproksimаciju)"/>
+<string key="help" value="Pomoć"/>
+<string key="chiSqHelp1" value="Redukovana hi-kvadrat raspodjela"/>
+<string key="adjustableFit" value="Prilagodi sam "/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="linear" value="Linearna"/>
+</SimStrings>
