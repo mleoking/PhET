@@ -39,7 +39,13 @@ public class GraphView extends Sprite{
     private var _showCos: Boolean;
     private var _showSin: Boolean;
     private var _showTan: Boolean;
+    private var cos_str: String;
+    private var sin_str: String;
+    private var tan_str: String;
     private var theta_str: String;
+    private var cos_lbl: NiceLabel;
+    private var sin_lbl: NiceLabel;
+    private var tan_lbl: NiceLabel;
     private var theta_lbl: NiceLabel;
 
 
@@ -54,6 +60,10 @@ public class GraphView extends Sprite{
 
     private function initializeStrings():void{
         this.theta_str = FlexSimStrings.get( "theta", "\u03b8")
+        this.cos_str = FlexSimStrings.get( "cos", "cos") + theta_str;
+        this.sin_str = FlexSimStrings.get( "sin", "sin") + theta_str;
+        this.tan_str = FlexSimStrings.get( "tan", "tan") + theta_str;
+
     }
 
     private function init():void{
@@ -67,7 +77,13 @@ public class GraphView extends Sprite{
         this.valueIndicator = new Sprite();
         this.verticalLineToCurrentValue = new Sprite();
         this.arrowHead = new Sprite();
+        this.cos_lbl = new NiceLabel( 20, cos_str );
+        this.sin_lbl = new NiceLabel( 20, sin_str );
+        this.tan_lbl = new NiceLabel( 20, tan_str );
         this.theta_lbl = new NiceLabel( 20, theta_str );
+        this.cos_lbl.setFontColor( Util.XYAXESCOLOR );
+        this.sin_lbl.setFontColor( Util.XYAXESCOLOR );
+        this.tan_lbl.setFontColor( Util.XYAXESCOLOR );
         this.theta_lbl.setFontColor( Util.XYAXESCOLOR );
         this.gVertLine = verticalLineToCurrentValue.graphics;
         this.drawAxesGraph();
@@ -83,6 +99,9 @@ public class GraphView extends Sprite{
         this.verticalLineToCurrentValue.addChild( arrowHead );
         this.addChild( valueIndicator );
         this.addChild( theta_lbl );
+        this.addChild( cos_lbl );
+        this.addChild( sin_lbl );
+        this.addChild( tan_lbl );
     }
 
     //xy axes, origin is at (0, 0) in the sprite
@@ -104,13 +123,20 @@ public class GraphView extends Sprite{
                 moveTo( -ticLength, s*amplitudeInPix );
                 lineTo( +ticLength, s*amplitudeInPix );
             }
-            //position theta-label
+            //position labels
+            var offset: Number = 15
+            this.cos_lbl.x = -cos_lbl.width/2;// - offset;
+            this.cos_lbl.y = -1.9*amplitudeInPix;
+            this.sin_lbl.x = -sin_lbl.width/2;// - offset;
+            this.sin_lbl.y = -1.9*amplitudeInPix;
+            this.tan_lbl.x = -tan_lbl.width/2;// - offset;
+            this.tan_lbl.y = -1.9*amplitudeInPix;
             this.theta_lbl.x = (nbrWavelengths/2)*wavelengthInPix - 2*theta_lbl.width;
             this.theta_lbl.y = 0;
             //draw arrows on ends of axes
             //x-axis arrow
             var length: Number = 10;
-            var halfWidth: Number = 6;
+            var halfWidth: Number = 4;
             var xEnd: Number = wavelengthInPix*nbrWavelengths/2;
             var yEnd: Number = 1.5*amplitudeInPix;
             beginFill( Util.XYAXESCOLOR, 1 );
@@ -242,14 +268,18 @@ public class GraphView extends Sprite{
         cosGraph.visible = false;
         sinGraph.visible = false;
         tanGraph.visible = false;
+        cos_lbl.visible = false;
+        sin_lbl.visible = false;
+        tan_lbl.visible = false;
         if( graphNumber == 0 ){
             cosGraph.visible = true;
+            cos_lbl.visible = true;
         }else if ( graphNumber == 1){
             sinGraph.visible = true;
-
+            sin_lbl.visible = true;
         }else if ( graphNumber == 2 ){
             tanGraph.visible = true;
-
+            tan_lbl.visible = true;
         }
         this.resetVerticalLine();
         this.drawArrowHead();

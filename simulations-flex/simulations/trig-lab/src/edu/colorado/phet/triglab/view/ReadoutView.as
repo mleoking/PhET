@@ -38,13 +38,18 @@ public class ReadoutView extends Canvas {
     private var totalAngleReadout: NiceLabel;
     private var trigReadoutContainer: Canvas;
     private var cosineContainer: HBox;
-    private var cosineReadout: NiceLabel;
+    private var cosineLabel: NiceLabel;
     private var cosineFraction: FractionView;
     private var cosineValueReadout: NiceLabel;
-    private var sineReadout: NiceLabel;
-    private var tangentReadout: NiceLabel;
+    private var sineContainer: HBox;
+    private var sineLabel: NiceLabel;
+    private var sineFraction: FractionView;
+    private var sineValueReadout: NiceLabel;
+    private var tangentContainer: HBox;
+    private var tangentLabel: NiceLabel;
+    private var tangentFraction: FractionView;
+    private var tangentValueReadout: NiceLabel;
     public var diagnosticReadout: NiceLabel = new NiceLabel();
-
 
     //internationalized strings
     private var xy_str: String;
@@ -69,6 +74,8 @@ public class ReadoutView extends Canvas {
         initializeStrings();
         this.background = new VBox();
         this.cosineContainer = new HBox();
+        this.sineContainer = new HBox();
+        this.tangentContainer = new HBox();
         with ( this.background ) {
 //            setStyle( "backgroundColor", 0x66ff66 );
 //            setStyle( "borderStyle", "solid" )
@@ -82,13 +89,22 @@ public class ReadoutView extends Canvas {
             setStyle( "verticalGap", 15 );
 //            setStyle( "horizontalAlign", "center" );
         }
-        //this.angleBox = new HBox();
+        with ( this.cosineContainer ){
+            setStyle( "horizontalGap", -3 );
+            setStyle( "horizontalAlign", "left" );
+            //setStyle( "verticalAlign", "center" );
+        }
+        with ( this.sineContainer ){
+            setStyle( "horizontalGap", -3 );
+        }
+        with ( this.tangentContainer ){
+            setStyle( "horizontalGap", -3 );
+        }
 
         this.xyReadout = new NiceLabel( 25 );
         var x_str:String = "0.455";
         var y_str:String = "0.350";
         this.xyReadout.setText( FlexSimStrings.get( "(x,y)Equals(X,Y)", "(x, y) = ( {0}, {1} )" , [x_str,  y_str]));
-
 
         this.smallAngleReadout = new NiceLabel( );
         //next two lines needed to set size of label
@@ -102,28 +118,37 @@ public class ReadoutView extends Canvas {
 
         this.trigReadoutContainer = new Canvas();
 
-        this.cosineReadout = new NiceLabel( 25 );
-        this.cosineReadout.setText(FlexSimStrings.get("cosineEquals", "cos =  " ));
+        this.cosineLabel = new NiceLabel( 25 );
+        this.cosineLabel.setText(FlexSimStrings.get("cosineEquals", "cos =  " ));
         this.cosineFraction = new FractionView( this.x_str,  one_str );
         this.cosineFraction.setFontSize( 25 );
         //cosineFraction.drawBounds();     //for testing only
-        this.cosineFraction.y = cosineFraction.height/4;
-        this.cosineValueReadout = new NiceLabel( 25, " = 0.635");
+        this.cosineFraction.y = - ( 0.5*cosineFraction.height - 0.5*cosineLabel.height );
+        this.cosineValueReadout = new NiceLabel( 25, "= 0.635");
         //this.cosineValueReadout.setText( "0.635" );   //to initialize width for auto-layout
 
-        this.sineReadout = new NiceLabel( 25 );
-        var sine_str:String = "0.500";
-        this.sineReadout.setText(FlexSimStrings.get("sineEqualsX", "sin = {0}", [sine_str]));
+        this.sineLabel = new NiceLabel( 25 );
+        this.sineLabel.setText(FlexSimStrings.get("sineEquals", "sin =  " ));
+        this.sineFraction = new FractionView( this.y_str,  one_str );
+        this.sineFraction.setFontSize( 25 );
+        //cosineFraction.drawBounds();     //for testing only
+        this.sineFraction.y = - ( 0.5*sineFraction.height - 0.5*sineLabel.height );
+        this.sineValueReadout = new NiceLabel( 25, "= 0.635");
+        //var sine_str:String = "0.500";
+        //this.sineLabel.setText(FlexSimStrings.get("sineEqualsX", "sin = {0}", [sine_str]));
 
-
-        this.tangentReadout = new NiceLabel( 25 );
-        var tangent_str:String = "0.500";
-        this.tangentReadout.setText(FlexSimStrings.get("tangentEqualsX", "tan = {0}", [tangent_str]));
-
-
+        this.tangentLabel = new NiceLabel( 25 );
+        this.tangentLabel.setText(FlexSimStrings.get("tangentEquals", "tan =  " ));
+        this.tangentFraction = new FractionView( this.y_str,  this.x_str );
+        this.tangentFraction.setFontSize( 25 );
+        //cosineFraction.drawBounds();     //for testing only
+        this.tangentFraction.y = - ( 0.5*tangentFraction.height - 0.5*tangentLabel.height );
+        this.tangentValueReadout = new NiceLabel( 25, "= 0.635");
+        //var tangent_str:String = "0.500";
+        //this.tangentLabel.setText(FlexSimStrings.get("tangentEqualsX", "tan = {0}", [tangent_str]));
 
         this.diagnosticReadout.setFontSize( 20 );
-        this.diagnosticReadout.setText( " test ")
+        this.diagnosticReadout.setText( " test " );
 
         //set layers:
         this.addChild( background );
@@ -131,12 +156,21 @@ public class ReadoutView extends Canvas {
         this.background.addChild( new SpriteUIComponent ( this.totalAngleReadout ) );
         this.background.addChild( trigReadoutContainer );
         this.trigReadoutContainer.addChild( cosineContainer );
-        this.cosineContainer.addChild( new SpriteUIComponent( this.cosineReadout ))
+        this.cosineContainer.addChild( new SpriteUIComponent( this.cosineLabel ));
         this.cosineContainer.addChild( new SpriteUIComponent( this.cosineFraction ));
         this.cosineContainer.addChild( new SpriteUIComponent( this.cosineValueReadout ));
-        this.trigReadoutContainer.addChild( new SpriteUIComponent( this.sineReadout ));
-        this.trigReadoutContainer.addChild( new SpriteUIComponent( this.tangentReadout ));
-        this.background.addChild( new SpriteUIComponent( this.diagnosticReadout ));
+
+        this.trigReadoutContainer.addChild( sineContainer );
+        this.sineContainer.addChild( new SpriteUIComponent( this.sineLabel ));
+        this.sineContainer.addChild( new SpriteUIComponent( this.sineFraction ));
+        this.sineContainer.addChild( new SpriteUIComponent( this.sineValueReadout ));
+
+        this.trigReadoutContainer.addChild( tangentContainer );
+        this.tangentContainer.addChild( new SpriteUIComponent( this.tangentLabel ));
+        this.tangentContainer.addChild( new SpriteUIComponent( this.tangentFraction ));
+        this.tangentContainer.addChild( new SpriteUIComponent( this.tangentValueReadout ));
+
+        //this.background.addChild( new SpriteUIComponent( this.diagnosticReadout ));
     }//end init()
 
     private function initializeStrings():void{
@@ -173,17 +207,19 @@ public class ReadoutView extends Canvas {
 
         var sin: Number = this.myTrigModel.sin;
         sine_str = sin.toFixed( 3 );
-        this.sineReadout.setText(FlexSimStrings.get("sineEqualsX", "sin = {0} ", [sine_str]));
+        this.sineValueReadout.setText( "= " + sine_str );
+        //this.sineLabel.setText(FlexSimStrings.get("sineEqualsX", "sin = {0} ", [sine_str]));
 
         var tan: Number = this.myTrigModel.tan;
         tangent_str = tan.toFixed( 3 );
-        this.tangentReadout.setText(FlexSimStrings.get("tangentEqualsX", "tan = {0} ", [tangent_str]));
+        this.tangentValueReadout.setText( "= " + tangent_str );
+        //this.tangentLabel.setText(FlexSimStrings.get("tangentEqualsX", "tan = {0} ", [tangent_str]));
 
         setTextColor( xyReadout );
         setTextColor( totalAngleReadout );
-        //setTextColor( cosineReadout );
-        setTextColor( sineReadout );
-        setTextColor( tangentReadout );
+        //setTextColor( cosineLabel );
+        setTextColor( sineLabel );
+        setTextColor( tangentLabel );
         setTextColor( diagnosticReadout );
     }
 
@@ -193,14 +229,14 @@ public class ReadoutView extends Canvas {
 
     public function setVisibilityOfTrigReadout( choice: int ):void{
         cosineContainer.visible = false;
-        sineReadout.visible = false;
-        tangentReadout.visible = false;
+        sineContainer.visible = false;
+        tangentContainer.visible = false;
         if( choice == 0 ){
             cosineContainer.visible = true;
         }else if ( choice == 1 ){
-            sineReadout.visible = true;
+            sineContainer.visible = true;
         }else if ( choice == 2 ){
-            tangentReadout.visible = true;
+            tangentContainer.visible = true;
         }
     }
 
