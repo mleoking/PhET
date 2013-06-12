@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_bs.xml created Sat Jun 08 09:29:21 CEST 2013 using: collision-lab 2.01.00 (69163), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="ShowValues.velocityCaption" value="Brzina (m/s)"/>
+<string key="ControlPanel.showValues" value="Pokaži vrijednosti"/>
+<string key="PlayPauseButtons.step" value="Korak naprijed"/>
+<string key="DataTable.velocity" value="brzina"/>
+<string key="MomentumView.total" value="ukupno"/>
+<string key="DataTable.positionWithUnits" value="Položaj (m)"/>
+<string key="ControlPanel.sound" value="Zvuk"/>
+<string key="ControlPanel.showMomentumVectors" value="Vektori impulsa"/>
+<string key="ShowValues.speedCaption" value="Brzina (m/s)"/>
+<string key="ControlPanel.oneHundredPercent" value="Elastičan"/>
+<string key="DataTable.lessData" value="- podaci"/>
+<string key="DataTable.momentumWithUnits" value="Impuls (kg m/s)"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="MomentumView.momenta" value="Impuls"/>
+<string key="ControlPanel.elasticityReadout" value="Elastičnost {0} %"/>
+<string key="DataTable.ball" value="lopta"/>
+<string key="TableView.kineticEnergy" value="Kinetičkа energijа = {0} J"/>
+<string key="advancedTab" value="Napredno"/>
+<string key="ControlPanel.showVelocities" value="Vektori brzine"/>
+<string key="ControlPanel.showPaths" value="Pokaži putanje"/>
+<string key="DataTable.mass" value="masa"/>
+<string key="DataTable.addBall" value="Dodaj loptu"/>
+<string key="DataTable.position" value="Položaj"/>
+<string key="PlayPauseButtons.pause" value="Pauza"/>
+<string key="ControlPanel.2d" value="2 dimenzije"/>
+<string key="DataTable.moreData" value="+ podaci"/>
+<string key="ControlPanel.reflectingBorder" value="Elastični zid"/>
+<string key="DataTable.momentum" value="Impuls"/>
+<string key="DataTable.removeBall" value="Lopta manje"/>
+<string key="ShowValues.momentumCaption" value="Impuls (kg m/s)"/>
+<string key="ControlPanel.resetAll" value="Sve na početak"/>
+<string key="ControlPanel.momentaDiagram" value="Dijagram impulsa"/>
+<string key="ControlPanel.elasticity" value="Elastičnost"/>
+<string key="ControlPanel.showCenterOfMass" value="Centar mase"/>
+<string key="ControlPanel.zeroPercent" value="Neelastičan"/>
+<string key="DataTable.velocityWithUnits" value="Brzina (m/s)"/>
+<string key="TableView.returnBalls" value="Vrati loptice"/>
+<string key="DataTable.massWithUnits" value="Masa (kg)"/>
+<string key="introductionTab" value="Uvod"/>
+<string key="TableView.timeRate" value="brzina"/>
+<string key="simTitle" value="SUDARI U MEHANICI"/>
+<string key="PlayPauseButtons.play" value="Kreni"/>
+<string key="MomentumView.tipToTail" value="Nadovezivanje vektora"/>
+<string key="PlayPauseButtons.back" value="Korak nazad"/>
+<string key="ControlPanel.kineticEnergy" value="Kinetička energija"/>
+<string key="TableView.time" value="Vrijeme = {0} s"/>
+<string key="ControlPanel.1d" value="1 dimenzija"/>
+<string key="PlayPauseButtons.rewind" value="Vrati"/>
+</SimStrings>
