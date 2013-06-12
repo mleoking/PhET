@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_bs.xml created Mon Jun 03 14:45:42 CEST 2013 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="Otpor = "/>
+<string key="ohm" value="Ω"/>
+<string key="simTitle" value="Omov zakon"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+</SimStrings>
