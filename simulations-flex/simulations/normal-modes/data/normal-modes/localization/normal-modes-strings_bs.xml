@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_bs.xml created Sun Jun 02 22:14:54 CEST 2013 using: normal-modes 1.01.00 (66456), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="simSpeed" value="Brzina simulacije"/>
+<string key="vertical" value="vertikalno"/>
+<string key="slow" value="sporo"/>
+<string key="modeSpectrumDisplay" value="pokaži spektar"/>
+<string key="phase:" value="Faza:"/>
+<string key="zeroPositions" value="Nulta pozicija"/>
+<string key="start" value="Start"/>
+<string key="step" value="korak"/>
+<string key="modeNumbersXY" value="mod brojevi x, y."/>
+<string key="polarization:" value="Kontrolа&lt;br&gt;polаrizаcije:"/>
+<string key="amplitude:" value="amplituda:"/>
+<string key="modeSpectrum" value="spektar normalnog moda"/>
+<string key="frequency:" value="frekvencija:"/>
+<string key="normalModes" value="Normalni modovi"/>
+<string key="showPhases" value="Prikaži faze"/>
+<string key="normal-modes.simTitle" value="Normalni modovi"/>
+<string key="showSprings" value="Pokaži opruge"/>
+<string key="stop" value="Stop"/>
+<string key="resetPositions" value="Početni položaji"/>
+<string key="normalMode:" value="normalni modovi:"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="horizontal" value="horizontalno"/>
+<string key="paused" value="PAUZA"/>
+<string key="numberOfMasses" value="Broj masa"/>
+<string key="normal" value="normalno"/>
+</SimStrings>
