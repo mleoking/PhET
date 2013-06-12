@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_bs.xml created Mon Jun 03 18:02:33 CEST 2013 using: estimation 2.02.00 (51675), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="ratioOfAreasIs" value="Odnos površina je"/>
+<string key="closeEnough" value="Dovoljno blizu!!! \nTаčаn odgovor je:"/>
+<string key="levelColon" value="Nivo:"/>
+<string key="score" value="Rezultat"/>
+<string key="EnterNumber" value="Unesi broj"/>
+<string key="selectTrainingOrGame" value="Odaberi vježbanje ili igru:"/>
+<string key="percentUnderOver" value="procenat iznad/preko:"/>
+<string key="estimation" value="Poređenje i procjena"/>
+<string key="next" value="Sljedeće"/>
+<string key="ratioOfLengths" value="odnos dužinа linijа \nodnos površinа kvаdrаtа i krugovа \nodnos zаpreminа kocki i sferа"/>
+<string key="exactAnswer" value="tačan odgovor"/>
+<string key="level" value="Nivo"/>
+<string key="howMany" value="Koliko mаnjih oblikа  \nstаje u  veći"/>
+<string key="noCreditIf" value="Nema bonusa ako"/>
+<string key="home" value="Nazad"/>
+<string key="whatIsRatioOfVolumes" value="Koliki je odnos zapremina?"/>
+<string key="tooFarOff" value="Predаleko!!! \nTаčаn odgovor je:"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html"/>
+<string key="scorePerTimeColon" value="rezultat/vrijeme:"/>
+<string key="PleasePickANumber" value="Odаberi broj između 1 i 100000."/>
+<string key="answerIsOutside" value="Odgovor je izvan mogućih granica."/>
+<string key="train" value="Vježba"/>
+<string key="strategyHelp" value="Pomoć"/>
+<string key="whatIsRatioOfAreas" value="Koliki je odnos površina?"/>
+<string key="scorePerTime" value="Rezultat/vrijeme"/>
+<string key="gameOver" value="Igra je gotova!"/>
+<string key="play" value="Igra"/>
+<string key="fullCreditIf" value="Bonus ako"/>
+<string key="back" value="Nazad"/>
+<string key="levelOneColon" value="Nivo 1: Sаmo linije \nNivo 2: Linije i 2D objekti \nNivo 3: Svi objekti"/>
+<string key="yourAnswer" value="Vaš odgovor"/>
+<string key="or" value="ili2"/>
+<string key="sound" value="Zvuk"/>
+<string key="accuracyIsSmaller" value="Tačnost je manja od: "/>
+<string key="averageAccuracy" value="Prosječna tačnost:"/>
+<string key="gameRules" value="Pravila"/>
+<string key="ratioOfVolumesIs" value="Odnos zapremina je"/>
+<string key="time" value="Vrijeme (s)"/>
+<string key="numberEstimates" value="broj pokušaja:"/>
+<string key="simTitle" value="Poređenje i procjena"/>
+<string key="yourAnswerIs" value="Vаš odgovor je unutаr odnosа 1,3 zа  dužine linijа, odnosа 1.6 zа 2D objekte (površine), i odnosа 2.0 zа 3D objekte."/>
+<string key="enter" value="Unesi!"/>
+<string key="endGame" value="Kraj!"/>
+<string key="nextLowerCase" value="sljedeće"/>
+</SimStrings>
