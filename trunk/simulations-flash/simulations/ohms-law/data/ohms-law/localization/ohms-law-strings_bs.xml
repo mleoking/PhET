@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_bs.xml created Mon Jun 03 14:48:28 CEST 2013 using: ohms-law 2.03.00 (51206), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="currentEq" value="Jačina struje ="/>
+<string key="resistance" value="Otpor"/>
+<string key="simTitle" value="Omov zakon"/>
+<string key="sound" value="zvuk"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="voltage" value="Napon"/>
+</SimStrings>
