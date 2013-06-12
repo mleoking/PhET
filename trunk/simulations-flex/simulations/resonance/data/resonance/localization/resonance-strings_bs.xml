@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_bs.xml created Fri Jun 07 08:38:39 CEST 2013 using: resonance 1.01.00 (54775), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="simSpeed" value="brzina sim."/>
+<string key="sameFrequency" value="ista frekvencija"/>
+<string key="sameSpring" value="iste konstante opruge k"/>
+<string key="slow" value="sporo"/>
+<string key="mixedMAndK" value="uskladi m i  k"/>
+<string key="numberOfResonators" value="Broj Rezonatora"/>
+<string key="pause" value="pauza"/>
+<string key="amplitude" value="amplituda"/>
+<string key="frequencyEqualsXHz" value="frekvencijа = {0} Hz"/>
+<string key="sloMo" value="USPORENO!"/>
+<string key="step" value="korak"/>
+<string key="driver" value="VIBRATOR"/>
+<string key="on" value="uklj."/>
+<string key="ruler" value="Lenjir"/>
+<string key="resonance.simTitle" value="Rezonanca"/>
+<string key="springConstant" value="konstanta opruge"/>
+<string key="resetAll" value="Sve na početak"/>
+<string key="frequency" value="frekvencija"/>
+<string key="mass" value="masa"/>
+<string key="sameMass" value="iste mase m"/>
+<string key="resonator" value="Rezonator br:"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="play" value="pokreni"/>
+<string key="gravityColon" value="Gravitacija:"/>
+<string key="paused" value="PAUZA!"/>
+<string key="off" value="iskjl."/>
+<string key="dampingConstant" value="konstanta prigušenja"/>
+<string key="normal" value="normalno"/>
+<string key="selectPreset" value="Unaprijed podešeno"/>
+</SimStrings>
