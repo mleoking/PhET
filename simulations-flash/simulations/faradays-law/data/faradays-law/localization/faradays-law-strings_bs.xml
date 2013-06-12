@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_bs.xml created Sat Jun 08 10:19:57 CEST 2013 using: faradays-law 2.02.00 (52648), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="twoCoils" value="2 zavojnice"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="noSound" value="Bez zvuka"/>
+<string key="showFieldLines" value="Pokaži linije polja"/>
+<string key="voltage" value="NAPON"/>
+<string key="simTitle" value="Fаrаdejev zаkon elektromаgnetne indukcije"/>
+<string key="flipMagnet" value="Okreni magnet"/>
+<string key="oneCoil" value="1 zavojnica"/>
+<string key="moveMe" value="Pokreni me!"/>
+</SimStrings>
