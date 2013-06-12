@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_bs.xml created Sat Jun 08 13:45:36 CEST 2013 using: calculus-grapher 2.08.00 (55025), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="grid" value="Mreža"/>
+<string key="smooth" value="&quot;Peglaj&quot; krive"/>
+<string key="integral" value="Integral"/>
+<string key="derivative" value="Izvod"/>
+<string key="translation.credits" value="&lt;html&gt; Mr.sc. Dino Ćorović, dipl.fizičar &lt;br&gt; dino_corovic@hotmail.com &lt;/html&gt;"/>
+<string key="simTitle" value="FUNKCIJE, IZVODI, INTEGRALI - GRAFIČKI"/>
+<string key="zero" value="Na nulu"/>
+<string key="dragMe" value="Pomjeri me!"/>
+<string key="drawingTools" value="Alati za crtanje"/>
+<string key="undo" value="Obriši"/>
+<string key="cursor" value="Cursor"/>
+</SimStrings>
