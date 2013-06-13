@@ -16,6 +16,7 @@ public class Util extends Sprite {
 //    public static var XYAXESCOLOR: uint = 0xffffff; //0x000000;
 //    public static var COSCOLOR: uint = 0x9999ff; //0x0000ff;
 //    public static var SINCOLOR: uint = 0x99ff99;//0x008800;
+//    public static var TANCOLOR: uint = 0xFF0000;
     //Light background color scheme
     public static var BACKGROUNDCOLOR: uint = 0xf1f191;
     public static var XYAXESCOLOR: uint = 0x000000;

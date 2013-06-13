@@ -56,6 +56,8 @@ public class UnitCircleView extends Sprite {
     //internationalized strings
     private var x_str: String;
     private var y_str: String;
+    private var plusOne_str;
+    private var minusOne_str;
     private var one_str: String;
     private var theta_str: String;
 
@@ -106,6 +108,8 @@ public class UnitCircleView extends Sprite {
     private function internationalizeStrings():void{
         this.x_str = FlexSimStrings.get( "x", "x");
         this.y_str = FlexSimStrings.get( "y", "y");
+        this.plusOne_str = FlexSimStrings.get( "plusOne", "+1" );
+        this.minusOne_str = FlexSimStrings.get( "minusOne", "-1" );
         this.one_str = FlexSimStrings.get( "one", "1");
         this.theta_str = FlexSimStrings.get( "theta", "\u03b8" );   //greek letter theta
     }
@@ -195,6 +199,20 @@ public class UnitCircleView extends Sprite {
                 lineTo( i*spacing, +2*spacing );
             }//end with
         }//end for
+        var plusOne_lbl = new NiceLabel( 20, plusOne_str );
+        var minusOne_lbl = new NiceLabel( 20, minusOne_str );
+        var plusOne2_lbl = new NiceLabel( 20, plusOne_str );
+        var minusOne2_lbl = new NiceLabel( 20, minusOne_str );
+        this.gridLines.addChild( plusOne_lbl );
+        this.gridLines.addChild( plusOne2_lbl );
+        this.gridLines.addChild( minusOne_lbl );
+        this.gridLines.addChild( minusOne2_lbl );
+        plusOne_lbl.x = 2*spacing + 10;
+        plusOne_lbl.y = - plusOne_lbl.height;
+        minusOne_lbl.x = -2*spacing - minusOne_lbl.width - 5;
+        plusOne2_lbl.y = -2*spacing - plusOne2_lbl.height;
+        minusOne2_lbl.y = 2*spacing;
+        minusOne2_lbl.x = -minusOne2_lbl.width - 5;
     }//end drawGridLines
 
     private function drawArrowHeads():void{
@@ -232,7 +250,6 @@ public class UnitCircleView extends Sprite {
             lineTo( halfWidth, length );
             lineTo( 0, 0 );
         }
-
     }//end drawArrowHeads()
 
     private function drawTriangle():void{
