@@ -1,0 +1,94 @@
+PhET Progress Report, J. Blanco, 6-13-2013
+
+PhET Weekly Progress Report
+John Blanco
+June 13th, 2013
+
+Time period covered: May 23rd through June 12th.  This is a three week period due to canceled status meetings.
+
+Build an Atom (HTML5 version) - 74.5 hrs
+
+o	Made the particles stack on the 2nd tab.
+o	Added reset to the 2nd tab.
+o	Fixed issue where electrons were not animating back to the bucket on the 1st tab.
+o	Added scale image to the 2nd tab.
+o	Make periodic table interactive on the 2nd tab.
+o	Added particle count display to 1st and 2nd tabs.
+o	Worked on layout of both tabs.
+o	Integrated Joist framework: Used TabView as base class for all tabs.
+o	Got labels working on atom view for the 2nd tab.
+o	Implemented the faded periodic table.
+o	Added the charge meter.
+o	Fixed lint.
+o	Implemented various changes to fix browser compatibility issues.
+o	Worked with JO on performance improvements.
+o	Improved nucleus layering on the 2nd tab.
+o	Improved particle distribution in the nucleus.
+o	Made electrons move into random locations in the shells (after filling inner shell) in the 2nd tab.
+o	Made particles in 2nd tab non-pickable.
+o	Reviewed in design meeting.
+o	Cut over from Fort to Axon (in collaboration with Sam R).
+o	Added accordion boxes for periodic table, charge meter, and atomic mass indicator to the 2nd tab.
+o	Implemented mass display for 2nd tab.
+o	Added symbol to the periodic table on the first tab.
+o	Added numerical readout to the charge meter.
+o	Removed interactive portions of the periodic table from first tab.
+o	Cut over to use PxLoader for images (in collaboration with Sam R).
+o	Published version 0.0.0-7.
+o	Implemented some performance optimizations.
+o	Created basic mockup of a game-start tab.
+
+Balancing Act: Changes for Stanford Study - 5.0 hrs
+
+o	Changed game to start with a challenge chosen at random, rather than the same challenge each time.
+o	Started with mass labels turned off.
+o	Worked with Min Chi to determine which version of BA to use for data gathering in classroom.
+o	Had several email discussions with Min Chi about some time gaps in the collected data.
+o	Sounds like the data gathering went well.
+o	Removed everything from the non-study version so that it could be safely re-published.
+o	Republished non-study version in order to get latest string to support a translation into Telugu, see #3546.
+
+HTML5 Common Code - 3.0 hrs
+
+o	Added accordion boxes.
+o	Logged issue in Scenery for support of extended hit areas.
+
+Gravity Force Lab (HTML5 version) - 4.0 hrs
+
+o	Design meeting.
+o	Several reviews and edits of the design document.
+o	Added section on Implementation Details to the design doc.
+o	Discussed readiness with MLL.
+
+HTML5 Startup: Process Development - 8.0 hrs
+
+o	Weekly developer meetings and collaboration (x3).
+o	Tested 'forEach' construct on multiple platforms.
+o	Discussion of RSC deliverables.
+
+HTML5 Startup: MLL Management - 1.5 hrs
+
+o	Did a bit of investigation of setting up a knowledge base for shared information (Sam R is doing most of this so far).
+o	Reformatted Ohm's Law, Resistance in a Wire, and Balloons according to new formatting rules, sent them the latest style file.
+
+Installer - 4.0 hrs
+
+o	Resolved issue where the version with activities was missing vital files, see #3547.
+o	Added HTTrack version information to the logged data.
+o	Moved build process and backups to the new data2 partition.
+
+Environment - 1.0 hrs
+
+o	Updated PhetStyle.xml to the latest, investigated some odd behaviors with the update.
+
+Meetings, Email, and Other Administrative Overhead - 8.0 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal email and administrative overhead.
+o	Logged hours for April and May into time tracking spreadsheet.
+
+Vacation, Holidays, and Sick Time - 12 hrs
+
+o	Monday, May 27th, was Memorial Day
+o	4 hrs of sick time
