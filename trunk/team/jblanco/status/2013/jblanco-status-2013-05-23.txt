@@ -1,10 +1,10 @@
-PhET Progress Report, J. Blanco, 5-23-2013
+PhET Progress Report, J. Blanco, 6-13-2013
 
 PhET Weekly Progress Report
 John Blanco
 May 23rd, 2013
 
-Time period covered: May 16th through May 23rd.
+Time period covered: May 23rd through June 12th.  This is a three week period due to canceled status meetings.
 
 Balancing Act: Changes for Stanford Study - 14.0 hrs
 
@@ -18,11 +18,16 @@ o	Met (via Skype) with Min Chi for review and discussion of behavior.
 
 Build an Atom (HTML5 version) - 12.0 hrs
 
-o	Experimented with 'tween.js' for implementation of animation (with Sam R), decided against using.
-o	Various refactorings and reorganizations to facilitate reuse of code within the sim.
-o	Implemented particle animation.
-o	Added particle atom to the atom view on 2nd tab.
-o	Got animated add/remove of particles partially working on 2nd tab.
+o	Made the particles stack on the 2nd tab.
+o	Added reset to the 2nd tab.
+o	Fixed issue where electrons were not animating back to the bucket on the 1st tab.
+o	Added scale image to the 2nd tab.
+
+Gravity Force Lab (HTML5 version) - 1.0 hrs
+
+o	Design meeting.
+o	Several reviews and edits of the design document.
+o	Added section on Implementation Details to the design doc.
 
 Ohm's Law (HTML5 version) - 2.0 hrs
 
@@ -38,7 +43,7 @@ o	Reviewed issues and tested resolutions.
 
 HTML5 Startup: Process Development - 2.0 hrs
 
-o	Weekly developer meeting and collaboration.
+o	Weekly developer meetings and collaboration (x3).
 
 HTML5 Startup: MLL Management - 2.5 hrs
 
@@ -50,7 +55,8 @@ o	Reviewed some anomalies with CM, logged an issue.
 
 Installer - 2.5 hrs
 
-o	Worked on tracking down issue with installer version that includes activities, see #3547.
+o	Resolved issue where the version with activities was missing vital files, see #3547.
+o	Moved build process and backups to the new data2 partition.
 
 Meetings, Email, and Other Administrative Overhead - 4.0 hrs
 
