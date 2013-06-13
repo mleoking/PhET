@@ -26,6 +26,8 @@ public class GraphView extends Sprite{
     private var wavelengthInPix: Number; //number of pixels in one wavelength
     private var amplitudeInPix: Number;  //number of pixels in one amplitude of sine or cos = nbr pixels in one unit on y-axis
     private var nbrWavelengths: int;     //number of wavelengths in full graph; must be even number; only a portion of graph is shown to user
+    private var leftEndInQtrWavelengths: int;      //number of 1/4 wavelengths on x-axis between left end of graph and origin
+    private var rightEndInQtrWavelengths: int;     //number of 1/4 wavelengths on x-axis between origin and right end of graph
     private var axesGraph: Sprite;
     private var cosGraph: Sprite;
     private var sinGraph: Sprite;
@@ -69,6 +71,8 @@ public class GraphView extends Sprite{
     private function init():void{
         this.wavelengthInPix = 300;
         this.nbrWavelengths = 2*2;  //must be even number, so equal nbr of wavelengths are shown on right and left of origin.
+        this.leftEndInQtrWavelengths = 8;
+        this.rightEndInQtrWavelengths = 6;
         this.amplitudeInPix = 70;
         this.axesGraph = new Sprite();
         this.cosGraph = new Sprite();
@@ -110,14 +114,16 @@ public class GraphView extends Sprite{
         with( gAxes ){
             clear();
             lineStyle( Util.THICKNESS3, Util.XYAXESCOLOR, 1 );
-            moveTo( -wavelengthInPix*nbrWavelengths/2, 0 );   //x-axis
-            lineTo( wavelengthInPix*nbrWavelengths/2, 0 );
+            moveTo( -leftEndInQtrWavelengths*wavelengthInPix/4, 0 );
+            lineTo( rightEndInQtrWavelengths*wavelengthInPix/4, 0)
+//            moveTo( -wavelengthInPix*nbrWavelengths/2, 0 );   //x-axis
+//            lineTo( wavelengthInPix*nbrWavelengths/2, 0 );
             moveTo( 0, -1.4*amplitudeInPix );                 //y-axis
             lineTo( 0, 1.4*amplitudeInPix );
             var ticLength: int = 5;
-            for( var n:int = -nbrWavelengths; n < nbrWavelengths; n++ ){
-                moveTo( n*wavelengthInPix/2, -ticLength );
-                lineTo( n*wavelengthInPix/2, +ticLength );
+            for( var n:int = -leftEndInQtrWavelengths + 1 ; n < rightEndInQtrWavelengths; n++ ){
+                moveTo( n*wavelengthInPix/4, -ticLength );
+                lineTo( n*wavelengthInPix/4, +ticLength );
             }
             for ( var s: int = -1; s <= 1; s += 2 ){
                 moveTo( -ticLength, s*amplitudeInPix );
@@ -131,13 +137,13 @@ public class GraphView extends Sprite{
             this.sin_lbl.y = -1.9*amplitudeInPix;
             this.tan_lbl.x = -tan_lbl.width/2;// - offset;
             this.tan_lbl.y = -1.9*amplitudeInPix;
-            this.theta_lbl.x = (nbrWavelengths/2)*wavelengthInPix - 2*theta_lbl.width;
+            this.theta_lbl.x = rightEndInQtrWavelengths*wavelengthInPix/4 - 2*theta_lbl.width;
             this.theta_lbl.y = 0;
             //draw arrows on ends of axes
             //x-axis arrow
             var length: Number = 10;
             var halfWidth: Number = 4;
-            var xEnd: Number = wavelengthInPix*nbrWavelengths/2;
+            var xEnd: Number = rightEndInQtrWavelengths*wavelengthInPix/4;
             var yEnd: Number = 1.5*amplitudeInPix;
             beginFill( Util.XYAXESCOLOR, 1 );
             moveTo( xEnd - length,  halfWidth );
@@ -182,50 +188,60 @@ public class GraphView extends Sprite{
     private function drawTrigFunctions():void{
         var N:int = wavelengthInPix;
         var gCos: Graphics = cosGraph.graphics;
+        var leftEndInPix: int = - leftEndInQtrWavelengths*wavelengthInPix/4;
+        var rightEndInPix: int = rightEndInQtrWavelengths*wavelengthInPix/4;
+        var xInit:Number = -2*Math.PI*leftEndInPix/wavelengthInPix;
         with( gCos ){
             clear();
             lineStyle( 3, Util.COSCOLOR );
-            for( var j:int = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
-                moveTo(j*wavelengthInPix, -amplitudeInPix*Math.cos( 0 ));
-                for( var i:int = 1; i <= N; i++ ){
-                    var x:Number = 2*Math.PI*i/wavelengthInPix;
-                    lineTo( i + j*wavelengthInPix, -amplitudeInPix*Math.cos( x ));
-                }//end for i
-            }//end for j
+            moveTo( leftEndInPix, -amplitudeInPix*Math.cos( xInit ) );
+            for ( var i: int = leftEndInPix; i <= rightEndInPix; i++ ){
+               var x:Number = 2*Math.PI*i/wavelengthInPix;
+               lineTo( i, -amplitudeInPix*Math.cos( x ));
+            }
         } //end with
         var gSin: Graphics = sinGraph.graphics;
         with( gSin ){
             clear();
             lineStyle( 3, Util.SINCOLOR );
-            for( j = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
-                moveTo(j*wavelengthInPix, -amplitudeInPix*Math.sin( 0 ));
-                for( i = 1; i <= N; i++ ){
-                    x = 2*Math.PI*i/wavelengthInPix;
-                    lineTo( i + j*wavelengthInPix, -amplitudeInPix*Math.sin( x ));
-                }//end for i
-            }//end for j
+            moveTo( leftEndInPix, -amplitudeInPix*Math.sin( xInit ) );
+            for ( i = leftEndInPix; i <= rightEndInPix; i++ ){
+                x = 2*Math.PI*i/wavelengthInPix;
+                lineTo( i, -amplitudeInPix*Math.sin( x ));
+            }//end for
         } //end with
         var gTan: Graphics = tanGraph.graphics;
         var yMax: Number = 2;
         with( gTan ){
             clear();
             lineStyle( 3, Util.TANCOLOR );
-            for( j = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
-                moveTo(j*wavelengthInPix, -amplitudeInPix*Math.tan( 0 ));
-                for( i = 1; i <= N; i++ ){
-                    var x:Number = 2*Math.PI*i/wavelengthInPix;
-                    var yNbr: Number = Math.tan( x )
-                    var yInPix: Number =  amplitudeInPix*yNbr;
-                    if( Math.abs( yNbr ) < yMax ){
-                        lineTo( i + j*wavelengthInPix, -yInPix );
+            moveTo( leftEndInPix, -amplitudeInPix*Math.sin( xInit ) );
+            for ( i = leftEndInPix; i <= rightEndInPix; i++ ){
+                x = 2*Math.PI*i/wavelengthInPix;
+                var yNbr: Number = Math.tan( x )
+                if( Math.abs( yNbr ) < yMax ){
+                        lineTo( i, -amplitudeInPix*Math.tan( x ) );
                     }else{
-                         moveTo(  i + j*wavelengthInPix, -yInPix );
+                         moveTo( i, -amplitudeInPix*Math.tan( x ) );
                     }
-
-                }//end for i
-            }//end for j
+                lineTo( i, -amplitudeInPix*Math.tan( x ));
+            }//end for
+//            for( j = -nbrWavelengths/2; j < nbrWavelengths/2; j++ ){
+//                moveTo(j*wavelengthInPix, -amplitudeInPix*Math.tan( 0 ));
+//                for( i = 1; i <= N; i++ ){
+//                    var x:Number = 2*Math.PI*i/wavelengthInPix;
+//                    var yNbr: Number = Math.tan( x )
+//                    var yInPix: Number =  amplitudeInPix*yNbr;
+//                    if( Math.abs( yNbr ) < yMax ){
+//                        lineTo( i + j*wavelengthInPix, -yInPix );
+//                    }else{
+//                         moveTo(  i + j*wavelengthInPix, -yInPix );
+//                    }
+//
+//                }//end for i
+//            }//end for j
         } //end with
-    } //end drawTrigFuctions()
+    } //end drawTrigFunctions()
 
     private function drawValueIndicator():void{
         var g:Graphics = valueIndicator.graphics;
