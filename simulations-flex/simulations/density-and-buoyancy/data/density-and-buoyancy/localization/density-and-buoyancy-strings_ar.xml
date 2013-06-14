@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_ar.xml created Sat Jun 15 10:53:39 CEST 2013 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.14.00 (69024) Oct 9, 2012-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="مدخل"/>
+<string key="properties.mass" value="الكتلة"/>
+<string key="controlPanel.showVectorValues" value="قيم القوى"/>
+<string key="forceArrows.contact" value="رد الفعل"/>
+<string key="mode.objectsOfSameVolume" value="نفس الحجم"/>
+<string key="mysteryObject.densityColumnHeader" value="الكثافة ({0})"/>
+<string key="material.aluminum" value="ألمنيوم"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="هواء"/>
+<string key="material.custom" value="قطعتي"/>
+<string key="material.gasoline" value="بنزين"/>
+<string key="customObject.material" value="مادة:"/>
+<string key="mode.mysteryObjects" value="مخفي"/>
+<string key="customObject.custom" value="قطعتي"/>
+<string key="material.wood" value="خشب"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="اثنان"/>
+<string key="material.styrofoam" value="فلين"/>
+<string key="material.honey" value="عسل"/>
+<string key="material.apple" value="تفاحة"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="جليد"/>
+<string key="translation.credits" value="بوحملة السعيد - حاسي بحبح - الجلفة - الجزائر&#10;facebook.com/said0326"/>
+<string key="buoyancy.tab.playground" value="ساحة الطفوية"/>
+<string key="fluid.controls.intro.label" value="السائل"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="ألماس"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="القطع"/>
+<string key="material.oliveOil" value="زيت الزيتون"/>
+<string key="material.lead" value="رصاص"/>
+<string key="forceArrows.buoyancy" value="الطفوية"/>
+<string key="properties.fluidDensity" value="كثافة السائل"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="الخصائص"/>
+<string key="forceArrows.gravity" value="الجاذبية"/>
+<string key="material.brick" value="طوب"/>
+<string key="mysteryObject.material" value="المادة"/>
+<string key="mysteryObject.table.title" value="كثافات مختلف المواد"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="زيت"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
+<string key="mode.objectsOfSameDensity" value="نفس الكثافة"/>
+<string key="density.simTitle" value="كثافة"/>
+<string key="controlPanel.readouts" value="قراءات"/>
+<string key="properties.volumeMilliLiterValue" value="{0} mL"/>
+<string key="mode.customObject" value="مخصص"/>
+<string key="mode.objectsOfSameMass" value="نفس الكتلة"/>
+<string key="application.resetAll" value="إعادة ضبط الكل"/>
+<string key="material.gold" value="ذهب"/>
+<string key="properties.densityValue" value="{0} kg/L"/>
+<string key="forceArrowControlPanelTitle" value="إظهار القوى"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="الاسم"/>
+<string key="controlPanel.showMasses" value="كتل"/>
+<string key="material.water" value="ماء"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="الكثافة"/>
+<string key="material.waterBalloon" value="بالون الماء"/>
+<string key="mysteryObject.table.showTable" value="إظهار الجدول"/>
+<string key="mode.one" value="واحد"/>
+<string key="properties.volume" value="الحجم"/>
+<string key="buoyancy.simTitle" value="الطفوية (قابلية الطفو)"/>
+<string key="properties.kilogramPerLiter" value="kg/L"/>
+<string key="properties.volumeLiter" value="L"/>
+</SimStrings>
