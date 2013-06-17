@@ -24,6 +24,7 @@ import mx.containers.Canvas;
 import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.CheckBox;
+import mx.controls.CheckBox;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
 import mx.events.ItemClickEvent;
@@ -49,10 +50,12 @@ public class ControlPanel extends Canvas {
     private var sin_nrb: NiceRadioButton;
     private var tan_nrb: NiceRadioButton;
 
-    private var showLabels_cb: CheckBox;
-    private var showLabels_lbl: NiceLabel;
-    private var showGrid_cb: CheckBox;
-    private var showGrid_lbl: NiceLabel;
+//    private var showLabels_cb: CheckBox;
+//    private var showLabels_lbl: NiceLabel;
+//    private var showGrid_cb: CheckBox;
+//    private var showGrid_lbl: NiceLabel;
+    private var showLabels_ncb: NiceCheckBox;
+    private var showGrid_ncb: NiceCheckBox;
     private var resetButton: NiceButton2;
 
     private var showLabelsPanel: HBox;
@@ -152,13 +155,16 @@ public class ControlPanel extends Canvas {
 
         //set up checkboxes
         this.showLabelsPanel = new HBox();
-        this.showLabels_cb = new CheckBox();
-        showLabels_cb.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
+        this.showLabels_ncb = new NiceCheckBox( new NiceLabel( 20, showLabels_str ) );
+        //this.showLabels_cb = new CheckBox();
+        //showLabels_cb.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
+        this.showLabels_ncb.checkBox.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
         this.showGridPanel = new HBox();
-        this.showLabels_lbl = new NiceLabel( 20, showLabels_str );
-        this.showGrid_cb = new CheckBox();
-        showGrid_cb.addEventListener( Event.CHANGE, showGridCheckBoxListener );
-        this.showGrid_lbl = new NiceLabel( 20, showGrid_str );
+        this.showGrid_ncb = new NiceCheckBox( new NiceLabel( 20, showGrid_str ) );
+        this.showGrid_ncb.checkBox.addEventListener( Event.CHANGE, showGridCheckBoxListener );
+//        this.showGrid_cb = new CheckBox();
+//        showGrid_cb.addEventListener( Event.CHANGE, showGridCheckBoxListener );
+//        this.showGrid_lbl = new NiceLabel( 20, showGrid_str );
 
         //set up reset button
         this.resetButton = new NiceButton2( 100, 30, resetAll_str, resetAll );
@@ -171,14 +177,16 @@ public class ControlPanel extends Canvas {
         this.radioButtonPanel.addChild( new SpriteUIComponent( cos_nrb ) );
         this.radioButtonPanel.addChild( new SpriteUIComponent( sin_nrb ) );
         this.radioButtonPanel.addChild( new SpriteUIComponent( tan_nrb ) );
-        this.checkBoxPanel.addChild( showLabelsPanel );
-        this.showLabelsPanel.addChild( showLabels_cb );
-        this.showLabelsPanel.addChild( new SpriteUIComponent( showLabels_lbl ));
-        this.showLabels_lbl.y = -0.25*showLabels_lbl.height;
-        this.checkBoxPanel.addChild( showGridPanel );
-        this.showGridPanel.addChild( showGrid_cb );
-        this.showGridPanel.addChild( new SpriteUIComponent( showGrid_lbl ));
-        this.showGrid_lbl.y = -0.25*showGrid_lbl.height;
+        this.checkBoxPanel.addChild( showLabels_ncb );
+        this.checkBoxPanel.addChild( showGrid_ncb );
+        //this.checkBoxPanel.addChild( showLabelsPanel );
+        //this.showLabelsPanel.addChild( showLabels_cb );
+        //this.showLabelsPanel.addChild( new SpriteUIComponent( showLabels_lbl ));
+        //this.showLabels_lbl.y = -0.25*showLabels_lbl.height;
+//        this.checkBoxPanel.addChild( showGridPanel );
+//        this.showGridPanel.addChild( showGrid_cb );
+//        this.showGridPanel.addChild( new SpriteUIComponent( showGrid_lbl ));
+//        this.showGrid_lbl.y = -0.25*showGrid_lbl.height;
         this.background.addChild( new SpriteUIComponent( resetButton, true ));
 
         this.resetAll();
@@ -243,8 +251,10 @@ public class ControlPanel extends Canvas {
     public function resetAll():void{
         myMainView.myUnitCircleView.setGridLinesVisibility( false );
         myMainView.myUnitCircleView.setLabelsVisibility( false );
-        showGrid_cb.selected = false;
-        showLabels_cb.selected = false;
+        showGrid_ncb.checkBox.selected = false;
+        showLabels_ncb.checkBox.selected = false;
+//        showGrid_cb.selected = false;
+//        showLabels_cb.selected = false;
         myTrigModel.smallAngle = 0;
         niceRadioGroupListener( 0 );  //reset readouts to cosine function
         cosSinTan_nrbg.selectButton( cos_nrb );
