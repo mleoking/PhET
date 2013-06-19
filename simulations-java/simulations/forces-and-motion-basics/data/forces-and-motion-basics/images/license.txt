@@ -1,21 +1,21 @@
 brick-tile.png notes=http://openclipart.org/detail/9523/-by--9523
 cart.png source=PhET author=Noah
 cloud1.png notes=http://openclipart.org/detail/99229/landscape-by-rg1024
-crate.png
-fridge.png
+crate.png source=PhET author=Noah
+fridge.png source=PhET author=Noah
 girl-holding.png source=PhET notes=balancing act
 girl-sitting.png source=PhET notes=balancing act
 girl-standing.png source=PhET notes=balancing act
 go_hover.png source=PhET author=Noah
 go_pressed.png source=PhET author=Noah
 go_up.png source=PhET author=Noah
-grass.png
-ice_overlay.png
+grass.png source=PhET author=Noah
+ice_overlay.png source=PhET author=Noah
 license.txt
 man-holding.png source=PhET notes=balancing act
 man-sitting.png source=PhET notes=balancing act
 man-standing.png source=PhET notes=balancing act
-mountains.png
+mountains.png source=PhET author=Noah notes=from Energy Skate Park
 mystery-object-01.png source=PhET notes=balancing act
 pull_figure_BLUE_0.png source=PhET author=Noah
 pull_figure_BLUE_1.png source=PhET author=Noah
@@ -58,8 +58,8 @@ pusher_8.png source=PhET author=Noah
 pusher_9.png source=PhET author=Noah
 pusher_fall_down.png source=PhET author=Noah
 pusher_straight_on.png source=PhET author=Noah
-rope.png
-skateboard.png
+rope.png source=PhET author=Noah
+skateboard.png source=PhET author=Noah
 stop_hover.png source=PhET author=Noah
 stop_pressed.png source=PhET author=Noah
 stop_up.png source=PhET author=Noah
