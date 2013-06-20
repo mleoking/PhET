@@ -3,6 +3,6 @@
 # Automatically generated on Fri Aug 08 00:08:03 MDT 2008
 ###################################
 
-whee5.wav 
-whoah-7.wav 
-words2.wav 
+whee5.wav author=PhET notes=SR
+whoah-7.wav author=PhET notes=SR
+words2.wav author=PhET notes=SR

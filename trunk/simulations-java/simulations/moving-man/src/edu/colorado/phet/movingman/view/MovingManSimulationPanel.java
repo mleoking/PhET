@@ -84,7 +84,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
 
         this.transform = new LinearTransform( model.getRange(), viewRange );
         try {
-            addScreenChild( new PlayAreaObjectNode( BufferedImageUtils.multiScaleToHeight( MovingManResources.loadBufferedImage( "tree.gif" ), 100 ), transform, -8, 0, positiveToTheRight ) );
+            addScreenChild( new PlayAreaObjectNode( BufferedImageUtils.multiScaleToHeight( MovingManResources.loadBufferedImage( "tree.png" ), 100 ), transform, -8, 0, positiveToTheRight ) );
             addScreenChild( new PlayAreaObjectNode( BufferedImageUtils.multiScaleToHeight( MovingManResources.loadBufferedImage( "cottage.gif" ), 100 ), transform, +8, 0, positiveToTheRight ) );
         }
         catch ( IOException e ) {
@@ -100,7 +100,7 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         addScreenChild( manNode );
 
         try {
-            BufferedImage wallImage = BufferedImageUtils.getScaledInstance( MovingManResources.loadBufferedImage( "wall.jpg" ), 60, 100, RenderingHints.VALUE_INTERPOLATION_BILINEAR, false );
+            BufferedImage wallImage = BufferedImageUtils.getScaledInstance( MovingManResources.loadBufferedImage( "wall.png" ), 60, 100, RenderingHints.VALUE_INTERPOLATION_BILINEAR, false );
             addScreenChild( new WallNode( wallImage, transform, -10, model.getWalls(), -manNode.getImageStanding().getWidth() / 2 - wallImage.getWidth() / 2, positiveToTheRight ) );
             addScreenChild( new WallNode( wallImage, transform, +10, model.getWalls(), +manNode.getImageStanding().getWidth() / 2 + wallImage.getWidth() / 2, positiveToTheRight ) );
         }
