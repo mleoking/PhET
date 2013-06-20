@@ -1,0 +1,54 @@
+PhET Progress Report, J. Blanco, 6-20-2013
+
+PhET Weekly Progress Report
+John Blanco
+June 20th, 2013
+
+Time period covered: June 13th through June 19th.
+
+Build an Atom (HTML5 version) - 26.5 hrs
+
+o	Made spinner buttons look more like the design doc.
+o	Tested on iPad and Surface.
+o	Improved layout of first tab so that all labels can be visible.
+o	Incorporated the newer reset button.
+o	Improved visibility of labels on particle buckets.
+o	Migrated the one 'trigger' event from Backbone to Axon, removed Axon from the project.
+o	Removed underscore and lodash from the module system.
+o	Worked with Emily and Ariel to decide which touch platform to test on, decided on Surface.
+o	Centralized the font (used Beer's Law as model for this).
+o	Worked with Emily to improve visual layout of 2nd tab.
+o	Implemented "easy drag particle" feature for the buckets, collaborated with Sam R and Jon O to work out the transforms.
+o	Added "Charge Comparison" graphic to the 1st tab.
+o	Worked with Sharon on some improvements to the artwork for the weigh scale.
+o	Made reset button restore open/closed state of accordion boxes on the first tab.
+o	Turned off game prototype tab and published versions for interviews.
+o	Tracked down and fixed some issues with particle behavior on the first tab.
+o	Discussed interview results with Emily and Yuen-Ying.
+
+HTML5 Common Code - 2.0 hrs
+
+o	Tracked down and fixed an issue with ObservableArray.
+o	Worked with JO on some issues related to drag handlers that were causing odd behavior in BAA on the Surface.
+
+HTML5 Startup: Process Development - 1.5 hrs
+
+o	Weekly developer meetings and collaboration.
+
+Installer - 4.0 hrs
+
+o	Tracked down an issue with the installer on the web site identified by Mike D.
+o	Put up a backup installer on the web site.
+o	Worked with Oliver N to test several different versions of the installer.
+o	Worked with JO to find root cause of installer issue.  Turned out to be a problem with the web server that occurred during the rip.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 3.0 hrs
+
+o	Doctor appointment on 6/14/2012
+o	Doctor appointment on 6/19/2012 (Sharon)
