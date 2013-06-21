@@ -45,7 +45,7 @@ public class BrakeNode extends PNode {
         try {
             im = createImageWithHandle();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
         double imageScale = RotationPlayAreaNode.SCALE * 0.6;
@@ -93,7 +93,7 @@ public class BrakeNode extends PNode {
     }
 
     private PNode createImageWithHandle() throws IOException {
-        final PImage image = new PImage( RotationResources.loadBufferedImage( "brake-pad.gif" ) );
+        final PImage image = new PImage( RotationResources.loadBufferedImage( "brake-pad.png" ) );
         return image;
     }
 
