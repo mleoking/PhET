@@ -1,7 +1,14 @@
 package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
@@ -28,7 +35,7 @@ import edu.colorado.phet.reids.admin.jintellitype.JIntellitypeSupport;
 import edu.colorado.phet.reids.admin.util.FileUtils;
 
 public class TimesheetApp {
-    public static Object[] columnNames = { "Start", "End", "Elapsed", "Category", "Notes", "Report" };
+    public static Object[] columnNames = {"Start", "End", "Elapsed", "Category", "Notes", "Report"};
     private JFrame frame = new JFrame( "Timesheet App" );
     private TimesheetModel timesheetModel = new TimesheetModel();
     private ArrayList<File> recentFiles = new ArrayList<File>();
@@ -40,10 +47,12 @@ public class TimesheetApp {
     private String RECENT_FILES = "recentFiles";
     private String CURRENT_FILE = "currentFile";
     private String TARGET_HOURS = "target.hours";
+    private String PREVIOUS_SECONDS = "previous.seconds";
     private File PREFERENCES_FILE = new File( System.getProperty( "user.home", "." ), ".timesheet/timesheet-app.properties" );
     private final JTable table;
     private SelectionModel selectionModel = new SelectionModel();
     private MutableInt targetHours = new MutableInt( 0 );
+    private MutableInt previousSeconds = new MutableInt( 0 );
     private final StretchingModel stretchingModel = new StretchingModel();
     private final BufferedImage iconImage = new PhetResources( "timesheet" ).getImage( "x-office-calendar.png" );
     private final BufferedImage warningImage = new PhetResources( "timesheet" ).getImage( "x-office-warning.png" );
@@ -101,17 +110,17 @@ public class TimesheetApp {
                                           timesheetModel.startNewTask();
                                       }
                                   }, new Runnable() {
-            public void run() {
-                System.out.println( "Clocking out for Home" );
-                timesheetModel.clockOut();
-                try {
-                    save();
-                }
-                catch ( IOException e1 ) {
-                    JOptionPane.showMessageDialog( frame, e1.getMessage() );
-                }
-            }
-        }
+                                      public void run() {
+                                          System.out.println( "Clocking out for Home" );
+                                          timesheetModel.clockOut();
+                                          try {
+                                              save();
+                                          }
+                                          catch( IOException e1 ) {
+                                              JOptionPane.showMessageDialog( frame, e1.getMessage() );
+                                          }
+                                      }
+                                  }
         );
 
         timesheetModel.addClockedInListener( new TimesheetModel.ClockedInListener() {
@@ -125,7 +134,7 @@ public class TimesheetApp {
             }
         } );
 
-        final DefaultTableModel tableModel = new DefaultTableModel( new Object[][] { }, columnNames ) {
+        final DefaultTableModel tableModel = new DefaultTableModel( new Object[][]{}, columnNames ) {
             public Class<?> getColumnClass( int columnIndex ) {
                 if ( columnIndex == 0 || columnIndex == 1 ) { return Date.class; }
                 if ( columnIndex == 2 ) { return Long.class; }
@@ -157,7 +166,7 @@ public class TimesheetApp {
                         save();
                         return true;
                     }
-                    catch ( IOException e1 ) {
+                    catch( IOException e1 ) {
                         e1.printStackTrace();
                     }
                 }
@@ -245,16 +254,16 @@ public class TimesheetApp {
                 try {
                     save();
                 }
-                catch ( IOException e1 ) {
+                catch( IOException e1 ) {
                     e1.printStackTrace();
                 }
             }
-        }, selectionModel, targetHours, new ActionListener() {
+        }, selectionModel, targetHours, previousSeconds, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     savePreferences();
                 }
-                catch ( IOException e1 ) {
+                catch( IOException e1 ) {
                     e1.printStackTrace();
                 }
             }
@@ -274,7 +283,7 @@ public class TimesheetApp {
                     } );
 
                 }
-                catch ( IOException e1 ) {
+                catch( IOException e1 ) {
                     e1.printStackTrace();
                 }
             }
@@ -334,7 +343,7 @@ public class TimesheetApp {
     }
 
     private Object[] toRow( Entry entry ) {
-        return new Object[] { entry.getStartDate(), entry.getEndDate(), entry.getElapsedSeconds(), entry.getCategory(), entry.getNotes(), entry.isReport() };
+        return new Object[]{entry.getStartDate(), entry.getEndDate(), entry.getElapsedSeconds(), entry.getCategory(), entry.getNotes(), entry.isReport()};
     }
 
     public void load() throws IOException {
@@ -410,7 +419,7 @@ public class TimesheetApp {
                 try {
                     new TimesheetApp( new File( args[0] ) ).start();
                 }
-                catch ( IOException e ) {
+                catch( IOException e ) {
                     e.printStackTrace();
                 }
             }
@@ -427,6 +436,7 @@ public class TimesheetApp {
         properties.put( RECENT_FILES, getRecentFileListString() );
         properties.put( CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath() );
         properties.put( TARGET_HOURS, targetHours.getValue() + "" );
+        properties.put( PREVIOUS_SECONDS, previousSeconds.getValue() + "" );
 
         PREFERENCES_FILE.getParentFile().mkdirs();
         properties.store( new FileOutputStream( PREFERENCES_FILE ), "auto-generated on " + new Date() );
@@ -456,10 +466,10 @@ public class TimesheetApp {
         r.y = Integer.parseInt( p.getProperty( WINDOW_Y, "100" ) );
         r.width = Integer.parseInt( p.getProperty( WINDOW_WIDTH, "800" ) );
         r.height = Integer.parseInt( p.getProperty( WINDOW_HEIGHT, "600" ) );
-        targetHours.setValue( Integer.parseInt( p.getProperty( TARGET_HOURS, "176" ) ) );
+        targetHours.setValue( Integer.parseInt( p.getProperty( TARGET_HOURS, "0" ) ) );
+        previousSeconds.setValue( Integer.parseInt( p.getProperty( PREVIOUS_SECONDS, "0" ) ) );
         frame.setSize( r.width, r.height );
         frame.setLocation( r.x, r.y );
-
 
         String recentFiles = p.getProperty( RECENT_FILES, "" );
         System.out.println( "Loaded prefs from " + PREFERENCES_FILE.getAbsolutePath() + ", r=" + r + ", recent=" + recentFiles );

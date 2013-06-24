@@ -15,13 +15,16 @@ import edu.colorado.phet.reids.admin.TimesheetApp.SelectionModel;
 public class ControlPanel extends JPanel {
     private JLabel timeTodayLabel;
     private TimesheetModel timesheetModel;
+    private MutableInt previousSeconds;
     private JLabel remainingInTarget;
     private JTextField targetTextField;
     private MutableInt targetHours;
 
-    ControlPanel( final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel, final MutableInt targetHours, final ActionListener savePreferences, final File trunk ) {
+    ControlPanel( final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel, final MutableInt targetHours,
+                  MutableInt previousSeconds, final ActionListener savePreferences, final File trunk ) {
         this.targetHours = targetHours;
         this.timesheetModel = timesheetModel;
+        this.previousSeconds = previousSeconds;
         JButton clockIn = new JButton( "Clock In" );
         clockIn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -108,13 +111,18 @@ public class ControlPanel extends JPanel {
         add( new StretchingPanel( timesheetModel, trunk ) );
     }
 
+
+    public static double toSeconds( double hours ) {
+        return hours * 60 * 60;
+    }
+
     private void updateRemainingInTarget() {
         int hours = targetHours.getValue();
         double minutes = hours * 60;
-        double sec = minutes * 60;
+        double targetSeconds = minutes * 60;
 
-        double elapsed = timesheetModel.getTotalTimeSeconds();
-        double remaining = sec - elapsed;
+        double elapsedSeconds = timesheetModel.getTotalTimeSeconds();
+        double remaining = targetSeconds - elapsedSeconds - previousSeconds.getValue();
         remainingInTarget.setText( "Remaining: " + Util.secondsToElapsedTimeString( (long) remaining ) );
     }
 
