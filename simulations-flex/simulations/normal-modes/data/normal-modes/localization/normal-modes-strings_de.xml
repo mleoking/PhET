@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_de.xml created Sun Jun 23 14:23:16 CEST 2013 using: normal-modes 1.01.00 (66456), translation-utility 2.14.00 (69024) Okt 9, 2012--><SimStrings>
+<string key="simSpeed" value="Geschwindigkeit der Sim."/>
+<string key="vertical" value="Vertikal"/>
+<string key="slow" value="langsam"/>
+<string key="modeSpectrumDisplay" value="Anzeige des Spektrums"/>
+<string key="phase:" value="Phase:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="Nullposition"/>
+<string key="start" value="Start"/>
+<string key="step" value="Schritt"/>
+<string key="modeNumbersXY" value="Anzahl der Schwingungen x,y."/>
+<string key="polarization:" value="Polarisation&lt;br&gt;Kontrolle:"/>
+<string key="amplitude:" value="Amplitude:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="Spektrum der Normalschwingungen"/>
+<string key="frequency:" value="Frequenz:"/>
+<string key="normalModes" value="Normalschwingungen"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="Phasen anzeigen"/>
+<string key="normal-modes.simTitle" value="Normalschwingungen 1D &amp; 2D"/>
+<string key="showSprings" value="Federn anzeigen"/>
+<string key="stop" value="Stopp"/>
+<string key="resetPositions" value="Ausgangsposition"/>
+<string key="normalMode:" value="Normalschwingung"/>
+<string key="translation.credits" value="Caroline Lauth, Karval High School"/>
+<string key="horizontal" value="Horizontal"/>
+<string key="paused" value="ANGEHALTEN"/>
+<string key="numberOfMasses" value="Anzahl der Massen"/>
+<string key="normal" value="normal"/>
+</SimStrings>
