@@ -204,6 +204,13 @@ public class MonthlyReportFilter {
         if ( category.equals( "svg" ) ) { return mapCategory( "scenery" ); }
         if ( category.equals( "fpaf" ) ) { return mapCategory( "fluid-pressure-and-flow" ); }
         if ( category.equals( "john-travoltage" ) ) { return mapCategory( "travoltage" ); }
+        if ( category.equals( "mll" ) ) { return mapCategory( "meetings" ); }
+        if ( category.equals( "logo" ) ) { return mapCategory( "misc" ); }
+        if ( category.equals( "grunt" ) ) { return mapCategory( "Build Process" ); }
+        if ( category.equals( "chipper" ) ) { return mapCategory( "Build Process" ); }
+        if ( category.equals( "admin" ) ) { return mapCategory( "Administrative/Documentation" ); }
+        if ( category.equals( "woas" ) ) { return mapCategory( "Wave on a String" ); }
+        if ( category.equals( "gfl" ) ) { return mapCategory( "Gravity Force Lab" ); }
 
         if ( category.equals( category.toLowerCase() ) ) {
             System.out.println( "No match found for the category: " + category );
