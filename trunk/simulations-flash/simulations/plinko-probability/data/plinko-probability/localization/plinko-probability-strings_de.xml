@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_de.xml created Sun Jun 23 14:32:38 CEST 2013 using: plinko-probability 2.02.00 (53818), translation-utility 2.14.00 (69024) Okt 9, 2012--><SimStrings>
+<string key="none" value="-"/>
+<string key="number" value="Anzahl"/>
+<string key="start" value="Start"/>
+<string key="continuous" value="kontinuierlich"/>
+<string key="simTitle" value="Binomialverteilung am Plinkobrett"/>
+<string key="fraction" value="Bruchteil"/>
+<string key="NEquals" value="N ="/>
+<string key="rows" value="Reihen"/>
+<string key="sEquals" value="s ="/>
+<string key="sound" value="Ton"/>
+<string key="oneBall" value="1 Ball"/>
+<string key="path" value="Wege"/>
+<string key="histogramDisplay" value="Histogramm \nAnzeige"/>
+<string key="p" value="p"/>
+<string key="stop" value="Stopp"/>
+<string key="ball" value="Bälle"/>
+<string key="help" value="Hilfe"/>
+<string key="translation.credits" value="Caroline Lauth, Karval High School"/>
+<string key="reset" value="zurück"/>
+<string key="show" value="Anzeige:"/>
+<string key="autoScale" value="auto-skaliert"/>
+</SimStrings>
