@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_de.xml created Sun Jun 23 13:01:47 CEST 2013 using: estimation 2.02.00 (51675), translation-utility 2.14.00 (69024) Okt 9, 2012--><SimStrings>
+<string key="ratioOfAreasIs" value="Verhältnis der Flächen"/>
+<string key="closeEnough" value="Nah dran! \n Genauer Wert ist:"/>
+<string key="levelColon" value="Level:"/>
+<string key="score" value="Punktzahl"/>
+<string key="EnterNumber" value="Zahl eingeben"/>
+<string key="selectTrainingOrGame" value="Wählen Sie Training oder Spiel:"/>
+<string key="percentUnderOver" value="Prozent unter/über"/>
+<string key="estimation" value="Verhältnisse schätzen"/>
+<string key="next" value="Weiter"/>
+<string key="ratioOfLengths" value="Verhältnis der Längen für Linien \nVerhältnis der Flächen für Quadrate und Kreise \nVerhältnis der Volumina für Würfel und Kugeln"/>
+<string key="exactAnswer" value="Genauer Wert"/>
+<string key="level" value="Level"/>
+<string key="howMany" value="Wie viele Kleine \n passen in das Große"/>
+<string key="noCreditIf" value="Keine Punkte, wenn"/>
+<string key="home" value="zurück"/>
+<string key="whatIsRatioOfVolumes" value="Wie ist das Verhältnis der Volumina?"/>
+<string key="tooFarOff" value="Zu weit weg! \n Genauer Wert ist:"/>
+<string key="translation.credits" value="Caroline Lauth, Karval High School"/>
+<string key="scorePerTimeColon" value="Punktzahl/Zeit"/>
+<string key="PleasePickANumber" value="Wählen Sie eine Zahl zwischen 1 und 100000."/>
+<string key="answerIsOutside" value="Antwort ist außerhalb dieser Grenzen"/>
+<string key="train" value="Training"/>
+<string key="strategyHelp" value="Hilfe"/>
+<string key="whatIsRatioOfAreas" value="Wie ist das Verhältnis der Flächen?"/>
+<string key="scorePerTime" value="Punktzahl/Zeit"/>
+<string key="gameOver" value="Spiel vorbei."/>
+<string key="play" value="Spielen"/>
+<string key="fullCreditIf" value="Volle Punktzahl, falls"/>
+<string key="back" value="zurück"/>
+<string key="levelOneColon" value="Level 1: Nur Linien \nLevel2: Linien und 2D Objekte \n Level 3: Aalle Objekte"/>
+<string key="yourAnswer" value="Ihre Antwort"/>
+<string key="or" value="oder2"/>
+<string key="sound" value="Ton an"/>
+<string key="accuracyIsSmaller" value="Genauigkeit ist kleiner als."/>
+<string key="averageAccuracy" value="Durchschnittliche Genauigkeit"/>
+<string key="gameRules" value="Spielregeln"/>
+<string key="ratioOfVolumesIs" value="Verhältnis der Volumina ist"/>
+<string key="time" value="Zeit(s)"/>
+<string key="numberEstimates" value="Anzahl der Schätzwerte"/>
+<string key="simTitle" value="Verhältnisse schätzen"/>
+<string key="yourAnswerIs" value="Ihre Antwort liegt innerhalb \nFaktor von 1,3 für die Linien \nFaktor von 1,6 für die 2D Objekte, \nFaktor von 2,0 für die 3D Objekte"/>
+<string key="enter" value="Eingabe"/>
+<string key="endGame" value="Spiel beenden"/>
+<string key="nextLowerCase" value="weiter"/>
+</SimStrings>
