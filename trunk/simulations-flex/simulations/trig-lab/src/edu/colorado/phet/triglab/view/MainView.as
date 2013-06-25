@@ -9,6 +9,7 @@
 package edu.colorado.phet.triglab.view {
 import edu.colorado.phet.flashcommon.controls.Tab;
 import edu.colorado.phet.flashcommon.controls.TabBar;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.triglab.*;
 import edu.colorado.phet.triglab.TrigLabApplication;
 import edu.colorado.phet.triglab.control.ControlPanel;
@@ -31,6 +32,11 @@ import mx.controls.sliderClasses.Slider;
 
 public class MainView extends Canvas {
 
+    private var tabBar: TabBar;       //tabBar at top of screen. 2 Tabs: Intro and Game
+    private var intro_str: String;    //labels for tabs
+    private var game_str: String;
+    public var introMode: Boolean;       //true if on intro tab, false if on game tab
+
     public var myTrigModel:TrigModel;
     public var myUnitCircleView:UnitCircleView;
     public var myReadoutView: ReadoutView;
@@ -46,6 +52,7 @@ public class MainView extends Canvas {
 
     public function MainView( topCanvas:TrigLabCanvas, stageW: Number, stageH: Number ) {
         //this.topCanvas = topCanvas;   //this line is unnecessary (isn't it?)
+
         percentWidth = 100;
         percentHeight = 100;
         this.stageH = stageH;
@@ -80,6 +87,18 @@ public class MainView extends Canvas {
         this.initializeAll();
     }//end of constructor
 
+    private function initializeStrings(): void {
+        intro_str = FlexSimStrings.get( "intro", "Intro   " );
+        game_str = FlexSimStrings.get( "game", "Game   " );
+    }
+
+    public function setTabView( tabView:int ):void{
+        if ( tabView == 1 ){
+
+        }else if ( tabView == 2 ){
+
+        }
+    }
 
     public function initializeAll(): void {
         myTrigModel.smallAngle = 0;

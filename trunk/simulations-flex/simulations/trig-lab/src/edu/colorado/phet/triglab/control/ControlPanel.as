@@ -155,12 +155,12 @@ public class ControlPanel extends Canvas {
 
         //set up checkboxes
         this.showLabelsPanel = new HBox();
-        this.showLabels_ncb = new NiceCheckBox( new NiceLabel( 20, showLabels_str ) );
+        this.showLabels_ncb = new NiceCheckBox( showLabels_str, 20 );
         //this.showLabels_cb = new CheckBox();
         //showLabels_cb.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
         this.showLabels_ncb.checkBox.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
         this.showGridPanel = new HBox();
-        this.showGrid_ncb = new NiceCheckBox( new NiceLabel( 20, showGrid_str ) );
+        this.showGrid_ncb = new NiceCheckBox( showGrid_str, 20 );
         this.showGrid_ncb.checkBox.addEventListener( Event.CHANGE, showGridCheckBoxListener );
 //        this.showGrid_cb = new CheckBox();
 //        showGrid_cb.addEventListener( Event.CHANGE, showGridCheckBoxListener );
