@@ -33,45 +33,18 @@ public class NiceCheckBox extends Canvas{
     private var fontSize:Number;
     private var checkBoxHitArea: Sprite = new Sprite();    //invisible hit area over label;
 
-    public function NiceCheckBox( niceLabel: NiceLabel ):void {
+    public function NiceCheckBox( label_str: String, fontSize: Number ):void {
         _checkBox.buttonMode = true;
-        this._niceLabel = niceLabel;
-        //this.label_str = label_str
-        //this.fontSize = fontSize;
-        //this._label_nlb.setText( label_str );
-        //this._niceLabel.setFontSize( fontSize );
-        createHitArea();
-        //_checkBox.hitArea = new SpriteUIComponent( checkBoxHitArea );
+        this.label_str = label_str;
+        this._niceLabel = new NiceLabel( fontSize, label_str, false, _checkBox  );
         this.addChild( container );
         container.addChild( _checkBox );
-        container.addChild( new SpriteUIComponent( _niceLabel ));
-        //_checkBox.addChild( new SpriteUIComponent( checkBoxHitArea ) );
-
+        container.addChild( new SpriteUIComponent( _niceLabel, true ));
+        //tweek label position
+        this._niceLabel.y -= 0.15*this._niceLabel.height;
+        container.setStyle( "horizontalGap", 2 ) ;
     }
 
-
-    private function createHitArea():void{
-        var width: Number = _checkBox.width + _niceLabel.width ;
-        var height: Number = _niceLabel.height;
-        with( checkBoxHitArea.graphics ){
-            clear();
-            lineStyle( 1, 0xffffff, 0.5 );
-            beginFill( 0xffffff,0.5 );
-            moveTo( 0, 0 );
-            drawRect( 0, 0, width,  height );
-            endFill();
-        }
-    }
-
-    public function setFontColor( color:uint ):void{
-        this._niceLabel.setFontColor( color );
-    }
-
-    public function setFontSize( size: Number ):void{
-        this.fontSize = size;
-        this._niceLabel.setFontSize( fontSize );
-        createHitArea();
-    }
 
     public function get checkBox():CheckBox{
         return _checkBox;
