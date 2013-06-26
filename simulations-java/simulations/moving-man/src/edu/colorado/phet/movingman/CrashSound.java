@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
  */
 public class CrashSound {
 
-    private static final PhetAudioClip clip = MovingManResources.getInstance().getAudioClip( "smash0.wav" );
+    private static final PhetAudioClip clip = MovingManResources.getInstance().getAudioClip( "crash.wav" );
 
     public static void play() {
         clip.play();
