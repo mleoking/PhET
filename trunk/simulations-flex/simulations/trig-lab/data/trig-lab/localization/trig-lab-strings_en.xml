@@ -7,7 +7,7 @@
     <string key="plusOne" value = "+1"/>
     <string key="minusOne" value = "-1"/>
     <string key="one" value = "1"/>
-    <string key="theta" value = "\u03b8"/>
+    <string key="theta" value = "θ"/>
     <string key="angle" value = "angle"/>
     <string key="degrees" value = "degrees"/>
     <string key="cosine" value = "cosine:"/>
