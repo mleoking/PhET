@@ -56,10 +56,11 @@ public class ControlPanel extends Canvas {
 //    private var showGrid_lbl: NiceLabel;
     private var showLabels_ncb: NiceCheckBox;
     private var showGrid_ncb: NiceCheckBox;
+    private var specialAngles_ncb: NiceCheckBox;
     private var resetButton: NiceButton2;
 
-    private var showLabelsPanel: HBox;
-    private var showGridPanel: HBox;
+    //private var showLabelsPanel: HBox;
+    //private var showGridPanel: HBox;
 
     //internationalized strings
     private var cos_str: String;
@@ -67,6 +68,7 @@ public class ControlPanel extends Canvas {
     private var tan_str: String;
     private var showLabels_str: String;
     private  var showGrid_str: String;
+    private var specialAngles_str: String;
     private var resetAll_str: String;
 
 
@@ -123,24 +125,6 @@ public class ControlPanel extends Canvas {
             setStyle( "verticalGap", 10 );
             setStyle( "horizontalAlign", "left" );
         }
-//        this.cos_cb = new CheckBox();
-//        this.sin_cb = new CheckBox();
-//        this.tan_cb = new CheckBox();
-//        cos_cb.addEventListener( Event.CHANGE, cosCheckBoxListener );
-//        var cosCheckBoxLabel: NiceLabel = new NiceLabel( 15, cos_str, false, cos_cb );
-//        //cos_cb.setStyle( "label", cos_str );
-//        cos_cb.label = cos_str;
-//        cos_cb.setStyle( "fontSize", 25 );
-//
-//        sin_cb.addEventListener( Event.CHANGE, sinCheckBoxListener );
-//        var sinCheckBoxLabel: NiceLabel = new NiceLabel( 15, sin_str, false, sin_cb );
-//        sin_cb.label = sin_str;
-//        sin_cb.setStyle( "fontSize", 25 );
-//
-//        tan_cb.addEventListener( Event.CHANGE, tanCheckBoxListener );
-//        var tanCheckBoxLabel: NiceLabel = new NiceLabel( 15, tan_str, false, tan_cb );
-//        tan_cb.label = tan_str;
-//        tan_cb.setStyle( "fontSize", 25 );
 
         //set up radio buttons
         this.cosSinTan_nrbg = new NiceRadioButtonGroup();
@@ -154,14 +138,16 @@ public class ControlPanel extends Canvas {
         this.cosSinTan_nrbg.selectButton( cos_nrb );
 
         //set up checkboxes
-        this.showLabelsPanel = new HBox();
+        //this.showLabelsPanel = new HBox();
         this.showLabels_ncb = new NiceCheckBox( showLabels_str, 20 );
         //this.showLabels_cb = new CheckBox();
         //showLabels_cb.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
         this.showLabels_ncb.checkBox.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
-        this.showGridPanel = new HBox();
+        //this.showGridPanel = new HBox();
         this.showGrid_ncb = new NiceCheckBox( showGrid_str, 20 );
         this.showGrid_ncb.checkBox.addEventListener( Event.CHANGE, showGridCheckBoxListener );
+        this.specialAngles_ncb = new NiceCheckBox( specialAngles_str, 20 );
+        this.specialAngles_ncb.checkBox.addEventListener( Event.CHANGE, specialAngleCheckBoxListener );
 //        this.showGrid_cb = new CheckBox();
 //        showGrid_cb.addEventListener( Event.CHANGE, showGridCheckBoxListener );
 //        this.showGrid_lbl = new NiceLabel( 20, showGrid_str );
@@ -179,14 +165,7 @@ public class ControlPanel extends Canvas {
         this.radioButtonPanel.addChild( new SpriteUIComponent( tan_nrb ) );
         this.checkBoxPanel.addChild( showLabels_ncb );
         this.checkBoxPanel.addChild( showGrid_ncb );
-        //this.checkBoxPanel.addChild( showLabelsPanel );
-        //this.showLabelsPanel.addChild( showLabels_cb );
-        //this.showLabelsPanel.addChild( new SpriteUIComponent( showLabels_lbl ));
-        //this.showLabels_lbl.y = -0.25*showLabels_lbl.height;
-//        this.checkBoxPanel.addChild( showGridPanel );
-//        this.showGridPanel.addChild( showGrid_cb );
-//        this.showGridPanel.addChild( new SpriteUIComponent( showGrid_lbl ));
-//        this.showGrid_lbl.y = -0.25*showGrid_lbl.height;
+        this.checkBoxPanel.addChild( specialAngles_ncb );
         this.background.addChild( new SpriteUIComponent( resetButton, true ));
 
         this.resetAll();
@@ -201,6 +180,7 @@ public class ControlPanel extends Canvas {
         tan_str = FlexSimStrings.get( "tan", "tan" );
         showLabels_str = FlexSimStrings.get( "labels", "Labels" );
         showGrid_str = FlexSimStrings.get( "grid", "Grid" );
+        specialAngles_str = FlexSimStrings.get( "specialAngles", "Special Angles" );
         resetAll_str = FlexSimStrings.get( "resetAll", "Reset All" );
     }
 
@@ -231,6 +211,13 @@ public class ControlPanel extends Canvas {
         this.myMainView.myUnitCircleView.setGridLinesVisibility( selected );
     }
 
+
+
+    private function specialAngleCheckBoxListener( evt: Event ):void{
+        var selected:Boolean = evt.target.selected;
+        this.myMainView.myUnitCircleView.specialAnglesMode = selected;
+    }
+
 //    private function cosCheckBoxListener( evt: Event ):void{
 //        var selected:Boolean = evt.target.selected;
 //        myMainView.myGraphView.showCos = selected;
@@ -251,8 +238,10 @@ public class ControlPanel extends Canvas {
     public function resetAll():void{
         myMainView.myUnitCircleView.setGridLinesVisibility( false );
         myMainView.myUnitCircleView.setLabelsVisibility( false );
+        myMainView.myUnitCircleView.specialAnglesMode = false;
         showGrid_ncb.checkBox.selected = false;
         showLabels_ncb.checkBox.selected = false;
+        specialAngles_ncb.checkBox.selected = false;
 //        showGrid_cb.selected = false;
 //        showLabels_cb.selected = false;
         myTrigModel.smallAngle = 0;

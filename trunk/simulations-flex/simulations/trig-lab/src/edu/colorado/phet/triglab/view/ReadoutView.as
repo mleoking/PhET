@@ -198,7 +198,7 @@ public class ReadoutView extends Canvas {
         this.smallAngleReadout.setText(FlexSimStrings.get("angleEqualsXDegrees", "angle = {0} degrees", [smallAngleInDegrees_str]));
 
         var totalAngleInDegrees: Number = this.myTrigModel.totalAngle*180/Math.PI;
-        var totalAngleInDegrees_str: String = totalAngleInDegrees.toFixed( 0 );
+        var totalAngleInDegrees_str: String = totalAngleInDegrees.toFixed( 1 );
         this.totalAngleReadout.setText(FlexSimStrings.get("angleEqualsXDegrees", "angle = {0} degrees", [totalAngleInDegrees_str]));
 
         var cos: Number = this.myTrigModel.cos;
