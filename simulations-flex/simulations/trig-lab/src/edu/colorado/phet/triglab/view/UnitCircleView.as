@@ -31,6 +31,7 @@ public class UnitCircleView extends Sprite {
 
     private var unitCircleGraph: Sprite ; //unit circle centered on xy axes
     private var triangleDiagram: Sprite;  //triangle drawn on unit circle, the ratio of the sides are the trig functions
+    private var specialAngleMarks: Sprite; //fudicial marks on unit circle showing where angle = 0, 30, 45, 60, 90, etc
     private var horizArrowHead: Sprite;   //arrow head on xLeg of triangle
     private var vertArrowHead: Sprite;    //arrow head on yLeg of triangle
     private var gridLines: Sprite ;       //optional gridlines on unit circle
@@ -43,6 +44,7 @@ public class UnitCircleView extends Sprite {
     private var smallAngle: Number;   //angle between -pi and +pi in radians
     private var totalAngle: Number;
     private var _trigMode: int;      //0 when displaying cos graph, 1 for sin, 2 for tan
+    private var _specialAnglesMode: Boolean;  //true if restricted to angles 0, 30, 45, 60, 90, etc
     //private var nbrHalfTurns:Number;
 
     //Labels
@@ -73,6 +75,7 @@ public class UnitCircleView extends Sprite {
         this.myTrigModel = myTrigModel;
         this.myTrigModel.registerView( this );
         this.unitCircleGraph = new Sprite();
+        this.specialAngleMarks = new Sprite();
         this.triangleDiagram = new Sprite();
         this.horizArrowHead = new Sprite();
         this.vertArrowHead = new Sprite();
@@ -90,8 +93,6 @@ public class UnitCircleView extends Sprite {
         this.one_lbl = new NiceLabel( 30, one_str );
         this.theta_lbl = new NiceLabel( 30, theta_str );
         var tFormat: TextFormat = new TextFormat( "Times New Roman")
-        //this.x2_lbl.setTextFormat( tFormat );
-        //this.y2_lbl.setTextFormat( tFormat );
         this.one_lbl.setTextFormat( tFormat );
         this.theta_lbl.setTextFormat( tFormat );
         this.one_lbl.setBold( true );
@@ -125,6 +126,7 @@ public class UnitCircleView extends Sprite {
         this.triangleDiagram.addChild( vertArrowHead );
         this.unitCircleGraph.addChild( labelsLayer );
         this.unitCircleGraph.addChild( angleArc );
+        this.unitCircleGraph.addChild( specialAngleMarks );
         this.angleArc.addChild( angleArcArrowHead );
         this.unitCircleGraph.addChild( this.angleHandle );
         this.unitCircleGraph.addChild( x_lbl );
@@ -134,6 +136,7 @@ public class UnitCircleView extends Sprite {
         this.labelsLayer.addChild( y2_lbl );
         this.labelsLayer.addChild( theta_lbl );
         this.drawUnitCircle();
+        this.drawSpecialAngleMarks();
         this.drawGridLines();
         this.drawAngleHandle();
         this.drawArrowHeads();
@@ -142,6 +145,7 @@ public class UnitCircleView extends Sprite {
         this.previousAngle = 0;
         this.totalAngle = 0;
         this._trigMode = 0;      //start with trigMode = cos
+        this._specialAnglesMode = false;  //start with allowing arbritrary angle
         //this.nbrHalfTurns = 0;
     } //end of initialize
 
@@ -183,6 +187,24 @@ public class UnitCircleView extends Sprite {
         y_lbl.x = -y_lbl.width - 10;
         y_lbl.y = -f*radius + 5;
     }  //end drawUnitCircle()
+
+    /*
+    * Draw sprite with small circular marks on unit circle showing locations of "special" angles:
+    * 0, 30, 45, 60, 90, 120, etc.  That is, angles for which the trig functions are simple ratios.
+    * */
+    private function drawSpecialAngleMarks():void{
+        var g: Graphics = specialAngleMarks.graphics;
+        g.clear();
+        g.lineStyle( 1, 0x000000 );
+        var angles:Array = [0, 30, 45, 60, 90, 120, 135, 150, 180, -30, -45, -60, -90, -120, -135, -150 ] ;
+        for( var i: int = 0; i < angles.length; i++ ){
+            var angleInRads = angles[i] * Math.PI/180;
+            var xComp: Number = radius * Math.cos( angleInRads );
+            var yComp: Number = radius * Math.sin( angleInRads );
+            g.drawCircle( xComp,  yComp,  5 );
+        } //end for
+
+    } //end drawSpecialAngleMarks
 
     private function drawGridLines():void{
         //grid spacing = 0.5
@@ -496,6 +518,15 @@ public class UnitCircleView extends Sprite {
 
     public function setLabelsVisibility( tOrF: Boolean ):void{
         this.labelsLayer.visible = tOrF;
+    }
+
+    public function set specialAnglesMode( tOrF: Boolean ):void{
+        this._specialAnglesMode = tOrF;
+        if( this._specialAnglesMode ){
+            this.specialAngleMarks.visible = true;
+        } else{
+            this.specialAngleMarks.visible = false;
+        }
     }
 
     public function update():void{
