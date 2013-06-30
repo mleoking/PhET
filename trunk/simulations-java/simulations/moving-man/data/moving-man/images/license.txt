@@ -8,4 +8,4 @@ magnify-plus.png source=PhET author=Sam Reid
 man-left.gif source=PhET author=Sam Reid
 man-standing.gif source=PhET author=Sam Reid
 tree.png source=http://openclipart.org/detail/20697/tree-by-rg1024 license=public domain
-wall.png source=http://openclipart.org/detail/20861/brick-tile-by-rg1024 license=public doman 
+wall.png source=http://openclipart.org/detail/20861/brick-tile-by-rg1024 license=public domain 
