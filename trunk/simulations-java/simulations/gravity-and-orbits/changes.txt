@@ -1,3 +1,5 @@
+# 2.04.03 (73314) Jul 2, 2013
+Test workaround for logging problem in java 7_25
 # 2.04.02 (57752) Oct 19, 2011
 > Performance improvements when path is selected, only repaint region that contains the path, see #2963
 # 2.04.01 (57748) Oct 19, 2011
