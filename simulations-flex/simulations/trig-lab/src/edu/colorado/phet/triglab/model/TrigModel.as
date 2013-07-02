@@ -30,6 +30,7 @@ public class TrigModel {
     private var _cos: Number;        //cosine of angle _theta
     private var _sin: Number;
     private var _tan: Number;
+    private var _specialAnglesMode: Boolean;  //true if in special angle mode = only allowed anlges are 0, 30, 45, 60, 90, etc.
 
 
     public function TrigModel( myMainView: MainView ) {
@@ -81,6 +82,9 @@ public class TrigModel {
     //Set the angle in radians, then update the trig functions, then update views
     public function set smallAngle( angleInRads:Number ):void{
         _smallAngle = angleInRads;
+        if( _specialAnglesMode ){
+            _smallAngle = this.roundToSpecialAngle( _smallAngle );
+        }
         _cos = Math.cos( _smallAngle );
         _sin = Math.sin( _smallAngle );
         _tan = Math.tan( _smallAngle );
@@ -92,9 +96,9 @@ public class TrigModel {
 
 
     private function updateTotalAngle():void{
-        if( _smallAngle <= 0  && previousAngle > 2 ){
+        if( _smallAngle <= 0  && previousAngle > 2.60 ){
              this.nbrFullTurns += 1;
-        } else if ( _smallAngle >= 0 && previousAngle < -2) {
+        } else if ( _smallAngle >= 0 && previousAngle < -2.60) {
             this.nbrFullTurns -= 1;
         }
         this._totalAngle = nbrFullTurns*2*Math.PI + this._smallAngle;
@@ -112,14 +116,42 @@ public class TrigModel {
         _x = _cos;
         _y = _sin;
         var moduloAngleInRads:Number = _totalAngle - nbrFullTurns*2*Math.PI;
-        this._smallAngle = moduloAngleInRads;
+        smallAngle = moduloAngleInRads;   //Note this.smallAngle, NOT this._smallAngle, so that roundToNearestSpecialAngle called, if necessary
         var moduloAngleInDegs: Number = moduloAngleInRads*180/Math.PI;
         //this.myMainView.myReadoutView.diagnosticReadout.setText( String( moduloAngleInDegs ) ) ;
         updateViews();
     }
 
+    /*Take input small angle in rads (between -pi and +pi) and convert to nearest "special" angle in rads.
+     *The special angles (in degrees) are 0, 30, 45, 60, 90, etc.
+     */
+    private function roundToSpecialAngle( anyAngleInRads: Number ): Number{
+        trace("TrigModel.roundToSpecialAngle called");
+        var angleInDegs: Number = anyAngleInRads*180/Math.PI;
+        var nearestSpecialAngleInRads: Number = 0;
+        var angles: Array = [-150, -135, -120, -90, -60, -45, -30, 0, 30, 45, 60, 90, 120, 135, 150, 180 ];
+        var border: Array = [-165, -142.5, -127.5, -105, -75, -52.5, -37.5, -15, 15, 37.5, 52.5, 75, 105, 127.5, 142.5, 165 ] ;
+        for ( var i:int = 0; i < angles.length; i++ ){
+            if( angleInDegs > border[i] && angleInDegs < border[i + 1] ){
+                nearestSpecialAngleInRads = angles[i]*Math.PI/180;
+            }
+            //Must deal with 180 deg angle as a special case.
+            if( angleInDegs > 165 || angleInDegs < -165 ){
+                nearestSpecialAngleInRads = 180*Math.PI/180;
+            }
+        }
+        return nearestSpecialAngleInRads;
+    }//end roundToSpecialAngle()
 
 
+    public function set specialAnglesMode( toOrF:Boolean ):void{
+        this._specialAnglesMode = toOrF;
+        this.smallAngle = _smallAngle;
+    }
+
+    public function get specialAnglesMode():Boolean{
+        return this._specialAnglesMode;
+    }
 
     public function registerView( view: Object ): void {
         this.views_arr.push( view );
