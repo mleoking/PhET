@@ -96,9 +96,9 @@ public class TrigModel {
 
 
     private function updateTotalAngle():void{
-        if( _smallAngle <= 0  && previousAngle > 2.60 ){
+        if( _smallAngle < 0  && previousAngle > 2.60 ){
              this.nbrFullTurns += 1;
-        } else if ( _smallAngle >= 0 && previousAngle < -2.60) {
+        } else if ( _smallAngle > 0 && previousAngle < -2.60) {
             this.nbrFullTurns -= 1;
         }
         this._totalAngle = nbrFullTurns*2*Math.PI + this._smallAngle;
