@@ -344,6 +344,7 @@ public class GraphView extends Sprite{
         }//end of dragTarget()
     }//end makeValueIndicatorGrabbable
 
+
     public function update():void{
         var angleInRads:Number = myTrigModel.totalAngle;
         var xPos: Number = (wavelengthInPix*angleInRads/(2*Math.PI)) ;

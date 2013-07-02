@@ -44,7 +44,7 @@ public class UnitCircleView extends Sprite {
     private var smallAngle: Number;   //angle between -pi and +pi in radians
     private var totalAngle: Number;
     private var _trigMode: int;      //0 when displaying cos graph, 1 for sin, 2 for tan
-    private var _specialAnglesMode: Boolean;  //true if restricted to angles 0, 30, 45, 60, 90, etc
+    //private var _specialAnglesMode: Boolean;  //true if restricted to angles 0, 30, 45, 60, 90, etc
     //private var nbrHalfTurns:Number;
 
     //Labels
@@ -145,7 +145,7 @@ public class UnitCircleView extends Sprite {
         this.previousAngle = 0;
         this.totalAngle = 0;
         this._trigMode = 0;      //start with trigMode = cos
-        this._specialAnglesMode = false;  //start with allowing arbritrary angle
+        //this._specialAnglesMode = false;  //start with allowing arbritrary angle
         //this.nbrHalfTurns = 0;
     } //end of initialize
 
@@ -434,14 +434,38 @@ public class UnitCircleView extends Sprite {
         function dragTarget( evt: MouseEvent ): void {
             var xInPix: Number = thisObject.unitCircleGraph.mouseX - clickOffset.x;
             var yInPix: Number = thisObject.unitCircleGraph.mouseY - clickOffset.y;
-            var angleInRads: Number = Math.atan2( yInPix,  xInPix );
-            thisObject.smallAngle = -angleInRads;   //minus-sign to be consistent with convention: CCW = +angle, CW = -angle
-            thisObject.myTrigModel.smallAngle = -angleInRads;
+            var angleInRads: Number = -Math.atan2( yInPix,  xInPix );
+//            if( thisObject._specialAnglesMode ){
+//                var inputAngle:Number = angleInRads;
+//                angleInRads = thisObject.roundToSpecialAngle( angleInRads );
+//                //trace( "UnitCircleView.dragTarget  input angle = "+ inputAngle +  "    angleInRads = "+ angleInRads ) ;
+//            }
+            thisObject.smallAngle = angleInRads;   //minus-sign to be consistent with convention: CCW = +angle, CW = -angle
+            thisObject.myTrigModel.smallAngle = angleInRads;
             evt.updateAfterEvent();
         }//end of dragTarget()
     }//end makeAngleHandleGrabbable
 
 
+//    /*Take input small angle in rads (between -pi and +pi) and convert to nearest "special" angle in rads.
+//     *The special angles (in degrees) are 0, 30, 45, 60, 90, etc.
+//     */
+//    private function roundToSpecialAngle( anyAngleInRads: Number ): Number{
+//        var angleInDegs: Number = anyAngleInRads*180/Math.PI;
+//        var nearestSpecialAngleInRads: Number = 0;
+//        var angles: Array = [-150, -135, -120, -90, -60, -45, -30, 0, 30, 45, 60, 90, 120, 135, 150, 180 ];
+//        var border: Array = [-165, -142.5, -127.5, -105, -75, -52.5, -37.5, -15, 15, 37.5, 52.5, 75, 105, 127.5, 142.5, 165 ] ;
+//        for ( var i:int = 0; i < angles.length; i++ ){
+//            if( angleInDegs > border[i] && angleInDegs < border[i + 1] ){
+//                nearestSpecialAngleInRads = angles[i]*Math.PI/180;
+//            }
+//            //Must deal with 180 deg angle as a special case.
+//            if( angleInDegs > 165 || angleInDegs < -165 ){
+//                nearestSpecialAngleInRads = 180*Math.PI/180;
+//            }
+//        }
+//        return nearestSpecialAngleInRads;
+//    }//end roundToSpecialAngle()
 
     private function positionAngleHandle( angleInRads: Number ):void{
         var xInPix: Number = this.radius*Math.cos( angleInRads );
@@ -520,19 +544,21 @@ public class UnitCircleView extends Sprite {
         this.labelsLayer.visible = tOrF;
     }
 
-    public function set specialAnglesMode( tOrF: Boolean ):void{
-        this._specialAnglesMode = tOrF;
-        if( this._specialAnglesMode ){
-            this.specialAngleMarks.visible = true;
-        } else{
-            this.specialAngleMarks.visible = false;
-        }
-    }
+//    public function set specialAnglesMode( tOrF: Boolean ):void{
+//        this._specialAnglesMode = tOrF;
+//        if( this._specialAnglesMode ){
+//            this.specialAngleMarks.visible = true;
+//            myTrigModel.smallAngle = this.roundToSpecialAngle( myTrigModel.smallAngle );
+//        } else{
+//            this.specialAngleMarks.visible = false;
+//        }
+//    }
 
     public function update():void{
         this.positionAngleHandle( myTrigModel.smallAngle );
         this.drawTriangle();
         this.drawAngleArc();
+        this.specialAngleMarks.visible = myTrigModel.specialAnglesMode;
     }
 
 }  //end of class

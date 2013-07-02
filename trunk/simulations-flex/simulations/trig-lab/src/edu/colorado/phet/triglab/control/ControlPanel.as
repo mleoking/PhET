@@ -215,7 +215,7 @@ public class ControlPanel extends Canvas {
 
     private function specialAngleCheckBoxListener( evt: Event ):void{
         var selected:Boolean = evt.target.selected;
-        this.myMainView.myUnitCircleView.specialAnglesMode = selected;
+        this.myTrigModel.specialAnglesMode = selected;
     }
 
 //    private function cosCheckBoxListener( evt: Event ):void{
@@ -238,7 +238,7 @@ public class ControlPanel extends Canvas {
     public function resetAll():void{
         myMainView.myUnitCircleView.setGridLinesVisibility( false );
         myMainView.myUnitCircleView.setLabelsVisibility( false );
-        myMainView.myUnitCircleView.specialAnglesMode = false;
+        myTrigModel.specialAnglesMode = false;
         showGrid_ncb.checkBox.selected = false;
         showLabels_ncb.checkBox.selected = false;
         specialAngles_ncb.checkBox.selected = false;
