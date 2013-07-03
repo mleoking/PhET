@@ -1,0 +1,68 @@
+PhET Progress Report, J. Blanco, 7-3-2013
+
+PhET Weekly Progress Report
+John Blanco
+July 3rd, 2013
+
+Time period covered: June 20th through July 2nd.  This is a two week period, minus one day, due to one cancelled and one rescheduled status meeting.
+
+Build an Atom (HTML5 version) - 34.0 hrs
+
+o	Reviewed in design meeting.
+o	Set up much of the infrastructure for the game tab.
+o	Got the first game problem (counts-to-element problem) basically working.
+o	Integrated new icon images for home screen.
+o	Integrated arrow node for charge meter.
+o	Color tweaking.
+
+HTML5 Common Code - 9.0 hrs
+
+o	Worked the JO on an issue involving false positive hit tests in Kite.
+o	Looked at issues on the MS Surface related to handling of touch events.
+o	Ported the ArrowNode from Java.
+o	Ported the FaceNode from Java.
+o	Worked with Sam R on some issues with Joist on iPad.
+o	Collaborated with Sam R and Chris M on improvements to the button on the Joist nav bar.
+
+HTML5 Startup: Process Development - 3.0 hrs
+
+o	Weekly developer meetings and collaboration (x2).
+o	Discussed which platforms to support - only latest FireFix and Chrome?
+
+HTML5 Startup: MLL Management - 2.0 hrs
+
+o	Scheduled and conducted a process review meeting with Dmitry, notes recorded in a Google doc.
+o	Gave Dmitry go-ahead on GFL.
+o	Requested quote on conversion of RIAW and OL to use Scenery and Axon.
+
+Teach Site Implementation - 3.0 hrs
+
+o	Contacted Quick Left, ThirstyHead, and Pivotal Labs as potential implementers of the site.
+o	Met with Sam Breed of Quick Left to discuss implementation of the teach site.
+
+Fundraising - 6.0 hrs
+
+o	Prepared slides for and presented at meeting with Hewlett foundation program officer.
+
+Interviews - 6.0 hrs
+
+o	Interviewed and attended presentations by two candidates for the PRA position.
+
+Installer - 1.0 hrs
+
+o	Started looking at an issue where there is a build failure.
+
+Customer Support - 1.5 hrs
+
+o	Looked into an issue with with launching sims with latest Java version, see #3557.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 1.0 hrs
+
+o	Doc appt - 1hr
+o	Will be taking a few days at end of July and/or beginning of August to move.
+o	Two weeks vacation in mid-August.
