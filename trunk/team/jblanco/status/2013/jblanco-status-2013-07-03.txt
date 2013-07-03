@@ -6,7 +6,7 @@ July 3rd, 2013
 
 Time period covered: June 20th through July 2nd.  This is a two week period, minus one day, due to one cancelled and one rescheduled status meeting.
 
-Build an Atom (HTML5 version) - 34.0 hrs
+Build an Atom (HTML5 version) - 32.0 hrs
 
 o	Reviewed in design meeting.
 o	Set up much of the infrastructure for the game tab.
@@ -56,10 +56,11 @@ Customer Support - 1.5 hrs
 
 o	Looked into an issue with with launching sims with latest Java version, see #3557.
 
-Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+Meetings, Email, and Other Administrative Overhead - 2.0 hrs
 
 o	Status report.
 o	Normal email and administrative overhead.
+o	Prepped for annual evaluation, had evaluation meeting.
 
 Vacation, Holidays, and Sick Time - 0.0 hrs
 
