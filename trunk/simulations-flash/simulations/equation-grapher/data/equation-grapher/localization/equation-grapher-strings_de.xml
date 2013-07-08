@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_de.xml created Wed Jul 03 12:33:29 CEST 2013 using: equation-grapher 2.02.00 (52283), translation-utility 2.14.00 (69024) Okt 9, 2012--><SimStrings>
+<string key="showYEq" value="Anzeige y="/>
+<string key="erase" value="Löschen"/>
+<string key="save" value="Speichern"/>
+<string key="zero" value="Null"/>
+<string key="simTitle" value="Graph einer Funktion"/>
+<string key="translation.credits" value="Dr. Lauth"/>
+</SimStrings>
