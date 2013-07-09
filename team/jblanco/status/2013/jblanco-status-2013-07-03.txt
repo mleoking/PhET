@@ -48,7 +48,7 @@ Interviews - 6.0 hrs
 
 o	Interviewed and attended presentations by two candidates for the PRA position.
 
-Installer - 1.0 hrs
+Installer - 1.5 hrs
 
 o	Started looking at an issue where there is a build failure.
 
@@ -56,7 +56,7 @@ Customer Support - 1.5 hrs
 
 o	Looked into an issue with with launching sims with latest Java version, see #3557.
 
-Meetings, Email, and Other Administrative Overhead - 2.0 hrs
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
 
 o	Status report.
 o	Normal email and administrative overhead.
