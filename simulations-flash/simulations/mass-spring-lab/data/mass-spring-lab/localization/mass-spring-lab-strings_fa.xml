@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_fa.xml created Tue Dec 14 16:49:46 IRST 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--mass-spring-lab-strings_fa.xml created Mon Jul 15 11:15:09 IRDT 2013 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.14.00 (69024) Oct 9, 2012-->
 <SimStrings>
 <string key="pause" value="توقف"/>
 <string key="earth" value="زمين"/>
@@ -14,6 +14,7 @@
 <string key="resetTimer" value="به حالت اولیه بازگردان"/>
 <string key="hard" value="سخت"/>
 <string key="mass7Label" value="100گرم"/>
+<string key="translation.credits" value="&lt;html&gt;خلیلی بروجنی&lt;br&gt;khalily@gmail.com&lt;br&gt;www.avang.org&lt;/html&gt;"/>
 <string key="stopWatch" value="زمانسنج"/>
 <string key="none" value="صفر"/>
 <string key="realTime" value="زمان واقعي"/>
