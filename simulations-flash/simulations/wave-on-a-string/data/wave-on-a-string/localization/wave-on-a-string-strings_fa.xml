@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_fa.xml created Sat Jan 29 23:33:49 IRST 2011 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--wave-on-a-string-strings_fa.xml created Mon Jul 15 11:43:22 IRDT 2013 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.14.00 (69024) Oct 9, 2012-->
 <SimStrings>
 <string key="manual" value="دستی"/>
 <string key="resetTimer" value="به حالت اول برگردان"/>
@@ -22,8 +22,9 @@
 <string key="frequency" value="بسامد"/>
 <string key="wrenchHelp" value="آچار قابل حرکت"/>
 <string key="fixedEnd" value="انتهای ثابت"/>
+<string key="hideHelp" value="راهمنا را پنهان کن"/>
 <string key="refLineHelp" value="خط مرجع قایل حرکت"/>
-<string key="hideHelp" value="کمک را پنهان کن"/>
+<string key="translation.credits" value="&lt;html&gt;خلیلی بروجنی&lt;br&gt;khalily@gmail.com&lt;br&gt;www.avang.org&lt;/html&gt;"/>
 <string key="timerHelp" value="زمان سنج قابل حرکت"/>
 <string key="looseEnd" value="انتهای باز"/>
 <string key="noEnd" value="بدون انتها"/>
