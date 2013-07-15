@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resonance-strings_fa.xml created Fri Sep 16 22:57:13 IRDT 2011 using: resonance 1.01.00 (54775), translation-utility 2.11.00 (55119) Aug 13, 2011-->
+<!--resonance-strings_fa.xml created Mon Jul 15 11:12:10 IRDT 2013 using: resonance 1.01.00 (54775), translation-utility 2.14.00 (69024) Oct 9, 2012-->
 <SimStrings>
 <string key="simSpeed" value="سرعت شبيه سازي"/>
 <string key="sameFrequency" value="بسامد یکسان"/>
@@ -25,6 +25,7 @@
 <string key="mass" value="جرم"/>
 <string key="sameMass" value="یکسان جرم"/>
 <string key="resonator" value="تشديدگر"/>
+<string key="translation.credits" value="&lt;html&gt;خلیلی بروجنی&lt;br&gt;khalily@gmail.com&lt;br&gt;www.avang.org&lt;/html&gt;"/>
 <string key="hz" value="Hz"/>
 <string key="NperM" value="N/m"/>
 <string key="gravityColon" value=":گرانش"/>
