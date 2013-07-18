@@ -1,0 +1,86 @@
+PhET Progress Report, J. Blanco, 7-18-2013
+
+PhET Weekly Progress Report
+John Blanco
+July 18th, 2013
+
+Time period covered: July 3rd through July 17th.  This is a two week period, plus one day, due to one cancelled and one rescheduled status meeting.
+
+Build an Atom (HTML5 version) - 41.0 hrs
+
+o	Reviewed in design meeting.
+o	Implemented basic problem flow.
+o	Added asserts in key places to help prevent issues with game flow.
+o	Added the "feedback face".
+o	Changed layout to make more space at edges (based on input from review meeting).
+o	Made nucleus vibrate when unstable.
+o	Made electrons drop from outer to inner shell.
+o	Added check boxes for controlling the labels.
+o	Implemented the electron cloud view.
+o	Consolidated code for 1st and 2nd tabs, since 2nd tab is now just a variation of the 1st.
+o	Improved stacking of electrons in the buckets (more like Java sim now).
+o	Investigated and fixed performance issues on the iPad.
+o	Tested on MS Surface, issues with multiple touches being required in Chrome still exist.
+o	Added credits.
+o	Addressed code review issues from Sam R.
+o	Added the scoreboard for the game.
+o	Ported the SchematicToElement problem.
+o	Ported the CountsToCharge problem.
+
+HTML5 Common Code - 1.0 hrs
+
+o	Collaborated with SR on full screen for Joist, some other issues.
+
+HTML5 Startup - 4.0 hrs
+
+o	Provided feedback on several versions of page design for sim deployment.
+o	A bit of study time on JavaScript.
+o	Discussed support issues about Safari 5.
+o	Participated in Look and Feel discussion.
+
+HTML5 Startup: Process Development - 4.0 hrs
+
+o	Weekly developer meetings and collaboration (x2).
+
+HTML5 Startup: MLL Management - 2.0 hrs
+
+o	Provided some feedback on a process description written by Dmitry and posted to a shared wiki.
+
+Gravity Force Labs - 3.0 hrs
+
+o	Set up repository.
+o	Had a kickoff meeting with Dmitry.
+o	Added artwork for the pullers.
+o	Did some research and sent MLL a list of common code elements that they should consider using for the implementation.
+
+Teach Site - 12.0 hrs
+
+o	Discussion with Ariel about someone who might be able to implement the teach site.
+o	Started a Google doc with information about the various potential vendors.
+o	Contacted Foracker Labs (local company) about whether they were interested, and they are.
+o	Read through example RFP, made preliminary pass at filling out RFP paperwork for teach site bid.
+o	Met with Jeff Lehman, purchasing agent, to discuss details about the RFP process.
+o	Looked into whether the teach site should be designed to work on phones.
+o	Made initial contact with Pivotal labs about potentially doing the implementation.
+o	Set up meeting with CU OIT to discuss hosting on CU servers.
+o	Posted teach site UX design info in easily accessible place.
+
+EFAC - 1.5 hrs
+
+o	Review and comment on teacher tips from Trish, discussed with Trish.
+
+Environment - 1.5 hrs
+
+o	Added new RAM to my machine.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+o	Status report.
+o	Normal email and administrative overhead.
+o	Logged June hours.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o	Took July 5th as a holiday (exchanged for July 4th).
+o	Will be taking a few days at end of July and/or beginning of August to move.
+o	Two weeks vacation in mid-August.
