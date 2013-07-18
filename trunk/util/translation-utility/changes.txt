@@ -1,3 +1,4 @@
+# 2.14.02 (73366) Jul 18, 2013
 7/18/13 #3553, add preferred fonts for Bengali (bn)
 7/18/13 #3546, try a different preferred font for Telugu (te)
 # 2.14.01 (73078) May 24, 2013
