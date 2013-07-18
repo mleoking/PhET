@@ -1,3 +1,5 @@
+# 1.04.01 (73372) Jul 18, 2013
+7/18/13 deploy dev version to test preferred fonts for Telugu (#3546) and Bengali (#3553)
 # 1.04.00 (73118) Jun 3, 2013
 6/3/13 Deploying to production server to incorporate latest preferred fonts.
 Cleaned up code created specifically for Stanford study, removed most of it.
