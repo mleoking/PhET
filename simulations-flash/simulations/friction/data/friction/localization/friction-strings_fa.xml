@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_fa.xml created Tue Oct 19 22:03:33 IRST 2010 using: friction 2.02.00 (37305), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--friction-strings_fa.xml created Wed Jul 17 13:29:17 IRDT 2013 using: friction 2.03.00 (51676), translation-utility 2.14.00 (69024) Oct 9, 2012-->
 <SimStrings>
-<string key="rubYellowAtoms" value="ساييدن اتم زرد به سبز"/>
+<string key="rubYellowAtoms" value="ساييدن اتم های زرد به اتم های سبز"/>
 <string key="physics" value="فيزيک"/>
-<string key="reset" value="شروع دوباره"/>
-<string key="simTitle" value="اصطکاک  ميان اتم ها"/>
-<string key="chemistry" value="شيمی"/>
+<string key="reset" value="به حالت اول برگردان"/>
+<string key="simTitle" value="اصطکاک  "/>
+<string key="translation.credits" value="&lt;html&gt;خليلي بروجني&lt;br&gt; وب سايت www.avang.org &lt;br&gt;&lt;/html&gt;"/>
+<string key="chemistry" value="حسابان"/>
 </SimStrings>
