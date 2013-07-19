@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_lv.xml created Fri Jul 19 08:09:35 EEST 2013 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.14.00 (69024) Okt 9, 2012--><SimStrings>
+<string key="pause" value="pauze"/>
+<string key="earth" value="Zeme"/>
+<string key="dontBother" value="Netraucēt!"/>
+<string key="16thTime" value="1/16 laika"/>
+<string key="nothinOK" value="Nekas! Labi?"/>
+<string key="mass1Label" value="50 grami"/>
+<string key="mass3Label" value="250 grami"/>
+<string key="planetX" value="Planēta X"/>
+<string key="showEnergyOf" value="Rādīt enerģiju"/>
+<string key="hangMe" value="Piekar mani!"/>
+<string key="resetTimer" value="atiestatīt"/>
+<string key="hard" value="cieta"/>
+<string key="mass7Label" value="100 grami"/>
+<string key="translation.credits" value="Arvis Lācis (@arvislacis)"/>
+<string key="stopWatch" value="Hronometrs"/>
+<string key="none" value="nav"/>
+<string key="realTime" value="reāllaiks"/>
+<string key="startTimer" value="sākt/pārtraukt"/>
+<string key="help4" value="pārvietojams hronometrs"/>
+<string key="help3" value="Pavilkt atsvaru uz augšu, lai to noņemtu"/>
+<string key="showHelp" value="Rādīt palīdzību"/>
+<string key="lots" value="milzīga"/>
+<string key="help2" value="pārvietojama atskaites līnija"/>
+<string key="help1" value="pārvietojams lineāls"/>
+<string key="friction" value="berze"/>
+<string key="PEelas" value="Ep elas"/>
+<string key="jupiter" value="Jupiters"/>
+<string key="moon" value="Mēness"/>
+<string key="energyOf" value="Enerģija"/>
+<string key="total" value="Kopējā"/>
+<string key="sound" value="Skaņa"/>
+<string key="PEgrav" value="Ep grav"/>
+<string key="mass2Label" value="100 grami"/>
+<string key="thermal" value="Termālā"/>
+<string key="quarterTime" value="1/4 laika"/>
+<string key="KE" value="Ek"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="Slēpt palīdzību"/>
+<string key="noHelp" value="Nerāda palīdzību"/>
+<string key="soft" value="mīksta"/>
+<string key="softness" value="3. atsperes stīvums"/>
+<string key="simTitle" value="Atsvari un atsperes"/>
+<string key="totalE" value="kopējā E"/>
+<string key="noShow" value="Nerādīt"/>
+<string key="paused" value="Apstādināts"/>
+</SimStrings>
