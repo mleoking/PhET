@@ -39,8 +39,8 @@ import java.nio.FloatBuffer;
  * Holds a 3x3 matrix.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: Matrix3f.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 public class Matrix3f extends Matrix implements Serializable {
@@ -431,7 +431,7 @@ public class Matrix3f extends Matrix implements Serializable {
 	 * @return the negated matrix
 	 */
 	public Matrix3f negate(Matrix3f dest) {
-		return negate(this, this);
+		return negate(this, dest);
 	}
 
 	/**

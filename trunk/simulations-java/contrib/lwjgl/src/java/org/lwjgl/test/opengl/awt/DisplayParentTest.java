@@ -49,9 +49,9 @@ import static org.lwjgl.util.glu.GLU.*;
  * <p>
  * Tests Display.setParent()
  * <p>
- * @version $Revision: 3418 $
- * @author $Author: spasi $
- * $Id: DisplayParentTest.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * @author $Author$
+ * $Id$
  */
 public class DisplayParentTest extends Frame {
 	boolean killswitch;

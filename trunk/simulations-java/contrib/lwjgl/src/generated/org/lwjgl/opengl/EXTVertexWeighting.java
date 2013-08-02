@@ -38,9 +38,9 @@ public final class EXTVertexWeighting {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_vertex_weighting_glVertexWeightPointerEXT_pPointer = pPointer;
-		nglVertexWeightPointerEXT(size, GL11.GL_FLOAT, stride, pPointer, pPointer.position() << 2, function_pointer);
+		nglVertexWeightPointerEXT(size, GL11.GL_FLOAT, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
-	static native void nglVertexWeightPointerEXT(int size, int type, int stride, Buffer pPointer, int pPointer_position, long function_pointer);
+	static native void nglVertexWeightPointerEXT(int size, int type, int stride, long pPointer, long function_pointer);
 	public static void glVertexWeightPointerEXT(int size, int type, int stride, long pPointer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexWeightPointerEXT;

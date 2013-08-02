@@ -27,7 +27,7 @@ public final class ARBPointParameters {
 		long function_pointer = caps.glPointParameterfvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pfParams, 4);
-		nglPointParameterfvARB(pname, pfParams, pfParams.position(), function_pointer);
+		nglPointParameterfvARB(pname, MemoryUtil.getAddress(pfParams), function_pointer);
 	}
-	static native void nglPointParameterfvARB(int pname, FloatBuffer pfParams, int pfParams_position, long function_pointer);
+	static native void nglPointParameterfvARB(int pname, long pfParams, long function_pointer);
 }

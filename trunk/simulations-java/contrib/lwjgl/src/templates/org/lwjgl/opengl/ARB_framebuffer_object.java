@@ -197,7 +197,7 @@ public interface ARB_framebuffer_object {
 
 	@Reuse("GL30")
 	@Alternate("glDeleteRenderbuffers")
-	void glDeleteRenderbuffers(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, renderbuffer), 0", keepParam = true) int renderbuffer);
+	void glDeleteRenderbuffers(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, renderbuffer)", keepParam = true) int renderbuffer);
 
 	@Reuse("GL30")
 	void glGenRenderbuffers(@AutoSize("renderbuffers") @GLsizei int n, @OutParameter @GLuint IntBuffer renderbuffers);
@@ -220,11 +220,19 @@ public interface ARB_framebuffer_object {
 	@StripPostfix("params")
 	void glGetRenderbufferParameteriv(@GLenum int target, @GLenum int pname, @Check("4") @OutParameter IntBuffer params);
 
-	@Reuse("GL30")
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetRenderbufferParameteri} instead. */
 	@Alternate("glGetRenderbufferParameteriv")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "ARBFramebufferObject", method = "glGetRenderbufferParameteri")
+	@Deprecated
 	void glGetRenderbufferParameteriv2(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
+
+	@Reuse("GL30")
+	@Alternate("glGetRenderbufferParameteriv")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetRenderbufferParameteriv3(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
 
 	@Reuse("GL30")
 	boolean glIsFramebuffer(@GLuint int framebuffer);
@@ -237,7 +245,7 @@ public interface ARB_framebuffer_object {
 
 	@Reuse("GL30")
 	@Alternate("glDeleteFramebuffers")
-	void glDeleteFramebuffers(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, framebuffer), 0", keepParam = true) int framebuffer);
+	void glDeleteFramebuffers(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, framebuffer)", keepParam = true) int framebuffer);
 
 	@Reuse("GL30")
 	void glGenFramebuffers(@AutoSize("framebuffers") @GLsizei int n, @OutParameter @GLuint IntBuffer framebuffers);
@@ -277,11 +285,20 @@ public interface ARB_framebuffer_object {
 	void glGetFramebufferAttachmentParameteriv(@GLenum int target, @GLenum int attachment,
 	                                           @GLenum int pname, @Check("4") @OutParameter IntBuffer params);
 
-	@Reuse("GL30")
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetFramebufferAttachmentParameteri} instead. */
 	@Alternate("glGetFramebufferAttachmentParameteriv")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "GL30", method = "glGetFramebufferAttachmentParameteri")
+	@Deprecated
 	void glGetFramebufferAttachmentParameteriv2(@GLenum int target, @GLenum int attachment,
+	                                            @GLenum int pname, @OutParameter IntBuffer params);
+
+	@Reuse("GL30")
+	@Alternate("glGetFramebufferAttachmentParameteriv")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetFramebufferAttachmentParameteriv3(@GLenum int target, @GLenum int attachment,
 	                                            @GLenum int pname, @OutParameter IntBuffer params);
 
 	@Reuse("GL30")

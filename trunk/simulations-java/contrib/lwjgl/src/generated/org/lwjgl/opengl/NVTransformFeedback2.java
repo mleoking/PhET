@@ -35,16 +35,16 @@ public final class NVTransformFeedback2 {
 		long function_pointer = caps.glDeleteTransformFeedbacksNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(ids);
-		nglDeleteTransformFeedbacksNV(ids.remaining(), ids, ids.position(), function_pointer);
+		nglDeleteTransformFeedbacksNV(ids.remaining(), MemoryUtil.getAddress(ids), function_pointer);
 	}
-	static native void nglDeleteTransformFeedbacksNV(int ids_n, IntBuffer ids, int ids_position, long function_pointer);
+	static native void nglDeleteTransformFeedbacksNV(int ids_n, long ids, long function_pointer);
 
 	/** Overloads glDeleteTransformFeedbacksNV. */
 	public static void glDeleteTransformFeedbacksNV(int id) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteTransformFeedbacksNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteTransformFeedbacksNV(1, APIUtil.getBufferInt().put(0, id), 0, function_pointer);
+		nglDeleteTransformFeedbacksNV(1, APIUtil.getInt(caps, id), function_pointer);
 	}
 
 	public static void glGenTransformFeedbacksNV(IntBuffer ids) {
@@ -52,17 +52,17 @@ public final class NVTransformFeedback2 {
 		long function_pointer = caps.glGenTransformFeedbacksNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(ids);
-		nglGenTransformFeedbacksNV(ids.remaining(), ids, ids.position(), function_pointer);
+		nglGenTransformFeedbacksNV(ids.remaining(), MemoryUtil.getAddress(ids), function_pointer);
 	}
-	static native void nglGenTransformFeedbacksNV(int ids_n, IntBuffer ids, int ids_position, long function_pointer);
+	static native void nglGenTransformFeedbacksNV(int ids_n, long ids, long function_pointer);
 
 	/** Overloads glGenTransformFeedbacksNV. */
 	public static int glGenTransformFeedbacksNV() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenTransformFeedbacksNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer ids = APIUtil.getBufferInt();
-		nglGenTransformFeedbacksNV(1, ids, ids.position(), function_pointer);
+		IntBuffer ids = APIUtil.getBufferInt(caps);
+		nglGenTransformFeedbacksNV(1, MemoryUtil.getAddress(ids), function_pointer);
 		return ids.get(0);
 	}
 

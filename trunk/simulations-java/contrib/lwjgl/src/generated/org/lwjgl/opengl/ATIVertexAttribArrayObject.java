@@ -22,16 +22,16 @@ public final class ATIVertexAttribArrayObject {
 		long function_pointer = caps.glGetVertexAttribArrayObjectfvATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribArrayObjectfvATI(index, pname, params, params.position(), function_pointer);
+		nglGetVertexAttribArrayObjectfvATI(index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribArrayObjectfvATI(int index, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribArrayObjectfvATI(int index, int pname, long params, long function_pointer);
 
 	public static void glGetVertexAttribArrayObjectATI(int index, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexAttribArrayObjectivATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribArrayObjectivATI(index, pname, params, params.position(), function_pointer);
+		nglGetVertexAttribArrayObjectivATI(index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribArrayObjectivATI(int index, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribArrayObjectivATI(int index, int pname, long params, long function_pointer);
 }

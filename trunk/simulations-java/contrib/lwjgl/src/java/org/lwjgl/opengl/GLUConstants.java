@@ -38,8 +38,8 @@ import static org.lwjgl.opengl.GL11.*;
  * GLU constants.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: GLUConstants.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public interface GLUConstants {
 

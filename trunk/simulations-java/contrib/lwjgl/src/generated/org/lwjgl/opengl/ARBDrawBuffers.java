@@ -36,15 +36,15 @@ public final class ARBDrawBuffers {
 		long function_pointer = caps.glDrawBuffersARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(buffers);
-		nglDrawBuffersARB(buffers.remaining(), buffers, buffers.position(), function_pointer);
+		nglDrawBuffersARB(buffers.remaining(), MemoryUtil.getAddress(buffers), function_pointer);
 	}
-	static native void nglDrawBuffersARB(int buffers_size, IntBuffer buffers, int buffers_position, long function_pointer);
+	static native void nglDrawBuffersARB(int buffers_size, long buffers, long function_pointer);
 
 	/** Overloads glDrawBuffersARB. */
 	public static void glDrawBuffersARB(int buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDrawBuffersARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDrawBuffersARB(1, APIUtil.getBufferInt().put(0, buffer), 0, function_pointer);
+		nglDrawBuffersARB(1, APIUtil.getInt(caps, buffer), function_pointer);
 	}
 }

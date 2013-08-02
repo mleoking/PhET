@@ -39,7 +39,7 @@ import static org.lwjgl.opengl.GL30.*;
  * Simple utility class.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3418 $
+ * @version $Revision$
  */
 
 public final class Util {

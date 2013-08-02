@@ -42,8 +42,8 @@ import org.lwjgl.Sys;
  * </p>
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3418 $
- * $Id: AL.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public final class AL {
 	/** ALCdevice instance. */

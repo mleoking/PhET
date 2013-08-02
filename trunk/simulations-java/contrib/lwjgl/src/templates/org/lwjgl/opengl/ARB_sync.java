@@ -97,7 +97,7 @@ public interface ARB_sync {
 	@Reuse("GL32")
 	@Alternate("glGetInteger64v")
 	@GLreturn("params")
-	@StripPostfix("params")
+	@StripPostfix(value = "params", postfix = "v")
 	void glGetInteger64v2(@GLenum int pname, @OutParameter @GLint64 LongBuffer params);
 
 	@Reuse("GL32")
@@ -106,11 +106,21 @@ public interface ARB_sync {
 	                 @OutParameter @GLsizei @Check(value = "1", canBeNull = true) IntBuffer length,
 	                 @OutParameter IntBuffer values);
 
-	@Reuse("GL32")
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetSynci} instead. */
 	@Alternate("glGetSynciv")
 	@GLreturn("values")
 	@StripPostfix("values")
+	@Reuse(value = "GL32", method = "glGetSynci")
+	@Deprecated
 	void glGetSynciv2(@PointerWrapper("GLsync") GLSync sync, @GLenum int pname, @Constant("1") @GLsizei int bufSize,
-	                  @OutParameter @GLsizei @Constant("null, 0") IntBuffer length,
+	                  @OutParameter @GLsizei @Constant("0L") IntBuffer length,
+	                  @OutParameter IntBuffer values);
+
+	@Reuse("GL32")
+	@Alternate("glGetSynciv")
+	@GLreturn("values")
+	@StripPostfix(value = "values", postfix = "v")
+	void glGetSynciv3(@PointerWrapper("GLsync") GLSync sync, @GLenum int pname, @Constant("1") @GLsizei int bufSize,
+	                  @OutParameter @GLsizei @Constant("0L") IntBuffer length,
 	                  @OutParameter IntBuffer values);
 }

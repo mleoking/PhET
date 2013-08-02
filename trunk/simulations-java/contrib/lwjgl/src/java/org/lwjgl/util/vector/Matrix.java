@@ -40,8 +40,8 @@ import java.nio.FloatBuffer;
  * matrix unless otherwise stated.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: Matrix.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public abstract class Matrix implements Serializable {
 

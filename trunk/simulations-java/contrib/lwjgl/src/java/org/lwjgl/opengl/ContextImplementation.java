@@ -42,8 +42,8 @@ import org.lwjgl.LWJGLException;
  * <p/>
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- * $Id: ContextImplementation.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 interface ContextImplementation {
 	/**

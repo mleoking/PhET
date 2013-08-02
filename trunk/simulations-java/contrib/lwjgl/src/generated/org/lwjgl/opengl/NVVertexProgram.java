@@ -167,63 +167,63 @@ public final class NVVertexProgram extends NVProgram {
 		long function_pointer = caps.glExecuteProgramNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglExecuteProgramNV(target, id, params, params.position(), function_pointer);
+		nglExecuteProgramNV(target, id, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglExecuteProgramNV(int target, int id, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglExecuteProgramNV(int target, int id, long params, long function_pointer);
 
 	public static void glGetProgramParameterNV(int target, int index, int parameterName, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramParameterfvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramParameterfvNV(target, index, parameterName, params, params.position(), function_pointer);
+		nglGetProgramParameterfvNV(target, index, parameterName, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramParameterfvNV(int target, int index, int parameterName, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramParameterfvNV(int target, int index, int parameterName, long params, long function_pointer);
 
 	public static void glGetProgramParameterNV(int target, int index, int parameterName, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramParameterdvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramParameterdvNV(target, index, parameterName, params, params.position(), function_pointer);
+		nglGetProgramParameterdvNV(target, index, parameterName, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramParameterdvNV(int target, int index, int parameterName, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramParameterdvNV(int target, int index, int parameterName, long params, long function_pointer);
 
 	public static void glGetTrackMatrixNV(int target, int address, int parameterName, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTrackMatrixivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTrackMatrixivNV(target, address, parameterName, params, params.position(), function_pointer);
+		nglGetTrackMatrixivNV(target, address, parameterName, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTrackMatrixivNV(int target, int address, int parameterName, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetTrackMatrixivNV(int target, int address, int parameterName, long params, long function_pointer);
 
 	public static void glGetVertexAttribNV(int index, int parameterName, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexAttribfvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribfvNV(index, parameterName, params, params.position(), function_pointer);
+		nglGetVertexAttribfvNV(index, parameterName, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribfvNV(int index, int parameterName, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribfvNV(int index, int parameterName, long params, long function_pointer);
 
 	public static void glGetVertexAttribNV(int index, int parameterName, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexAttribdvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribdvNV(index, parameterName, params, params.position(), function_pointer);
+		nglGetVertexAttribdvNV(index, parameterName, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribdvNV(int index, int parameterName, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribdvNV(int index, int parameterName, long params, long function_pointer);
 
 	public static void glGetVertexAttribNV(int index, int parameterName, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexAttribivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribivNV(index, parameterName, params, params.position(), function_pointer);
+		nglGetVertexAttribivNV(index, parameterName, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribivNV(int index, int parameterName, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribivNV(int index, int parameterName, long params, long function_pointer);
 
 	public static ByteBuffer glGetVertexAttribPointerNV(int index, int parameterName, long result_size) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -255,18 +255,18 @@ public final class NVVertexProgram extends NVProgram {
 		long function_pointer = caps.glProgramParameters4fvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramParameters4fvNV(target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramParameters4fvNV(target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramParameters4fvNV(int target, int index, int params_count, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglProgramParameters4fvNV(int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glProgramParameters4NV(int target, int index, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramParameters4dvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramParameters4dvNV(target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramParameters4dvNV(target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramParameters4dvNV(int target, int index, int params_count, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglProgramParameters4dvNV(int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glTrackMatrixNV(int target, int address, int matrix, int transform) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -283,7 +283,7 @@ public final class NVVertexProgram extends NVProgram {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerNV(index, size, type, stride, buffer, buffer.position() << 3, function_pointer);
+		nglVertexAttribPointerNV(index, size, type, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribPointerNV(int index, int size, int type, int stride, FloatBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -292,7 +292,7 @@ public final class NVVertexProgram extends NVProgram {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerNV(index, size, type, stride, buffer, buffer.position() << 2, function_pointer);
+		nglVertexAttribPointerNV(index, size, type, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribPointerNV(int index, int size, int type, int stride, ByteBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -301,7 +301,7 @@ public final class NVVertexProgram extends NVProgram {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerNV(index, size, type, stride, buffer, buffer.position(), function_pointer);
+		nglVertexAttribPointerNV(index, size, type, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribPointerNV(int index, int size, int type, int stride, IntBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -310,7 +310,7 @@ public final class NVVertexProgram extends NVProgram {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerNV(index, size, type, stride, buffer, buffer.position() << 2, function_pointer);
+		nglVertexAttribPointerNV(index, size, type, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribPointerNV(int index, int size, int type, int stride, ShortBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -319,9 +319,9 @@ public final class NVVertexProgram extends NVProgram {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerNV(index, size, type, stride, buffer, buffer.position() << 1, function_pointer);
+		nglVertexAttribPointerNV(index, size, type, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
-	static native void nglVertexAttribPointerNV(int index, int size, int type, int stride, Buffer buffer, int buffer_position, long function_pointer);
+	static native void nglVertexAttribPointerNV(int index, int size, int type, int stride, long buffer, long function_pointer);
 	public static void glVertexAttribPointerNV(int index, int size, int type, int stride, long buffer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribPointerNV;
@@ -440,106 +440,106 @@ public final class NVVertexProgram extends NVProgram {
 		long function_pointer = caps.glVertexAttribs1svNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs1svNV(index, v.remaining(), v, v.position(), function_pointer);
+		nglVertexAttribs1svNV(index, v.remaining(), MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs1svNV(int index, int v_n, ShortBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs1svNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs1NV(int index, FloatBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs1fvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs1fvNV(index, v.remaining(), v, v.position(), function_pointer);
+		nglVertexAttribs1fvNV(index, v.remaining(), MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs1fvNV(int index, int v_n, FloatBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs1fvNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs1NV(int index, DoubleBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs1dvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs1dvNV(index, v.remaining(), v, v.position(), function_pointer);
+		nglVertexAttribs1dvNV(index, v.remaining(), MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs1dvNV(int index, int v_n, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs1dvNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs2NV(int index, ShortBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs2svNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs2svNV(index, v.remaining() >> 1, v, v.position(), function_pointer);
+		nglVertexAttribs2svNV(index, v.remaining() >> 1, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs2svNV(int index, int v_n, ShortBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs2svNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs2NV(int index, FloatBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs2fvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs2fvNV(index, v.remaining() >> 1, v, v.position(), function_pointer);
+		nglVertexAttribs2fvNV(index, v.remaining() >> 1, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs2fvNV(int index, int v_n, FloatBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs2fvNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs2NV(int index, DoubleBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs2dvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs2dvNV(index, v.remaining() >> 1, v, v.position(), function_pointer);
+		nglVertexAttribs2dvNV(index, v.remaining() >> 1, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs2dvNV(int index, int v_n, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs2dvNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs3NV(int index, ShortBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs3svNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs3svNV(index, v.remaining() / 3, v, v.position(), function_pointer);
+		nglVertexAttribs3svNV(index, v.remaining() / 3, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs3svNV(int index, int v_n, ShortBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs3svNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs3NV(int index, FloatBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs3fvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs3fvNV(index, v.remaining() / 3, v, v.position(), function_pointer);
+		nglVertexAttribs3fvNV(index, v.remaining() / 3, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs3fvNV(int index, int v_n, FloatBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs3fvNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs3NV(int index, DoubleBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs3dvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs3dvNV(index, v.remaining() / 3, v, v.position(), function_pointer);
+		nglVertexAttribs3dvNV(index, v.remaining() / 3, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs3dvNV(int index, int v_n, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs3dvNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs4NV(int index, ShortBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs4svNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs4svNV(index, v.remaining() >> 2, v, v.position(), function_pointer);
+		nglVertexAttribs4svNV(index, v.remaining() >> 2, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs4svNV(int index, int v_n, ShortBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs4svNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs4NV(int index, FloatBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs4fvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs4fvNV(index, v.remaining() >> 2, v, v.position(), function_pointer);
+		nglVertexAttribs4fvNV(index, v.remaining() >> 2, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs4fvNV(int index, int v_n, FloatBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs4fvNV(int index, int v_n, long v, long function_pointer);
 
 	public static void glVertexAttribs4NV(int index, DoubleBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs4dvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglVertexAttribs4dvNV(index, v.remaining() >> 2, v, v.position(), function_pointer);
+		nglVertexAttribs4dvNV(index, v.remaining() >> 2, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribs4dvNV(int index, int v_n, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribs4dvNV(int index, int v_n, long v, long function_pointer);
 }

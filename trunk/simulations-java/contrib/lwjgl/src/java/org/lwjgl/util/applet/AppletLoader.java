@@ -41,8 +41,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.image.ImageObserver;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -66,22 +65,32 @@ import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.security.AccessControlException;
 import java.security.AccessController;
+import java.security.AllPermission;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
+import java.security.Permissions;
 import java.security.PrivilegedExceptionAction;
 import java.security.SecureClassLoader;
 import java.security.cert.Certificate;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Pack200;
+import java.util.zip.CRC32;
+import java.util.zip.CheckedInputStream;
 import java.util.zip.GZIPInputStream;
-
-import sun.security.util.SecurityConstants;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * <p>
@@ -97,9 +106,8 @@ import sun.security.util.SecurityConstants;
  * The following applet parameters are required:
  * <ul>
  * <li>al_main - [String] Full package and class the applet to instantiate and display when loaded.</li>
- * <li>al_logo - [String Path of of the logo resource to paint while loading.</li>
- * <li>al_progressbar - [String] Path of the progressbar resource to paint on top of the logo, width clipped by percentage.</li>
- * <li>al_jars - [String] Comma seperated list of jars to download.</li>
+ * <li>al_jars - [String] Comma separated list of jars to download.</li>
+ * <p>
  * <li>al_windows - [String] Jar containing native files for windows.</li>
  * <li>al_linux - [String] Jar containing native files for linux.</li>
  * <li>al_mac - [String] Jar containing native files for mac.</li>
@@ -110,66 +118,101 @@ import sun.security.util.SecurityConstants;
  * <p>
  * Additionally the following parameters can be supplied to tweak the behaviour of the AppletLoader.
  * <ul>
+ * <li>al_cache - [boolean] Whether to use cache system. <i>Default: true</i>.</li>
  * <li>al_version - [int or float] Version of deployment. If this is specified, the jars will be cached and
  * reused if the version matches. If version doesn't match all of the files are reloaded.</li>
- * <li>al_cache - [boolean] Whether to use cache system. <i>Default: true</i>.</li>
+ * 
  * <li>al_debug - [boolean] Whether to enable debug mode. <i>Default: false</i>.</li>
- * <li>al_prepend_host - [boolean] Whether to limit caching to this domain, disable if your applet is hosted on multple domains and needs to share the cache. <i>Default: true</i>.</li>
- * <ul>
+ * <li>al_min_jre - [String] Specify the minimum jre version that the applet requires, should be in format like 1.6.0_24 or a subset like 1.6 <i>Default: 1.5</i>.</li>
+ * <li>al_prepend_host - [boolean] Whether to limit caching to this domain, disable if your applet is hosted on multiple domains and needs to share the cache. <i>Default: true</i>.</li>
+ * <li>al_lookup_threads - [int] Specify the number of concurrent threads to use to get file information before downloading. <i>Default: 1</i>.</li>
+ * <p>
  * <li>al_windows64 - [String] If specified it will be used instead of al_windows on 64bit windows systems.</li>
- * <li>al_windows32 - [String] If specifed it will be used instead of al_windows on 32bit windows systems.</li>
- * <li>al_linux64 - [String] If specifed it will be used instead of al_linux on 64bit linux systems.</li>
- * <li>al_linux32 - [String] If specifed it will be used instead of al_linux on 32bit linux systems.</li>
- * <ul>
+ * <li>al_windows32 - [String] If specified it will be used instead of al_windows on 32bit windows systems.</li>
+ * <li>al_linux64 - [String] If specified it will be used instead of al_linux on 64bit linux systems.</li>
+ * <li>al_linux32 - [String] If specified it will be used instead of al_linux on 32bit linux systems.</li>
+ * <li>al_mac32 - [String] If specified it will be used instead of al_mac on 64bit mac systems.</li>
+ * <li>al_mac64 - [String] If specified it will be used instead of al_mac on 32bit mac systems.</li>
+ * <li>al_macppc - [String] If specified it will be used instead of al_mac on PPC mac systems.</li>
+ * <p>
  * <li>boxbgcolor - [String] any String AWT color ("red", "blue", etc), RGB (0-255) or hex formated color (#RRGGBB) to use as background. <i>Default: #ffffff</i>.</li>
  * <li>boxfgcolor - [String] any String AWT color ("red", "blue", etc), RGB (0-255) or hex formated color (#RRGGBB) to use as foreground. <i>Default: #000000</i>.</li>
+ * <p>
+ * <li>al_logo - [String Path of of the logo resource to paint while loading.<i>Default: "appletlogo.gif"</i>.</li>
+ * <li>al_progressbar - [String] Path of the progressbar resource to paint on top of the logo, width clipped by percentage.<i>Default: "appletprogress.gif"</i>.</li>
+ * <p>
+ * <li>lwjgl_arguments - </li> [String] used to pass LWJGL parameters to LWJGL e.g. ("-Dorg.lwjgl.input.Mouse.allowNegativeMouseCoords=true -Dorg.lwjgl.util.Debug=true").</li>
  * </ul>
  * </p>
- * @author kappaOne
+ * @author kappaOne <one.kappa@gmail.com>
  * @author Brian Matzon <brian@matzon.dk>
  * @version $Revision$
  * $Id$
+ * 
+ * Contributors:
+ * <ul>
+ * <li>Arielsan</li>
+ * <li>Bobjob</li>
+ * <li>Dashiva</li>
+ * <li>Dr_evil</li>
+ * <li>Elias Naur</li>
+ * <li>Kevin Glass</li>
+ * <li>Matthias Mann</li>
+ * <li>Mickelukas</li>
+ * <li>NateS</li>
+ * <li>Pelle Johnsen</li>
+ * <li>Riven</li>
+ * <li>Ruben01</li>
+ * <li>Shannon Smith</li>
+ * </ul>
+ * 
  */
 public class AppletLoader extends Applet implements Runnable, AppletStub {
 
 	/** initializing */
 	public static final int STATE_INIT 						= 1;
+	
+	/** checking version of jre */
+	public static final int STATE_CHECK_JRE_VERSION			= 2;
 
 	/** determining which packages that are required */
-	public static final int STATE_DETERMINING_PACKAGES 		= 2;
+	public static final int STATE_DETERMINING_PACKAGES 		= 3;
 
 	/** checking for already downloaded files */
-	public static final int STATE_CHECKING_CACHE 			= 3;
+	public static final int STATE_CHECKING_CACHE 			= 4;
+	
+	/** checking if any updates are available for cache files */
+	public static final int STATE_CHECKING_FOR_UPDATES		= 5;
 
 	/** downloading packages */
-	public static final int STATE_DOWNLOADING 				= 4;
+	public static final int STATE_DOWNLOADING 				= 6;
 
 	/** extracting packages */
-	public static final int STATE_EXTRACTING_PACKAGES 		= 5;
+	public static final int STATE_EXTRACTING_PACKAGES 		= 7;
+	
+	/** validating packages */
+	public static final int STATE_VALIDATING_PACKAGES 		= 8;
 
 	/** updating the classpath */
-	public static final int STATE_UPDATING_CLASSPATH 		= 6;
+	public static final int STATE_UPDATING_CLASSPATH 		= 9;
 
 	/** switching to real applet */
-	public static final int STATE_SWITCHING_APPLET 			= 7;
+	public static final int STATE_SWITCHING_APPLET 			= 10;
 
 	/** initializing real applet */
-	public static final int STATE_INITIALIZE_REAL_APPLET	= 8;
+	public static final int STATE_INITIALIZE_REAL_APPLET	= 11;
 
 	/** stating real applet */
-	public static final int STATE_START_REAL_APPLET 		= 9;
+	public static final int STATE_START_REAL_APPLET 		= 12;
 
 	/** done */
-	public static final int STATE_DONE 						= 10;
+	public static final int STATE_DONE 						= 13;
 
 	/** used to calculate length of progress bar */
-	protected int		percentage;
-
-	/** current size of download in bytes */
-	protected int		currentSizeDownload;
+	protected volatile int percentage;
 
 	/** total size of download in bytes */
-	protected int		totalSizeDownload;
+	protected int		totalDownloadSize;
 
 	/** current size of extracted in bytes */
 	protected int		currentSizeExtract;
@@ -210,9 +253,6 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	/** applet to load after all downloads are complete */
 	protected Applet	lwjglApplet;
 
-	/** whether a fatal error occured */
-	protected boolean	fatalError;
-
 	/** whether we're running in debug mode */
 	protected boolean 	debugMode;
 
@@ -242,23 +282,49 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 
 	/** whether pack200 is supported */
 	protected boolean 	pack200Supported;
+	
+	/** whether to run in headless mode */
+	protected boolean 	headless = false;
+	
+	/** whether to switch applets in headless mode or wait longer */
+	protected boolean 	headlessWaiting = true;
+
+	/** messages to be passed via liveconnect in headless mode */
+	protected String[] 	headlessMessage;
+	
+	/** threads to use when fetching information of files to be downloaded */
+	protected int 		concurrentLookupThreads;
+	
+	/** whether a fatal error occurred */
+	protected boolean	fatalError;
+	
+	/** whether a certificate refused error occurred */
+	protected boolean	certificateRefused;
+	
+	/** whether the minimum required JRE version is not found */
+	protected boolean	minimumJreNotFound;
 
 	/** generic error message to display on error */
 	protected String[] 	genericErrorMessage = {	"An error occured while loading the applet.",
 												"Please contact support to resolve this issue.",
 												"<placeholder for error message>"};
 
-	/** whether a certificate refused error occured */
-	protected boolean	certificateRefused;
-
-	/** error message to display if user refuses to accept certicate*/
+	/** error message to display if user refuses to accept certificate*/
 	protected String[] 	certificateRefusedMessage = { "Permissions for Applet Refused.",
 												      "Please accept the permissions dialog to allow",
 												      "the applet to continue the loading process."};
-
+	
+	/** error message to display if minimum JRE version is not met */
+	protected String[] 	minimumJREMessage = { "Your version of Java is out of date.",
+											  "Visit java.com to get the latest version.",
+											  "Java <al_min_jre> or greater is required."};
+	
+	/** fatal error message to display */
+	protected String[]	errorMessage;
+	
 	/** have natives been loaded by another instance of this applet */
 	protected static boolean natives_loaded;
-
+	
 	/*
 	 * @see java.applet.Applet#init()
 	 */
@@ -266,14 +332,14 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		setState(STATE_INIT);
 		
 		// sanity check
-		String[] requiredArgs = {"al_main", "al_logo", "al_progressbar", "al_jars"};
+		String[] requiredArgs = {"al_main", "al_jars"};
 		for ( String requiredArg : requiredArgs ) {
 			if ( getParameter(requiredArg) == null ) {
 				fatalErrorOccured("missing required applet parameter: " + requiredArg, null);
 				return;
 			}
 		}
-
+		
 		// whether to use cache system
 		cacheEnabled	= getBooleanParameter("al_cache", true);
 
@@ -283,17 +349,21 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		// whether to prepend host to cache path
 		prependHost 	= getBooleanParameter("al_prepend_host", true);
 
+		// whether to run in headless mode
+		headless		= getBooleanParameter("al_headless", false);
+		
+		// obtain the number of concurrent lookup threads to use
+		concurrentLookupThreads = getIntParameter("al_lookup_threads", 1); // defaults to 1
+		
 		// get colors of applet
 		bgColor 		= getColor("boxbgcolor", Color.white);
 		setBackground(bgColor);
 		fgColor 		= getColor("boxfgcolor", Color.black);
 
-		// load logos, if value is "" then skip
-		if (getParameter("al_logo").length() > 0) {
-			logo 		= getImage(getParameter("al_logo"));
-		}
-		if (getParameter("al_progressbar").length() > 0) {
-			progressbar = getImage(getParameter("al_progressbar"));
+		if (!headless) {
+			// load logos
+			logo 		= getImage(getStringParameter("al_logo", "appletlogo.gif"));
+			progressbar = getImage(getStringParameter("al_progressbar", "appletprogress.gif"));
 		}
 
 		// check for lzma support
@@ -338,17 +408,19 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 				loaderThread.setName("AppletLoader.loaderThread");
 				loaderThread.start();
 
-				animationThread = new Thread() {
-					public void run() {
-						while(loaderThread != null) {
-							repaint();
-							AppletLoader.this.sleep(100);
+				if (!headless) {
+					animationThread = new Thread() {
+						public void run() {
+							while(loaderThread != null) {
+								repaint();
+								AppletLoader.this.sleep(100);
+							}
+							animationThread = null;
 						}
-						animationThread = null;
-					}
-				};
-				animationThread.setName("AppletLoader.animationthread");
-				animationThread.start();
+					};
+					animationThread.setName("AppletLoader.animationthread");
+					animationThread.start();
+				}
 			}
 		}
 	}
@@ -392,6 +464,51 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	}
 
 	/**
+	 * Retrieves the current status of the AppletLoader and is 
+	 * used by liveconnect when running in headless mode.
+	 * 
+	 * This method will return the current progress of the AppletLoader
+	 * as a value from 0-100. In the case of a fatal error it will
+	 * return -1. If the certificate is refused it will return -2.
+	 * If the minimum jre requirement is not met will return -3.
+	 * 
+	 * When method returns 100 the AppletLoader will sleep until the 
+	 * method is called again. When called again it will switch to the
+	 * LWJGL Applet. This is a useful trigger to start the LWJGL applet 
+	 * when needed.
+	 */
+	public int getStatus() {
+		if (fatalError) {
+			headlessMessage = errorMessage;
+			
+			if (certificateRefused) return -2;
+			if (minimumJreNotFound) return -3;
+			return -1;
+		}
+		
+		if (percentage == 100 && headlessWaiting) {
+			headlessWaiting = false;
+		}
+		
+		if (percentage == 95) {
+			percentage = 100; // ready to switch applet
+		}
+		
+		String[] message = {getDescriptionForState(), subtaskMessage};
+		headlessMessage = message;
+		
+		return percentage;
+	}
+	
+	/**
+	 * Retrieves the current message for the current status. 
+	 * Used by liveconnect when running in headless mode.
+	 */
+	public String[] getMessages() {
+		return headlessMessage;
+	}
+	
+	/**
 	 * Transfers the call of AppletResize from the stub to the lwjglApplet.
 	 */
 	public void appletResize(int width, int height) {
@@ -414,6 +531,9 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			cleanUp(); // clean up resources
 			return;
 		}
+		
+		// no drawing in headless mode
+		if (headless) return;
 
 		// create offscreen if missing
 		if (offscreen == null) {
@@ -446,12 +566,9 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		og.fillRect(0, 0, offscreen.getWidth(null), offscreen.getHeight(null));
 
 		og.setColor(fgColor);
-		String message = getDescriptionForState();
-
+		
 		// if we had a failure of some sort, notify the user
 		if (fatalError) {
-			String[] errorMessage = (certificateRefused) ? certificateRefusedMessage : genericErrorMessage;
-
 			for(int i=0; i<errorMessage.length; i++) {
 				if(errorMessage[i] != null) {
 					int messageX = (offscreen.getWidth(null) - fm.stringWidth(errorMessage[i])) / 2;
@@ -475,6 +592,8 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			}
 
 			// draw message
+			String message = getDescriptionForState();
+			
 			int messageX = (offscreen.getWidth(null) - fm.stringWidth(message)) / 2;
 			int messageY = y + 20;
 
@@ -489,7 +608,7 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 				og.drawString(subtaskMessage, messageX, messageY+20);
 			}
 
-			// draw loading bar, clipping it depending on percentage done
+			// draw loading progress bar, clipping it depending on percentage done
 			if (progressbar != null) {
 				int barSize = (progressbar.getWidth(null) * percentage) / 100;
 				og.clipRect(x-progressbar.getWidth(null)/2, 0, barSize, offscreen.getHeight(null));
@@ -553,14 +672,20 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		switch (state) {
 			case STATE_INIT:
 				return "Initializing loader";
+			case STATE_CHECK_JRE_VERSION:
+				return "Checking version";
 			case STATE_DETERMINING_PACKAGES:
 				return "Determining packages to load";
 			case STATE_CHECKING_CACHE:
 				return "Calculating download size";
+			case STATE_CHECKING_FOR_UPDATES:
+				return "Checking for updates";
 			case STATE_DOWNLOADING:
 				return "Downloading packages";
 			case STATE_EXTRACTING_PACKAGES:
 				return "Extracting downloaded packages";
+			case STATE_VALIDATING_PACKAGES:
+				return "Validating packages";
 			case STATE_UPDATING_CLASSPATH:
 				return "Updating classpath";
 			case STATE_SWITCHING_APPLET:
@@ -583,11 +708,12 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	 */
 	protected String trimExtensionByCapabilities(String file) {
 		if (!pack200Supported) {
-			file = file.replaceAll(".pack", "");
+			file = file.replace(".pack", "");
 		}
 
-		if (!lzmaSupported) {
-			file = file.replaceAll(".lzma", "");
+		if (!lzmaSupported && file.endsWith(".lzma")) {
+			file = file.replace(".lzma", "");
+			System.out.println("LZMA decoder (lzma.jar) not found, trying " + file + " without lzma extension.");
 		}
 		return file;
 	}
@@ -619,7 +745,7 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 				nativeJarList = getParameter("al_windows");
 			}
 
-		} else if (osName.startsWith("Linux")) {
+		} else if (osName.startsWith("Linux") || osName.startsWith("Unix")) {
 
 			// check if arch specific natives have been specified
 			if (System.getProperty("os.arch").endsWith("64")) {
@@ -633,7 +759,20 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			}
 
 		} else if (osName.startsWith("Mac") || osName.startsWith("Darwin")) {
-			nativeJarList = getParameter("al_mac");
+			
+			// check if arch specific natives have been specified
+			if (System.getProperty("os.arch").endsWith("64")) {
+				nativeJarList = getParameter("al_mac64");
+			} else if (System.getProperty("os.arch").contains("ppc")) {
+				nativeJarList = getParameter("al_macppc");
+			} else {
+				nativeJarList = getParameter("al_mac32");
+			}
+
+			if (nativeJarList == null) {
+				nativeJarList = getParameter("al_mac");
+			}
+			
 		} else if (osName.startsWith("Solaris") || osName.startsWith("SunOS")) {
 			nativeJarList = getParameter("al_solaris");
 		} else if (osName.startsWith("FreeBSD")) {
@@ -672,41 +811,36 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	}
 
 	/**
-	 * 4 steps
+	 * 9 steps
 	 *
-	 * 1) check version of applet and decide whether to download jars
-	 * 2) download the jars
-	 * 3) extract natives
-	 * 4) add to jars to class path
-	 * 5) switch applets
+	 * 1) check jre version meets minimum requirements
+	 * 2) check applet cache and decide which jars to download
+	 * 3) download the jars
+	 * 4) extract native files
+	 * 5) validate jars for any corruption
+	 * 6) save applet cache information
+	 * 7) add jars to class path
+	 * 8) set any lwjgl properties
+	 * 9) switch to loaded applet
 	 */
 	public void run() {
-		setState(STATE_CHECKING_CACHE);
-
- 		percentage = 5;
+		percentage = 5;
 
  		try {
 			debug_sleep(2000);
+			
+			// check JRE version meets minimum requirements
+			if (!isMinJREVersionAvailable()) {
+				minimumJreNotFound = true;
+				fatalErrorOccured("Java " + getStringParameter("al_min_jre", "1.5") + " or greater is required.", null);
+				return;
+			}
 
 			// parse the urls for the jars into the url list
 			loadJarURLs();
 
-			// get path where applet will be stored
-			String path = AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
-				public String run() throws Exception {
-
-					// we append the code base to avoid naming collisions with al_title
-					String codebase = "";
-					if(prependHost) {
-						codebase = getCodeBase().getHost();
-						if(codebase == null || codebase.length() == 0) {
-							codebase = "localhost";
-						}
-						codebase += File.separator;
-					}
-					return getCacheDir() + File.separator + codebase + getParameter("al_title") + File.separator;
-				}
-			});
+			// get path where applet files will be stored
+			String path = getCacheDirectory();
 
 			File dir = new File(path);
 
@@ -720,28 +854,12 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			// if specified applet version already available don't download anything
 			boolean versionAvailable = false;
 
-			// version of applet
+			// version string of applet
 			String version = getParameter("al_version");
-			float latestVersion = 0;
 
-			// if applet version specifed, check if you have latest version of applet
+			// if applet version specifed, compare with version in the cache
 			if (version != null) {
-
-				latestVersion = Float.parseFloat(version);
-
-				// if version file exists
-				if (versionFile.exists()) {
-					// compare to new version
-					if (latestVersion != readVersionFile(versionFile)) {
-						versionAvailable = true;
-						percentage = 90;
-
-						if(debugMode) {
-							System.out.println("Loading Cached Applet Version " + latestVersion);
-						}
-						debug_sleep(2000);
-					}
-				}
+				versionAvailable = compareVersion(versionFile, version.toLowerCase());
 			}
 
 			// if jars not available or need updating download them
@@ -756,16 +874,19 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 				extractJars(path);		// 55-65%
 
 				// Extracts Native Files
-				extractNatives(path);	// 65-85%
+				extractNatives(path);	// 65-80%
+				
+				// Validate Jars		// 80-90%
+				validateJars(path);
 
 				// save version information once jars downloaded successfully
 				if (version != null) {
 					percentage = 90;
-					writeVersionFile(versionFile, latestVersion);
+					writeObjectFile(versionFile, version.toLowerCase());
 				}
 
 				// save file names with last modified info once downloaded successfully
-				writeCacheFile(new File(dir, "cache"), filesLastModified);
+				writeObjectFile(new File(dir, "timestamps"), filesLastModified);
 			}
 
 			// add the downloaded jars and natives to classpath
@@ -774,7 +895,14 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			// set lwjgl properties
 			setLWJGLProperties();
 
-			// make applet switch on EDT as an AWT/Swing permission dialog could be called
+			// if headless mode then sleep, until told to continue
+			if (headless) {
+				while(headlessWaiting) {
+					Thread.sleep(100);
+				}
+			}
+			
+			// make applet switch on the EDT as an AWT/Swing permission dialog could be called
 			EventQueue.invokeAndWait(new Runnable() {
 	            public void run() {
 					try {
@@ -787,14 +915,92 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	            }
 			});
 			
-		} catch (AccessControlException ace) {
-			fatalErrorOccured(ace.getMessage(), ace);
-			certificateRefused = true;
 		} catch (Exception e) {
+			certificateRefused = e instanceof AccessControlException;
 			fatalErrorOccured("This occurred while '" + getDescriptionForState() + "'", e);
 		} finally {
 			loaderThread = null;
 		}
+	}
+	
+	/**
+	 * When this method is supplied with a JRE version it will compare it to the
+	 * current JRE version.
+	 * 
+	 * minimum requried JRE version is set using al_min_jre parameter, if not 
+	 * this is not set then the value will default to version 1.5
+	 * 
+	 * The minimumVersion should follow a structure such as x.x.x_x
+	 * Example values would include 1.6.0_10 or a subset like 1.6.0 or 1.6
+	 * 
+	 * @return returns true if the available version is greater or equal to the 
+	 * minimum version required
+	 * 
+	 * @throws Exception a NumberFormatException is thrown if the string is not valid
+	 */
+	public boolean isMinJREVersionAvailable() throws Exception {
+		setState(STATE_CHECK_JRE_VERSION);
+		
+		String minimumVersion = getStringParameter("al_min_jre", "1.5");
+		String javaVersion = System.getProperty("java.version");
+		
+		// remove dash and anything after it (letters) from version string e.g. 1.5.0_01-ea
+		minimumVersion = javaVersion.split("-")[0];
+		javaVersion = minimumVersion.split("-")[0];
+		
+		// split version string into a string arrays
+		String[] jvmVersionData = javaVersion.split("[_\\.]");
+		String[] minVersionData = minimumVersion.split("[_\\.]");
+		
+		int maxLength = Math.max(jvmVersionData.length, minVersionData.length);
+		
+		// convert string arrays into int arrays
+		int[] jvmVersion = new int[maxLength];
+		int[] minVersion = new int[maxLength];
+		
+		for (int i = 0; i < jvmVersionData.length; i++) {
+			jvmVersion[i] = Integer.parseInt(jvmVersionData[i]);
+		}
+		
+		for (int i = 0; i < minVersionData.length; i++) {
+			minVersion[i] = Integer.parseInt(minVersionData[i]);
+		}
+		
+		// compare versions
+		for (int i = 0; i < maxLength; i++) {
+			if (jvmVersion[i] < minVersion[i]) return false; // minVersion is greater then jvmVersion
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * This method will return true if the version stored in the file
+	 * matches the supplied String version.
+	 * 
+	 * @param versionFile - location to file containing version information
+	 * @param version - String version that needs to be compared
+	 * @return returns true if the version in file matches specified version
+	 */
+	protected boolean compareVersion(File versionFile, String version) {
+		// if version file exists
+		if (versionFile.exists()) {
+			String s = readStringFile(versionFile);
+			
+			// compare to version with file
+			if (s != null && s.equals(version)) {
+				percentage = 90; // not need to download cache files again
+
+				if(debugMode) {
+					System.out.println("Loading Cached Applet Version: " + version);
+				}
+				debug_sleep(2000);
+				
+				return true; // version matches file
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -822,11 +1028,43 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	}
 
 	/**
-	 * get path to the lwjgl cache directory
+	 * This method will return the location of the cache directory. All the
+	 * applet files will be downloaded and stored here. A folder will be
+	 * created inside the LWJGL cache directory from the al_title parameter.
+	 * This folder will also be prepended by the host name of the codebase 
+	 * to avoid conflict with same named applets on other hosts.
+	 * 
+	 * @return path to applets cache directory
+	 * @throws Exception if access is denied
+	 */
+	protected String getCacheDirectory() throws Exception {
+		
+		String path = AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
+			public String run() throws Exception {
+
+				// we append the code base to avoid naming collisions with al_title
+				String codebase = "";
+				if(prependHost) {
+					codebase = getCodeBase().getHost();
+					if(codebase == null || codebase.length() == 0) {
+						codebase = "localhost";
+					}
+					codebase += File.separator;
+				}
+				return getLWJGLCacheDir() + File.separator + codebase + getParameter("al_title") + File.separator;
+			}
+		});
+		
+		return path;
+	}
+	
+	/**
+	 * Get path to the lwjgl cache directory. This location will be where
+	 * the OS keeps temporary files.
 	 * 
 	 * @return path to the lwjgl cache directory
 	 */
-	protected String getCacheDir() {
+	protected String getLWJGLCacheDir() {
 		String cacheDir = System.getProperty("deployment.user.cachedir");
 		
 		if (cacheDir == null || System.getProperty("os.name").startsWith("Win")) {
@@ -837,58 +1075,82 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	}
 
 	/**
-	 * read the current version file
+	 * read String object from File
+	 *
+	 * @param file to be read
+	 * @return the String stored in the file or null if it fails
+	 */
+	protected String readStringFile(File file) {
+		try {
+			return (String)readObjectFile(file);
+		} catch (Exception e) {
+			// failed to read version file
+			e.printStackTrace();
+		}
+		
+		// return null if failed to read file
+		return null;
+	}
+	
+	/**
+	 * read the HashMap from File
 	 *
 	 * @param file the file to read
-	 * @return the version value of saved file
-	 * @throws Exception if it fails to read value
-	 */
-	protected float readVersionFile(File file) throws Exception {
-		DataInputStream dis = new DataInputStream(new FileInputStream(file));
-		float version = dis.readFloat();
-		dis.close();
-		return version;
-	}
-
-	/**
-	 * write out version file of applet
-	 *
-	 * @param file the file to write out to
-	 * @param version the version of the applet as a float
-	 * @throws Exception if it fails to write file
-	 */
-	protected void writeVersionFile(File file, float version) throws Exception {
-		DataOutputStream dos = new DataOutputStream(new FileOutputStream(file));
-		dos.writeFloat(version);
-		dos.close();
-	}
-
-	/**
-	 * read the current cache file
-	 *
-	 * @param file the file to read
-	 * @return the hashmap containing the files names and lastModified times
-	 * @throws Exception if it fails to read hashmap
+	 * @return the hashmap stored in the file or an empty hashmap if it fails
 	 */
 	@SuppressWarnings("unchecked")
-	protected HashMap<String, Long> readCacheFile(File file) throws Exception {
-		ObjectInputStream dis = new ObjectInputStream(new FileInputStream(file));
-		HashMap<String, Long> hashMap = (HashMap<String, Long>)dis.readObject();
-		dis.close();
-		return hashMap;
+	protected HashMap<String, Long> readHashMapFile(File file) {
+		
+		try {
+			return (HashMap<String, Long>) readObjectFile(file);
+		} catch (Exception e) {
+			// failed to read hashmap from file
+			e.printStackTrace();  
+		}
+		
+		// return an empty map if failed to read file
+		return new HashMap<String, Long>();
 	}
-
+	
 	/**
-	 * write out cache file of applet
+	 * read the object from the File
+	 * 
+	 * @param file the file to read
+	 * @return the object contained in the file or null if it fails
+	 * @throws Exception if it fails to read object from file
+	 */
+	protected Object readObjectFile(File file) throws Exception {
+		FileInputStream fis = new FileInputStream(file);
+		
+		try {
+			ObjectInputStream dis = new ObjectInputStream(fis);
+			Object object = dis.readObject();
+			dis.close();
+			return object;
+		} catch (Exception e) {
+			// failed to read file
+			throw e;  
+		} finally {
+			fis.close();
+		}
+	}
+	
+	/**
+	 * write object to specified File
 	 *
 	 * @param file the file to write out to
-	 * @param filesLastModified the hashmap containing files names and lastModified times
+	 * @param object the contents of the file
 	 * @throws Exception if it fails to write file
 	 */
-	protected void writeCacheFile(File file, HashMap<String, Long> filesLastModified) throws Exception {
-		ObjectOutputStream dos = new ObjectOutputStream(new FileOutputStream(file));
-		dos.writeObject(filesLastModified);
-		dos.close();
+	protected void writeObjectFile(File file, Object object) throws Exception {
+		FileOutputStream fos = new FileOutputStream(file);
+		try {
+			ObjectOutputStream dos = new ObjectOutputStream(fos);
+			dos.writeObject(object);
+			dos.close();
+		} finally {
+			fos.close();
+		}
 	}
 
 	/**
@@ -908,15 +1170,36 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		URL[] urls = new URL[urlList.length];
 
 		for (int i = 0; i < urlList.length; i++) {
-			urls[i] = new URL("file:" + path + getJarName(urlList[i]));
+			String file = new File(path, getJarName(urlList[i])).toURI().toString();
+			// fix JVM bug where ! is not escaped
+			file = file.replace("!", "%21");
+			urls[i] = new URL(file);
 		}
-
+		
+		// get AppletLoader certificates
+		final Certificate[] certs = getCurrentCertificates();
+		
+		// detect if we are running on a mac and save result as boolean
+		String osName = System.getProperty("os.name");
+		final boolean isMacOS = (osName.startsWith("Mac") || osName.startsWith("Darwin"));
+		
 		// add downloaded jars to the classpath with required permissions
 		classLoader = new URLClassLoader(urls) {
 			protected PermissionCollection getPermissions (CodeSource codesource) {
 				PermissionCollection perms = null;
 
 				try {
+					
+					// if mac, apply workaround for the multiple security dialog issue
+					if (isMacOS) {
+						// if certificates match the AppletLoader certificates then don't use SecureClassLoader to get further permissions
+						if (certificatesMatch(certs, codesource.getCertificates())) {
+							perms = new Permissions();
+							perms.add(new AllPermission());
+							return perms;
+						}
+					}
+
 					// getPermissions from original classloader is important as it checks for signed jars and shows any security dialogs needed
 					Method method = SecureClassLoader.class.getDeclaredMethod("getPermissions", new Class[] { CodeSource.class });
 					method.setAccessible(true);
@@ -926,12 +1209,12 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 
 			        if (host != null && (host.length() > 0)) {
 			        	// add permission for downloaded jars to access host they were from
-			        	perms.add(new SocketPermission(host, SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION));
+			        	perms.add(new SocketPermission(host, "connect,accept"));
 			        }
 			        else if ( "file".equals(codesource.getLocation().getProtocol()) ) {
 			        	// if running locally add file permission
 			        	String path = codesource.getLocation().getFile().replace('/', File.separatorChar);
-			            perms.add(new FilePermission(path, SecurityConstants.FILE_READ_ACTION));
+			            perms.add(new FilePermission(path, "read"));
 			        }
 
 		        } catch (Exception e) {
@@ -943,7 +1226,13 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			
 			// allow non lwjgl native to be found from cache directory
 			protected String findLibrary (String libname) {
-				return path + "natives" + File.separator + System.mapLibraryName(libname);
+				String libPath = path + "natives" + File.separator + System.mapLibraryName(libname);
+				
+				if (new File(libPath).exists()) {
+					return libPath;
+				}
+				
+				return super.findLibrary(libname);
 			}
 		};
 
@@ -1023,7 +1312,10 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		percentage = 100;
 
 		debug_sleep(2000);
-
+		
+		// set correct context classloader for lwjgl applet
+		Thread.currentThread().setContextClassLoader(classLoader);
+		
 		Class appletClass = classLoader.loadClass(getParameter("al_main"));
 		lwjglApplet = (Applet) appletClass.newInstance();
 
@@ -1052,55 +1344,92 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	 * @throws Exception - if fails to get infomation
 	 */
 	protected void getJarInfo(File dir) throws Exception {
-
+		setState(STATE_CHECKING_CACHE);
+		
 		filesLastModified = new HashMap<String, Long>();
 
 		// store file sizes and mark which files not to download
 		fileSizes = new int[urlList.length];
 
-		URLConnection urlconnection;
+		File timestampsFile = new File(dir, "timestamps");
 
-		File cacheFile = new File(dir, "cache");
-
-		// if cache file exists, load it
-		if (cacheFile.exists()) {
-			filesLastModified = readCacheFile(cacheFile);
+		// if timestamps file exists, load it
+		if (timestampsFile.exists()) {
+			setState(STATE_CHECKING_FOR_UPDATES);
+			filesLastModified = readHashMapFile(timestampsFile);
 		}
 
 		// calculate total size of jars to download
-		for (int i = 0; i < urlList.length; i++) {
-			urlconnection = urlList[i].openConnection();
-			urlconnection.setDefaultUseCaches(false);
-			if (urlconnection instanceof HttpURLConnection) {
-				((HttpURLConnection) urlconnection).setRequestMethod("HEAD");
-			}
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(concurrentLookupThreads);
+		Queue<Future> requests = new LinkedList<Future>();
+		
+		// create unique object to sync code in requests 
+		final Object sync = new Integer(1);
+		
+		for (int j = 0; j < urlList.length; j++) {
+			final int i = j;
+			
+			Future request = executorService.submit(new Runnable() {
+				
+				public void run() {
+					
+					try {
+						
+						URLConnection urlconnection = urlList[i].openConnection();
+						urlconnection.setDefaultUseCaches(false);
+						if (urlconnection instanceof HttpURLConnection) {
+							((HttpURLConnection) urlconnection).setRequestMethod("HEAD");
+						}
+		 
+						fileSizes[i] = urlconnection.getContentLength();
 
-			fileSizes[i] = urlconnection.getContentLength();
+						long lastModified = urlconnection.getLastModified();
+						String fileName = getFileName(urlList[i]);
 
-			long lastModified = urlconnection.getLastModified();
-			String fileName = getFileName(urlList[i]);
+						if (cacheEnabled && lastModified != 0 && filesLastModified.containsKey(fileName)) {
+							long savedLastModified = filesLastModified.get(fileName);
 
+							// if lastModifed time is the same, don't redownload
+							if (savedLastModified == lastModified) {
+								fileSizes[i] = -2; // mark it to not redownload
+							}
+						}
+			 
+						if (fileSizes[i] >= 0) {
+							synchronized (sync) {
+								totalDownloadSize += fileSizes[i];
+							}
+						}
 
-			if (cacheEnabled && lastModified != 0 &&
-					filesLastModified.containsKey(fileName)) {
-				long savedLastModified = filesLastModified.get(fileName);
-
-				// if lastModifed time is the same, don't redownload
-				if (savedLastModified == lastModified) {
-					fileSizes[i] = -2; // mark it to not redownload
-				}
-			}
-
-			if (fileSizes[i] >= 0) {
-				totalSizeDownload += fileSizes[i];
-			}
-
-			// put key and value in the hashmap
-			filesLastModified.put(fileName, lastModified);
-
-			// update progress bar
-			percentage = 5 + (int)(10 * i/(float)urlList.length);
+						// put key and value in the hashmap
+						filesLastModified.put(fileName, lastModified);
+									
+					} catch (Exception e) {
+						throw new RuntimeException("Failed to fetch information for " + urlList[i], e);
+					}				
+				}});
+			
+			requests.add(request);
 		}
+			
+		while (!requests.isEmpty()) {
+			Iterator<Future> iterator = requests.iterator();
+			while (iterator.hasNext()) {
+				Future request = iterator.next();
+					if (request.isDone()) {
+						request.get(); // will throw an exception if request thrown an exception.
+						iterator.remove();
+						
+						// update progress bar
+						percentage = 5 + (int) (10 * (urlList.length - requests.size()) / (float) urlList.length);
+					}
+			}
+		
+			Thread.sleep(10);
+		}
+		
+		executorService.shutdown();
 	}
 
 	/**
@@ -1111,12 +1440,12 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	 * @throws Exception if download fails
 	 */
 	protected void downloadJars(String path) throws Exception {
-
 		setState(STATE_DOWNLOADING);
 
 		URLConnection urlconnection;
 
 		int initialPercentage = percentage = 15;
+		int amountDownloaded = 0;
 
 		// download each jar
 		byte buffer[] = new byte[65536];
@@ -1128,83 +1457,105 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			int unsuccessfulAttempts = 0;
 			int maxUnsuccessfulAttempts = 3;
 			boolean downloadFile = true;
+			
+			String currentFile = getFileName(urlList[i]);
 
 			// download the jar a max of 3 times
 			while(downloadFile) {
 				downloadFile = false;
 
 				debug_sleep(2000);
-
-				urlconnection = urlList[i].openConnection();
-
-				if (urlconnection instanceof HttpURLConnection) {
-					urlconnection.setRequestProperty("Cache-Control", "no-cache");
-					urlconnection.connect();
-		        }
-
-				String currentFile = getFileName(urlList[i]);
-				InputStream inputstream = getJarInputStream(currentFile, urlconnection);
-				FileOutputStream fos = new FileOutputStream(path + currentFile);
-
-
-				int bufferSize;
-				long downloadStartTime = System.currentTimeMillis();
-				int downloadedAmount = 0;
-				int fileSize = 0;
-				String downloadSpeedMessage = "";
-
-				while ((bufferSize = inputstream.read(buffer, 0, buffer.length)) != -1) {
-					debug_sleep(10);
-					fos.write(buffer, 0, bufferSize);
-					currentSizeDownload += bufferSize;
-					fileSize += bufferSize;
-					percentage = initialPercentage + ((currentSizeDownload * 45) / totalSizeDownload);
-					subtaskMessage = "Retrieving: " + currentFile + " " + ((currentSizeDownload * 100) / totalSizeDownload) + "%";
-
-					downloadedAmount += bufferSize;
-					long timeLapse = System.currentTimeMillis() - downloadStartTime;
-					// update only if a second or more has passed
-					if (timeLapse >= 1000) {
-						// get kb/s, nice that bytes/millis is same as kilobytes/seconds
-						float downloadSpeed = (float) downloadedAmount / timeLapse;
-						// round to two decimal places
-						downloadSpeed = ((int)(downloadSpeed*100))/100f;
-						// set current speed message
-						downloadSpeedMessage = " - " + downloadSpeed + " KB/sec";
-						// reset downloaded amount
-						downloadedAmount = 0;
-						// reset start time
-						downloadStartTime = System.currentTimeMillis();
+				
+				try {
+					urlconnection = urlList[i].openConnection();
+					urlconnection.setUseCaches(false);
+	
+					if (urlconnection instanceof HttpURLConnection) {
+						urlconnection.setRequestProperty("Cache-Control", "no-store,max-age=0,no-cache");
+						urlconnection.connect();
+			        }
+	
+					
+					InputStream inputstream = getJarInputStream(currentFile, urlconnection);
+					FileOutputStream fos = new FileOutputStream(path + currentFile);
+					
+					
+					int bufferSize;
+					int currentDownload = 0;
+					
+					long downloadStartTime = System.currentTimeMillis();
+					int downloadedAmount = 0;
+					String downloadSpeedMessage = "";
+					
+					try {	
+						while ((bufferSize = inputstream.read(buffer, 0, buffer.length)) != -1) {
+							debug_sleep(10);
+							fos.write(buffer, 0, bufferSize);
+							currentDownload += bufferSize;
+							
+							int totalDownloaded = amountDownloaded + currentDownload;
+							percentage = initialPercentage + ((totalDownloaded * 45) / totalDownloadSize);
+							subtaskMessage = "Retrieving: " + currentFile + " " + ((totalDownloaded * 100) / totalDownloadSize) + "%";
+		
+							downloadedAmount += bufferSize;
+							long timeLapse = System.currentTimeMillis() - downloadStartTime;
+							// update only if a second or more has passed
+							if (timeLapse >= 1000) {
+								// get kb/s, nice that bytes/millis is same as kilobytes/seconds
+								float downloadSpeed = (float) downloadedAmount / timeLapse;
+								// round to two decimal places
+								downloadSpeed = ((int)(downloadSpeed*100))/100f;
+								// set current speed message
+								downloadSpeedMessage = " - " + downloadSpeed + " KB/sec";
+								// reset downloaded amount
+								downloadedAmount = 0;
+								// reset start time
+								downloadStartTime = System.currentTimeMillis();
+							}
+		
+							subtaskMessage += downloadSpeedMessage;
+						}
+						
+					} finally {
+						inputstream.close();
+						fos.close();
 					}
-
-					subtaskMessage += downloadSpeedMessage;
+					
+					// download complete, verify if it was successful
+					if (urlconnection instanceof HttpURLConnection) {
+		                if (currentDownload == fileSizes[i]) {
+		                	// successful download
+		                }
+		                else if (fileSizes[i] <= 0 && currentDownload != 0) {
+	                        // If contentLength for fileSizes[i] <= 0, we don't know if the download
+	                        // is complete. We're going to guess the download is complete.
+	                    }
+	                    else {
+	                    	throw new Exception("size mismatch on download of " + currentFile + 
+	                    						" expected " + fileSizes[i] + " got " + currentDownload);
+	                    }
+		            }
+					
+					// successful file download, update total amount downloaded
+					amountDownloaded += fileSizes[i];
+					
+				} catch (Exception e) {
+					e.printStackTrace(); // output exception to console
+					
+					// Failed to download the file
+					unsuccessfulAttempts++;
+	        		
+					// download failed try again
+	            	if (unsuccessfulAttempts < maxUnsuccessfulAttempts) {
+	            		downloadFile = true;
+	            		Thread.sleep(100); // wait a bit before retrying
+	            	}
+	            	else {
+	            		// retry attempts exhasted, download failed
+	            		throw new Exception("failed to download " + currentFile + 
+	            							" after " + maxUnsuccessfulAttempts + " attempts");
+	            	}
 				}
-
-				inputstream.close();
-				fos.close();
-
-				// download complete, verify if it was successful
-				if (urlconnection instanceof HttpURLConnection) {
-	                if (fileSize == fileSizes[i]) {
-	                	// successful download
-	                }
-	                else if (fileSizes[i] <= 0) {
-                        // If contentLength for fileSizes[i] <= 0, we don't know if the download
-                        // is complete. We're going to guess the download is complete.
-                    }
-                    else {
-                    	unsuccessfulAttempts++;
-                		// download failed try again
-                    	if (unsuccessfulAttempts < maxUnsuccessfulAttempts) {
-                    		downloadFile = true;
-                    		currentSizeDownload -= fileSize; // reset progress bar
-                    	}
-                    	else {
-                    		// retry attempts exhasted, download failed
-                    		throw new Exception("failed to download " + currentFile);
-                    	}
-                    }
-	            }
 			}
 		}
 		subtaskMessage = "";
@@ -1276,22 +1627,20 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		Constructor constructor = clazz.getDeclaredConstructor(InputStream.class);
 		InputStream inputHandle = (InputStream) constructor.newInstance(fileInputHandle);
 
-		OutputStream outputHandle;
-		outputHandle = new FileOutputStream(out);
+		OutputStream outputHandle = new FileOutputStream(out);
 
 		byte [] buffer = new byte [1<<14];
 
-		int ret = inputHandle.read(buffer);
-		while (ret >= 1) {
-			outputHandle.write(buffer,0,ret);
-			ret = inputHandle.read(buffer);
+		try {
+			int ret = inputHandle.read(buffer);
+			while (ret >= 1) {
+				outputHandle.write(buffer,0,ret);
+				ret = inputHandle.read(buffer);
+			}
+		} finally {
+			inputHandle.close();
+			outputHandle.close();
 		}
-
-		inputHandle.close();
-		outputHandle.close();
-
-		outputHandle = null;
-		inputHandle = null;
 
 		// delete LZMA file, as it is no longer needed
 		f.delete();
@@ -1310,22 +1659,20 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 
 		InputStream inputHandle = new GZIPInputStream(fileInputHandle);
 
-		OutputStream outputHandle;
-		outputHandle = new FileOutputStream(out);
+		OutputStream outputHandle = new FileOutputStream(out);
 
-		byte [] buffer = new byte [1<<14];
-
-		int ret = inputHandle.read(buffer);
-		while (ret >= 1) {
-			outputHandle.write(buffer,0,ret);
-			ret = inputHandle.read(buffer);
+		try {
+			byte [] buffer = new byte [1<<14];
+	
+			int ret = inputHandle.read(buffer);
+			while (ret >= 1) {
+				outputHandle.write(buffer,0,ret);
+				ret = inputHandle.read(buffer);
+			}
+		} finally {
+			inputHandle.close();
+			outputHandle.close();
 		}
-
-		inputHandle.close();
-		outputHandle.close();
-
-		outputHandle = null;
-		inputHandle = null;
 
 		// delete GZip file, as it is no longer needed
 		f.delete();
@@ -1341,10 +1688,14 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		File f = new File(in);
 	    FileOutputStream fostream = new FileOutputStream(out);
 	    JarOutputStream jostream = new JarOutputStream(fostream);
-
-	    Pack200.Unpacker unpacker = Pack200.newUnpacker();
-	    unpacker.unpack(f, jostream);
-	    jostream.close();
+	    
+	    try {
+	    	Pack200.Unpacker unpacker = Pack200.newUnpacker();
+	    	unpacker.unpack(f, jostream);
+	    } finally {
+	    	jostream.close();
+	    	fostream.close();
+	    }
 
 	    // delete pack file as its no longer needed
 	    f.delete();
@@ -1370,37 +1721,37 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			String filename = getFileName(urlList[i]);
 			
 			if (filename.endsWith(".pack.lzma")) {
-				subtaskMessage = "Extracting: " + filename + " to " + filename.replaceAll(".lzma", "");
+				subtaskMessage = "Extracting: " + filename + " to " + replaceLast(filename, ".lzma", "");
 				debug_sleep(1000);
-				extractLZMA(path + filename, path + filename.replaceAll(".lzma", ""));
+				extractLZMA(path + filename, path + replaceLast(filename, ".lzma", ""));
 
-				subtaskMessage = "Extracting: " + filename.replaceAll(".lzma", "") + " to " + filename.replaceAll(".pack.lzma", "");
+				subtaskMessage = "Extracting: " + replaceLast(filename, ".lzma", "") + " to " + replaceLast(filename, ".pack.lzma", "");
 				debug_sleep(1000);
-				extractPack(path + filename.replaceAll(".lzma", ""), path + filename.replaceAll(".pack.lzma", ""));
+				extractPack(path + replaceLast(filename, ".lzma", ""), path + replaceLast(filename, ".pack.lzma", ""));
 			}
 			else if (filename.endsWith(".pack.gz")) {
-				subtaskMessage = "Extracting: " + filename + " to " + filename.replaceAll(".gz", "");
+				subtaskMessage = "Extracting: " + filename + " to " + replaceLast(filename, ".gz", "");
 				debug_sleep(1000);
-				extractGZip(path + filename, path + filename.replaceAll(".gz", ""));
+				extractGZip(path + filename, path + replaceLast(filename, ".gz", ""));
 
-				subtaskMessage = "Extracting: " + filename.replaceAll(".gz", "") + " to " + filename.replaceAll(".pack.gz", "");
+				subtaskMessage = "Extracting: " + replaceLast(filename, ".gz", "") + " to " + replaceLast(filename, ".pack.gz", "");
 				debug_sleep(1000);
-				extractPack(path + filename.replaceAll(".gz", ""), path + filename.replaceAll(".pack.gz", ""));
+				extractPack(path + replaceLast(filename, ".gz", ""), path + replaceLast(filename, ".pack.gz", ""));
 			}
 			else if (filename.endsWith(".pack")) {
-				subtaskMessage = "Extracting: " + filename + " to " + filename.replace(".pack", "");
+				subtaskMessage = "Extracting: " + filename + " to " + replaceLast(filename, ".pack", "");
 				debug_sleep(1000);
-				extractPack(path + filename, path + filename.replace(".pack", ""));
+				extractPack(path + filename, path + replaceLast(filename, ".pack", ""));
 			}
 			else if (filename.endsWith(".lzma")) {
-				subtaskMessage = "Extracting: " + filename + " to " + filename.replace(".lzma", "");
+				subtaskMessage = "Extracting: " + filename + " to " + replaceLast(filename, ".lzma", "");
 				debug_sleep(1000);
-				extractLZMA(path + filename, path + filename.replace(".lzma", ""));
+				extractLZMA(path + filename, path + replaceLast(filename, ".lzma", ""));
 			}
 			else if (filename.endsWith(".gz")) {
-				subtaskMessage = "Extracting: " + filename + " to " + filename.replace(".gz", "");
+				subtaskMessage = "Extracting: " + filename + " to " + replaceLast(filename, ".gz", "");
 				debug_sleep(1000);
-				extractGZip(path + filename, path + filename.replace(".gz", ""));
+				extractGZip(path + filename, path + replaceLast(filename, ".gz", ""));
 			}
 		}
 	}
@@ -1417,7 +1768,7 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		
 		setState(STATE_EXTRACTING_PACKAGES);
 		
-		float percentageParts = 20f/nativeJarCount; // parts for each native jar from 20%
+		float percentageParts = 15f/nativeJarCount; // parts for each native jar from 15%
 		
 		// create native folder
 		File nativeFolder = new File(path + "natives");
@@ -1425,18 +1776,8 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 			nativeFolder.mkdir();
 		}
 		
-		// get the current certificate to compare against native files
-		Certificate[] certificate = AppletLoader.class.getProtectionDomain().getCodeSource().getCertificates();
-
-		// workaround for bug where cached applet loader does not have certificates!?
-		if (certificate == null) {
-			URL location = AppletLoader.class.getProtectionDomain().getCodeSource().getLocation();
-
-			// manually load the certificate
-			JarURLConnection jurl = (JarURLConnection) (new URL("jar:" + location.toString() + "!/org/lwjgl/util/applet/AppletLoader.class").openConnection());
-			jurl.setDefaultUseCaches(true);
-			certificate = jurl.getCertificates();
-		}
+		// get the current AppletLoader certificates to compare against certificates of the native files
+		Certificate[] certificate = getCurrentCertificates();
 		
 		for (int i = urlList.length - nativeJarCount; i < urlList.length; i++) {
 			
@@ -1498,24 +1839,29 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 				InputStream in = jarFile.getInputStream(jarFile.getEntry(entry.getName()));
 				OutputStream out = new FileOutputStream(path + "natives" + File.separator + entry.getName());
 	
-				int bufferSize;
-				byte buffer[] = new byte[65536];
-	
-				while ((bufferSize = in.read(buffer, 0, buffer.length)) != -1) {
-					debug_sleep(10);
-					out.write(buffer, 0, bufferSize);
-					currentSizeExtract += bufferSize;
-	
-					// update progress bar
-					percentage = 65 + (int)(percentageParts * (jarNum + currentSizeExtract/(float)totalSizeExtract));
-					subtaskMessage = "Extracting: " + entry.getName() + " " + ((currentSizeExtract * 100) / totalSizeExtract) + "%";
+				try {
+					int bufferSize;
+					byte buffer[] = new byte[65536];
+		
+					while ((bufferSize = in.read(buffer, 0, buffer.length)) != -1) {
+						debug_sleep(10);
+						out.write(buffer, 0, bufferSize);
+						currentSizeExtract += bufferSize;
+		
+						// update progress bar
+						percentage = 65 + (int)(percentageParts * (jarNum + currentSizeExtract/(float)totalSizeExtract));
+						subtaskMessage = "Extracting: " + entry.getName() + " " + ((currentSizeExtract * 100) / totalSizeExtract) + "%";
+					}
+				} finally {
+					in.close();
+					out.close();
 				}
-	
-				// validate if the certificate for native file is correct
-				validateCertificateChain(certificate, entry.getCertificates());
-	
-				in.close();
-				out.close();
+				
+				// validate the certificate for the native file being extracted
+				if (!certificatesMatch(certificate, entry.getCertificates())) {
+					f.delete(); // delete extracted native as its certificates doesn't match
+					throw new Exception("The certificate(s) in " + nativeJar + " do not match the AppletLoader!");
+				}
 			}
 			subtaskMessage = "";
 	
@@ -1529,22 +1875,133 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	}
 
 	/**
-	 * Validates the certificate chain for a single file
+	 * Compare two certificate chains to see if they match
 	 *
-	 * @param ownCerts Chain of certificates to check against
-	 * @param native_certs Chain of certificates to check
+	 * @param cert1 first chain of certificates
+	 * @param cert2 second chain of certificates
+	 * 
+	 * @return true if the certificate chains are the same
 	 */
-	protected static void validateCertificateChain(Certificate[] ownCerts, Certificate[] native_certs) throws Exception {
-		if (native_certs == null)
-			throw new Exception("Unable to validate certificate chain. Native entry did not have a certificate chain at all");
-
-		if (ownCerts.length != native_certs.length)
-			throw new Exception("Unable to validate certificate chain. Chain differs in length [" + ownCerts.length + " vs " + native_certs.length + "]");
-
-		for (int i = 0; i < ownCerts.length; i++) {
-			if (!ownCerts[i].equals(native_certs[i])) {
-				throw new Exception("Certificate mismatch: " + ownCerts[i] + " != " + native_certs[i]);
+	protected static boolean certificatesMatch(Certificate[] certs1, Certificate[] certs2) throws Exception {
+		if (certs1 == null || certs2 == null) {
+			return false;
+		}
+		
+		if (certs1.length != certs2.length) {
+			System.out.println("Certificate chain differs in length [" + certs1.length + " vs " + certs2.length + "]!");
+			return false;
+		}
+		
+		for (int i = 0; i < certs1.length; i++) {
+			if (!certs1[i].equals(certs2[i])) {
+				System.out.println("Certificate mismatch found!");
+				return false;
 			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Returns the current certificate chain of the AppletLoader
+	 * 
+	 * @return - certificate chain of AppletLoader
+	 */
+	protected static Certificate[] getCurrentCertificates() throws Exception {
+		// get the current certificate to compare against native files
+		Certificate[] certificate = AppletLoader.class.getProtectionDomain().getCodeSource().getCertificates();
+		
+		// workaround for bug where cached applet loader does not have certificates!?
+		if (certificate == null) {
+			URL location = AppletLoader.class.getProtectionDomain().getCodeSource().getLocation();
+
+			// manually load the certificate
+			JarURLConnection jurl = (JarURLConnection) (new URL("jar:" + location.toString() + "!/org/lwjgl/util/applet/AppletLoader.class").openConnection());
+			jurl.setDefaultUseCaches(true);
+			certificate = jurl.getCertificates();
+			jurl.setDefaultUseCaches(false);
+		}
+		
+		return certificate;
+	}
+	
+	/**
+	 *  Check and validate jars which will be loaded into the classloader to make 
+	 *  sure that they are not corrupt. This ensures corrupt files are never marked
+	 *  as successful downloadeds by the cache system.
+	 *  
+	 *  @param path - where the jars are stored
+	 *  @throws Exception if a corrupt jar is found
+	 */
+	protected void validateJars(String path) throws Exception {
+		
+		setState(STATE_VALIDATING_PACKAGES);
+		
+		percentage = 80;
+		
+		float percentageParts = 10f / urlList.length; // percentage for each file out of 10%
+		
+		for (int i = 0; i < urlList.length - nativeJarCount; i++) {
+			
+			debug_sleep(1000);
+			
+			// if file not downloaded, no need to validate again
+			if (fileSizes[i] == -2) continue;
+			
+			subtaskMessage = "Validating: " + getJarName(urlList[i]);
+			
+			File file = new File(path, getJarName(urlList[i])); 
+			if (!isZipValid(file)) {
+				throw new Exception("The file " + getJarName(urlList[i]) + " is corrupt!");
+			}
+			
+			percentage = 80 + (int)(percentageParts * i);
+		}
+		
+		subtaskMessage = "";
+	}
+	
+	/**
+	 * This method will check if a zip file is valid by running through it
+	 * and checking for any corruption and CRC failures
+	 * 
+	 * @param file - zip file to test
+	 * @return boolean - runs false if the file is corrupt
+	 */
+	protected boolean isZipValid(File file) {
+		
+		try {
+			ZipFile zipFile = new ZipFile(file);
+			
+			try {
+				Enumeration e = zipFile.entries();
+		        
+				byte[] buffer = new byte[4096];
+				
+		        while(e.hasMoreElements()) {
+		        	ZipEntry zipEntry = (ZipEntry) e.nextElement();
+		        	
+		        	CRC32 crc = new CRC32();
+		        	
+		        	BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(zipEntry));
+		        	CheckedInputStream cis = new CheckedInputStream(bis, crc);
+		        	
+		        	while(cis.read(buffer, 0, buffer.length) != -1) {
+		        		// scroll through zip entry
+		        	}
+		        	
+		        	if (crc.getValue() != zipEntry.getCrc()) {
+		        		return false; // CRC match failed, corrupt zip
+		        	}
+		        }
+		        
+		        return true; // valid zip file
+			} finally {
+				zipFile.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -1555,6 +2012,9 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	 * @return the Image file
 	 */
 	protected Image getImage(String s) {
+		
+		// if s is "" then don't load an image
+		if (s.length() == 0) return null;
 		
 		Image image = null;
 		
@@ -1575,7 +2035,7 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		}
 
 		// show error as image could not be loaded
-		fatalErrorOccured("Unable to load logo and progressbar images", null);
+		fatalErrorOccured("Unable to load the logo/progressbar image: " + s, null);
 		return null;
 	}
 	
@@ -1587,11 +2047,12 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 	 */
 	public Image getImage(URL url) {
 		try {
+			MediaTracker tracker = new MediaTracker(this);
+			
 			Image image = super.getImage(url);
 
 			// wait for image to load
-			MediaTracker tracker = new MediaTracker(this);
-	        tracker.addImage(image, 0);
+			tracker.addImage(image, 0);
 	        tracker.waitForAll();
 
 	        // if no errors return image
@@ -1615,15 +2076,15 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
 		String fileName = url.getFile();
 
 		if (fileName.endsWith(".pack.lzma")) {
-			fileName = fileName.replaceAll(".pack.lzma", "");
+			fileName = replaceLast(fileName, ".pack.lzma", "");
 		} else if (fileName.endsWith(".pack.gz")) {
-			fileName = fileName.replaceAll(".pack.gz", "");
+			fileName = replaceLast(fileName, ".pack.gz", "");
 		} else if (fileName.endsWith(".pack")) {
-			fileName = fileName.replaceAll(".pack", "");
+			fileName = replaceLast(fileName, ".pack", "");
 		} else if (fileName.endsWith(".lzma")) {
-			fileName = fileName.replaceAll(".lzma", "");
+			fileName = replaceLast(fileName, ".lzma", "");
 		} else if (fileName.endsWith(".gz")) {
-			fileName = fileName.replaceAll(".gz", "");
+			fileName = replaceLast(fileName, ".gz", "");
 		}
 
 		return fileName.substring(fileName.lastIndexOf('/') + 1);
@@ -1681,29 +2142,88 @@ public class AppletLoader extends Applet implements Runnable, AppletStub {
         	return defaultColor;
         }
 	}
+	
+	/**
+	 * Replaces the last occurrence of the specified target substring with
+	 * the specified replacement string in a string.
+	 * 
+	 * @param original - String to search
+	 * @param target - substring to find
+	 * @param replacement - what to replace target substring with
+	 * @return - return the modified string, if target substring not found return original string
+	 */
+	public String replaceLast(String original, String target, String replacement) {
+		int index = original.lastIndexOf(target); 
+		
+		if(index == -1) {
+			return original;
+		}
+		
+		return original.substring(0, index) + replacement + original.substring(index + target.length());
+	}
+	
+	/**
+	 * Retrieves the String value for the parameter
+	 * @param name Name of parameter
+	 * @param defaultValue default value to return if no such parameter
+	 * @return value of parameter or defaultValue
+	 */
+	protected String getStringParameter(String name, String defaultValue) {
+		String parameter = getParameter(name);
+		if (parameter != null) {
+			return parameter;
+		}
+		return defaultValue;
+	}
 
 	/**
-	 * Retrieves the boolean value for the applet
+	 * Retrieves the boolean value for the parameter
 	 * @param name Name of parameter
 	 * @param defaultValue default value to return if no such parameter
 	 * @return value of parameter or defaultValue
 	 */
 	protected boolean getBooleanParameter(String name, boolean defaultValue) {
 		String parameter = getParameter(name);
-		if(parameter != null) {
+		if (parameter != null) {
 			return Boolean.parseBoolean(parameter);
+		}
+		return defaultValue;
+	}
+	
+	/**
+	 * Retrieves the int value for the applet
+	 * @param name Name of parameter
+	 * @param defaultValue default value to return if no such parameter
+	 * @return value of parameter or defaultValue
+	 */
+	protected int getIntParameter(String name, int defaultValue) {
+		String parameter = getParameter(name);
+		if (parameter != null) {
+			return Integer.parseInt(parameter);
 		}
 		return defaultValue;
 	}
 
 	/**
-	 * Sets the state of the loaded and prints some debug information
+	 * Sets the error message and print debug information
 	 *
 	 * @param error Error message to print
 	 */
 	protected void fatalErrorOccured(String error, Exception e) {
 		fatalError = true;
-		genericErrorMessage[genericErrorMessage.length-1] = error;
+		
+		if (minimumJreNotFound) {
+			errorMessage = minimumJREMessage;
+			errorMessage[errorMessage.length-1] = error;
+		}
+		else if (certificateRefused) {
+			errorMessage = certificateRefusedMessage;
+		}
+		else {
+			errorMessage = genericErrorMessage;
+			errorMessage[errorMessage.length-1] = error;
+		}
+		
 		System.out.println(error);
 		if(e != null) {
 			System.out.println(e.getMessage());

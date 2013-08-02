@@ -41,8 +41,8 @@ import java.nio.*;
  * The core OpenGL1.4 API.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3460 $
- * $Id: GL14.java 3460 2010-11-29 18:25:28Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 @DeprecatedGL
 public interface GL14 {
@@ -97,7 +97,7 @@ public interface GL14 {
 
 	void glBlendEquation(@GLenum int mode);
 
-	void glBlendColor(@GLclampf float red, @GLclampf float green, @GLclampf float blue, @GLclampf float alpha);
+	void glBlendColor(float red, float green, float blue, float alpha);
 
 	@DeprecatedGL
 	void glFogCoordf(float coord);

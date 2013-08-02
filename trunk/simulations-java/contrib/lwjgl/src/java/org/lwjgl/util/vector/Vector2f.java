@@ -39,8 +39,8 @@ import java.nio.FloatBuffer;
  * Holds a 2-tuple vector.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: Vector2f.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 public class Vector2f extends Vector implements Serializable, ReadableVector2f, WritableVector2f {

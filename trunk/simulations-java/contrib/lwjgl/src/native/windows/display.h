@@ -31,12 +31,12 @@
  */
  
 /**
- * $Id: display.h 2985 2008-04-07 18:42:36Z matzon $
+ * $Id$
  *
  * Windows specific library for display handling.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 2985 $
+ * @version $Revision$
  */
 
 #ifndef _DISPLAY_H

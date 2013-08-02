@@ -80,17 +80,17 @@ public final class NVShaderBufferLoad {
 		long function_pointer = caps.glGetBufferParameterui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetBufferParameterui64vNV(target, pname, params, params.position(), function_pointer);
+		nglGetBufferParameterui64vNV(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetBufferParameterui64vNV(int target, int pname, LongBuffer params, int params_position, long function_pointer);
+	static native void nglGetBufferParameterui64vNV(int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetBufferParameterui64vNV. */
-	public static long glGetBufferParameteruNV(int target, int pname) {
+	public static long glGetBufferParameterui64NV(int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferParameterui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		LongBuffer params = APIUtil.getBufferLong();
-		nglGetBufferParameterui64vNV(target, pname, params, params.position(), function_pointer);
+		LongBuffer params = APIUtil.getBufferLong(caps);
+		nglGetBufferParameterui64vNV(target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -99,17 +99,17 @@ public final class NVShaderBufferLoad {
 		long function_pointer = caps.glGetNamedBufferParameterui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetNamedBufferParameterui64vNV(buffer, pname, params, params.position(), function_pointer);
+		nglGetNamedBufferParameterui64vNV(buffer, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedBufferParameterui64vNV(int buffer, int pname, LongBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedBufferParameterui64vNV(int buffer, int pname, long params, long function_pointer);
 
 	/** Overloads glGetNamedBufferParameterui64vNV. */
-	public static long glGetNamedBufferParameteruNV(int buffer, int pname) {
+	public static long glGetNamedBufferParameterui64NV(int buffer, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedBufferParameterui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		LongBuffer params = APIUtil.getBufferLong();
-		nglGetNamedBufferParameterui64vNV(buffer, pname, params, params.position(), function_pointer);
+		LongBuffer params = APIUtil.getBufferLong(caps);
+		nglGetNamedBufferParameterui64vNV(buffer, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -118,17 +118,17 @@ public final class NVShaderBufferLoad {
 		long function_pointer = caps.glGetIntegerui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(result, 1);
-		nglGetIntegerui64vNV(value, result, result.position(), function_pointer);
+		nglGetIntegerui64vNV(value, MemoryUtil.getAddress(result), function_pointer);
 	}
-	static native void nglGetIntegerui64vNV(int value, LongBuffer result, int result_position, long function_pointer);
+	static native void nglGetIntegerui64vNV(int value, long result, long function_pointer);
 
 	/** Overloads glGetIntegerui64vNV. */
-	public static long glGetIntegeruNV(int value) {
+	public static long glGetIntegerui64NV(int value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetIntegerui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		LongBuffer result = APIUtil.getBufferLong();
-		nglGetIntegerui64vNV(value, result, result.position(), function_pointer);
+		LongBuffer result = APIUtil.getBufferLong(caps);
+		nglGetIntegerui64vNV(value, MemoryUtil.getAddress(result), function_pointer);
 		return result.get(0);
 	}
 
@@ -145,9 +145,9 @@ public final class NVShaderBufferLoad {
 		long function_pointer = caps.glUniformui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformui64vNV(location, value.remaining(), value, value.position(), function_pointer);
+		nglUniformui64vNV(location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformui64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniformui64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glGetUniformuNV(int program, int location, LongBuffer params) {
 		NVGpuShader5.glGetUniformuNV(program, location, params);
@@ -166,7 +166,7 @@ public final class NVShaderBufferLoad {
 		long function_pointer = caps.glProgramUniformui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformui64vNV(program, location, value.remaining(), value, value.position(), function_pointer);
+		nglProgramUniformui64vNV(program, location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformui64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformui64vNV(int program, int location, int value_count, long value, long function_pointer);
 }

@@ -36,15 +36,15 @@ public final class ATIDrawBuffers {
 		long function_pointer = caps.glDrawBuffersATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(buffers);
-		nglDrawBuffersATI(buffers.remaining(), buffers, buffers.position(), function_pointer);
+		nglDrawBuffersATI(buffers.remaining(), MemoryUtil.getAddress(buffers), function_pointer);
 	}
-	static native void nglDrawBuffersATI(int buffers_size, IntBuffer buffers, int buffers_position, long function_pointer);
+	static native void nglDrawBuffersATI(int buffers_size, long buffers, long function_pointer);
 
 	/** Overloads glDrawBuffersATI. */
 	public static void glDrawBuffersATI(int buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDrawBuffersATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDrawBuffersATI(1, APIUtil.getBufferInt().put(0, buffer), 0, function_pointer);
+		nglDrawBuffersATI(1, APIUtil.getInt(caps, buffer), function_pointer);
 	}
 }

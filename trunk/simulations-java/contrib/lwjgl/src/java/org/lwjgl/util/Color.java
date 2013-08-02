@@ -35,9 +35,9 @@ import java.nio.ByteBuffer;
 
 /**
  * A mutable Color class
- * @author $Author: matzon $
- * @version $Revision: 2983 $
- * $Id: Color.java 2983 2008-04-07 18:36:09Z matzon $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 public final class Color implements ReadableColor, Serializable, WritableColor {
 

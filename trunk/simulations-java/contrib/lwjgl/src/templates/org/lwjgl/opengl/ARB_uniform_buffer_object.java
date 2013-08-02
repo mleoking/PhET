@@ -118,14 +118,25 @@ public interface ARB_uniform_buffer_object {
 	                           @GLenum int pname,
 	                           @OutParameter @Check("uniformIndices.remaining()") @GLint IntBuffer params);
 
-	@Reuse("GL31")
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetActiveUniformsi} instead. */
 	@Alternate("glGetActiveUniformsiv")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "GL31", method = "glGetActiveUniformsi")
+	@Deprecated
 	void glGetActiveUniformsiv(@GLuint int program, @Constant("1") @GLsizei int uniformCount,
 	                           @Constant(value = "params.put(1, uniformIndex), 1", keepParam = true) int uniformIndex, // Reuse params buffer
 	                           @GLenum int pname,
 	                           @OutParameter @GLint IntBuffer params);
+
+	@Reuse("GL31")
+	@Alternate("glGetActiveUniformsiv")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetActiveUniformsiv2(@GLuint int program, @Constant("1") @GLsizei int uniformCount,
+	                            @Constant(value = "params.put(1, uniformIndex), 1", keepParam = true) int uniformIndex, // Reuse params buffer
+	                            @GLenum int pname,
+	                            @OutParameter @GLint IntBuffer params);
 
 	@Reuse("GL31")
 	void glGetActiveUniformName(@GLuint int program, @GLuint int uniformIndex, @AutoSize("uniformName") @GLsizei int bufSize,
@@ -136,7 +147,7 @@ public interface ARB_uniform_buffer_object {
 	@Alternate("glGetActiveUniformName")
 	@GLreturn(value = "uniformName", maxLength = "bufSize")
 	void glGetActiveUniformName2(@GLuint int program, @GLuint int uniformIndex, @GLsizei int bufSize,
-	                             @OutParameter @GLsizei @Constant("uniformName_length, 0") IntBuffer length,
+	                             @OutParameter @GLsizei @Constant("MemoryUtil.getAddress0(uniformName_length)") IntBuffer length,
 	                             @OutParameter @GLchar ByteBuffer uniformName);
 
 	@Reuse("GL31")
@@ -153,11 +164,20 @@ public interface ARB_uniform_buffer_object {
 	void glGetActiveUniformBlockiv(@GLuint int program, @GLuint int uniformBlockIndex, @GLenum int pname,
 	                               @OutParameter @Check(value = "16") @GLint IntBuffer params);
 
-	@Reuse("GL31")
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetActiveUniformBlocki} instead. */
 	@Alternate("glGetActiveUniformBlockiv")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "GL31", method = "glGetActiveUniformBlocki")
+	@Deprecated
 	void glGetActiveUniformBlockiv2(@GLuint int program, @GLuint int uniformBlockIndex, @GLenum int pname,
+	                                @OutParameter @GLint IntBuffer params);
+
+	@Reuse("GL31")
+	@Alternate("glGetActiveUniformBlockiv")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetActiveUniformBlockiv3(@GLuint int program, @GLuint int uniformBlockIndex, @GLenum int pname,
 	                                @OutParameter @GLint IntBuffer params);
 
 	@Reuse("GL31")
@@ -169,7 +189,7 @@ public interface ARB_uniform_buffer_object {
 	@Alternate("glGetActiveUniformBlockName")
 	@GLreturn(value = "uniformBlockName", maxLength = "bufSize")
 	void glGetActiveUniformBlockName2(@GLuint int program, @GLuint int uniformBlockIndex, @GLsizei int bufSize,
-	                                  @OutParameter @GLsizei @Constant("uniformBlockName_length, 0") IntBuffer length,
+	                                  @OutParameter @GLsizei @Constant("MemoryUtil.getAddress0(uniformBlockName_length)") IntBuffer length,
 	                                  @OutParameter @GLchar ByteBuffer uniformBlockName);
 
 	@Reuse("GL30")

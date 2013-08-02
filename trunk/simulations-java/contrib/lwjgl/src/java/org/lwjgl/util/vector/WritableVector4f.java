@@ -35,7 +35,7 @@ package org.lwjgl.util.vector;
  * Writable interface to Vector4fs
  * @author $author$
  * @version $revision$
- * $Id: WritableVector4f.java 3418 2010-09-28 21:11:35Z spasi $
+ * $Id$
  */
 public interface WritableVector4f extends WritableVector3f {
 

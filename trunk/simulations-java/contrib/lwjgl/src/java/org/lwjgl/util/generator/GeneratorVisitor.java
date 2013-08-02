@@ -49,8 +49,8 @@ import java.nio.*;
  * Generator visitor for the generator tool
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3430 $
- * $Id: GeneratorVisitor.java 3430 2010-10-04 17:04:46Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class GeneratorVisitor extends SimpleDeclarationVisitor {
 	private final AnnotationProcessorEnvironment env;
@@ -269,15 +269,15 @@ public class GeneratorVisitor extends SimpleDeclarationVisitor {
 			generateJavaSource(d, java_writer);
 
 			if ( methods.size() > 0 ) {
-				boolean hasNative = false;
+				boolean noNative = true;
 				for ( final MethodDeclaration method : methods ) {
 					Alternate alt_annotation = method.getAnnotation(Alternate.class);
 					if ( (alt_annotation == null || alt_annotation.nativeAlt()) && method.getAnnotation(Reuse.class) == null ) {
-						hasNative = true;
+						noNative = false;
 						break;
 					}
 				}
-				if ( !hasNative )
+				if ( noNative )
 					return;
 
 				final String outputPath = env.getOptions().get("-d") + '/' + Utils.getNativeQualifiedName(Utils.getQualifiedClassName(d));

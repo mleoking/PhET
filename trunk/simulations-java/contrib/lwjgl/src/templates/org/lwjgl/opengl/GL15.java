@@ -32,7 +32,6 @@
 package org.lwjgl.opengl;
 
 import org.lwjgl.util.generator.*;
-import org.lwjgl.util.generator.Alternate;
 import org.lwjgl.util.generator.opengl.*;
 
 import java.nio.Buffer;
@@ -97,7 +96,7 @@ public interface GL15 {
 	void glDeleteBuffers(@AutoSize("buffers") @GLsizei int n, @Const @GLuint IntBuffer buffers);
 
 	@Alternate("glDeleteBuffers")
-	void glDeleteBuffers(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, buffer), 0", keepParam = true) int buffer);
+	void glDeleteBuffers(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, buffer)", keepParam = true) int buffer);
 
 	void glGenBuffers(@AutoSize("buffers") @GLsizei int n, @OutParameter @GLuint IntBuffer buffers);
 
@@ -109,6 +108,7 @@ public interface GL15 {
 
 	@GenerateAutos
 	void glBufferData(@GLenum int target, @AutoSize("data") @GLsizeiptr long size,
+	                  @Check
 	                  @Const
 	                  @GLbyte
 	                  @GLshort
@@ -166,10 +166,18 @@ public interface GL15 {
 	@StripPostfix("params")
 	void glGetBufferParameteriv(@GLenum int target, @GLenum int pname, @OutParameter @Check("4") IntBuffer params);
 
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetBufferParameteri} instead. */
 	@Alternate("glGetBufferParameteriv")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "GL15", method = "glGetBufferParameteri")
+	@Deprecated
 	void glGetBufferParameteriv2(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
+
+	@Alternate("glGetBufferParameteriv")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetBufferParameteriv3(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
 
 	@StripPostfix("pointer")
 	@AutoSize("GLChecks.getBufferObjectSize(caps, target)")
@@ -205,7 +213,7 @@ public interface GL15 {
 	void glDeleteQueries(@AutoSize("ids") @GLsizei int n, @GLuint IntBuffer ids);
 
 	@Alternate("glDeleteQueries")
-	void glDeleteQueries(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, id), 0", keepParam = true) int id);
+	void glDeleteQueries(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, id)", keepParam = true) int id);
 
 	boolean glIsQuery(@GLuint int id);
 
@@ -216,10 +224,18 @@ public interface GL15 {
 	@StripPostfix("params")
 	void glGetQueryiv(@GLenum int target, @GLenum int pname, @OutParameter @Check("1") IntBuffer params);
 
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetQueryi} instead. */
 	@Alternate("glGetQueryiv")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "GL15", method = "glGetQueryi")
+	@Deprecated
 	void glGetQueryiv2(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
+
+	@Alternate("glGetQueryiv")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetQueryiv3(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
 
 	@StripPostfix("params")
 	void glGetQueryObjectiv(@GLenum int id, @GLenum int pname, @OutParameter @Check("1") @GLint IntBuffer params);

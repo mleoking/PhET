@@ -26,16 +26,16 @@ public final class ARBShadingLanguageInclude {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkDirect(string);
-		nglNamedStringARB(type, name.remaining(), name, name.position(), string.remaining(), string, string.position(), function_pointer);
+		nglNamedStringARB(type, name.remaining(), MemoryUtil.getAddress(name), string.remaining(), MemoryUtil.getAddress(string), function_pointer);
 	}
-	static native void nglNamedStringARB(int type, int name_namelen, ByteBuffer name, int name_position, int string_stringlen, ByteBuffer string, int string_position, long function_pointer);
+	static native void nglNamedStringARB(int type, int name_namelen, long name, int string_stringlen, long string, long function_pointer);
 
 	/** Overloads glNamedStringARB. */
 	public static void glNamedStringARB(int type, CharSequence name, CharSequence string) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglNamedStringARB(type, name.length(), APIUtil.getBuffer(name), 0, string.length(), APIUtil.getBuffer(string, name.length()), name.length(), function_pointer);
+		nglNamedStringARB(type, name.length(), APIUtil.getBuffer(caps, name), string.length(), APIUtil.getBuffer(caps, string, name.length()), function_pointer);
 	}
 
 	public static void glDeleteNamedStringARB(ByteBuffer name) {
@@ -43,16 +43,16 @@ public final class ARBShadingLanguageInclude {
 		long function_pointer = caps.glDeleteNamedStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
-		nglDeleteNamedStringARB(name.remaining(), name, name.position(), function_pointer);
+		nglDeleteNamedStringARB(name.remaining(), MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglDeleteNamedStringARB(int name_namelen, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglDeleteNamedStringARB(int name_namelen, long name, long function_pointer);
 
 	/** Overloads glDeleteNamedStringARB. */
 	public static void glDeleteNamedStringARB(CharSequence name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteNamedStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteNamedStringARB(name.length(), APIUtil.getBuffer(name), 0, function_pointer);
+		nglDeleteNamedStringARB(name.length(), APIUtil.getBuffer(caps, name), function_pointer);
 	}
 
 	public static void glCompileShaderIncludeARB(int shader, int count, ByteBuffer path) {
@@ -61,9 +61,9 @@ public final class ARBShadingLanguageInclude {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(path);
 		BufferChecks.checkNullTerminated(path, count);
-		nglCompileShaderIncludeARB(shader, count, path, path.position(), null, 0, function_pointer);
+		nglCompileShaderIncludeARB(shader, count, MemoryUtil.getAddress(path), 0L, function_pointer);
 	}
-	static native void nglCompileShaderIncludeARB(int shader, int count, ByteBuffer path, int path_position, IntBuffer length, int length_position, long function_pointer);
+	static native void nglCompileShaderIncludeARB(int shader, int count, long path, long length, long function_pointer);
 
 	/** Overloads glCompileShaderIncludeARB. */
 	public static void glCompileShaderIncludeARB(int shader, CharSequence[] path) {
@@ -71,26 +71,26 @@ public final class ARBShadingLanguageInclude {
 		long function_pointer = caps.glCompileShaderIncludeARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkArray(path);
-		nglCompileShaderIncludeARB2(shader, path.length, APIUtil.getBuffer(path), 0, APIUtil.getLengths(path), 0, function_pointer);
+		nglCompileShaderIncludeARB2(shader, path.length, APIUtil.getBuffer(caps, path), APIUtil.getLengths(caps, path), function_pointer);
 	}
-	static native void nglCompileShaderIncludeARB2(int shader, int count, ByteBuffer path, int path_position, IntBuffer length, int length_position, long function_pointer);
+	static native void nglCompileShaderIncludeARB2(int shader, int count, long path, long length, long function_pointer);
 
 	public static boolean glIsNamedStringARB(ByteBuffer name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glIsNamedStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
-		boolean __result = nglIsNamedStringARB(name.remaining(), name, name.position(), function_pointer);
+		boolean __result = nglIsNamedStringARB(name.remaining(), MemoryUtil.getAddress(name), function_pointer);
 		return __result;
 	}
-	static native boolean nglIsNamedStringARB(int name_namelen, ByteBuffer name, int name_position, long function_pointer);
+	static native boolean nglIsNamedStringARB(int name_namelen, long name, long function_pointer);
 
 	/** Overloads glIsNamedStringARB. */
 	public static boolean glIsNamedStringARB(CharSequence name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glIsNamedStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		boolean __result = nglIsNamedStringARB(name.length(), APIUtil.getBuffer(name), 0, function_pointer);
+		boolean __result = nglIsNamedStringARB(name.length(), APIUtil.getBuffer(caps, name), function_pointer);
 		return __result;
 	}
 
@@ -102,9 +102,9 @@ public final class ARBShadingLanguageInclude {
 		if (stringlen != null)
 			BufferChecks.checkBuffer(stringlen, 1);
 		BufferChecks.checkDirect(string);
-		nglGetNamedStringARB(name.remaining(), name, name.position(), string.remaining(), stringlen, stringlen != null ? stringlen.position() : 0, string, string.position(), function_pointer);
+		nglGetNamedStringARB(name.remaining(), MemoryUtil.getAddress(name), string.remaining(), MemoryUtil.getAddressSafe(stringlen), MemoryUtil.getAddress(string), function_pointer);
 	}
-	static native void nglGetNamedStringARB(int name_namelen, ByteBuffer name, int name_position, int string_bufSize, IntBuffer stringlen, int stringlen_position, ByteBuffer string, int string_position, long function_pointer);
+	static native void nglGetNamedStringARB(int name_namelen, long name, int string_bufSize, long stringlen, long string, long function_pointer);
 
 	/** Overloads glGetNamedStringARB. */
 	public static void glGetNamedStringARB(CharSequence name, IntBuffer stringlen, ByteBuffer string) {
@@ -114,7 +114,7 @@ public final class ARBShadingLanguageInclude {
 		if (stringlen != null)
 			BufferChecks.checkBuffer(stringlen, 1);
 		BufferChecks.checkDirect(string);
-		nglGetNamedStringARB(name.length(), APIUtil.getBuffer(name), 0, string.remaining(), stringlen, stringlen != null ? stringlen.position() : 0, string, string.position(), function_pointer);
+		nglGetNamedStringARB(name.length(), APIUtil.getBuffer(caps, name), string.remaining(), MemoryUtil.getAddressSafe(stringlen), MemoryUtil.getAddress(string), function_pointer);
 	}
 
 	/** Overloads glGetNamedStringARB. */
@@ -122,11 +122,11 @@ public final class ARBShadingLanguageInclude {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer string_length = APIUtil.getLengths();
-		ByteBuffer string = APIUtil.getBufferByte(bufSize + name.length());
-		nglGetNamedStringARB(name.length(), APIUtil.getBuffer(name), 0, bufSize, string_length, 0, string, string.position(), function_pointer);
+		IntBuffer string_length = APIUtil.getLengths(caps);
+		ByteBuffer string = APIUtil.getBufferByte(caps, bufSize + name.length());
+		nglGetNamedStringARB(name.length(), APIUtil.getBuffer(caps, name), bufSize, MemoryUtil.getAddress0(string_length), MemoryUtil.getAddress(string), function_pointer);
 		string.limit(name.length() + string_length.get(0));
-		return APIUtil.getString(string);
+		return APIUtil.getString(caps, string);
 	}
 
 	public static void glGetNamedStringARB(ByteBuffer name, int pname, IntBuffer params) {
@@ -135,9 +135,9 @@ public final class ARBShadingLanguageInclude {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetNamedStringivARB(name.remaining(), name, name.position(), pname, params, params.position(), function_pointer);
+		nglGetNamedStringivARB(name.remaining(), MemoryUtil.getAddress(name), pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedStringivARB(int name_namelen, ByteBuffer name, int name_position, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedStringivARB(int name_namelen, long name, int pname, long params, long function_pointer);
 
 	/** Overloads glGetNamedStringivARB. */
 	public static void glGetNamedStringiARB(CharSequence name, int pname, IntBuffer params) {
@@ -145,7 +145,7 @@ public final class ARBShadingLanguageInclude {
 		long function_pointer = caps.glGetNamedStringivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetNamedStringivARB(name.length(), APIUtil.getBuffer(name), 0, pname, params, params.position(), function_pointer);
+		nglGetNamedStringivARB(name.length(), APIUtil.getBuffer(caps, name), pname, MemoryUtil.getAddress(params), function_pointer);
 	}
 
 	/** Overloads glGetNamedStringivARB. */
@@ -153,8 +153,8 @@ public final class ARBShadingLanguageInclude {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedStringivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetNamedStringivARB(name.length(), APIUtil.getBuffer(name), 0, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetNamedStringivARB(name.length(), APIUtil.getBuffer(caps, name), pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 }

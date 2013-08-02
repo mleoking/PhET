@@ -31,12 +31,12 @@
  */
  
 /**
- * $Id: org_lwjgl_input_Cursor.c 3263 2010-01-10 22:46:41Z matzon $
+ * $Id$
  *
  * win32 mouse handling.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3263 $
+ * @version $Revision$
  */
 
 #include "Window.h"

@@ -15,7 +15,7 @@ public final class EXTMultiDrawArrays {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(piFirst);
 		BufferChecks.checkBuffer(piCount, piFirst.remaining());
-		nglMultiDrawArraysEXT(mode, piFirst, piFirst.position(), piCount, piCount.position(), piFirst.remaining(), function_pointer);
+		nglMultiDrawArraysEXT(mode, MemoryUtil.getAddress(piFirst), MemoryUtil.getAddress(piCount), piFirst.remaining(), function_pointer);
 	}
-	static native void nglMultiDrawArraysEXT(int mode, IntBuffer piFirst, int piFirst_position, IntBuffer piCount, int piCount_position, int piFirst_primcount, long function_pointer);
+	static native void nglMultiDrawArraysEXT(int mode, long piFirst, long piCount, int piFirst_primcount, long function_pointer);
 }

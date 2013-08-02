@@ -39,8 +39,8 @@ import java.nio.FloatBuffer;
  * Holds a 4-tuple vector.
  * 
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 2983 $
- * $Id: Vector4f.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 
 public class Vector4f extends Vector implements Serializable, ReadableVector4f, WritableVector4f {

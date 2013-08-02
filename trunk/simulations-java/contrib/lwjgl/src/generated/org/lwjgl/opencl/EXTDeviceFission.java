@@ -114,9 +114,9 @@ public final class EXTDeviceFission {
 			BufferChecks.checkDirect(out_devices);
 		if (num_devices != null)
 			BufferChecks.checkBuffer(num_devices, 1);
-		int __result = nclCreateSubDevicesEXT(in_device.getPointer(), properties, properties.position(), (out_devices == null ? 0 : out_devices.remaining()), out_devices != null ? out_devices.getBuffer() : null, out_devices != null ? out_devices.positionByte() : 0, num_devices, num_devices != null ? num_devices.position() : 0, function_pointer);
+		int __result = nclCreateSubDevicesEXT(in_device.getPointer(), MemoryUtil.getAddress(properties), (out_devices == null ? 0 : out_devices.remaining()), MemoryUtil.getAddressSafe(out_devices), MemoryUtil.getAddressSafe(num_devices), function_pointer);
 		if ( __result == CL10.CL_SUCCESS && out_devices != null ) in_device.registerSubCLDevices(out_devices);
 		return __result;
 	}
-	static native int nclCreateSubDevicesEXT(long in_device, LongBuffer properties, int properties_position, int out_devices_num_entries, ByteBuffer out_devices, int out_devices_position, IntBuffer num_devices, int num_devices_position, long function_pointer);
+	static native int nclCreateSubDevicesEXT(long in_device, long properties, int out_devices_num_entries, long out_devices, long num_devices, long function_pointer);
 }

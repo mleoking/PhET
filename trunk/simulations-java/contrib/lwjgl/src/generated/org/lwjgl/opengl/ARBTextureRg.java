@@ -40,11 +40,5 @@ public final class ARBTextureRg {
 	public static final int GL_RG = 0x8227,
 		GL_RG_INTEGER = 0x8228;
 
-	/**
-	 *  Accepted by the &lt;param&gt; parameter of the TexParameter{if}*
-	 *  functions when &lt;pname&gt; is DEPTH_TEXTURE_MODE:
-	 */
-	public static final int GL_RED = 0x1903;
-
 	private ARBTextureRg() {}
 }

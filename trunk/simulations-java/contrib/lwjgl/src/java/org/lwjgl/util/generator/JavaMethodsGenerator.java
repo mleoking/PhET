@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * This class generates the methods in the generated java source files.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3460 $
- * $Id: JavaMethodsGenerator.java 3460 2010-11-29 18:25:28Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import org.lwjgl.PointerBuffer;
@@ -194,8 +194,8 @@ public class JavaMethodsGenerator {
 				writer.print("long ");
 			else {
 				Class type = type_info.getType();
-				if ( native_stub && (type == CharSequence.class || type == CharSequence[].class || type == PointerBuffer.class) )
-					writer.print("ByteBuffer ");
+				if ( native_stub && (type == CharSequence.class || type == CharSequence[].class || type == PointerBuffer.class || Buffer.class.isAssignableFrom(type) ) )
+					writer.print("long ");
 				else if ( printTypes )
 					writer.print(type_info.getType().getSimpleName() + " ");
 			}
@@ -203,23 +203,25 @@ public class JavaMethodsGenerator {
 			if ( auto_size_annotation != null )
 				writer.print(auto_size_annotation.value() + "_");
 			writer.print(param.getSimpleName());
-			if ( native_stub && buffer_type != null )
-				writer.print(", int " + param.getSimpleName() + NativeMethodStubsGenerator.BUFFER_POSITION_POSTFIX);
 		}
 		return false;
 	}
 
-	private static void printBufferObjectCheck(PrintWriter writer, BufferKind kind, Mode mode) {
+	private static void printBufferObjectCheck(PrintWriter writer, BufferKind kind, Mode mode, boolean context_specific) {
 		String bo_check_method_name = kind.toString();
 		writer.print("\t\t" + Utils.CHECKS_CLASS_NAME + ".ensure" + bo_check_method_name);
 		if (mode == Mode.BUFFEROBJECT)
 			writer.print("enabled");
 		else
 			writer.print("disabled");
-		writer.println("(caps);");
+
+		if ( context_specific )
+			writer.println("(caps);");
+		else
+			writer.println("();");
 	}
 
-	private static void printBufferObjectChecks(PrintWriter writer, MethodDeclaration method, Mode mode) {
+	private static void printBufferObjectChecks(PrintWriter writer, MethodDeclaration method, Mode mode, boolean context_specific) {
 		EnumSet<BufferKind> check_set = EnumSet.noneOf(BufferKind.class);
 		for (ParameterDeclaration param : method.getParameters()) {
 			BufferObject bo_annotation = param.getAnnotation(BufferObject.class);
@@ -227,11 +229,13 @@ public class JavaMethodsGenerator {
 				check_set.add(bo_annotation.value());
 		}
 		for (BufferKind kind : check_set)
-			printBufferObjectCheck(writer, kind, mode);
+			printBufferObjectCheck(writer, kind, mode, context_specific);
 	}
 
 	private static void printMethodWithMultiType(AnnotationProcessorEnvironment env, TypeMap type_map, PrintWriter writer, InterfaceDeclaration interface_decl, MethodDeclaration method, Map<ParameterDeclaration, TypeInfo> typeinfos_instance, Mode mode, boolean generate_error_checks, boolean context_specific) {
 		Utils.printDocComment(writer, method);
+		if ( method.getAnnotation(Deprecated.class) != null )
+			writer.println("\t@Deprecated");
 		if ( interface_decl.getAnnotation(Private.class) == null && method.getAnnotation(Private.class) == null )
 			writer.print("\tpublic static ");
 		else
@@ -256,7 +260,7 @@ public class JavaMethodsGenerator {
 			if ( has_result || method.getAnnotation(GLreturn.class) != null )
 				writer.print("return ");
 
-			writer.print(reuse_annotation.value() + "." + method_name + "(");
+			writer.print(reuse_annotation.value() + "." + (reuse_annotation.method().length() > 0 ? reuse_annotation.method() : method_name) + "(");
 			generateParametersJava(writer, method, typeinfos_instance, false, false, mode);
 			writer.println(");\n\t}");
 			return;
@@ -272,9 +276,9 @@ public class JavaMethodsGenerator {
 		final Code code_annotation = method.getAnnotation(Code.class);
 		if (code_annotation != null && code_annotation.value().length() > 0)
 			writer.println(code_annotation.value());
-		printBufferObjectChecks(writer, method, mode);
+		printBufferObjectChecks(writer, method, mode, context_specific);
 		printParameterChecks(writer, method, typeinfos_instance, mode, generate_error_checks);
-		printParameterCaching(writer, interface_decl, method, mode);
+		printParameterCaching(writer, interface_decl, method, mode, context_specific);
 
 		if ( code_annotation != null && code_annotation.javaBeforeNative().length() > 0 )
 			writer.println(code_annotation.javaBeforeNative());
@@ -299,13 +303,13 @@ public class JavaMethodsGenerator {
 			}
 		} else if ( method.getAnnotation(GLreturn.class) != null ) {
 			has_result = true;
-			Utils.printGLReturnPre(writer, method, method.getAnnotation(GLreturn.class));
+			Utils.printGLReturnPre(writer, method, method.getAnnotation(GLreturn.class), type_map);
 		}
 		writer.print(Utils.getSimpleNativeMethodName(method, generate_error_checks, context_specific));
 		if (mode == Mode.BUFFEROBJECT)
 			writer.print(Utils.BUFFER_OBJECT_METHOD_POSTFIX);
 		writer.print("(");
-		boolean first_parameter = printMethodCallArguments(writer, method, typeinfos_instance, mode);
+		boolean first_parameter = printMethodCallArguments(writer, method, typeinfos_instance, mode, type_map);
 		if (context_specific) {
 			if (!first_parameter)
 				writer.print(", ");
@@ -333,7 +337,7 @@ public class JavaMethodsGenerator {
 				else
 					writer.println(tabs + "return " + Utils.RESULT_VAR_NAME + ";");
 			} else
-				Utils.printGLReturnPost(writer, method, method.getAnnotation(GLreturn.class));
+				Utils.printGLReturnPost(writer, method, method.getAnnotation(GLreturn.class), type_map);
 		}
 
 		if ( code_annotation != null && code_annotation.tryBlock() ) {
@@ -437,7 +441,7 @@ public class JavaMethodsGenerator {
 			throw new RuntimeException(c + " is not allowed");
 	}
 
-	private static boolean printMethodCallArgument(PrintWriter writer, MethodDeclaration method, ParameterDeclaration param, Map<ParameterDeclaration, TypeInfo> typeinfos_instance, Mode mode, boolean first_parameter) {
+	private static boolean printMethodCallArgument(PrintWriter writer, MethodDeclaration method, ParameterDeclaration param, Map<ParameterDeclaration, TypeInfo> typeinfos_instance, Mode mode, boolean first_parameter, TypeMap type_map) {
 		if (!first_parameter)
 			writer.print(", ");
 
@@ -456,24 +460,26 @@ public class JavaMethodsGenerator {
 				writer.print(auto_type);
 			} else if (AutoSize.class.equals(param_type)) {
 				final AutoSize auto_size_annotation = param.getAnnotation(AutoSize.class);
-				final String auto_parameter_name = auto_size_annotation.value();
-				final ParameterDeclaration auto_target_param = Utils.findParameter(method, auto_parameter_name);
-				final TypeInfo auto_target_type_info = typeinfos_instance.get(auto_target_param);
-				final boolean shift_remaining = !hasAnyParameterAutoTypeAnnotation(method, auto_target_param) && Utils.isParameterMultiTyped(auto_target_param);
-				int shifting = 0;
-				if ( shift_remaining ) {
-					shifting = getBufferElementSizeExponent(auto_target_type_info.getType());
-					if ( shifting > 0 )
-						writer.print("(");
-				}
-				if ( auto_size_annotation.canBeNull() )
-					writer.print("(" + auto_parameter_name + " == null ? 0 : " + auto_parameter_name + ".remaining())");
-				else
-					writer.print(auto_parameter_name + ".remaining()");
-				// Shift the remaining if the target parameter is multityped and there's no AutoType to track type
-				if (shift_remaining && shifting > 0) {
-					writer.print(" << " + shifting);
-					writer.print(")");
+				if ( !auto_size_annotation.useExpression() ) {
+					final String auto_parameter_name = auto_size_annotation.value();
+					final ParameterDeclaration auto_target_param = Utils.findParameter(method, auto_parameter_name);
+					final TypeInfo auto_target_type_info = typeinfos_instance.get(auto_target_param);
+					final boolean shift_remaining = !hasAnyParameterAutoTypeAnnotation(method, auto_target_param) && Utils.isParameterMultiTyped(auto_target_param);
+					int shifting = 0;
+					if ( shift_remaining ) {
+						shifting = getBufferElementSizeExponent(auto_target_type_info.getType());
+						if ( shifting > 0 )
+							writer.print("(");
+					}
+					if ( auto_size_annotation.canBeNull() )
+						writer.print("(" + auto_parameter_name + " == null ? 0 : " + auto_parameter_name + ".remaining())");
+					else
+						writer.print(auto_parameter_name + ".remaining()");
+					// Shift the remaining if the target parameter is multityped and there's no AutoType to track type
+					if (shift_remaining && shifting > 0) {
+						writer.print(" << " + shifting);
+						writer.print(")");
+					}
 				}
 				writer.print(auto_size_annotation.expression());
 			} else
@@ -486,7 +492,7 @@ public class JavaMethodsGenerator {
 				Check check_annotation = param.getAnnotation(Check.class);
 				boolean hide_buffer = mode == Mode.AUTOS && getAutoTypeParameter(method, param) != null;
 				if (hide_buffer) {
-					writer.print("null");
+					writer.print("0L");
 				} else {
 					if ( type == CharSequence.class || type == CharSequence[].class ) {
 						final String offset = Utils.getStringOffset(method, param);
@@ -494,52 +500,31 @@ public class JavaMethodsGenerator {
 						writer.print("APIUtil.getBuffer");
 						if ( param.getAnnotation(NullTerminated.class) != null )
 							writer.print("NT");
-						writer.print("(" + param.getSimpleName());
+						writer.print('(');
+						writer.print(type_map.getAPIUtilParam(true));
+						writer.print(param.getSimpleName());
 						if ( offset != null )
 							writer.print(", " + offset);
 						writer.print(")");
-						hide_buffer = true;
 					} else {
 						final AutoSize auto_size_annotation = param.getAnnotation(AutoSize.class);
 						if ( auto_size_annotation != null )
 							writer.print(auto_size_annotation.value() + "_");
-						writer.print(param.getSimpleName());
-						if ( PointerBuffer.class.isAssignableFrom(type) ) {
+
+						final Class buffer_type = Utils.getNIOBufferType(param.getType());
+						if ( buffer_type == null )
+							writer.print(param.getSimpleName());
+						else {
+							writer.print("MemoryUtil.getAddress");
 							if ( check_annotation != null && check_annotation.canBeNull() )
-								writer.print(" != null ? " + param.getSimpleName());
-							writer.print(".getBuffer()");
-							if ( check_annotation != null && check_annotation.canBeNull() )
-								writer.print(" : null");
+								writer.print("Safe");
+							writer.print("(");
+							writer.print(param.getSimpleName());
+							writer.print(")");
 						}
 					}
 				}
-				Class buffer_type = Utils.getNIOBufferType(param.getType());
-				if (buffer_type != null) {
-					writer.print(", ");
-					if (!hide_buffer) {
-						int shifting;
-						if (Utils.getNIOBufferType(param.getType()).equals(Buffer.class)) {
-							shifting = getBufferElementSizeExponent(type == Buffer.class ? ByteBuffer.class : type); // TODO: This will always throw an exception
-							//shifting = 0;
-						} else
-							shifting = 0;
-						writer.print(param.getSimpleName());
-						if (check_annotation != null && check_annotation.canBeNull())
-							writer.print(" != null ? " + param.getSimpleName());
-						if ( type == PointerBuffer.class )
-							writer.print(".positionByte()");
-						else
-							writer.print(".position()");
-						if (shifting > 0)
-							writer.print(" << " + shifting);
-						if (check_annotation != null && check_annotation.canBeNull())
-							writer.print(" : 0");
-					} else if ( type == CharSequence.class || type == CharSequence[].class ) {
-						final String offset = Utils.getStringOffset(method, param);
-						writer.print(offset == null ? "0" : offset);
-					} else
-						writer.print("0");
-				} else if ( type != long.class ) {
+				if ( type != long.class ) {
 					PointerWrapper pointer_annotation = param.getAnnotation(PointerWrapper.class);
 					if ( pointer_annotation != null ) {
 						if ( pointer_annotation.canBeNull() )
@@ -552,7 +537,7 @@ public class JavaMethodsGenerator {
 		return false;
 	}
 
-	private static boolean printMethodCallArguments(PrintWriter writer, MethodDeclaration method, Map<ParameterDeclaration, TypeInfo> typeinfos_instance, Mode mode) {
+	private static boolean printMethodCallArguments(PrintWriter writer, MethodDeclaration method, Map<ParameterDeclaration, TypeInfo> typeinfos_instance, Mode mode, TypeMap type_map) {
 		boolean first_parameter = true;
 		for ( ParameterDeclaration param : method.getParameters() ) {
 			if ( param.getAnnotation(Result.class) != null || (param.getAnnotation(Helper.class) != null && !param.getAnnotation(Helper.class).passToNative()) )
@@ -560,7 +545,7 @@ public class JavaMethodsGenerator {
 
 			final Constant constant_annotation = param.getAnnotation(Constant.class);
 			if ( constant_annotation== null || !constant_annotation.isNative() )
-				first_parameter = printMethodCallArgument(writer, method, param, typeinfos_instance, mode, first_parameter);
+				first_parameter = printMethodCallArgument(writer, method, param, typeinfos_instance, mode, first_parameter, type_map);
 		}
 		if (Utils.getNIOBufferType(Utils.getMethodReturnType(method)) != null) {
 			if (method.getAnnotation(CachedResult.class) != null && method.getAnnotation(CachedResult.class).isRange()) {
@@ -588,7 +573,7 @@ public class JavaMethodsGenerator {
 		return first_parameter;
 	}
 
-	private static void printParameterCaching(PrintWriter writer, InterfaceDeclaration  interface_decl, MethodDeclaration method, Mode mode) {
+	private static void printParameterCaching(PrintWriter writer, InterfaceDeclaration  interface_decl, MethodDeclaration method, Mode mode, boolean context_specific) {
 		for (ParameterDeclaration param : method.getParameters()) {
 			Class java_type = Utils.getJavaType(param.getType());
                         CachedReference cachedReference = param.getAnnotation(CachedReference.class);
@@ -596,7 +581,11 @@ public class JavaMethodsGenerator {
                                         cachedReference != null &&
 					(mode != Mode.BUFFEROBJECT || param.getAnnotation(BufferObject.class) == null) &&
 					param.getAnnotation(Result.class) == null) {
-				writer.print("\t\tif ( LWJGLUtil.CHECKS ) " + "StateTracker.getReferences(caps).");
+				writer.print("\t\tif ( LWJGLUtil.CHECKS ) StateTracker.");
+				if ( context_specific )
+					writer.print("getReferences(caps).");
+				else
+					writer.print("getTracker().");
                                 if(cachedReference.name().length() > 0) {
                                     writer.print(cachedReference.name());
                                 } else {

@@ -37,12 +37,12 @@
 #include "common_tools.h"
 
 /**
- * $Id: windows_al.c 3412 2010-09-26 23:43:24Z spasi $
+ * $Id$
  *
  * This file contains the AL extension assigning mechanism
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3412 $
+ * @version $Revision$
  */
 /* Handle to OpenAL Library */
 static HMODULE handleOAL;

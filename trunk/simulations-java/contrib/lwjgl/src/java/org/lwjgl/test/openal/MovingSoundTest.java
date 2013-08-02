@@ -46,8 +46,8 @@ import org.lwjgl.util.vector.Vector3f;
  * a source moving around the listener using the keyboard
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: MovingSoundTest.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class MovingSoundTest extends BasicTest {
   

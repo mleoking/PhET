@@ -47,8 +47,8 @@ import org.lwjgl.util.WaveData;
  * Yes, over zealous use of getError ;)
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: PlayTestMemory.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class PlayTestMemory extends BasicTest {
     

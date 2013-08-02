@@ -9,19 +9,30 @@ import java.util.HashSet;
 
 public class ContextCapabilities {
 	static final boolean DEBUG = false;
+	final APIUtil util = new APIUtil();
 	final StateTracker tracker = new StateTracker();
 
+	public final boolean GL_AMD_blend_minmax_factor;
 	public final boolean GL_AMD_conservative_depth;
 	public final boolean GL_AMD_debug_output;
 	public final boolean GL_AMD_depth_clamp_separate;
 	public final boolean GL_AMD_draw_buffers_blend;
+	public final boolean GL_AMD_multi_draw_indirect;
 	public final boolean GL_AMD_name_gen_delete;
 	public final boolean GL_AMD_performance_monitor;
+	public final boolean GL_AMD_pinned_memory;
+	public final boolean GL_AMD_query_buffer_object;
+	public final boolean GL_AMD_sample_positions;
 	public final boolean GL_AMD_seamless_cubemap_per_texture;
 	public final boolean GL_AMD_shader_stencil_export;
+	public final boolean GL_AMD_shader_trinary_minmax;
+	public final boolean GL_AMD_sparse_texture;
+	public final boolean GL_AMD_stencil_operation_extended;
 	public final boolean GL_AMD_texture_texture4;
 	public final boolean GL_AMD_transform_feedback3_lines_triangles;
+	public final boolean GL_AMD_vertex_shader_layer;
 	public final boolean GL_AMD_vertex_shader_tessellator;
+	public final boolean GL_AMD_vertex_shader_viewport_index;
 	public final boolean GL_APPLE_aux_depth_stencil;
 	public final boolean GL_APPLE_client_storage;
 	public final boolean GL_APPLE_element_array;
@@ -38,11 +49,19 @@ public class ContextCapabilities {
 	public final boolean GL_APPLE_vertex_program_evaluators;
 	public final boolean GL_APPLE_ycbcr_422;
 	public final boolean GL_ARB_ES2_compatibility;
+	public final boolean GL_ARB_ES3_compatibility;
+	public final boolean GL_ARB_arrays_of_arrays;
+	public final boolean GL_ARB_base_instance;
 	public final boolean GL_ARB_blend_func_extended;
 	public final boolean GL_ARB_cl_event;
+	public final boolean GL_ARB_clear_buffer_object;
 	public final boolean GL_ARB_color_buffer_float;
 	public final boolean GL_ARB_compatibility;
+	public final boolean GL_ARB_compressed_texture_pixel_storage;
+	public final boolean GL_ARB_compute_shader;
+	public final boolean GL_ARB_conservative_depth;
 	public final boolean GL_ARB_copy_buffer;
+	public final boolean GL_ARB_copy_image;
 	public final boolean GL_ARB_debug_output;
 	public final boolean GL_ARB_depth_buffer_float;
 	public final boolean GL_ARB_depth_clamp;
@@ -53,10 +72,13 @@ public class ContextCapabilities {
 	public final boolean GL_ARB_draw_indirect;
 	public final boolean GL_ARB_draw_instanced;
 	public final boolean GL_ARB_explicit_attrib_location;
+	public final boolean GL_ARB_explicit_uniform_location;
 	public final boolean GL_ARB_fragment_coord_conventions;
+	public final boolean GL_ARB_fragment_layer_viewport;
 	public final boolean GL_ARB_fragment_program;
 	public final boolean GL_ARB_fragment_program_shadow;
 	public final boolean GL_ARB_fragment_shader;
+	public final boolean GL_ARB_framebuffer_no_attachments;
 	public final boolean GL_ARB_framebuffer_object;
 	public final boolean GL_ARB_framebuffer_sRGB;
 	public final boolean GL_ARB_geometry_shader4;
@@ -67,8 +89,13 @@ public class ContextCapabilities {
 	public final boolean GL_ARB_half_float_vertex;
 	public final boolean GL_ARB_imaging;
 	public final boolean GL_ARB_instanced_arrays;
+	public final boolean GL_ARB_internalformat_query;
+	public final boolean GL_ARB_internalformat_query2;
+	public final boolean GL_ARB_invalidate_subdata;
+	public final boolean GL_ARB_map_buffer_alignment;
 	public final boolean GL_ARB_map_buffer_range;
 	public final boolean GL_ARB_matrix_palette;
+	public final boolean GL_ARB_multi_draw_indirect;
 	public final boolean GL_ARB_multisample;
 	public final boolean GL_ARB_multitexture;
 	public final boolean GL_ARB_occlusion_query;
@@ -76,27 +103,38 @@ public class ContextCapabilities {
 	public final boolean GL_ARB_pixel_buffer_object;
 	public final boolean GL_ARB_point_parameters;
 	public final boolean GL_ARB_point_sprite;
+	public final boolean GL_ARB_program_interface_query;
 	public final boolean GL_ARB_provoking_vertex;
+	public final boolean GL_ARB_robust_buffer_access_behavior;
 	public final boolean GL_ARB_robustness;
+	public final boolean GL_ARB_robustness_isolation;
 	public final boolean GL_ARB_sample_shading;
 	public final boolean GL_ARB_sampler_objects;
 	public final boolean GL_ARB_seamless_cube_map;
 	public final boolean GL_ARB_separate_shader_objects;
+	public final boolean GL_ARB_shader_atomic_counters;
 	public final boolean GL_ARB_shader_bit_encoding;
+	public final boolean GL_ARB_shader_image_load_store;
+	public final boolean GL_ARB_shader_image_size;
 	public final boolean GL_ARB_shader_objects;
 	public final boolean GL_ARB_shader_precision;
 	public final boolean GL_ARB_shader_stencil_export;
+	public final boolean GL_ARB_shader_storage_buffer_object;
 	public final boolean GL_ARB_shader_subroutine;
 	public final boolean GL_ARB_shader_texture_lod;
 	public final boolean GL_ARB_shading_language_100;
+	public final boolean GL_ARB_shading_language_420pack;
 	public final boolean GL_ARB_shading_language_include;
+	public final boolean GL_ARB_shading_language_packing;
 	public final boolean GL_ARB_shadow;
 	public final boolean GL_ARB_shadow_ambient;
+	public final boolean GL_ARB_stencil_texturing;
 	public final boolean GL_ARB_sync;
 	public final boolean GL_ARB_tessellation_shader;
 	public final boolean GL_ARB_texture_border_clamp;
 	public final boolean GL_ARB_texture_buffer_object;
 	public final boolean GL_ARB_texture_buffer_object_rgb32;
+	public final boolean GL_ARB_texture_buffer_range;
 	public final boolean GL_ARB_texture_compression;
 	public final boolean GL_ARB_texture_compression_bptc;
 	public final boolean GL_ARB_texture_compression_rgtc;
@@ -111,19 +149,25 @@ public class ContextCapabilities {
 	public final boolean GL_ARB_texture_mirrored_repeat;
 	public final boolean GL_ARB_texture_multisample;
 	public final boolean GL_ARB_texture_non_power_of_two;
+	public final boolean GL_ARB_texture_query_levels;
 	public final boolean GL_ARB_texture_query_lod;
 	public final boolean GL_ARB_texture_rectangle;
 	public final boolean GL_ARB_texture_rg;
 	public final boolean GL_ARB_texture_rgb10_a2ui;
+	public final boolean GL_ARB_texture_storage;
+	public final boolean GL_ARB_texture_storage_multisample;
 	public final boolean GL_ARB_texture_swizzle;
+	public final boolean GL_ARB_texture_view;
 	public final boolean GL_ARB_timer_query;
 	public final boolean GL_ARB_transform_feedback2;
 	public final boolean GL_ARB_transform_feedback3;
+	public final boolean GL_ARB_transform_feedback_instanced;
 	public final boolean GL_ARB_transpose_matrix;
 	public final boolean GL_ARB_uniform_buffer_object;
 	public final boolean GL_ARB_vertex_array_bgra;
 	public final boolean GL_ARB_vertex_array_object;
 	public final boolean GL_ARB_vertex_attrib_64bit;
+	public final boolean GL_ARB_vertex_attrib_binding;
 	public final boolean GL_ARB_vertex_blend;
 	public final boolean GL_ARB_vertex_buffer_object;
 	public final boolean GL_ARB_vertex_program;
@@ -166,6 +210,7 @@ public class ContextCapabilities {
 	public final boolean GL_EXT_fog_coord;
 	public final boolean GL_EXT_framebuffer_blit;
 	public final boolean GL_EXT_framebuffer_multisample;
+	public final boolean GL_EXT_framebuffer_multisample_blit_scaled;
 	public final boolean GL_EXT_framebuffer_object;
 	public final boolean GL_EXT_framebuffer_sRGB;
 	public final boolean GL_EXT_geometry_shader4;
@@ -226,16 +271,26 @@ public class ContextCapabilities {
 	public final boolean OpenGL33;
 	public final boolean OpenGL40;
 	public final boolean OpenGL41;
+	public final boolean OpenGL42;
+	public final boolean OpenGL43;
+	public final boolean GL_GREMEDY_frame_terminator;
 	public final boolean GL_GREMEDY_string_marker;
 	public final boolean GL_HP_occlusion_test;
 	public final boolean GL_IBM_rasterpos_clip;
+	public final boolean GL_INTEL_map_texture;
+	public final boolean GL_KHR_debug;
+	public final boolean GL_KHR_texture_compression_astc_ldr;
 	public final boolean GL_NVX_gpu_memory_info;
+	public final boolean GL_NV_bindless_texture;
 	public final boolean GL_NV_blend_square;
+	public final boolean GL_NV_compute_program5;
 	public final boolean GL_NV_conditional_render;
 	public final boolean GL_NV_copy_depth_to_color;
 	public final boolean GL_NV_copy_image;
+	public final boolean GL_NV_deep_texture3D;
 	public final boolean GL_NV_depth_buffer_float;
 	public final boolean GL_NV_depth_clamp;
+	public final boolean GL_NV_draw_texture;
 	public final boolean GL_NV_evaluators;
 	public final boolean GL_NV_explicit_multisample;
 	public final boolean GL_NV_fence;
@@ -259,19 +314,25 @@ public class ContextCapabilities {
 	public final boolean GL_NV_packed_depth_stencil;
 	public final boolean GL_NV_parameter_buffer_object;
 	public final boolean GL_NV_parameter_buffer_object2;
+	public final boolean GL_NV_path_rendering;
 	public final boolean GL_NV_pixel_data_range;
 	public final boolean GL_NV_point_sprite;
+	public final boolean GL_NV_present_video;
 	public final boolean GL_NV_primitive_restart;
 	public final boolean GL_NV_register_combiners;
 	public final boolean GL_NV_register_combiners2;
+	public final boolean GL_NV_shader_atomic_counters;
+	public final boolean GL_NV_shader_atomic_float;
 	public final boolean GL_NV_shader_buffer_load;
 	public final boolean GL_NV_shader_buffer_store;
+	public final boolean GL_NV_shader_storage_buffer_object;
 	public final boolean GL_NV_tessellation_program5;
 	public final boolean GL_NV_texgen_reflection;
 	public final boolean GL_NV_texture_barrier;
 	public final boolean GL_NV_texture_compression_vtc;
 	public final boolean GL_NV_texture_env_combine4;
 	public final boolean GL_NV_texture_expand_normal;
+	public final boolean GL_NV_texture_multisample;
 	public final boolean GL_NV_texture_rectangle;
 	public final boolean GL_NV_texture_shader;
 	public final boolean GL_NV_texture_shader2;
@@ -288,6 +349,7 @@ public class ContextCapabilities {
 	public final boolean GL_NV_vertex_program2_option;
 	public final boolean GL_NV_vertex_program3;
 	public final boolean GL_NV_vertex_program4;
+	public final boolean GL_NV_video_capture;
 	public final boolean GL_SGIS_generate_mipmap;
 	public final boolean GL_SGIS_texture_lod;
 	public final boolean GL_SUN_slice_accum;
@@ -302,6 +364,9 @@ public class ContextCapabilities {
 	long glBlendFuncSeparateIndexedAMD;
 	long glBlendEquationIndexedAMD;
 	long glBlendEquationSeparateIndexedAMD;
+	// AMD_multi_draw_indirect
+	long glMultiDrawArraysIndirectAMD;
+	long glMultiDrawElementsIndirectAMD;
 	// AMD_name_gen_delete
 	long glGenNamesAMD;
 	long glDeleteNamesAMD;
@@ -318,6 +383,13 @@ public class ContextCapabilities {
 	long glBeginPerfMonitorAMD;
 	long glEndPerfMonitorAMD;
 	long glGetPerfMonitorCounterDataAMD;
+	// AMD_sample_positions
+	long glSetMultisamplefvAMD;
+	// AMD_sparse_texture
+	long glTexStorageSparseAMD;
+	long glTextureStorageSparseAMD;
+	// AMD_stencil_operation_extended
+	long glStencilOpValueAMD;
 	// AMD_vertex_shader_tessellator
 	long glTessellationFactorAMD;
 	long glTessellationModeAMD;
@@ -377,6 +449,9 @@ public class ContextCapabilities {
 	long glGetBufferPointervARB;
 	// ARB_cl_event
 	long glCreateSyncFromCLeventARB;
+	// ARB_clear_buffer_object
+	long glClearNamedBufferDataEXT;
+	long glClearNamedBufferSubDataEXT;
 	// ARB_color_buffer_float
 	long glClampColorARB;
 	// ARB_debug_output
@@ -394,6 +469,9 @@ public class ContextCapabilities {
 	// ARB_draw_instanced
 	long glDrawArraysInstancedARB;
 	long glDrawElementsInstancedARB;
+	// ARB_framebuffer_no_attachments
+	long glNamedFramebufferParameteriEXT;
+	long glGetNamedFramebufferParameterivEXT;
 	// ARB_geometry_shader4
 	long glProgramParameteriARB;
 	long glFramebufferTextureARB;
@@ -583,6 +661,8 @@ public class ContextCapabilities {
 	long glGetNamedStringivARB;
 	// ARB_texture_buffer_object
 	long glTexBufferARB;
+	// ARB_texture_buffer_range
+	long glTextureBufferRangeEXT;
 	// ARB_texture_compression
 	long glCompressedTexImage1DARB;
 	long glCompressedTexImage2DARB;
@@ -591,6 +671,13 @@ public class ContextCapabilities {
 	long glCompressedTexSubImage2DARB;
 	long glCompressedTexSubImage3DARB;
 	long glGetCompressedTexImageARB;
+	// ARB_texture_storage
+	long glTextureStorage1DEXT;
+	long glTextureStorage2DEXT;
+	long glTextureStorage3DEXT;
+	// ARB_texture_storage_multisample
+	long glTextureStorage2DMultisampleEXT;
+	long glTextureStorage3DMultisampleEXT;
 	// ARB_transpose_matrix
 	long glLoadTransposeMatrixfARB;
 	long glMultTransposeMatrixfARB;
@@ -1295,6 +1382,7 @@ public class ContextCapabilities {
 	long glScalef;
 	long glScaled;
 	long glRotatef;
+	long glRotated;
 	long glRenderMode;
 	long glRectf;
 	long glRectd;
@@ -1609,6 +1697,7 @@ public class ContextCapabilities {
 	long glGetActiveUniformBlockName;
 	long glUniformBlockBinding;
 	// GL32
+	long glGetBufferParameteri64v;
 	long glDrawElementsBaseVertex;
 	long glDrawRangeElementsBaseVertex;
 	long glDrawElementsInstancedBaseVertex;
@@ -1821,8 +1910,85 @@ public class ContextCapabilities {
 	long glDepthRangeIndexed;
 	long glGetFloati_v;
 	long glGetDoublei_v;
+	// GL42
+	long glGetActiveAtomicCounterBufferiv;
+	long glTexStorage1D;
+	long glTexStorage2D;
+	long glTexStorage3D;
+	long glDrawTransformFeedbackInstanced;
+	long glDrawTransformFeedbackStreamInstanced;
+	long glDrawArraysInstancedBaseInstance;
+	long glDrawElementsInstancedBaseInstance;
+	long glDrawElementsInstancedBaseVertexBaseInstance;
+	long glBindImageTexture;
+	long glMemoryBarrier;
+	long glGetInternalformativ;
+	// GL43
+	long glClearBufferData;
+	long glClearBufferSubData;
+	long glDispatchCompute;
+	long glDispatchComputeIndirect;
+	long glCopyImageSubData;
+	long glDebugMessageControl;
+	long glDebugMessageInsert;
+	long glDebugMessageCallback;
+	long glGetDebugMessageLog;
+	long glPushDebugGroup;
+	long glPopDebugGroup;
+	long glObjectLabel;
+	long glGetObjectLabel;
+	long glObjectPtrLabel;
+	long glGetObjectPtrLabel;
+	long glFramebufferParameteri;
+	long glGetFramebufferParameteriv;
+	long glGetInternalformati64v;
+	long glInvalidateTexSubImage;
+	long glInvalidateTexImage;
+	long glInvalidateBufferSubData;
+	long glInvalidateBufferData;
+	long glInvalidateFramebuffer;
+	long glInvalidateSubFramebuffer;
+	long glMultiDrawArraysIndirect;
+	long glMultiDrawElementsIndirect;
+	long glGetProgramInterfaceiv;
+	long glGetProgramResourceIndex;
+	long glGetProgramResourceName;
+	long glGetProgramResourceiv;
+	long glGetProgramResourceLocation;
+	long glGetProgramResourceLocationIndex;
+	long glShaderStorageBlockBinding;
+	long glTexBufferRange;
+	long glTexStorage2DMultisample;
+	long glTexStorage3DMultisample;
+	long glTextureView;
+	long glBindVertexBuffer;
+	long glVertexAttribFormat;
+	long glVertexAttribIFormat;
+	long glVertexAttribLFormat;
+	long glVertexAttribBinding;
+	long glVertexBindingDivisor;
+	// GREMEDY_frame_terminator
+	long glFrameTerminatorGREMEDY;
 	// GREMEDY_string_marker
 	long glStringMarkerGREMEDY;
+	// INTEL_map_texture
+	long glMapTexture2DINTEL;
+	long glUnmapTexture2DINTEL;
+	long glSyncTextureINTEL;
+	// NV_bindless_texture
+	long glGetTextureHandleNV;
+	long glGetTextureSamplerHandleNV;
+	long glMakeTextureHandleResidentNV;
+	long glMakeTextureHandleNonResidentNV;
+	long glGetImageHandleNV;
+	long glMakeImageHandleResidentNV;
+	long glMakeImageHandleNonResidentNV;
+	long glUniformHandleui64NV;
+	long glUniformHandleui64vNV;
+	long glProgramUniformHandleui64NV;
+	long glProgramUniformHandleui64vNV;
+	long glIsTextureHandleResidentNV;
+	long glIsImageHandleResidentNV;
 	// NV_conditional_render
 	long glBeginConditionalRenderNV;
 	long glEndConditionalRenderNV;
@@ -1832,6 +1998,8 @@ public class ContextCapabilities {
 	long glDepthRangedNV;
 	long glClearDepthdNV;
 	long glDepthBoundsdNV;
+	// NV_draw_texture
+	long glDrawTextureNV;
 	// NV_evaluators
 	long glGetMapControlPointsNV;
 	long glMapControlPointsNV;
@@ -1953,12 +2121,69 @@ public class ContextCapabilities {
 	long glProgramBufferParametersfvNV;
 	long glProgramBufferParametersIivNV;
 	long glProgramBufferParametersIuivNV;
+	// NV_path_rendering
+	long glPathCommandsNV;
+	long glPathCoordsNV;
+	long glPathSubCommandsNV;
+	long glPathSubCoordsNV;
+	long glPathStringNV;
+	long glPathGlyphsNV;
+	long glPathGlyphRangeNV;
+	long glWeightPathsNV;
+	long glCopyPathNV;
+	long glInterpolatePathsNV;
+	long glTransformPathNV;
+	long glPathParameterivNV;
+	long glPathParameteriNV;
+	long glPathParameterfvNV;
+	long glPathParameterfNV;
+	long glPathDashArrayNV;
+	long glGenPathsNV;
+	long glDeletePathsNV;
+	long glIsPathNV;
+	long glPathStencilFuncNV;
+	long glPathStencilDepthOffsetNV;
+	long glStencilFillPathNV;
+	long glStencilStrokePathNV;
+	long glStencilFillPathInstancedNV;
+	long glStencilStrokePathInstancedNV;
+	long glPathCoverDepthFuncNV;
+	long glPathColorGenNV;
+	long glPathTexGenNV;
+	long glPathFogGenNV;
+	long glCoverFillPathNV;
+	long glCoverStrokePathNV;
+	long glCoverFillPathInstancedNV;
+	long glCoverStrokePathInstancedNV;
+	long glGetPathParameterivNV;
+	long glGetPathParameterfvNV;
+	long glGetPathCommandsNV;
+	long glGetPathCoordsNV;
+	long glGetPathDashArrayNV;
+	long glGetPathMetricsNV;
+	long glGetPathMetricRangeNV;
+	long glGetPathSpacingNV;
+	long glGetPathColorGenivNV;
+	long glGetPathColorGenfvNV;
+	long glGetPathTexGenivNV;
+	long glGetPathTexGenfvNV;
+	long glIsPointInFillPathNV;
+	long glIsPointInStrokePathNV;
+	long glGetPathLengthNV;
+	long glPointAlongPathNV;
 	// NV_pixel_data_range
 	long glPixelDataRangeNV;
 	long glFlushPixelDataRangeNV;
 	// NV_point_sprite
 	long glPointParameteriNV;
 	long glPointParameterivNV;
+	// NV_present_video
+	long glPresentFrameKeyedNV;
+	long glPresentFrameDualFillNV;
+	long glGetVideoivNV;
+	long glGetVideouivNV;
+	long glGetVideoi64vNV;
+	long glGetVideoui64vNV;
 	// NV_primitive_restart
 	long glPrimitiveRestartNV;
 	long glPrimitiveRestartIndexNV;
@@ -2005,6 +2230,13 @@ public class ContextCapabilities {
 	long glProgramUniformui64vNV;
 	// NV_texture_barrier
 	long glTextureBarrierNV;
+	// NV_texture_multisample
+	long glTexImage2DMultisampleCoverageNV;
+	long glTexImage3DMultisampleCoverageNV;
+	long glTextureImage2DMultisampleNV;
+	long glTextureImage3DMultisampleNV;
+	long glTextureImage2DMultisampleCoverageNV;
+	long glTextureImage3DMultisampleCoverageNV;
 	// NV_transform_feedback
 	long glBindBufferRangeNV;
 	long glBindBufferOffsetNV;
@@ -2103,6 +2335,19 @@ public class ContextCapabilities {
 	long glVertexAttribs4svNV;
 	long glVertexAttribs4fvNV;
 	long glVertexAttribs4dvNV;
+	// NV_video_capture
+	long glBeginVideoCaptureNV;
+	long glBindVideoCaptureStreamBufferNV;
+	long glBindVideoCaptureStreamTextureNV;
+	long glEndVideoCaptureNV;
+	long glGetVideoCaptureivNV;
+	long glGetVideoCaptureStreamivNV;
+	long glGetVideoCaptureStreamfvNV;
+	long glGetVideoCaptureStreamdvNV;
+	long glVideoCaptureNV;
+	long glVideoCaptureStreamParameterivNV;
+	long glVideoCaptureStreamParameterfvNV;
+	long glVideoCaptureStreamParameterdvNV;
 
 	private boolean AMD_debug_output_initNativeFunctionAddresses() {
 		return 
@@ -2118,6 +2363,12 @@ public class ContextCapabilities {
 			(glBlendFuncSeparateIndexedAMD = GLContext.getFunctionAddress("glBlendFuncSeparateIndexedAMD")) != 0 &
 			(glBlendEquationIndexedAMD = GLContext.getFunctionAddress("glBlendEquationIndexedAMD")) != 0 &
 			(glBlendEquationSeparateIndexedAMD = GLContext.getFunctionAddress("glBlendEquationSeparateIndexedAMD")) != 0;
+	}
+
+	private boolean AMD_multi_draw_indirect_initNativeFunctionAddresses() {
+		return 
+			(glMultiDrawArraysIndirectAMD = GLContext.getFunctionAddress("glMultiDrawArraysIndirectAMD")) != 0 &
+			(glMultiDrawElementsIndirectAMD = GLContext.getFunctionAddress("glMultiDrawElementsIndirectAMD")) != 0;
 	}
 
 	private boolean AMD_name_gen_delete_initNativeFunctionAddresses() {
@@ -2140,6 +2391,22 @@ public class ContextCapabilities {
 			(glBeginPerfMonitorAMD = GLContext.getFunctionAddress("glBeginPerfMonitorAMD")) != 0 &
 			(glEndPerfMonitorAMD = GLContext.getFunctionAddress("glEndPerfMonitorAMD")) != 0 &
 			(glGetPerfMonitorCounterDataAMD = GLContext.getFunctionAddress("glGetPerfMonitorCounterDataAMD")) != 0;
+	}
+
+	private boolean AMD_sample_positions_initNativeFunctionAddresses() {
+		return 
+			(glSetMultisamplefvAMD = GLContext.getFunctionAddress("glSetMultisamplefvAMD")) != 0;
+	}
+
+	private boolean AMD_sparse_texture_initNativeFunctionAddresses() {
+		return 
+			(glTexStorageSparseAMD = GLContext.getFunctionAddress("glTexStorageSparseAMD")) != 0 &
+			(glTextureStorageSparseAMD = GLContext.getFunctionAddress("glTextureStorageSparseAMD")) != 0;
+	}
+
+	private boolean AMD_stencil_operation_extended_initNativeFunctionAddresses() {
+		return 
+			(glStencilOpValueAMD = GLContext.getFunctionAddress("glStencilOpValueAMD")) != 0;
 	}
 
 	private boolean AMD_vertex_shader_tessellator_initNativeFunctionAddresses() {
@@ -2223,6 +2490,13 @@ public class ContextCapabilities {
 			(glClearDepthf = GLContext.getFunctionAddress("glClearDepthf")) != 0;
 	}
 
+	private boolean ARB_base_instance_initNativeFunctionAddresses() {
+		return 
+			(glDrawArraysInstancedBaseInstance = GLContext.getFunctionAddress("glDrawArraysInstancedBaseInstance")) != 0 &
+			(glDrawElementsInstancedBaseInstance = GLContext.getFunctionAddress("glDrawElementsInstancedBaseInstance")) != 0 &
+			(glDrawElementsInstancedBaseVertexBaseInstance = GLContext.getFunctionAddress("glDrawElementsInstancedBaseVertexBaseInstance")) != 0;
+	}
+
 	private boolean ARB_blend_func_extended_initNativeFunctionAddresses() {
 		return 
 			(glBindFragDataLocationIndexed = GLContext.getFunctionAddress("glBindFragDataLocationIndexed")) != 0 &
@@ -2249,14 +2523,33 @@ public class ContextCapabilities {
 			(glCreateSyncFromCLeventARB = GLContext.getFunctionAddress("glCreateSyncFromCLeventARB")) != 0;
 	}
 
+	private boolean ARB_clear_buffer_object_initNativeFunctionAddresses(Set<String> supported_extensions) {
+		return 
+			(glClearBufferData = GLContext.getFunctionAddress("glClearBufferData")) != 0 &
+			(glClearBufferSubData = GLContext.getFunctionAddress("glClearBufferSubData")) != 0 &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glClearNamedBufferDataEXT = GLContext.getFunctionAddress("glClearNamedBufferDataEXT")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glClearNamedBufferSubDataEXT = GLContext.getFunctionAddress("glClearNamedBufferSubDataEXT")) != 0);
+	}
+
 	private boolean ARB_color_buffer_float_initNativeFunctionAddresses() {
 		return 
 			(glClampColorARB = GLContext.getFunctionAddress("glClampColorARB")) != 0;
 	}
 
+	private boolean ARB_compute_shader_initNativeFunctionAddresses() {
+		return 
+			(glDispatchCompute = GLContext.getFunctionAddress("glDispatchCompute")) != 0 &
+			(glDispatchComputeIndirect = GLContext.getFunctionAddress("glDispatchComputeIndirect")) != 0;
+	}
+
 	private boolean ARB_copy_buffer_initNativeFunctionAddresses() {
 		return 
 			(glCopyBufferSubData = GLContext.getFunctionAddress("glCopyBufferSubData")) != 0;
+	}
+
+	private boolean ARB_copy_image_initNativeFunctionAddresses() {
+		return 
+			(glCopyImageSubData = GLContext.getFunctionAddress("glCopyImageSubData")) != 0;
 	}
 
 	private boolean ARB_debug_output_initNativeFunctionAddresses() {
@@ -2297,6 +2590,14 @@ public class ContextCapabilities {
 		return 
 			(glDrawArraysInstancedARB = GLContext.getFunctionAddress("glDrawArraysInstancedARB")) != 0 &
 			(glDrawElementsInstancedARB = GLContext.getFunctionAddress("glDrawElementsInstancedARB")) != 0;
+	}
+
+	private boolean ARB_framebuffer_no_attachments_initNativeFunctionAddresses(Set<String> supported_extensions) {
+		return 
+			(glFramebufferParameteri = GLContext.getFunctionAddress("glFramebufferParameteri")) != 0 &
+			(glGetFramebufferParameteriv = GLContext.getFunctionAddress("glGetFramebufferParameteriv")) != 0 &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glNamedFramebufferParameteriEXT = GLContext.getFunctionAddress("glNamedFramebufferParameteriEXT")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glGetNamedFramebufferParameterivEXT = GLContext.getFunctionAddress("glGetNamedFramebufferParameterivEXT")) != 0);
 	}
 
 	private boolean ARB_framebuffer_object_initNativeFunctionAddresses() {
@@ -2420,6 +2721,26 @@ public class ContextCapabilities {
 			(glVertexAttribDivisorARB = GLContext.getFunctionAddress("glVertexAttribDivisorARB")) != 0;
 	}
 
+	private boolean ARB_internalformat_query_initNativeFunctionAddresses() {
+		return 
+			(glGetInternalformativ = GLContext.getFunctionAddress("glGetInternalformativ")) != 0;
+	}
+
+	private boolean ARB_internalformat_query2_initNativeFunctionAddresses() {
+		return 
+			(glGetInternalformati64v = GLContext.getFunctionAddress("glGetInternalformati64v")) != 0;
+	}
+
+	private boolean ARB_invalidate_subdata_initNativeFunctionAddresses() {
+		return 
+			(glInvalidateTexSubImage = GLContext.getFunctionAddress("glInvalidateTexSubImage")) != 0 &
+			(glInvalidateTexImage = GLContext.getFunctionAddress("glInvalidateTexImage")) != 0 &
+			(glInvalidateBufferSubData = GLContext.getFunctionAddress("glInvalidateBufferSubData")) != 0 &
+			(glInvalidateBufferData = GLContext.getFunctionAddress("glInvalidateBufferData")) != 0 &
+			(glInvalidateFramebuffer = GLContext.getFunctionAddress("glInvalidateFramebuffer")) != 0 &
+			(glInvalidateSubFramebuffer = GLContext.getFunctionAddress("glInvalidateSubFramebuffer")) != 0;
+	}
+
 	private boolean ARB_map_buffer_range_initNativeFunctionAddresses() {
 		return 
 			(glMapBufferRange = GLContext.getFunctionAddress("glMapBufferRange")) != 0 &
@@ -2433,6 +2754,12 @@ public class ContextCapabilities {
 			(glMatrixIndexubvARB = GLContext.getFunctionAddress("glMatrixIndexubvARB")) != 0 &
 			(glMatrixIndexusvARB = GLContext.getFunctionAddress("glMatrixIndexusvARB")) != 0 &
 			(glMatrixIndexuivARB = GLContext.getFunctionAddress("glMatrixIndexuivARB")) != 0;
+	}
+
+	private boolean ARB_multi_draw_indirect_initNativeFunctionAddresses() {
+		return 
+			(glMultiDrawArraysIndirect = GLContext.getFunctionAddress("glMultiDrawArraysIndirect")) != 0 &
+			(glMultiDrawElementsIndirect = GLContext.getFunctionAddress("glMultiDrawElementsIndirect")) != 0;
 	}
 
 	private boolean ARB_multisample_initNativeFunctionAddresses() {
@@ -2501,6 +2828,16 @@ public class ContextCapabilities {
 			(glGetProgramivARB = GLContext.getFunctionAddress("glGetProgramivARB")) != 0 &
 			(glGetProgramStringARB = GLContext.getFunctionAddress("glGetProgramStringARB")) != 0 &
 			(glIsProgramARB = GLContext.getFunctionAddress("glIsProgramARB")) != 0;
+	}
+
+	private boolean ARB_program_interface_query_initNativeFunctionAddresses() {
+		return 
+			(glGetProgramInterfaceiv = GLContext.getFunctionAddress("glGetProgramInterfaceiv")) != 0 &
+			(glGetProgramResourceIndex = GLContext.getFunctionAddress("glGetProgramResourceIndex")) != 0 &
+			(glGetProgramResourceName = GLContext.getFunctionAddress("glGetProgramResourceName")) != 0 &
+			(glGetProgramResourceiv = GLContext.getFunctionAddress("glGetProgramResourceiv")) != 0 &
+			(glGetProgramResourceLocation = GLContext.getFunctionAddress("glGetProgramResourceLocation")) != 0 &
+			(glGetProgramResourceLocationIndex = GLContext.getFunctionAddress("glGetProgramResourceLocationIndex")) != 0;
 	}
 
 	private boolean ARB_provoking_vertex_initNativeFunctionAddresses() {
@@ -2620,6 +2957,17 @@ public class ContextCapabilities {
 			(glGetProgramPipelineInfoLog = GLContext.getFunctionAddress("glGetProgramPipelineInfoLog")) != 0;
 	}
 
+	private boolean ARB_shader_atomic_counters_initNativeFunctionAddresses() {
+		return 
+			(glGetActiveAtomicCounterBufferiv = GLContext.getFunctionAddress("glGetActiveAtomicCounterBufferiv")) != 0;
+	}
+
+	private boolean ARB_shader_image_load_store_initNativeFunctionAddresses() {
+		return 
+			(glBindImageTexture = GLContext.getFunctionAddress("glBindImageTexture")) != 0 &
+			(glMemoryBarrier = GLContext.getFunctionAddress("glMemoryBarrier")) != 0;
+	}
+
 	private boolean ARB_shader_objects_initNativeFunctionAddresses() {
 		return 
 			(glDeleteObjectARB = GLContext.getFunctionAddress("glDeleteObjectARB")) != 0 &
@@ -2661,6 +3009,11 @@ public class ContextCapabilities {
 			(glGetUniformfvARB = GLContext.getFunctionAddress("glGetUniformfvARB")) != 0 &
 			(glGetUniformivARB = GLContext.getFunctionAddress("glGetUniformivARB")) != 0 &
 			(glGetShaderSourceARB = GLContext.getFunctionAddress("glGetShaderSourceARB")) != 0;
+	}
+
+	private boolean ARB_shader_storage_buffer_object_initNativeFunctionAddresses() {
+		return 
+			(glShaderStorageBlockBinding = GLContext.getFunctionAddress("glShaderStorageBlockBinding")) != 0;
 	}
 
 	private boolean ARB_shader_subroutine_initNativeFunctionAddresses() {
@@ -2707,6 +3060,12 @@ public class ContextCapabilities {
 			(glTexBufferARB = GLContext.getFunctionAddress("glTexBufferARB")) != 0;
 	}
 
+	private boolean ARB_texture_buffer_range_initNativeFunctionAddresses(Set<String> supported_extensions) {
+		return 
+			(glTexBufferRange = GLContext.getFunctionAddress("glTexBufferRange")) != 0 &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glTextureBufferRangeEXT = GLContext.getFunctionAddress("glTextureBufferRangeEXT")) != 0);
+	}
+
 	private boolean ARB_texture_compression_initNativeFunctionAddresses() {
 		return 
 			(glCompressedTexImage1DARB = GLContext.getFunctionAddress("glCompressedTexImage1DARB")) != 0 &
@@ -2724,6 +3083,29 @@ public class ContextCapabilities {
 			(glTexImage3DMultisample = GLContext.getFunctionAddress("glTexImage3DMultisample")) != 0 &
 			(glGetMultisamplefv = GLContext.getFunctionAddress("glGetMultisamplefv")) != 0 &
 			(glSampleMaski = GLContext.getFunctionAddress("glSampleMaski")) != 0;
+	}
+
+	private boolean ARB_texture_storage_initNativeFunctionAddresses(Set<String> supported_extensions) {
+		return 
+			(glTexStorage1D = GLContext.getFunctionAddress(new String[] {"glTexStorage1D","glTexStorage1DEXT"})) != 0 &
+			(glTexStorage2D = GLContext.getFunctionAddress(new String[] {"glTexStorage2D","glTexStorage2DEXT"})) != 0 &
+			(glTexStorage3D = GLContext.getFunctionAddress(new String[] {"glTexStorage3D","glTexStorage3DEXT"})) != 0 &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glTextureStorage1DEXT = GLContext.getFunctionAddress(new String[] {"glTextureStorage1DEXT","glTextureStorage1DEXTEXT"})) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glTextureStorage2DEXT = GLContext.getFunctionAddress(new String[] {"glTextureStorage2DEXT","glTextureStorage2DEXTEXT"})) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glTextureStorage3DEXT = GLContext.getFunctionAddress(new String[] {"glTextureStorage3DEXT","glTextureStorage3DEXTEXT"})) != 0);
+	}
+
+	private boolean ARB_texture_storage_multisample_initNativeFunctionAddresses(Set<String> supported_extensions) {
+		return 
+			(glTexStorage2DMultisample = GLContext.getFunctionAddress("glTexStorage2DMultisample")) != 0 &
+			(glTexStorage3DMultisample = GLContext.getFunctionAddress("glTexStorage3DMultisample")) != 0 &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glTextureStorage2DMultisampleEXT = GLContext.getFunctionAddress("glTextureStorage2DMultisampleEXT")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glTextureStorage3DMultisampleEXT = GLContext.getFunctionAddress("glTextureStorage3DMultisampleEXT")) != 0);
+	}
+
+	private boolean ARB_texture_view_initNativeFunctionAddresses() {
+		return 
+			(glTextureView = GLContext.getFunctionAddress("glTextureView")) != 0;
 	}
 
 	private boolean ARB_timer_query_initNativeFunctionAddresses() {
@@ -2750,6 +3132,12 @@ public class ContextCapabilities {
 			(glBeginQueryIndexed = GLContext.getFunctionAddress("glBeginQueryIndexed")) != 0 &
 			(glEndQueryIndexed = GLContext.getFunctionAddress("glEndQueryIndexed")) != 0 &
 			(glGetQueryIndexediv = GLContext.getFunctionAddress("glGetQueryIndexediv")) != 0;
+	}
+
+	private boolean ARB_transform_feedback_instanced_initNativeFunctionAddresses() {
+		return 
+			(glDrawTransformFeedbackInstanced = GLContext.getFunctionAddress("glDrawTransformFeedbackInstanced")) != 0 &
+			(glDrawTransformFeedbackStreamInstanced = GLContext.getFunctionAddress("glDrawTransformFeedbackStreamInstanced")) != 0;
 	}
 
 	private boolean ARB_transpose_matrix_initNativeFunctionAddresses() {
@@ -2792,7 +3180,17 @@ public class ContextCapabilities {
 			(glVertexAttribL4dv = GLContext.getFunctionAddress("glVertexAttribL4dv")) != 0 &
 			(glVertexAttribLPointer = GLContext.getFunctionAddress("glVertexAttribLPointer")) != 0 &
 			(glGetVertexAttribLdv = GLContext.getFunctionAddress("glGetVertexAttribLdv")) != 0 &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glVertexArrayVertexAttribLOffsetEXT = GLContext.getFunctionAddress("glVertexArrayVertexAttribLOffsetEXT")) != 0);
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glVertexArrayVertexAttribLOffsetEXT = GLContext.getFunctionAddress("glVertexArrayVertexAttribLOffsetEXT")) != 0);
+	}
+
+	private boolean ARB_vertex_attrib_binding_initNativeFunctionAddresses() {
+		return 
+			(glBindVertexBuffer = GLContext.getFunctionAddress("glBindVertexBuffer")) != 0 &
+			(glVertexAttribFormat = GLContext.getFunctionAddress("glVertexAttribFormat")) != 0 &
+			(glVertexAttribIFormat = GLContext.getFunctionAddress("glVertexAttribIFormat")) != 0 &
+			(glVertexAttribLFormat = GLContext.getFunctionAddress("glVertexAttribLFormat")) != 0 &
+			(glVertexAttribBinding = GLContext.getFunctionAddress("glVertexAttribBinding")) != 0 &
+			(glVertexBindingDivisor = GLContext.getFunctionAddress("glVertexBindingDivisor")) != 0;
 	}
 
 	private boolean ARB_vertex_blend_initNativeFunctionAddresses() {
@@ -3267,9 +3665,9 @@ public class ContextCapabilities {
 			(!(false || supported_extensions.contains("OpenGL30") || supported_extensions.contains("GL_EXT_framebuffer_object")) || (glFramebufferReadBufferEXT = GLContext.getFunctionAddress("glFramebufferReadBufferEXT")) != 0) &
 			(!(false || supported_extensions.contains("OpenGL30") || supported_extensions.contains("GL_EXT_framebuffer_object")) || (glGetFramebufferParameterivEXT = GLContext.getFunctionAddress("glGetFramebufferParameterivEXT")) != 0) &
 			(!(false || supported_extensions.contains("OpenGL31") || supported_extensions.contains("GL_ARB_copy_buffer")) || (glNamedCopyBufferSubDataEXT = GLContext.getFunctionAddress("glNamedCopyBufferSubDataEXT")) != 0) &
-			(!(false || supported_extensions.contains("GL_EXT_geometry_shader4") || supported_extensions.contains("NV_geometry_program4")) || (glNamedFramebufferTextureEXT = GLContext.getFunctionAddress("glNamedFramebufferTextureEXT")) != 0) &
-			(!(false || supported_extensions.contains("GL_EXT_geometry_shader4") || supported_extensions.contains("NV_geometry_program4")) || (glNamedFramebufferTextureLayerEXT = GLContext.getFunctionAddress("glNamedFramebufferTextureLayerEXT")) != 0) &
-			(!(false || supported_extensions.contains("GL_EXT_geometry_shader4") || supported_extensions.contains("NV_geometry_program4")) || (glNamedFramebufferTextureFaceEXT = GLContext.getFunctionAddress("glNamedFramebufferTextureFaceEXT")) != 0) &
+			(!(false || supported_extensions.contains("GL_EXT_geometry_shader4") || supported_extensions.contains("GL_NV_geometry_program4")) || (glNamedFramebufferTextureEXT = GLContext.getFunctionAddress("glNamedFramebufferTextureEXT")) != 0) &
+			(!(false || supported_extensions.contains("GL_EXT_geometry_shader4") || supported_extensions.contains("GL_NV_geometry_program4")) || (glNamedFramebufferTextureLayerEXT = GLContext.getFunctionAddress("glNamedFramebufferTextureLayerEXT")) != 0) &
+			(!(false || supported_extensions.contains("GL_EXT_geometry_shader4") || supported_extensions.contains("GL_NV_geometry_program4")) || (glNamedFramebufferTextureFaceEXT = GLContext.getFunctionAddress("glNamedFramebufferTextureFaceEXT")) != 0) &
 			(!supported_extensions.contains("GL_NV_explicit_multisample") || (glTextureRenderbufferEXT = GLContext.getFunctionAddress("glTextureRenderbufferEXT")) != 0) &
 			(!supported_extensions.contains("GL_NV_explicit_multisample") || (glMultiTexRenderbufferEXT = GLContext.getFunctionAddress("glMultiTexRenderbufferEXT")) != 0) &
 			(forwardCompatible || !supported_extensions.contains("OpenGL30") || (glVertexArrayVertexOffsetEXT = GLContext.getFunctionAddress("glVertexArrayVertexOffsetEXT")) != 0) &
@@ -3512,7 +3910,7 @@ public class ContextCapabilities {
 			(glVertexAttribL4dvEXT = GLContext.getFunctionAddress("glVertexAttribL4dvEXT")) != 0 &
 			(glVertexAttribLPointerEXT = GLContext.getFunctionAddress("glVertexAttribLPointerEXT")) != 0 &
 			(glGetVertexAttribLdvEXT = GLContext.getFunctionAddress("glGetVertexAttribLdvEXT")) != 0 &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glVertexArrayVertexAttribLOffsetEXT = GLContext.getFunctionAddress("glVertexArrayVertexAttribLOffsetEXT")) != 0);
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glVertexArrayVertexAttribLOffsetEXT = GLContext.getFunctionAddress("glVertexArrayVertexAttribLOffsetEXT")) != 0);
 	}
 
 	private boolean EXT_vertex_shader_initNativeFunctionAddresses() {
@@ -3731,6 +4129,7 @@ public class ContextCapabilities {
 			(forwardCompatible || (glScalef = GLContext.getFunctionAddress("glScalef")) != 0) &
 			(forwardCompatible || (glScaled = GLContext.getFunctionAddress("glScaled")) != 0) &
 			(forwardCompatible || (glRotatef = GLContext.getFunctionAddress("glRotatef")) != 0) &
+			(forwardCompatible || (glRotated = GLContext.getFunctionAddress("glRotated")) != 0) &
 			(forwardCompatible || (glRenderMode = GLContext.getFunctionAddress("glRenderMode")) != 0) &
 			(forwardCompatible || (glRectf = GLContext.getFunctionAddress("glRectf")) != 0) &
 			(forwardCompatible || (glRectd = GLContext.getFunctionAddress("glRectd")) != 0) &
@@ -4072,6 +4471,7 @@ public class ContextCapabilities {
 
 	private boolean GL32_initNativeFunctionAddresses() {
 		return 
+			(glGetBufferParameteri64v = GLContext.getFunctionAddress("glGetBufferParameteri64v")) != 0 &
 			(glDrawElementsBaseVertex = GLContext.getFunctionAddress("glDrawElementsBaseVertex")) != 0 &
 			(glDrawRangeElementsBaseVertex = GLContext.getFunctionAddress("glDrawRangeElementsBaseVertex")) != 0 &
 			(glDrawElementsInstancedBaseVertex = GLContext.getFunctionAddress("glDrawElementsInstancedBaseVertex")) != 0 &
@@ -4179,7 +4579,7 @@ public class ContextCapabilities {
 			(glUniformMatrix4x2dv = GLContext.getFunctionAddress("glUniformMatrix4x2dv")) != 0 &
 			(glUniformMatrix4x3dv = GLContext.getFunctionAddress("glUniformMatrix4x3dv")) != 0 &
 			(glGetUniformdv = GLContext.getFunctionAddress("glGetUniformdv")) != 0 &
-			((glMinSampleShading = GLContext.getFunctionAddress("glMinSampleShading")) != 0 || true) &
+			(glMinSampleShading = GLContext.getFunctionAddress("glMinSampleShading")) != 0 &
 			(glGetSubroutineUniformLocation = GLContext.getFunctionAddress("glGetSubroutineUniformLocation")) != 0 &
 			(glGetSubroutineIndex = GLContext.getFunctionAddress("glGetSubroutineIndex")) != 0 &
 			(glGetActiveSubroutineUniformiv = GLContext.getFunctionAddress("glGetActiveSubroutineUniformiv")) != 0 &
@@ -4205,11 +4605,11 @@ public class ContextCapabilities {
 
 	private boolean GL41_initNativeFunctionAddresses() {
 		return 
-			((glReleaseShaderCompiler = GLContext.getFunctionAddress("glReleaseShaderCompiler")) != 0 || true) &
-			((glShaderBinary = GLContext.getFunctionAddress("glShaderBinary")) != 0 || true) &
-			((glGetShaderPrecisionFormat = GLContext.getFunctionAddress("glGetShaderPrecisionFormat")) != 0 || true) &
-			((glDepthRangef = GLContext.getFunctionAddress("glDepthRangef")) != 0 || true) &
-			((glClearDepthf = GLContext.getFunctionAddress("glClearDepthf")) != 0 || true) &
+			(glReleaseShaderCompiler = GLContext.getFunctionAddress("glReleaseShaderCompiler")) != 0 &
+			(glShaderBinary = GLContext.getFunctionAddress("glShaderBinary")) != 0 &
+			(glGetShaderPrecisionFormat = GLContext.getFunctionAddress("glGetShaderPrecisionFormat")) != 0 &
+			(glDepthRangef = GLContext.getFunctionAddress("glDepthRangef")) != 0 &
+			(glClearDepthf = GLContext.getFunctionAddress("glClearDepthf")) != 0 &
 			(glGetProgramBinary = GLContext.getFunctionAddress("glGetProgramBinary")) != 0 &
 			(glProgramBinary = GLContext.getFunctionAddress("glProgramBinary")) != 0 &
 			(glProgramParameteri = GLContext.getFunctionAddress("glProgramParameteri")) != 0 &
@@ -4273,16 +4673,16 @@ public class ContextCapabilities {
 			(glProgramUniformMatrix4x3dv = GLContext.getFunctionAddress("glProgramUniformMatrix4x3dv")) != 0 &
 			(glValidateProgramPipeline = GLContext.getFunctionAddress("glValidateProgramPipeline")) != 0 &
 			(glGetProgramPipelineInfoLog = GLContext.getFunctionAddress("glGetProgramPipelineInfoLog")) != 0 &
-			((glVertexAttribL1d = GLContext.getFunctionAddress("glVertexAttribL1d")) != 0 || true) &
-			((glVertexAttribL2d = GLContext.getFunctionAddress("glVertexAttribL2d")) != 0 || true) &
-			((glVertexAttribL3d = GLContext.getFunctionAddress("glVertexAttribL3d")) != 0 || true) &
-			((glVertexAttribL4d = GLContext.getFunctionAddress("glVertexAttribL4d")) != 0 || true) &
-			((glVertexAttribL1dv = GLContext.getFunctionAddress("glVertexAttribL1dv")) != 0 || true) &
-			((glVertexAttribL2dv = GLContext.getFunctionAddress("glVertexAttribL2dv")) != 0 || true) &
-			((glVertexAttribL3dv = GLContext.getFunctionAddress("glVertexAttribL3dv")) != 0 || true) &
-			((glVertexAttribL4dv = GLContext.getFunctionAddress("glVertexAttribL4dv")) != 0 || true) &
-			((glVertexAttribLPointer = GLContext.getFunctionAddress("glVertexAttribLPointer")) != 0 || true) &
-			((glGetVertexAttribLdv = GLContext.getFunctionAddress("glGetVertexAttribLdv")) != 0 || true) &
+			(glVertexAttribL1d = GLContext.getFunctionAddress("glVertexAttribL1d")) != 0 &
+			(glVertexAttribL2d = GLContext.getFunctionAddress("glVertexAttribL2d")) != 0 &
+			(glVertexAttribL3d = GLContext.getFunctionAddress("glVertexAttribL3d")) != 0 &
+			(glVertexAttribL4d = GLContext.getFunctionAddress("glVertexAttribL4d")) != 0 &
+			(glVertexAttribL1dv = GLContext.getFunctionAddress("glVertexAttribL1dv")) != 0 &
+			(glVertexAttribL2dv = GLContext.getFunctionAddress("glVertexAttribL2dv")) != 0 &
+			(glVertexAttribL3dv = GLContext.getFunctionAddress("glVertexAttribL3dv")) != 0 &
+			(glVertexAttribL4dv = GLContext.getFunctionAddress("glVertexAttribL4dv")) != 0 &
+			(glVertexAttribLPointer = GLContext.getFunctionAddress("glVertexAttribLPointer")) != 0 &
+			(glGetVertexAttribLdv = GLContext.getFunctionAddress("glGetVertexAttribLdv")) != 0 &
 			(glViewportArrayv = GLContext.getFunctionAddress("glViewportArrayv")) != 0 &
 			(glViewportIndexedf = GLContext.getFunctionAddress("glViewportIndexedf")) != 0 &
 			(glViewportIndexedfv = GLContext.getFunctionAddress("glViewportIndexedfv")) != 0 &
@@ -4295,9 +4695,115 @@ public class ContextCapabilities {
 			(glGetDoublei_v = GLContext.getFunctionAddress("glGetDoublei_v")) != 0;
 	}
 
+	private boolean GL42_initNativeFunctionAddresses() {
+		return 
+			((glGetActiveAtomicCounterBufferiv = GLContext.getFunctionAddress("glGetActiveAtomicCounterBufferiv")) != 0 || true) &
+			(glTexStorage1D = GLContext.getFunctionAddress("glTexStorage1D")) != 0 &
+			(glTexStorage2D = GLContext.getFunctionAddress("glTexStorage2D")) != 0 &
+			(glTexStorage3D = GLContext.getFunctionAddress("glTexStorage3D")) != 0 &
+			(glDrawTransformFeedbackInstanced = GLContext.getFunctionAddress("glDrawTransformFeedbackInstanced")) != 0 &
+			(glDrawTransformFeedbackStreamInstanced = GLContext.getFunctionAddress("glDrawTransformFeedbackStreamInstanced")) != 0 &
+			(glDrawArraysInstancedBaseInstance = GLContext.getFunctionAddress("glDrawArraysInstancedBaseInstance")) != 0 &
+			(glDrawElementsInstancedBaseInstance = GLContext.getFunctionAddress("glDrawElementsInstancedBaseInstance")) != 0 &
+			(glDrawElementsInstancedBaseVertexBaseInstance = GLContext.getFunctionAddress("glDrawElementsInstancedBaseVertexBaseInstance")) != 0 &
+			(glBindImageTexture = GLContext.getFunctionAddress("glBindImageTexture")) != 0 &
+			(glMemoryBarrier = GLContext.getFunctionAddress("glMemoryBarrier")) != 0 &
+			(glGetInternalformativ = GLContext.getFunctionAddress("glGetInternalformativ")) != 0;
+	}
+
+	private boolean GL43_initNativeFunctionAddresses() {
+		return 
+			(glClearBufferData = GLContext.getFunctionAddress("glClearBufferData")) != 0 &
+			(glClearBufferSubData = GLContext.getFunctionAddress("glClearBufferSubData")) != 0 &
+			(glDispatchCompute = GLContext.getFunctionAddress("glDispatchCompute")) != 0 &
+			(glDispatchComputeIndirect = GLContext.getFunctionAddress("glDispatchComputeIndirect")) != 0 &
+			(glCopyImageSubData = GLContext.getFunctionAddress("glCopyImageSubData")) != 0 &
+			(glDebugMessageControl = GLContext.getFunctionAddress("glDebugMessageControl")) != 0 &
+			(glDebugMessageInsert = GLContext.getFunctionAddress("glDebugMessageInsert")) != 0 &
+			(glDebugMessageCallback = GLContext.getFunctionAddress("glDebugMessageCallback")) != 0 &
+			(glGetDebugMessageLog = GLContext.getFunctionAddress("glGetDebugMessageLog")) != 0 &
+			(glPushDebugGroup = GLContext.getFunctionAddress("glPushDebugGroup")) != 0 &
+			(glPopDebugGroup = GLContext.getFunctionAddress("glPopDebugGroup")) != 0 &
+			(glObjectLabel = GLContext.getFunctionAddress("glObjectLabel")) != 0 &
+			(glGetObjectLabel = GLContext.getFunctionAddress("glGetObjectLabel")) != 0 &
+			(glObjectPtrLabel = GLContext.getFunctionAddress("glObjectPtrLabel")) != 0 &
+			(glGetObjectPtrLabel = GLContext.getFunctionAddress("glGetObjectPtrLabel")) != 0 &
+			(glFramebufferParameteri = GLContext.getFunctionAddress("glFramebufferParameteri")) != 0 &
+			(glGetFramebufferParameteriv = GLContext.getFunctionAddress("glGetFramebufferParameteriv")) != 0 &
+			(glGetInternalformati64v = GLContext.getFunctionAddress("glGetInternalformati64v")) != 0 &
+			(glInvalidateTexSubImage = GLContext.getFunctionAddress("glInvalidateTexSubImage")) != 0 &
+			(glInvalidateTexImage = GLContext.getFunctionAddress("glInvalidateTexImage")) != 0 &
+			(glInvalidateBufferSubData = GLContext.getFunctionAddress("glInvalidateBufferSubData")) != 0 &
+			(glInvalidateBufferData = GLContext.getFunctionAddress("glInvalidateBufferData")) != 0 &
+			(glInvalidateFramebuffer = GLContext.getFunctionAddress("glInvalidateFramebuffer")) != 0 &
+			(glInvalidateSubFramebuffer = GLContext.getFunctionAddress("glInvalidateSubFramebuffer")) != 0 &
+			(glMultiDrawArraysIndirect = GLContext.getFunctionAddress("glMultiDrawArraysIndirect")) != 0 &
+			(glMultiDrawElementsIndirect = GLContext.getFunctionAddress("glMultiDrawElementsIndirect")) != 0 &
+			(glGetProgramInterfaceiv = GLContext.getFunctionAddress("glGetProgramInterfaceiv")) != 0 &
+			(glGetProgramResourceIndex = GLContext.getFunctionAddress("glGetProgramResourceIndex")) != 0 &
+			(glGetProgramResourceName = GLContext.getFunctionAddress("glGetProgramResourceName")) != 0 &
+			(glGetProgramResourceiv = GLContext.getFunctionAddress("glGetProgramResourceiv")) != 0 &
+			(glGetProgramResourceLocation = GLContext.getFunctionAddress("glGetProgramResourceLocation")) != 0 &
+			(glGetProgramResourceLocationIndex = GLContext.getFunctionAddress("glGetProgramResourceLocationIndex")) != 0 &
+			(glShaderStorageBlockBinding = GLContext.getFunctionAddress("glShaderStorageBlockBinding")) != 0 &
+			(glTexBufferRange = GLContext.getFunctionAddress("glTexBufferRange")) != 0 &
+			(glTexStorage2DMultisample = GLContext.getFunctionAddress("glTexStorage2DMultisample")) != 0 &
+			(glTexStorage3DMultisample = GLContext.getFunctionAddress("glTexStorage3DMultisample")) != 0 &
+			(glTextureView = GLContext.getFunctionAddress("glTextureView")) != 0 &
+			(glBindVertexBuffer = GLContext.getFunctionAddress("glBindVertexBuffer")) != 0 &
+			(glVertexAttribFormat = GLContext.getFunctionAddress("glVertexAttribFormat")) != 0 &
+			(glVertexAttribIFormat = GLContext.getFunctionAddress("glVertexAttribIFormat")) != 0 &
+			(glVertexAttribLFormat = GLContext.getFunctionAddress("glVertexAttribLFormat")) != 0 &
+			(glVertexAttribBinding = GLContext.getFunctionAddress("glVertexAttribBinding")) != 0 &
+			(glVertexBindingDivisor = GLContext.getFunctionAddress("glVertexBindingDivisor")) != 0;
+	}
+
+	private boolean GREMEDY_frame_terminator_initNativeFunctionAddresses() {
+		return 
+			(glFrameTerminatorGREMEDY = GLContext.getFunctionAddress("glFrameTerminatorGREMEDY")) != 0;
+	}
+
 	private boolean GREMEDY_string_marker_initNativeFunctionAddresses() {
 		return 
 			(glStringMarkerGREMEDY = GLContext.getFunctionAddress("glStringMarkerGREMEDY")) != 0;
+	}
+
+	private boolean INTEL_map_texture_initNativeFunctionAddresses() {
+		return 
+			(glMapTexture2DINTEL = GLContext.getFunctionAddress("glMapTexture2DINTEL")) != 0 &
+			(glUnmapTexture2DINTEL = GLContext.getFunctionAddress("glUnmapTexture2DINTEL")) != 0 &
+			(glSyncTextureINTEL = GLContext.getFunctionAddress("glSyncTextureINTEL")) != 0;
+	}
+
+	private boolean KHR_debug_initNativeFunctionAddresses() {
+		return 
+			(glDebugMessageControl = GLContext.getFunctionAddress("glDebugMessageControl")) != 0 &
+			(glDebugMessageInsert = GLContext.getFunctionAddress("glDebugMessageInsert")) != 0 &
+			(glDebugMessageCallback = GLContext.getFunctionAddress("glDebugMessageCallback")) != 0 &
+			(glGetDebugMessageLog = GLContext.getFunctionAddress("glGetDebugMessageLog")) != 0 &
+			(glPushDebugGroup = GLContext.getFunctionAddress("glPushDebugGroup")) != 0 &
+			(glPopDebugGroup = GLContext.getFunctionAddress("glPopDebugGroup")) != 0 &
+			(glObjectLabel = GLContext.getFunctionAddress("glObjectLabel")) != 0 &
+			(glGetObjectLabel = GLContext.getFunctionAddress("glGetObjectLabel")) != 0 &
+			(glObjectPtrLabel = GLContext.getFunctionAddress("glObjectPtrLabel")) != 0 &
+			(glGetObjectPtrLabel = GLContext.getFunctionAddress("glGetObjectPtrLabel")) != 0;
+	}
+
+	private boolean NV_bindless_texture_initNativeFunctionAddresses() {
+		return 
+			(glGetTextureHandleNV = GLContext.getFunctionAddress("glGetTextureHandleNV")) != 0 &
+			(glGetTextureSamplerHandleNV = GLContext.getFunctionAddress("glGetTextureSamplerHandleNV")) != 0 &
+			(glMakeTextureHandleResidentNV = GLContext.getFunctionAddress("glMakeTextureHandleResidentNV")) != 0 &
+			(glMakeTextureHandleNonResidentNV = GLContext.getFunctionAddress("glMakeTextureHandleNonResidentNV")) != 0 &
+			(glGetImageHandleNV = GLContext.getFunctionAddress("glGetImageHandleNV")) != 0 &
+			(glMakeImageHandleResidentNV = GLContext.getFunctionAddress("glMakeImageHandleResidentNV")) != 0 &
+			(glMakeImageHandleNonResidentNV = GLContext.getFunctionAddress("glMakeImageHandleNonResidentNV")) != 0 &
+			(glUniformHandleui64NV = GLContext.getFunctionAddress("glUniformHandleui64NV")) != 0 &
+			(glUniformHandleui64vNV = GLContext.getFunctionAddress("glUniformHandleui64vNV")) != 0 &
+			(glProgramUniformHandleui64NV = GLContext.getFunctionAddress("glProgramUniformHandleui64NV")) != 0 &
+			(glProgramUniformHandleui64vNV = GLContext.getFunctionAddress("glProgramUniformHandleui64vNV")) != 0 &
+			(glIsTextureHandleResidentNV = GLContext.getFunctionAddress("glIsTextureHandleResidentNV")) != 0 &
+			(glIsImageHandleResidentNV = GLContext.getFunctionAddress("glIsImageHandleResidentNV")) != 0;
 	}
 
 	private boolean NV_conditional_render_initNativeFunctionAddresses() {
@@ -4316,6 +4822,11 @@ public class ContextCapabilities {
 			(glDepthRangedNV = GLContext.getFunctionAddress("glDepthRangedNV")) != 0 &
 			(glClearDepthdNV = GLContext.getFunctionAddress("glClearDepthdNV")) != 0 &
 			(glDepthBoundsdNV = GLContext.getFunctionAddress("glDepthBoundsdNV")) != 0;
+	}
+
+	private boolean NV_draw_texture_initNativeFunctionAddresses() {
+		return 
+			(glDrawTextureNV = GLContext.getFunctionAddress("glDrawTextureNV")) != 0;
 	}
 
 	private boolean NV_evaluators_initNativeFunctionAddresses() {
@@ -4412,22 +4923,22 @@ public class ContextCapabilities {
 			(glUniform4ui64vNV = GLContext.getFunctionAddress("glUniform4ui64vNV")) != 0 &
 			(glGetUniformi64vNV = GLContext.getFunctionAddress("glGetUniformi64vNV")) != 0 &
 			(glGetUniformui64vNV = GLContext.getFunctionAddress("glGetUniformui64vNV")) != 0 &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform1i64NV = GLContext.getFunctionAddress("glProgramUniform1i64NV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform2i64NV = GLContext.getFunctionAddress("glProgramUniform2i64NV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform3i64NV = GLContext.getFunctionAddress("glProgramUniform3i64NV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform4i64NV = GLContext.getFunctionAddress("glProgramUniform4i64NV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform1i64vNV = GLContext.getFunctionAddress("glProgramUniform1i64vNV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform2i64vNV = GLContext.getFunctionAddress("glProgramUniform2i64vNV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform3i64vNV = GLContext.getFunctionAddress("glProgramUniform3i64vNV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform4i64vNV = GLContext.getFunctionAddress("glProgramUniform4i64vNV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform1ui64NV = GLContext.getFunctionAddress("glProgramUniform1ui64NV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform2ui64NV = GLContext.getFunctionAddress("glProgramUniform2ui64NV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform3ui64NV = GLContext.getFunctionAddress("glProgramUniform3ui64NV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform4ui64NV = GLContext.getFunctionAddress("glProgramUniform4ui64NV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform1ui64vNV = GLContext.getFunctionAddress("glProgramUniform1ui64vNV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform2ui64vNV = GLContext.getFunctionAddress("glProgramUniform2ui64vNV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform3ui64vNV = GLContext.getFunctionAddress("glProgramUniform3ui64vNV")) != 0) &
-			(!supported_extensions.contains("EXT_direct_state_access") || (glProgramUniform4ui64vNV = GLContext.getFunctionAddress("glProgramUniform4ui64vNV")) != 0);
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform1i64NV = GLContext.getFunctionAddress("glProgramUniform1i64NV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform2i64NV = GLContext.getFunctionAddress("glProgramUniform2i64NV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform3i64NV = GLContext.getFunctionAddress("glProgramUniform3i64NV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform4i64NV = GLContext.getFunctionAddress("glProgramUniform4i64NV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform1i64vNV = GLContext.getFunctionAddress("glProgramUniform1i64vNV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform2i64vNV = GLContext.getFunctionAddress("glProgramUniform2i64vNV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform3i64vNV = GLContext.getFunctionAddress("glProgramUniform3i64vNV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform4i64vNV = GLContext.getFunctionAddress("glProgramUniform4i64vNV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform1ui64NV = GLContext.getFunctionAddress("glProgramUniform1ui64NV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform2ui64NV = GLContext.getFunctionAddress("glProgramUniform2ui64NV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform3ui64NV = GLContext.getFunctionAddress("glProgramUniform3ui64NV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform4ui64NV = GLContext.getFunctionAddress("glProgramUniform4ui64NV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform1ui64vNV = GLContext.getFunctionAddress("glProgramUniform1ui64vNV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform2ui64vNV = GLContext.getFunctionAddress("glProgramUniform2ui64vNV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform3ui64vNV = GLContext.getFunctionAddress("glProgramUniform3ui64vNV")) != 0) &
+			(!supported_extensions.contains("GL_EXT_direct_state_access") || (glProgramUniform4ui64vNV = GLContext.getFunctionAddress("glProgramUniform4ui64vNV")) != 0);
 	}
 
 	private boolean NV_half_float_initNativeFunctionAddresses() {
@@ -4477,6 +4988,59 @@ public class ContextCapabilities {
 			(glProgramBufferParametersIuivNV = GLContext.getFunctionAddress("glProgramBufferParametersIuivNV")) != 0;
 	}
 
+	private boolean NV_path_rendering_initNativeFunctionAddresses() {
+		return 
+			(glPathCommandsNV = GLContext.getFunctionAddress("glPathCommandsNV")) != 0 &
+			(glPathCoordsNV = GLContext.getFunctionAddress("glPathCoordsNV")) != 0 &
+			(glPathSubCommandsNV = GLContext.getFunctionAddress("glPathSubCommandsNV")) != 0 &
+			(glPathSubCoordsNV = GLContext.getFunctionAddress("glPathSubCoordsNV")) != 0 &
+			(glPathStringNV = GLContext.getFunctionAddress("glPathStringNV")) != 0 &
+			(glPathGlyphsNV = GLContext.getFunctionAddress("glPathGlyphsNV")) != 0 &
+			(glPathGlyphRangeNV = GLContext.getFunctionAddress("glPathGlyphRangeNV")) != 0 &
+			(glWeightPathsNV = GLContext.getFunctionAddress("glWeightPathsNV")) != 0 &
+			(glCopyPathNV = GLContext.getFunctionAddress("glCopyPathNV")) != 0 &
+			(glInterpolatePathsNV = GLContext.getFunctionAddress("glInterpolatePathsNV")) != 0 &
+			(glTransformPathNV = GLContext.getFunctionAddress("glTransformPathNV")) != 0 &
+			(glPathParameterivNV = GLContext.getFunctionAddress("glPathParameterivNV")) != 0 &
+			(glPathParameteriNV = GLContext.getFunctionAddress("glPathParameteriNV")) != 0 &
+			(glPathParameterfvNV = GLContext.getFunctionAddress("glPathParameterfvNV")) != 0 &
+			(glPathParameterfNV = GLContext.getFunctionAddress("glPathParameterfNV")) != 0 &
+			(glPathDashArrayNV = GLContext.getFunctionAddress("glPathDashArrayNV")) != 0 &
+			(glGenPathsNV = GLContext.getFunctionAddress("glGenPathsNV")) != 0 &
+			(glDeletePathsNV = GLContext.getFunctionAddress("glDeletePathsNV")) != 0 &
+			(glIsPathNV = GLContext.getFunctionAddress("glIsPathNV")) != 0 &
+			(glPathStencilFuncNV = GLContext.getFunctionAddress("glPathStencilFuncNV")) != 0 &
+			(glPathStencilDepthOffsetNV = GLContext.getFunctionAddress("glPathStencilDepthOffsetNV")) != 0 &
+			(glStencilFillPathNV = GLContext.getFunctionAddress("glStencilFillPathNV")) != 0 &
+			(glStencilStrokePathNV = GLContext.getFunctionAddress("glStencilStrokePathNV")) != 0 &
+			(glStencilFillPathInstancedNV = GLContext.getFunctionAddress("glStencilFillPathInstancedNV")) != 0 &
+			(glStencilStrokePathInstancedNV = GLContext.getFunctionAddress("glStencilStrokePathInstancedNV")) != 0 &
+			(glPathCoverDepthFuncNV = GLContext.getFunctionAddress("glPathCoverDepthFuncNV")) != 0 &
+			(glPathColorGenNV = GLContext.getFunctionAddress("glPathColorGenNV")) != 0 &
+			(glPathTexGenNV = GLContext.getFunctionAddress("glPathTexGenNV")) != 0 &
+			(glPathFogGenNV = GLContext.getFunctionAddress("glPathFogGenNV")) != 0 &
+			(glCoverFillPathNV = GLContext.getFunctionAddress("glCoverFillPathNV")) != 0 &
+			(glCoverStrokePathNV = GLContext.getFunctionAddress("glCoverStrokePathNV")) != 0 &
+			(glCoverFillPathInstancedNV = GLContext.getFunctionAddress("glCoverFillPathInstancedNV")) != 0 &
+			(glCoverStrokePathInstancedNV = GLContext.getFunctionAddress("glCoverStrokePathInstancedNV")) != 0 &
+			(glGetPathParameterivNV = GLContext.getFunctionAddress("glGetPathParameterivNV")) != 0 &
+			(glGetPathParameterfvNV = GLContext.getFunctionAddress("glGetPathParameterfvNV")) != 0 &
+			(glGetPathCommandsNV = GLContext.getFunctionAddress("glGetPathCommandsNV")) != 0 &
+			(glGetPathCoordsNV = GLContext.getFunctionAddress("glGetPathCoordsNV")) != 0 &
+			(glGetPathDashArrayNV = GLContext.getFunctionAddress("glGetPathDashArrayNV")) != 0 &
+			(glGetPathMetricsNV = GLContext.getFunctionAddress("glGetPathMetricsNV")) != 0 &
+			(glGetPathMetricRangeNV = GLContext.getFunctionAddress("glGetPathMetricRangeNV")) != 0 &
+			(glGetPathSpacingNV = GLContext.getFunctionAddress("glGetPathSpacingNV")) != 0 &
+			(glGetPathColorGenivNV = GLContext.getFunctionAddress("glGetPathColorGenivNV")) != 0 &
+			(glGetPathColorGenfvNV = GLContext.getFunctionAddress("glGetPathColorGenfvNV")) != 0 &
+			(glGetPathTexGenivNV = GLContext.getFunctionAddress("glGetPathTexGenivNV")) != 0 &
+			(glGetPathTexGenfvNV = GLContext.getFunctionAddress("glGetPathTexGenfvNV")) != 0 &
+			(glIsPointInFillPathNV = GLContext.getFunctionAddress("glIsPointInFillPathNV")) != 0 &
+			(glIsPointInStrokePathNV = GLContext.getFunctionAddress("glIsPointInStrokePathNV")) != 0 &
+			(glGetPathLengthNV = GLContext.getFunctionAddress("glGetPathLengthNV")) != 0 &
+			(glPointAlongPathNV = GLContext.getFunctionAddress("glPointAlongPathNV")) != 0;
+	}
+
 	private boolean NV_pixel_data_range_initNativeFunctionAddresses() {
 		return 
 			(glPixelDataRangeNV = GLContext.getFunctionAddress("glPixelDataRangeNV")) != 0 &
@@ -4487,6 +5051,16 @@ public class ContextCapabilities {
 		return 
 			(glPointParameteriNV = GLContext.getFunctionAddress("glPointParameteriNV")) != 0 &
 			(glPointParameterivNV = GLContext.getFunctionAddress("glPointParameterivNV")) != 0;
+	}
+
+	private boolean NV_present_video_initNativeFunctionAddresses() {
+		return 
+			(glPresentFrameKeyedNV = GLContext.getFunctionAddress("glPresentFrameKeyedNV")) != 0 &
+			(glPresentFrameDualFillNV = GLContext.getFunctionAddress("glPresentFrameDualFillNV")) != 0 &
+			(glGetVideoivNV = GLContext.getFunctionAddress("glGetVideoivNV")) != 0 &
+			(glGetVideouivNV = GLContext.getFunctionAddress("glGetVideouivNV")) != 0 &
+			(glGetVideoi64vNV = GLContext.getFunctionAddress("glGetVideoi64vNV")) != 0 &
+			(glGetVideoui64vNV = GLContext.getFunctionAddress("glGetVideoui64vNV")) != 0;
 	}
 
 	private boolean NV_primitive_restart_initNativeFunctionAddresses() {
@@ -4554,6 +5128,16 @@ public class ContextCapabilities {
 			(glTextureBarrierNV = GLContext.getFunctionAddress("glTextureBarrierNV")) != 0;
 	}
 
+	private boolean NV_texture_multisample_initNativeFunctionAddresses() {
+		return 
+			(glTexImage2DMultisampleCoverageNV = GLContext.getFunctionAddress("glTexImage2DMultisampleCoverageNV")) != 0 &
+			(glTexImage3DMultisampleCoverageNV = GLContext.getFunctionAddress("glTexImage3DMultisampleCoverageNV")) != 0 &
+			(glTextureImage2DMultisampleNV = GLContext.getFunctionAddress("glTextureImage2DMultisampleNV")) != 0 &
+			(glTextureImage3DMultisampleNV = GLContext.getFunctionAddress("glTextureImage3DMultisampleNV")) != 0 &
+			(glTextureImage2DMultisampleCoverageNV = GLContext.getFunctionAddress("glTextureImage2DMultisampleCoverageNV")) != 0 &
+			(glTextureImage3DMultisampleCoverageNV = GLContext.getFunctionAddress("glTextureImage3DMultisampleCoverageNV")) != 0;
+	}
+
 	private boolean NV_transform_feedback_initNativeFunctionAddresses() {
 		return 
 			(glBindBufferRangeNV = GLContext.getFunctionAddress("glBindBufferRangeNV")) != 0 &
@@ -4608,7 +5192,7 @@ public class ContextCapabilities {
 			(glVertexAttribL4ui64vNV = GLContext.getFunctionAddress("glVertexAttribL4ui64vNV")) != 0 &
 			(glGetVertexAttribLi64vNV = GLContext.getFunctionAddress("glGetVertexAttribLi64vNV")) != 0 &
 			(glGetVertexAttribLui64vNV = GLContext.getFunctionAddress("glGetVertexAttribLui64vNV")) != 0 &
-			(!supported_extensions.contains("NV_vertex_buffer_unified_memory") || (glVertexAttribLFormatNV = GLContext.getFunctionAddress("glVertexAttribLFormatNV")) != 0);
+			(!supported_extensions.contains("GL_NV_vertex_buffer_unified_memory") || (glVertexAttribLFormatNV = GLContext.getFunctionAddress("glVertexAttribLFormatNV")) != 0);
 	}
 
 	private boolean NV_vertex_buffer_unified_memory_initNativeFunctionAddresses() {
@@ -4670,6 +5254,22 @@ public class ContextCapabilities {
 			(glVertexAttribs4dvNV = GLContext.getFunctionAddress("glVertexAttribs4dvNV")) != 0;
 	}
 
+	private boolean NV_video_capture_initNativeFunctionAddresses() {
+		return 
+			(glBeginVideoCaptureNV = GLContext.getFunctionAddress("glBeginVideoCaptureNV")) != 0 &
+			(glBindVideoCaptureStreamBufferNV = GLContext.getFunctionAddress("glBindVideoCaptureStreamBufferNV")) != 0 &
+			(glBindVideoCaptureStreamTextureNV = GLContext.getFunctionAddress("glBindVideoCaptureStreamTextureNV")) != 0 &
+			(glEndVideoCaptureNV = GLContext.getFunctionAddress("glEndVideoCaptureNV")) != 0 &
+			(glGetVideoCaptureivNV = GLContext.getFunctionAddress("glGetVideoCaptureivNV")) != 0 &
+			(glGetVideoCaptureStreamivNV = GLContext.getFunctionAddress("glGetVideoCaptureStreamivNV")) != 0 &
+			(glGetVideoCaptureStreamfvNV = GLContext.getFunctionAddress("glGetVideoCaptureStreamfvNV")) != 0 &
+			(glGetVideoCaptureStreamdvNV = GLContext.getFunctionAddress("glGetVideoCaptureStreamdvNV")) != 0 &
+			(glVideoCaptureNV = GLContext.getFunctionAddress("glVideoCaptureNV")) != 0 &
+			(glVideoCaptureStreamParameterivNV = GLContext.getFunctionAddress("glVideoCaptureStreamParameterivNV")) != 0 &
+			(glVideoCaptureStreamParameterfvNV = GLContext.getFunctionAddress("glVideoCaptureStreamParameterfvNV")) != 0 &
+			(glVideoCaptureStreamParameterdvNV = GLContext.getFunctionAddress("glVideoCaptureStreamParameterdvNV")) != 0;
+	}
+
 
 	private static void remove(Set supported_extensions, String extension) {
 		LWJGLUtil.log(extension + " was reported as available but an entry point is missing");
@@ -4708,10 +5308,18 @@ public class ContextCapabilities {
 		}
 		if (supported_extensions.contains("GL_AMD_draw_buffers_blend") && !AMD_draw_buffers_blend_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_AMD_draw_buffers_blend");
+		if (supported_extensions.contains("GL_AMD_multi_draw_indirect") && !AMD_multi_draw_indirect_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_AMD_multi_draw_indirect");
 		if (supported_extensions.contains("GL_AMD_name_gen_delete") && !AMD_name_gen_delete_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_AMD_name_gen_delete");
 		if (supported_extensions.contains("GL_AMD_performance_monitor") && !AMD_performance_monitor_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_AMD_performance_monitor");
+		if (supported_extensions.contains("GL_AMD_sample_positions") && !AMD_sample_positions_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_AMD_sample_positions");
+		if (supported_extensions.contains("GL_AMD_sparse_texture") && !AMD_sparse_texture_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_AMD_sparse_texture");
+		if (supported_extensions.contains("GL_AMD_stencil_operation_extended") && !AMD_stencil_operation_extended_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_AMD_stencil_operation_extended");
 		if (supported_extensions.contains("GL_AMD_vertex_shader_tessellator") && !AMD_vertex_shader_tessellator_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_AMD_vertex_shader_tessellator");
 		if (supported_extensions.contains("GL_APPLE_element_array") && !APPLE_element_array_initNativeFunctionAddresses())
@@ -4732,16 +5340,24 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_APPLE_vertex_program_evaluators");
 		if (supported_extensions.contains("GL_ARB_ES2_compatibility") && !ARB_ES2_compatibility_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_ES2_compatibility");
+		if (supported_extensions.contains("GL_ARB_base_instance") && !ARB_base_instance_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_base_instance");
 		if (supported_extensions.contains("GL_ARB_blend_func_extended") && !ARB_blend_func_extended_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_blend_func_extended");
 		if (supported_extensions.contains("GL_ARB_buffer_object") && !ARB_buffer_object_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_buffer_object");
 		if (supported_extensions.contains("GL_ARB_cl_event") && !ARB_cl_event_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_cl_event");
+		if (supported_extensions.contains("GL_ARB_clear_buffer_object") && !ARB_clear_buffer_object_initNativeFunctionAddresses(supported_extensions))
+			remove(supported_extensions, "GL_ARB_clear_buffer_object");
 		if (supported_extensions.contains("GL_ARB_color_buffer_float") && !ARB_color_buffer_float_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_color_buffer_float");
+		if (supported_extensions.contains("GL_ARB_compute_shader") && !ARB_compute_shader_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_compute_shader");
 		if (supported_extensions.contains("GL_ARB_copy_buffer") && !ARB_copy_buffer_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_copy_buffer");
+		if (supported_extensions.contains("GL_ARB_copy_image") && !ARB_copy_image_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_copy_image");
 		if (supported_extensions.contains("GL_ARB_debug_output") && !ARB_debug_output_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_debug_output");
 		if (supported_extensions.contains("GL_ARB_draw_buffers") && !ARB_draw_buffers_initNativeFunctionAddresses())
@@ -4754,6 +5370,8 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_ARB_draw_indirect");
 		if (supported_extensions.contains("GL_ARB_draw_instanced") && !ARB_draw_instanced_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_draw_instanced");
+		if (supported_extensions.contains("GL_ARB_framebuffer_no_attachments") && !ARB_framebuffer_no_attachments_initNativeFunctionAddresses(supported_extensions))
+			remove(supported_extensions, "GL_ARB_framebuffer_no_attachments");
 		if (supported_extensions.contains("GL_ARB_framebuffer_object") && !ARB_framebuffer_object_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_framebuffer_object");
 		if (supported_extensions.contains("GL_ARB_geometry_shader4") && !ARB_geometry_shader4_initNativeFunctionAddresses())
@@ -4766,10 +5384,18 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_ARB_imaging");
 		if (supported_extensions.contains("GL_ARB_instanced_arrays") && !ARB_instanced_arrays_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_instanced_arrays");
+		if (supported_extensions.contains("GL_ARB_internalformat_query") && !ARB_internalformat_query_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_internalformat_query");
+		if (supported_extensions.contains("GL_ARB_internalformat_query2") && !ARB_internalformat_query2_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_internalformat_query2");
+		if (supported_extensions.contains("GL_ARB_invalidate_subdata") && !ARB_invalidate_subdata_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_invalidate_subdata");
 		if (supported_extensions.contains("GL_ARB_map_buffer_range") && !ARB_map_buffer_range_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_map_buffer_range");
 		if (supported_extensions.contains("GL_ARB_matrix_palette") && !ARB_matrix_palette_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_matrix_palette");
+		if (supported_extensions.contains("GL_ARB_multi_draw_indirect") && !ARB_multi_draw_indirect_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_multi_draw_indirect");
 		if (supported_extensions.contains("GL_ARB_multisample") && !ARB_multisample_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_multisample");
 		if (supported_extensions.contains("GL_ARB_multitexture") && !ARB_multitexture_initNativeFunctionAddresses())
@@ -4780,6 +5406,8 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_ARB_point_parameters");
 		if (supported_extensions.contains("GL_ARB_program") && !ARB_program_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_program");
+		if (supported_extensions.contains("GL_ARB_program_interface_query") && !ARB_program_interface_query_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_program_interface_query");
 		if (supported_extensions.contains("GL_ARB_provoking_vertex") && !ARB_provoking_vertex_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_provoking_vertex");
 		if (supported_extensions.contains("GL_ARB_robustness") && !ARB_robustness_initNativeFunctionAddresses(forwardCompatible,supported_extensions))
@@ -4790,8 +5418,14 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_ARB_sampler_objects");
 		if (supported_extensions.contains("GL_ARB_separate_shader_objects") && !ARB_separate_shader_objects_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_separate_shader_objects");
+		if (supported_extensions.contains("GL_ARB_shader_atomic_counters") && !ARB_shader_atomic_counters_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_shader_atomic_counters");
+		if (supported_extensions.contains("GL_ARB_shader_image_load_store") && !ARB_shader_image_load_store_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_shader_image_load_store");
 		if (supported_extensions.contains("GL_ARB_shader_objects") && !ARB_shader_objects_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_shader_objects");
+		if (supported_extensions.contains("GL_ARB_shader_storage_buffer_object") && !ARB_shader_storage_buffer_object_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_shader_storage_buffer_object");
 		if (supported_extensions.contains("GL_ARB_shader_subroutine") && !ARB_shader_subroutine_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_shader_subroutine");
 		if (supported_extensions.contains("GL_ARB_shading_language_include") && !ARB_shading_language_include_initNativeFunctionAddresses())
@@ -4802,16 +5436,28 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_ARB_tessellation_shader");
 		if (supported_extensions.contains("GL_ARB_texture_buffer_object") && !ARB_texture_buffer_object_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_texture_buffer_object");
+		if (supported_extensions.contains("GL_ARB_texture_buffer_range") && !ARB_texture_buffer_range_initNativeFunctionAddresses(supported_extensions))
+			remove(supported_extensions, "GL_ARB_texture_buffer_range");
 		if (supported_extensions.contains("GL_ARB_texture_compression") && !ARB_texture_compression_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_texture_compression");
 		if (supported_extensions.contains("GL_ARB_texture_multisample") && !ARB_texture_multisample_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_texture_multisample");
+		if ((supported_extensions.contains("GL_ARB_texture_storage") || supported_extensions.contains("GL_EXT_texture_storage")) && !ARB_texture_storage_initNativeFunctionAddresses(supported_extensions)) {
+			remove(supported_extensions, "GL_EXT_texture_storage");
+			remove(supported_extensions, "GL_ARB_texture_storage");
+		}
+		if (supported_extensions.contains("GL_ARB_texture_storage_multisample") && !ARB_texture_storage_multisample_initNativeFunctionAddresses(supported_extensions))
+			remove(supported_extensions, "GL_ARB_texture_storage_multisample");
+		if (supported_extensions.contains("GL_ARB_texture_view") && !ARB_texture_view_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_texture_view");
 		if (supported_extensions.contains("GL_ARB_timer_query") && !ARB_timer_query_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_timer_query");
 		if (supported_extensions.contains("GL_ARB_transform_feedback2") && !ARB_transform_feedback2_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_transform_feedback2");
 		if (supported_extensions.contains("GL_ARB_transform_feedback3") && !ARB_transform_feedback3_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_transform_feedback3");
+		if (supported_extensions.contains("GL_ARB_transform_feedback_instanced") && !ARB_transform_feedback_instanced_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_transform_feedback_instanced");
 		if (supported_extensions.contains("GL_ARB_transpose_matrix") && !ARB_transpose_matrix_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_transpose_matrix");
 		if (supported_extensions.contains("GL_ARB_uniform_buffer_object") && !ARB_uniform_buffer_object_initNativeFunctionAddresses())
@@ -4820,6 +5466,8 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_ARB_vertex_array_object");
 		if (supported_extensions.contains("GL_ARB_vertex_attrib_64bit") && !ARB_vertex_attrib_64bit_initNativeFunctionAddresses(supported_extensions))
 			remove(supported_extensions, "GL_ARB_vertex_attrib_64bit");
+		if (supported_extensions.contains("GL_ARB_vertex_attrib_binding") && !ARB_vertex_attrib_binding_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_ARB_vertex_attrib_binding");
 		if (supported_extensions.contains("GL_ARB_vertex_blend") && !ARB_vertex_blend_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_ARB_vertex_blend");
 		if (supported_extensions.contains("GL_ARB_vertex_program") && !ARB_vertex_program_initNativeFunctionAddresses())
@@ -4947,14 +5595,28 @@ public class ContextCapabilities {
 			remove(supported_extensions, "OpenGL40");
 		if (supported_extensions.contains("OpenGL41") && !GL41_initNativeFunctionAddresses())
 			remove(supported_extensions, "OpenGL41");
+		if (supported_extensions.contains("OpenGL42") && !GL42_initNativeFunctionAddresses())
+			remove(supported_extensions, "OpenGL42");
+		if (supported_extensions.contains("OpenGL43") && !GL43_initNativeFunctionAddresses())
+			remove(supported_extensions, "OpenGL43");
+		if (supported_extensions.contains("GL_GREMEDY_frame_terminator") && !GREMEDY_frame_terminator_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_GREMEDY_frame_terminator");
 		if (supported_extensions.contains("GL_GREMEDY_string_marker") && !GREMEDY_string_marker_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_GREMEDY_string_marker");
+		if (supported_extensions.contains("GL_INTEL_map_texture") && !INTEL_map_texture_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_INTEL_map_texture");
+		if (supported_extensions.contains("GL_KHR_debug") && !KHR_debug_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_KHR_debug");
+		if (supported_extensions.contains("GL_NV_bindless_texture") && !NV_bindless_texture_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_NV_bindless_texture");
 		if (supported_extensions.contains("GL_NV_conditional_render") && !NV_conditional_render_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_conditional_render");
 		if (supported_extensions.contains("GL_NV_copy_image") && !NV_copy_image_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_copy_image");
 		if (supported_extensions.contains("GL_NV_depth_buffer_float") && !NV_depth_buffer_float_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_depth_buffer_float");
+		if (supported_extensions.contains("GL_NV_draw_texture") && !NV_draw_texture_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_NV_draw_texture");
 		if (supported_extensions.contains("GL_NV_evaluators") && !NV_evaluators_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_evaluators");
 		if (supported_extensions.contains("GL_NV_explicit_multisample") && !NV_explicit_multisample_initNativeFunctionAddresses())
@@ -4977,10 +5639,14 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_NV_occlusion_query");
 		if (supported_extensions.contains("GL_NV_parameter_buffer_object") && !NV_parameter_buffer_object_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_parameter_buffer_object");
+		if (supported_extensions.contains("GL_NV_path_rendering") && !NV_path_rendering_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_NV_path_rendering");
 		if (supported_extensions.contains("GL_NV_pixel_data_range") && !NV_pixel_data_range_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_pixel_data_range");
 		if (supported_extensions.contains("GL_NV_point_sprite") && !NV_point_sprite_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_point_sprite");
+		if (supported_extensions.contains("GL_NV_present_video") && !NV_present_video_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_NV_present_video");
 		supported_extensions.add("GL_NV_primitive_restart");
 		if (supported_extensions.contains("GL_NV_primitive_restart") && !NV_primitive_restart_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_primitive_restart");
@@ -4994,6 +5660,8 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_NV_shader_buffer_load");
 		if (supported_extensions.contains("GL_NV_texture_barrier") && !NV_texture_barrier_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_texture_barrier");
+		if (supported_extensions.contains("GL_NV_texture_multisample") && !NV_texture_multisample_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_NV_texture_multisample");
 		if (supported_extensions.contains("GL_NV_transform_feedback") && !NV_transform_feedback_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_transform_feedback");
 		if (supported_extensions.contains("GL_NV_transform_feedback2") && !NV_transform_feedback2_initNativeFunctionAddresses())
@@ -5006,6 +5674,8 @@ public class ContextCapabilities {
 			remove(supported_extensions, "GL_NV_vertex_buffer_unified_memory");
 		if (supported_extensions.contains("GL_NV_vertex_program") && !NV_vertex_program_initNativeFunctionAddresses())
 			remove(supported_extensions, "GL_NV_vertex_program");
+		if (supported_extensions.contains("GL_NV_video_capture") && !NV_video_capture_initNativeFunctionAddresses())
+			remove(supported_extensions, "GL_NV_video_capture");
 		return supported_extensions;
 	}
 
@@ -5014,18 +5684,28 @@ public class ContextCapabilities {
 
 	ContextCapabilities(boolean forwardCompatible) throws LWJGLException {
 		Set<String> supported_extensions = initAllStubs(forwardCompatible);
+		this.GL_AMD_blend_minmax_factor = supported_extensions.contains("GL_AMD_blend_minmax_factor");
 		this.GL_AMD_conservative_depth = supported_extensions.contains("GL_AMD_conservative_depth");
 		this.GL_AMD_debug_output = supported_extensions.contains("GL_AMD_debug_output")
 			|| supported_extensions.contains("GL_AMDX_debug_output");
 		this.GL_AMD_depth_clamp_separate = supported_extensions.contains("GL_AMD_depth_clamp_separate");
 		this.GL_AMD_draw_buffers_blend = supported_extensions.contains("GL_AMD_draw_buffers_blend");
+		this.GL_AMD_multi_draw_indirect = supported_extensions.contains("GL_AMD_multi_draw_indirect");
 		this.GL_AMD_name_gen_delete = supported_extensions.contains("GL_AMD_name_gen_delete");
 		this.GL_AMD_performance_monitor = supported_extensions.contains("GL_AMD_performance_monitor");
+		this.GL_AMD_pinned_memory = supported_extensions.contains("GL_AMD_pinned_memory");
+		this.GL_AMD_query_buffer_object = supported_extensions.contains("GL_AMD_query_buffer_object");
+		this.GL_AMD_sample_positions = supported_extensions.contains("GL_AMD_sample_positions");
 		this.GL_AMD_seamless_cubemap_per_texture = supported_extensions.contains("GL_AMD_seamless_cubemap_per_texture");
 		this.GL_AMD_shader_stencil_export = supported_extensions.contains("GL_AMD_shader_stencil_export");
+		this.GL_AMD_shader_trinary_minmax = supported_extensions.contains("GL_AMD_shader_trinary_minmax");
+		this.GL_AMD_sparse_texture = supported_extensions.contains("GL_AMD_sparse_texture");
+		this.GL_AMD_stencil_operation_extended = supported_extensions.contains("GL_AMD_stencil_operation_extended");
 		this.GL_AMD_texture_texture4 = supported_extensions.contains("GL_AMD_texture_texture4");
 		this.GL_AMD_transform_feedback3_lines_triangles = supported_extensions.contains("GL_AMD_transform_feedback3_lines_triangles");
+		this.GL_AMD_vertex_shader_layer = supported_extensions.contains("GL_AMD_vertex_shader_layer");
 		this.GL_AMD_vertex_shader_tessellator = supported_extensions.contains("GL_AMD_vertex_shader_tessellator");
+		this.GL_AMD_vertex_shader_viewport_index = supported_extensions.contains("GL_AMD_vertex_shader_viewport_index");
 		this.GL_APPLE_aux_depth_stencil = supported_extensions.contains("GL_APPLE_aux_depth_stencil");
 		this.GL_APPLE_client_storage = supported_extensions.contains("GL_APPLE_client_storage");
 		this.GL_APPLE_element_array = supported_extensions.contains("GL_APPLE_element_array");
@@ -5042,11 +5722,19 @@ public class ContextCapabilities {
 		this.GL_APPLE_vertex_program_evaluators = supported_extensions.contains("GL_APPLE_vertex_program_evaluators");
 		this.GL_APPLE_ycbcr_422 = supported_extensions.contains("GL_APPLE_ycbcr_422");
 		this.GL_ARB_ES2_compatibility = supported_extensions.contains("GL_ARB_ES2_compatibility");
+		this.GL_ARB_ES3_compatibility = supported_extensions.contains("GL_ARB_ES3_compatibility");
+		this.GL_ARB_arrays_of_arrays = supported_extensions.contains("GL_ARB_arrays_of_arrays");
+		this.GL_ARB_base_instance = supported_extensions.contains("GL_ARB_base_instance");
 		this.GL_ARB_blend_func_extended = supported_extensions.contains("GL_ARB_blend_func_extended");
 		this.GL_ARB_cl_event = supported_extensions.contains("GL_ARB_cl_event");
+		this.GL_ARB_clear_buffer_object = supported_extensions.contains("GL_ARB_clear_buffer_object");
 		this.GL_ARB_color_buffer_float = supported_extensions.contains("GL_ARB_color_buffer_float");
 		this.GL_ARB_compatibility = supported_extensions.contains("GL_ARB_compatibility");
+		this.GL_ARB_compressed_texture_pixel_storage = supported_extensions.contains("GL_ARB_compressed_texture_pixel_storage");
+		this.GL_ARB_compute_shader = supported_extensions.contains("GL_ARB_compute_shader");
+		this.GL_ARB_conservative_depth = supported_extensions.contains("GL_ARB_conservative_depth");
 		this.GL_ARB_copy_buffer = supported_extensions.contains("GL_ARB_copy_buffer");
+		this.GL_ARB_copy_image = supported_extensions.contains("GL_ARB_copy_image");
 		this.GL_ARB_debug_output = supported_extensions.contains("GL_ARB_debug_output");
 		this.GL_ARB_depth_buffer_float = supported_extensions.contains("GL_ARB_depth_buffer_float");
 		this.GL_ARB_depth_clamp = supported_extensions.contains("GL_ARB_depth_clamp");
@@ -5057,11 +5745,14 @@ public class ContextCapabilities {
 		this.GL_ARB_draw_indirect = supported_extensions.contains("GL_ARB_draw_indirect");
 		this.GL_ARB_draw_instanced = supported_extensions.contains("GL_ARB_draw_instanced");
 		this.GL_ARB_explicit_attrib_location = supported_extensions.contains("GL_ARB_explicit_attrib_location");
+		this.GL_ARB_explicit_uniform_location = supported_extensions.contains("GL_ARB_explicit_uniform_location");
 		this.GL_ARB_fragment_coord_conventions = supported_extensions.contains("GL_ARB_fragment_coord_conventions");
+		this.GL_ARB_fragment_layer_viewport = supported_extensions.contains("GL_ARB_fragment_layer_viewport");
 		this.GL_ARB_fragment_program = supported_extensions.contains("GL_ARB_fragment_program")
 			&& supported_extensions.contains("GL_ARB_program");
 		this.GL_ARB_fragment_program_shadow = supported_extensions.contains("GL_ARB_fragment_program_shadow");
 		this.GL_ARB_fragment_shader = supported_extensions.contains("GL_ARB_fragment_shader");
+		this.GL_ARB_framebuffer_no_attachments = supported_extensions.contains("GL_ARB_framebuffer_no_attachments");
 		this.GL_ARB_framebuffer_object = supported_extensions.contains("GL_ARB_framebuffer_object");
 		this.GL_ARB_framebuffer_sRGB = supported_extensions.contains("GL_ARB_framebuffer_sRGB");
 		this.GL_ARB_geometry_shader4 = supported_extensions.contains("GL_ARB_geometry_shader4");
@@ -5072,8 +5763,13 @@ public class ContextCapabilities {
 		this.GL_ARB_half_float_vertex = supported_extensions.contains("GL_ARB_half_float_vertex");
 		this.GL_ARB_imaging = supported_extensions.contains("GL_ARB_imaging");
 		this.GL_ARB_instanced_arrays = supported_extensions.contains("GL_ARB_instanced_arrays");
+		this.GL_ARB_internalformat_query = supported_extensions.contains("GL_ARB_internalformat_query");
+		this.GL_ARB_internalformat_query2 = supported_extensions.contains("GL_ARB_internalformat_query2");
+		this.GL_ARB_invalidate_subdata = supported_extensions.contains("GL_ARB_invalidate_subdata");
+		this.GL_ARB_map_buffer_alignment = supported_extensions.contains("GL_ARB_map_buffer_alignment");
 		this.GL_ARB_map_buffer_range = supported_extensions.contains("GL_ARB_map_buffer_range");
 		this.GL_ARB_matrix_palette = supported_extensions.contains("GL_ARB_matrix_palette");
+		this.GL_ARB_multi_draw_indirect = supported_extensions.contains("GL_ARB_multi_draw_indirect");
 		this.GL_ARB_multisample = supported_extensions.contains("GL_ARB_multisample");
 		this.GL_ARB_multitexture = supported_extensions.contains("GL_ARB_multitexture");
 		this.GL_ARB_occlusion_query = supported_extensions.contains("GL_ARB_occlusion_query");
@@ -5082,28 +5778,39 @@ public class ContextCapabilities {
 			&& supported_extensions.contains("GL_ARB_buffer_object");
 		this.GL_ARB_point_parameters = supported_extensions.contains("GL_ARB_point_parameters");
 		this.GL_ARB_point_sprite = supported_extensions.contains("GL_ARB_point_sprite");
+		this.GL_ARB_program_interface_query = supported_extensions.contains("GL_ARB_program_interface_query");
 		this.GL_ARB_provoking_vertex = supported_extensions.contains("GL_ARB_provoking_vertex");
+		this.GL_ARB_robust_buffer_access_behavior = supported_extensions.contains("GL_ARB_robust_buffer_access_behavior");
 		this.GL_ARB_robustness = supported_extensions.contains("GL_ARB_robustness");
+		this.GL_ARB_robustness_isolation = supported_extensions.contains("GL_ARB_robustness_isolation");
 		this.GL_ARB_sample_shading = supported_extensions.contains("GL_ARB_sample_shading");
 		this.GL_ARB_sampler_objects = supported_extensions.contains("GL_ARB_sampler_objects");
 		this.GL_ARB_seamless_cube_map = supported_extensions.contains("GL_ARB_seamless_cube_map");
 		this.GL_ARB_separate_shader_objects = supported_extensions.contains("GL_ARB_separate_shader_objects");
+		this.GL_ARB_shader_atomic_counters = supported_extensions.contains("GL_ARB_shader_atomic_counters");
 		this.GL_ARB_shader_bit_encoding = supported_extensions.contains("GL_ARB_shader_bit_encoding");
+		this.GL_ARB_shader_image_load_store = supported_extensions.contains("GL_ARB_shader_image_load_store");
+		this.GL_ARB_shader_image_size = supported_extensions.contains("GL_ARB_shader_image_size");
 		this.GL_ARB_shader_objects = supported_extensions.contains("GL_ARB_shader_objects");
 		this.GL_ARB_shader_precision = supported_extensions.contains("GL_ARB_shader_precision");
 		this.GL_ARB_shader_stencil_export = supported_extensions.contains("GL_ARB_shader_stencil_export");
+		this.GL_ARB_shader_storage_buffer_object = supported_extensions.contains("GL_ARB_shader_storage_buffer_object");
 		this.GL_ARB_shader_subroutine = supported_extensions.contains("GL_ARB_shader_subroutine");
 		this.GL_ARB_shader_texture_lod = supported_extensions.contains("GL_ARB_shader_texture_lod");
 		this.GL_ARB_shading_language_100 = supported_extensions.contains("GL_ARB_shading_language_100");
+		this.GL_ARB_shading_language_420pack = supported_extensions.contains("GL_ARB_shading_language_420pack");
 		this.GL_ARB_shading_language_include = supported_extensions.contains("GL_ARB_shading_language_include");
+		this.GL_ARB_shading_language_packing = supported_extensions.contains("GL_ARB_shading_language_packing");
 		this.GL_ARB_shadow = supported_extensions.contains("GL_ARB_shadow");
 		this.GL_ARB_shadow_ambient = supported_extensions.contains("GL_ARB_shadow_ambient");
+		this.GL_ARB_stencil_texturing = supported_extensions.contains("GL_ARB_stencil_texturing");
 		this.GL_ARB_sync = supported_extensions.contains("GL_ARB_sync");
 		this.GL_ARB_tessellation_shader = supported_extensions.contains("GL_ARB_tessellation_shader");
 		this.GL_ARB_texture_border_clamp = supported_extensions.contains("GL_ARB_texture_border_clamp");
 		this.GL_ARB_texture_buffer_object = supported_extensions.contains("GL_ARB_texture_buffer_object");
 		this.GL_ARB_texture_buffer_object_rgb32 = supported_extensions.contains("GL_ARB_texture_buffer_object_rgb32")
 			|| supported_extensions.contains("GL_EXT_texture_buffer_object_rgb32");
+		this.GL_ARB_texture_buffer_range = supported_extensions.contains("GL_ARB_texture_buffer_range");
 		this.GL_ARB_texture_compression = supported_extensions.contains("GL_ARB_texture_compression");
 		this.GL_ARB_texture_compression_bptc = supported_extensions.contains("GL_ARB_texture_compression_bptc")
 			|| supported_extensions.contains("GL_EXT_texture_compression_bptc");
@@ -5119,19 +5826,26 @@ public class ContextCapabilities {
 		this.GL_ARB_texture_mirrored_repeat = supported_extensions.contains("GL_ARB_texture_mirrored_repeat");
 		this.GL_ARB_texture_multisample = supported_extensions.contains("GL_ARB_texture_multisample");
 		this.GL_ARB_texture_non_power_of_two = supported_extensions.contains("GL_ARB_texture_non_power_of_two");
+		this.GL_ARB_texture_query_levels = supported_extensions.contains("GL_ARB_texture_query_levels");
 		this.GL_ARB_texture_query_lod = supported_extensions.contains("GL_ARB_texture_query_lod");
 		this.GL_ARB_texture_rectangle = supported_extensions.contains("GL_ARB_texture_rectangle");
 		this.GL_ARB_texture_rg = supported_extensions.contains("GL_ARB_texture_rg");
 		this.GL_ARB_texture_rgb10_a2ui = supported_extensions.contains("GL_ARB_texture_rgb10_a2ui");
+		this.GL_ARB_texture_storage = supported_extensions.contains("GL_ARB_texture_storage")
+			|| supported_extensions.contains("GL_EXT_texture_storage");
+		this.GL_ARB_texture_storage_multisample = supported_extensions.contains("GL_ARB_texture_storage_multisample");
 		this.GL_ARB_texture_swizzle = supported_extensions.contains("GL_ARB_texture_swizzle");
+		this.GL_ARB_texture_view = supported_extensions.contains("GL_ARB_texture_view");
 		this.GL_ARB_timer_query = supported_extensions.contains("GL_ARB_timer_query");
 		this.GL_ARB_transform_feedback2 = supported_extensions.contains("GL_ARB_transform_feedback2");
 		this.GL_ARB_transform_feedback3 = supported_extensions.contains("GL_ARB_transform_feedback3");
+		this.GL_ARB_transform_feedback_instanced = supported_extensions.contains("GL_ARB_transform_feedback_instanced");
 		this.GL_ARB_transpose_matrix = supported_extensions.contains("GL_ARB_transpose_matrix");
 		this.GL_ARB_uniform_buffer_object = supported_extensions.contains("GL_ARB_uniform_buffer_object");
 		this.GL_ARB_vertex_array_bgra = supported_extensions.contains("GL_ARB_vertex_array_bgra");
 		this.GL_ARB_vertex_array_object = supported_extensions.contains("GL_ARB_vertex_array_object");
 		this.GL_ARB_vertex_attrib_64bit = supported_extensions.contains("GL_ARB_vertex_attrib_64bit");
+		this.GL_ARB_vertex_attrib_binding = supported_extensions.contains("GL_ARB_vertex_attrib_binding");
 		this.GL_ARB_vertex_blend = supported_extensions.contains("GL_ARB_vertex_blend");
 		this.GL_ARB_vertex_buffer_object = supported_extensions.contains("GL_ARB_vertex_buffer_object")
 			&& supported_extensions.contains("GL_ARB_buffer_object");
@@ -5176,6 +5890,7 @@ public class ContextCapabilities {
 		this.GL_EXT_fog_coord = supported_extensions.contains("GL_EXT_fog_coord");
 		this.GL_EXT_framebuffer_blit = supported_extensions.contains("GL_EXT_framebuffer_blit");
 		this.GL_EXT_framebuffer_multisample = supported_extensions.contains("GL_EXT_framebuffer_multisample");
+		this.GL_EXT_framebuffer_multisample_blit_scaled = supported_extensions.contains("GL_EXT_framebuffer_multisample_blit_scaled");
 		this.GL_EXT_framebuffer_object = supported_extensions.contains("GL_EXT_framebuffer_object");
 		this.GL_EXT_framebuffer_sRGB = supported_extensions.contains("GL_EXT_framebuffer_sRGB");
 		this.GL_EXT_geometry_shader4 = supported_extensions.contains("GL_EXT_geometry_shader4");
@@ -5237,16 +5952,26 @@ public class ContextCapabilities {
 		this.OpenGL33 = supported_extensions.contains("OpenGL33");
 		this.OpenGL40 = supported_extensions.contains("OpenGL40");
 		this.OpenGL41 = supported_extensions.contains("OpenGL41");
+		this.OpenGL42 = supported_extensions.contains("OpenGL42");
+		this.OpenGL43 = supported_extensions.contains("OpenGL43");
+		this.GL_GREMEDY_frame_terminator = supported_extensions.contains("GL_GREMEDY_frame_terminator");
 		this.GL_GREMEDY_string_marker = supported_extensions.contains("GL_GREMEDY_string_marker");
 		this.GL_HP_occlusion_test = supported_extensions.contains("GL_HP_occlusion_test");
 		this.GL_IBM_rasterpos_clip = supported_extensions.contains("GL_IBM_rasterpos_clip");
+		this.GL_INTEL_map_texture = supported_extensions.contains("GL_INTEL_map_texture");
+		this.GL_KHR_debug = supported_extensions.contains("GL_KHR_debug");
+		this.GL_KHR_texture_compression_astc_ldr = supported_extensions.contains("GL_KHR_texture_compression_astc_ldr");
 		this.GL_NVX_gpu_memory_info = supported_extensions.contains("GL_NVX_gpu_memory_info");
+		this.GL_NV_bindless_texture = supported_extensions.contains("GL_NV_bindless_texture");
 		this.GL_NV_blend_square = supported_extensions.contains("GL_NV_blend_square");
+		this.GL_NV_compute_program5 = supported_extensions.contains("GL_NV_compute_program5");
 		this.GL_NV_conditional_render = supported_extensions.contains("GL_NV_conditional_render");
 		this.GL_NV_copy_depth_to_color = supported_extensions.contains("GL_NV_copy_depth_to_color");
 		this.GL_NV_copy_image = supported_extensions.contains("GL_NV_copy_image");
+		this.GL_NV_deep_texture3D = supported_extensions.contains("GL_NV_deep_texture3D");
 		this.GL_NV_depth_buffer_float = supported_extensions.contains("GL_NV_depth_buffer_float");
 		this.GL_NV_depth_clamp = supported_extensions.contains("GL_NV_depth_clamp");
+		this.GL_NV_draw_texture = supported_extensions.contains("GL_NV_draw_texture");
 		this.GL_NV_evaluators = supported_extensions.contains("GL_NV_evaluators");
 		this.GL_NV_explicit_multisample = supported_extensions.contains("GL_NV_explicit_multisample");
 		this.GL_NV_fence = supported_extensions.contains("GL_NV_fence");
@@ -5271,19 +5996,25 @@ public class ContextCapabilities {
 		this.GL_NV_packed_depth_stencil = supported_extensions.contains("GL_NV_packed_depth_stencil");
 		this.GL_NV_parameter_buffer_object = supported_extensions.contains("GL_NV_parameter_buffer_object");
 		this.GL_NV_parameter_buffer_object2 = supported_extensions.contains("GL_NV_parameter_buffer_object2");
+		this.GL_NV_path_rendering = supported_extensions.contains("GL_NV_path_rendering");
 		this.GL_NV_pixel_data_range = supported_extensions.contains("GL_NV_pixel_data_range");
 		this.GL_NV_point_sprite = supported_extensions.contains("GL_NV_point_sprite");
+		this.GL_NV_present_video = supported_extensions.contains("GL_NV_present_video");
 		this.GL_NV_primitive_restart = supported_extensions.contains("GL_NV_primitive_restart");
 		this.GL_NV_register_combiners = supported_extensions.contains("GL_NV_register_combiners");
 		this.GL_NV_register_combiners2 = supported_extensions.contains("GL_NV_register_combiners2");
+		this.GL_NV_shader_atomic_counters = supported_extensions.contains("GL_NV_shader_atomic_counters");
+		this.GL_NV_shader_atomic_float = supported_extensions.contains("GL_NV_shader_atomic_float");
 		this.GL_NV_shader_buffer_load = supported_extensions.contains("GL_NV_shader_buffer_load");
 		this.GL_NV_shader_buffer_store = supported_extensions.contains("GL_NV_shader_buffer_store");
+		this.GL_NV_shader_storage_buffer_object = supported_extensions.contains("GL_NV_shader_storage_buffer_object");
 		this.GL_NV_tessellation_program5 = supported_extensions.contains("GL_NV_tessellation_program5");
 		this.GL_NV_texgen_reflection = supported_extensions.contains("GL_NV_texgen_reflection");
 		this.GL_NV_texture_barrier = supported_extensions.contains("GL_NV_texture_barrier");
 		this.GL_NV_texture_compression_vtc = supported_extensions.contains("GL_NV_texture_compression_vtc");
 		this.GL_NV_texture_env_combine4 = supported_extensions.contains("GL_NV_texture_env_combine4");
 		this.GL_NV_texture_expand_normal = supported_extensions.contains("GL_NV_texture_expand_normal");
+		this.GL_NV_texture_multisample = supported_extensions.contains("GL_NV_texture_multisample");
 		this.GL_NV_texture_rectangle = supported_extensions.contains("GL_NV_texture_rectangle");
 		this.GL_NV_texture_shader = supported_extensions.contains("GL_NV_texture_shader");
 		this.GL_NV_texture_shader2 = supported_extensions.contains("GL_NV_texture_shader2");
@@ -5301,6 +6032,7 @@ public class ContextCapabilities {
 		this.GL_NV_vertex_program2_option = supported_extensions.contains("GL_NV_vertex_program2_option");
 		this.GL_NV_vertex_program3 = supported_extensions.contains("GL_NV_vertex_program3");
 		this.GL_NV_vertex_program4 = supported_extensions.contains("GL_NV_vertex_program4");
+		this.GL_NV_video_capture = supported_extensions.contains("GL_NV_video_capture");
 		this.GL_SGIS_generate_mipmap = supported_extensions.contains("GL_SGIS_generate_mipmap");
 		this.GL_SGIS_texture_lod = supported_extensions.contains("GL_SGIS_texture_lod");
 		this.GL_SUN_slice_accum = supported_extensions.contains("GL_SUN_slice_accum");

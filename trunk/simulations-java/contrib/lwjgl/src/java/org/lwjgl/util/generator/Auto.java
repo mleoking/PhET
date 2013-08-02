@@ -36,8 +36,8 @@ package org.lwjgl.util.generator;
  * AutoType and AutoSize is annotated with @Auto.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 2983 $
- * $Id: Auto.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 
 import java.lang.annotation.Target;

@@ -31,10 +31,10 @@
  */
 
 /**
- * $Id: org_lwjgl_opengl_WindowsDisplayPeerInfo.c 3057 2008-04-30 16:01:25Z elias_naur $
+ * $Id$
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3057 $
+ * @version $Revision$
  */
 
 #include <jni.h>

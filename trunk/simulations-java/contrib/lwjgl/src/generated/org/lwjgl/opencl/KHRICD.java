@@ -26,8 +26,8 @@ public final class KHRICD {
 			BufferChecks.checkDirect(platforms);
 		if (num_platforms != null)
 			BufferChecks.checkBuffer(num_platforms, 1);
-		int __result = nclIcdGetPlatformIDsKHR((platforms == null ? 0 : platforms.remaining()), platforms != null ? platforms.getBuffer() : null, platforms != null ? platforms.positionByte() : 0, num_platforms, num_platforms != null ? num_platforms.position() : 0, function_pointer);
+		int __result = nclIcdGetPlatformIDsKHR((platforms == null ? 0 : platforms.remaining()), MemoryUtil.getAddressSafe(platforms), MemoryUtil.getAddressSafe(num_platforms), function_pointer);
 		return __result;
 	}
-	static native int nclIcdGetPlatformIDsKHR(int platforms_num_entries, ByteBuffer platforms, int platforms_position, IntBuffer num_platforms, int num_platforms_position, long function_pointer);
+	static native int nclIcdGetPlatformIDsKHR(int platforms_num_entries, long platforms, long num_platforms, long function_pointer);
 }

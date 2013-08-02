@@ -42,9 +42,9 @@ import static org.lwjgl.opengl.GL11.*;
  *
  * This is a <em>very basic</em> skeleton to init a game and run it.
  *
- * @author $Author: spasi $
- * @version $Revision: 3418 $
- * $Id: Game.java 3418 2010-09-28 21:11:35Z spasi $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 public class Game {
 

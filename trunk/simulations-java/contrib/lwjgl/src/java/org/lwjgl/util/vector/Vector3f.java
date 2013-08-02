@@ -39,8 +39,8 @@ import java.nio.FloatBuffer;
  * Holds a 3-tuple vector.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: Vector3f.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 public class Vector3f extends Vector implements Serializable, ReadableVector3f, WritableVector3f {

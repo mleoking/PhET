@@ -70,25 +70,25 @@ public final class ARBDebugOutput {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (ids != null)
 			BufferChecks.checkDirect(ids);
-		nglDebugMessageControlARB(source, type, severity, (ids == null ? 0 : ids.remaining()), ids, ids != null ? ids.position() : 0, enabled, function_pointer);
+		nglDebugMessageControlARB(source, type, severity, (ids == null ? 0 : ids.remaining()), MemoryUtil.getAddressSafe(ids), enabled, function_pointer);
 	}
-	static native void nglDebugMessageControlARB(int source, int type, int severity, int ids_count, IntBuffer ids, int ids_position, boolean enabled, long function_pointer);
+	static native void nglDebugMessageControlARB(int source, int type, int severity, int ids_count, long ids, boolean enabled, long function_pointer);
 
 	public static void glDebugMessageInsertARB(int source, int type, int id, int severity, ByteBuffer buf) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDebugMessageInsertARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(buf);
-		nglDebugMessageInsertARB(source, type, id, severity, buf.remaining(), buf, buf.position(), function_pointer);
+		nglDebugMessageInsertARB(source, type, id, severity, buf.remaining(), MemoryUtil.getAddress(buf), function_pointer);
 	}
-	static native void nglDebugMessageInsertARB(int source, int type, int id, int severity, int buf_length, ByteBuffer buf, int buf_position, long function_pointer);
+	static native void nglDebugMessageInsertARB(int source, int type, int id, int severity, int buf_length, long buf, long function_pointer);
 
 	/** Overloads glDebugMessageInsertARB. */
 	public static void glDebugMessageInsertARB(int source, int type, int id, int severity, CharSequence buf) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDebugMessageInsertARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDebugMessageInsertARB(source, type, id, severity, buf.length(), APIUtil.getBuffer(buf), 0, function_pointer);
+		nglDebugMessageInsertARB(source, type, id, severity, buf.length(), APIUtil.getBuffer(caps, buf), function_pointer);
 	}
 
 	/**
@@ -124,8 +124,8 @@ public final class ARBDebugOutput {
 			BufferChecks.checkBuffer(lengths, count);
 		if (messageLog != null)
 			BufferChecks.checkDirect(messageLog);
-		int __result = nglGetDebugMessageLogARB(count, (messageLog == null ? 0 : messageLog.remaining()), sources, sources != null ? sources.position() : 0, types, types != null ? types.position() : 0, ids, ids != null ? ids.position() : 0, severities, severities != null ? severities.position() : 0, lengths, lengths != null ? lengths.position() : 0, messageLog, messageLog != null ? messageLog.position() : 0, function_pointer);
+		int __result = nglGetDebugMessageLogARB(count, (messageLog == null ? 0 : messageLog.remaining()), MemoryUtil.getAddressSafe(sources), MemoryUtil.getAddressSafe(types), MemoryUtil.getAddressSafe(ids), MemoryUtil.getAddressSafe(severities), MemoryUtil.getAddressSafe(lengths), MemoryUtil.getAddressSafe(messageLog), function_pointer);
 		return __result;
 	}
-	static native int nglGetDebugMessageLogARB(int count, int messageLog_logSize, IntBuffer sources, int sources_position, IntBuffer types, int types_position, IntBuffer ids, int ids_position, IntBuffer severities, int severities_position, IntBuffer lengths, int lengths_position, ByteBuffer messageLog, int messageLog_position, long function_pointer);
+	static native int nglGetDebugMessageLogARB(int count, int messageLog_logSize, long sources, long types, long ids, long severities, long lengths, long messageLog, long function_pointer);
 }

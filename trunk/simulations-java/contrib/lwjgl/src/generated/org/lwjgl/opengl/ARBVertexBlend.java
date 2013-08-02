@@ -57,72 +57,72 @@ public final class ARBVertexBlend {
 		long function_pointer = caps.glWeightbvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pWeights);
-		nglWeightbvARB(pWeights.remaining(), pWeights, pWeights.position(), function_pointer);
+		nglWeightbvARB(pWeights.remaining(), MemoryUtil.getAddress(pWeights), function_pointer);
 	}
-	static native void nglWeightbvARB(int pWeights_size, ByteBuffer pWeights, int pWeights_position, long function_pointer);
+	static native void nglWeightbvARB(int pWeights_size, long pWeights, long function_pointer);
 
 	public static void glWeightARB(ShortBuffer pWeights) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glWeightsvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pWeights);
-		nglWeightsvARB(pWeights.remaining(), pWeights, pWeights.position(), function_pointer);
+		nglWeightsvARB(pWeights.remaining(), MemoryUtil.getAddress(pWeights), function_pointer);
 	}
-	static native void nglWeightsvARB(int pWeights_size, ShortBuffer pWeights, int pWeights_position, long function_pointer);
+	static native void nglWeightsvARB(int pWeights_size, long pWeights, long function_pointer);
 
 	public static void glWeightARB(IntBuffer pWeights) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glWeightivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pWeights);
-		nglWeightivARB(pWeights.remaining(), pWeights, pWeights.position(), function_pointer);
+		nglWeightivARB(pWeights.remaining(), MemoryUtil.getAddress(pWeights), function_pointer);
 	}
-	static native void nglWeightivARB(int pWeights_size, IntBuffer pWeights, int pWeights_position, long function_pointer);
+	static native void nglWeightivARB(int pWeights_size, long pWeights, long function_pointer);
 
 	public static void glWeightARB(FloatBuffer pWeights) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glWeightfvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pWeights);
-		nglWeightfvARB(pWeights.remaining(), pWeights, pWeights.position(), function_pointer);
+		nglWeightfvARB(pWeights.remaining(), MemoryUtil.getAddress(pWeights), function_pointer);
 	}
-	static native void nglWeightfvARB(int pWeights_size, FloatBuffer pWeights, int pWeights_position, long function_pointer);
+	static native void nglWeightfvARB(int pWeights_size, long pWeights, long function_pointer);
 
 	public static void glWeightARB(DoubleBuffer pWeights) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glWeightdvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pWeights);
-		nglWeightdvARB(pWeights.remaining(), pWeights, pWeights.position(), function_pointer);
+		nglWeightdvARB(pWeights.remaining(), MemoryUtil.getAddress(pWeights), function_pointer);
 	}
-	static native void nglWeightdvARB(int pWeights_size, DoubleBuffer pWeights, int pWeights_position, long function_pointer);
+	static native void nglWeightdvARB(int pWeights_size, long pWeights, long function_pointer);
 
 	public static void glWeightuARB(ByteBuffer pWeights) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glWeightubvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pWeights);
-		nglWeightubvARB(pWeights.remaining(), pWeights, pWeights.position(), function_pointer);
+		nglWeightubvARB(pWeights.remaining(), MemoryUtil.getAddress(pWeights), function_pointer);
 	}
-	static native void nglWeightubvARB(int pWeights_size, ByteBuffer pWeights, int pWeights_position, long function_pointer);
+	static native void nglWeightubvARB(int pWeights_size, long pWeights, long function_pointer);
 
 	public static void glWeightuARB(ShortBuffer pWeights) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glWeightusvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pWeights);
-		nglWeightusvARB(pWeights.remaining(), pWeights, pWeights.position(), function_pointer);
+		nglWeightusvARB(pWeights.remaining(), MemoryUtil.getAddress(pWeights), function_pointer);
 	}
-	static native void nglWeightusvARB(int pWeights_size, ShortBuffer pWeights, int pWeights_position, long function_pointer);
+	static native void nglWeightusvARB(int pWeights_size, long pWeights, long function_pointer);
 
 	public static void glWeightuARB(IntBuffer pWeights) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glWeightuivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pWeights);
-		nglWeightuivARB(pWeights.remaining(), pWeights, pWeights.position(), function_pointer);
+		nglWeightuivARB(pWeights.remaining(), MemoryUtil.getAddress(pWeights), function_pointer);
 	}
-	static native void nglWeightuivARB(int pWeights_size, IntBuffer pWeights, int pWeights_position, long function_pointer);
+	static native void nglWeightuivARB(int pWeights_size, long pWeights, long function_pointer);
 
 	public static void glWeightPointerARB(int size, int stride, DoubleBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -131,7 +131,7 @@ public final class ARBVertexBlend {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).ARB_vertex_blend_glWeightPointerARB_pPointer = pPointer;
-		nglWeightPointerARB(size, GL11.GL_DOUBLE, stride, pPointer, pPointer.position() << 3, function_pointer);
+		nglWeightPointerARB(size, GL11.GL_DOUBLE, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glWeightPointerARB(int size, int stride, FloatBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -140,7 +140,7 @@ public final class ARBVertexBlend {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).ARB_vertex_blend_glWeightPointerARB_pPointer = pPointer;
-		nglWeightPointerARB(size, GL11.GL_FLOAT, stride, pPointer, pPointer.position() << 2, function_pointer);
+		nglWeightPointerARB(size, GL11.GL_FLOAT, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glWeightPointerARB(int size, boolean unsigned, int stride, ByteBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -149,7 +149,7 @@ public final class ARBVertexBlend {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).ARB_vertex_blend_glWeightPointerARB_pPointer = pPointer;
-		nglWeightPointerARB(size, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, stride, pPointer, pPointer.position(), function_pointer);
+		nglWeightPointerARB(size, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glWeightPointerARB(int size, boolean unsigned, int stride, IntBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -158,7 +158,7 @@ public final class ARBVertexBlend {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).ARB_vertex_blend_glWeightPointerARB_pPointer = pPointer;
-		nglWeightPointerARB(size, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, stride, pPointer, pPointer.position() << 2, function_pointer);
+		nglWeightPointerARB(size, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glWeightPointerARB(int size, boolean unsigned, int stride, ShortBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -167,9 +167,9 @@ public final class ARBVertexBlend {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).ARB_vertex_blend_glWeightPointerARB_pPointer = pPointer;
-		nglWeightPointerARB(size, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, stride, pPointer, pPointer.position() << 1, function_pointer);
+		nglWeightPointerARB(size, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
-	static native void nglWeightPointerARB(int size, int type, int stride, Buffer pPointer, int pPointer_position, long function_pointer);
+	static native void nglWeightPointerARB(int size, int type, int stride, long pPointer, long function_pointer);
 	public static void glWeightPointerARB(int size, int type, int stride, long pPointer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glWeightPointerARB;

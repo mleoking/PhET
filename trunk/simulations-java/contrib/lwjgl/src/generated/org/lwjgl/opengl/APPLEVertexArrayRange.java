@@ -50,18 +50,18 @@ public final class APPLEVertexArrayRange {
 		long function_pointer = caps.glVertexArrayRangeAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pointer);
-		nglVertexArrayRangeAPPLE(pointer.remaining(), pointer, pointer.position(), function_pointer);
+		nglVertexArrayRangeAPPLE(pointer.remaining(), MemoryUtil.getAddress(pointer), function_pointer);
 	}
-	static native void nglVertexArrayRangeAPPLE(int pointer_length, ByteBuffer pointer, int pointer_position, long function_pointer);
+	static native void nglVertexArrayRangeAPPLE(int pointer_length, long pointer, long function_pointer);
 
 	public static void glFlushVertexArrayRangeAPPLE(ByteBuffer pointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glFlushVertexArrayRangeAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pointer);
-		nglFlushVertexArrayRangeAPPLE(pointer.remaining(), pointer, pointer.position(), function_pointer);
+		nglFlushVertexArrayRangeAPPLE(pointer.remaining(), MemoryUtil.getAddress(pointer), function_pointer);
 	}
-	static native void nglFlushVertexArrayRangeAPPLE(int pointer_length, ByteBuffer pointer, int pointer_position, long function_pointer);
+	static native void nglFlushVertexArrayRangeAPPLE(int pointer_length, long pointer, long function_pointer);
 
 	public static void glVertexArrayParameteriAPPLE(int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();

@@ -45,8 +45,8 @@ import org.lwjgl.util.WaveData;
  * We cannot inherit from BasicTest since it follows another structure.
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: OpenALCreationTest.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class OpenALCreationTest {
 

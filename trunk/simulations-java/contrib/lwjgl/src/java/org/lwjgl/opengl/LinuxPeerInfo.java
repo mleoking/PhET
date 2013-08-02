@@ -36,8 +36,8 @@ import java.nio.ByteBuffer;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- * $Id: LinuxPeerInfo.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 abstract class LinuxPeerInfo extends PeerInfo {
 	LinuxPeerInfo() {

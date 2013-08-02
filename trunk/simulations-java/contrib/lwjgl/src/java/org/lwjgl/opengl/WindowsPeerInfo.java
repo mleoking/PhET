@@ -39,8 +39,8 @@ import org.lwjgl.LWJGLException;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- * $Id: WindowsPeerInfo.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 abstract class WindowsPeerInfo extends PeerInfo {
 	protected WindowsPeerInfo() {

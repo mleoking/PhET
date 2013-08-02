@@ -59,24 +59,18 @@ typedef GLsync              cl_GLsync;
     #define CL_CALLBACK
 #endif
 
-// TODO: This is a bug in current CL implementations (AMD's only?), remove when fixed. (used for cl_native_kernel_func)
-#if defined(_WIN32)
-    #define CL_USER_FUNC_CALLBACK   __cdecl
-#else
-    #define CL_USER_FUNC_CALLBACK   CL_CALLBACK
-#endif
-
 typedef void (CL_CALLBACK * cl_create_context_callback)(const char *errinfo, const void *private_info, size_t cb, void *user_data);
 typedef void (CL_CALLBACK * cl_mem_object_destructor_callback)(cl_mem memobj, void *user_data);
-typedef void (CL_CALLBACK * cl_build_program_callback)(cl_program program, void *user_data);
+typedef void (CL_CALLBACK * cl_program_callback)(cl_program program, void *user_data);
 typedef void (CL_CALLBACK * cl_event_callback)(cl_event event, cl_int event_command_exec_status, void *user_data);
-typedef void (CL_USER_FUNC_CALLBACK * cl_native_kernel_func)(void *args);
+typedef void (CL_CALLBACK * cl_native_kernel_func)(void *args);
+typedef void (CL_CALLBACK * cl_printf_callback)(cl_context context, cl_uint printf_data_len, char *printf_data_ptr, void *user_data);
 
 // -----------------[ Cross-platform functions ]-----------------
 
 void* extcl_GetProcAddress(const char* function);
 void extcl_InitializeClass(JNIEnv *env, jclass clazz, int num_functions, JavaMethodAndExtFunction *functions);
-int extcl_CalculateImageSize(const size_t *region, size_t row_pitch, size_t slice_pitch);
+size_t extcl_CalculateImageSize(const size_t *region, size_t row_pitch, size_t slice_pitch);
 
 // -----------------[ Platform dependent functions ]-----------------
 

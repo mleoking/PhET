@@ -32,18 +32,18 @@ public final class NVGpuProgram4 {
 		long function_pointer = caps.glProgramLocalParameterI4ivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglProgramLocalParameterI4ivNV(target, index, params, params.position(), function_pointer);
+		nglProgramLocalParameterI4ivNV(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramLocalParameterI4ivNV(int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramLocalParameterI4ivNV(int target, int index, long params, long function_pointer);
 
 	public static void glProgramLocalParametersI4NV(int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramLocalParametersI4ivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramLocalParametersI4ivNV(target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramLocalParametersI4ivNV(target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramLocalParametersI4ivNV(int target, int index, int params_count, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramLocalParametersI4ivNV(int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glProgramLocalParameterI4uiNV(int target, int index, int x, int y, int z, int w) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -58,18 +58,18 @@ public final class NVGpuProgram4 {
 		long function_pointer = caps.glProgramLocalParameterI4uivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglProgramLocalParameterI4uivNV(target, index, params, params.position(), function_pointer);
+		nglProgramLocalParameterI4uivNV(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramLocalParameterI4uivNV(int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramLocalParameterI4uivNV(int target, int index, long params, long function_pointer);
 
 	public static void glProgramLocalParametersI4uNV(int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramLocalParametersI4uivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramLocalParametersI4uivNV(target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramLocalParametersI4uivNV(target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramLocalParametersI4uivNV(int target, int index, int params_count, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramLocalParametersI4uivNV(int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glProgramEnvParameterI4iNV(int target, int index, int x, int y, int z, int w) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -84,18 +84,18 @@ public final class NVGpuProgram4 {
 		long function_pointer = caps.glProgramEnvParameterI4ivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglProgramEnvParameterI4ivNV(target, index, params, params.position(), function_pointer);
+		nglProgramEnvParameterI4ivNV(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramEnvParameterI4ivNV(int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramEnvParameterI4ivNV(int target, int index, long params, long function_pointer);
 
 	public static void glProgramEnvParametersI4NV(int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramEnvParametersI4ivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramEnvParametersI4ivNV(target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramEnvParametersI4ivNV(target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramEnvParametersI4ivNV(int target, int index, int params_count, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramEnvParametersI4ivNV(int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glProgramEnvParameterI4uiNV(int target, int index, int x, int y, int z, int w) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -110,52 +110,52 @@ public final class NVGpuProgram4 {
 		long function_pointer = caps.glProgramEnvParameterI4uivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglProgramEnvParameterI4uivNV(target, index, params, params.position(), function_pointer);
+		nglProgramEnvParameterI4uivNV(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramEnvParameterI4uivNV(int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramEnvParameterI4uivNV(int target, int index, long params, long function_pointer);
 
 	public static void glProgramEnvParametersI4uNV(int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramEnvParametersI4uivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramEnvParametersI4uivNV(target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramEnvParametersI4uivNV(target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramEnvParametersI4uivNV(int target, int index, int params_count, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramEnvParametersI4uivNV(int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glGetProgramLocalParameterINV(int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramLocalParameterIivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramLocalParameterIivNV(target, index, params, params.position(), function_pointer);
+		nglGetProgramLocalParameterIivNV(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramLocalParameterIivNV(int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramLocalParameterIivNV(int target, int index, long params, long function_pointer);
 
 	public static void glGetProgramLocalParameterIuNV(int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramLocalParameterIuivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramLocalParameterIuivNV(target, index, params, params.position(), function_pointer);
+		nglGetProgramLocalParameterIuivNV(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramLocalParameterIuivNV(int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramLocalParameterIuivNV(int target, int index, long params, long function_pointer);
 
 	public static void glGetProgramEnvParameterINV(int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramEnvParameterIivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramEnvParameterIivNV(target, index, params, params.position(), function_pointer);
+		nglGetProgramEnvParameterIivNV(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramEnvParameterIivNV(int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramEnvParameterIivNV(int target, int index, long params, long function_pointer);
 
 	public static void glGetProgramEnvParameterIuNV(int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramEnvParameterIuivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramEnvParameterIuivNV(target, index, params, params.position(), function_pointer);
+		nglGetProgramEnvParameterIuivNV(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramEnvParameterIuivNV(int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramEnvParameterIuivNV(int target, int index, long params, long function_pointer);
 }

@@ -31,10 +31,10 @@
  */
 
 /**
- * $Id: org_lwjgl_opengl_MacOSXPbufferPeerInfo.m 2985 2008-04-07 18:42:36Z matzon $
+ * $Id$
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 2985 $
+ * @version $Revision$
  */
 
 #import <jni.h>
@@ -65,7 +65,7 @@ JNIEXPORT void JNICALL Java_org_lwjgl_opengl_MacOSXPbufferPeerInfo_nCreate(JNIEn
 	}
 	MacOSXPeerInfo *peer_info = (MacOSXPeerInfo *)(*env)->GetDirectBufferAddress(env, peer_info_handle);
 	peer_info->pbuffer = pbuffer;
-	peer_info->window = false;
+	peer_info->isWindowed = false;
 	[pool release];
 }
 

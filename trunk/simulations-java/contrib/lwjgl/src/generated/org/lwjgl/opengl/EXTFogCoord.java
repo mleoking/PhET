@@ -41,7 +41,7 @@ public final class EXTFogCoord {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(data);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_fog_coord_glFogCoordPointerEXT_data = data;
-		nglFogCoordPointerEXT(GL11.GL_DOUBLE, stride, data, data.position() << 3, function_pointer);
+		nglFogCoordPointerEXT(GL11.GL_DOUBLE, stride, MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glFogCoordPointerEXT(int stride, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -50,9 +50,9 @@ public final class EXTFogCoord {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(data);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_fog_coord_glFogCoordPointerEXT_data = data;
-		nglFogCoordPointerEXT(GL11.GL_FLOAT, stride, data, data.position() << 2, function_pointer);
+		nglFogCoordPointerEXT(GL11.GL_FLOAT, stride, MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglFogCoordPointerEXT(int type, int stride, Buffer data, int data_position, long function_pointer);
+	static native void nglFogCoordPointerEXT(int type, int stride, long data, long function_pointer);
 	public static void glFogCoordPointerEXT(int type, int stride, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glFogCoordPointerEXT;

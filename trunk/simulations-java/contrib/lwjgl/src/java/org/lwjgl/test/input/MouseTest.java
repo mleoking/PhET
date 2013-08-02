@@ -46,8 +46,8 @@ import static org.lwjgl.util.glu.GLU.*;
  * Mouse test
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3418 $
- * $Id: MouseTest.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class MouseTest {
   /** Direction mouse has moved */
@@ -354,6 +354,10 @@ public class MouseTest {
       if(Keyboard.getEventKey() == Keyboard.KEY_SPACE && Keyboard.getEventKeyState()) {
       	Mouse.setGrabbed(!Mouse.isGrabbed());
       }
+
+      if(Keyboard.getEventKey() == Keyboard.KEY_R && Keyboard.getEventKeyState()) {
+        	Display.setResizable(!Display.isResizable());
+        }
     }
   }
 

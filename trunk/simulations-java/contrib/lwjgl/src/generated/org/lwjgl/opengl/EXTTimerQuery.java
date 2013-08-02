@@ -20,17 +20,17 @@ public final class EXTTimerQuery {
 		long function_pointer = caps.glGetQueryObjecti64vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryObjecti64vEXT(id, pname, params, params.position(), function_pointer);
+		nglGetQueryObjecti64vEXT(id, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryObjecti64vEXT(int id, int pname, LongBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryObjecti64vEXT(int id, int pname, long params, long function_pointer);
 
 	/** Overloads glGetQueryObjecti64vEXT. */
 	public static long glGetQueryObjectEXT(int id, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryObjecti64vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		LongBuffer params = APIUtil.getBufferLong();
-		nglGetQueryObjecti64vEXT(id, pname, params, params.position(), function_pointer);
+		LongBuffer params = APIUtil.getBufferLong(caps);
+		nglGetQueryObjecti64vEXT(id, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -39,17 +39,17 @@ public final class EXTTimerQuery {
 		long function_pointer = caps.glGetQueryObjectui64vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryObjectui64vEXT(id, pname, params, params.position(), function_pointer);
+		nglGetQueryObjectui64vEXT(id, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryObjectui64vEXT(int id, int pname, LongBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryObjectui64vEXT(int id, int pname, long params, long function_pointer);
 
 	/** Overloads glGetQueryObjectui64vEXT. */
 	public static long glGetQueryObjectuEXT(int id, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryObjectui64vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		LongBuffer params = APIUtil.getBufferLong();
-		nglGetQueryObjectui64vEXT(id, pname, params, params.position(), function_pointer);
+		LongBuffer params = APIUtil.getBufferLong(caps);
+		nglGetQueryObjectui64vEXT(id, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 }

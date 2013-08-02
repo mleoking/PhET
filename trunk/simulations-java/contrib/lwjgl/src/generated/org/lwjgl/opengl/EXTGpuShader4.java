@@ -23,7 +23,6 @@ public final class EXTGpuShader4 {
 		GL_SAMPLER_1D_ARRAY_SHADOW_EXT = 0x8DC3,
 		GL_SAMPLER_2D_ARRAY_SHADOW_EXT = 0x8DC4,
 		GL_SAMPLER_CUBE_SHADOW_EXT = 0x8DC5,
-		GL_UNSIGNED_INT = 0x1405,
 		GL_UNSIGNED_INT_VEC2_EXT = 0x8DC6,
 		GL_UNSIGNED_INT_VEC3_EXT = 0x8DC7,
 		GL_UNSIGNED_INT_VEC4_EXT = 0x8DC8,
@@ -122,108 +121,108 @@ public final class EXTGpuShader4 {
 		long function_pointer = caps.glVertexAttribI1ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 1);
-		nglVertexAttribI1ivEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI1ivEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI1ivEXT(int index, IntBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI1ivEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI2EXT(int index, IntBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI2ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 2);
-		nglVertexAttribI2ivEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI2ivEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI2ivEXT(int index, IntBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI2ivEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI3EXT(int index, IntBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI3ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 3);
-		nglVertexAttribI3ivEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI3ivEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI3ivEXT(int index, IntBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI3ivEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI4EXT(int index, IntBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI4ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 4);
-		nglVertexAttribI4ivEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI4ivEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI4ivEXT(int index, IntBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI4ivEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI1uEXT(int index, IntBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI1uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 1);
-		nglVertexAttribI1uivEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI1uivEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI1uivEXT(int index, IntBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI1uivEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI2uEXT(int index, IntBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI2uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 2);
-		nglVertexAttribI2uivEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI2uivEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI2uivEXT(int index, IntBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI2uivEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI3uEXT(int index, IntBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI3uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 3);
-		nglVertexAttribI3uivEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI3uivEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI3uivEXT(int index, IntBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI3uivEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI4uEXT(int index, IntBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI4uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 4);
-		nglVertexAttribI4uivEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI4uivEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI4uivEXT(int index, IntBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI4uivEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI4EXT(int index, ByteBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI4bvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 4);
-		nglVertexAttribI4bvEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI4bvEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI4bvEXT(int index, ByteBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI4bvEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI4EXT(int index, ShortBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI4svEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 4);
-		nglVertexAttribI4svEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI4svEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI4svEXT(int index, ShortBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI4svEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI4uEXT(int index, ByteBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI4ubvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 4);
-		nglVertexAttribI4ubvEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI4ubvEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI4ubvEXT(int index, ByteBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI4ubvEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribI4uEXT(int index, ShortBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribI4usvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 4);
-		nglVertexAttribI4usvEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribI4usvEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribI4usvEXT(int index, ShortBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribI4usvEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribIPointerEXT(int index, int size, int type, int stride, ByteBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -231,8 +230,8 @@ public final class EXTGpuShader4 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
-		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_gpu_shader4_glVertexAttribIPointerEXT_buffer = buffer;
-		nglVertexAttribIPointerEXT(index, size, type, stride, buffer, buffer.position(), function_pointer);
+		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
+		nglVertexAttribIPointerEXT(index, size, type, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribIPointerEXT(int index, int size, int type, int stride, IntBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -240,8 +239,8 @@ public final class EXTGpuShader4 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
-		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_gpu_shader4_glVertexAttribIPointerEXT_buffer = buffer;
-		nglVertexAttribIPointerEXT(index, size, type, stride, buffer, buffer.position() << 2, function_pointer);
+		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
+		nglVertexAttribIPointerEXT(index, size, type, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribIPointerEXT(int index, int size, int type, int stride, ShortBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -249,10 +248,10 @@ public final class EXTGpuShader4 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
-		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_gpu_shader4_glVertexAttribIPointerEXT_buffer = buffer;
-		nglVertexAttribIPointerEXT(index, size, type, stride, buffer, buffer.position() << 1, function_pointer);
+		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
+		nglVertexAttribIPointerEXT(index, size, type, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
-	static native void nglVertexAttribIPointerEXT(int index, int size, int type, int stride, Buffer buffer, int buffer_position, long function_pointer);
+	static native void nglVertexAttribIPointerEXT(int index, int size, int type, int stride, long buffer, long function_pointer);
 	public static void glVertexAttribIPointerEXT(int index, int size, int type, int stride, long buffer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribIPointerEXT;
@@ -267,18 +266,18 @@ public final class EXTGpuShader4 {
 		long function_pointer = caps.glGetVertexAttribIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribIivEXT(index, pname, params, params.position(), function_pointer);
+		nglGetVertexAttribIivEXT(index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribIivEXT(int index, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribIivEXT(int index, int pname, long params, long function_pointer);
 
 	public static void glGetVertexAttribIuEXT(int index, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexAttribIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribIuivEXT(index, pname, params, params.position(), function_pointer);
+		nglGetVertexAttribIuivEXT(index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribIuivEXT(int index, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribIuivEXT(int index, int pname, long params, long function_pointer);
 
 	public static void glUniform1uiEXT(int location, int v0) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -317,45 +316,45 @@ public final class EXTGpuShader4 {
 		long function_pointer = caps.glUniform1uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform1uivEXT(location, value.remaining(), value, value.position(), function_pointer);
+		nglUniform1uivEXT(location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform1uivEXT(int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglUniform1uivEXT(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform2uEXT(int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform2uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform2uivEXT(location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglUniform2uivEXT(location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform2uivEXT(int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglUniform2uivEXT(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform3uEXT(int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform3uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform3uivEXT(location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglUniform3uivEXT(location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform3uivEXT(int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglUniform3uivEXT(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform4uEXT(int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform4uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform4uivEXT(location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglUniform4uivEXT(location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform4uivEXT(int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglUniform4uivEXT(int location, int value_count, long value, long function_pointer);
 
 	public static void glGetUniformuEXT(int program, int location, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetUniformuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetUniformuivEXT(program, location, params, params.position(), function_pointer);
+		nglGetUniformuivEXT(program, location, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetUniformuivEXT(int program, int location, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetUniformuivEXT(int program, int location, long params, long function_pointer);
 
 	public static void glBindFragDataLocationEXT(int program, int colorNumber, ByteBuffer name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -363,16 +362,16 @@ public final class EXTGpuShader4 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkNullTerminated(name);
-		nglBindFragDataLocationEXT(program, colorNumber, name, name.position(), function_pointer);
+		nglBindFragDataLocationEXT(program, colorNumber, MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglBindFragDataLocationEXT(int program, int colorNumber, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglBindFragDataLocationEXT(int program, int colorNumber, long name, long function_pointer);
 
 	/** Overloads glBindFragDataLocationEXT. */
 	public static void glBindFragDataLocationEXT(int program, int colorNumber, CharSequence name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBindFragDataLocationEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglBindFragDataLocationEXT(program, colorNumber, APIUtil.getBufferNT(name), 0, function_pointer);
+		nglBindFragDataLocationEXT(program, colorNumber, APIUtil.getBufferNT(caps, name), function_pointer);
 	}
 
 	public static int glGetFragDataLocationEXT(int program, ByteBuffer name) {
@@ -381,17 +380,17 @@ public final class EXTGpuShader4 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkNullTerminated(name);
-		int __result = nglGetFragDataLocationEXT(program, name, name.position(), function_pointer);
+		int __result = nglGetFragDataLocationEXT(program, MemoryUtil.getAddress(name), function_pointer);
 		return __result;
 	}
-	static native int nglGetFragDataLocationEXT(int program, ByteBuffer name, int name_position, long function_pointer);
+	static native int nglGetFragDataLocationEXT(int program, long name, long function_pointer);
 
 	/** Overloads glGetFragDataLocationEXT. */
 	public static int glGetFragDataLocationEXT(int program, CharSequence name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetFragDataLocationEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nglGetFragDataLocationEXT(program, APIUtil.getBufferNT(name), 0, function_pointer);
+		int __result = nglGetFragDataLocationEXT(program, APIUtil.getBufferNT(caps, name), function_pointer);
 		return __result;
 	}
 }

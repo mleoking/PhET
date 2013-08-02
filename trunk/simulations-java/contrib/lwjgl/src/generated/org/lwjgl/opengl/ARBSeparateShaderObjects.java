@@ -44,8 +44,25 @@ public final class ARBSeparateShaderObjects {
 		GL41.glActiveShaderProgram(pipeline, program);
 	}
 
+	/**
+	 * Single null-terminated source code string. 
+	 */
+	public static int glCreateShaderProgram(int type, ByteBuffer string) {
+		return GL41.glCreateShaderProgram(type, string);
+	}
+
+	/**
+	 * Overloads glCreateShaderProgramv.
+	 * <p>
+	 * Multiple null-terminated source code strings, one after the other. 
+	 */
 	public static int glCreateShaderProgram(int type, int count, ByteBuffer strings) {
 		return GL41.glCreateShaderProgram(type, count, strings);
+	}
+
+	/** Overloads glCreateShaderProgramv. */
+	public static int glCreateShaderProgram(int type, ByteBuffer[] strings) {
+		return GL41.glCreateShaderProgram(type, strings);
 	}
 
 	/** Overloads glCreateShaderProgramv. */
@@ -93,8 +110,8 @@ public final class ARBSeparateShaderObjects {
 	}
 
 	/** Overloads glGetProgramPipelineiv. */
-	public static int glGetProgramPipeline(int pipeline, int pname) {
-		return GL41.glGetProgramPipeline(pipeline, pname);
+	public static int glGetProgramPipelinei(int pipeline, int pname) {
+		return GL41.glGetProgramPipelinei(pipeline, pname);
 	}
 
 	public static void glProgramUniform1i(int program, int location, int v0) {

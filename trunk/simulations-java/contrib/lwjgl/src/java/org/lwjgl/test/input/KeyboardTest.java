@@ -44,8 +44,8 @@ import static org.lwjgl.util.glu.GLU.*;
  * Keyboard test
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3418 $
- * $Id: KeyboardTest.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class KeyboardTest {
 
@@ -202,10 +202,7 @@ public class KeyboardTest {
 
       render();
 
-      try {
-        Thread.sleep(0);
-      } catch (Exception e) {
-      }
+      Display.sync(60);
     }
   }
 

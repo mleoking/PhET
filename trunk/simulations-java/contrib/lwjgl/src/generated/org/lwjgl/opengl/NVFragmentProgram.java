@@ -33,18 +33,18 @@ public final class NVFragmentProgram extends NVProgram {
 		long function_pointer = caps.glProgramNamedParameter4fNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
-		nglProgramNamedParameter4fNV(id, name.remaining(), name, name.position(), x, y, z, w, function_pointer);
+		nglProgramNamedParameter4fNV(id, name.remaining(), MemoryUtil.getAddress(name), x, y, z, w, function_pointer);
 	}
-	static native void nglProgramNamedParameter4fNV(int id, int name_length, ByteBuffer name, int name_position, float x, float y, float z, float w, long function_pointer);
+	static native void nglProgramNamedParameter4fNV(int id, int name_length, long name, float x, float y, float z, float w, long function_pointer);
 
 	public static void glProgramNamedParameter4dNV(int id, ByteBuffer name, double x, double y, double z, double w) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramNamedParameter4dNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
-		nglProgramNamedParameter4dNV(id, name.remaining(), name, name.position(), x, y, z, w, function_pointer);
+		nglProgramNamedParameter4dNV(id, name.remaining(), MemoryUtil.getAddress(name), x, y, z, w, function_pointer);
 	}
-	static native void nglProgramNamedParameter4dNV(int id, int name_length, ByteBuffer name, int name_position, double x, double y, double z, double w, long function_pointer);
+	static native void nglProgramNamedParameter4dNV(int id, int name_length, long name, double x, double y, double z, double w, long function_pointer);
 
 	public static void glGetProgramNamedParameterNV(int id, ByteBuffer name, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -52,9 +52,9 @@ public final class NVFragmentProgram extends NVProgram {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramNamedParameterfvNV(id, name.remaining(), name, name.position(), params, params.position(), function_pointer);
+		nglGetProgramNamedParameterfvNV(id, name.remaining(), MemoryUtil.getAddress(name), MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramNamedParameterfvNV(int id, int name_length, ByteBuffer name, int name_position, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramNamedParameterfvNV(int id, int name_length, long name, long params, long function_pointer);
 
 	public static void glGetProgramNamedParameterNV(int id, ByteBuffer name, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -62,7 +62,7 @@ public final class NVFragmentProgram extends NVProgram {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramNamedParameterdvNV(id, name.remaining(), name, name.position(), params, params.position(), function_pointer);
+		nglGetProgramNamedParameterdvNV(id, name.remaining(), MemoryUtil.getAddress(name), MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramNamedParameterdvNV(int id, int name_length, ByteBuffer name, int name_position, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramNamedParameterdvNV(int id, int name_length, long name, long params, long function_pointer);
 }

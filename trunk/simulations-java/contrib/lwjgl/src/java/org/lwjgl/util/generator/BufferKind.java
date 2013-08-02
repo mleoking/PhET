@@ -34,8 +34,8 @@ package org.lwjgl.util.generator;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3279 $
- * $Id: BufferKind.java 3279 2010-03-11 21:06:49Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 public enum BufferKind {

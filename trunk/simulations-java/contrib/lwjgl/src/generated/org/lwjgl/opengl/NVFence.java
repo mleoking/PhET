@@ -18,17 +18,17 @@ public final class NVFence {
 		long function_pointer = caps.glGenFencesNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(piFences);
-		nglGenFencesNV(piFences.remaining(), piFences, piFences.position(), function_pointer);
+		nglGenFencesNV(piFences.remaining(), MemoryUtil.getAddress(piFences), function_pointer);
 	}
-	static native void nglGenFencesNV(int piFences_n, IntBuffer piFences, int piFences_position, long function_pointer);
+	static native void nglGenFencesNV(int piFences_n, long piFences, long function_pointer);
 
 	/** Overloads glGenFencesNV. */
 	public static int glGenFencesNV() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenFencesNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer piFences = APIUtil.getBufferInt();
-		nglGenFencesNV(1, piFences, piFences.position(), function_pointer);
+		IntBuffer piFences = APIUtil.getBufferInt(caps);
+		nglGenFencesNV(1, MemoryUtil.getAddress(piFences), function_pointer);
 		return piFences.get(0);
 	}
 
@@ -37,16 +37,16 @@ public final class NVFence {
 		long function_pointer = caps.glDeleteFencesNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(piFences);
-		nglDeleteFencesNV(piFences.remaining(), piFences, piFences.position(), function_pointer);
+		nglDeleteFencesNV(piFences.remaining(), MemoryUtil.getAddress(piFences), function_pointer);
 	}
-	static native void nglDeleteFencesNV(int piFences_n, IntBuffer piFences, int piFences_position, long function_pointer);
+	static native void nglDeleteFencesNV(int piFences_n, long piFences, long function_pointer);
 
 	/** Overloads glDeleteFencesNV. */
 	public static void glDeleteFencesNV(int fence) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteFencesNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteFencesNV(1, APIUtil.getBufferInt().put(0, fence), 0, function_pointer);
+		nglDeleteFencesNV(1, APIUtil.getInt(caps, fence), function_pointer);
 	}
 
 	public static void glSetFenceNV(int fence, int condition) {
@@ -88,7 +88,7 @@ public final class NVFence {
 		long function_pointer = caps.glGetFenceivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(piParams, 4);
-		nglGetFenceivNV(fence, pname, piParams, piParams.position(), function_pointer);
+		nglGetFenceivNV(fence, pname, MemoryUtil.getAddress(piParams), function_pointer);
 	}
-	static native void nglGetFenceivNV(int fence, int pname, IntBuffer piParams, int piParams_position, long function_pointer);
+	static native void nglGetFenceivNV(int fence, int pname, long piParams, long function_pointer);
 }

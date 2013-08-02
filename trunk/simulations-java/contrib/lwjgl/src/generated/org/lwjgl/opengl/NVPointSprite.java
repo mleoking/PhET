@@ -26,7 +26,7 @@ public final class NVPointSprite {
 		long function_pointer = caps.glPointParameterivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglPointParameterivNV(pname, params, params.position(), function_pointer);
+		nglPointParameterivNV(pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglPointParameterivNV(int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglPointParameterivNV(int pname, long params, long function_pointer);
 }

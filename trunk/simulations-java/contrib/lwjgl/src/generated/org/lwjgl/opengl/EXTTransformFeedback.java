@@ -112,9 +112,9 @@ public final class EXTTransformFeedback {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(varyings);
 		BufferChecks.checkNullTerminated(varyings, count);
-		nglTransformFeedbackVaryingsEXT(program, count, varyings, varyings.position(), bufferMode, function_pointer);
+		nglTransformFeedbackVaryingsEXT(program, count, MemoryUtil.getAddress(varyings), bufferMode, function_pointer);
 	}
-	static native void nglTransformFeedbackVaryingsEXT(int program, int count, ByteBuffer varyings, int varyings_position, int bufferMode, long function_pointer);
+	static native void nglTransformFeedbackVaryingsEXT(int program, int count, long varyings, int bufferMode, long function_pointer);
 
 	/** Overloads glTransformFeedbackVaryingsEXT. */
 	public static void glTransformFeedbackVaryingsEXT(int program, CharSequence[] varyings, int bufferMode) {
@@ -122,7 +122,7 @@ public final class EXTTransformFeedback {
 		long function_pointer = caps.glTransformFeedbackVaryingsEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkArray(varyings);
-		nglTransformFeedbackVaryingsEXT(program, varyings.length, APIUtil.getBufferNT(varyings), 0, bufferMode, function_pointer);
+		nglTransformFeedbackVaryingsEXT(program, varyings.length, APIUtil.getBufferNT(caps, varyings), bufferMode, function_pointer);
 	}
 
 	public static void glGetTransformFeedbackVaryingEXT(int program, int index, IntBuffer length, IntBuffer size, IntBuffer type, ByteBuffer name) {
@@ -134,9 +134,9 @@ public final class EXTTransformFeedback {
 		BufferChecks.checkBuffer(size, 1);
 		BufferChecks.checkBuffer(type, 1);
 		BufferChecks.checkDirect(name);
-		nglGetTransformFeedbackVaryingEXT(program, index, name.remaining(), length, length != null ? length.position() : 0, size, size.position(), type, type.position(), name, name.position(), function_pointer);
+		nglGetTransformFeedbackVaryingEXT(program, index, name.remaining(), MemoryUtil.getAddressSafe(length), MemoryUtil.getAddress(size), MemoryUtil.getAddress(type), MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglGetTransformFeedbackVaryingEXT(int program, int index, int name_bufSize, IntBuffer length, int length_position, IntBuffer size, int size_position, IntBuffer type, int type_position, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglGetTransformFeedbackVaryingEXT(int program, int index, int name_bufSize, long length, long size, long type, long name, long function_pointer);
 
 	/** Overloads glGetTransformFeedbackVaryingEXT. */
 	public static String glGetTransformFeedbackVaryingEXT(int program, int index, int bufSize, IntBuffer size, IntBuffer type) {
@@ -145,10 +145,10 @@ public final class EXTTransformFeedback {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(size, 1);
 		BufferChecks.checkBuffer(type, 1);
-		IntBuffer name_length = APIUtil.getLengths();
-		ByteBuffer name = APIUtil.getBufferByte(bufSize);
-		nglGetTransformFeedbackVaryingEXT(program, index, bufSize, name_length, 0, size, size.position(), type, type.position(), name, name.position(), function_pointer);
+		IntBuffer name_length = APIUtil.getLengths(caps);
+		ByteBuffer name = APIUtil.getBufferByte(caps, bufSize);
+		nglGetTransformFeedbackVaryingEXT(program, index, bufSize, MemoryUtil.getAddress0(name_length), MemoryUtil.getAddress(size), MemoryUtil.getAddress(type), MemoryUtil.getAddress(name), function_pointer);
 		name.limit(name_length.get(0));
-		return APIUtil.getString(name);
+		return APIUtil.getString(caps, name);
 	}
 }

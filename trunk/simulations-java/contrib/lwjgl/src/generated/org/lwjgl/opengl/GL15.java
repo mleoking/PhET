@@ -88,16 +88,16 @@ public final class GL15 {
 		long function_pointer = caps.glDeleteBuffers;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(buffers);
-		nglDeleteBuffers(buffers.remaining(), buffers, buffers.position(), function_pointer);
+		nglDeleteBuffers(buffers.remaining(), MemoryUtil.getAddress(buffers), function_pointer);
 	}
-	static native void nglDeleteBuffers(int buffers_n, IntBuffer buffers, int buffers_position, long function_pointer);
+	static native void nglDeleteBuffers(int buffers_n, long buffers, long function_pointer);
 
 	/** Overloads glDeleteBuffers. */
 	public static void glDeleteBuffers(int buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteBuffers;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteBuffers(1, APIUtil.getBufferInt().put(0, buffer), 0, function_pointer);
+		nglDeleteBuffers(1, APIUtil.getInt(caps, buffer), function_pointer);
 	}
 
 	public static void glGenBuffers(IntBuffer buffers) {
@@ -105,17 +105,17 @@ public final class GL15 {
 		long function_pointer = caps.glGenBuffers;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(buffers);
-		nglGenBuffers(buffers.remaining(), buffers, buffers.position(), function_pointer);
+		nglGenBuffers(buffers.remaining(), MemoryUtil.getAddress(buffers), function_pointer);
 	}
-	static native void nglGenBuffers(int buffers_n, IntBuffer buffers, int buffers_position, long function_pointer);
+	static native void nglGenBuffers(int buffers_n, long buffers, long function_pointer);
 
 	/** Overloads glGenBuffers. */
 	public static int glGenBuffers() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenBuffers;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer buffers = APIUtil.getBufferInt();
-		nglGenBuffers(1, buffers, buffers.position(), function_pointer);
+		IntBuffer buffers = APIUtil.getBufferInt(caps);
+		nglGenBuffers(1, MemoryUtil.getAddress(buffers), function_pointer);
 		return buffers.get(0);
 	}
 
@@ -132,118 +132,118 @@ public final class GL15 {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferData;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglBufferData(target, data_size, null, 0, usage, function_pointer);
+		nglBufferData(target, data_size, 0L, usage, function_pointer);
 	}
 	public static void glBufferData(int target, ByteBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferData(target, data.remaining(), data, data.position(), usage, function_pointer);
+		nglBufferData(target, data.remaining(), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glBufferData(int target, DoubleBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferData(target, (data.remaining() << 3), data, data.position() << 3, usage, function_pointer);
+		nglBufferData(target, (data.remaining() << 3), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glBufferData(int target, FloatBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferData(target, (data.remaining() << 2), data, data.position() << 2, usage, function_pointer);
+		nglBufferData(target, (data.remaining() << 2), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glBufferData(int target, IntBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferData(target, (data.remaining() << 2), data, data.position() << 2, usage, function_pointer);
+		nglBufferData(target, (data.remaining() << 2), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glBufferData(int target, ShortBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferData(target, (data.remaining() << 1), data, data.position() << 1, usage, function_pointer);
+		nglBufferData(target, (data.remaining() << 1), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
-	static native void nglBufferData(int target, long data_size, Buffer data, int data_position, int usage, long function_pointer);
+	static native void nglBufferData(int target, long data_size, long data, int usage, long function_pointer);
 
 	public static void glBufferSubData(int target, long offset, ByteBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubData(target, offset, data.remaining(), data, data.position(), function_pointer);
+		nglBufferSubData(target, offset, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glBufferSubData(int target, long offset, DoubleBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubData(target, offset, (data.remaining() << 3), data, data.position() << 3, function_pointer);
+		nglBufferSubData(target, offset, (data.remaining() << 3), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glBufferSubData(int target, long offset, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubData(target, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglBufferSubData(target, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glBufferSubData(int target, long offset, IntBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubData(target, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglBufferSubData(target, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glBufferSubData(int target, long offset, ShortBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubData(target, offset, (data.remaining() << 1), data, data.position() << 1, function_pointer);
+		nglBufferSubData(target, offset, (data.remaining() << 1), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglBufferSubData(int target, long offset, long data_size, Buffer data, int data_position, long function_pointer);
+	static native void nglBufferSubData(int target, long offset, long data_size, long data, long function_pointer);
 
 	public static void glGetBufferSubData(int target, long offset, ByteBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubData(target, offset, data.remaining(), data, data.position(), function_pointer);
+		nglGetBufferSubData(target, offset, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetBufferSubData(int target, long offset, DoubleBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubData(target, offset, (data.remaining() << 3), data, data.position() << 3, function_pointer);
+		nglGetBufferSubData(target, offset, (data.remaining() << 3), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetBufferSubData(int target, long offset, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubData(target, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglGetBufferSubData(target, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetBufferSubData(int target, long offset, IntBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubData(target, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglGetBufferSubData(target, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetBufferSubData(int target, long offset, ShortBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubData;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubData(target, offset, (data.remaining() << 1), data, data.position() << 1, function_pointer);
+		nglGetBufferSubData(target, offset, (data.remaining() << 1), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglGetBufferSubData(int target, long offset, long data_size, Buffer data, int data_position, long function_pointer);
+	static native void nglGetBufferSubData(int target, long offset, long data_size, long data, long function_pointer);
 
 	/**
 	 *  glMapBuffer maps a GL buffer object to a ByteBuffer. The old_buffer argument can be null,
@@ -323,17 +323,27 @@ public final class GL15 {
 		long function_pointer = caps.glGetBufferParameteriv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetBufferParameteriv(target, pname, params, params.position(), function_pointer);
+		nglGetBufferParameteriv(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetBufferParameteriv(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetBufferParameteriv(int target, int pname, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetBufferParameteriv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetBufferParameteri} instead. 
+	 */
+	@Deprecated
+	public static int glGetBufferParameter(int target, int pname) {
+		return GL15.glGetBufferParameteri(target, pname);
+	}
 
 	/** Overloads glGetBufferParameteriv. */
-	public static int glGetBufferParameter(int target, int pname) {
+	public static int glGetBufferParameteri(int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferParameteriv;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetBufferParameteriv(target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetBufferParameteriv(target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -351,17 +361,17 @@ public final class GL15 {
 		long function_pointer = caps.glGenQueries;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(ids);
-		nglGenQueries(ids.remaining(), ids, ids.position(), function_pointer);
+		nglGenQueries(ids.remaining(), MemoryUtil.getAddress(ids), function_pointer);
 	}
-	static native void nglGenQueries(int ids_n, IntBuffer ids, int ids_position, long function_pointer);
+	static native void nglGenQueries(int ids_n, long ids, long function_pointer);
 
 	/** Overloads glGenQueries. */
 	public static int glGenQueries() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenQueries;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer ids = APIUtil.getBufferInt();
-		nglGenQueries(1, ids, ids.position(), function_pointer);
+		IntBuffer ids = APIUtil.getBufferInt(caps);
+		nglGenQueries(1, MemoryUtil.getAddress(ids), function_pointer);
 		return ids.get(0);
 	}
 
@@ -370,16 +380,16 @@ public final class GL15 {
 		long function_pointer = caps.glDeleteQueries;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(ids);
-		nglDeleteQueries(ids.remaining(), ids, ids.position(), function_pointer);
+		nglDeleteQueries(ids.remaining(), MemoryUtil.getAddress(ids), function_pointer);
 	}
-	static native void nglDeleteQueries(int ids_n, IntBuffer ids, int ids_position, long function_pointer);
+	static native void nglDeleteQueries(int ids_n, long ids, long function_pointer);
 
 	/** Overloads glDeleteQueries. */
 	public static void glDeleteQueries(int id) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteQueries;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteQueries(1, APIUtil.getBufferInt().put(0, id), 0, function_pointer);
+		nglDeleteQueries(1, APIUtil.getInt(caps, id), function_pointer);
 	}
 
 	public static boolean glIsQuery(int id) {
@@ -412,17 +422,27 @@ public final class GL15 {
 		long function_pointer = caps.glGetQueryiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryiv(target, pname, params, params.position(), function_pointer);
+		nglGetQueryiv(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryiv(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryiv(int target, int pname, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetQueryiv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetQueryi} instead. 
+	 */
+	@Deprecated
+	public static int glGetQuery(int target, int pname) {
+		return GL15.glGetQueryi(target, pname);
+	}
 
 	/** Overloads glGetQueryiv. */
-	public static int glGetQuery(int target, int pname) {
+	public static int glGetQueryi(int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetQueryiv(target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetQueryiv(target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -431,17 +451,17 @@ public final class GL15 {
 		long function_pointer = caps.glGetQueryObjectiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryObjectiv(id, pname, params, params.position(), function_pointer);
+		nglGetQueryObjectiv(id, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryObjectiv(int id, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryObjectiv(int id, int pname, long params, long function_pointer);
 
 	/** Overloads glGetQueryObjectiv. */
 	public static int glGetQueryObjecti(int id, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryObjectiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetQueryObjectiv(id, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetQueryObjectiv(id, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -450,17 +470,17 @@ public final class GL15 {
 		long function_pointer = caps.glGetQueryObjectuiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryObjectuiv(id, pname, params, params.position(), function_pointer);
+		nglGetQueryObjectuiv(id, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryObjectuiv(int id, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryObjectuiv(int id, int pname, long params, long function_pointer);
 
 	/** Overloads glGetQueryObjectuiv. */
 	public static int glGetQueryObjectui(int id, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryObjectuiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetQueryObjectuiv(id, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetQueryObjectuiv(id, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 }

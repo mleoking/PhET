@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * stub to use the indirection operator '&' on it.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 2983 $
- * $Id: Indirect.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 
 import java.lang.annotation.Target;

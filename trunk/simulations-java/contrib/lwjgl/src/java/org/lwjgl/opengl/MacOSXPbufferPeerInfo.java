@@ -38,12 +38,12 @@ import org.lwjgl.LWJGLException;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- * $Id: MacOSXPbufferPeerInfo.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class MacOSXPbufferPeerInfo extends MacOSXPeerInfo {
-	MacOSXPbufferPeerInfo(int width, int height, PixelFormat pixel_format) throws LWJGLException {
-		super(pixel_format, false, false, true, false);
+	MacOSXPbufferPeerInfo(int width, int height, PixelFormat pixel_format, ContextAttribs attribs) throws LWJGLException {
+		super(pixel_format, attribs, false, false, true, false);
 		nCreate(getHandle(), width, height);
 	}
 	private static native void nCreate(ByteBuffer handle, int width, int height) throws LWJGLException;

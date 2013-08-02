@@ -89,8 +89,18 @@ public final class ARBSync {
 		GL32.glGetSync(sync, pname, length, values);
 	}
 
-	/** Overloads glGetSynciv. */
+	/**
+	 * Overloads glGetSynciv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetSynci} instead. 
+	 */
+	@Deprecated
 	public static int glGetSync(GLSync sync, int pname) {
-		return GL32.glGetSync(sync, pname);
+		return GL32.glGetSynci(sync, pname);
+	}
+
+	/** Overloads glGetSynciv. */
+	public static int glGetSynci(GLSync sync, int pname) {
+		return GL32.glGetSynci(sync, pname);
 	}
 }

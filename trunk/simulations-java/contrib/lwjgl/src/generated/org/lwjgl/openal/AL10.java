@@ -11,8 +11,8 @@ import java.nio.*;
  *  AL.h version 1.0
  * <p>
  *  @author Brian Matzon <brian@matzon.dk>
- *  @version $Revision: 3412 $
- *  $Id: AL10.java 3412 2010-09-26 23:43:24Z spasi $
+ *  @version $Revision$
+ *  $Id$
  */
 public final class AL10 {
 
@@ -466,9 +466,9 @@ public final class AL10 {
 	 */
 	public static void alGetInteger(int pname, IntBuffer data) {
 		BufferChecks.checkBuffer(data, 1);
-		nalGetIntegerv(pname, data, data.position());
+		nalGetIntegerv(pname, MemoryUtil.getAddress(data));
 	}
-	static native void nalGetIntegerv(int pname, IntBuffer data, int data_position);
+	static native void nalGetIntegerv(int pname, long data);
 
 	/**
 	 *  Like OpenGL, AL uses a simplified interface for querying global state.
@@ -486,9 +486,9 @@ public final class AL10 {
 	 */
 	public static void alGetFloat(int pname, FloatBuffer data) {
 		BufferChecks.checkBuffer(data, 1);
-		nalGetFloatv(pname, data, data.position());
+		nalGetFloatv(pname, MemoryUtil.getAddress(data));
 	}
-	static native void nalGetFloatv(int pname, FloatBuffer data, int data_position);
+	static native void nalGetFloatv(int pname, long data);
 
 	/**
 	 *  Like OpenGL, AL uses a simplified interface for querying global state.
@@ -506,9 +506,9 @@ public final class AL10 {
 	 */
 	public static void alGetDouble(int pname, DoubleBuffer data) {
 		BufferChecks.checkBuffer(data, 1);
-		nalGetDoublev(pname, data, data.position());
+		nalGetDoublev(pname, MemoryUtil.getAddress(data));
 	}
-	static native void nalGetDoublev(int pname, DoubleBuffer data, int data_position);
+	static native void nalGetDoublev(int pname, long data);
 
 	/**
 	 *  The application can retrieve state information global to the current AL Context.
@@ -682,9 +682,9 @@ public final class AL10 {
 	 */
 	public static void alListener(int pname, FloatBuffer value) {
 		BufferChecks.checkBuffer(value, 1);
-		nalListenerfv(pname, value, value.position());
+		nalListenerfv(pname, MemoryUtil.getAddress(value));
 	}
-	static native void nalListenerfv(int pname, FloatBuffer value, int value_position);
+	static native void nalListenerfv(int pname, long value);
 
 	/**
 	 *  Listener attributes are changed using the Listener group of commands.
@@ -734,9 +734,9 @@ public final class AL10 {
 	 */
 	public static void alGetListener(int pname, FloatBuffer floatdata) {
 		BufferChecks.checkBuffer(floatdata, 1);
-		nalGetListenerfv(pname, floatdata, floatdata.position());
+		nalGetListenerfv(pname, MemoryUtil.getAddress(floatdata));
 	}
-	static native void nalGetListenerfv(int pname, FloatBuffer floatdata, int floatdata_position);
+	static native void nalGetListenerfv(int pname, long floatdata);
 
 	/**
 	 *  The application requests a number of Sources using GenSources.
@@ -745,9 +745,9 @@ public final class AL10 {
 	 */
 	public static void alGenSources(IntBuffer sources) {
 		BufferChecks.checkDirect(sources);
-		nalGenSources(sources.remaining(), sources, sources.position());
+		nalGenSources(sources.remaining(), MemoryUtil.getAddress(sources));
 	}
-	static native void nalGenSources(int sources_n, IntBuffer sources, int sources_position);
+	static native void nalGenSources(int sources_n, long sources);
 
 	/** Overloads alGenSources. */
 	public static int alGenSources() {
@@ -763,9 +763,9 @@ public final class AL10 {
 	 */
 	public static void alDeleteSources(IntBuffer sources) {
 		BufferChecks.checkDirect(sources);
-		nalDeleteSources(sources.remaining(), sources, sources.position());
+		nalDeleteSources(sources.remaining(), MemoryUtil.getAddress(sources));
 	}
-	static native void nalDeleteSources(int sources_n, IntBuffer sources, int sources_position);
+	static native void nalDeleteSources(int sources_n, long sources);
 
 	/** Overloads alDeleteSources. */
 	public static void alDeleteSources(int source) {
@@ -821,9 +821,9 @@ public final class AL10 {
 	 */
 	public static void alSource(int source, int pname, FloatBuffer value) {
 		BufferChecks.checkBuffer(value, 1);
-		nalSourcefv(source, pname, value, value.position());
+		nalSourcefv(source, pname, MemoryUtil.getAddress(value));
 	}
-	static native void nalSourcefv(int source, int pname, FloatBuffer value, int value_position);
+	static native void nalSourcefv(int source, int pname, long value);
 
 	/**
 	 *  Specifies the position and other properties as taken into account during
@@ -881,9 +881,9 @@ public final class AL10 {
 	 */
 	public static void alGetSource(int source, int pname, FloatBuffer floatdata) {
 		BufferChecks.checkBuffer(floatdata, 1);
-		nalGetSourcefv(source, pname, floatdata, floatdata.position());
+		nalGetSourcefv(source, pname, MemoryUtil.getAddress(floatdata));
 	}
-	static native void nalGetSourcefv(int source, int pname, FloatBuffer floatdata, int floatdata_position);
+	static native void nalGetSourcefv(int source, int pname, long floatdata);
 
 	/**
 	 *  Play() applied to an AL_INITIAL Source will promote the Source to AL_PLAYING, thus
@@ -899,9 +899,9 @@ public final class AL10 {
 	 */
 	public static void alSourcePlay(IntBuffer sources) {
 		BufferChecks.checkDirect(sources);
-		nalSourcePlayv(sources.remaining(), sources, sources.position());
+		nalSourcePlayv(sources.remaining(), MemoryUtil.getAddress(sources));
 	}
-	static native void nalSourcePlayv(int sources_n, IntBuffer sources, int sources_position);
+	static native void nalSourcePlayv(int sources_n, long sources);
 
 	/**
 	 *  Pause() applied to an AL_INITIAL Source is a legal NOP. Pause() applied to a
@@ -913,9 +913,9 @@ public final class AL10 {
 	 */
 	public static void alSourcePause(IntBuffer sources) {
 		BufferChecks.checkDirect(sources);
-		nalSourcePausev(sources.remaining(), sources, sources.position());
+		nalSourcePausev(sources.remaining(), MemoryUtil.getAddress(sources));
 	}
-	static native void nalSourcePausev(int sources_n, IntBuffer sources, int sources_position);
+	static native void nalSourcePausev(int sources_n, long sources);
 
 	/**
 	 *  Stop() applied to an AL_INITIAL Source is a legal NOP. Stop() applied to a AL_PLAYING
@@ -928,9 +928,9 @@ public final class AL10 {
 	 */
 	public static void alSourceStop(IntBuffer sources) {
 		BufferChecks.checkDirect(sources);
-		nalSourceStopv(sources.remaining(), sources, sources.position());
+		nalSourceStopv(sources.remaining(), MemoryUtil.getAddress(sources));
 	}
-	static native void nalSourceStopv(int sources_n, IntBuffer sources, int sources_position);
+	static native void nalSourceStopv(int sources_n, long sources);
 
 	/**
 	 *  Rewind() applied to an AL_INITIAL Source is a legal NOP. Rewind() applied to a
@@ -945,9 +945,9 @@ public final class AL10 {
 	 */
 	public static void alSourceRewind(IntBuffer sources) {
 		BufferChecks.checkDirect(sources);
-		nalSourceRewindv(sources.remaining(), sources, sources.position());
+		nalSourceRewindv(sources.remaining(), MemoryUtil.getAddress(sources));
 	}
-	static native void nalSourceRewindv(int sources_n, IntBuffer sources, int sources_position);
+	static native void nalSourceRewindv(int sources_n, long sources);
 
 	/**
 	 *  Play() applied to an AL_INITIAL Source will promote the Source to AL_PLAYING, thus
@@ -1016,9 +1016,9 @@ public final class AL10 {
 	 */
 	public static void alGenBuffers(IntBuffer buffers) {
 		BufferChecks.checkDirect(buffers);
-		nalGenBuffers(buffers.remaining(), buffers, buffers.position());
+		nalGenBuffers(buffers.remaining(), MemoryUtil.getAddress(buffers));
 	}
-	static native void nalGenBuffers(int buffers_n, IntBuffer buffers, int buffers_position);
+	static native void nalGenBuffers(int buffers_n, long buffers);
 
 	/** Overloads alGenBuffers. */
 	public static int alGenBuffers() {
@@ -1045,9 +1045,9 @@ public final class AL10 {
 	 */
 	public static void alDeleteBuffers(IntBuffer buffers) {
 		BufferChecks.checkDirect(buffers);
-		nalDeleteBuffers(buffers.remaining(), buffers, buffers.position());
+		nalDeleteBuffers(buffers.remaining(), MemoryUtil.getAddress(buffers));
 	}
-	static native void nalDeleteBuffers(int buffers_n, IntBuffer buffers, int buffers_position);
+	static native void nalDeleteBuffers(int buffers_n, long buffers);
 
 	/** Overloads alDeleteBuffers. */
 	public static void alDeleteBuffers(int buffer) {
@@ -1096,7 +1096,7 @@ public final class AL10 {
 	 */
 	public static void alBufferData(int buffer, int format, ByteBuffer data, int freq) {
 		BufferChecks.checkDirect(data);
-		nalBufferData(buffer, format, data, data.position(), data.remaining(), freq);
+		nalBufferData(buffer, format, MemoryUtil.getAddress(data), data.remaining(), freq);
 	}
 	/**
 	 *  <p>
@@ -1127,7 +1127,7 @@ public final class AL10 {
 	 */
 	public static void alBufferData(int buffer, int format, IntBuffer data, int freq) {
 		BufferChecks.checkDirect(data);
-		nalBufferData(buffer, format, data, data.position() << 2, (data.remaining() << 2), freq);
+		nalBufferData(buffer, format, MemoryUtil.getAddress(data), (data.remaining() << 2), freq);
 	}
 	/**
 	 *  <p>
@@ -1158,9 +1158,9 @@ public final class AL10 {
 	 */
 	public static void alBufferData(int buffer, int format, ShortBuffer data, int freq) {
 		BufferChecks.checkDirect(data);
-		nalBufferData(buffer, format, data, data.position() << 1, (data.remaining() << 1), freq);
+		nalBufferData(buffer, format, MemoryUtil.getAddress(data), (data.remaining() << 1), freq);
 	}
-	static native void nalBufferData(int buffer, int format, Buffer data, int data_position, int data_size, int freq);
+	static native void nalBufferData(int buffer, int format, long data, int data_size, int freq);
 
 	/**
 	 *  Buffer state is maintained inside the AL implementation and can be queried in full.<br>
@@ -1208,9 +1208,9 @@ public final class AL10 {
 	 */
 	public static void alSourceQueueBuffers(int source, IntBuffer buffers) {
 		BufferChecks.checkDirect(buffers);
-		nalSourceQueueBuffers(source, buffers.remaining(), buffers, buffers.position());
+		nalSourceQueueBuffers(source, buffers.remaining(), MemoryUtil.getAddress(buffers));
 	}
-	static native void nalSourceQueueBuffers(int source, int buffers_n, IntBuffer buffers, int buffers_position);
+	static native void nalSourceQueueBuffers(int source, int buffers_n, long buffers);
 
 	/** Overloads alSourceQueueBuffers. */
 	public static void alSourceQueueBuffers(int source, int buffer) {
@@ -1239,9 +1239,9 @@ public final class AL10 {
 	 */
 	public static void alSourceUnqueueBuffers(int source, IntBuffer buffers) {
 		BufferChecks.checkDirect(buffers);
-		nalSourceUnqueueBuffers(source, buffers.remaining(), buffers, buffers.position());
+		nalSourceUnqueueBuffers(source, buffers.remaining(), MemoryUtil.getAddress(buffers));
 	}
-	static native void nalSourceUnqueueBuffers(int source, int buffers_n, IntBuffer buffers, int buffers_position);
+	static native void nalSourceUnqueueBuffers(int source, int buffers_n, long buffers);
 
 	/** Overloads alSourceUnqueueBuffers. */
 	public static int alSourceUnqueueBuffers(int source) {

@@ -38,24 +38,24 @@ import java.nio.IntBuffer;
 
 /**
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- *          $Id: MacOSXContextImplementation.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ *          $Id$
  */
 final class MacOSXContextImplementation implements ContextImplementation {
 
 	public ByteBuffer create(PeerInfo peer_info, IntBuffer attribs, ByteBuffer shared_context_handle) throws LWJGLException {
 		ByteBuffer peer_handle = peer_info.lockAndGetHandle();
 		try {
-			return nCreate(peer_handle, attribs, shared_context_handle);
+			return nCreate(peer_handle, shared_context_handle);
 		} finally {
 			peer_info.unlock();
 		}
 	}
 
-	private static native ByteBuffer nCreate(ByteBuffer peer_handle, IntBuffer attribs, ByteBuffer shared_context_handle) throws LWJGLException;
+	private static native ByteBuffer nCreate(ByteBuffer peer_handle, ByteBuffer shared_context_handle) throws LWJGLException;
 
 	public void swapBuffers() throws LWJGLException {
-		Context current_context = Context.getCurrentContext();
+		ContextGL current_context = ContextGL.getCurrentContext();
 		if ( current_context == null )
 			throw new IllegalStateException("No context is current");
 		synchronized ( current_context ) {
@@ -63,6 +63,8 @@ final class MacOSXContextImplementation implements ContextImplementation {
 		}
 	}
 
+	native long getCGLShareGroup(ByteBuffer context_handle);
+	
 	private static native void nSwapBuffers(ByteBuffer context_handle) throws LWJGLException;
 
 	public void update(ByteBuffer context_handle) {
@@ -83,7 +85,7 @@ final class MacOSXContextImplementation implements ContextImplementation {
 
 	private static native void clearDrawable(ByteBuffer handle) throws LWJGLException;
 
-	static void resetView(PeerInfo peer_info, Context context) throws LWJGLException {
+	static void resetView(PeerInfo peer_info, ContextGL context) throws LWJGLException {
 		ByteBuffer peer_handle = peer_info.lockAndGetHandle();
 		try {
 			synchronized ( context ) {
@@ -117,7 +119,7 @@ final class MacOSXContextImplementation implements ContextImplementation {
 	private static native boolean nIsCurrent(ByteBuffer context_handle) throws LWJGLException;
 
 	public void setSwapInterval(int value) {
-		Context current_context = Context.getCurrentContext();
+		ContextGL current_context = ContextGL.getCurrentContext();
 		synchronized ( current_context ) {
 			nSetSwapInterval(current_context.getHandle(), value);
 		}

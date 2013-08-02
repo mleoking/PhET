@@ -35,7 +35,7 @@ package org.lwjgl.util.vector;
  * Writable interface to Vector2fs
  * @author $author$
  * @version $revision$
- * $Id: WritableVector2f.java 3418 2010-09-28 21:11:35Z spasi $
+ * $Id$
  */
 public interface WritableVector2f {
 

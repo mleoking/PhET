@@ -126,16 +126,16 @@ public final class EXTFramebufferObject {
 		long function_pointer = caps.glDeleteRenderbuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(renderbuffers);
-		nglDeleteRenderbuffersEXT(renderbuffers.remaining(), renderbuffers, renderbuffers.position(), function_pointer);
+		nglDeleteRenderbuffersEXT(renderbuffers.remaining(), MemoryUtil.getAddress(renderbuffers), function_pointer);
 	}
-	static native void nglDeleteRenderbuffersEXT(int renderbuffers_n, IntBuffer renderbuffers, int renderbuffers_position, long function_pointer);
+	static native void nglDeleteRenderbuffersEXT(int renderbuffers_n, long renderbuffers, long function_pointer);
 
 	/** Overloads glDeleteRenderbuffersEXT. */
 	public static void glDeleteRenderbuffersEXT(int renderbuffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteRenderbuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteRenderbuffersEXT(1, APIUtil.getBufferInt().put(0, renderbuffer), 0, function_pointer);
+		nglDeleteRenderbuffersEXT(1, APIUtil.getInt(caps, renderbuffer), function_pointer);
 	}
 
 	public static void glGenRenderbuffersEXT(IntBuffer renderbuffers) {
@@ -143,17 +143,17 @@ public final class EXTFramebufferObject {
 		long function_pointer = caps.glGenRenderbuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(renderbuffers);
-		nglGenRenderbuffersEXT(renderbuffers.remaining(), renderbuffers, renderbuffers.position(), function_pointer);
+		nglGenRenderbuffersEXT(renderbuffers.remaining(), MemoryUtil.getAddress(renderbuffers), function_pointer);
 	}
-	static native void nglGenRenderbuffersEXT(int renderbuffers_n, IntBuffer renderbuffers, int renderbuffers_position, long function_pointer);
+	static native void nglGenRenderbuffersEXT(int renderbuffers_n, long renderbuffers, long function_pointer);
 
 	/** Overloads glGenRenderbuffersEXT. */
 	public static int glGenRenderbuffersEXT() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenRenderbuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer renderbuffers = APIUtil.getBufferInt();
-		nglGenRenderbuffersEXT(1, renderbuffers, renderbuffers.position(), function_pointer);
+		IntBuffer renderbuffers = APIUtil.getBufferInt(caps);
+		nglGenRenderbuffersEXT(1, MemoryUtil.getAddress(renderbuffers), function_pointer);
 		return renderbuffers.get(0);
 	}
 
@@ -170,17 +170,27 @@ public final class EXTFramebufferObject {
 		long function_pointer = caps.glGetRenderbufferParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetRenderbufferParameterivEXT(target, pname, params, params.position(), function_pointer);
+		nglGetRenderbufferParameterivEXT(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetRenderbufferParameterivEXT(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetRenderbufferParameterivEXT(int target, int pname, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetRenderbufferParameterivEXT.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetRenderbufferParameteriEXT} instead. 
+	 */
+	@Deprecated
+	public static int glGetRenderbufferParameterEXT(int target, int pname) {
+		return EXTFramebufferObject.glGetRenderbufferParameteriEXT(target, pname);
+	}
 
 	/** Overloads glGetRenderbufferParameterivEXT. */
-	public static int glGetRenderbufferParameterEXT(int target, int pname) {
+	public static int glGetRenderbufferParameteriEXT(int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetRenderbufferParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetRenderbufferParameterivEXT(target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetRenderbufferParameterivEXT(target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -206,16 +216,16 @@ public final class EXTFramebufferObject {
 		long function_pointer = caps.glDeleteFramebuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(framebuffers);
-		nglDeleteFramebuffersEXT(framebuffers.remaining(), framebuffers, framebuffers.position(), function_pointer);
+		nglDeleteFramebuffersEXT(framebuffers.remaining(), MemoryUtil.getAddress(framebuffers), function_pointer);
 	}
-	static native void nglDeleteFramebuffersEXT(int framebuffers_n, IntBuffer framebuffers, int framebuffers_position, long function_pointer);
+	static native void nglDeleteFramebuffersEXT(int framebuffers_n, long framebuffers, long function_pointer);
 
 	/** Overloads glDeleteFramebuffersEXT. */
 	public static void glDeleteFramebuffersEXT(int framebuffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteFramebuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteFramebuffersEXT(1, APIUtil.getBufferInt().put(0, framebuffer), 0, function_pointer);
+		nglDeleteFramebuffersEXT(1, APIUtil.getInt(caps, framebuffer), function_pointer);
 	}
 
 	public static void glGenFramebuffersEXT(IntBuffer framebuffers) {
@@ -223,17 +233,17 @@ public final class EXTFramebufferObject {
 		long function_pointer = caps.glGenFramebuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(framebuffers);
-		nglGenFramebuffersEXT(framebuffers.remaining(), framebuffers, framebuffers.position(), function_pointer);
+		nglGenFramebuffersEXT(framebuffers.remaining(), MemoryUtil.getAddress(framebuffers), function_pointer);
 	}
-	static native void nglGenFramebuffersEXT(int framebuffers_n, IntBuffer framebuffers, int framebuffers_position, long function_pointer);
+	static native void nglGenFramebuffersEXT(int framebuffers_n, long framebuffers, long function_pointer);
 
 	/** Overloads glGenFramebuffersEXT. */
 	public static int glGenFramebuffersEXT() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenFramebuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer framebuffers = APIUtil.getBufferInt();
-		nglGenFramebuffersEXT(1, framebuffers, framebuffers.position(), function_pointer);
+		IntBuffer framebuffers = APIUtil.getBufferInt(caps);
+		nglGenFramebuffersEXT(1, MemoryUtil.getAddress(framebuffers), function_pointer);
 		return framebuffers.get(0);
 	}
 
@@ -283,17 +293,27 @@ public final class EXTFramebufferObject {
 		long function_pointer = caps.glGetFramebufferAttachmentParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetFramebufferAttachmentParameterivEXT(target, attachment, pname, params, params.position(), function_pointer);
+		nglGetFramebufferAttachmentParameterivEXT(target, attachment, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetFramebufferAttachmentParameterivEXT(int target, int attachment, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetFramebufferAttachmentParameterivEXT(int target, int attachment, int pname, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetFramebufferAttachmentParameterivEXT.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetFramebufferAttachmentParameteriEXT} instead. 
+	 */
+	@Deprecated
+	public static int glGetFramebufferAttachmentParameterEXT(int target, int attachment, int pname) {
+		return EXTFramebufferObject.glGetFramebufferAttachmentParameteriEXT(target, attachment, pname);
+	}
 
 	/** Overloads glGetFramebufferAttachmentParameterivEXT. */
-	public static int glGetFramebufferAttachmentParameterEXT(int target, int attachment, int pname) {
+	public static int glGetFramebufferAttachmentParameteriEXT(int target, int attachment, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetFramebufferAttachmentParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetFramebufferAttachmentParameterivEXT(target, attachment, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetFramebufferAttachmentParameterivEXT(target, attachment, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 

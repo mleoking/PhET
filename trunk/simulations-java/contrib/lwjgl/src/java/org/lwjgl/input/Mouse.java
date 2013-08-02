@@ -59,8 +59,8 @@ import org.lwjgl.opengl.InputImplementation;
  * @author cix_foo <cix_foo@users.sourceforge.net>
  * @author elias_naur <elias_naur@users.sourceforge.net>
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3418 $
- * $Id: Mouse.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class Mouse {
 	/** Internal use - event size in bytes */
@@ -77,6 +77,12 @@ public class Mouse {
 
 	/** Mouse absolute Y position in pixels */
 	private static int				y;
+	
+	/** Mouse absolute X position in pixels without any clipping */
+	private static int				absolute_x;
+	
+	/** Mouse absolute Y position in pixels without any clipping */
+	private static int				absolute_y;
 
 	/** Buffer to hold the deltas dx, dy and dwheel */
 	private static IntBuffer	coord_buffer;
@@ -128,6 +134,9 @@ public class Mouse {
 	/** The position of the mouse it was grabbed at */
 	private static int			grab_x;
 	private static int			grab_y;
+	/** The last absolute mouse event position (before clipping) for delta computation */
+	private static int			last_event_raw_x;
+	private static int			last_event_raw_y;
 
 	/** Buffer size in events */
 	private static final int	BUFFER_SIZE									= 50;
@@ -140,7 +149,7 @@ public class Mouse {
 	private static final boolean emulateCursorAnimation = 	LWJGLUtil.getPlatform() == LWJGLUtil.PLATFORM_WINDOWS ||
 								LWJGLUtil.getPlatform() == LWJGLUtil.PLATFORM_MACOSX;
 
-        private static final boolean allowNegativeMouseCoords = getPrivilegedBoolean("org.lwjgl.input.Mouse.allowNegativeMouseCoords");
+	private static  boolean clipMouseCoordinatesToWindow = !getPrivilegedBoolean("org.lwjgl.input.Mouse.allowNegativeMouseCoords");
 
 	/**
 	 * Mouse cannot be constructed.
@@ -187,6 +196,14 @@ public class Mouse {
 			}
 			return oldCursor;
 		}
+	}
+
+	public static boolean isClipMouseCoordinatesToWindow() {
+		return clipMouseCoordinatesToWindow;
+	}
+
+	public static void setClipMouseCoordinatesToWindow(boolean clip) {
+		clipMouseCoordinatesToWindow = clip;
 	}
 
 	/**
@@ -344,17 +361,21 @@ public class Mouse {
 				dy += poll_coord2;
 				x += poll_coord1;
 				y += poll_coord2;
+				absolute_x += poll_coord1;
+				absolute_y += poll_coord2;
 			} else {
-				dx = poll_coord1 - x;
-				dy = poll_coord2 - y;
-				x = poll_coord1;
-				y = poll_coord2;
+				dx = poll_coord1 - absolute_x;
+				dy = poll_coord2 - absolute_y;
+				absolute_x = x = poll_coord1;
+				absolute_y = y = poll_coord2;
 			}
-                        if(!allowNegativeMouseCoords) {
-                            x = Math.min(implementation.getWidth() - 1, Math.max(0, x));
-                            y = Math.min(implementation.getHeight() - 1, Math.max(0, y));
-                        }
-                        dwheel += poll_dwheel;
+                        
+			if(clipMouseCoordinatesToWindow) {
+				x = Math.min(Display.getWidth() - 1, Math.max(0, x));
+				y = Math.min(Display.getHeight() - 1, Math.max(0, y));
+			}
+			
+			dwheel += poll_dwheel;
 			read();
 		}
 	}
@@ -412,8 +433,8 @@ public class Mouse {
 	/**
 	 * Gets the next mouse event. You can query which button caused the event by using
 	 * <code>getEventButton()</code> (if any). To get the state of that key, for that event, use
-	 * <code>getEventButtonState</code>. To get the current mouse delta values use <code>getEventDX()</code>,
-	 * <code>getEventDY()</code> and <code>getEventDZ()</code>.
+	 * <code>getEventButtonState</code>. To get the current mouse delta values use <code>getEventDX()</code>
+	 * and <code>getEventDY()</code>.
 	 * @see org.lwjgl.input.Mouse#getEventButton()
 	 * @see org.lwjgl.input.Mouse#getEventButtonState()
 	 * @return true if a mouse event was read, false otherwise
@@ -429,16 +450,22 @@ public class Mouse {
 					event_dy = readBuffer.getInt();
 					event_x += event_dx;
 					event_y += event_dy;
+					last_event_raw_x = event_x;
+					last_event_raw_y = event_y;
 				} else {
 					int new_event_x = readBuffer.getInt();
 					int new_event_y = readBuffer.getInt();
-					event_dx = new_event_x - event_x;
-					event_dy = new_event_y - event_y;
+					event_dx = new_event_x - last_event_raw_x;
+					event_dy = new_event_y - last_event_raw_y;
 					event_x = new_event_x;
 					event_y = new_event_y;
+					last_event_raw_x = new_event_x;
+					last_event_raw_y = new_event_y;
 				}
-				event_x = Math.min(implementation.getWidth() - 1, Math.max(0, event_x));
-				event_y = Math.min(implementation.getHeight() - 1, Math.max(0, event_y));
+				if(clipMouseCoordinatesToWindow) {
+					event_x = Math.min(Display.getWidth() - 1, Math.max(0, event_x));
+					event_y = Math.min(Display.getHeight() - 1, Math.max(0, event_y));
+				}
 				event_dwheel = readBuffer.getInt();
 				event_nanos = readBuffer.getLong();
 				return true;
@@ -638,6 +665,8 @@ public class Mouse {
 				poll();
 				event_x = x;
 				event_y = y;
+				last_event_raw_x = x;
+				last_event_raw_y = y;
 				resetMouse();
 			}
 		}

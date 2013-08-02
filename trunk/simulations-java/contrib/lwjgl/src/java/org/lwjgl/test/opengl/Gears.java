@@ -53,8 +53,8 @@ import static org.lwjgl.opengl.GL11.*;
  * This is the OpenGL "standard" Gears demo, originally by Brian Paul
  * </p>
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3418 $
- * $Id: Gears.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class Gears {
 

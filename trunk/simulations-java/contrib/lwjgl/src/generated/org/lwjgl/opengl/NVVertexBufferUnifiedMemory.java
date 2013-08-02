@@ -147,17 +147,17 @@ public final class NVVertexBufferUnifiedMemory {
 		long function_pointer = caps.glGetIntegerui64i_vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(result, 1);
-		nglGetIntegerui64i_vNV(value, index, result, result.position(), function_pointer);
+		nglGetIntegerui64i_vNV(value, index, MemoryUtil.getAddress(result), function_pointer);
 	}
-	static native void nglGetIntegerui64i_vNV(int value, int index, LongBuffer result, int result_position, long function_pointer);
+	static native void nglGetIntegerui64i_vNV(int value, int index, long result, long function_pointer);
 
 	/** Overloads glGetIntegerui64i_vNV. */
-	public static long glGetIntegeruNV(int value, int index) {
+	public static long glGetIntegerui64NV(int value, int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetIntegerui64i_vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		LongBuffer result = APIUtil.getBufferLong();
-		nglGetIntegerui64i_vNV(value, index, result, result.position(), function_pointer);
+		LongBuffer result = APIUtil.getBufferLong(caps);
+		nglGetIntegerui64i_vNV(value, index, MemoryUtil.getAddress(result), function_pointer);
 		return result.get(0);
 	}
 }

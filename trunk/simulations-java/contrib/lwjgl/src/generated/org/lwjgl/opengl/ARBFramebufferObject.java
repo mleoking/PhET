@@ -203,9 +203,19 @@ public final class ARBFramebufferObject {
 		GL30.glGetRenderbufferParameter(target, pname, params);
 	}
 
-	/** Overloads glGetRenderbufferParameteriv. */
+	/**
+	 * Overloads glGetRenderbufferParameteriv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetRenderbufferParameteri} instead. 
+	 */
+	@Deprecated
 	public static int glGetRenderbufferParameter(int target, int pname) {
-		return GL30.glGetRenderbufferParameter(target, pname);
+		return ARBFramebufferObject.glGetRenderbufferParameteri(target, pname);
+	}
+
+	/** Overloads glGetRenderbufferParameteriv. */
+	public static int glGetRenderbufferParameteri(int target, int pname) {
+		return GL30.glGetRenderbufferParameteri(target, pname);
 	}
 
 	public static boolean glIsFramebuffer(int framebuffer) {
@@ -262,9 +272,19 @@ public final class ARBFramebufferObject {
 		GL30.glGetFramebufferAttachmentParameter(target, attachment, pname, params);
 	}
 
-	/** Overloads glGetFramebufferAttachmentParameteriv. */
+	/**
+	 * Overloads glGetFramebufferAttachmentParameteriv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetFramebufferAttachmentParameteri} instead. 
+	 */
+	@Deprecated
 	public static int glGetFramebufferAttachmentParameter(int target, int attachment, int pname) {
-		return GL30.glGetFramebufferAttachmentParameter(target, attachment, pname);
+		return GL30.glGetFramebufferAttachmentParameteri(target, attachment, pname);
+	}
+
+	/** Overloads glGetFramebufferAttachmentParameteriv. */
+	public static int glGetFramebufferAttachmentParameteri(int target, int attachment, int pname) {
+		return GL30.glGetFramebufferAttachmentParameteri(target, attachment, pname);
 	}
 
 	public static void glBlitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, int mask, int filter) {

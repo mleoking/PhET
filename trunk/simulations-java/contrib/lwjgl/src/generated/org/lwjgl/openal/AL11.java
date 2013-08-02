@@ -86,9 +86,9 @@ public final class AL11 {
 	 */
 	public static void alGetListeneri(int pname, FloatBuffer intdata) {
 		BufferChecks.checkBuffer(intdata, 1);
-		nalGetListeneriv(pname, intdata, intdata.position());
+		nalGetListeneriv(pname, MemoryUtil.getAddress(intdata));
 	}
-	static native void nalGetListeneriv(int pname, FloatBuffer intdata, int intdata_position);
+	static native void nalGetListeneriv(int pname, long intdata);
 
 	/**
 	 *  Specifies the position and other properties as taken into account during
@@ -115,9 +115,9 @@ public final class AL11 {
 	 */
 	public static void alSource(int source, int pname, IntBuffer value) {
 		BufferChecks.checkBuffer(value, 1);
-		nalSourceiv(source, pname, value, value.position());
+		nalSourceiv(source, pname, MemoryUtil.getAddress(value));
 	}
-	static native void nalSourceiv(int source, int pname, IntBuffer value, int value_position);
+	static native void nalSourceiv(int source, int pname, long value);
 
 	/**
 	 *  This function sets a floating point property of a buffer.
@@ -160,9 +160,9 @@ public final class AL11 {
 	 */
 	public static void alBuffer(int buffer, int pname, FloatBuffer value) {
 		BufferChecks.checkBuffer(value, 1);
-		nalBufferfv(buffer, pname, value, value.position());
+		nalBufferfv(buffer, pname, MemoryUtil.getAddress(value));
 	}
-	static native void nalBufferfv(int buffer, int pname, FloatBuffer value, int value_position);
+	static native void nalBufferfv(int buffer, int pname, long value);
 
 	/**
 	 *  This function sets an integer property of a buffer.
@@ -205,9 +205,9 @@ public final class AL11 {
 	 */
 	public static void alBuffer(int buffer, int pname, IntBuffer value) {
 		BufferChecks.checkBuffer(value, 1);
-		nalBufferiv(buffer, pname, value, value.position());
+		nalBufferiv(buffer, pname, MemoryUtil.getAddress(value));
 	}
-	static native void nalBufferiv(int buffer, int pname, IntBuffer value, int value_position);
+	static native void nalBufferiv(int buffer, int pname, long value);
 
 	/**
 	 *  This function retrieves an integer property of a buffer.
@@ -232,9 +232,9 @@ public final class AL11 {
 	 */
 	public static void alGetBuffer(int buffer, int pname, IntBuffer values) {
 		BufferChecks.checkBuffer(values, 1);
-		nalGetBufferiv(buffer, pname, values, values.position());
+		nalGetBufferiv(buffer, pname, MemoryUtil.getAddress(values));
 	}
-	static native void nalGetBufferiv(int buffer, int pname, IntBuffer values, int values_position);
+	static native void nalGetBufferiv(int buffer, int pname, long values);
 
 	/**
 	 *  This function retrieves a floating point property of a buffer.
@@ -261,9 +261,9 @@ public final class AL11 {
 	 */
 	public static void alGetBuffer(int buffer, int pname, FloatBuffer values) {
 		BufferChecks.checkBuffer(values, 1);
-		nalGetBufferfv(buffer, pname, values, values.position());
+		nalGetBufferfv(buffer, pname, MemoryUtil.getAddress(values));
 	}
-	static native void nalGetBufferfv(int buffer, int pname, FloatBuffer values, int values_position);
+	static native void nalGetBufferfv(int buffer, int pname, long values);
 
 	/**
 	 *  <p>

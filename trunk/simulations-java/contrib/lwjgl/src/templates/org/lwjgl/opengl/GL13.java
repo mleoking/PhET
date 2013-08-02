@@ -41,8 +41,8 @@ import java.nio.*;
  * The core OpenGL1.3 API.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3460 $
- * $Id: GL13.java 3460 2010-11-29 18:25:28Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 @DeprecatedGL
 public interface GL13 {
@@ -253,6 +253,6 @@ public interface GL13 {
 	@DeprecatedGL
 	void glMultTransposeMatrixd(@Check("16") @Const DoubleBuffer m);
 
-	void glSampleCoverage(@GLclampf float value, boolean invert);
+	void glSampleCoverage(float value, boolean invert);
 }
 

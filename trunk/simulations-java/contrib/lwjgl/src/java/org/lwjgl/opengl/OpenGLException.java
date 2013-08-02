@@ -36,8 +36,8 @@ package org.lwjgl.opengl;
  * Thrown by the debug build library of the LWJGL if any OpenGL operation causes an error.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 2983 $
- * $Id: OpenGLException.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class OpenGLException extends RuntimeException {
 

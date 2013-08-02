@@ -31,6 +31,7 @@
  */
 package org.lwjgl;
 
+import java.nio.ByteBuffer;
 import java.security.PrivilegedExceptionAction;
 import java.security.PrivilegedActionException;
 import java.security.AccessController;
@@ -40,12 +41,12 @@ import org.lwjgl.opengl.Display;
 
 /**
  * <p>
- * @author $Author: spasi $
- * @version $Revision: 3418 $
- * $Id: WindowsSysImplementation.java 3418 2010-09-28 21:11:35Z spasi $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 final class WindowsSysImplementation extends DefaultSysImplementation {
-	private static final int JNI_VERSION = 23;
+	private static final int JNI_VERSION = 24;
 
 	static {
 		Sys.initialize();
@@ -95,9 +96,14 @@ final class WindowsSysImplementation extends DefaultSysImplementation {
 		if(!Display.isCreated()) {
 			initCommonControls();
 		}
-		nAlert(getHwnd(), title, message);
+
+		LWJGLUtil.log(String.format("*** Alert *** %s\n%s\n", title, message));
+
+		final ByteBuffer titleText = MemoryUtil.encodeUTF16(title);
+		final ByteBuffer messageText = MemoryUtil.encodeUTF16(message);
+		nAlert(getHwnd(), MemoryUtil.getAddress(titleText), MemoryUtil.getAddress(messageText));
 	}
-	private static native void nAlert(long parent_hwnd, String title, String message);
+	private static native void nAlert(long parent_hwnd, long title, long message);
 	private static native void initCommonControls();
 
 	public boolean openURL(final String url) {

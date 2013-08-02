@@ -33,9 +33,9 @@ package org.lwjgl.util;
 
 /**
  * Write interface for Rectangles
- * @author $Author: spasi $
- * @version $Revision: 3418 $
- * $Id: WritableRectangle.java 3418 2010-09-28 21:11:35Z spasi $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 public interface WritableRectangle extends WritablePoint, WritableDimension {
 

@@ -31,10 +31,10 @@
  */
 
 /**
- * $Id: common_tools.h 3412 2010-09-26 23:43:24Z spasi $
+ * $Id$
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
+ * @version $Revision$
  */
 
 #ifndef _COMMON_TOOLS_H
@@ -75,18 +75,18 @@ static inline void * safeGetBufferAddress(JNIEnv *env, jobject buffer) {
 		return NULL;
 }
 
-static inline jobject safeNewBuffer(JNIEnv *env, void *p, int size) {
+static inline jobject safeNewBuffer(JNIEnv *env, void *p, jlong capacity) {
 	if (p != NULL) {
 #ifdef __cplusplus
-		return env->NewDirectByteBuffer(p, size);
+		return env->NewDirectByteBuffer(p, capacity);
 #else
-		return (*env)->NewDirectByteBuffer(env, p, size);
+		return (*env)->NewDirectByteBuffer(env, p, capacity);
 #endif
 	} else
 		return NULL;
 }
 
-static inline jobject safeNewBufferCached(JNIEnv *env, void *p, int size, jobject old_buffer) {
+static inline jobject safeNewBufferCached(JNIEnv *env, void *p, jlong size, jobject old_buffer) {
 	if (old_buffer != NULL) {
 		void *old_buffer_address = (*env)->GetDirectBufferAddress(env, old_buffer);
 		jlong capacity = (*env)->GetDirectBufferCapacity(env, old_buffer);
@@ -109,6 +109,7 @@ typedef struct {
 
 	char *ext_function_name;
 	void **ext_function_pointer;
+	bool optional;
 } JavaMethodAndExtFunction;
 
 typedef struct {
@@ -140,7 +141,7 @@ extern void printfDebugJava(JNIEnv *env, const char *format, ...);
 extern void printfDebug(const char *format, ...);
 extern bool getBooleanProperty(JNIEnv *env, const char* propertyName);
 extern char * GetStringNativeChars(JNIEnv *env, jstring jstr);
-extern jstring NewStringNativeWithLength(JNIEnv *env, const char *str, int length);
+extern jstring NewStringNativeWithLength(JNIEnv *env, const char *str, jsize length);
 extern jstring NewStringNativeUnsigned(JNIEnv *env, const unsigned char *str);
 extern jobject NewReadOnlyDirectByteBuffer(JNIEnv* env, const void* address, jlong capacity);
 extern jobject newJavaManagedByteBuffer(JNIEnv *env, const int size);

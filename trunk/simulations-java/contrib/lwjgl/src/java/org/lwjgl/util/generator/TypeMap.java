@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * The interface to the OpenAL/OpenGL specific generator behaviour
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
- * $Id: TypeMap.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import com.sun.mirror.declaration.*;
@@ -50,6 +50,7 @@ import java.lang.annotation.Annotation;
 public interface TypeMap {
 	void printCapabilitiesInit(PrintWriter writer);
 	String getCapabilities();
+	String getAPIUtilParam(boolean comma);
 	void printErrorCheckMethod(PrintWriter writer, MethodDeclaration method, String tabs);
 	String getRegisterNativesFunctionName();
 	PrimitiveType.Kind getPrimitiveTypeFromNativeType(Class<? extends Annotation> native_type);

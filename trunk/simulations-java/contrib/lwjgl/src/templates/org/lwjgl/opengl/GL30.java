@@ -204,7 +204,7 @@ public interface GL30 {
 	void glVertexAttribI4usv(@GLuint int index, @Check("4") @Const @GLushort ShortBuffer v);
 
 	void glVertexAttribIPointer(@GLuint int index, int size, @GLenum int type, @GLsizei int stride,
-	                            @CachedReference
+	                            @CachedReference(index = "index", name = "glVertexAttribPointer_buffer")
 	                            @BufferObject(BufferKind.ArrayVBO)
 	                            @Check
 	                            @Const
@@ -319,7 +319,7 @@ public interface GL30 {
 	void glClampColor(@GLenum int target, @GLenum int clamp);
 
 	// ----------------------------------------------------------------------
-	// ----------------------[ NV_depth_buffer_float ]----------------------
+	// ----------------------[ ARB_depth_buffer_float ]----------------------
 	// ----------------------------------------------------------------------
 
 	/**
@@ -328,8 +328,8 @@ public interface GL30 {
 	 * and returned in the &lt;data&gt; parameter of GetTexLevelParameter and
 	 * GetRenderbufferParameterivEXT:
 	 */
-	int GL_DEPTH_COMPONENT32F = 0x8DAB;
-	int GL_DEPTH32F_STENCIL8 = 0x8DAC;
+	int GL_DEPTH_COMPONENT32F = 0x8CAC;
+	int GL_DEPTH32F_STENCIL8 = 0x8CAD;
 
 	/**
 	 * Accepted by the &lt;type&gt; parameter of DrawPixels, ReadPixels, TexImage1D,
@@ -528,7 +528,7 @@ public interface GL30 {
 	void glDeleteRenderbuffers(@AutoSize("renderbuffers") int n, @Const @GLuint IntBuffer renderbuffers);
 
 	@Alternate("glDeleteRenderbuffers")
-	void glDeleteRenderbuffers(@Constant("1") int n, @Constant(value = "APIUtil.getBufferInt().put(0, renderbuffer), 0", keepParam = true) int renderbuffer);
+	void glDeleteRenderbuffers(@Constant("1") int n, @Constant(value = "APIUtil.getInt(caps, renderbuffer)", keepParam = true) int renderbuffer);
 
 	void glGenRenderbuffers(@AutoSize("renderbuffers") int n, @OutParameter @GLuint IntBuffer renderbuffers);
 
@@ -541,10 +541,18 @@ public interface GL30 {
 	@StripPostfix("params")
 	void glGetRenderbufferParameteriv(@GLenum int target, @GLenum int pname, @OutParameter @Check("4") IntBuffer params);
 
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetRenderbufferParameteri} instead. */
 	@Alternate("glGetRenderbufferParameteriv")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "GL30", method = "glGetRenderbufferParameteri")
+	@Deprecated
 	void glGetRenderbufferParameteriv2(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
+
+	@Alternate("glGetRenderbufferParameteriv")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetRenderbufferParameteriv3(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
 
 	boolean glIsFramebuffer(@GLuint int framebuffer);
 
@@ -553,7 +561,7 @@ public interface GL30 {
 	void glDeleteFramebuffers(@AutoSize("framebuffers") int n, @Const @GLuint IntBuffer framebuffers);
 
 	@Alternate("glDeleteFramebuffers")
-	void glDeleteFramebuffers(@Constant("1") int n, @Constant(value = "APIUtil.getBufferInt().put(0, framebuffer), 0", keepParam = true) int framebuffer);
+	void glDeleteFramebuffers(@Constant("1") int n, @Constant(value = "APIUtil.getInt(caps, framebuffer)", keepParam = true) int framebuffer);
 
 	void glGenFramebuffers(@AutoSize("framebuffers") int n, @OutParameter @GLuint IntBuffer framebuffers);
 
@@ -575,10 +583,18 @@ public interface GL30 {
 	@StripPostfix("params")
 	void glGetFramebufferAttachmentParameteriv(@GLenum int target, @GLenum int attachment, @GLenum int pname, @OutParameter @Check("4") IntBuffer params);
 
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetFramebufferAttachmentParameteri} instead. */
 	@Alternate("glGetFramebufferAttachmentParameteriv")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "GL30", method = "glGetFramebufferAttachmentParameteri")
+	@Deprecated
 	void glGetFramebufferAttachmentParameteriv2(@GLenum int target, @GLenum int attachment, @GLenum int pname, @OutParameter IntBuffer params);
+
+	@Alternate("glGetFramebufferAttachmentParameteriv")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetFramebufferAttachmentParameteriv3(@GLenum int target, @GLenum int attachment, @GLenum int pname, @OutParameter IntBuffer params);
 
 	void glGenerateMipmap(@GLenum int target);
 
@@ -712,14 +728,14 @@ public interface GL30 {
 
 	@Alternate("glTexParameterIiv")
 	@StripPostfix(value = "param", postfix = "v")
-	void glTexParameterIiv(@GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getBufferInt().put(0, param), 0", keepParam = true) int param);
+	void glTexParameterIiv(@GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getInt(caps, param)", keepParam = true) int param);
 
 	@StripPostfix("params")
 	void glTexParameterIuiv(@GLenum int target, @GLenum int pname, @Check("4") @GLuint IntBuffer params);
 
 	@Alternate("glTexParameterIuiv")
 	@StripPostfix(value = "param", postfix = "v")
-	void glTexParameterIuiv(@GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getBufferInt().put(0, param), 0", keepParam = true) int param);
+	void glTexParameterIuiv(@GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getInt(caps, param)", keepParam = true) int param);
 
 	@StripPostfix("params")
 	void glGetTexParameterIiv(@GLenum int target, @GLenum int pname, @OutParameter @Check("4") IntBuffer params);
@@ -860,10 +876,10 @@ public interface GL30 {
 	 * CopyTexImage2D, and CompressedTexImage2D and the &lt;format&gt; parameter
 	 * of CompressedTexSubImage2D:
 	 */
-	int GL_COMPRESSED_RED_RGTC1 = 0x8DBB;
-	int GL_COMPRESSED_SIGNED_RED_RGTC1 = 0x8DBC;
-	int GL_COMPRESSED_RED_GREEN_RGTC2 = 0x8DBD;
-	int GL_COMPRESSED_SIGNED_RED_GREEN_RGTC2 = 0x8DBE;
+	int GL_COMPRESSED_RED_RGTC1        = 0x8DBB,
+		GL_COMPRESSED_SIGNED_RED_RGTC1 = 0x8DBC,
+		GL_COMPRESSED_RG_RGTC2         = 0x8DBD,
+		GL_COMPRESSED_SIGNED_RG_RGTC2  = 0x8DBE;
 
 	// --------------------------------------------------------------
 	// ----------------------[ ARB_texture_rg ]----------------------
@@ -906,12 +922,6 @@ public interface GL30 {
 	 */
 	int GL_RG = 0x8227;
 	int GL_RG_INTEGER = 0x8228;
-
-	/**
-	 * Accepted by the &lt;param&gt; parameter of the TexParameter{if}*
-	 * functions when &lt;pname&gt; is DEPTH_TEXTURE_MODE:
-	 */
-	int GL_RED = 0x1903;
 
 	// ----------------------------------------------------------------------
 	// ----------------------[ EXT_transform_feedback ]----------------------
@@ -996,7 +1006,7 @@ public interface GL30 {
 	@Alternate("glGetTransformFeedbackVarying")
 	@GLreturn(value = "name", maxLength = "bufSize")
 	void glGetTransformFeedbackVarying2(@GLuint int program, @GLuint int index, @GLsizei int bufSize,
-	                                    @OutParameter @GLsizei @Constant("name_length, 0") IntBuffer length,
+	                                    @OutParameter @GLsizei @Constant("MemoryUtil.getAddress0(name_length)") IntBuffer length,
 	                                    @OutParameter @GLsizei @Check("1") IntBuffer size,
 	                                    @OutParameter @GLenum @Check("1") IntBuffer type,
 	                                    @OutParameter @GLchar ByteBuffer name);
@@ -1019,7 +1029,7 @@ public interface GL30 {
 
 	@Alternate("glDeleteVertexArrays")
 	@Code("		StateTracker.deleteVAO(caps, array);")
-	void glDeleteVertexArrays(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, array), 0", keepParam = true) int array);
+	void glDeleteVertexArrays(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, array)", keepParam = true) int array);
 
 	void glGenVertexArrays(@AutoSize("arrays") @GLsizei int n, @OutParameter @GLuint IntBuffer arrays);
 

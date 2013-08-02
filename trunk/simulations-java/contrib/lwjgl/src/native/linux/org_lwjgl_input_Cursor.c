@@ -31,12 +31,12 @@
  */
  
 /**
- * $Id: org_lwjgl_input_Cursor.c 2985 2008-04-07 18:42:36Z matzon $
+ * $Id$
  *
  * Linux cursor handling.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 2985 $
+ * @version $Revision$
  */
 
 #include <X11/X.h>

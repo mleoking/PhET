@@ -57,17 +57,17 @@ public final class APPLEObjectPurgeable {
 		long function_pointer = caps.glGetObjectParameterivAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetObjectParameterivAPPLE(objectType, name, pname, params, params.position(), function_pointer);
+		nglGetObjectParameterivAPPLE(objectType, name, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetObjectParameterivAPPLE(int objectType, int name, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetObjectParameterivAPPLE(int objectType, int name, int pname, long params, long function_pointer);
 
 	/** Overloads glGetObjectParameterivAPPLE. */
-	public static int glGetObjectParameterAPPLE(int objectType, int name, int pname) {
+	public static int glGetObjectParameteriAPPLE(int objectType, int name, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetObjectParameterivAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetObjectParameterivAPPLE(objectType, name, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetObjectParameterivAPPLE(objectType, name, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 }

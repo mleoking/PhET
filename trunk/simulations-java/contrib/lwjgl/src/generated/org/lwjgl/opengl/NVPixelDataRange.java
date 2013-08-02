@@ -35,37 +35,37 @@ public final class NVPixelDataRange {
 		long function_pointer = caps.glPixelDataRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglPixelDataRangeNV(target, data.remaining(), data, data.position(), function_pointer);
+		nglPixelDataRangeNV(target, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glPixelDataRangeNV(int target, DoubleBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glPixelDataRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglPixelDataRangeNV(target, (data.remaining() << 3), data, data.position() << 3, function_pointer);
+		nglPixelDataRangeNV(target, (data.remaining() << 3), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glPixelDataRangeNV(int target, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glPixelDataRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglPixelDataRangeNV(target, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglPixelDataRangeNV(target, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glPixelDataRangeNV(int target, IntBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glPixelDataRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglPixelDataRangeNV(target, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglPixelDataRangeNV(target, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glPixelDataRangeNV(int target, ShortBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glPixelDataRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglPixelDataRangeNV(target, (data.remaining() << 1), data, data.position() << 1, function_pointer);
+		nglPixelDataRangeNV(target, (data.remaining() << 1), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglPixelDataRangeNV(int target, int data_length, Buffer data, int data_position, long function_pointer);
+	static native void nglPixelDataRangeNV(int target, int data_length, long data, long function_pointer);
 
 	public static void glFlushPixelDataRangeNV(int target) {
 		ContextCapabilities caps = GLContext.getCapabilities();

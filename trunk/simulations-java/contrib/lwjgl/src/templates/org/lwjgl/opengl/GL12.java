@@ -41,8 +41,8 @@ import java.nio.Buffer;
  * The core OpenGL1.2.1 API, with the imaging subset.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3412 $
- *          $Id: GL12.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ *          $Id$
  */
 
 public interface GL12 {

@@ -70,9 +70,9 @@ public final class NVExplicitMultisample {
 		long function_pointer = caps.glGetMultisamplefvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(val, 2);
-		nglGetMultisamplefvNV(pname, index, val, val.position(), function_pointer);
+		nglGetMultisamplefvNV(pname, index, MemoryUtil.getAddress(val), function_pointer);
 	}
-	static native void nglGetMultisamplefvNV(int pname, int index, FloatBuffer val, int val_position, long function_pointer);
+	static native void nglGetMultisamplefvNV(int pname, int index, long val, long function_pointer);
 
 	public static void glSampleMaskIndexedNV(int index, int mask) {
 		ContextCapabilities caps = GLContext.getCapabilities();

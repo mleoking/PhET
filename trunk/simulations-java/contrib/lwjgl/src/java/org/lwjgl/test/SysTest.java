@@ -41,8 +41,8 @@ import org.lwjgl.opengl.Display;
  * Test class for Sys
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: SysTest.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class SysTest {
   

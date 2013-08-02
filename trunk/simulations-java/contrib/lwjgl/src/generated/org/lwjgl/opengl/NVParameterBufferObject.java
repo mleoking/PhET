@@ -30,25 +30,25 @@ public final class NVParameterBufferObject {
 		long function_pointer = caps.glProgramBufferParametersfvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramBufferParametersfvNV(target, buffer, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramBufferParametersfvNV(target, buffer, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramBufferParametersfvNV(int target, int buffer, int index, int params_count, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglProgramBufferParametersfvNV(int target, int buffer, int index, int params_count, long params, long function_pointer);
 
 	public static void glProgramBufferParametersINV(int target, int buffer, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramBufferParametersIivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramBufferParametersIivNV(target, buffer, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramBufferParametersIivNV(target, buffer, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramBufferParametersIivNV(int target, int buffer, int index, int params_count, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramBufferParametersIivNV(int target, int buffer, int index, int params_count, long params, long function_pointer);
 
 	public static void glProgramBufferParametersIuNV(int target, int buffer, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramBufferParametersIuivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglProgramBufferParametersIuivNV(target, buffer, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglProgramBufferParametersIuivNV(target, buffer, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramBufferParametersIuivNV(int target, int buffer, int index, int params_count, IntBuffer params, int params_position, long function_pointer);
+	static native void nglProgramBufferParametersIuivNV(int target, int buffer, int index, int params_count, long params, long function_pointer);
 }

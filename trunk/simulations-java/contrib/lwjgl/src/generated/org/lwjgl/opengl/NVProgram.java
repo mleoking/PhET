@@ -36,16 +36,16 @@ public class NVProgram {
 		long function_pointer = caps.glLoadProgramNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(string);
-		nglLoadProgramNV(target, programID, string.remaining(), string, string.position(), function_pointer);
+		nglLoadProgramNV(target, programID, string.remaining(), MemoryUtil.getAddress(string), function_pointer);
 	}
-	static native void nglLoadProgramNV(int target, int programID, int string_length, Buffer string, int string_position, long function_pointer);
+	static native void nglLoadProgramNV(int target, int programID, int string_length, long string, long function_pointer);
 
 	/** Overloads glLoadProgramNV. */
 	public static void glLoadProgramNV(int target, int programID, CharSequence string) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glLoadProgramNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglLoadProgramNV(target, programID, string.length(), APIUtil.getBuffer(string), 0, function_pointer);
+		nglLoadProgramNV(target, programID, string.length(), APIUtil.getBuffer(caps, string), function_pointer);
 	}
 
 	public static void glBindProgramNV(int target, int programID) {
@@ -61,16 +61,16 @@ public class NVProgram {
 		long function_pointer = caps.glDeleteProgramsNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(programs);
-		nglDeleteProgramsNV(programs.remaining(), programs, programs.position(), function_pointer);
+		nglDeleteProgramsNV(programs.remaining(), MemoryUtil.getAddress(programs), function_pointer);
 	}
-	static native void nglDeleteProgramsNV(int programs_n, IntBuffer programs, int programs_position, long function_pointer);
+	static native void nglDeleteProgramsNV(int programs_n, long programs, long function_pointer);
 
 	/** Overloads glDeleteProgramsNV. */
 	public static void glDeleteProgramsNV(int program) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteProgramsNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteProgramsNV(1, APIUtil.getBufferInt().put(0, program), 0, function_pointer);
+		nglDeleteProgramsNV(1, APIUtil.getInt(caps, program), function_pointer);
 	}
 
 	public static void glGenProgramsNV(IntBuffer programs) {
@@ -78,17 +78,17 @@ public class NVProgram {
 		long function_pointer = caps.glGenProgramsNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(programs);
-		nglGenProgramsNV(programs.remaining(), programs, programs.position(), function_pointer);
+		nglGenProgramsNV(programs.remaining(), MemoryUtil.getAddress(programs), function_pointer);
 	}
-	static native void nglGenProgramsNV(int programs_n, IntBuffer programs, int programs_position, long function_pointer);
+	static native void nglGenProgramsNV(int programs_n, long programs, long function_pointer);
 
 	/** Overloads glGenProgramsNV. */
 	public static int glGenProgramsNV() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenProgramsNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer programs = APIUtil.getBufferInt();
-		nglGenProgramsNV(1, programs, programs.position(), function_pointer);
+		IntBuffer programs = APIUtil.getBufferInt(caps);
+		nglGenProgramsNV(1, MemoryUtil.getAddress(programs), function_pointer);
 		return programs.get(0);
 	}
 
@@ -97,17 +97,27 @@ public class NVProgram {
 		long function_pointer = caps.glGetProgramivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetProgramivNV(programID, parameterName, params, params.position(), function_pointer);
+		nglGetProgramivNV(programID, parameterName, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramivNV(int programID, int parameterName, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramivNV(int programID, int parameterName, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetProgramivNV.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetProgramiNV} instead. 
+	 */
+	@Deprecated
+	public static int glGetProgramNV(int programID, int parameterName) {
+		return NVProgram.glGetProgramiNV(programID, parameterName);
+	}
 
 	/** Overloads glGetProgramivNV. */
-	public static int glGetProgramNV(int programID, int parameterName) {
+	public static int glGetProgramiNV(int programID, int parameterName) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramivNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetProgramivNV(programID, parameterName, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetProgramivNV(programID, parameterName, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -116,20 +126,20 @@ public class NVProgram {
 		long function_pointer = caps.glGetProgramStringNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(paramString);
-		nglGetProgramStringNV(programID, parameterName, paramString, paramString.position(), function_pointer);
+		nglGetProgramStringNV(programID, parameterName, MemoryUtil.getAddress(paramString), function_pointer);
 	}
-	static native void nglGetProgramStringNV(int programID, int parameterName, Buffer paramString, int paramString_position, long function_pointer);
+	static native void nglGetProgramStringNV(int programID, int parameterName, long paramString, long function_pointer);
 
 	/** Overloads glGetProgramStringNV. */
 	public static String glGetProgramStringNV(int programID, int parameterName) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramStringNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int programLength = glGetProgramNV(programID, GL_PROGRAM_LENGTH_NV);
-		ByteBuffer paramString = APIUtil.getBufferByte(programLength);
-		nglGetProgramStringNV(programID, parameterName, paramString, paramString.position(), function_pointer);
+		int programLength = glGetProgramiNV(programID, GL_PROGRAM_LENGTH_NV);
+		ByteBuffer paramString = APIUtil.getBufferByte(caps, programLength);
+		nglGetProgramStringNV(programID, parameterName, MemoryUtil.getAddress(paramString), function_pointer);
 		paramString.limit(programLength);
-		return APIUtil.getString(paramString);
+		return APIUtil.getString(caps, paramString);
 	}
 
 	public static boolean glIsProgramNV(int programID) {
@@ -147,25 +157,25 @@ public class NVProgram {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(programIDs);
 		BufferChecks.checkBuffer(programResidences, programIDs.remaining());
-		boolean __result = nglAreProgramsResidentNV(programIDs.remaining(), programIDs, programIDs.position(), programResidences, programResidences.position(), function_pointer);
+		boolean __result = nglAreProgramsResidentNV(programIDs.remaining(), MemoryUtil.getAddress(programIDs), MemoryUtil.getAddress(programResidences), function_pointer);
 		return __result;
 	}
-	static native boolean nglAreProgramsResidentNV(int programIDs_n, IntBuffer programIDs, int programIDs_position, ByteBuffer programResidences, int programResidences_position, long function_pointer);
+	static native boolean nglAreProgramsResidentNV(int programIDs_n, long programIDs, long programResidences, long function_pointer);
 
 	public static void glRequestResidentProgramsNV(IntBuffer programIDs) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glRequestResidentProgramsNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(programIDs);
-		nglRequestResidentProgramsNV(programIDs.remaining(), programIDs, programIDs.position(), function_pointer);
+		nglRequestResidentProgramsNV(programIDs.remaining(), MemoryUtil.getAddress(programIDs), function_pointer);
 	}
-	static native void nglRequestResidentProgramsNV(int programIDs_n, IntBuffer programIDs, int programIDs_position, long function_pointer);
+	static native void nglRequestResidentProgramsNV(int programIDs_n, long programIDs, long function_pointer);
 
 	/** Overloads glRequestResidentProgramsNV. */
 	public static void glRequestResidentProgramsNV(int programID) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glRequestResidentProgramsNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglRequestResidentProgramsNV(1, APIUtil.getBufferInt().put(0, programID), 0, function_pointer);
+		nglRequestResidentProgramsNV(1, APIUtil.getInt(caps, programID), function_pointer);
 	}
 }

@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * TypeInfos in case of multityped parameters.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
- * $Id: TypeInfo.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import org.lwjgl.util.generator.opengl.GLvoid;

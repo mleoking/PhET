@@ -71,7 +71,7 @@ public interface ARB_buffer_object {
 	void glDeleteBuffersARB(@AutoSize("buffers") @GLsizei int n, @Const @GLuint IntBuffer buffers);
 
 	@Alternate("glDeleteBuffersARB")
-	void glDeleteBuffersARB(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, buffer), 0", keepParam = true) int buffer);
+	void glDeleteBuffersARB(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, buffer)", keepParam = true) int buffer);
 
 	void glGenBuffersARB(@AutoSize("buffers") @GLsizei int n, @OutParameter @GLuint IntBuffer buffers);
 
@@ -83,6 +83,7 @@ public interface ARB_buffer_object {
 
 	@GenerateAutos
 	void glBufferDataARB(@GLenum int target, @AutoSize("data") @GLsizeiptrARB long size,
+	                     @Check
 	                     @Const
 	                     @GLbyte
 	                     @GLshort
@@ -141,10 +142,18 @@ public interface ARB_buffer_object {
 	@StripPostfix("params")
 	void glGetBufferParameterivARB(@GLenum int target, @GLenum int pname, @OutParameter @Check("4") IntBuffer params);
 
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetBufferParameteriARB} instead. */
 	@Alternate("glGetBufferParameterivARB")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "ARBBufferObject", method = "glGetBufferParameteriARB")
+	@Deprecated
 	void glGetBufferParameterivARB2(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
+
+	@Alternate("glGetBufferParameterivARB")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetBufferParameterivARB3(@GLenum int target, @GLenum int pname, @OutParameter IntBuffer params);
 
 	@StripPostfix("pointer")
 	@AutoSize("GLChecks.getBufferObjectSizeARB(caps, target)")

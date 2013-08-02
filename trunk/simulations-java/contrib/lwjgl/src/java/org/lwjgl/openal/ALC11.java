@@ -37,7 +37,7 @@ import java.nio.IntBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.LWJGLUtil;
-
+import org.lwjgl.MemoryUtil;
 
 /**
  * <p>
@@ -92,7 +92,8 @@ public final class ALC11 {
 	 * @return ALCdevice if it was possible to open a device
 	 */
 	public static ALCdevice alcCaptureOpenDevice(String devicename, int frequency, int format, int buffersize) {
-		long device_address = nalcCaptureOpenDevice(devicename, frequency, format, buffersize);
+		ByteBuffer buffer = MemoryUtil.encodeASCII(devicename);
+		long device_address = nalcCaptureOpenDevice(MemoryUtil.getAddressSafe(buffer), frequency, format, buffersize);
 		if(device_address != 0) {
 			ALCdevice device = new ALCdevice(device_address);
 			synchronized (ALC10.devices) {
@@ -102,7 +103,7 @@ public final class ALC11 {
 		}
 		return null;
 	}
-	static native long nalcCaptureOpenDevice( String devicename, int frequency, int format, int buffersize);
+	private static native long nalcCaptureOpenDevice(long devicename, int frequency, int format, int buffersize);
 
 	/**
 	 * The alcCaptureCloseDevice function allows the application to disconnect from a capture
@@ -162,9 +163,9 @@ public final class ALC11 {
 	 * @param samples Number of samples to request
 	 */
 	public static  void alcCaptureSamples(ALCdevice device, ByteBuffer buffer, int samples ) {
-		nalcCaptureSamples(ALC10.getDevice(device), buffer, buffer.position(), samples);
+		nalcCaptureSamples(ALC10.getDevice(device), MemoryUtil.getAddress(buffer), samples);
 	}
-	static native void nalcCaptureSamples(long device, ByteBuffer buffer, int position, int samples );
+	static native void nalcCaptureSamples(long device, long buffer, int samples );
 
 	static native void initNativeStubs() throws LWJGLException;
 

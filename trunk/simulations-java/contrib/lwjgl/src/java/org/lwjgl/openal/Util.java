@@ -37,7 +37,7 @@ package org.lwjgl.openal;
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
+ * @version $Revision$
  */
 
 public final class Util {
