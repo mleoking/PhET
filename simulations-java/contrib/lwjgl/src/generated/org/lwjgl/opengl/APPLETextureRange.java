@@ -40,9 +40,9 @@ public final class APPLETextureRange {
 		long function_pointer = caps.glTextureRangeAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pointer);
-		nglTextureRangeAPPLE(target, pointer.remaining(), pointer, pointer.position(), function_pointer);
+		nglTextureRangeAPPLE(target, pointer.remaining(), MemoryUtil.getAddress(pointer), function_pointer);
 	}
-	static native void nglTextureRangeAPPLE(int target, int pointer_length, ByteBuffer pointer, int pointer_position, long function_pointer);
+	static native void nglTextureRangeAPPLE(int target, int pointer_length, long pointer, long function_pointer);
 
 	public static Buffer glGetTexParameterPointervAPPLE(int target, int pname, long result_size) {
 		ContextCapabilities caps = GLContext.getCapabilities();

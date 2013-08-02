@@ -35,9 +35,9 @@ package org.lwjgl.util;
  *
  * Simple interface to things that can be Rendered.
  *
- * @author $Author: spasi $
- * @version $Revision: 3418 $
- * $Id: Renderable.java 3418 2010-09-28 21:11:35Z spasi $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 public interface Renderable {
 

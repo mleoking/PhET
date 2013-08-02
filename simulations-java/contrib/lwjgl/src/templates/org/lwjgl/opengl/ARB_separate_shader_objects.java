@@ -32,7 +32,6 @@
 package org.lwjgl.opengl;
 
 import org.lwjgl.util.generator.*;
-import org.lwjgl.util.generator.Alternate;
 import org.lwjgl.util.generator.opengl.*;
 
 import java.nio.ByteBuffer;
@@ -44,12 +43,12 @@ import java.nio.IntBuffer;
 public interface ARB_separate_shader_objects {
 
 	/** Accepted by &lt;stages&gt; parameter to UseProgramStages: */
-	int GL_VERTEX_SHADER_BIT = 0x00000001,
-		GL_FRAGMENT_SHADER_BIT = 0x00000002,
-		GL_GEOMETRY_SHADER_BIT = 0x00000004,
-		GL_TESS_CONTROL_SHADER_BIT = 0x00000008,
+	int GL_VERTEX_SHADER_BIT          = 0x00000001,
+		GL_FRAGMENT_SHADER_BIT        = 0x00000002,
+		GL_GEOMETRY_SHADER_BIT        = 0x00000004,
+		GL_TESS_CONTROL_SHADER_BIT    = 0x00000008,
 		GL_TESS_EVALUATION_SHADER_BIT = 0x00000010,
-		GL_ALL_SHADER_BITS = 0xFFFFFFFF;
+		GL_ALL_SHADER_BITS            = 0xFFFFFFFF;
 
 	/**
 	 * Accepted by the &lt;pname&gt; parameter of ProgramParameteri and
@@ -72,10 +71,24 @@ public interface ARB_separate_shader_objects {
 	@Reuse("GL41")
 	void glActiveShaderProgram(@GLuint int pipeline, @GLuint int program);
 
+	/** Single null-terminated source code string. */
 	@Reuse("GL41")
+	@StripPostfix(value = "string", postfix = "v")
+	@GLuint
+	int glCreateShaderProgramv(@GLenum int type, @Constant("1") @GLsizei int count, @NullTerminated @Check @Const @Indirect @GLchar ByteBuffer string);
+
+	/** Multiple null-terminated source code strings, one after the other. */
+	@Reuse("GL41")
+	@Alternate(value = "glCreateShaderProgramv", nativeAlt = true)
 	@StripPostfix(value = "strings", postfix = "v")
 	@GLuint
-	int glCreateShaderProgramv(@GLenum int type, @GLsizei int count, @Check @Const @Indirect @GLchar ByteBuffer strings);
+	int glCreateShaderProgramv2(@GLenum int type, @GLsizei int count, @NullTerminated("count") @Check @Const @Indirect @GLchar @PointerArray("count") ByteBuffer strings);
+
+	@Reuse("GL41")
+	@Alternate(value = "glCreateShaderProgramv", nativeAlt = true)
+	@StripPostfix(value = "strings", postfix = "v")
+	@GLuint
+	int glCreateShaderProgramv3(@GLenum int type, @Constant("strings.length") @GLsizei int count, @NullTerminated @Check("1") @PointerArray(value = "count") @Const @NativeType("GLchar") ByteBuffer[] strings);
 
 	@Reuse("GL41")
 	@Alternate("glCreateShaderProgramv")
@@ -84,11 +97,11 @@ public interface ARB_separate_shader_objects {
 	int glCreateShaderProgramv(@GLenum int type, @Constant("1") @GLsizei int count, @NullTerminated CharSequence string);
 
 	@Reuse("GL41")
-	@Alternate("glCreateShaderProgramv")
+	@Alternate(value = "glCreateShaderProgramv", nativeAlt = true, skipNative = true)
 	@StripPostfix(value = "strings", postfix = "v")
 	@GLuint
-	int glCreateShaderProgramv(@GLenum int type, @Constant("strings.length") @GLsizei int count,
-	                           @Const @NullTerminated @PointerArray(value = "count") CharSequence[] strings);
+	int glCreateShaderProgramv2(@GLenum int type, @Constant("strings.length") @GLsizei int count,
+	                            @Const @NullTerminated @PointerArray(value = "count") CharSequence[] strings);
 
 	@Reuse("GL41")
 	void glBindProgramPipeline(@GLuint int pipeline);
@@ -98,7 +111,7 @@ public interface ARB_separate_shader_objects {
 
 	@Reuse("GL41")
 	@Alternate("glDeleteProgramPipelines")
-	void glDeleteProgramPipelines(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, pipeline), 0", keepParam = true) int pipeline);
+	void glDeleteProgramPipelines(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, pipeline)", keepParam = true) int pipeline);
 
 	@Reuse("GL41")
 	void glGenProgramPipelines(@AutoSize("pipelines") @GLsizei int n, @OutParameter @GLuint IntBuffer pipelines);
@@ -121,7 +134,7 @@ public interface ARB_separate_shader_objects {
 	@Reuse("GL41")
 	@Alternate("glGetProgramPipelineiv")
 	@GLreturn("params")
-	@StripPostfix("params")
+	@StripPostfix(value = "params", postfix = "v")
 	void glGetProgramPipelineiv2(@GLuint int pipeline, @GLenum int pname, @OutParameter IntBuffer params);
 
 	@Reuse("GL41")
@@ -332,7 +345,7 @@ public interface ARB_separate_shader_objects {
 	@Alternate("glGetProgramPipelineInfoLog")
 	@GLreturn(value = "infoLog", maxLength = "bufSize")
 	void glGetProgramPipelineInfoLog2(@GLuint int pipeline, @GLsizei int bufSize,
-	                                  @OutParameter @GLsizei @Constant("infoLog_length, 0") IntBuffer length,
+	                                  @OutParameter @GLsizei @Constant("MemoryUtil.getAddress0(infoLog_length)") IntBuffer length,
 	                                  @OutParameter @GLchar ByteBuffer infoLog);
 
 }

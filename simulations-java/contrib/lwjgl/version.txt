@@ -1,1 +1,1 @@
-LWJGL 2.7.1 Official release
+LWJGL 2.9.0 Official release (was 2.7.1)

@@ -41,8 +41,8 @@ import org.lwjgl.Sys;
  * all timers are updated consistently with each other.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: Timer.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class Timer {
 

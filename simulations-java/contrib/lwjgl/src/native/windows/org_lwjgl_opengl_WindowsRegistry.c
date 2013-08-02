@@ -31,10 +31,10 @@
  */
 
 /**
- * $Id: org_lwjgl_opengl_WindowsRegistry.c 2985 2008-04-07 18:42:36Z matzon $
+ * $Id$
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 2985 $
+ * @version $Revision$
  */
 
 #include <jni.h>
@@ -93,7 +93,7 @@ static jstring queryRegistrationKey(JNIEnv *env, HKEY root_key, LPCTSTR subkey, 
 				return NULL;
 			}
 			result[buf_size - 1] = '\0';
-			java_result = NewStringNativeWithLength(env, result, strlen(result));
+			java_result = NewStringNativeWithLength(env, result, (jsize)strlen(result));
 			free(result);
 			return java_result;
 		}

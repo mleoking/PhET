@@ -57,7 +57,6 @@ public interface EXT_gpu_shader4 {
 	int GL_SAMPLER_1D_ARRAY_SHADOW_EXT = 0x8DC3;
 	int GL_SAMPLER_2D_ARRAY_SHADOW_EXT = 0x8DC4;
 	int GL_SAMPLER_CUBE_SHADOW_EXT = 0x8DC5;
-	int GL_UNSIGNED_INT = 0x1405;
 	int GL_UNSIGNED_INT_VEC2_EXT = 0x8DC6;
 	int GL_UNSIGNED_INT_VEC3_EXT = 0x8DC7;
 	int GL_UNSIGNED_INT_VEC4_EXT = 0x8DC8;
@@ -158,7 +157,7 @@ public interface EXT_gpu_shader4 {
 	void glVertexAttribI4usvEXT(@GLuint int index, @Check("4") @Const @GLushort ShortBuffer v);
 
 	void glVertexAttribIPointerEXT(@GLuint int index, int size, @GLenum int type, @GLsizei int stride,
-								   @CachedReference
+	                               @CachedReference(index = "index", name = "glVertexAttribPointer_buffer")
 								   @BufferObject(BufferKind.ArrayVBO)
 								   @Check
 								   @Const

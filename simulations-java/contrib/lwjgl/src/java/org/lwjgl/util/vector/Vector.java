@@ -39,8 +39,8 @@ import java.nio.FloatBuffer;
  * Base class for vectors.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: Vector.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public abstract class Vector implements Serializable, ReadableVector {
 

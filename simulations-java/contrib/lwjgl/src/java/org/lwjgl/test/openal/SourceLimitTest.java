@@ -42,8 +42,8 @@ import org.lwjgl.openal.OpenALException;
  * Simple test for testing the number of available sources
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: SourceLimitTest.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class SourceLimitTest extends BasicTest {
 

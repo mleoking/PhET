@@ -27,7 +27,7 @@ public final class EXTPointParameters {
 		long function_pointer = caps.glPointParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pfParams, 4);
-		nglPointParameterfvEXT(pname, pfParams, pfParams.position(), function_pointer);
+		nglPointParameterfvEXT(pname, MemoryUtil.getAddress(pfParams), function_pointer);
 	}
-	static native void nglPointParameterfvEXT(int pname, FloatBuffer pfParams, int pfParams_position, long function_pointer);
+	static native void nglPointParameterfvEXT(int pname, long pfParams, long function_pointer);
 }

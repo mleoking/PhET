@@ -62,8 +62,6 @@ import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.lwjgl.opengl.GL11.*;
-
 public final class Display {
 
 	private static final Thread shutdown_hook = new Thread() {
@@ -84,9 +82,6 @@ public final class Display {
 	/** The current display mode, if created */
 	private static DisplayMode current_mode;
 
-	/** Timer for sync() */
-	private static long timeThen;
-
 	/** X coordinate of the window */
 	private static int x = -1;
 
@@ -99,6 +94,12 @@ public final class Display {
 	 */
 	private static int y = -1;
 
+	/** the width of the Display window */
+	private static int width = 0;
+
+	/** the height of the Display window */
+	private static int height = 0;
+
 	/** Title of the window (never null) */
 	private static String title = "Game";
 
@@ -109,11 +110,15 @@ public final class Display {
 	private static int swap_interval;
 
 	/** The Drawable instance that tracks the current Display context */
-	private static final AbstractDrawable drawable;
+	private static DrawableLWJGL drawable;
 
 	private static boolean window_created;
 
 	private static boolean parent_resized;
+
+	private static boolean window_resized;
+
+	private static boolean window_resizable;
 
 	/** Initial Background Color of Display */
 	private static float r, g, b;
@@ -134,22 +139,6 @@ public final class Display {
 			LWJGLUtil.log("Initial mode: " + initial_mode);
 		} catch (LWJGLException e) {
 			throw new RuntimeException(e);
-		}
-		drawable = new AbstractDrawable() {
-			public void destroy() {
-				synchronized ( GlobalLock.lock ) {
-					if ( !isCreated() )
-						return;
-
-					releaseDrawable();
-					super.destroy();
-					destroyWindow();
-					x = y = -1;
-					cached_icons = null;
-					reset();
-					removeShutdownHook();
-				}
-			}
 		};
 	}
 
@@ -256,7 +245,7 @@ public final class Display {
 				try {
 					if ( was_fullscreen && !isFullscreen() )
 						display_impl.resetDisplayMode();
-					else if ( isFullscreen() )
+                    else if ( isFullscreen() )
 						switchDisplayMode();
 					createWindow();
 					makeCurrentAndSetSwapInterval();
@@ -314,8 +303,11 @@ public final class Display {
 			tmp_parent.addComponentListener(component_listener);
 		}
 		DisplayMode mode = getEffectiveMode();
-		display_impl.createWindow(mode, tmp_parent, getWindowX(), getWindowY());
+		display_impl.createWindow(drawable, mode, tmp_parent, getWindowX(), getWindowY());
 		window_created = true;
+
+		width = Display.getDisplayMode().getWidth();
+		height = Display.getDisplayMode().getHeight();
 
 		setTitle(title);
 		initControls();
@@ -330,9 +322,9 @@ public final class Display {
 
 	private static void releaseDrawable() {
 		try {
-			Context context = drawable.context;
+			Context context = drawable.getContext();
 			if ( context != null && context.isCurrent() ) {
-				Context.releaseCurrentContext();
+				context.releaseCurrent();
 				context.releaseDrawable();
 			}
 		} catch (LWJGLException e) {
@@ -409,40 +401,14 @@ public final class Display {
 		}
 	}
 
-	private static long timeLate;
-
 	/**
-	 * Best sync method that works reliably.
+	 * An accurate sync method that will attempt to run at a constant frame rate.
+	 * It should be called once every frame.
 	 *
-	 * @param fps The desired frame rate, in frames per second
+	 * @param fps - the desired frame rate, in frames per second
 	 */
 	public static void sync(int fps) {
-		long timeNow;
-		long gapTo;
-		long savedTimeLate;
-		synchronized ( GlobalLock.lock ) {
-			gapTo = Sys.getTimerResolution() / fps + timeThen;
-			timeNow = Sys.getTime();
-			savedTimeLate = timeLate;
-		}
-
-		try {
-			while ( gapTo > timeNow + savedTimeLate ) {
-				Thread.sleep(1);
-				timeNow = Sys.getTime();
-			}
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-
-		synchronized ( GlobalLock.lock ) {
-			if ( gapTo < timeNow )
-				timeLate = timeNow - gapTo;
-			else
-				timeLate = 0;
-
-			timeThen = timeNow;
-		}
+		Sync.sync(fps);
 	}
 
 	/** @return the title of the window */
@@ -648,8 +614,8 @@ public final class Display {
 				throw new IllegalStateException("Display not created");
 
 			if ( LWJGLUtil.DEBUG )
-				Util.checkGLError();
-			Context.swapBuffers();
+				drawable.checkGLError();
+			drawable.swapBuffers();
 		}
 	}
 
@@ -683,9 +649,17 @@ public final class Display {
 				}
 			}
 
+			window_resized = !isFullscreen() && parent == null && display_impl.wasResized();
+
+			if ( window_resized ) {
+				width = display_impl.getWidth();
+				height = display_impl.getHeight();
+			}
+
 			if ( parent_resized ) {
 				reshape();
 				parent_resized = false;
+				window_resized = true;
 			}
 
 			if ( processMessages )
@@ -762,9 +736,7 @@ public final class Display {
 	 * @throws LWJGLException
 	 */
 	public static void create() throws LWJGLException {
-		synchronized ( GlobalLock.lock ) {
-			create(new PixelFormat());
-		}
+		create(new PixelFormat());
 	}
 
 	/**
@@ -782,7 +754,7 @@ public final class Display {
 	 */
 	public static void create(PixelFormat pixel_format) throws LWJGLException {
 		synchronized ( GlobalLock.lock ) {
-			create(pixel_format, null, null);
+			create(pixel_format, null, (ContextAttribs)null);
 		}
 	}
 
@@ -802,7 +774,7 @@ public final class Display {
 	 */
 	public static void create(PixelFormat pixel_format, Drawable shared_drawable) throws LWJGLException {
 		synchronized ( GlobalLock.lock ) {
-			create(pixel_format, shared_drawable, null);
+			create(pixel_format, shared_drawable, (ContextAttribs)null);
 		}
 	}
 
@@ -851,12 +823,168 @@ public final class Display {
 			registerShutdownHook();
 			if ( isFullscreen() )
 				switchDisplayMode();
+
+			final DrawableGL drawable = new DrawableGL() {
+				public void destroy() {
+					synchronized ( GlobalLock.lock ) {
+						if ( !isCreated() )
+							return;
+
+						releaseDrawable();
+						super.destroy();
+						destroyWindow();
+						x = y = -1;
+						cached_icons = null;
+						reset();
+						removeShutdownHook();
+					}
+				}
+			};
+			Display.drawable = drawable;
+
 			try {
-				drawable.peer_info = display_impl.createPeerInfo(pixel_format);
+				drawable.setPixelFormat(pixel_format, attribs);
 				try {
 					createWindow();
 					try {
-						drawable.context = new Context(drawable.peer_info, attribs, shared_drawable != null ? ((AbstractDrawable)shared_drawable).getContext() : null);
+						drawable.context = new ContextGL(drawable.peer_info, attribs, shared_drawable != null ? ((DrawableGL)shared_drawable).getContext() : null);
+						try {
+							makeCurrentAndSetSwapInterval();
+							initContext();
+						} catch (LWJGLException e) {
+							drawable.destroy();
+							throw e;
+						}
+					} catch (LWJGLException e) {
+						destroyWindow();
+						throw e;
+					}
+				} catch (LWJGLException e) {
+					drawable.destroy();
+					throw e;
+				}
+			} catch (LWJGLException e) {
+				display_impl.resetDisplayMode();
+				throw e;
+			}
+		}
+	}
+
+	/**
+	 * Create the OpenGL ES context with the given minimum parameters. If isFullscreen() is true or if windowed
+	 * context are not supported on the platform, the display mode will be switched to the mode returned by
+	 * getDisplayMode(), and a fullscreen context will be created. If isFullscreen() is false, a windowed context
+	 * will be created with the dimensions given in the mode returned by getDisplayMode(). If a context can't be
+	 * created with the given parameters, a LWJGLException will be thrown.
+	 * <p/>
+	 * <p>The window created will be set up in orthographic 2D projection, with 1:1 pixel ratio with GL coordinates.
+	 *
+	 * @param pixel_format Describes the minimum specifications the context must fulfill. Must be an instance of org.lwjgl.opengles.PixelFormat.
+	 *
+	 * @throws LWJGLException
+	 */
+
+	public static void create(PixelFormatLWJGL pixel_format) throws LWJGLException {
+		synchronized ( GlobalLock.lock ) {
+			create(pixel_format, null, null);
+		}
+	}
+
+	/**
+	 * Create the OpenGL ES context with the given minimum parameters. If isFullscreen() is true or if windowed
+	 * context are not supported on the platform, the display mode will be switched to the mode returned by
+	 * getDisplayMode(), and a fullscreen context will be created. If isFullscreen() is false, a windowed context
+	 * will be created with the dimensions given in the mode returned by getDisplayMode(). If a context can't be
+	 * created with the given parameters, a LWJGLException will be thrown.
+	 * <p/>
+	 * <p>The window created will be set up in orthographic 2D projection, with 1:1 pixel ratio with GL coordinates.
+	 *
+	 * @param pixel_format    Describes the minimum specifications the context must fulfill. Must be an instance of org.lwjgl.opengles.PixelFormat.
+	 * @param shared_drawable The Drawable to share context with. (optional, may be null)
+	 *
+	 * @throws LWJGLException
+	 */
+	public static void create(PixelFormatLWJGL pixel_format, Drawable shared_drawable) throws LWJGLException {
+		synchronized ( GlobalLock.lock ) {
+			create(pixel_format, shared_drawable, null);
+		}
+	}
+
+	/**
+	 * Create the OpenGL ES context with the given minimum parameters. If isFullscreen() is true or if windowed
+	 * context are not supported on the platform, the display mode will be switched to the mode returned by
+	 * getDisplayMode(), and a fullscreen context will be created. If isFullscreen() is false, a windowed context
+	 * will be created with the dimensions given in the mode returned by getDisplayMode(). If a context can't be
+	 * created with the given parameters, a LWJGLException will be thrown.
+	 * <p/>
+	 * <p>The window created will be set up in orthographic 2D projection, with 1:1 pixel ratio with GL coordinates.
+	 *
+	 * @param pixel_format Describes the minimum specifications the context must fulfill. Must be an instance of org.lwjgl.opengles.PixelFormat.
+	 * @param attribs      The ContextAttribs to use when creating the context. (optional, may be null)
+	 *
+	 * @throws LWJGLException
+	 */
+	public static void create(PixelFormatLWJGL pixel_format, org.lwjgl.opengles.ContextAttribs attribs) throws LWJGLException {
+		synchronized ( GlobalLock.lock ) {
+			create(pixel_format, null, attribs);
+		}
+	}
+
+	/**
+	 * Create the OpenGL ES context with the given minimum parameters. If isFullscreen() is true or if windowed
+	 * context are not supported on the platform, the display mode will be switched to the mode returned by
+	 * getDisplayMode(), and a fullscreen context will be created. If isFullscreen() is false, a windowed context
+	 * will be created with the dimensions given in the mode returned by getDisplayMode(). If a context can't be
+	 * created with the given parameters, a LWJGLException will be thrown.
+	 * <p/>
+	 * <p>The window created will be set up in orthographic 2D projection, with 1:1 pixel ratio with GL coordinates.
+	 *
+	 * @param pixel_format    Describes the minimum specifications the context must fulfill. Must be an instance of org.lwjgl.opengles.PixelFormat.
+	 * @param shared_drawable The Drawable to share context with. (optional, may be null)
+	 * @param attribs         The ContextAttribs to use when creating the context. (optional, may be null)
+	 *
+	 * @throws LWJGLException
+	 */
+	public static void create(PixelFormatLWJGL pixel_format, Drawable shared_drawable, org.lwjgl.opengles.ContextAttribs attribs) throws LWJGLException {
+		synchronized ( GlobalLock.lock ) {
+			if ( isCreated() )
+				throw new IllegalStateException("Only one LWJGL context may be instantiated at any one time.");
+			if ( pixel_format == null )
+				throw new NullPointerException("pixel_format cannot be null");
+			removeShutdownHook();
+			registerShutdownHook();
+			if ( isFullscreen() )
+				switchDisplayMode();
+
+			final DrawableGLES drawable = new DrawableGLES() {
+
+				public void setPixelFormat(final PixelFormatLWJGL pf, final ContextAttribs attribs) throws LWJGLException {
+					throw new UnsupportedOperationException();
+				}
+
+				public void destroy() {
+					synchronized ( GlobalLock.lock ) {
+						if ( !isCreated() )
+							return;
+
+						releaseDrawable();
+						super.destroy();
+						destroyWindow();
+						x = y = -1;
+						cached_icons = null;
+						reset();
+						removeShutdownHook();
+					}
+				}
+			};
+			Display.drawable = drawable;
+
+			try {
+				drawable.setPixelFormat(pixel_format);
+				try {
+					createWindow();
+					try {
+						drawable.createContext(attribs, shared_drawable);
 						try {
 							makeCurrentAndSetSwapInterval();
 							initContext();
@@ -896,7 +1024,7 @@ public final class Display {
 	private static void makeCurrentAndSetSwapInterval() throws LWJGLException {
 		makeCurrent();
 		try {
-			Util.checkGLError();
+			drawable.checkGLError();
 		} catch (OpenGLException e) {
 			LWJGLUtil.log("OpenGL error during context creation: " + e.getMessage());
 		}
@@ -904,10 +1032,7 @@ public final class Display {
 	}
 
 	private static void initContext() {
-		// set background clear color
-		glClearColor(r, g, b, 0.0f);
-		// Clear window to avoid the desktop "showing through"
-		glClear(GL_COLOR_BUFFER_BIT);
+		drawable.initContext(r, g, b);
 		update();
 	}
 
@@ -957,7 +1082,9 @@ public final class Display {
 	 * regardless of whether the Display was the current rendering context.
 	 */
 	public static void destroy() {
-		drawable.destroy();
+		if(isCreated()) {
+			drawable.destroy();
+		}
 	}
 
 	/*
@@ -990,7 +1117,8 @@ public final class Display {
 		synchronized ( GlobalLock.lock ) {
 			swap_interval = value;
 			if ( isCreated() )
-				Context.setSwapInterval(swap_interval);
+				drawable.setSwapInterval(swap_interval);
+
 		}
 	}
 
@@ -1096,5 +1224,119 @@ public final class Display {
 				return 0;
 			}
 		}
+	}
+
+	/**
+	 * Enable or disable the Display window to be resized.
+	 *
+	 * @param resizable set to true to make the Display window resizable;
+	 * false to disable resizing on the Display window.
+	 */
+	public static void setResizable(boolean resizable) {
+		window_resizable = resizable;
+		if ( isCreated() ) {
+			display_impl.setResizable(resizable);
+		}
+	}
+
+	/**
+	 * @return true if the Display window is resizable.
+	 */
+	public static boolean isResizable() {
+		return window_resizable;
+	}
+
+	/**
+	 * @return true if the Display window has been resized.
+	 * This value will be updated after a call to Display.update().
+	 *
+	 * This will return false if running in fullscreen or with Display.setParent(Canvas parent)
+	 */
+	public static boolean wasResized() {
+		return window_resized;
+	}
+
+	/**
+	 * @return this method will return the x position (top-left) of the Display window.
+	 *
+	 * If running in fullscreen mode it will return 0.
+	 * If Display.setParent(Canvas parent) is being used, the x position of
+	 * the parent will be returned.
+	 */
+	public static int getX() {
+
+		if (Display.isFullscreen()) {
+			return 0;
+		}
+
+		if (parent != null) {
+			return parent.getX();
+		}
+
+		return display_impl.getX();
+	}
+
+	/**
+	 * @return this method will return the y position (top-left) of the Display window.
+	 *
+	 * If running in fullscreen mode it will return 0.
+	 * If Display.setParent(Canvas parent) is being used, the y position of
+	 * the parent will be returned.
+	 */
+	public static int getY() {
+
+		if (Display.isFullscreen()) {
+			return 0;
+		}
+
+		if (parent != null) {
+			return parent.getY();
+		}
+
+		return display_impl.getY();
+	}
+
+	/**
+	 * @return this method will return the width of the Display window.
+	 *
+	 * If running in fullscreen mode it will return the width of the current set DisplayMode.
+	 * If Display.setParent(Canvas parent) is being used, the width of the parent
+	 * will be returned.
+	 *
+	 * This value will be updated after a call to Display.update().
+	 */
+	public static int getWidth() {
+
+		if (Display.isFullscreen()) {
+			return Display.getDisplayMode().getWidth();
+		}
+
+		if (parent != null) {
+			return parent.getWidth();
+		}
+
+		return width;
+	}
+
+	/**
+	 * @return this method will return the height of the Display window.
+	 *
+	 * If running in fullscreen mode it will return the height of the current set DisplayMode.
+	 * If Display.setParent(Canvas parent) is being used, the height of the parent
+	 * will be returned.
+	 *
+	 * This value will be updated after a call to Display.update().
+	 */
+	public static int getHeight() {
+
+		if (Display.isFullscreen()) {
+			return Display.getDisplayMode().getHeight();
+		}
+
+		if (parent != null) {
+			return parent.getHeight();
+		}
+
+		return height;
 	}
 }

@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * A TypeVisitor that translates types to JNI signatures.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3443 $
- * $Id: SignatureTranslator.java 3443 2010-10-12 21:13:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import org.lwjgl.PointerBuffer;
@@ -71,7 +71,7 @@ class SignatureTranslator implements TypeVisitor {
 	public void visitArrayType(ArrayType t) {
 		final Class type = Utils.getJavaType(t.getComponentType());
 		if ( CharSequence.class.isAssignableFrom(type) )
-			signature.append("Ljava/nio/ByteBuffer;I");
+			signature.append("J");
 		else if ( Buffer.class.isAssignableFrom(type) )
 			signature.append("[Ljava/nio/ByteBuffer;");
 		else if ( org.lwjgl.PointerWrapper.class.isAssignableFrom(type) )
@@ -82,20 +82,20 @@ class SignatureTranslator implements TypeVisitor {
 
 	public void visitClassType(ClassType t) {
 		Class type = NativeTypeTranslator.getClassFromType(t);
-		String type_name;
-		if ( (CharSequence.class.isAssignableFrom(type) && !String.class.equals(type)) || CharSequence[].class.isAssignableFrom(type) || PointerBuffer.class.isAssignableFrom(type) )
-			type_name = ByteBuffer.class.getName();
-		else if ( org.lwjgl.PointerWrapper.class.isAssignableFrom(type) ) {
-			signature.append("J");
-			return;
-		} else
-			type_name = t.getDeclaration().getQualifiedName();
 
-		signature.append("L");
-		signature.append(getNativeNameFromClassName(type_name));
-		signature.append(";");
-		if ( add_position_signature && Utils.isAddressableType(type) && !String.class.equals(type) )
-			signature.append("I");
+		if ( org.lwjgl.PointerWrapper.class.isAssignableFrom(type) || (Utils.isAddressableType(type) && !String.class.equals(type)) )
+			signature.append("J");
+		else {
+			String type_name;
+			if ( (CharSequence.class.isAssignableFrom(type) && !String.class.equals(type)) || CharSequence[].class.isAssignableFrom(type) || PointerBuffer.class.isAssignableFrom(type) )
+				type_name = ByteBuffer.class.getName();
+			else
+				type_name = t.getDeclaration().getQualifiedName();
+
+			signature.append("L");
+			signature.append(getNativeNameFromClassName(type_name));
+			signature.append(";");
+		}
 	}
 
 	public void visitDeclaredType(DeclaredType t) {
@@ -107,7 +107,11 @@ class SignatureTranslator implements TypeVisitor {
 	}
 
 	public void visitInterfaceType(InterfaceType t) {
-		throw new RuntimeException(t + " is not allowed");
+		Class type = NativeTypeTranslator.getClassFromType(t);
+		if ( org.lwjgl.PointerWrapper.class.isAssignableFrom(type) )
+			signature.append("J");
+		else
+			throw new RuntimeException(t + " is not allowed");
 	}
 
 	public void visitPrimitiveType(PrimitiveType t) {

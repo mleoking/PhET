@@ -32,7 +32,6 @@
 package org.lwjgl.opengl;
 
 import org.lwjgl.util.generator.*;
-import org.lwjgl.util.generator.Alternate;
 import org.lwjgl.util.generator.opengl.*;
 
 import java.nio.*;
@@ -41,8 +40,8 @@ import java.nio.*;
  * The core OpenGL1.1 API.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3460 $
- *          $Id: GL11.java 3460 2010-11-29 18:25:28Z spasi $
+ * @version $Revision$
+ *          $Id$
  */
 @DeprecatedGL
 public interface GL11 {
@@ -719,9 +718,9 @@ public interface GL11 {
 	void glAccum(@GLenum int op, float value);
 
 	@DeprecatedGL
-	void glAlphaFunc(@GLenum int func, @GLclampf float ref);
+	void glAlphaFunc(@GLenum int func, float ref);
 
-	void glClearColor(@GLclampf float red, @GLclampf float green, @GLclampf float blue, @GLclampf float alpha);
+	void glClearColor(float red, float green, float blue, float alpha);
 
 	@DeprecatedGL
 	void glClearAccum(float red, float green, float blue, float alpha);
@@ -743,7 +742,7 @@ public interface GL11 {
 	@DeprecatedGL
 	void glBitmap(@GLsizei int width, @GLsizei int height, float xorig, float yorig, float xmove, float ymove,
 	              @BufferObject(BufferKind.UnpackPBO)
-	              @Check("(((width + 7)/8)*height)")
+	              @Check(value = "(((width + 7)/8)*height)", canBeNull = true)
 	              @Const
 	              @GLubyte ByteBuffer bitmap);
 
@@ -755,7 +754,7 @@ public interface GL11 {
 	                          @GLuint IntBuffer textures,
 	                          @Const
 	                          @Check("textures.remaining()")
-	                          @GLclampf FloatBuffer priorities);
+	                          FloatBuffer priorities);
 
 	@DeprecatedGL
 	boolean glAreTexturesResident(@AutoSize("textures") @GLsizei int n,
@@ -776,7 +775,7 @@ public interface GL11 {
 	@NoErrorCheck
 	void glArrayElement(int i);
 
-	void glClearDepth(@GLclampd double depth);
+	void glClearDepth(double depth);
 
 	@DeprecatedGL
 	void glDeleteLists(@GLuint int list, @GLsizei int range);
@@ -784,7 +783,7 @@ public interface GL11 {
 	void glDeleteTextures(@AutoSize("textures") @GLsizei int n, @Const @GLuint IntBuffer textures);
 
 	@Alternate("glDeleteTextures")
-	void glDeleteTextures(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, texture), 0", keepParam = true) int texture);
+	void glDeleteTextures(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, texture)", keepParam = true) int texture);
 
 	void glCullFace(@GLenum int mode);
 
@@ -808,6 +807,14 @@ public interface GL11 {
 	                    @GLdouble
 	                    @GLubyte
 	                    @GLbyte Buffer pointer);
+
+	@DeprecatedGL
+	@Alternate("glColorPointer")
+	void glColorPointer(int size, @GLenum int type, @GLsizei int stride,
+	                    @CachedReference
+	                    @Check
+	                    @BufferObject(BufferKind.ArrayVBO)
+	                    @Const ByteBuffer pointer);
 
 	@DeprecatedGL
 	void glColorMaterial(@GLenum int face, @GLenum int mode);
@@ -918,7 +925,7 @@ public interface GL11 {
 
 	void glDrawArrays(@GLenum int mode, int first, @GLsizei int count);
 
-	void glDepthRange(@GLclampd double zNear, @GLclampd double zFar);
+	void glDepthRange(double zNear, double zFar);
 
 	void glDepthMask(boolean flag);
 
@@ -1304,6 +1311,14 @@ public interface GL11 {
 	                     @GLfloat
 	                     @GLdouble Buffer pointer);
 
+	@DeprecatedGL
+	@Alternate("glNormalPointer")
+	void glNormalPointer(@GLenum int type, @GLsizei int stride,
+	                     @CachedReference
+	                     @BufferObject(BufferKind.ArrayVBO)
+	                     @Check
+	                     @Const ByteBuffer pointer);
+
 	@NoErrorCheck
 	@DeprecatedGL
 	void glNormal3b(byte nx, byte ny, byte nz);
@@ -1349,6 +1364,9 @@ public interface GL11 {
 
 	@DeprecatedGL
 	void glRotatef(float angle, float x, float y, float z);
+
+	@DeprecatedGL
+	void glRotated(double angle, double x, double y, double z);
 
 	@DeprecatedGL
 	int glRenderMode(@GLenum int mode);
@@ -1439,6 +1457,14 @@ public interface GL11 {
 	                     @GLint
 	                     @GLfloat
 	                     @GLdouble Buffer pointer);
+
+	@DeprecatedGL
+	@Alternate("glVertexPointer")
+	void glVertexPointer(int size, @GLenum int type, @GLsizei int stride,
+	                     @CachedReference
+	                     @BufferObject(BufferKind.ArrayVBO)
+	                     @Check
+	                     @Const ByteBuffer pointer);
 
 	@NoErrorCheck
 	@DeprecatedGL
@@ -1573,6 +1599,14 @@ public interface GL11 {
 	                       @GLshort
 	                       @GLfloat
 	                       @GLdouble Buffer pointer);
+
+	@DeprecatedGL
+	@Alternate("glTexCoordPointer")
+	void glTexCoordPointer(int size, @GLenum int type, @GLsizei int stride,
+	                       @CachedReference(index = "StateTracker.getReferences(caps).glClientActiveTexture", name = "glTexCoordPointer_buffer")
+	                       @BufferObject(BufferKind.ArrayVBO)
+	                       @Check
+	                       @Const ByteBuffer pointer);
 
 	@NoErrorCheck
 	@DeprecatedGL

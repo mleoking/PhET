@@ -38,19 +38,20 @@ import org.lwjgl.LWJGLException;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- * $Id: WindowsDisplayPeerInfo.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class WindowsDisplayPeerInfo extends WindowsPeerInfo {
-	private final PixelFormat pixel_format;
 
-	WindowsDisplayPeerInfo(PixelFormat pixel_format) throws LWJGLException {
-		this.pixel_format = pixel_format;
-		GLContext.loadOpenGLLibrary();
-	}
+	final boolean egl;
 
-	PixelFormat getPixelFormat() {
-		return pixel_format;
+	WindowsDisplayPeerInfo(boolean egl) throws LWJGLException {
+		this.egl = egl;
+
+		if ( egl)
+			org.lwjgl.opengles.GLContext.loadOpenGLLibrary();
+		else
+			GLContext.loadOpenGLLibrary();
 	}
 
 	void initDC(long hwnd, long hdc) throws LWJGLException {
@@ -68,6 +69,10 @@ final class WindowsDisplayPeerInfo extends WindowsPeerInfo {
 
 	public void destroy() {
 		super.destroy();
-		GLContext.unloadOpenGLLibrary();
+
+		if ( egl )
+			org.lwjgl.opengles.GLContext.unloadOpenGLLibrary();
+		else
+			GLContext.unloadOpenGLLibrary();
 	}
 }

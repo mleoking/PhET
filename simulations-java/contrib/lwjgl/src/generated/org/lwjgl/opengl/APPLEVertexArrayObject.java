@@ -28,16 +28,16 @@ public final class APPLEVertexArrayObject {
 		long function_pointer = caps.glDeleteVertexArraysAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(arrays);
-		nglDeleteVertexArraysAPPLE(arrays.remaining(), arrays, arrays.position(), function_pointer);
+		nglDeleteVertexArraysAPPLE(arrays.remaining(), MemoryUtil.getAddress(arrays), function_pointer);
 	}
-	static native void nglDeleteVertexArraysAPPLE(int arrays_n, IntBuffer arrays, int arrays_position, long function_pointer);
+	static native void nglDeleteVertexArraysAPPLE(int arrays_n, long arrays, long function_pointer);
 
 	/** Overloads glDeleteVertexArraysAPPLE. */
 	public static void glDeleteVertexArraysAPPLE(int array) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteVertexArraysAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteVertexArraysAPPLE(1, APIUtil.getBufferInt().put(0, array), 0, function_pointer);
+		nglDeleteVertexArraysAPPLE(1, APIUtil.getInt(caps, array), function_pointer);
 	}
 
 	public static void glGenVertexArraysAPPLE(IntBuffer arrays) {
@@ -45,17 +45,17 @@ public final class APPLEVertexArrayObject {
 		long function_pointer = caps.glGenVertexArraysAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(arrays);
-		nglGenVertexArraysAPPLE(arrays.remaining(), arrays, arrays.position(), function_pointer);
+		nglGenVertexArraysAPPLE(arrays.remaining(), MemoryUtil.getAddress(arrays), function_pointer);
 	}
-	static native void nglGenVertexArraysAPPLE(int arrays_n, IntBuffer arrays, int arrays_position, long function_pointer);
+	static native void nglGenVertexArraysAPPLE(int arrays_n, long arrays, long function_pointer);
 
 	/** Overloads glGenVertexArraysAPPLE. */
 	public static int glGenVertexArraysAPPLE() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenVertexArraysAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer arrays = APIUtil.getBufferInt();
-		nglGenVertexArraysAPPLE(1, arrays, arrays.position(), function_pointer);
+		IntBuffer arrays = APIUtil.getBufferInt(caps);
+		nglGenVertexArraysAPPLE(1, MemoryUtil.getAddress(arrays), function_pointer);
 		return arrays.get(0);
 	}
 

@@ -44,8 +44,8 @@ import static org.lwjgl.opengl.GL11.*;
  * Mouse test
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3418 $
- * $Id: MouseCreationTest.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class MouseCreationTest {
 		/** position of quad to draw */

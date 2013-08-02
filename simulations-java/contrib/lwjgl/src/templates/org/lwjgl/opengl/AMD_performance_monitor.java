@@ -32,7 +32,6 @@
 package org.lwjgl.opengl;
 
 import org.lwjgl.util.generator.*;
-import org.lwjgl.util.generator.Alternate;
 import org.lwjgl.util.generator.opengl.*;
 
 import java.nio.ByteBuffer;
@@ -41,23 +40,20 @@ import java.nio.IntBuffer;
 public interface AMD_performance_monitor {
 
 	/** Accepted by the &lt;pame&gt; parameter of GetPerfMonitorCounterInfoAMD */
-	int GL_COUNTER_TYPE_AMD = 0x8BC0;
-	int GL_COUNTER_RANGE_AMD = 0x8BC1;
+	int GL_COUNTER_TYPE_AMD  = 0x8BC0,
+		GL_COUNTER_RANGE_AMD = 0x8BC1;
 
 	/**
 	 * Returned as a valid value in &lt;data&gt; parameter of
 	 * GetPerfMonitorCounterInfoAMD if &lt;pname&gt; = COUNTER_TYPE_AMD
 	 */
-	int GL_UNSIGNED_INT = 0x1405;
-	int GL_FLOAT = 0x1406;
-	int GL_UNSIGNED_INT64_AMD = 0x8BC2;
-	int GL_PERCENTAGE_AMD = 0x8BC3;
+	int GL_UNSIGNED_INT64_AMD = 0x8BC2,
+		GL_PERCENTAGE_AMD     = 0x8BC3;
 
 	/** Accepted by the &lt;pname&gt; parameter of GetPerfMonitorCounterDataAMD */
-
-	int GL_PERFMON_RESULT_AVAILABLE_AMD = 0x8BC4;
-	int GL_PERFMON_RESULT_SIZE_AMD = 0x8BC5;
-	int GL_PERFMON_RESULT_AMD = 0x8BC6;
+	int GL_PERFMON_RESULT_AVAILABLE_AMD = 0x8BC4,
+		GL_PERFMON_RESULT_SIZE_AMD      = 0x8BC5,
+		GL_PERFMON_RESULT_AMD           = 0x8BC6;
 
 	void glGetPerfMonitorGroupsAMD(@OutParameter @Check(value = "1", canBeNull = true) @GLint IntBuffer numGroups,
 	                               @AutoSize("groups") @GLsizei int groupsSize, @GLuint IntBuffer groups);
@@ -65,29 +61,29 @@ public interface AMD_performance_monitor {
 	void glGetPerfMonitorCountersAMD(@GLuint int group,
 	                                 @OutParameter @Check(value = "1") @GLint IntBuffer numCounters,
 	                                 @OutParameter @Check(value = "1") @GLint IntBuffer maxActiveCounters,
-	                                 @AutoSize("counters") @GLsizei int countersSize,
-	                                 @GLuint IntBuffer counters);
+	                                 @AutoSize(value = "counters", canBeNull = true) @GLsizei int countersSize,
+	                                 @Check(canBeNull = true) @GLuint IntBuffer counters);
 
 	void glGetPerfMonitorGroupStringAMD(@GLuint int group,
-	                                    @AutoSize("groupString") @GLsizei int bufSize,
+	                                    @AutoSize(value = "groupString", canBeNull = true) @GLsizei int bufSize,
 	                                    @OutParameter @GLsizei @Check(value = "1", canBeNull = true) IntBuffer length,
-	                                    @OutParameter @GLchar ByteBuffer groupString);
+	                                    @Check(canBeNull = true) @OutParameter @GLchar ByteBuffer groupString);
 
 	@Alternate("glGetPerfMonitorGroupStringAMD")
 	@GLreturn(value = "groupString", maxLength = "bufSize")
 	void glGetPerfMonitorGroupStringAMD2(@GLuint int group, @GLsizei int bufSize,
-	                                    @OutParameter @GLsizei @Constant("groupString_length, 0") IntBuffer length,
-	                                    @OutParameter @GLchar ByteBuffer groupString);
+	                                     @OutParameter @GLsizei @Constant("MemoryUtil.getAddress0(groupString_length)") IntBuffer length,
+	                                     @OutParameter @GLchar ByteBuffer groupString);
 
-	void glGetPerfMonitorCounterStringAMD(@GLuint int group, @GLuint int counter, @AutoSize("counterString") @GLsizei int bufSize,
+	void glGetPerfMonitorCounterStringAMD(@GLuint int group, @GLuint int counter, @AutoSize(value = "counterString", canBeNull = true) @GLsizei int bufSize,
 	                                      @OutParameter @GLsizei @Check(value = "1", canBeNull = true) IntBuffer length,
-	                                      @OutParameter @GLchar ByteBuffer counterString);
+	                                      @Check(canBeNull = true) @OutParameter @GLchar ByteBuffer counterString);
 
 	@Alternate("glGetPerfMonitorCounterStringAMD")
 	@GLreturn(value = "counterString", maxLength = "bufSize")
 	void glGetPerfMonitorCounterStringAMD2(@GLuint int group, @GLuint int counter, @GLsizei int bufSize,
-	                                      @OutParameter @GLsizei @Constant("counterString_length, 0") IntBuffer length,
-	                                      @OutParameter @GLchar ByteBuffer counterString);
+	                                       @OutParameter @GLsizei @Constant("MemoryUtil.getAddress0(counterString_length)") IntBuffer length,
+	                                       @OutParameter @GLchar ByteBuffer counterString);
 
 	void glGetPerfMonitorCounterInfoAMD(@GLuint int group, @GLuint int counter, @GLenum int pname, @Check(value = "16") @GLvoid ByteBuffer data);
 
@@ -100,12 +96,12 @@ public interface AMD_performance_monitor {
 	void glDeletePerfMonitorsAMD(@AutoSize("monitors") @GLsizei int n, @GLuint IntBuffer monitors);
 
 	@Alternate("glDeletePerfMonitorsAMD")
-	void glDeletePerfMonitorsAMD(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, monitor), 0", keepParam = true) int monitor);
+	void glDeletePerfMonitorsAMD(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, monitor)", keepParam = true) int monitor);
 
 	void glSelectPerfMonitorCountersAMD(@GLuint int monitor, boolean enable, @GLuint int group, @AutoSize("counterList") int numCounters, @GLuint IntBuffer counterList);
 
 	@Alternate("glSelectPerfMonitorCountersAMD")
-	void glSelectPerfMonitorCountersAMD(@GLuint int monitor, boolean enable, @GLuint int group, @Constant("1") int numCounters, @Constant(value = "APIUtil.getBufferInt().put(0, counter), 0", keepParam = true) int counter);
+	void glSelectPerfMonitorCountersAMD(@GLuint int monitor, boolean enable, @GLuint int group, @Constant("1") int numCounters, @Constant(value = "APIUtil.getInt(caps, counter)", keepParam = true) int counter);
 
 	void glBeginPerfMonitorAMD(@GLuint int monitor);
 
@@ -119,6 +115,6 @@ public interface AMD_performance_monitor {
 	@GLreturn("data")
 	void glGetPerfMonitorCounterDataAMD2(@GLuint int monitor, @GLenum int pname, @Constant("4") @GLsizei int dataSize,
 	                                     @OutParameter @GLuint IntBuffer data,
-	                                     @OutParameter @GLint @Constant("null, 0") IntBuffer bytesWritten);
+	                                     @OutParameter @GLint @Constant("0L") IntBuffer bytesWritten);
 
 }

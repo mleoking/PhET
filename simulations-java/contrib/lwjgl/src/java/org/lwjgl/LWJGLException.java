@@ -38,8 +38,8 @@ package org.lwjgl;
  * </p>
  * 
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: LWJGLException.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class LWJGLException extends Exception {
 

@@ -37,7 +37,17 @@ public final class ARBShaderSubroutine {
 		return GL40.glGetSubroutineUniformLocation(program, shadertype, name);
 	}
 
+	/** Overloads glGetSubroutineUniformLocation. */
+	public static int glGetSubroutineUniformLocation(int program, int shadertype, CharSequence name) {
+		return GL40.glGetSubroutineUniformLocation(program, shadertype, name);
+	}
+
 	public static int glGetSubroutineIndex(int program, int shadertype, ByteBuffer name) {
+		return GL40.glGetSubroutineIndex(program, shadertype, name);
+	}
+
+	/** Overloads glGetSubroutineIndex. */
+	public static int glGetSubroutineIndex(int program, int shadertype, CharSequence name) {
 		return GL40.glGetSubroutineIndex(program, shadertype, name);
 	}
 
@@ -46,8 +56,8 @@ public final class ARBShaderSubroutine {
 	}
 
 	/** Overloads glGetActiveSubroutineUniformiv. */
-	public static int glGetActiveSubroutineUniform(int program, int shadertype, int index, int pname) {
-		return GL40.glGetActiveSubroutineUniform(program, shadertype, index, pname);
+	public static int glGetActiveSubroutineUniformi(int program, int shadertype, int index, int pname) {
+		return GL40.glGetActiveSubroutineUniformi(program, shadertype, index, pname);
 	}
 
 	public static void glGetActiveSubroutineUniformName(int program, int shadertype, int index, IntBuffer length, ByteBuffer name) {
@@ -77,8 +87,8 @@ public final class ARBShaderSubroutine {
 	}
 
 	/** Overloads glGetUniformSubroutineuiv. */
-	public static int glGetUniformSubroutineu(int shadertype, int location) {
-		return GL40.glGetUniformSubroutineu(shadertype, location);
+	public static int glGetUniformSubroutineui(int shadertype, int location) {
+		return GL40.glGetUniformSubroutineui(shadertype, location);
 	}
 
 	public static void glGetProgramStage(int program, int shadertype, int pname, IntBuffer values) {
@@ -86,7 +96,7 @@ public final class ARBShaderSubroutine {
 	}
 
 	/** Overloads glGetProgramStageiv. */
-	public static int glGetProgramStage(int program, int shadertype, int pname) {
-		return GL40.glGetProgramStage(program, shadertype, pname);
+	public static int glGetProgramStagei(int program, int shadertype, int pname) {
+		return GL40.glGetProgramStagei(program, shadertype, pname);
 	}
 }

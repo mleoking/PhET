@@ -36,17 +36,17 @@ public final class EXTSeparateShaderObjects {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(string);
 		BufferChecks.checkNullTerminated(string);
-		int __result = nglCreateShaderProgramEXT(type, string, string.position(), function_pointer);
+		int __result = nglCreateShaderProgramEXT(type, MemoryUtil.getAddress(string), function_pointer);
 		return __result;
 	}
-	static native int nglCreateShaderProgramEXT(int type, ByteBuffer string, int string_position, long function_pointer);
+	static native int nglCreateShaderProgramEXT(int type, long string, long function_pointer);
 
 	/** Overloads glCreateShaderProgramEXT. */
 	public static int glCreateShaderProgramEXT(int type, CharSequence string) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCreateShaderProgramEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nglCreateShaderProgramEXT(type, APIUtil.getBufferNT(string), 0, function_pointer);
+		int __result = nglCreateShaderProgramEXT(type, APIUtil.getBufferNT(caps, string), function_pointer);
 		return __result;
 	}
 }

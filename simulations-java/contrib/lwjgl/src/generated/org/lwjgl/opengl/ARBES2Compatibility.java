@@ -35,6 +35,11 @@ public final class ARBES2Compatibility {
 		GL_MEDIUM_INT = 0x8DF4,
 		GL_HIGH_INT = 0x8DF5;
 
+	/**
+	 * Accepted by the &lt;format&gt; parameter of most commands taking sized internal formats: 
+	 */
+	public static final int GL_RGB565 = 0x8D62;
+
 	private ARBES2Compatibility() {}
 
 	public static void glReleaseShaderCompiler() {

@@ -40,15 +40,15 @@ import org.lwjgl.LWJGLException;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3002 $
- * $Id: MacOSXCanvasImplementation.java 3002 2008-04-10 20:25:54Z elias_naur $
+ * @version $Revision$
+ * $Id$
  */
 final class MacOSXCanvasImplementation implements AWTCanvasImplementation {
-	public PeerInfo createPeerInfo(Canvas component, PixelFormat pixel_format) throws LWJGLException {
+	public PeerInfo createPeerInfo(Canvas component, PixelFormat pixel_format, ContextAttribs attribs) throws LWJGLException {
 		try {
-			return new MacOSXAWTGLCanvasPeerInfo(component, pixel_format, true);
+			return new MacOSXAWTGLCanvasPeerInfo(component, pixel_format, attribs, true);
 		} catch (LWJGLException e) {
-			return new MacOSXAWTGLCanvasPeerInfo(component, pixel_format, false);
+			return new MacOSXAWTGLCanvasPeerInfo(component, pixel_format, attribs, false);
 		}
 	}
 

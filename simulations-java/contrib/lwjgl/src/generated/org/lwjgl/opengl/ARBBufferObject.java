@@ -51,16 +51,16 @@ public class ARBBufferObject {
 		long function_pointer = caps.glDeleteBuffersARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(buffers);
-		nglDeleteBuffersARB(buffers.remaining(), buffers, buffers.position(), function_pointer);
+		nglDeleteBuffersARB(buffers.remaining(), MemoryUtil.getAddress(buffers), function_pointer);
 	}
-	static native void nglDeleteBuffersARB(int buffers_n, IntBuffer buffers, int buffers_position, long function_pointer);
+	static native void nglDeleteBuffersARB(int buffers_n, long buffers, long function_pointer);
 
 	/** Overloads glDeleteBuffersARB. */
 	public static void glDeleteBuffersARB(int buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteBuffersARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteBuffersARB(1, APIUtil.getBufferInt().put(0, buffer), 0, function_pointer);
+		nglDeleteBuffersARB(1, APIUtil.getInt(caps, buffer), function_pointer);
 	}
 
 	public static void glGenBuffersARB(IntBuffer buffers) {
@@ -68,17 +68,17 @@ public class ARBBufferObject {
 		long function_pointer = caps.glGenBuffersARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(buffers);
-		nglGenBuffersARB(buffers.remaining(), buffers, buffers.position(), function_pointer);
+		nglGenBuffersARB(buffers.remaining(), MemoryUtil.getAddress(buffers), function_pointer);
 	}
-	static native void nglGenBuffersARB(int buffers_n, IntBuffer buffers, int buffers_position, long function_pointer);
+	static native void nglGenBuffersARB(int buffers_n, long buffers, long function_pointer);
 
 	/** Overloads glGenBuffersARB. */
 	public static int glGenBuffersARB() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenBuffersARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer buffers = APIUtil.getBufferInt();
-		nglGenBuffersARB(1, buffers, buffers.position(), function_pointer);
+		IntBuffer buffers = APIUtil.getBufferInt(caps);
+		nglGenBuffersARB(1, MemoryUtil.getAddress(buffers), function_pointer);
 		return buffers.get(0);
 	}
 
@@ -95,118 +95,118 @@ public class ARBBufferObject {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglBufferDataARB(target, data_size, null, 0, usage, function_pointer);
+		nglBufferDataARB(target, data_size, 0L, usage, function_pointer);
 	}
 	public static void glBufferDataARB(int target, ByteBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferDataARB(target, data.remaining(), data, data.position(), usage, function_pointer);
+		nglBufferDataARB(target, data.remaining(), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glBufferDataARB(int target, DoubleBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferDataARB(target, (data.remaining() << 3), data, data.position() << 3, usage, function_pointer);
+		nglBufferDataARB(target, (data.remaining() << 3), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glBufferDataARB(int target, FloatBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferDataARB(target, (data.remaining() << 2), data, data.position() << 2, usage, function_pointer);
+		nglBufferDataARB(target, (data.remaining() << 2), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glBufferDataARB(int target, IntBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferDataARB(target, (data.remaining() << 2), data, data.position() << 2, usage, function_pointer);
+		nglBufferDataARB(target, (data.remaining() << 2), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glBufferDataARB(int target, ShortBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferDataARB(target, (data.remaining() << 1), data, data.position() << 1, usage, function_pointer);
+		nglBufferDataARB(target, (data.remaining() << 1), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
-	static native void nglBufferDataARB(int target, long data_size, Buffer data, int data_position, int usage, long function_pointer);
+	static native void nglBufferDataARB(int target, long data_size, long data, int usage, long function_pointer);
 
 	public static void glBufferSubDataARB(int target, long offset, ByteBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubDataARB(target, offset, data.remaining(), data, data.position(), function_pointer);
+		nglBufferSubDataARB(target, offset, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glBufferSubDataARB(int target, long offset, DoubleBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubDataARB(target, offset, (data.remaining() << 3), data, data.position() << 3, function_pointer);
+		nglBufferSubDataARB(target, offset, (data.remaining() << 3), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glBufferSubDataARB(int target, long offset, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubDataARB(target, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglBufferSubDataARB(target, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glBufferSubDataARB(int target, long offset, IntBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubDataARB(target, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglBufferSubDataARB(target, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glBufferSubDataARB(int target, long offset, ShortBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglBufferSubDataARB(target, offset, (data.remaining() << 1), data, data.position() << 1, function_pointer);
+		nglBufferSubDataARB(target, offset, (data.remaining() << 1), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglBufferSubDataARB(int target, long offset, long data_size, Buffer data, int data_position, long function_pointer);
+	static native void nglBufferSubDataARB(int target, long offset, long data_size, long data, long function_pointer);
 
 	public static void glGetBufferSubDataARB(int target, long offset, ByteBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubDataARB(target, offset, data.remaining(), data, data.position(), function_pointer);
+		nglGetBufferSubDataARB(target, offset, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetBufferSubDataARB(int target, long offset, DoubleBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubDataARB(target, offset, (data.remaining() << 3), data, data.position() << 3, function_pointer);
+		nglGetBufferSubDataARB(target, offset, (data.remaining() << 3), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetBufferSubDataARB(int target, long offset, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubDataARB(target, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglGetBufferSubDataARB(target, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetBufferSubDataARB(int target, long offset, IntBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubDataARB(target, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglGetBufferSubDataARB(target, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetBufferSubDataARB(int target, long offset, ShortBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferSubDataARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetBufferSubDataARB(target, offset, (data.remaining() << 1), data, data.position() << 1, function_pointer);
+		nglGetBufferSubDataARB(target, offset, (data.remaining() << 1), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglGetBufferSubDataARB(int target, long offset, long data_size, Buffer data, int data_position, long function_pointer);
+	static native void nglGetBufferSubDataARB(int target, long offset, long data_size, long data, long function_pointer);
 
 	/**
 	 *  glMapBufferARB maps a GL buffer object to a ByteBuffer. The old_buffer argument can be null,
@@ -288,17 +288,27 @@ public class ARBBufferObject {
 		long function_pointer = caps.glGetBufferParameterivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetBufferParameterivARB(target, pname, params, params.position(), function_pointer);
+		nglGetBufferParameterivARB(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetBufferParameterivARB(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetBufferParameterivARB(int target, int pname, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetBufferParameterivARB.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetBufferParameteriARB} instead. 
+	 */
+	@Deprecated
+	public static int glGetBufferParameterARB(int target, int pname) {
+		return ARBBufferObject.glGetBufferParameteriARB(target, pname);
+	}
 
 	/** Overloads glGetBufferParameterivARB. */
-	public static int glGetBufferParameterARB(int target, int pname) {
+	public static int glGetBufferParameteriARB(int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBufferParameterivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetBufferParameterivARB(target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetBufferParameterivARB(target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 

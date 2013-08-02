@@ -35,9 +35,9 @@ import java.io.Serializable;
 
 /**
  * A 2D integer point class, which looks remarkably like an AWT one.
- * @author $Author: matzon $
- * @version $Revision: 2983 $
- * $Id: Point.java 2983 2008-04-07 18:36:09Z matzon $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 public final class Point implements ReadablePoint, WritablePoint, Serializable {
 

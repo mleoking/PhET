@@ -93,16 +93,16 @@ public final class EXTTextureInteger {
 		long function_pointer = caps.glTexParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglTexParameterIivEXT(target, pname, params, params.position(), function_pointer);
+		nglTexParameterIivEXT(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglTexParameterIivEXT(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglTexParameterIivEXT(int target, int pname, long params, long function_pointer);
 
 	/** Overloads glTexParameterIivEXT. */
 	public static void glTexParameterIiEXT(int target, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTexParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglTexParameterIivEXT(target, pname, APIUtil.getBufferInt().put(0, param), 0, function_pointer);
+		nglTexParameterIivEXT(target, pname, APIUtil.getInt(caps, param), function_pointer);
 	}
 
 	public static void glTexParameterIuEXT(int target, int pname, IntBuffer params) {
@@ -110,16 +110,16 @@ public final class EXTTextureInteger {
 		long function_pointer = caps.glTexParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglTexParameterIuivEXT(target, pname, params, params.position(), function_pointer);
+		nglTexParameterIuivEXT(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglTexParameterIuivEXT(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglTexParameterIuivEXT(int target, int pname, long params, long function_pointer);
 
 	/** Overloads glTexParameterIuivEXT. */
 	public static void glTexParameterIuiEXT(int target, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTexParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglTexParameterIuivEXT(target, pname, APIUtil.getBufferInt().put(0, param), 0, function_pointer);
+		nglTexParameterIuivEXT(target, pname, APIUtil.getInt(caps, param), function_pointer);
 	}
 
 	public static void glGetTexParameterIEXT(int target, int pname, IntBuffer params) {
@@ -127,17 +127,17 @@ public final class EXTTextureInteger {
 		long function_pointer = caps.glGetTexParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTexParameterIivEXT(target, pname, params, params.position(), function_pointer);
+		nglGetTexParameterIivEXT(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTexParameterIivEXT(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetTexParameterIivEXT(int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetTexParameterIivEXT. */
 	public static int glGetTexParameterIiEXT(int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTexParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetTexParameterIivEXT(target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetTexParameterIivEXT(target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -146,17 +146,17 @@ public final class EXTTextureInteger {
 		long function_pointer = caps.glGetTexParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTexParameterIuivEXT(target, pname, params, params.position(), function_pointer);
+		nglGetTexParameterIuivEXT(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTexParameterIuivEXT(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetTexParameterIuivEXT(int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetTexParameterIuivEXT. */
 	public static int glGetTexParameterIuiEXT(int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTexParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetTexParameterIuivEXT(target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetTexParameterIuivEXT(target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 }

@@ -44,25 +44,25 @@ public final class AMDDebugOutput {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (ids != null)
 			BufferChecks.checkDirect(ids);
-		nglDebugMessageEnableAMD(category, severity, (ids == null ? 0 : ids.remaining()), ids, ids != null ? ids.position() : 0, enabled, function_pointer);
+		nglDebugMessageEnableAMD(category, severity, (ids == null ? 0 : ids.remaining()), MemoryUtil.getAddressSafe(ids), enabled, function_pointer);
 	}
-	static native void nglDebugMessageEnableAMD(int category, int severity, int ids_count, IntBuffer ids, int ids_position, boolean enabled, long function_pointer);
+	static native void nglDebugMessageEnableAMD(int category, int severity, int ids_count, long ids, boolean enabled, long function_pointer);
 
 	public static void glDebugMessageInsertAMD(int category, int severity, int id, ByteBuffer buf) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDebugMessageInsertAMD;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(buf);
-		nglDebugMessageInsertAMD(category, severity, id, buf.remaining(), buf, buf.position(), function_pointer);
+		nglDebugMessageInsertAMD(category, severity, id, buf.remaining(), MemoryUtil.getAddress(buf), function_pointer);
 	}
-	static native void nglDebugMessageInsertAMD(int category, int severity, int id, int buf_length, ByteBuffer buf, int buf_position, long function_pointer);
+	static native void nglDebugMessageInsertAMD(int category, int severity, int id, int buf_length, long buf, long function_pointer);
 
 	/** Overloads glDebugMessageInsertAMD. */
 	public static void glDebugMessageInsertAMD(int category, int severity, int id, CharSequence buf) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDebugMessageInsertAMD;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDebugMessageInsertAMD(category, severity, id, buf.length(), APIUtil.getBuffer(buf), 0, function_pointer);
+		nglDebugMessageInsertAMD(category, severity, id, buf.length(), APIUtil.getBuffer(caps, buf), function_pointer);
 	}
 
 	/**
@@ -96,8 +96,8 @@ public final class AMDDebugOutput {
 			BufferChecks.checkBuffer(lengths, count);
 		if (messageLog != null)
 			BufferChecks.checkDirect(messageLog);
-		int __result = nglGetDebugMessageLogAMD(count, (messageLog == null ? 0 : messageLog.remaining()), categories, categories != null ? categories.position() : 0, severities, severities != null ? severities.position() : 0, ids, ids != null ? ids.position() : 0, lengths, lengths != null ? lengths.position() : 0, messageLog, messageLog != null ? messageLog.position() : 0, function_pointer);
+		int __result = nglGetDebugMessageLogAMD(count, (messageLog == null ? 0 : messageLog.remaining()), MemoryUtil.getAddressSafe(categories), MemoryUtil.getAddressSafe(severities), MemoryUtil.getAddressSafe(ids), MemoryUtil.getAddressSafe(lengths), MemoryUtil.getAddressSafe(messageLog), function_pointer);
 		return __result;
 	}
-	static native int nglGetDebugMessageLogAMD(int count, int messageLog_logSize, IntBuffer categories, int categories_position, IntBuffer severities, int severities_position, IntBuffer ids, int ids_position, IntBuffer lengths, int lengths_position, ByteBuffer messageLog, int messageLog_position, long function_pointer);
+	static native int nglGetDebugMessageLogAMD(int count, int messageLog_logSize, long categories, long severities, long ids, long lengths, long messageLog, long function_pointer);
 }

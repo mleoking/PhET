@@ -10,8 +10,8 @@ import java.nio.*;
  *  The core OpenGL1.3 API.
  * <p>
  *  @author cix_foo <cix_foo@users.sourceforge.net>
- *  @version $Revision: 3460 $
- *  $Id: GL13.java 3460 2010-11-29 18:25:28Z spasi $
+ *  @version $Revision$
+ *  $Id$
  */
 public final class GL13 {
 
@@ -137,9 +137,9 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTexImage1D(target, level, internalformat, width, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTexImage1D(target, level, internalformat, width, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTexImage1D(int target, int level, int internalformat, int width, int border, int data_imageSize, Buffer data, int data_position, long function_pointer);
+	static native void nglCompressedTexImage1D(int target, int level, int internalformat, int width, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTexImage1D(int target, int level, int internalformat, int width, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexImage1D;
@@ -155,9 +155,9 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTexImage2D(target, level, internalformat, width, height, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTexImage2D(target, level, internalformat, width, height, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTexImage2D(int target, int level, int internalformat, int width, int height, int border, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTexImage2D(int target, int level, int internalformat, int width, int height, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTexImage2D(int target, int level, int internalformat, int width, int height, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexImage2D;
@@ -173,9 +173,9 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTexImage3D(target, level, internalformat, width, height, depth, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTexImage3D(target, level, internalformat, width, height, depth, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTexImage3D(int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTexImage3D(int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTexImage3D(int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexImage3D;
@@ -191,9 +191,9 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTexSubImage1D(target, level, xoffset, width, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTexSubImage1D(target, level, xoffset, width, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTexSubImage1D(int target, int level, int xoffset, int width, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTexSubImage1D(int target, int level, int xoffset, int width, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTexSubImage1D(int target, int level, int xoffset, int width, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexSubImage1D;
@@ -209,9 +209,9 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexSubImage2D;
@@ -227,9 +227,9 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTexSubImage3D(int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTexSubImage3D(int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTexSubImage3D(int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexSubImage3D;
@@ -245,7 +245,7 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedTexImage(target, lod, img, img.position(), function_pointer);
+		nglGetCompressedTexImage(target, lod, MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetCompressedTexImage(int target, int lod, IntBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -253,7 +253,7 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedTexImage(target, lod, img, img.position() << 2, function_pointer);
+		nglGetCompressedTexImage(target, lod, MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetCompressedTexImage(int target, int lod, ShortBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -261,9 +261,9 @@ public final class GL13 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedTexImage(target, lod, img, img.position() << 1, function_pointer);
+		nglGetCompressedTexImage(target, lod, MemoryUtil.getAddress(img), function_pointer);
 	}
-	static native void nglGetCompressedTexImage(int target, int lod, Buffer img, int img_position, long function_pointer);
+	static native void nglGetCompressedTexImage(int target, int lod, long img, long function_pointer);
 	public static void glGetCompressedTexImage(int target, int lod, long img_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetCompressedTexImage;
@@ -342,36 +342,36 @@ public final class GL13 {
 		long function_pointer = caps.glLoadTransposeMatrixf;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglLoadTransposeMatrixf(m, m.position(), function_pointer);
+		nglLoadTransposeMatrixf(MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglLoadTransposeMatrixf(FloatBuffer m, int m_position, long function_pointer);
+	static native void nglLoadTransposeMatrixf(long m, long function_pointer);
 
 	public static void glLoadTransposeMatrix(DoubleBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glLoadTransposeMatrixd;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglLoadTransposeMatrixd(m, m.position(), function_pointer);
+		nglLoadTransposeMatrixd(MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglLoadTransposeMatrixd(DoubleBuffer m, int m_position, long function_pointer);
+	static native void nglLoadTransposeMatrixd(long m, long function_pointer);
 
 	public static void glMultTransposeMatrix(FloatBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultTransposeMatrixf;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMultTransposeMatrixf(m, m.position(), function_pointer);
+		nglMultTransposeMatrixf(MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMultTransposeMatrixf(FloatBuffer m, int m_position, long function_pointer);
+	static native void nglMultTransposeMatrixf(long m, long function_pointer);
 
 	public static void glMultTransposeMatrix(DoubleBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultTransposeMatrixd;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMultTransposeMatrixd(m, m.position(), function_pointer);
+		nglMultTransposeMatrixd(MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMultTransposeMatrixd(DoubleBuffer m, int m_position, long function_pointer);
+	static native void nglMultTransposeMatrixd(long m, long function_pointer);
 
 	public static void glSampleCoverage(float value, boolean invert) {
 		ContextCapabilities caps = GLContext.getCapabilities();

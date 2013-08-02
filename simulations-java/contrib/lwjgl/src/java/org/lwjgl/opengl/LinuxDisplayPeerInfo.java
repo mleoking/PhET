@@ -38,11 +38,20 @@ import org.lwjgl.LWJGLException;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- * $Id: LinuxDisplayPeerInfo.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class LinuxDisplayPeerInfo extends LinuxPeerInfo {
+
+	final boolean egl;
+
+	LinuxDisplayPeerInfo() throws LWJGLException {
+		egl = true;
+		org.lwjgl.opengles.GLContext.loadOpenGLLibrary();
+	}
+
 	LinuxDisplayPeerInfo(PixelFormat pixel_format) throws LWJGLException {
+		egl = false;
 		LinuxDisplay.lockAWT();
 		try {
 			GLContext.loadOpenGLLibrary();
@@ -80,9 +89,14 @@ final class LinuxDisplayPeerInfo extends LinuxPeerInfo {
 
 	public void destroy() {
 		super.destroy();
-		LinuxDisplay.lockAWT();
-		LinuxDisplay.decDisplay();
-		GLContext.unloadOpenGLLibrary();
-		LinuxDisplay.unlockAWT();
+
+		if ( egl )
+			org.lwjgl.opengles.GLContext.unloadOpenGLLibrary();
+		else {
+			LinuxDisplay.lockAWT();
+			LinuxDisplay.decDisplay();
+			GLContext.unloadOpenGLLibrary();
+			LinuxDisplay.unlockAWT();
+		}
 	}
 }

@@ -49,63 +49,63 @@ public final class ARBRobustness {
 		long function_pointer = caps.glGetnMapdvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglGetnMapdvARB(target, query, v.remaining() << 3, v, v.position(), function_pointer);
+		nglGetnMapdvARB(target, query, v.remaining() << 3, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglGetnMapdvARB(int target, int query, int bufSize, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglGetnMapdvARB(int target, int query, int bufSize, long v, long function_pointer);
 
 	public static void glGetnMapfvARB(int target, int query, FloatBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnMapfvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglGetnMapfvARB(target, query, v.remaining() << 2, v, v.position(), function_pointer);
+		nglGetnMapfvARB(target, query, v.remaining() << 2, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglGetnMapfvARB(int target, int query, int bufSize, FloatBuffer v, int v_position, long function_pointer);
+	static native void nglGetnMapfvARB(int target, int query, int bufSize, long v, long function_pointer);
 
 	public static void glGetnMapivARB(int target, int query, IntBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnMapivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(v);
-		nglGetnMapivARB(target, query, v.remaining() << 2, v, v.position(), function_pointer);
+		nglGetnMapivARB(target, query, v.remaining() << 2, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglGetnMapivARB(int target, int query, int bufSize, IntBuffer v, int v_position, long function_pointer);
+	static native void nglGetnMapivARB(int target, int query, int bufSize, long v, long function_pointer);
 
 	public static void glGetnPixelMapfvARB(int map, FloatBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnPixelMapfvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(values);
-		nglGetnPixelMapfvARB(map, values.remaining() << 2, values, values.position(), function_pointer);
+		nglGetnPixelMapfvARB(map, values.remaining() << 2, MemoryUtil.getAddress(values), function_pointer);
 	}
-	static native void nglGetnPixelMapfvARB(int map, int bufSize, FloatBuffer values, int values_position, long function_pointer);
+	static native void nglGetnPixelMapfvARB(int map, int bufSize, long values, long function_pointer);
 
 	public static void glGetnPixelMapuivARB(int map, IntBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnPixelMapuivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(values);
-		nglGetnPixelMapuivARB(map, values.remaining() << 2, values, values.position(), function_pointer);
+		nglGetnPixelMapuivARB(map, values.remaining() << 2, MemoryUtil.getAddress(values), function_pointer);
 	}
-	static native void nglGetnPixelMapuivARB(int map, int bufSize, IntBuffer values, int values_position, long function_pointer);
+	static native void nglGetnPixelMapuivARB(int map, int bufSize, long values, long function_pointer);
 
 	public static void glGetnPixelMapusvARB(int map, ShortBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnPixelMapusvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(values);
-		nglGetnPixelMapusvARB(map, values.remaining() << 1, values, values.position(), function_pointer);
+		nglGetnPixelMapusvARB(map, values.remaining() << 1, MemoryUtil.getAddress(values), function_pointer);
 	}
-	static native void nglGetnPixelMapusvARB(int map, int bufSize, ShortBuffer values, int values_position, long function_pointer);
+	static native void nglGetnPixelMapusvARB(int map, int bufSize, long values, long function_pointer);
 
 	public static void glGetnPolygonStippleARB(ByteBuffer pattern) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnPolygonStippleARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pattern);
-		nglGetnPolygonStippleARB(pattern.remaining(), pattern, pattern.position(), function_pointer);
+		nglGetnPolygonStippleARB(pattern.remaining(), MemoryUtil.getAddress(pattern), function_pointer);
 	}
-	static native void nglGetnPolygonStippleARB(int pattern_bufSize, ByteBuffer pattern, int pattern_position, long function_pointer);
+	static native void nglGetnPolygonStippleARB(int pattern_bufSize, long pattern, long function_pointer);
 
 	public static void glGetnTexImageARB(int target, int level, int format, int type, ByteBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -113,7 +113,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetnTexImageARB(target, level, format, type, img.remaining(), img, img.position(), function_pointer);
+		nglGetnTexImageARB(target, level, format, type, img.remaining(), MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetnTexImageARB(int target, int level, int format, int type, DoubleBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -121,7 +121,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetnTexImageARB(target, level, format, type, (img.remaining() << 3), img, img.position() << 3, function_pointer);
+		nglGetnTexImageARB(target, level, format, type, (img.remaining() << 3), MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetnTexImageARB(int target, int level, int format, int type, FloatBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -129,7 +129,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetnTexImageARB(target, level, format, type, (img.remaining() << 2), img, img.position() << 2, function_pointer);
+		nglGetnTexImageARB(target, level, format, type, (img.remaining() << 2), MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetnTexImageARB(int target, int level, int format, int type, IntBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -137,7 +137,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetnTexImageARB(target, level, format, type, (img.remaining() << 2), img, img.position() << 2, function_pointer);
+		nglGetnTexImageARB(target, level, format, type, (img.remaining() << 2), MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetnTexImageARB(int target, int level, int format, int type, ShortBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -145,9 +145,9 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetnTexImageARB(target, level, format, type, (img.remaining() << 1), img, img.position() << 1, function_pointer);
+		nglGetnTexImageARB(target, level, format, type, (img.remaining() << 1), MemoryUtil.getAddress(img), function_pointer);
 	}
-	static native void nglGetnTexImageARB(int target, int level, int format, int type, int img_bufSize, Buffer img, int img_position, long function_pointer);
+	static native void nglGetnTexImageARB(int target, int level, int format, int type, int img_bufSize, long img, long function_pointer);
 	public static void glGetnTexImageARB(int target, int level, int format, int type, int img_bufSize, long img_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnTexImageARB;
@@ -163,7 +163,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglReadnPixelsARB(x, y, width, height, format, type, data.remaining(), data, data.position(), function_pointer);
+		nglReadnPixelsARB(x, y, width, height, format, type, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glReadnPixelsARB(int x, int y, int width, int height, int format, int type, DoubleBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -171,7 +171,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglReadnPixelsARB(x, y, width, height, format, type, (data.remaining() << 3), data, data.position() << 3, function_pointer);
+		nglReadnPixelsARB(x, y, width, height, format, type, (data.remaining() << 3), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glReadnPixelsARB(int x, int y, int width, int height, int format, int type, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -179,7 +179,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglReadnPixelsARB(x, y, width, height, format, type, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglReadnPixelsARB(x, y, width, height, format, type, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glReadnPixelsARB(int x, int y, int width, int height, int format, int type, IntBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -187,7 +187,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglReadnPixelsARB(x, y, width, height, format, type, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglReadnPixelsARB(x, y, width, height, format, type, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glReadnPixelsARB(int x, int y, int width, int height, int format, int type, ShortBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -195,9 +195,9 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglReadnPixelsARB(x, y, width, height, format, type, (data.remaining() << 1), data, data.position() << 1, function_pointer);
+		nglReadnPixelsARB(x, y, width, height, format, type, (data.remaining() << 1), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglReadnPixelsARB(int x, int y, int width, int height, int format, int type, int data_bufSize, Buffer data, int data_position, long function_pointer);
+	static native void nglReadnPixelsARB(int x, int y, int width, int height, int format, int type, int data_bufSize, long data, long function_pointer);
 	public static void glReadnPixelsARB(int x, int y, int width, int height, int format, int type, int data_bufSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glReadnPixelsARB;
@@ -212,23 +212,23 @@ public final class ARBRobustness {
 		long function_pointer = caps.glGetnColorTableARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(table);
-		nglGetnColorTableARB(target, format, type, table.remaining(), table, table.position(), function_pointer);
+		nglGetnColorTableARB(target, format, type, table.remaining(), MemoryUtil.getAddress(table), function_pointer);
 	}
 	public static void glGetnColorTableARB(int target, int format, int type, DoubleBuffer table) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnColorTableARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(table);
-		nglGetnColorTableARB(target, format, type, (table.remaining() << 3), table, table.position() << 3, function_pointer);
+		nglGetnColorTableARB(target, format, type, (table.remaining() << 3), MemoryUtil.getAddress(table), function_pointer);
 	}
 	public static void glGetnColorTableARB(int target, int format, int type, FloatBuffer table) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnColorTableARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(table);
-		nglGetnColorTableARB(target, format, type, (table.remaining() << 2), table, table.position() << 2, function_pointer);
+		nglGetnColorTableARB(target, format, type, (table.remaining() << 2), MemoryUtil.getAddress(table), function_pointer);
 	}
-	static native void nglGetnColorTableARB(int target, int format, int type, int table_bufSize, Buffer table, int table_position, long function_pointer);
+	static native void nglGetnColorTableARB(int target, int format, int type, int table_bufSize, long table, long function_pointer);
 
 	public static void glGetnConvolutionFilterARB(int target, int format, int type, ByteBuffer image) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -236,7 +236,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(image);
-		nglGetnConvolutionFilterARB(target, format, type, image.remaining(), image, image.position(), function_pointer);
+		nglGetnConvolutionFilterARB(target, format, type, image.remaining(), MemoryUtil.getAddress(image), function_pointer);
 	}
 	public static void glGetnConvolutionFilterARB(int target, int format, int type, DoubleBuffer image) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -244,7 +244,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(image);
-		nglGetnConvolutionFilterARB(target, format, type, (image.remaining() << 3), image, image.position() << 3, function_pointer);
+		nglGetnConvolutionFilterARB(target, format, type, (image.remaining() << 3), MemoryUtil.getAddress(image), function_pointer);
 	}
 	public static void glGetnConvolutionFilterARB(int target, int format, int type, FloatBuffer image) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -252,7 +252,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(image);
-		nglGetnConvolutionFilterARB(target, format, type, (image.remaining() << 2), image, image.position() << 2, function_pointer);
+		nglGetnConvolutionFilterARB(target, format, type, (image.remaining() << 2), MemoryUtil.getAddress(image), function_pointer);
 	}
 	public static void glGetnConvolutionFilterARB(int target, int format, int type, IntBuffer image) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -260,7 +260,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(image);
-		nglGetnConvolutionFilterARB(target, format, type, (image.remaining() << 2), image, image.position() << 2, function_pointer);
+		nglGetnConvolutionFilterARB(target, format, type, (image.remaining() << 2), MemoryUtil.getAddress(image), function_pointer);
 	}
 	public static void glGetnConvolutionFilterARB(int target, int format, int type, ShortBuffer image) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -268,9 +268,9 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(image);
-		nglGetnConvolutionFilterARB(target, format, type, (image.remaining() << 1), image, image.position() << 1, function_pointer);
+		nglGetnConvolutionFilterARB(target, format, type, (image.remaining() << 1), MemoryUtil.getAddress(image), function_pointer);
 	}
-	static native void nglGetnConvolutionFilterARB(int target, int format, int type, int image_bufSize, Buffer image, int image_position, long function_pointer);
+	static native void nglGetnConvolutionFilterARB(int target, int format, int type, int image_bufSize, long image, long function_pointer);
 	public static void glGetnConvolutionFilterARB(int target, int format, int type, int image_bufSize, long image_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnConvolutionFilterARB;
@@ -288,7 +288,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), column.remaining(), column, column.position(), span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ByteBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -298,7 +298,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), column.remaining(), column, column.position(), span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ByteBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -308,7 +308,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ByteBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -318,7 +318,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ByteBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -328,7 +328,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), column.remaining(), column, column.position(), span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, DoubleBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -338,7 +338,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 3), column, column.position() << 3, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, DoubleBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -348,7 +348,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 3), column, column.position() << 3, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, DoubleBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -358,7 +358,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, DoubleBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -368,7 +368,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, DoubleBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -378,7 +378,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 3), column, column.position() << 3, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, FloatBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -388,7 +388,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, FloatBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -398,7 +398,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, FloatBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -408,7 +408,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, FloatBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -418,7 +418,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, FloatBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -428,7 +428,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, IntBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -438,7 +438,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, IntBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -448,7 +448,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, IntBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -458,7 +458,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, IntBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -468,7 +468,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, IntBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -478,7 +478,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ShortBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -488,7 +488,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 1), column, column.position() << 1, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ShortBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -498,7 +498,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 1), column, column.position() << 1, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ShortBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -508,7 +508,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ShortBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -518,7 +518,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ByteBuffer row, ShortBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -528,7 +528,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, row.remaining(), row, row.position(), (column.remaining() << 1), column, column.position() << 1, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, row.remaining(), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ByteBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -538,7 +538,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, column.remaining(), column, column.position(), span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ByteBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -548,7 +548,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, column.remaining(), column, column.position(), span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ByteBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -558,7 +558,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ByteBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -568,7 +568,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ByteBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -578,7 +578,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, column.remaining(), column, column.position(), span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, DoubleBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -588,7 +588,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 3), column, column.position() << 3, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, DoubleBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -598,7 +598,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, DoubleBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -608,7 +608,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, DoubleBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -618,7 +618,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, DoubleBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -628,7 +628,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, FloatBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -638,7 +638,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, FloatBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -648,7 +648,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, FloatBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -658,7 +658,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, FloatBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -668,7 +668,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, FloatBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -678,7 +678,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, IntBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -688,7 +688,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, IntBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -698,7 +698,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, IntBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -708,7 +708,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, IntBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -718,7 +718,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, IntBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -728,7 +728,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ShortBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -738,7 +738,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 1), column, column.position() << 1, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ShortBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -748,7 +748,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ShortBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -758,7 +758,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ShortBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -768,7 +768,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, DoubleBuffer row, ShortBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -778,7 +778,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), row, row.position() << 3, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 3), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ByteBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -788,7 +788,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ByteBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -798,7 +798,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ByteBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -808,7 +808,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ByteBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -818,7 +818,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ByteBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -828,7 +828,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, DoubleBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -838,7 +838,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, DoubleBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -848,7 +848,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, DoubleBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -858,7 +858,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, DoubleBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -868,7 +868,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, DoubleBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -878,7 +878,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, FloatBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -888,7 +888,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, FloatBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -898,7 +898,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, FloatBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -908,7 +908,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, FloatBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -918,7 +918,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, FloatBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -928,7 +928,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, IntBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -938,7 +938,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, IntBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -948,7 +948,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, IntBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -958,7 +958,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, IntBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -968,7 +968,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, IntBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -978,7 +978,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ShortBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -988,7 +988,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ShortBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -998,7 +998,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ShortBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1008,7 +1008,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ShortBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1018,7 +1018,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, FloatBuffer row, ShortBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1028,7 +1028,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ByteBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1038,7 +1038,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ByteBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1048,7 +1048,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ByteBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1058,7 +1058,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ByteBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1068,7 +1068,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ByteBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1078,7 +1078,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, column.remaining(), column, column.position(), span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, DoubleBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1088,7 +1088,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, DoubleBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1098,7 +1098,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, DoubleBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1108,7 +1108,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, DoubleBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1118,7 +1118,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, DoubleBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1128,7 +1128,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, FloatBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1138,7 +1138,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, FloatBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1148,7 +1148,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, FloatBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1158,7 +1158,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, FloatBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1168,7 +1168,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, FloatBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1178,7 +1178,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, IntBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1188,7 +1188,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, IntBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1198,7 +1198,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, IntBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1208,7 +1208,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, IntBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1218,7 +1218,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, IntBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1228,7 +1228,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ShortBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1238,7 +1238,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ShortBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1248,7 +1248,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ShortBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1258,7 +1258,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ShortBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1268,7 +1268,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, IntBuffer row, ShortBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1278,7 +1278,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), row, row.position() << 2, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 2), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ByteBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1288,7 +1288,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, column.remaining(), column, column.position(), span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ByteBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1298,7 +1298,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, column.remaining(), column, column.position(), span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ByteBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1308,7 +1308,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ByteBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1318,7 +1318,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, column.remaining(), column, column.position(), span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ByteBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1328,7 +1328,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, column.remaining(), column, column.position(), span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), column.remaining(), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, DoubleBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1338,7 +1338,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 3), column, column.position() << 3, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, DoubleBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1348,7 +1348,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, DoubleBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1358,7 +1358,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, DoubleBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1368,7 +1368,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, DoubleBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1378,7 +1378,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 3), column, column.position() << 3, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 3), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, FloatBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1388,7 +1388,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, FloatBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1398,7 +1398,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, FloatBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1408,7 +1408,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, FloatBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1418,7 +1418,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, FloatBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1428,7 +1428,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, IntBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1438,7 +1438,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, IntBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1448,7 +1448,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, IntBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1458,7 +1458,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, IntBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1468,7 +1468,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, IntBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1478,7 +1478,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 2), column, column.position() << 2, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 2), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ShortBuffer column, ByteBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1488,7 +1488,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 1), column, column.position() << 1, span, span.position(), function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ShortBuffer column, DoubleBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1498,7 +1498,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 3, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ShortBuffer column, FloatBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1508,7 +1508,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ShortBuffer column, IntBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1518,7 +1518,7 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 2, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
 	public static void glGetnSeparableFilterARB(int target, int format, int type, ShortBuffer row, ShortBuffer column, ShortBuffer span) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1528,9 +1528,9 @@ public final class ARBRobustness {
 		BufferChecks.checkDirect(row);
 		BufferChecks.checkDirect(column);
 		BufferChecks.checkDirect(span);
-		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), row, row.position() << 1, (column.remaining() << 1), column, column.position() << 1, span, span.position() << 1, function_pointer);
+		nglGetnSeparableFilterARB(target, format, type, (row.remaining() << 1), MemoryUtil.getAddress(row), (column.remaining() << 1), MemoryUtil.getAddress(column), MemoryUtil.getAddress(span), function_pointer);
 	}
-	static native void nglGetnSeparableFilterARB(int target, int format, int type, int row_rowBufSize, Buffer row, int row_position, int column_columnBufSize, Buffer column, int column_position, Buffer span, int span_position, long function_pointer);
+	static native void nglGetnSeparableFilterARB(int target, int format, int type, int row_rowBufSize, long row, int column_columnBufSize, long column, long span, long function_pointer);
 	public static void glGetnSeparableFilterARB(int target, int format, int type, int row_rowBufSize, long row_buffer_offset, int column_columnBufSize, long column_buffer_offset, long span_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnSeparableFilterARB;
@@ -1546,7 +1546,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnHistogramARB(target, reset, format, type, values.remaining(), values, values.position(), function_pointer);
+		nglGetnHistogramARB(target, reset, format, type, values.remaining(), MemoryUtil.getAddress(values), function_pointer);
 	}
 	public static void glGetnHistogramARB(int target, boolean reset, int format, int type, DoubleBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1554,7 +1554,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnHistogramARB(target, reset, format, type, (values.remaining() << 3), values, values.position() << 3, function_pointer);
+		nglGetnHistogramARB(target, reset, format, type, (values.remaining() << 3), MemoryUtil.getAddress(values), function_pointer);
 	}
 	public static void glGetnHistogramARB(int target, boolean reset, int format, int type, FloatBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1562,7 +1562,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnHistogramARB(target, reset, format, type, (values.remaining() << 2), values, values.position() << 2, function_pointer);
+		nglGetnHistogramARB(target, reset, format, type, (values.remaining() << 2), MemoryUtil.getAddress(values), function_pointer);
 	}
 	public static void glGetnHistogramARB(int target, boolean reset, int format, int type, IntBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1570,7 +1570,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnHistogramARB(target, reset, format, type, (values.remaining() << 2), values, values.position() << 2, function_pointer);
+		nglGetnHistogramARB(target, reset, format, type, (values.remaining() << 2), MemoryUtil.getAddress(values), function_pointer);
 	}
 	public static void glGetnHistogramARB(int target, boolean reset, int format, int type, ShortBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1578,9 +1578,9 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnHistogramARB(target, reset, format, type, (values.remaining() << 1), values, values.position() << 1, function_pointer);
+		nglGetnHistogramARB(target, reset, format, type, (values.remaining() << 1), MemoryUtil.getAddress(values), function_pointer);
 	}
-	static native void nglGetnHistogramARB(int target, boolean reset, int format, int type, int values_bufSize, Buffer values, int values_position, long function_pointer);
+	static native void nglGetnHistogramARB(int target, boolean reset, int format, int type, int values_bufSize, long values, long function_pointer);
 	public static void glGetnHistogramARB(int target, boolean reset, int format, int type, int values_bufSize, long values_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnHistogramARB;
@@ -1596,7 +1596,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnMinmaxARB(target, reset, format, type, values.remaining(), values, values.position(), function_pointer);
+		nglGetnMinmaxARB(target, reset, format, type, values.remaining(), MemoryUtil.getAddress(values), function_pointer);
 	}
 	public static void glGetnMinmaxARB(int target, boolean reset, int format, int type, DoubleBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1604,7 +1604,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnMinmaxARB(target, reset, format, type, (values.remaining() << 3), values, values.position() << 3, function_pointer);
+		nglGetnMinmaxARB(target, reset, format, type, (values.remaining() << 3), MemoryUtil.getAddress(values), function_pointer);
 	}
 	public static void glGetnMinmaxARB(int target, boolean reset, int format, int type, FloatBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1612,7 +1612,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnMinmaxARB(target, reset, format, type, (values.remaining() << 2), values, values.position() << 2, function_pointer);
+		nglGetnMinmaxARB(target, reset, format, type, (values.remaining() << 2), MemoryUtil.getAddress(values), function_pointer);
 	}
 	public static void glGetnMinmaxARB(int target, boolean reset, int format, int type, IntBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1620,7 +1620,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnMinmaxARB(target, reset, format, type, (values.remaining() << 2), values, values.position() << 2, function_pointer);
+		nglGetnMinmaxARB(target, reset, format, type, (values.remaining() << 2), MemoryUtil.getAddress(values), function_pointer);
 	}
 	public static void glGetnMinmaxARB(int target, boolean reset, int format, int type, ShortBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1628,9 +1628,9 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(values);
-		nglGetnMinmaxARB(target, reset, format, type, (values.remaining() << 1), values, values.position() << 1, function_pointer);
+		nglGetnMinmaxARB(target, reset, format, type, (values.remaining() << 1), MemoryUtil.getAddress(values), function_pointer);
 	}
-	static native void nglGetnMinmaxARB(int target, boolean reset, int format, int type, int values_bufSize, Buffer values, int values_position, long function_pointer);
+	static native void nglGetnMinmaxARB(int target, boolean reset, int format, int type, int values_bufSize, long values, long function_pointer);
 	public static void glGetnMinmaxARB(int target, boolean reset, int format, int type, int values_bufSize, long values_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnMinmaxARB;
@@ -1646,7 +1646,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetnCompressedTexImageARB(target, lod, img.remaining(), img, img.position(), function_pointer);
+		nglGetnCompressedTexImageARB(target, lod, img.remaining(), MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetnCompressedTexImageARB(int target, int lod, IntBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1654,7 +1654,7 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetnCompressedTexImageARB(target, lod, (img.remaining() << 2), img, img.position() << 2, function_pointer);
+		nglGetnCompressedTexImageARB(target, lod, (img.remaining() << 2), MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetnCompressedTexImageARB(int target, int lod, ShortBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1662,9 +1662,9 @@ public final class ARBRobustness {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetnCompressedTexImageARB(target, lod, (img.remaining() << 1), img, img.position() << 1, function_pointer);
+		nglGetnCompressedTexImageARB(target, lod, (img.remaining() << 1), MemoryUtil.getAddress(img), function_pointer);
 	}
-	static native void nglGetnCompressedTexImageARB(int target, int lod, int img_bufSize, Buffer img, int img_position, long function_pointer);
+	static native void nglGetnCompressedTexImageARB(int target, int lod, int img_bufSize, long img, long function_pointer);
 	public static void glGetnCompressedTexImageARB(int target, int lod, int img_bufSize, long img_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnCompressedTexImageARB;
@@ -1679,34 +1679,34 @@ public final class ARBRobustness {
 		long function_pointer = caps.glGetnUniformfvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetnUniformfvARB(program, location, params.remaining() << 2, params, params.position(), function_pointer);
+		nglGetnUniformfvARB(program, location, params.remaining() << 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetnUniformfvARB(int program, int location, int bufSize, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetnUniformfvARB(int program, int location, int bufSize, long params, long function_pointer);
 
 	public static void glGetnUniformivARB(int program, int location, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnUniformivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetnUniformivARB(program, location, params.remaining() << 2, params, params.position(), function_pointer);
+		nglGetnUniformivARB(program, location, params.remaining() << 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetnUniformivARB(int program, int location, int bufSize, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetnUniformivARB(int program, int location, int bufSize, long params, long function_pointer);
 
 	public static void glGetnUniformuivARB(int program, int location, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnUniformuivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetnUniformuivARB(program, location, params.remaining() << 2, params, params.position(), function_pointer);
+		nglGetnUniformuivARB(program, location, params.remaining() << 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetnUniformuivARB(int program, int location, int bufSize, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetnUniformuivARB(int program, int location, int bufSize, long params, long function_pointer);
 
 	public static void glGetnUniformdvARB(int program, int location, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetnUniformdvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetnUniformdvARB(program, location, params.remaining() << 3, params, params.position(), function_pointer);
+		nglGetnUniformdvARB(program, location, params.remaining() << 3, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetnUniformdvARB(int program, int location, int bufSize, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetnUniformdvARB(int program, int location, int bufSize, long params, long function_pointer);
 }

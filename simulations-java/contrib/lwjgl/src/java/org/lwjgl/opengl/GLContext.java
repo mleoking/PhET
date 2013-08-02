@@ -33,9 +33,11 @@ package org.lwjgl.opengl;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.LWJGLUtil;
+import org.lwjgl.MemoryUtil;
 import org.lwjgl.Sys;
 
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
@@ -56,8 +58,8 @@ import static org.lwjgl.opengl.GL32.*;
  * That way, multiple threads can have multiple contexts current and render to them concurrently.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3418 $
- *          $Id: GLContext.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ *          $Id$
  */
 public final class GLContext {
 
@@ -117,6 +119,14 @@ public final class GLContext {
 	 * @return The current capabilities instance.
 	 */
 	public static ContextCapabilities getCapabilities() {
+		ContextCapabilities caps = getCapabilitiesImpl();
+		if ( caps == null )
+			throw new RuntimeException("No OpenGL context found in the current thread.");
+
+		return caps;
+	}
+
+	private static ContextCapabilities getCapabilitiesImpl() {
 		CapabilitiesCacheEntry recent_cache_entry = fast_path_cache;
 		// Check owner of cache entry
 		if ( recent_cache_entry.owner == Thread.currentThread() ) {
@@ -126,6 +136,17 @@ public final class GLContext {
 			return recent_cache_entry.capabilities;
 		} else // Some other thread has written to the cache since, and we fall back to the slower path
 			return getThreadLocalCapabilities();
+	}
+
+	/**
+	 * Returns the capabilities instance associated with the specified context object.
+	 *
+	 * @param context the context object
+	 *
+	 * @return the capabilities instance
+	 */
+	static ContextCapabilities getCapabilities(Object context) {
+		return capability_cache.get(context);
 	}
 
 	private static ContextCapabilities getThreadLocalCapabilities() {
@@ -187,8 +208,12 @@ public final class GLContext {
 		return 0;
 	}
 
-	/** Helper method to get a pointer to a named function in the OpenGL library */
-	static native long getFunctionAddress(String name);
+	/** Helper method to get a pointer to a named function in the OpenGL library. */
+	static long getFunctionAddress(String name) {
+		ByteBuffer buffer = MemoryUtil.encodeASCII(name);
+		return ngetFunctionAddress(MemoryUtil.getAddress(buffer));
+	}
+	private static native long ngetFunctionAddress(long name);
 
 	/**
 	 * Determine which extensions are available and returns the context profile mask. Helper method to ContextCapabilities.
@@ -221,7 +246,7 @@ public final class GLContext {
 			{ 1, 2, 3, 4, 5 },  // OpenGL 1
 			{ 0, 1 },           // OpenGL 2
 			{ 0, 1, 2, 3 },     // OpenGL 3
-			{ 0, 1 },           // OpenGL 4
+			{ 0, 1, 2, 3 },     // OpenGL 4
 		};
 
 		for ( int major = 1; major <= GL_VERSIONS.length; major++ ) {

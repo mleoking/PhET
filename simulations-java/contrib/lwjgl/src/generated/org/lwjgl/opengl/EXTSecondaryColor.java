@@ -56,7 +56,7 @@ public final class EXTSecondaryColor {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_secondary_color_glSecondaryColorPointerEXT_pPointer = pPointer;
-		nglSecondaryColorPointerEXT(size, GL11.GL_DOUBLE, stride, pPointer, pPointer.position() << 3, function_pointer);
+		nglSecondaryColorPointerEXT(size, GL11.GL_DOUBLE, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glSecondaryColorPointerEXT(int size, int stride, FloatBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -65,7 +65,7 @@ public final class EXTSecondaryColor {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_secondary_color_glSecondaryColorPointerEXT_pPointer = pPointer;
-		nglSecondaryColorPointerEXT(size, GL11.GL_FLOAT, stride, pPointer, pPointer.position() << 2, function_pointer);
+		nglSecondaryColorPointerEXT(size, GL11.GL_FLOAT, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glSecondaryColorPointerEXT(int size, boolean unsigned, int stride, ByteBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -74,9 +74,9 @@ public final class EXTSecondaryColor {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_secondary_color_glSecondaryColorPointerEXT_pPointer = pPointer;
-		nglSecondaryColorPointerEXT(size, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, stride, pPointer, pPointer.position(), function_pointer);
+		nglSecondaryColorPointerEXT(size, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
-	static native void nglSecondaryColorPointerEXT(int size, int type, int stride, Buffer pPointer, int pPointer_position, long function_pointer);
+	static native void nglSecondaryColorPointerEXT(int size, int type, int stride, long pPointer, long function_pointer);
 	public static void glSecondaryColorPointerEXT(int size, int type, int stride, long pPointer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSecondaryColorPointerEXT;

@@ -34,8 +34,8 @@ package org.lwjgl.util.generator;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
- * $Id: Constant.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import java.lang.annotation.Target;

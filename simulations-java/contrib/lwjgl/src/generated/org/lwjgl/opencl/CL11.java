@@ -96,10 +96,10 @@ public final class CL11 {
 		BufferChecks.checkBuffer(buffer_create_info, 2 * PointerBuffer.getPointerSize());
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = CLMem.create(nclCreateSubBuffer(buffer.getPointer(), flags, buffer_create_type, buffer_create_info, buffer_create_info.position(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), buffer.getParent());
+		CLMem __result = CLMem.create(nclCreateSubBuffer(buffer.getPointer(), flags, buffer_create_type, MemoryUtil.getAddress(buffer_create_info), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), buffer.getParent());
 		return __result;
 	}
-	static native long nclCreateSubBuffer(long buffer, long flags, int buffer_create_type, ByteBuffer buffer_create_info, int buffer_create_info_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateSubBuffer(long buffer, long flags, int buffer_create_type, long buffer_create_info, long errcode_ret, long function_pointer);
 
 	public static int clSetMemObjectDestructorCallback(CLMem memobj, CLMemObjectDestructorCallback pfn_notify) {
 		long function_pointer = CLCapabilities.clSetMemObjectDestructorCallback;
@@ -115,189 +115,189 @@ public final class CL11 {
 	}
 	static native int nclSetMemObjectDestructorCallback(long memobj, long pfn_notify, long user_data, long function_pointer);
 
-	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, ByteBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, ByteBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueReadBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, DoubleBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, DoubleBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueReadBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 3, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, FloatBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, FloatBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueReadBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, IntBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, IntBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueReadBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, LongBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, LongBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueReadBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 3, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, ShortBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueReadBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_read, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, ShortBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueReadBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 1, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_read, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueReadBufferRect(long command_queue, long buffer, int blocking_read, ByteBuffer buffer_origin, int buffer_origin_position, ByteBuffer host_origin, int host_origin_position, ByteBuffer region, int region_position, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, Buffer ptr, int ptr_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueReadBufferRect(long command_queue, long buffer, int blocking_read, long buffer_offset, long host_offset, long region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, long ptr, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
-	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, ByteBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, ByteBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueWriteBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, DoubleBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, DoubleBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueWriteBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 3, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, FloatBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, FloatBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueWriteBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, IntBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, IntBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueWriteBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, LongBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, LongBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueWriteBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 3, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_origin, PointerBuffer host_origin, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, ShortBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueWriteBufferRect(CLCommandQueue command_queue, CLMem buffer, int blocking_write, PointerBuffer buffer_offset, PointerBuffer host_offset, PointerBuffer region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, ShortBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueWriteBufferRect;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(buffer_origin, 3);
-		BufferChecks.checkBuffer(host_origin, 3);
+		BufferChecks.checkBuffer(buffer_offset, 3);
+		BufferChecks.checkBuffer(host_offset, 3);
 		BufferChecks.checkBuffer(region, 3);
-		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_origin, region, host_row_pitch, host_slice_pitch));
+		BufferChecks.checkBuffer(ptr, CLChecks.calculateBufferRectSize(host_offset, region, host_row_pitch, host_slice_pitch));
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, buffer_origin.getBuffer(), buffer_origin.positionByte(), host_origin.getBuffer(), host_origin.positionByte(), region.getBuffer(), region.positionByte(), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, ptr, ptr.position() << 1, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBufferRect(command_queue.getPointer(), buffer.getPointer(), blocking_write, MemoryUtil.getAddress(buffer_offset), MemoryUtil.getAddress(host_offset), MemoryUtil.getAddress(region), buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueWriteBufferRect(long command_queue, long buffer, int blocking_write, ByteBuffer buffer_origin, int buffer_origin_position, ByteBuffer host_origin, int host_origin_position, ByteBuffer region, int region_position, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, Buffer ptr, int ptr_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueWriteBufferRect(long command_queue, long buffer, int blocking_write, long buffer_offset, long host_offset, long region, long buffer_row_pitch, long buffer_slice_pitch, long host_row_pitch, long host_slice_pitch, long ptr, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clEnqueueCopyBufferRect(CLCommandQueue command_queue, CLMem src_buffer, CLMem dst_buffer, PointerBuffer src_origin, PointerBuffer dst_origin, PointerBuffer region, long src_row_pitch, long src_slice_pitch, long dst_row_pitch, long dst_slice_pitch, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueCopyBufferRect;
@@ -309,21 +309,21 @@ public final class CL11 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueCopyBufferRect(command_queue.getPointer(), src_buffer.getPointer(), dst_buffer.getPointer(), src_origin.getBuffer(), src_origin.positionByte(), dst_origin.getBuffer(), dst_origin.positionByte(), region.getBuffer(), region.positionByte(), src_row_pitch, src_slice_pitch, dst_row_pitch, dst_slice_pitch, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueCopyBufferRect(command_queue.getPointer(), src_buffer.getPointer(), dst_buffer.getPointer(), MemoryUtil.getAddress(src_origin), MemoryUtil.getAddress(dst_origin), MemoryUtil.getAddress(region), src_row_pitch, src_slice_pitch, dst_row_pitch, dst_slice_pitch, (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL10.CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueCopyBufferRect(long command_queue, long src_buffer, long dst_buffer, ByteBuffer src_origin, int src_origin_position, ByteBuffer dst_origin, int dst_origin_position, ByteBuffer region, int region_position, long src_row_pitch, long src_slice_pitch, long dst_row_pitch, long dst_slice_pitch, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueCopyBufferRect(long command_queue, long src_buffer, long dst_buffer, long src_origin, long dst_origin, long region, long src_row_pitch, long src_slice_pitch, long dst_row_pitch, long dst_slice_pitch, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static CLEvent clCreateUserEvent(CLContext context, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateUserEvent;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLEvent __result = new CLEvent(nclCreateUserEvent(context.getPointer(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLEvent __result = new CLEvent(nclCreateUserEvent(context.getPointer(), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateUserEvent(long context, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateUserEvent(long context, long errcode_ret, long function_pointer);
 
 	public static int clSetUserEventStatus(CLEvent event, int execution_status) {
 		long function_pointer = CLCapabilities.clSetUserEventStatus;
@@ -337,6 +337,7 @@ public final class CL11 {
 		long function_pointer = CLCapabilities.clSetEventCallback;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		long user_data = CallbackUtil.createGlobalRef(pfn_notify);
+		pfn_notify.setRegistry(event.getParentRegistry());
 		int __result = 0;
 		try {
 			__result = nclSetEventCallback(event.getPointer(), command_exec_callback_type, pfn_notify.getPointer(), user_data, function_pointer);

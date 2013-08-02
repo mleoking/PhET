@@ -102,6 +102,27 @@ public final class CLCapabilities {
 	static final long clSetUserEventStatus = CL.getFunctionAddress("clSetUserEventStatus");
 	static final long clSetEventCallback = CL.getFunctionAddress("clSetEventCallback");
 
+	static final boolean OpenCL12;
+	static final long clRetainDevice = CL.getFunctionAddress("clRetainDevice");
+	static final long clReleaseDevice = CL.getFunctionAddress("clReleaseDevice");
+	static final long clCreateSubDevices = CL.getFunctionAddress("clCreateSubDevices");
+	static final long clCreateImage = CL.getFunctionAddress("clCreateImage");
+	static final long clCreateProgramWithBuiltInKernels = CL.getFunctionAddress("clCreateProgramWithBuiltInKernels");
+	static final long clCompileProgram = CL.getFunctionAddress("clCompileProgram");
+	static final long clLinkProgram = CL.getFunctionAddress("clLinkProgram");
+	static final long clUnloadPlatformCompiler = CL.getFunctionAddress("clUnloadPlatformCompiler");
+	static final long clGetKernelArgInfo = CL.getFunctionAddress("clGetKernelArgInfo");
+	static final long clEnqueueFillBuffer = CL.getFunctionAddress("clEnqueueFillBuffer");
+	static final long clEnqueueFillImage = CL.getFunctionAddress("clEnqueueFillImage");
+	static final long clEnqueueMigrateMemObjects = CL.getFunctionAddress("clEnqueueMigrateMemObjects");
+	static final long clEnqueueMarkerWithWaitList = CL.getFunctionAddress("clEnqueueMarkerWithWaitList");
+	static final long clEnqueueBarrierWithWaitList = CL.getFunctionAddress("clEnqueueBarrierWithWaitList");
+	static final long clSetPrintfCallback = CL.getFunctionAddress("clSetPrintfCallback");
+	static final long clGetExtensionFunctionAddressForPlatform = CL.getFunctionAddress("clGetExtensionFunctionAddressForPlatform");
+
+	static final boolean OpenCL12GL;
+	static final long clCreateFromGLTexture = CL.getFunctionAddress("clCreateFromGLTexture");
+
 	static final boolean CL_EXT_device_fission;
 	static final long clRetainDeviceEXT = CL.getFunctionAddress("clRetainDeviceEXT");
 	static final long clReleaseDeviceEXT = CL.getFunctionAddress("clReleaseDeviceEXT");
@@ -119,6 +140,9 @@ public final class CLCapabilities {
 	static final boolean CL_KHR_icd;
 	static final long clIcdGetPlatformIDsKHR = CL.getFunctionAddress("clIcdGetPlatformIDsKHR");
 
+	static final boolean CL_KHR_terminate_context;
+	static final long clTerminateContextKHR = CL.getFunctionAddress("clTerminateContextKHR");
+
 
 	private CLCapabilities() {}
 
@@ -129,11 +153,14 @@ public final class CLCapabilities {
 		OpenCL10 = isCL10Supported();
 		OpenCL10GL = isCL10GLSupported();
 		OpenCL11 = isCL11Supported();
+		OpenCL12 = isCL12Supported();
+		OpenCL12GL = isCL12GLSupported();
 		CL_EXT_device_fission = isEXT_device_fissionSupported();
 		CL_EXT_migrate_memobject = isEXT_migrate_memobjectSupported();
 		CL_KHR_gl_event = isKHR_gl_eventSupported();
 		CL_KHR_gl_sharing = isKHR_gl_sharingSupported();
 		CL_KHR_icd = isKHR_icdSupported();
+		CL_KHR_terminate_context = isKHR_terminate_contextSupported();
 	}
 
 	public static CLPlatformCapabilities getPlatformCapabilities(final CLPlatform platform) {
@@ -266,6 +293,31 @@ public final class CLCapabilities {
 			clSetEventCallback != 0;
 	}
 
+	private static boolean isCL12Supported() {
+		return 
+			clRetainDevice != 0 &
+			clReleaseDevice != 0 &
+			clCreateSubDevices != 0 &
+			clCreateImage != 0 &
+			clCreateProgramWithBuiltInKernels != 0 &
+			clCompileProgram != 0 &
+			clLinkProgram != 0 &
+			clUnloadPlatformCompiler != 0 &
+			clGetKernelArgInfo != 0 &
+			clEnqueueFillBuffer != 0 &
+			clEnqueueFillImage != 0 &
+			clEnqueueMigrateMemObjects != 0 &
+			clEnqueueMarkerWithWaitList != 0 &
+			clEnqueueBarrierWithWaitList != 0 &
+			(clSetPrintfCallback != 0 || true) &
+			clGetExtensionFunctionAddressForPlatform != 0;
+	}
+
+	private static boolean isCL12GLSupported() {
+		return 
+			clCreateFromGLTexture != 0;
+	}
+
 	private static boolean isEXT_device_fissionSupported() {
 		return 
 			clRetainDeviceEXT != 0 &
@@ -291,6 +343,11 @@ public final class CLCapabilities {
 	private static boolean isKHR_icdSupported() {
 		return 
 			(clIcdGetPlatformIDsKHR != 0 || true);
+	}
+
+	private static boolean isKHR_terminate_contextSupported() {
+		return 
+			clTerminateContextKHR != 0;
 	}
 
 }

@@ -1,40 +1,40 @@
-/* 
+/*
  * Copyright (c) 2002-2008 LWJGL Project
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are 
+ * modification, are permitted provided that the following conditions are
  * met:
- * 
- * * Redistributions of source code must retain the above copyright 
+ *
+ * * Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  *
  * * Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution.
  *
- * * Neither the name of 'LWJGL' nor the names of 
- *   its contributors may be used to endorse or promote products derived 
+ * * Neither the name of 'LWJGL' nor the names of
+ *   its contributors may be used to endorse or promote products derived
  *   from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 /**
  * $Id: org_lwjgl_openal_ALC.c 2279 2006-02-23 19:22:00Z elias_naur $
  *
- * This is the actual JNI implementation of the OpenAL context/device library. 
- * 
+ * This is the actual JNI implementation of the OpenAL context/device library.
+ *
  * @author Brian Matzon <brian@matzon.dk>
  * @version $Revision: 2279 $
  */
@@ -60,18 +60,8 @@ static alcCaptureSamplesPROC alcCaptureSamples;
  * Method:    nalcCaptureOpenDevice
  * Signature: (Ljava/lang/String;III)J
  */
-static jlong JNICALL Java_org_lwjgl_openal_ALC11_nalcCaptureOpenDevice(JNIEnv *env, jclass clazz, jstring devicename, jint frequency, jint format, jint buffersize) {
-	ALubyte* dev_name = NULL;
-	ALCdevice* device = NULL;
-
-	if(devicename != NULL) {
-		dev_name = (ALubyte*) GetStringNativeChars(env, devicename);
-	}
-
-	device = alcCaptureOpenDevice((const char *)dev_name, (unsigned int) frequency, format, buffersize);
-
-	free(dev_name);
-	return (jlong) ((intptr_t)device);
+static jlong JNICALL Java_org_lwjgl_openal_ALC11_nalcCaptureOpenDevice(JNIEnv *env, jclass clazz, jlong devicename, jint frequency, jint format, jint buffersize) {
+	return (jlong)(intptr_t)alcCaptureOpenDevice((const char *)(intptr_t)devicename, (unsigned int) frequency, format, buffersize);
 }
 
 /*
@@ -106,8 +96,8 @@ static void JNICALL Java_org_lwjgl_openal_ALC11_nalcCaptureStop(JNIEnv * env, jc
  * Method:    nalcCaptureSamples
  * Signature: (JLjava/nio/ByteBuffer;I)V
  */
-static void JNICALL Java_org_lwjgl_openal_ALC11_nalcCaptureSamples(JNIEnv *env, jclass clazz, jlong device, jobject buffer, jint position, jint samples) {
-	ALvoid *buffer_address = ((ALbyte *)(((char*)(*env)->GetDirectBufferAddress(env, buffer)) + position));
+static void JNICALL Java_org_lwjgl_openal_ALC11_nalcCaptureSamples(JNIEnv *env, jclass clazz, jlong device, jlong buffer, jint samples) {
+	ALvoid *buffer_address = (ALbyte *)(intptr_t)buffer;
 	alcCaptureSamples((ALCdevice*) ((intptr_t)device), buffer_address, samples);
 }
 
@@ -121,11 +111,11 @@ extern "C" {
 #endif
 JNIEXPORT void JNICALL Java_org_lwjgl_openal_ALC11_initNativeStubs(JNIEnv *env, jclass clazz) {
 	JavaMethodAndExtFunction functions[] = {
-		{"nalcCaptureOpenDevice", "(Ljava/lang/String;III)J", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureOpenDevice, "alcCaptureOpenDevice", (void*)&alcCaptureOpenDevice},
-		{"nalcCaptureCloseDevice", "(J)Z", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureCloseDevice, "alcCaptureCloseDevice", (void*)&alcCaptureCloseDevice},
-		{"nalcCaptureStart", "(J)V", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureStart, "alcCaptureStart", (void*)&alcCaptureStart},
-		{"nalcCaptureStop", "(J)V", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureStop, "alcCaptureStop", (void*)&alcCaptureStop},
-		{"nalcCaptureSamples", "(JLjava/nio/ByteBuffer;II)V", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureSamples, "alcCaptureSamples", (void*)&alcCaptureSamples}
+		{"nalcCaptureOpenDevice", "(JIII)J", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureOpenDevice, "alcCaptureOpenDevice", (void*)&alcCaptureOpenDevice, false},
+		{"nalcCaptureCloseDevice", "(J)Z", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureCloseDevice, "alcCaptureCloseDevice", (void*)&alcCaptureCloseDevice, false},
+		{"nalcCaptureStart", "(J)V", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureStart, "alcCaptureStart", (void*)&alcCaptureStart, false},
+		{"nalcCaptureStop", "(J)V", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureStop, "alcCaptureStop", (void*)&alcCaptureStop, false},
+		{"nalcCaptureSamples", "(JJI)V", (void*)&Java_org_lwjgl_openal_ALC11_nalcCaptureSamples, "alcCaptureSamples", (void*)&alcCaptureSamples, false}
 	};
 	int num_functions = NUMFUNCTIONS(functions);
 	extal_InitializeClass(env, clazz, num_functions, functions);

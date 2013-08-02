@@ -46,15 +46,15 @@ import org.lwjgl.input.Mouse;
  * System class (named Sys so as not to conflict with java.lang.System)
  * </p>
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3488 $
- * $Id: Sys.java 3488 2011-02-09 21:09:33Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public final class Sys {
 	/** The native library name */
 	private static final String JNI_LIBRARY_NAME = "lwjgl";
 
 	/** Current version of library */
-	private static final String VERSION = "2.7.1";
+	private static final String VERSION = "2.9.0";
 
 	private static final String POSTFIX64BIT = "64";
 
@@ -78,6 +78,19 @@ public final class Sys {
 	}
 
 	private static void loadLibrary(final String lib_name) {
+		// actively try to load 64bit libs on 64bit architectures first
+		String osArch = System.getProperty("os.arch");
+		boolean is64bit = "amd64".equals(osArch) || "x86_64".equals(osArch);
+		if(is64bit) {
+			try {
+				doLoadLibrary(lib_name + POSTFIX64BIT);
+				return;
+			} catch (UnsatisfiedLinkError e) {
+				LWJGLUtil.log("Failed to load 64 bit library: " + e.getMessage());
+			}
+		}
+		
+		// fallback to loading the "old way"
 		try {
 			doLoadLibrary(lib_name);
 		} catch (UnsatisfiedLinkError e) {

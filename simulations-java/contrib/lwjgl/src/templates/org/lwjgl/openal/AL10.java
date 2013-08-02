@@ -45,8 +45,8 @@ import org.lwjgl.util.generator.openal.*;
  * AL.h version 1.0
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3412 $
- * $Id: AL10.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public interface AL10 {
 	/** Bad value */

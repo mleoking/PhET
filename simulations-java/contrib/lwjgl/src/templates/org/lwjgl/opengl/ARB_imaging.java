@@ -41,8 +41,8 @@ import java.nio.*;
  * The GL12 imaging subset extension.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 3412 $
- * $Id: ARB_imaging.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 @Extension(postfix = "")

@@ -39,17 +39,23 @@ package org.lwjgl.opengl;
  */
 
 import java.awt.Canvas;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.lang.reflect.InvocationTargetException;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.LWJGLUtil;
+import org.lwjgl.MemoryUtil;
 import org.lwjgl.opengl.XRandR.Screen;
+import org.lwjgl.opengles.EGL;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -79,6 +85,8 @@ final class LinuxDisplay implements DisplayImplementation {
 	private static final int SetModeInsert = 0;
 	private static final int SaveSetRoot = 1;
 	private static final int SaveSetUnmap = 1;
+	
+	private static final int X_SetInputFocus = 42;
 
 	/** Window mode enum */
 	private static final int FULLSCREEN_LEGACY = 1;
@@ -132,14 +140,40 @@ final class LinuxDisplay implements DisplayImplementation {
 	private boolean close_requested;
 	private long current_cursor;
 	private long blank_cursor;
+	private boolean mouseInside = true;
+	private boolean resizable;
+	private boolean resized;
+	
+	private int window_x;
+	private int window_y;
+	private int window_width;
+	private int window_height;
+	
 	private Canvas parent;
 	private long parent_window;
-	private boolean xembedded;
-	private boolean parent_focus;
-	private boolean mouseInside = true;
-	
+	private static boolean xembedded;
+	private long parent_proxy_focus_window;
+	private boolean parent_focused;
+	private boolean parent_focus_changed;
+	private long last_window_focus = 0;
+
 	private LinuxKeyboard keyboard;
 	private LinuxMouse mouse;
+
+	private final FocusListener focus_listener = new FocusListener() {
+		public void focusGained(FocusEvent e) {
+			synchronized (GlobalLock.lock) {
+				parent_focused = true;
+				parent_focus_changed = true;
+			}
+		}
+		public void focusLost(FocusEvent e) {
+			synchronized (GlobalLock.lock) {
+				parent_focused = false;
+				parent_focus_changed = true;
+			}
+		}
+	};
 
 	private static ByteBuffer getCurrentGammaRamp() throws LWJGLException {
 		lockAWT();
@@ -259,7 +293,12 @@ final class LinuxDisplay implements DisplayImplementation {
 	 */
 	static void incDisplay() throws LWJGLException {
 		if (display_connection_usage_count == 0) {
-			GLContext.loadOpenGLLibrary();
+			try {
+				// TODO: Can we know if we're on desktop or ES?
+				GLContext.loadOpenGLLibrary();
+				org.lwjgl.opengles.GLContext.loadOpenGLLibrary();
+			} catch (Throwable t) {
+			}
 			saved_error_handler = setErrorHandler();
 			display = openDisplay();
 //			synchronize(display, true);
@@ -272,6 +311,8 @@ final class LinuxDisplay implements DisplayImplementation {
 	private static native void synchronize(long display, boolean synchronize);
 
 	private static int globalErrorHandler(long display, long event_ptr, long error_display, long serial, long error_code, long request_code, long minor_code) throws LWJGLException {
+		if (xembedded && request_code == X_SetInputFocus) return 0; // ignore X error in xembeded mode to fix a browser issue when dragging or switching tabs 
+		
 		if (display == getDisplay()) {
 			String error_msg = getErrorText(display, error_code);
 			throw new LWJGLException("X Error - disp: 0x" + Long.toHexString(error_display) + " serial: " + serial + " error: " + error_msg + " request_code: " + request_code + " minor_code: " + minor_code);
@@ -408,11 +449,14 @@ final class LinuxDisplay implements DisplayImplementation {
 			ungrabKeyboard();
 	}
 
-	public void createWindow(DisplayMode mode, Canvas parent, int x, int y) throws LWJGLException {
+	public void createWindow(final DrawableLWJGL drawable, DisplayMode mode, Canvas parent, int x, int y) throws LWJGLException {
 		lockAWT();
 		try {
 			incDisplay();
 			try {
+				if ( drawable instanceof DrawableGLES )
+					peer_info = new LinuxDisplayPeerInfo();
+
 				ByteBuffer handle = peer_info.lockAndGetHandle();
 				try {
 					current_window_mode = getWindowMode(Display.isFullscreen());
@@ -427,7 +471,13 @@ final class LinuxDisplay implements DisplayImplementation {
 					boolean undecorated = Display.getPrivilegedBoolean("org.lwjgl.opengl.Window.undecorated") || (current_window_mode != WINDOWED && Display.getPrivilegedBoolean("org.lwjgl.opengl.Window.undecorated_fs"));
 					this.parent = parent;
 					parent_window = parent != null ? getHandle(parent) : getRootWindow(getDisplay(), getDefaultScreen());
-					current_window = nCreateWindow(getDisplay(), getDefaultScreen(), handle, mode, current_window_mode, x, y, undecorated, parent_window);
+					resizable = Display.isResizable();
+					resized = false;
+					window_x = x;
+					window_y = y;
+					window_width = mode.getWidth();
+					window_height = mode.getHeight();
+					current_window = nCreateWindow(getDisplay(), getDefaultScreen(), handle, mode, current_window_mode, x, y, undecorated, parent_window, resizable);
 					mapRaised(getDisplay(), current_window);
 					xembedded = parent != null && isAncestorXEmbedded(parent_window);
 					blank_cursor = createBlankCursor();
@@ -440,6 +490,15 @@ final class LinuxDisplay implements DisplayImplementation {
 					grab = false;
 					minimized = false;
 					dirty = true;
+
+					if ( drawable instanceof DrawableGLES )
+						((DrawableGLES)drawable).initialize(current_window, getDisplay(), EGL.EGL_WINDOW_BIT, (org.lwjgl.opengles.PixelFormat)drawable.getPixelFormat());
+
+					if (parent != null) {
+						parent.addFocusListener(focus_listener);
+						parent_focused = parent.isFocusOwner();
+						parent_focus_changed = true;
+					}
 				} finally {
 					peer_info.unlock();
 				}
@@ -451,12 +510,20 @@ final class LinuxDisplay implements DisplayImplementation {
 			unlockAWT();
 		}
 	}
-	private static native long nCreateWindow(long display, int screen, ByteBuffer peer_info_handle, DisplayMode mode, int window_mode, int x, int y, boolean undecorated, long parent_handle) throws LWJGLException;
+	private static native long nCreateWindow(long display, int screen, ByteBuffer peer_info_handle, DisplayMode mode, int window_mode, int x, int y, boolean undecorated, long parent_handle, boolean resizable) throws LWJGLException;
 	private static native long getRootWindow(long display, int screen);
 	private static native boolean hasProperty(long display, long window, long property);
 	private static native long getParentWindow(long display, long window) throws LWJGLException;
+	private static native int getChildCount(long display, long window) throws LWJGLException;
 	private static native void mapRaised(long display, long window);
 	private static native void reparentWindow(long display, long window, long parent, int x, int y);
+	private static native long nGetInputFocus(long display) throws LWJGLException;
+	private static native void nSetInputFocus(long display, long window, long time);
+	private static native void nSetWindowSize(long display, long window, int width, int height, boolean resizable);
+	private static native int nGetX(long display, long window);
+	private static native int nGetY(long display, long window);
+	private static native int nGetWidth(long display, long window);
+	private static native int nGetHeight(long display, long window);
 
 	private static boolean isAncestorXEmbedded(long window) throws LWJGLException {
 		long xembed_atom = internAtom("_XEMBED_INFO", true);
@@ -473,7 +540,7 @@ final class LinuxDisplay implements DisplayImplementation {
 
 	private static long getHandle(Canvas parent) throws LWJGLException {
 		AWTCanvasImplementation awt_impl = AWTGLCanvas.createImplementation();
-		LinuxPeerInfo parent_peer_info = (LinuxPeerInfo)awt_impl.createPeerInfo(parent, null);
+		LinuxPeerInfo parent_peer_info = (LinuxPeerInfo)awt_impl.createPeerInfo(parent, null, null);
 		ByteBuffer parent_peer_info_handle = parent_peer_info.lockAndGetHandle();
 		try {
 			return parent_peer_info.getDrawable();
@@ -490,6 +557,9 @@ final class LinuxDisplay implements DisplayImplementation {
 	public void destroyWindow() {
 		lockAWT();
 		try {
+			if (parent != null) {
+				parent.removeFocusListener(focus_listener);
+			}
 			try {
 				setNativeCursor(null);
 			} catch (LWJGLException e) {
@@ -686,12 +756,13 @@ final class LinuxDisplay implements DisplayImplementation {
 	public void setTitle(String title) {
 		lockAWT();
 		try {
-			nSetTitle(getDisplay(), getWindow(), title);
+			final ByteBuffer titleText = MemoryUtil.encodeUTF8(title);
+			nSetTitle(getDisplay(), getWindow(), MemoryUtil.getAddress(titleText), titleText.remaining() - 1);
 		} finally {
 			unlockAWT();
 		}
 	}
-	private static native void nSetTitle(long display, long window, String title);
+	private static native void nSetTitle(long display, long window, long title, int len);
 
 	public boolean isCloseRequested() {
 		boolean result = close_requested;
@@ -713,12 +784,10 @@ final class LinuxDisplay implements DisplayImplementation {
 		return result;
 	}
 
-	public PeerInfo createPeerInfo(PixelFormat pixel_format) throws LWJGLException {
+	public PeerInfo createPeerInfo(PixelFormat pixel_format, ContextAttribs attribs) throws LWJGLException {
 		peer_info = new LinuxDisplayPeerInfo(pixel_format);
 		return peer_info;
 	}
-
-	static native void setInputFocus(long display, long window, long time);
 
 	private void relayEventToParent(LinuxEvent event_buffer, int event_mask) {
 		tmp_event_buffer.copyFrom(event_buffer);
@@ -737,10 +806,10 @@ final class LinuxDisplay implements DisplayImplementation {
 				relayEventToParent(event_buffer, KeyPressMask);
 				break;
 			case LinuxEvent.ButtonPress:
-				relayEventToParent(event_buffer, KeyPressMask);
+				if (xembedded || !focused) relayEventToParent(event_buffer, KeyPressMask);
 				break;
 			case LinuxEvent.ButtonRelease:
-				relayEventToParent(event_buffer, KeyPressMask);
+				if (xembedded || !focused) relayEventToParent(event_buffer, KeyPressMask);
 				break;
 			default:
 				break;
@@ -777,6 +846,23 @@ final class LinuxDisplay implements DisplayImplementation {
 					break;
 				case LinuxEvent.Expose:
 					dirty = true;
+					break;
+				case LinuxEvent.ConfigureNotify:
+					int x = nGetX(getDisplay(), getWindow());
+					int y = nGetY(getDisplay(), getWindow());
+					
+					int width = nGetWidth(getDisplay(), getWindow());
+					int height = nGetHeight(getDisplay(), getWindow());
+					
+					window_x = x;
+					window_y = y;
+					
+					if (window_width != width || window_height != height) {
+						resized = true;
+						window_width = width;
+						window_height = height;
+					}
+					
 					break;
 				case LinuxEvent.EnterNotify:
 					mouseInside = true;
@@ -879,47 +965,103 @@ final class LinuxDisplay implements DisplayImplementation {
 	private void checkInput() {
 		if (parent == null) return;
 
-		if (parent_focus != parent.hasFocus()) {
-			parent_focus = parent.hasFocus();
+		if (xembedded) {
+			long current_focus_window = 0;
 
-			if (parent_focus) {
-				setInputFocusUnsafe(current_window);
+			if (last_window_focus != current_focus_window || parent_focused != focused) {
+				if (isParentWindowActive(current_focus_window)) {
+					if (parent_focused) {
+						nSetInputFocus(getDisplay(), current_window, CurrentTime);
+						last_window_focus = current_window;
+						focused = true;
+					}
+					else {
+						// return focus to the parent proxy focus window
+						nSetInputFocus(getDisplay(), parent_proxy_focus_window, CurrentTime);
+						last_window_focus = parent_proxy_focus_window;
+						focused = false;
+					}
+				}
+				else {
+					last_window_focus = current_focus_window;
+					focused = false;
+				}
 			}
-			else if (xembedded) {
-				setInputFocusUnsafe(1);
-			}
-		}
-		//else if (parent_focus && !focused && !xembedded) {
-		//	setInputFocusUnsafe(current_window);
-		//}
-	}
-
-	private void setFocused(boolean got_focus, int focus_detail) {
-		if (focused == got_focus || focus_detail == NotifyDetailNone || focus_detail == NotifyPointer || focus_detail == NotifyPointerRoot)
-			return;
-		focused = got_focus;
-
-		if (focused) {
-			acquireInput();
-			if (parent != null && !xembedded) parent.setFocusable(false);
 		}
 		else {
-			releaseInput();
-			if (parent != null && !xembedded) parent.setFocusable(true);
+			if (parent_focus_changed && parent_focused) {
+				setInputFocusUnsafe(getWindow());
+				parent_focus_changed = false;
+			}
 		}
 	}
-	static native long nGetInputFocus(long display);
-
-	private static void setInputFocusUnsafe(long window) {
+	
+	private void setInputFocusUnsafe(long window) {
 		try {
-			setInputFocus(getDisplay(), window, CurrentTime);
-			sync(getDisplay(), false);
+			nSetInputFocus(getDisplay(), window, CurrentTime);
+			nSync(getDisplay(), false);
 		} catch (LWJGLException e) {
 			// Since we don't have any event timings for XSetInputFocus, a race condition might give a BadMatch, which we'll catch and ignore
 			LWJGLUtil.log("Got exception while trying to focus: " + e);
 		}
 	}
-	private static native void sync(long display, boolean throw_away_events) throws LWJGLException;
+	
+	private static native void nSync(long display, boolean throw_away_events) throws LWJGLException;
+
+	/**
+	 * This method will check if the parent window is active when running
+	 * in xembed mode. Every xembed embedder window has a focus proxy
+	 * window that recieves all the input. This method will test whether
+	 * the provided window handle is the focus proxy, if so it will get its
+	 * parent window and then test whether this is an ancestor to our
+	 * current_window. If so then parent window is active.
+	 *
+	 * @param window - the window handle to test
+	 */
+	private boolean isParentWindowActive(long window) {
+		try {
+			// parent window already active as window is current_window
+			if (window == current_window) return true;
+
+			// xembed focus proxy will have no children
+			if (getChildCount(getDisplay(), window) != 0) return false;
+
+			// get parent, will be xembed embedder window and ancestor of current_window
+			long parent_window = getParentWindow(getDisplay(), window);
+
+			// parent must not be None
+			if (parent_window == None) return false;
+
+			// scroll current_window's ancestors to find parent_window
+			long w = current_window;
+
+			while (w != None) {
+				w = getParentWindow(getDisplay(), w);
+				if (w == parent_window) {
+					parent_proxy_focus_window = window; // save focus proxy window
+					return true;
+				}
+			}
+		} catch (LWJGLException e) {
+			LWJGLUtil.log("Failed to detect if parent window is active: " + e.getMessage());
+			return true; // on failure assume still active
+		}
+
+		return false; // failed to find an active parent window
+	}
+
+	private void setFocused(boolean got_focus, int focus_detail) {
+		if (focused == got_focus || focus_detail == NotifyDetailNone || focus_detail == NotifyPointer || focus_detail == NotifyPointerRoot || xembedded)
+			return;
+		focused = got_focus;
+
+		if (focused) {
+			acquireInput();
+		}
+		else {
+			releaseInput();
+		}
+	}
 
 	private void releaseInput() {
 		if (isLegacyFullscreen() || input_released)
@@ -1143,7 +1285,7 @@ final class LinuxDisplay implements DisplayImplementation {
 		return false;
 	}
 
-	public PeerInfo createPbuffer(int width, int height, PixelFormat pixel_format,
+	public PeerInfo createPbuffer(int width, int height, PixelFormat pixel_format, ContextAttribs attribs,
 			IntBuffer pixelFormatCaps,
 			IntBuffer pBufferAttribs) throws LWJGLException {
 		return new LinuxPbufferPeerInfo(width, height, pixel_format);
@@ -1247,16 +1389,42 @@ final class LinuxDisplay implements DisplayImplementation {
 
 	private static native void nSetWindowIcon(long display, long window, ByteBuffer icon_rgb, int icon_rgb_size, ByteBuffer icon_mask, int icon_mask_size, int width, int height);
 
+	public int getX() {
+		return window_x;
+	}
+
+	public int getY() {
+		return window_y;
+	}
+	
 	public int getWidth() {
-		return Display.getDisplayMode().getWidth();
+		return window_width;
 	}
 
 	public int getHeight() {
-		return Display.getDisplayMode().getHeight();
+		return window_height;
 	}
 
 	public boolean isInsideWindow() {
 		return mouseInside;
+	}
+
+	public void setResizable(boolean resizable) {
+		if (this.resizable == resizable) {
+			return;
+		}
+		
+		this.resizable = resizable;
+		nSetWindowSize(getDisplay(), getWindow(), window_width, window_height, resizable);
+	}
+
+	public boolean wasResized() {
+		if (resized) {
+			resized = false;
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**

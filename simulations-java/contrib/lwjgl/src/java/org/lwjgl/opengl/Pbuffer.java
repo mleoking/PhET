@@ -45,10 +45,10 @@ import org.lwjgl.Sys;
  * This class is thread-safe.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3334 $
- * $Id: Pbuffer.java 3334 2010-04-22 23:21:48Z spasi $
+ * @version $Revision$
+ * $Id$
  */
-public final class Pbuffer extends AbstractDrawable {
+public final class Pbuffer extends DrawableGL {
 	/**
 	 * Indicates that Pbuffers can be created.
 	 */
@@ -216,24 +216,24 @@ public final class Pbuffer extends AbstractDrawable {
 			throw new NullPointerException("Pixel format must be non-null");
 		this.width = width;
 		this.height = height;
-		this.peer_info = createPbuffer(width, height, pixel_format, renderTexture);
-		Context shared_context;
+		this.peer_info = createPbuffer(width, height, pixel_format, attribs, renderTexture);
+		Context shared_context = null;
+		if ( shared_drawable == null )
+			shared_drawable = Display.getDrawable(); // May be null
 		if (shared_drawable != null)
 			shared_context = ((DrawableLWJGL)shared_drawable).getContext();
-		else
-			shared_context = ((DrawableLWJGL)Display.getDrawable()).getContext(); // May be null
-		this.context = new Context(peer_info, attribs, shared_context);
+		this.context = new ContextGL(peer_info, attribs, (ContextGL)shared_context);
 	}
 
-	private static PeerInfo createPbuffer(int width, int height, PixelFormat pixel_format, RenderTexture renderTexture) throws LWJGLException {
+	private static PeerInfo createPbuffer(int width, int height, PixelFormat pixel_format, ContextAttribs attribs, RenderTexture renderTexture) throws LWJGLException {
 		if ( renderTexture == null ) {
 			// Though null is a perfectly valid argument, Matrox Parhelia drivers expect
 			// a 0 terminated list, or else they crash. Supplying NULL or 0, should
 			// cause the drivers to use default settings
 			IntBuffer defaultAttribs = BufferUtils.createIntBuffer(1);
-			return Display.getImplementation().createPbuffer(width, height, pixel_format, null, defaultAttribs);
+			return Display.getImplementation().createPbuffer(width, height, pixel_format, attribs, null, defaultAttribs);
 		} else
-			return Display.getImplementation().createPbuffer(width, height, pixel_format,
+			return Display.getImplementation().createPbuffer(width, height, pixel_format, attribs,
 					renderTexture.pixelFormatCaps,
 					renderTexture.pBufferAttribs);
 	}

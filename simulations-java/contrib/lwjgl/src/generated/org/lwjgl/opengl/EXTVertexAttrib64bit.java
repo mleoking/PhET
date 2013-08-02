@@ -62,36 +62,36 @@ public final class EXTVertexAttrib64bit {
 		long function_pointer = caps.glVertexAttribL1dvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 1);
-		nglVertexAttribL1dvEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribL1dvEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribL1dvEXT(int index, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribL1dvEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribL2EXT(int index, DoubleBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribL2dvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 2);
-		nglVertexAttribL2dvEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribL2dvEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribL2dvEXT(int index, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribL2dvEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribL3EXT(int index, DoubleBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribL3dvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 3);
-		nglVertexAttribL3dvEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribL3dvEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribL3dvEXT(int index, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribL3dvEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribL4EXT(int index, DoubleBuffer v) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribL4dvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(v, 4);
-		nglVertexAttribL4dvEXT(index, v, v.position(), function_pointer);
+		nglVertexAttribL4dvEXT(index, MemoryUtil.getAddress(v), function_pointer);
 	}
-	static native void nglVertexAttribL4dvEXT(int index, DoubleBuffer v, int v_position, long function_pointer);
+	static native void nglVertexAttribL4dvEXT(int index, long v, long function_pointer);
 
 	public static void glVertexAttribLPointerEXT(int index, int size, int stride, DoubleBuffer pointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -100,9 +100,9 @@ public final class EXTVertexAttrib64bit {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = pointer;
-		nglVertexAttribLPointerEXT(index, size, GL11.GL_DOUBLE, stride, pointer, pointer.position() << 3, function_pointer);
+		nglVertexAttribLPointerEXT(index, size, GL11.GL_DOUBLE, stride, MemoryUtil.getAddress(pointer), function_pointer);
 	}
-	static native void nglVertexAttribLPointerEXT(int index, int size, int type, int stride, Buffer pointer, int pointer_position, long function_pointer);
+	static native void nglVertexAttribLPointerEXT(int index, int size, int type, int stride, long pointer, long function_pointer);
 	public static void glVertexAttribLPointerEXT(int index, int size, int stride, long pointer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribLPointerEXT;
@@ -117,9 +117,9 @@ public final class EXTVertexAttrib64bit {
 		long function_pointer = caps.glGetVertexAttribLdvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribLdvEXT(index, pname, params, params.position(), function_pointer);
+		nglGetVertexAttribLdvEXT(index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribLdvEXT(int index, int pname, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribLdvEXT(int index, int pname, long params, long function_pointer);
 
 	public static void glVertexArrayVertexAttribLOffsetEXT(int vaobj, int buffer, int index, int size, int type, int stride, long offset) {
 		ARBVertexAttrib64bit.glVertexArrayVertexAttribLOffsetEXT(vaobj, buffer, index, size, type, stride, offset);

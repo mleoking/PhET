@@ -115,19 +115,19 @@ public final class NVTransformFeedback {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTransformFeedbackAttribsNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkDirect(attribs);
-		nglTransformFeedbackAttribsNV(attribs.remaining(), attribs, attribs.position(), bufferMode, function_pointer);
+		BufferChecks.checkBuffer(attribs, 3);
+		nglTransformFeedbackAttribsNV(attribs.remaining() / 3, MemoryUtil.getAddress(attribs), bufferMode, function_pointer);
 	}
-	static native void nglTransformFeedbackAttribsNV(int attribs_count, IntBuffer attribs, int attribs_position, int bufferMode, long function_pointer);
+	static native void nglTransformFeedbackAttribsNV(int count, long attribs, int bufferMode, long function_pointer);
 
 	public static void glTransformFeedbackVaryingsNV(int program, IntBuffer locations, int bufferMode) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTransformFeedbackVaryingsNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(locations);
-		nglTransformFeedbackVaryingsNV(program, locations.remaining(), locations, locations.position(), bufferMode, function_pointer);
+		nglTransformFeedbackVaryingsNV(program, locations.remaining(), MemoryUtil.getAddress(locations), bufferMode, function_pointer);
 	}
-	static native void nglTransformFeedbackVaryingsNV(int program, int locations_count, IntBuffer locations, int locations_position, int bufferMode, long function_pointer);
+	static native void nglTransformFeedbackVaryingsNV(int program, int locations_count, long locations, int bufferMode, long function_pointer);
 
 	public static void glBeginTransformFeedbackNV(int primitiveMode) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -151,17 +151,17 @@ public final class NVTransformFeedback {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkNullTerminated(name);
-		int __result = nglGetVaryingLocationNV(program, name, name.position(), function_pointer);
+		int __result = nglGetVaryingLocationNV(program, MemoryUtil.getAddress(name), function_pointer);
 		return __result;
 	}
-	static native int nglGetVaryingLocationNV(int program, ByteBuffer name, int name_position, long function_pointer);
+	static native int nglGetVaryingLocationNV(int program, long name, long function_pointer);
 
 	/** Overloads glGetVaryingLocationNV. */
 	public static int glGetVaryingLocationNV(int program, CharSequence name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVaryingLocationNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nglGetVaryingLocationNV(program, APIUtil.getBufferNT(name), 0, function_pointer);
+		int __result = nglGetVaryingLocationNV(program, APIUtil.getBufferNT(caps, name), function_pointer);
 		return __result;
 	}
 
@@ -174,9 +174,9 @@ public final class NVTransformFeedback {
 		BufferChecks.checkBuffer(size, 1);
 		BufferChecks.checkBuffer(type, 1);
 		BufferChecks.checkDirect(name);
-		nglGetActiveVaryingNV(program, index, name.remaining(), length, length != null ? length.position() : 0, size, size.position(), type, type.position(), name, name.position(), function_pointer);
+		nglGetActiveVaryingNV(program, index, name.remaining(), MemoryUtil.getAddressSafe(length), MemoryUtil.getAddress(size), MemoryUtil.getAddress(type), MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglGetActiveVaryingNV(int program, int index, int name_bufSize, IntBuffer length, int length_position, IntBuffer size, int size_position, IntBuffer type, int type_position, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglGetActiveVaryingNV(int program, int index, int name_bufSize, long length, long size, long type, long name, long function_pointer);
 
 	/**
 	 * Overloads glGetActiveVaryingNV.
@@ -188,11 +188,11 @@ public final class NVTransformFeedback {
 		long function_pointer = caps.glGetActiveVaryingNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(sizeType, 2);
-		IntBuffer name_length = APIUtil.getLengths();
-		ByteBuffer name = APIUtil.getBufferByte(bufSize);
-		nglGetActiveVaryingNV(program, index, bufSize, name_length, 0, sizeType, sizeType.position(), sizeType, sizeType.position() + 1, name, name.position(), function_pointer);
+		IntBuffer name_length = APIUtil.getLengths(caps);
+		ByteBuffer name = APIUtil.getBufferByte(caps, bufSize);
+		nglGetActiveVaryingNV(program, index, bufSize, MemoryUtil.getAddress0(name_length), MemoryUtil.getAddress(sizeType), MemoryUtil.getAddress(sizeType, sizeType.position() + 1), MemoryUtil.getAddress(name), function_pointer);
 		name.limit(name_length.get(0));
-		return APIUtil.getString(name);
+		return APIUtil.getString(caps, name);
 	}
 
 	/**
@@ -204,11 +204,11 @@ public final class NVTransformFeedback {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveVaryingNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer name_length = APIUtil.getLengths();
-		ByteBuffer name = APIUtil.getBufferByte(bufSize);
-		nglGetActiveVaryingNV(program, index, bufSize, name_length, 0, APIUtil.getBufferInt(), 0, APIUtil.getBufferInt(), 1, name, name.position(), function_pointer);
+		IntBuffer name_length = APIUtil.getLengths(caps);
+		ByteBuffer name = APIUtil.getBufferByte(caps, bufSize);
+		nglGetActiveVaryingNV(program, index, bufSize, MemoryUtil.getAddress0(name_length), MemoryUtil.getAddress0(APIUtil.getBufferInt(caps)), MemoryUtil.getAddress(APIUtil.getBufferInt(caps), 1), MemoryUtil.getAddress(name), function_pointer);
 		name.limit(name_length.get(0));
-		return APIUtil.getString(name);
+		return APIUtil.getString(caps, name);
 	}
 
 	/**
@@ -220,8 +220,8 @@ public final class NVTransformFeedback {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveVaryingNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer size = APIUtil.getBufferInt();
-		nglGetActiveVaryingNV(program, index, 0, null, 0, size, size.position(), size, 1, APIUtil.getBufferByte(0), 0, function_pointer);
+		IntBuffer size = APIUtil.getBufferInt(caps);
+		nglGetActiveVaryingNV(program, index, 0, 0L, MemoryUtil.getAddress(size), MemoryUtil.getAddress(size, 1), APIUtil.getBufferByte0(caps), function_pointer);
 		return size.get(0);
 	}
 
@@ -234,8 +234,8 @@ public final class NVTransformFeedback {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveVaryingNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer type = APIUtil.getBufferInt();
-		nglGetActiveVaryingNV(program, index, 0, null, 0, type, 1, type, type.position(), APIUtil.getBufferByte(0), 0, function_pointer);
+		IntBuffer type = APIUtil.getBufferInt(caps);
+		nglGetActiveVaryingNV(program, index, 0, 0L, MemoryUtil.getAddress(type, 1), MemoryUtil.getAddress(type), APIUtil.getBufferByte0(caps), function_pointer);
 		return type.get(0);
 	}
 
@@ -245,16 +245,16 @@ public final class NVTransformFeedback {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkNullTerminated(name);
-		nglActiveVaryingNV(program, name, name.position(), function_pointer);
+		nglActiveVaryingNV(program, MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglActiveVaryingNV(int program, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglActiveVaryingNV(int program, long name, long function_pointer);
 
 	/** Overloads glActiveVaryingNV. */
 	public static void glActiveVaryingNV(int program, CharSequence name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glActiveVaryingNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglActiveVaryingNV(program, APIUtil.getBufferNT(name), 0, function_pointer);
+		nglActiveVaryingNV(program, APIUtil.getBufferNT(caps, name), function_pointer);
 	}
 
 	public static void glGetTransformFeedbackVaryingNV(int program, int index, IntBuffer location) {
@@ -262,17 +262,17 @@ public final class NVTransformFeedback {
 		long function_pointer = caps.glGetTransformFeedbackVaryingNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(location, 1);
-		nglGetTransformFeedbackVaryingNV(program, index, location, location.position(), function_pointer);
+		nglGetTransformFeedbackVaryingNV(program, index, MemoryUtil.getAddress(location), function_pointer);
 	}
-	static native void nglGetTransformFeedbackVaryingNV(int program, int index, IntBuffer location, int location_position, long function_pointer);
+	static native void nglGetTransformFeedbackVaryingNV(int program, int index, long location, long function_pointer);
 
 	/** Overloads glGetTransformFeedbackVaryingNV. */
 	public static int glGetTransformFeedbackVaryingNV(int program, int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTransformFeedbackVaryingNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer location = APIUtil.getBufferInt();
-		nglGetTransformFeedbackVaryingNV(program, index, location, location.position(), function_pointer);
+		IntBuffer location = APIUtil.getBufferInt(caps);
+		nglGetTransformFeedbackVaryingNV(program, index, MemoryUtil.getAddress(location), function_pointer);
 		return location.get(0);
 	}
 }

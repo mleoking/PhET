@@ -46,9 +46,9 @@ import static org.lwjgl.util.glu.GLU.*;
  * <p>
  * Tests AWTGLCanvas functionality
  * <p>
- * @version $Revision: 3418 $
- * @author $Author: spasi $
- * $Id: AWTTest.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * @author $Author$
+ * $Id$
  */
 public class AWTTest extends Frame {
 

@@ -37,9 +37,9 @@ import javax.swing.UIManager;
 /**
  * A SysImplementation which delegates as much as it can to J2SE.
  * <p>
- * @author $Author: matzon $
- * @version $Revision: 2983 $
- * $Id: J2SESysImplementation.java 2983 2008-04-07 18:36:09Z matzon $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 abstract class J2SESysImplementation extends DefaultSysImplementation {
 

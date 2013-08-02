@@ -10,8 +10,8 @@ import java.nio.*;
  *  The core OpenGL1.4 API.
  * <p>
  *  @author cix_foo <cix_foo@users.sourceforge.net>
- *  @version $Revision: 3460 $
- *  $Id: GL14.java 3460 2010-11-29 18:25:28Z spasi $
+ *  @version $Revision$
+ *  $Id$
  */
 public final class GL14 {
 
@@ -103,7 +103,7 @@ public final class GL14 {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(data);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).GL14_glFogCoordPointer_data = data;
-		nglFogCoordPointer(GL11.GL_DOUBLE, stride, data, data.position() << 3, function_pointer);
+		nglFogCoordPointer(GL11.GL_DOUBLE, stride, MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glFogCoordPointer(int stride, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -112,9 +112,9 @@ public final class GL14 {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(data);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).GL14_glFogCoordPointer_data = data;
-		nglFogCoordPointer(GL11.GL_FLOAT, stride, data, data.position() << 2, function_pointer);
+		nglFogCoordPointer(GL11.GL_FLOAT, stride, MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglFogCoordPointer(int type, int stride, Buffer data, int data_position, long function_pointer);
+	static native void nglFogCoordPointer(int type, int stride, long data, long function_pointer);
 	public static void glFogCoordPointer(int type, int stride, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glFogCoordPointer;
@@ -130,9 +130,9 @@ public final class GL14 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(piFirst);
 		BufferChecks.checkBuffer(piCount, piFirst.remaining());
-		nglMultiDrawArrays(mode, piFirst, piFirst.position(), piCount, piCount.position(), piFirst.remaining(), function_pointer);
+		nglMultiDrawArrays(mode, MemoryUtil.getAddress(piFirst), MemoryUtil.getAddress(piCount), piFirst.remaining(), function_pointer);
 	}
-	static native void nglMultiDrawArrays(int mode, IntBuffer piFirst, int piFirst_position, IntBuffer piCount, int piCount_position, int piFirst_primcount, long function_pointer);
+	static native void nglMultiDrawArrays(int mode, long piFirst, long piCount, int piFirst_primcount, long function_pointer);
 
 	public static void glPointParameteri(int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -155,18 +155,18 @@ public final class GL14 {
 		long function_pointer = caps.glPointParameteriv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglPointParameteriv(pname, params, params.position(), function_pointer);
+		nglPointParameteriv(pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglPointParameteriv(int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglPointParameteriv(int pname, long params, long function_pointer);
 
 	public static void glPointParameter(int pname, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glPointParameterfv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglPointParameterfv(pname, params, params.position(), function_pointer);
+		nglPointParameterfv(pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglPointParameterfv(int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglPointParameterfv(int pname, long params, long function_pointer);
 
 	public static void glSecondaryColor3b(byte red, byte green, byte blue) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -206,7 +206,7 @@ public final class GL14 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglSecondaryColorPointer(size, GL11.GL_DOUBLE, stride, data, data.position() << 3, function_pointer);
+		nglSecondaryColorPointer(size, GL11.GL_DOUBLE, stride, MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glSecondaryColorPointer(int size, int stride, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -214,7 +214,7 @@ public final class GL14 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglSecondaryColorPointer(size, GL11.GL_FLOAT, stride, data, data.position() << 2, function_pointer);
+		nglSecondaryColorPointer(size, GL11.GL_FLOAT, stride, MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glSecondaryColorPointer(int size, boolean unsigned, int stride, ByteBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -222,9 +222,9 @@ public final class GL14 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglSecondaryColorPointer(size, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, stride, data, data.position(), function_pointer);
+		nglSecondaryColorPointer(size, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, stride, MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglSecondaryColorPointer(int size, int type, int stride, Buffer data, int data_position, long function_pointer);
+	static native void nglSecondaryColorPointer(int size, int type, int stride, long data, long function_pointer);
 	public static void glSecondaryColorPointer(int size, int type, int stride, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSecondaryColorPointer;

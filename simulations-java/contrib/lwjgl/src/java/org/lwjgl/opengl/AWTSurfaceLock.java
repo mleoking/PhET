@@ -32,6 +32,8 @@
 package org.lwjgl.opengl;
 
 import java.awt.Canvas;
+import java.awt.Component;
+import java.applet.Applet;
 import java.nio.ByteBuffer;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -43,8 +45,8 @@ import org.lwjgl.LWJGLUtil;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: AWTSurfaceLock.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class AWTSurfaceLock {
 
@@ -78,7 +80,8 @@ final class AWTSurfaceLock {
 		// We need to elevate privileges because of an AWT bug. Please see
 		// http://192.18.37.44/forums/index.php?topic=10572 for a discussion.
 		// It is only needed on first call, so we avoid it on all subsequent calls
-		// due to performance.
+		// due to performance..
+        
 		if (firstLockSucceeded)
 			return lockAndInitHandle(lock_buffer, component);
 		else

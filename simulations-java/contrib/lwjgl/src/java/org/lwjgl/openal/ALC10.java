@@ -31,12 +31,13 @@
  */
 package org.lwjgl.openal;
 
-import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 
 import org.lwjgl.BufferChecks;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.MemoryUtil;
 
 /**
  *
@@ -151,12 +152,11 @@ public final class ALC10 {
 	 * @return String property from device
 	 */
 	public static String alcGetString(ALCdevice device, int pname) {
-		String result;
-		result = nalcGetString(getDevice(device), pname);
+		ByteBuffer buffer = nalcGetString(getDevice(device), pname);
 		Util.checkALCError(device);
-		return result;
+		return MemoryUtil.decodeUTF8(buffer);
 	}
-	static native String nalcGetString(long device, int pname);
+	static native ByteBuffer nalcGetString(long device, int pname);
 
 	/**
 	 * The application can query ALC for information using an integer query function.
@@ -180,10 +180,10 @@ public final class ALC10 {
 	 */
 	public static void alcGetInteger(ALCdevice device, int pname, IntBuffer integerdata) {
 		BufferChecks.checkDirect(integerdata);
-		nalcGetIntegerv(getDevice(device), pname, integerdata.remaining(), integerdata, integerdata.position());
+		nalcGetIntegerv(getDevice(device), pname, integerdata.remaining(), MemoryUtil.getAddress(integerdata));
 		Util.checkALCError(device);
 	}
-	static native void nalcGetIntegerv(long device, int pname, int size, Buffer integerdata, int offset);
+	static native void nalcGetIntegerv(long device, int pname, int size, long integerdata);
 
 	/**
 	 * The <code>alcOpenDevice</code> function allows the application (i.e. the client program) to
@@ -198,7 +198,8 @@ public final class ALC10 {
 	 * @return opened device, or null
 	 */
 	public static ALCdevice alcOpenDevice(String devicename) {
-		long device_address = nalcOpenDevice(devicename);
+		ByteBuffer buffer = MemoryUtil.encodeUTF8(devicename);
+		long device_address = nalcOpenDevice(MemoryUtil.getAddressSafe(buffer));
 		if(device_address != 0) {
 			ALCdevice device = new ALCdevice(device_address);
 			synchronized (ALC10.devices) {
@@ -208,7 +209,7 @@ public final class ALC10 {
 		}
 		return null;
 	}
-	static native long nalcOpenDevice(String devicename);
+	static native long nalcOpenDevice(long devicename);
 
 	/**
 	 * The <code>alcCloseDevice</code> function allows the application (i.e. the client program) to
@@ -246,7 +247,7 @@ public final class ALC10 {
 	 * @return New context, or null if creation failed
 	 */
 	public static ALCcontext alcCreateContext(ALCdevice device, IntBuffer attrList) {
-		long context_address = nalcCreateContext(getDevice(device), attrList);
+		long context_address = nalcCreateContext(getDevice(device), MemoryUtil.getAddressSafe(attrList));
 		Util.checkALCError(device);
 
 		if(context_address != 0) {
@@ -259,7 +260,7 @@ public final class ALC10 {
 		}
 		return null;
 	}
-	static native long nalcCreateContext(long device, IntBuffer attrList);
+	static native long nalcCreateContext(long device, long attrList);
 
 	/**
 	 * To make a Context current with respect to AL Operation (state changes by issueing
@@ -394,11 +395,12 @@ public final class ALC10 {
 	 * @return true if extension is available, false if not
 	 */
 	public static boolean alcIsExtensionPresent(ALCdevice device, String extName) {
-		boolean result = nalcIsExtensionPresent(getDevice(device), extName);
+		ByteBuffer buffer = MemoryUtil.encodeASCII(extName);
+		boolean result = nalcIsExtensionPresent(getDevice(device), MemoryUtil.getAddress(buffer));
 		Util.checkALCError(device);
 		return result;
 	}
-	static native boolean nalcIsExtensionPresent(long device, String extName);
+	private static native boolean nalcIsExtensionPresent(long device, long extName);
 
 	/**
 	 * Enumeration/token values are device independend, but tokens defined for
@@ -411,11 +413,12 @@ public final class ALC10 {
 	 * @return value of enumeration
 	 */
 	public static int alcGetEnumValue(ALCdevice device, String enumName) {
-		int result = nalcGetEnumValue(getDevice(device), enumName);
+		ByteBuffer buffer = MemoryUtil.encodeASCII(enumName);
+		int result = nalcGetEnumValue(getDevice(device), MemoryUtil.getAddress(buffer));
 		Util.checkALCError(device);
 		return result;
 	}
-	static native int nalcGetEnumValue(long device, String enumName);
+	private static native int nalcGetEnumValue(long device, long enumName);
 
 	static long getDevice(ALCdevice device) {
 		if(device != null) {

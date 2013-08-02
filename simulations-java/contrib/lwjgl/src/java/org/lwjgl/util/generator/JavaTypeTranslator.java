@@ -44,8 +44,8 @@ import com.sun.mirror.util.*;
  * java types (represented by a Class)
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3430 $
- * $Id: JavaTypeTranslator.java 3430 2010-10-04 17:04:46Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class JavaTypeTranslator implements TypeVisitor {
 	private Class type;

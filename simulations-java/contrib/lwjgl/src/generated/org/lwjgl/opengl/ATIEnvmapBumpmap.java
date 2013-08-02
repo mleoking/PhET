@@ -23,34 +23,34 @@ public final class ATIEnvmapBumpmap {
 		long function_pointer = caps.glTexBumpParameterfvATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglTexBumpParameterfvATI(pname, param, param.position(), function_pointer);
+		nglTexBumpParameterfvATI(pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglTexBumpParameterfvATI(int pname, FloatBuffer param, int param_position, long function_pointer);
+	static native void nglTexBumpParameterfvATI(int pname, long param, long function_pointer);
 
 	public static void glTexBumpParameterATI(int pname, IntBuffer param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTexBumpParameterivATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglTexBumpParameterivATI(pname, param, param.position(), function_pointer);
+		nglTexBumpParameterivATI(pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglTexBumpParameterivATI(int pname, IntBuffer param, int param_position, long function_pointer);
+	static native void nglTexBumpParameterivATI(int pname, long param, long function_pointer);
 
 	public static void glGetTexBumpParameterATI(int pname, FloatBuffer param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTexBumpParameterfvATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglGetTexBumpParameterfvATI(pname, param, param.position(), function_pointer);
+		nglGetTexBumpParameterfvATI(pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglGetTexBumpParameterfvATI(int pname, FloatBuffer param, int param_position, long function_pointer);
+	static native void nglGetTexBumpParameterfvATI(int pname, long param, long function_pointer);
 
 	public static void glGetTexBumpParameterATI(int pname, IntBuffer param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTexBumpParameterivATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglGetTexBumpParameterivATI(pname, param, param.position(), function_pointer);
+		nglGetTexBumpParameterivATI(pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglGetTexBumpParameterivATI(int pname, IntBuffer param, int param_position, long function_pointer);
+	static native void nglGetTexBumpParameterivATI(int pname, long param, long function_pointer);
 }

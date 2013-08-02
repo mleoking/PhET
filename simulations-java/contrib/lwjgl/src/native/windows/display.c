@@ -31,12 +31,12 @@
  */
 
 /**
- * $Id: display.c 2985 2008-04-07 18:42:36Z matzon $
+ * $Id$
  *
  * Windows specific library for display handling.
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
- * @version $Revision: 2985 $
+ * @version $Revision$
  */
 
 #include <windows.h>
@@ -203,7 +203,7 @@ jobject convertToNativeRamp(JNIEnv *env, jobject float_gamma_obj) {
 	float scaledRampEntry;
 	WORD rampEntry;
 	const float *gammaRamp = (const float *)(*env)->GetDirectBufferAddress(env, float_gamma_obj);
-	jint gamma_ramp_length = (*env)->GetDirectBufferCapacity(env, float_gamma_obj);
+	jint gamma_ramp_length = (jint)(*env)->GetDirectBufferCapacity(env, float_gamma_obj);
 	jobject native_ramp;
 	WORD *native_ramp_buffer;
 

@@ -69,7 +69,7 @@ public interface NV_program {
 	void glDeleteProgramsNV(@AutoSize("programs") @GLsizei int n, @Const @GLuint IntBuffer programs);
 
 	@Alternate("glDeleteProgramsNV")
-	void glDeleteProgramsNV(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, program), 0", keepParam = true) int program);
+	void glDeleteProgramsNV(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, program)", keepParam = true) int program);
 
 	void glGenProgramsNV(@AutoSize("programs") @GLsizei int n, @OutParameter @GLuint IntBuffer programs);
 
@@ -80,15 +80,23 @@ public interface NV_program {
 	@StripPostfix("params")
 	void glGetProgramivNV(@GLuint int programID, @GLenum int parameterName, @OutParameter @Check @GLint IntBuffer params);
 
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetProgramiNV} instead. */
 	@Alternate("glGetProgramivNV")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "NVProgram", method = "glGetProgramiNV")
+	@Deprecated
 	void glGetProgramivNV2(@GLuint int programID, @GLenum int parameterName, @OutParameter @GLint IntBuffer params);
+
+	@Alternate("glGetProgramivNV")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetProgramivNV3(@GLuint int programID, @GLenum int parameterName, @OutParameter @GLint IntBuffer params);
 
 	void glGetProgramStringNV(@GLuint int programID, @GLenum int parameterName, @OutParameter @Check @GLubyte Buffer paramString);
 
 	@Alternate("glGetProgramStringNV")
-	@Code("\t\tint programLength = glGetProgramNV(programID, GL_PROGRAM_LENGTH_NV);")
+	@Code("\t\tint programLength = glGetProgramiNV(programID, GL_PROGRAM_LENGTH_NV);")
 	@GLreturn(value="paramString", maxLength = "programLength", forceMaxLength = true)
 	void glGetProgramStringNV2(@GLuint int programID, @GLenum int parameterName, @OutParameter @GLchar ByteBuffer paramString);
 
@@ -101,6 +109,6 @@ public interface NV_program {
 	void glRequestResidentProgramsNV(@AutoSize("programIDs") @GLsizei int n, @GLuint IntBuffer programIDs);
 
 	@Alternate("glRequestResidentProgramsNV")
-	void glRequestResidentProgramsNV(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, programID), 0", keepParam = true) int programID);
+	void glRequestResidentProgramsNV(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, programID)", keepParam = true) int programID);
 }
 

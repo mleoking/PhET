@@ -38,8 +38,8 @@ package org.lwjgl.util.generator;
  * annotations) to the native type string.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
- * $Id: NativeTypeTranslator.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import org.lwjgl.PointerBuffer;
@@ -55,13 +55,13 @@ import com.sun.mirror.type.*;
 import com.sun.mirror.util.TypeVisitor;
 
 /**
- * $Id: NativeTypeTranslator.java 3412 2010-09-26 23:43:24Z spasi $
+ * $Id$
  * <p/>
  * A TypeVisitor that translates (annotated) TypeMirrors to
  * native types
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
+ * @version $Revision$
  */
 public class NativeTypeTranslator implements TypeVisitor {
 
@@ -196,7 +196,15 @@ public class NativeTypeTranslator implements TypeVisitor {
 	}
 
 	public void visitInterfaceType(InterfaceType t) {
-		throw new RuntimeException(t + " is not allowed");
+		// See ARB_debug_label.glObjectPtrLabel
+		Class<?> c = getClassFromType(t);
+		if ( org.lwjgl.PointerWrapper.class.isAssignableFrom(c) ) {
+			native_types = new ArrayList<Class>();
+			native_types.add(PointerWrapper.class);
+
+			is_indirect = false;
+		} else
+			throw new RuntimeException(t + " is not allowed");
 	}
 
 	// Check if the annotation is itself annotated with a certain annotation type

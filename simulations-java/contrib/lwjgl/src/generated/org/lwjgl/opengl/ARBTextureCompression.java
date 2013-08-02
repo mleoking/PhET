@@ -27,9 +27,9 @@ public final class ARBTextureCompression {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(pData);
-		nglCompressedTexImage1DARB(target, level, internalformat, width, border, pData.remaining(), pData, pData.position(), function_pointer);
+		nglCompressedTexImage1DARB(target, level, internalformat, width, border, pData.remaining(), MemoryUtil.getAddress(pData), function_pointer);
 	}
-	static native void nglCompressedTexImage1DARB(int target, int level, int internalformat, int width, int border, int pData_imageSize, ByteBuffer pData, int pData_position, long function_pointer);
+	static native void nglCompressedTexImage1DARB(int target, int level, int internalformat, int width, int border, int pData_imageSize, long pData, long function_pointer);
 	public static void glCompressedTexImage1DARB(int target, int level, int internalformat, int width, int border, int pData_imageSize, long pData_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexImage1DARB;
@@ -45,9 +45,9 @@ public final class ARBTextureCompression {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(pData);
-		nglCompressedTexImage2DARB(target, level, internalformat, width, height, border, pData.remaining(), pData, pData.position(), function_pointer);
+		nglCompressedTexImage2DARB(target, level, internalformat, width, height, border, pData.remaining(), MemoryUtil.getAddress(pData), function_pointer);
 	}
-	static native void nglCompressedTexImage2DARB(int target, int level, int internalformat, int width, int height, int border, int pData_imageSize, ByteBuffer pData, int pData_position, long function_pointer);
+	static native void nglCompressedTexImage2DARB(int target, int level, int internalformat, int width, int height, int border, int pData_imageSize, long pData, long function_pointer);
 	public static void glCompressedTexImage2DARB(int target, int level, int internalformat, int width, int height, int border, int pData_imageSize, long pData_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexImage2DARB;
@@ -63,9 +63,9 @@ public final class ARBTextureCompression {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(pData);
-		nglCompressedTexImage3DARB(target, level, internalformat, width, height, depth, border, pData.remaining(), pData, pData.position(), function_pointer);
+		nglCompressedTexImage3DARB(target, level, internalformat, width, height, depth, border, pData.remaining(), MemoryUtil.getAddress(pData), function_pointer);
 	}
-	static native void nglCompressedTexImage3DARB(int target, int level, int internalformat, int width, int height, int depth, int border, int pData_imageSize, ByteBuffer pData, int pData_position, long function_pointer);
+	static native void nglCompressedTexImage3DARB(int target, int level, int internalformat, int width, int height, int depth, int border, int pData_imageSize, long pData, long function_pointer);
 	public static void glCompressedTexImage3DARB(int target, int level, int internalformat, int width, int height, int depth, int border, int pData_imageSize, long pData_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexImage3DARB;
@@ -81,9 +81,9 @@ public final class ARBTextureCompression {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(pData);
-		nglCompressedTexSubImage1DARB(target, level, xoffset, width, format, pData.remaining(), pData, pData.position(), function_pointer);
+		nglCompressedTexSubImage1DARB(target, level, xoffset, width, format, pData.remaining(), MemoryUtil.getAddress(pData), function_pointer);
 	}
-	static native void nglCompressedTexSubImage1DARB(int target, int level, int xoffset, int width, int format, int pData_imageSize, ByteBuffer pData, int pData_position, long function_pointer);
+	static native void nglCompressedTexSubImage1DARB(int target, int level, int xoffset, int width, int format, int pData_imageSize, long pData, long function_pointer);
 	public static void glCompressedTexSubImage1DARB(int target, int level, int xoffset, int width, int format, int pData_imageSize, long pData_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexSubImage1DARB;
@@ -99,9 +99,9 @@ public final class ARBTextureCompression {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(pData);
-		nglCompressedTexSubImage2DARB(target, level, xoffset, yoffset, width, height, format, pData.remaining(), pData, pData.position(), function_pointer);
+		nglCompressedTexSubImage2DARB(target, level, xoffset, yoffset, width, height, format, pData.remaining(), MemoryUtil.getAddress(pData), function_pointer);
 	}
-	static native void nglCompressedTexSubImage2DARB(int target, int level, int xoffset, int yoffset, int width, int height, int format, int pData_imageSize, ByteBuffer pData, int pData_position, long function_pointer);
+	static native void nglCompressedTexSubImage2DARB(int target, int level, int xoffset, int yoffset, int width, int height, int format, int pData_imageSize, long pData, long function_pointer);
 	public static void glCompressedTexSubImage2DARB(int target, int level, int xoffset, int yoffset, int width, int height, int format, int pData_imageSize, long pData_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexSubImage2DARB;
@@ -117,9 +117,9 @@ public final class ARBTextureCompression {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(pData);
-		nglCompressedTexSubImage3DARB(target, level, xoffset, yoffset, zoffset, width, height, depth, format, pData.remaining(), pData, pData.position(), function_pointer);
+		nglCompressedTexSubImage3DARB(target, level, xoffset, yoffset, zoffset, width, height, depth, format, pData.remaining(), MemoryUtil.getAddress(pData), function_pointer);
 	}
-	static native void nglCompressedTexSubImage3DARB(int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int pData_imageSize, ByteBuffer pData, int pData_position, long function_pointer);
+	static native void nglCompressedTexSubImage3DARB(int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int pData_imageSize, long pData, long function_pointer);
 	public static void glCompressedTexSubImage3DARB(int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int pData_imageSize, long pData_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTexSubImage3DARB;
@@ -135,9 +135,9 @@ public final class ARBTextureCompression {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(pImg);
-		nglGetCompressedTexImageARB(target, lod, pImg, pImg.position(), function_pointer);
+		nglGetCompressedTexImageARB(target, lod, MemoryUtil.getAddress(pImg), function_pointer);
 	}
-	static native void nglGetCompressedTexImageARB(int target, int lod, ByteBuffer pImg, int pImg_position, long function_pointer);
+	static native void nglGetCompressedTexImageARB(int target, int lod, long pImg, long function_pointer);
 	public static void glGetCompressedTexImageARB(int target, int lod, long pImg_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetCompressedTexImageARB;

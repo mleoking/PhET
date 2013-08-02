@@ -31,24 +31,26 @@
  */
 package org.lwjgl;
 
-import java.awt.Toolkit;
-
 import com.apple.eio.FileManager;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
+import java.lang.UnsatisfiedLinkError;
 
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: MacOSXSysImplementation.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class MacOSXSysImplementation extends J2SESysImplementation {
-	private static final int JNI_VERSION = 19;
+	private static final int JNI_VERSION = 25;
 
 	static {
-		// Make sure AWT is properly initialized. This avoids hangs on Mac OS X 10.3
-		Toolkit.getDefaultToolkit();
+		// Manually start the AWT Application Loop
+		java.awt.Toolkit.getDefaultToolkit();
 	}
-
+	
 	public int getRequiredJNIVersion() {
 		return JNI_VERSION;
 	}

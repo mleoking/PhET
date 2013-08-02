@@ -42,8 +42,8 @@ import java.nio.*;
  * </p>
  * @author cix_foo <cix_foo@users.sourceforge.net>
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3419 $
- * $Id: BufferChecks.java 3419 2010-09-30 17:21:50Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class BufferChecks {
 	/** Static methods only! */
@@ -159,7 +159,7 @@ public class BufferChecks {
 	 * This is a separate call to help inline checkBufferSize.
 	 */
 	private static void throwBufferSizeException(Buffer buf, int size) {
-		throw new IllegalArgumentException("Number of remaining buffer elements is " + buf.remaining() + ", must be at least " + size);
+		throw new IllegalArgumentException("Number of remaining buffer elements is " + buf.remaining() + ", must be at least " + size + ". Because at most " + size + " elements can be returned, a buffer with at least " + size + " elements is required, regardless of actual returned element count");
 	}
 
 	private static void throwBufferSizeException(PointerBuffer buf, int size) {

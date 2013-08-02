@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * according to the remaining() of a Buffer parameter.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
- * $Id: AutoSize.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import java.lang.annotation.Target;
@@ -49,6 +49,7 @@ import java.lang.annotation.ElementType;
 public @interface AutoSize {
 	String value(); // The name of the Buffer parameter
 	String expression() default ""; // This value is added after the argument
+	boolean useExpression() default false; // When this is true, the expression result will be used directly.
 	boolean canBeNull() default false; // When this is true and the Buffer parameter is null, 0 will be used.
 	boolean isNative() default false; // When this is true, auto-sizing will be performed in native code.
 }

@@ -42,9 +42,9 @@ public final class KHRGLSharing {
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
 		if ( param_value_size_ret == null && APIUtil.isDevicesParam(param_name) ) param_value_size_ret = APIUtil.getBufferPointer();
-		int __result = nclGetGLContextInfoKHR(properties.getBuffer(), properties.positionByte(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetGLContextInfoKHR(MemoryUtil.getAddress(properties), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		if ( __result == CL10.CL_SUCCESS && param_value != null && APIUtil.isDevicesParam(param_name) ) APIUtil.getCLPlatform(properties).registerCLDevices(param_value, param_value_size_ret);
 		return __result;
 	}
-	static native int nclGetGLContextInfoKHR(ByteBuffer properties, int properties_position, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetGLContextInfoKHR(long properties, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 }

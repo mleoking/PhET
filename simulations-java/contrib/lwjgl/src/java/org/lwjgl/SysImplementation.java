@@ -37,8 +37,8 @@ package org.lwjgl;
  *
  * @author cix_foo <cix_foo@users.sourceforge.net>
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3426 $
- * $Id: SysImplementation.java 3426 2010-10-01 22:20:14Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 interface SysImplementation {
 	/**

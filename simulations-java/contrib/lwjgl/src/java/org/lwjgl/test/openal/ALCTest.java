@@ -42,8 +42,8 @@ import org.lwjgl.openal.ALC10;
  * This is a test for the ALC part of OpenAL
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: ALCTest.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class ALCTest extends BasicTest {
 

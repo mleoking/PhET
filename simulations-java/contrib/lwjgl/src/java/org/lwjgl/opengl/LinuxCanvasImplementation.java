@@ -44,8 +44,8 @@ import org.lwjgl.LWJGLUtil;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: LinuxCanvasImplementation.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class LinuxCanvasImplementation implements AWTCanvasImplementation {
 	static int getScreenFromDevice(final GraphicsDevice device) throws LWJGLException {
@@ -76,7 +76,7 @@ final class LinuxCanvasImplementation implements AWTCanvasImplementation {
 		}
 	}
 
-	public PeerInfo createPeerInfo(Canvas component, PixelFormat pixel_format) throws LWJGLException {
+	public PeerInfo createPeerInfo(Canvas component, PixelFormat pixel_format, ContextAttribs attribs) throws LWJGLException {
 		return new LinuxAWTGLCanvasPeerInfo(component);
 	}
 

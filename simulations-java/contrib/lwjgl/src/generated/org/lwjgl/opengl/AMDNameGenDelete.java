@@ -23,17 +23,17 @@ public final class AMDNameGenDelete {
 		long function_pointer = caps.glGenNamesAMD;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(names);
-		nglGenNamesAMD(identifier, names.remaining(), names, names.position(), function_pointer);
+		nglGenNamesAMD(identifier, names.remaining(), MemoryUtil.getAddress(names), function_pointer);
 	}
-	static native void nglGenNamesAMD(int identifier, int names_num, IntBuffer names, int names_position, long function_pointer);
+	static native void nglGenNamesAMD(int identifier, int names_num, long names, long function_pointer);
 
 	/** Overloads glGenNamesAMD. */
 	public static int glGenNamesAMD(int identifier) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenNamesAMD;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer names = APIUtil.getBufferInt();
-		nglGenNamesAMD(identifier, 1, names, names.position(), function_pointer);
+		IntBuffer names = APIUtil.getBufferInt(caps);
+		nglGenNamesAMD(identifier, 1, MemoryUtil.getAddress(names), function_pointer);
 		return names.get(0);
 	}
 
@@ -42,16 +42,16 @@ public final class AMDNameGenDelete {
 		long function_pointer = caps.glDeleteNamesAMD;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(names);
-		nglDeleteNamesAMD(identifier, names.remaining(), names, names.position(), function_pointer);
+		nglDeleteNamesAMD(identifier, names.remaining(), MemoryUtil.getAddress(names), function_pointer);
 	}
-	static native void nglDeleteNamesAMD(int identifier, int names_num, IntBuffer names, int names_position, long function_pointer);
+	static native void nglDeleteNamesAMD(int identifier, int names_num, long names, long function_pointer);
 
 	/** Overloads glDeleteNamesAMD. */
 	public static void glDeleteNamesAMD(int identifier, int name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteNamesAMD;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteNamesAMD(identifier, 1, APIUtil.getBufferInt().put(0, name), 0, function_pointer);
+		nglDeleteNamesAMD(identifier, 1, APIUtil.getInt(caps, name), function_pointer);
 	}
 
 	public static boolean glIsNameAMD(int identifier, int name) {

@@ -39,36 +39,36 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMatrixLoadfEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMatrixLoadfEXT(matrixMode, m, m.position(), function_pointer);
+		nglMatrixLoadfEXT(matrixMode, MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMatrixLoadfEXT(int matrixMode, FloatBuffer m, int m_position, long function_pointer);
+	static native void nglMatrixLoadfEXT(int matrixMode, long m, long function_pointer);
 
 	public static void glMatrixLoadEXT(int matrixMode, DoubleBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixLoaddEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMatrixLoaddEXT(matrixMode, m, m.position(), function_pointer);
+		nglMatrixLoaddEXT(matrixMode, MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMatrixLoaddEXT(int matrixMode, DoubleBuffer m, int m_position, long function_pointer);
+	static native void nglMatrixLoaddEXT(int matrixMode, long m, long function_pointer);
 
 	public static void glMatrixMultEXT(int matrixMode, FloatBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixMultfEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMatrixMultfEXT(matrixMode, m, m.position(), function_pointer);
+		nglMatrixMultfEXT(matrixMode, MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMatrixMultfEXT(int matrixMode, FloatBuffer m, int m_position, long function_pointer);
+	static native void nglMatrixMultfEXT(int matrixMode, long m, long function_pointer);
 
 	public static void glMatrixMultEXT(int matrixMode, DoubleBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixMultdEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMatrixMultdEXT(matrixMode, m, m.position(), function_pointer);
+		nglMatrixMultdEXT(matrixMode, MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMatrixMultdEXT(int matrixMode, DoubleBuffer m, int m_position, long function_pointer);
+	static native void nglMatrixMultdEXT(int matrixMode, long m, long function_pointer);
 
 	public static void glMatrixLoadIdentityEXT(int matrixMode) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -171,9 +171,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glTextureParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglTextureParameterivEXT(texture, target, pname, param, param.position(), function_pointer);
+		nglTextureParameterivEXT(texture, target, pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglTextureParameterivEXT(int texture, int target, int pname, IntBuffer param, int param_position, long function_pointer);
+	static native void nglTextureParameterivEXT(int texture, int target, int pname, long param, long function_pointer);
 
 	public static void glTextureParameterfEXT(int texture, int target, int pname, float param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -188,9 +188,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glTextureParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglTextureParameterfvEXT(texture, target, pname, param, param.position(), function_pointer);
+		nglTextureParameterfvEXT(texture, target, pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglTextureParameterfvEXT(int texture, int target, int pname, FloatBuffer param, int param_position, long function_pointer);
+	static native void nglTextureParameterfvEXT(int texture, int target, int pname, long param, long function_pointer);
 
 	public static void glTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int format, int type, ByteBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -199,7 +199,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() : 0, function_pointer);
+		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -208,7 +208,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() << 3 : 0, function_pointer);
+		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -217,7 +217,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -226,7 +226,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -235,9 +235,9 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() << 1 : 0, function_pointer);
+		nglTextureImage1DEXT(texture, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
-	static native void nglTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int format, int type, long pixels, long function_pointer);
 	public static void glTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTextureImage1DEXT;
@@ -254,7 +254,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() : 0, function_pointer);
+		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -263,7 +263,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() << 3 : 0, function_pointer);
+		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -272,7 +272,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -281,7 +281,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -290,9 +290,9 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() << 1 : 0, function_pointer);
+		nglTextureImage2DEXT(texture, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
-	static native void nglTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int format, int type, long pixels, long function_pointer);
 	public static void glTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTextureImage2DEXT;
@@ -308,7 +308,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, pixels, pixels.position(), function_pointer);
+		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -316,7 +316,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, pixels, pixels.position() << 3, function_pointer);
+		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -324,7 +324,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -332,7 +332,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -340,9 +340,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, pixels, pixels.position() << 1, function_pointer);
+		nglTextureSubImage1DEXT(texture, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
-	static native void nglTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int type, long pixels, long function_pointer);
 	public static void glTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTextureSubImage1DEXT;
@@ -358,7 +358,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position(), function_pointer);
+		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -366,7 +366,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position() << 3, function_pointer);
+		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -374,7 +374,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -382,7 +382,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -390,9 +390,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position() << 1, function_pointer);
+		nglTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
-	static native void nglTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, long pixels, long function_pointer);
 	public static void glTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTextureSubImage2DEXT;
@@ -440,7 +440,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetTextureImageEXT(texture, target, level, format, type, pixels, pixels.position(), function_pointer);
+		nglGetTextureImageEXT(texture, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glGetTextureImageEXT(int texture, int target, int level, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -448,7 +448,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetTextureImageEXT(texture, target, level, format, type, pixels, pixels.position() << 3, function_pointer);
+		nglGetTextureImageEXT(texture, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glGetTextureImageEXT(int texture, int target, int level, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -456,7 +456,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetTextureImageEXT(texture, target, level, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglGetTextureImageEXT(texture, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glGetTextureImageEXT(int texture, int target, int level, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -464,7 +464,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetTextureImageEXT(texture, target, level, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglGetTextureImageEXT(texture, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glGetTextureImageEXT(int texture, int target, int level, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -472,9 +472,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetTextureImageEXT(texture, target, level, format, type, pixels, pixels.position() << 1, function_pointer);
+		nglGetTextureImageEXT(texture, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
-	static native void nglGetTextureImageEXT(int texture, int target, int level, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglGetTextureImageEXT(int texture, int target, int level, int format, int type, long pixels, long function_pointer);
 	public static void glGetTextureImageEXT(int texture, int target, int level, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTextureImageEXT;
@@ -489,17 +489,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetTextureParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTextureParameterfvEXT(texture, target, pname, params, params.position(), function_pointer);
+		nglGetTextureParameterfvEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTextureParameterfvEXT(int texture, int target, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetTextureParameterfvEXT(int texture, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetTextureParameterfvEXT. */
 	public static float glGetTextureParameterfEXT(int texture, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTextureParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		FloatBuffer params = APIUtil.getBufferFloat();
-		nglGetTextureParameterfvEXT(texture, target, pname, params, params.position(), function_pointer);
+		FloatBuffer params = APIUtil.getBufferFloat(caps);
+		nglGetTextureParameterfvEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -508,17 +508,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetTextureParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTextureParameterivEXT(texture, target, pname, params, params.position(), function_pointer);
+		nglGetTextureParameterivEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTextureParameterivEXT(int texture, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetTextureParameterivEXT(int texture, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetTextureParameterivEXT. */
 	public static int glGetTextureParameteriEXT(int texture, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTextureParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetTextureParameterivEXT(texture, target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetTextureParameterivEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -527,17 +527,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetTextureLevelParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTextureLevelParameterfvEXT(texture, target, level, pname, params, params.position(), function_pointer);
+		nglGetTextureLevelParameterfvEXT(texture, target, level, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTextureLevelParameterfvEXT(int texture, int target, int level, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetTextureLevelParameterfvEXT(int texture, int target, int level, int pname, long params, long function_pointer);
 
 	/** Overloads glGetTextureLevelParameterfvEXT. */
 	public static float glGetTextureLevelParameterfEXT(int texture, int target, int level, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTextureLevelParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		FloatBuffer params = APIUtil.getBufferFloat();
-		nglGetTextureLevelParameterfvEXT(texture, target, level, pname, params, params.position(), function_pointer);
+		FloatBuffer params = APIUtil.getBufferFloat(caps);
+		nglGetTextureLevelParameterfvEXT(texture, target, level, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -546,17 +546,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetTextureLevelParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTextureLevelParameterivEXT(texture, target, level, pname, params, params.position(), function_pointer);
+		nglGetTextureLevelParameterivEXT(texture, target, level, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTextureLevelParameterivEXT(int texture, int target, int level, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetTextureLevelParameterivEXT(int texture, int target, int level, int pname, long params, long function_pointer);
 
 	/** Overloads glGetTextureLevelParameterivEXT. */
 	public static int glGetTextureLevelParameteriEXT(int texture, int target, int level, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTextureLevelParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetTextureLevelParameterivEXT(texture, target, level, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetTextureLevelParameterivEXT(texture, target, level, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -567,7 +567,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() : 0, function_pointer);
+		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -576,7 +576,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() << 3 : 0, function_pointer);
+		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -585,7 +585,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -594,7 +594,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -603,9 +603,9 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() << 1 : 0, function_pointer);
+		nglTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
-	static native void nglTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, long pixels, long function_pointer);
 	public static void glTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTextureImage3DEXT;
@@ -621,7 +621,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position(), function_pointer);
+		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -629,7 +629,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position() << 3, function_pointer);
+		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -637,7 +637,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -645,7 +645,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -653,9 +653,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position() << 1, function_pointer);
+		nglTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
-	static native void nglTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, long pixels, long function_pointer);
 	public static void glTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTextureSubImage3DEXT;
@@ -687,7 +687,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pointer);
-		nglMultiTexCoordPointerEXT(texunit, size, GL11.GL_DOUBLE, stride, pointer, pointer.position() << 3, function_pointer);
+		nglMultiTexCoordPointerEXT(texunit, size, GL11.GL_DOUBLE, stride, MemoryUtil.getAddress(pointer), function_pointer);
 	}
 	public static void glMultiTexCoordPointerEXT(int texunit, int size, int stride, FloatBuffer pointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -695,9 +695,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pointer);
-		nglMultiTexCoordPointerEXT(texunit, size, GL11.GL_FLOAT, stride, pointer, pointer.position() << 2, function_pointer);
+		nglMultiTexCoordPointerEXT(texunit, size, GL11.GL_FLOAT, stride, MemoryUtil.getAddress(pointer), function_pointer);
 	}
-	static native void nglMultiTexCoordPointerEXT(int texunit, int size, int type, int stride, Buffer pointer, int pointer_position, long function_pointer);
+	static native void nglMultiTexCoordPointerEXT(int texunit, int size, int type, int stride, long pointer, long function_pointer);
 	public static void glMultiTexCoordPointerEXT(int texunit, int size, int type, int stride, long pointer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexCoordPointerEXT;
@@ -720,9 +720,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexEnvfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglMultiTexEnvfvEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglMultiTexEnvfvEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglMultiTexEnvfvEXT(int texunit, int target, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglMultiTexEnvfvEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	public static void glMultiTexEnviEXT(int texunit, int target, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -737,9 +737,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexEnvivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglMultiTexEnvivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglMultiTexEnvivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglMultiTexEnvivEXT(int texunit, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglMultiTexEnvivEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	public static void glMultiTexGendEXT(int texunit, int coord, int pname, double param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -754,9 +754,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexGendvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglMultiTexGendvEXT(texunit, coord, pname, params, params.position(), function_pointer);
+		nglMultiTexGendvEXT(texunit, coord, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglMultiTexGendvEXT(int texunit, int coord, int pname, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglMultiTexGendvEXT(int texunit, int coord, int pname, long params, long function_pointer);
 
 	public static void glMultiTexGenfEXT(int texunit, int coord, int pname, float param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -771,9 +771,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexGenfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglMultiTexGenfvEXT(texunit, coord, pname, params, params.position(), function_pointer);
+		nglMultiTexGenfvEXT(texunit, coord, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglMultiTexGenfvEXT(int texunit, int coord, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglMultiTexGenfvEXT(int texunit, int coord, int pname, long params, long function_pointer);
 
 	public static void glMultiTexGeniEXT(int texunit, int coord, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -788,54 +788,54 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexGenivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglMultiTexGenivEXT(texunit, coord, pname, params, params.position(), function_pointer);
+		nglMultiTexGenivEXT(texunit, coord, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglMultiTexGenivEXT(int texunit, int coord, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglMultiTexGenivEXT(int texunit, int coord, int pname, long params, long function_pointer);
 
 	public static void glGetMultiTexEnvEXT(int texunit, int target, int pname, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexEnvfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexEnvfvEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglGetMultiTexEnvfvEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexEnvfvEXT(int texunit, int target, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexEnvfvEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	public static void glGetMultiTexEnvEXT(int texunit, int target, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexEnvivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexEnvivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglGetMultiTexEnvivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexEnvivEXT(int texunit, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexEnvivEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	public static void glGetMultiTexGenEXT(int texunit, int coord, int pname, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexGendvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexGendvEXT(texunit, coord, pname, params, params.position(), function_pointer);
+		nglGetMultiTexGendvEXT(texunit, coord, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexGendvEXT(int texunit, int coord, int pname, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexGendvEXT(int texunit, int coord, int pname, long params, long function_pointer);
 
 	public static void glGetMultiTexGenEXT(int texunit, int coord, int pname, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexGenfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexGenfvEXT(texunit, coord, pname, params, params.position(), function_pointer);
+		nglGetMultiTexGenfvEXT(texunit, coord, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexGenfvEXT(int texunit, int coord, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexGenfvEXT(int texunit, int coord, int pname, long params, long function_pointer);
 
 	public static void glGetMultiTexGenEXT(int texunit, int coord, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexGenivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexGenivEXT(texunit, coord, pname, params, params.position(), function_pointer);
+		nglGetMultiTexGenivEXT(texunit, coord, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexGenivEXT(int texunit, int coord, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexGenivEXT(int texunit, int coord, int pname, long params, long function_pointer);
 
 	public static void glMultiTexParameteriEXT(int texunit, int target, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -850,9 +850,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglMultiTexParameterivEXT(texunit, target, pname, param, param.position(), function_pointer);
+		nglMultiTexParameterivEXT(texunit, target, pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglMultiTexParameterivEXT(int texunit, int target, int pname, IntBuffer param, int param_position, long function_pointer);
+	static native void nglMultiTexParameterivEXT(int texunit, int target, int pname, long param, long function_pointer);
 
 	public static void glMultiTexParameterfEXT(int texunit, int target, int pname, float param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -867,9 +867,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglMultiTexParameterfvEXT(texunit, target, pname, param, param.position(), function_pointer);
+		nglMultiTexParameterfvEXT(texunit, target, pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglMultiTexParameterfvEXT(int texunit, int target, int pname, FloatBuffer param, int param_position, long function_pointer);
+	static native void nglMultiTexParameterfvEXT(int texunit, int target, int pname, long param, long function_pointer);
 
 	public static void glMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int format, int type, ByteBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -878,7 +878,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() : 0, function_pointer);
+		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -887,7 +887,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() << 3 : 0, function_pointer);
+		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -896,7 +896,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -905,7 +905,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -914,9 +914,9 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage1DStorage(pixels, format, type, width));
-		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, pixels, pixels != null ? pixels.position() << 1 : 0, function_pointer);
+		nglMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
-	static native void nglMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int format, int type, long pixels, long function_pointer);
 	public static void glMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexImage1DEXT;
@@ -933,7 +933,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() : 0, function_pointer);
+		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -942,7 +942,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() << 3 : 0, function_pointer);
+		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -951,7 +951,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -960,7 +960,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -969,9 +969,9 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage2DStorage(pixels, format, type, width, height));
-		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, pixels, pixels != null ? pixels.position() << 1 : 0, function_pointer);
+		nglMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
-	static native void nglMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int format, int type, long pixels, long function_pointer);
 	public static void glMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexImage2DEXT;
@@ -987,7 +987,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, pixels, pixels.position(), function_pointer);
+		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -995,7 +995,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, pixels, pixels.position() << 3, function_pointer);
+		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1003,7 +1003,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1011,7 +1011,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1019,9 +1019,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, 1, 1));
-		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, pixels, pixels.position() << 1, function_pointer);
+		nglMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
-	static native void nglMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int type, long pixels, long function_pointer);
 	public static void glMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexSubImage1DEXT;
@@ -1037,7 +1037,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position(), function_pointer);
+		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1045,7 +1045,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position() << 3, function_pointer);
+		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1053,7 +1053,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1061,7 +1061,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1069,9 +1069,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, 1));
-		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, pixels, pixels.position() << 1, function_pointer);
+		nglMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
-	static native void nglMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, long pixels, long function_pointer);
 	public static void glMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexSubImage2DEXT;
@@ -1119,7 +1119,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetMultiTexImageEXT(texunit, target, level, format, type, pixels, pixels.position(), function_pointer);
+		nglGetMultiTexImageEXT(texunit, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glGetMultiTexImageEXT(int texunit, int target, int level, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1127,7 +1127,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetMultiTexImageEXT(texunit, target, level, format, type, pixels, pixels.position() << 3, function_pointer);
+		nglGetMultiTexImageEXT(texunit, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glGetMultiTexImageEXT(int texunit, int target, int level, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1135,7 +1135,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetMultiTexImageEXT(texunit, target, level, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglGetMultiTexImageEXT(texunit, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glGetMultiTexImageEXT(int texunit, int target, int level, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1143,7 +1143,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetMultiTexImageEXT(texunit, target, level, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglGetMultiTexImageEXT(texunit, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glGetMultiTexImageEXT(int texunit, int target, int level, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1151,9 +1151,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, 1, 1, 1));
-		nglGetMultiTexImageEXT(texunit, target, level, format, type, pixels, pixels.position() << 1, function_pointer);
+		nglGetMultiTexImageEXT(texunit, target, level, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
-	static native void nglGetMultiTexImageEXT(int texunit, int target, int level, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglGetMultiTexImageEXT(int texunit, int target, int level, int format, int type, long pixels, long function_pointer);
 	public static void glGetMultiTexImageEXT(int texunit, int target, int level, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexImageEXT;
@@ -1168,17 +1168,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetMultiTexParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexParameterfvEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglGetMultiTexParameterfvEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexParameterfvEXT(int texunit, int target, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexParameterfvEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetMultiTexParameterfvEXT. */
 	public static float glGetMultiTexParameterfEXT(int texunit, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		FloatBuffer params = APIUtil.getBufferFloat();
-		nglGetMultiTexParameterfvEXT(texunit, target, pname, params, params.position(), function_pointer);
+		FloatBuffer params = APIUtil.getBufferFloat(caps);
+		nglGetMultiTexParameterfvEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1187,17 +1187,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetMultiTexParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexParameterivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglGetMultiTexParameterivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexParameterivEXT(int texunit, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexParameterivEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetMultiTexParameterivEXT. */
 	public static int glGetMultiTexParameteriEXT(int texunit, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetMultiTexParameterivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetMultiTexParameterivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1206,17 +1206,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetMultiTexLevelParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexLevelParameterfvEXT(texunit, target, level, pname, params, params.position(), function_pointer);
+		nglGetMultiTexLevelParameterfvEXT(texunit, target, level, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexLevelParameterfvEXT(int texunit, int target, int level, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexLevelParameterfvEXT(int texunit, int target, int level, int pname, long params, long function_pointer);
 
 	/** Overloads glGetMultiTexLevelParameterfvEXT. */
 	public static float glGetMultiTexLevelParameterfEXT(int texunit, int target, int level, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexLevelParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		FloatBuffer params = APIUtil.getBufferFloat();
-		nglGetMultiTexLevelParameterfvEXT(texunit, target, level, pname, params, params.position(), function_pointer);
+		FloatBuffer params = APIUtil.getBufferFloat(caps);
+		nglGetMultiTexLevelParameterfvEXT(texunit, target, level, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1225,17 +1225,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetMultiTexLevelParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexLevelParameterivEXT(texunit, target, level, pname, params, params.position(), function_pointer);
+		nglGetMultiTexLevelParameterivEXT(texunit, target, level, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexLevelParameterivEXT(int texunit, int target, int level, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexLevelParameterivEXT(int texunit, int target, int level, int pname, long params, long function_pointer);
 
 	/** Overloads glGetMultiTexLevelParameterivEXT. */
 	public static int glGetMultiTexLevelParameteriEXT(int texunit, int target, int level, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexLevelParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetMultiTexLevelParameterivEXT(texunit, target, level, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetMultiTexLevelParameterivEXT(texunit, target, level, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1246,7 +1246,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() : 0, function_pointer);
+		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1255,7 +1255,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() << 3 : 0, function_pointer);
+		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1264,7 +1264,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1273,7 +1273,7 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() << 2 : 0, function_pointer);
+		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
 	public static void glMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1282,9 +1282,9 @@ public final class EXTDirectStateAccess {
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		if (pixels != null)
 			BufferChecks.checkBuffer(pixels, GLChecks.calculateTexImage3DStorage(pixels, format, type, width, height, depth));
-		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, pixels, pixels != null ? pixels.position() << 1 : 0, function_pointer);
+		nglMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, format, type, MemoryUtil.getAddressSafe(pixels), function_pointer);
 	}
-	static native void nglMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, long pixels, long function_pointer);
 	public static void glMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexImage3DEXT;
@@ -1300,7 +1300,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position(), function_pointer);
+		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, DoubleBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1308,7 +1308,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position() << 3, function_pointer);
+		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, FloatBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1316,7 +1316,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, IntBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1324,7 +1324,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position() << 2, function_pointer);
+		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
 	public static void glMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, ShortBuffer pixels) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1332,9 +1332,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkBuffer(pixels, GLChecks.calculateImageStorage(pixels, format, type, width, height, depth));
-		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels, pixels.position() << 1, function_pointer);
+		nglMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, MemoryUtil.getAddress(pixels), function_pointer);
 	}
-	static native void nglMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, Buffer pixels, int pixels_position, long function_pointer);
+	static native void nglMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, long pixels, long function_pointer);
 	public static void glMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int type, long pixels_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexSubImage3DEXT;
@@ -1389,17 +1389,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetFloatIndexedvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 16);
-		nglGetFloatIndexedvEXT(pname, index, params, params.position(), function_pointer);
+		nglGetFloatIndexedvEXT(pname, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetFloatIndexedvEXT(int pname, int index, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetFloatIndexedvEXT(int pname, int index, long params, long function_pointer);
 
 	/** Overloads glGetFloatIndexedvEXT. */
 	public static float glGetFloatIndexedEXT(int pname, int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetFloatIndexedvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		FloatBuffer params = APIUtil.getBufferFloat();
-		nglGetFloatIndexedvEXT(pname, index, params, params.position(), function_pointer);
+		FloatBuffer params = APIUtil.getBufferFloat(caps);
+		nglGetFloatIndexedvEXT(pname, index, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1408,17 +1408,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetDoubleIndexedvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 16);
-		nglGetDoubleIndexedvEXT(pname, index, params, params.position(), function_pointer);
+		nglGetDoubleIndexedvEXT(pname, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetDoubleIndexedvEXT(int pname, int index, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetDoubleIndexedvEXT(int pname, int index, long params, long function_pointer);
 
 	/** Overloads glGetDoubleIndexedvEXT. */
 	public static double glGetDoubleIndexedEXT(int pname, int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetDoubleIndexedvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		DoubleBuffer params = APIUtil.getBufferDouble();
-		nglGetDoubleIndexedvEXT(pname, index, params, params.position(), function_pointer);
+		DoubleBuffer params = APIUtil.getBufferDouble(caps);
+		nglGetDoubleIndexedvEXT(pname, index, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1436,17 +1436,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetFloati_vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 16);
-		nglGetFloati_vEXT(pname, index, params, params.position(), function_pointer);
+		nglGetFloati_vEXT(pname, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetFloati_vEXT(int pname, int index, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetFloati_vEXT(int pname, int index, long params, long function_pointer);
 
 	/** Overloads glGetFloati_vEXT. */
 	public static float glGetFloatEXT(int pname, int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetFloati_vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		FloatBuffer params = APIUtil.getBufferFloat();
-		nglGetFloati_vEXT(pname, index, params, params.position(), function_pointer);
+		FloatBuffer params = APIUtil.getBufferFloat(caps);
+		nglGetFloati_vEXT(pname, index, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1455,17 +1455,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetDoublei_vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 16);
-		nglGetDoublei_vEXT(pname, index, params, params.position(), function_pointer);
+		nglGetDoublei_vEXT(pname, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetDoublei_vEXT(int pname, int index, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetDoublei_vEXT(int pname, int index, long params, long function_pointer);
 
 	/** Overloads glGetDoublei_vEXT. */
 	public static double glGetDoubleEXT(int pname, int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetDoublei_vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		DoubleBuffer params = APIUtil.getBufferDouble();
-		nglGetDoublei_vEXT(pname, index, params, params.position(), function_pointer);
+		DoubleBuffer params = APIUtil.getBufferDouble(caps);
+		nglGetDoublei_vEXT(pname, index, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1513,16 +1513,16 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glNamedProgramStringEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(string);
-		nglNamedProgramStringEXT(program, target, format, string.remaining(), string, string.position(), function_pointer);
+		nglNamedProgramStringEXT(program, target, format, string.remaining(), MemoryUtil.getAddress(string), function_pointer);
 	}
-	static native void nglNamedProgramStringEXT(int program, int target, int format, int string_len, Buffer string, int string_position, long function_pointer);
+	static native void nglNamedProgramStringEXT(int program, int target, int format, int string_len, long string, long function_pointer);
 
 	/** Overloads glNamedProgramStringEXT. */
 	public static void glNamedProgramStringEXT(int program, int target, int format, CharSequence string) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedProgramStringEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglNamedProgramStringEXT(program, target, format, string.length(), APIUtil.getBuffer(string), 0, function_pointer);
+		nglNamedProgramStringEXT(program, target, format, string.length(), APIUtil.getBuffer(caps, string), function_pointer);
 	}
 
 	public static void glNamedProgramLocalParameter4dEXT(int program, int target, int index, double x, double y, double z, double w) {
@@ -1538,9 +1538,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glNamedProgramLocalParameter4dvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglNamedProgramLocalParameter4dvEXT(program, target, index, params, params.position(), function_pointer);
+		nglNamedProgramLocalParameter4dvEXT(program, target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglNamedProgramLocalParameter4dvEXT(int program, int target, int index, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglNamedProgramLocalParameter4dvEXT(int program, int target, int index, long params, long function_pointer);
 
 	public static void glNamedProgramLocalParameter4fEXT(int program, int target, int index, float x, float y, float z, float w) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1555,44 +1555,44 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glNamedProgramLocalParameter4fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglNamedProgramLocalParameter4fvEXT(program, target, index, params, params.position(), function_pointer);
+		nglNamedProgramLocalParameter4fvEXT(program, target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglNamedProgramLocalParameter4fvEXT(int program, int target, int index, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglNamedProgramLocalParameter4fvEXT(int program, int target, int index, long params, long function_pointer);
 
 	public static void glGetNamedProgramLocalParameterEXT(int program, int target, int index, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedProgramLocalParameterdvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetNamedProgramLocalParameterdvEXT(program, target, index, params, params.position(), function_pointer);
+		nglGetNamedProgramLocalParameterdvEXT(program, target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedProgramLocalParameterdvEXT(int program, int target, int index, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedProgramLocalParameterdvEXT(int program, int target, int index, long params, long function_pointer);
 
 	public static void glGetNamedProgramLocalParameterEXT(int program, int target, int index, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedProgramLocalParameterfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetNamedProgramLocalParameterfvEXT(program, target, index, params, params.position(), function_pointer);
+		nglGetNamedProgramLocalParameterfvEXT(program, target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedProgramLocalParameterfvEXT(int program, int target, int index, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedProgramLocalParameterfvEXT(int program, int target, int index, long params, long function_pointer);
 
 	public static void glGetNamedProgramEXT(int program, int target, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedProgramivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetNamedProgramivEXT(program, target, pname, params, params.position(), function_pointer);
+		nglGetNamedProgramivEXT(program, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedProgramivEXT(int program, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedProgramivEXT(int program, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetNamedProgramivEXT. */
 	public static int glGetNamedProgramEXT(int program, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedProgramivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetNamedProgramivEXT(program, target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetNamedProgramivEXT(program, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -1601,9 +1601,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetNamedProgramStringEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(string);
-		nglGetNamedProgramStringEXT(program, target, pname, string, string.position(), function_pointer);
+		nglGetNamedProgramStringEXT(program, target, pname, MemoryUtil.getAddress(string), function_pointer);
 	}
-	static native void nglGetNamedProgramStringEXT(int program, int target, int pname, ByteBuffer string, int string_position, long function_pointer);
+	static native void nglGetNamedProgramStringEXT(int program, int target, int pname, long string, long function_pointer);
 
 	/** Overloads glGetNamedProgramStringEXT. */
 	public static String glGetNamedProgramStringEXT(int program, int target, int pname) {
@@ -1611,10 +1611,10 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetNamedProgramStringEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		int programLength = glGetNamedProgramEXT(program, target, ARBProgram.GL_PROGRAM_LENGTH_ARB);
-		ByteBuffer paramString = APIUtil.getBufferByte(programLength);
-		nglGetNamedProgramStringEXT(program, target, pname, paramString, paramString.position(), function_pointer);
+		ByteBuffer paramString = APIUtil.getBufferByte(caps, programLength);
+		nglGetNamedProgramStringEXT(program, target, pname, MemoryUtil.getAddress(paramString), function_pointer);
 		paramString.limit(programLength);
-		return APIUtil.getString(paramString);
+		return APIUtil.getString(caps, paramString);
 	}
 
 	public static void glCompressedTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, ByteBuffer data) {
@@ -1623,9 +1623,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTextureImage3DEXT(texture, target, level, internalformat, width, height, depth, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTextureImage3DEXT(int texture, int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTextureImage3DEXT;
@@ -1641,9 +1641,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTextureImage2DEXT(texture, target, level, internalformat, width, height, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTextureImage2DEXT(texture, target, level, internalformat, width, height, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTextureImage2DEXT(int texture, int target, int level, int internalformat, int width, int height, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTextureImage2DEXT;
@@ -1659,9 +1659,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTextureImage1DEXT(texture, target, level, internalformat, width, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTextureImage1DEXT(texture, target, level, internalformat, width, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTextureImage1DEXT(int texture, int target, int level, int internalformat, int width, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTextureImage1DEXT;
@@ -1677,9 +1677,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTextureSubImage3DEXT(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTextureSubImage3DEXT(int texture, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTextureSubImage3DEXT;
@@ -1695,9 +1695,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTextureSubImage2DEXT(texture, target, level, xoffset, yoffset, width, height, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTextureSubImage2DEXT(int texture, int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTextureSubImage2DEXT;
@@ -1713,9 +1713,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedTextureSubImage1DEXT(texture, target, level, xoffset, width, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedTextureSubImage1DEXT(texture, target, level, xoffset, width, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedTextureSubImage1DEXT(int texture, int target, int level, int xoffset, int width, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedTextureSubImage1DEXT;
@@ -1731,7 +1731,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedTextureImageEXT(texture, target, level, img, img.position(), function_pointer);
+		nglGetCompressedTextureImageEXT(texture, target, level, MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetCompressedTextureImageEXT(int texture, int target, int level, IntBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1739,7 +1739,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedTextureImageEXT(texture, target, level, img, img.position() << 2, function_pointer);
+		nglGetCompressedTextureImageEXT(texture, target, level, MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetCompressedTextureImageEXT(int texture, int target, int level, ShortBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1747,9 +1747,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedTextureImageEXT(texture, target, level, img, img.position() << 1, function_pointer);
+		nglGetCompressedTextureImageEXT(texture, target, level, MemoryUtil.getAddress(img), function_pointer);
 	}
-	static native void nglGetCompressedTextureImageEXT(int texture, int target, int level, Buffer img, int img_position, long function_pointer);
+	static native void nglGetCompressedTextureImageEXT(int texture, int target, int level, long img, long function_pointer);
 	public static void glGetCompressedTextureImageEXT(int texture, int target, int level, long img_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetCompressedTextureImageEXT;
@@ -1765,9 +1765,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedMultiTexImage3DEXT(texunit, target, level, internalformat, width, height, depth, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedMultiTexImage3DEXT(int texunit, int target, int level, int internalformat, int width, int height, int depth, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedMultiTexImage3DEXT;
@@ -1783,9 +1783,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedMultiTexImage2DEXT(texunit, target, level, internalformat, width, height, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedMultiTexImage2DEXT(int texunit, int target, int level, int internalformat, int width, int height, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedMultiTexImage2DEXT;
@@ -1801,9 +1801,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedMultiTexImage1DEXT(texunit, target, level, internalformat, width, border, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedMultiTexImage1DEXT(int texunit, int target, int level, int internalformat, int width, int border, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedMultiTexImage1DEXT;
@@ -1819,9 +1819,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedMultiTexSubImage3DEXT(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedMultiTexSubImage3DEXT(int texunit, int target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedMultiTexSubImage3DEXT;
@@ -1837,9 +1837,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedMultiTexSubImage2DEXT(texunit, target, level, xoffset, yoffset, width, height, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedMultiTexSubImage2DEXT(int texunit, int target, int level, int xoffset, int yoffset, int width, int height, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedMultiTexSubImage2DEXT;
@@ -1855,9 +1855,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureUnpackPBOdisabled(caps);
 		BufferChecks.checkDirect(data);
-		nglCompressedMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, data.remaining(), data, data.position(), function_pointer);
+		nglCompressedMultiTexSubImage1DEXT(texunit, target, level, xoffset, width, format, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglCompressedMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int data_imageSize, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglCompressedMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int data_imageSize, long data, long function_pointer);
 	public static void glCompressedMultiTexSubImage1DEXT(int texunit, int target, int level, int xoffset, int width, int format, int data_imageSize, long data_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glCompressedMultiTexSubImage1DEXT;
@@ -1873,7 +1873,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedMultiTexImageEXT(texunit, target, level, img, img.position(), function_pointer);
+		nglGetCompressedMultiTexImageEXT(texunit, target, level, MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetCompressedMultiTexImageEXT(int texunit, int target, int level, IntBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1881,7 +1881,7 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedMultiTexImageEXT(texunit, target, level, img, img.position() << 2, function_pointer);
+		nglGetCompressedMultiTexImageEXT(texunit, target, level, MemoryUtil.getAddress(img), function_pointer);
 	}
 	public static void glGetCompressedMultiTexImageEXT(int texunit, int target, int level, ShortBuffer img) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -1889,9 +1889,9 @@ public final class EXTDirectStateAccess {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensurePackPBOdisabled(caps);
 		BufferChecks.checkDirect(img);
-		nglGetCompressedMultiTexImageEXT(texunit, target, level, img, img.position() << 1, function_pointer);
+		nglGetCompressedMultiTexImageEXT(texunit, target, level, MemoryUtil.getAddress(img), function_pointer);
 	}
-	static native void nglGetCompressedMultiTexImageEXT(int texunit, int target, int level, Buffer img, int img_position, long function_pointer);
+	static native void nglGetCompressedMultiTexImageEXT(int texunit, int target, int level, long img, long function_pointer);
 	public static void glGetCompressedMultiTexImageEXT(int texunit, int target, int level, long img_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetCompressedMultiTexImageEXT;
@@ -1906,116 +1906,116 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMatrixLoadTransposefEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMatrixLoadTransposefEXT(matrixMode, m, m.position(), function_pointer);
+		nglMatrixLoadTransposefEXT(matrixMode, MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMatrixLoadTransposefEXT(int matrixMode, FloatBuffer m, int m_position, long function_pointer);
+	static native void nglMatrixLoadTransposefEXT(int matrixMode, long m, long function_pointer);
 
 	public static void glMatrixLoadTransposeEXT(int matrixMode, DoubleBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixLoadTransposedEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMatrixLoadTransposedEXT(matrixMode, m, m.position(), function_pointer);
+		nglMatrixLoadTransposedEXT(matrixMode, MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMatrixLoadTransposedEXT(int matrixMode, DoubleBuffer m, int m_position, long function_pointer);
+	static native void nglMatrixLoadTransposedEXT(int matrixMode, long m, long function_pointer);
 
 	public static void glMatrixMultTransposeEXT(int matrixMode, FloatBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixMultTransposefEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMatrixMultTransposefEXT(matrixMode, m, m.position(), function_pointer);
+		nglMatrixMultTransposefEXT(matrixMode, MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMatrixMultTransposefEXT(int matrixMode, FloatBuffer m, int m_position, long function_pointer);
+	static native void nglMatrixMultTransposefEXT(int matrixMode, long m, long function_pointer);
 
 	public static void glMatrixMultTransposeEXT(int matrixMode, DoubleBuffer m) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixMultTransposedEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(m, 16);
-		nglMatrixMultTransposedEXT(matrixMode, m, m.position(), function_pointer);
+		nglMatrixMultTransposedEXT(matrixMode, MemoryUtil.getAddress(m), function_pointer);
 	}
-	static native void nglMatrixMultTransposedEXT(int matrixMode, DoubleBuffer m, int m_position, long function_pointer);
+	static native void nglMatrixMultTransposedEXT(int matrixMode, long m, long function_pointer);
 
 	public static void glNamedBufferDataEXT(int buffer, long data_size, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglNamedBufferDataEXT(buffer, data_size, null, 0, usage, function_pointer);
+		nglNamedBufferDataEXT(buffer, data_size, 0L, usage, function_pointer);
 	}
 	public static void glNamedBufferDataEXT(int buffer, ByteBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferDataEXT(buffer, data.remaining(), data, data.position(), usage, function_pointer);
+		nglNamedBufferDataEXT(buffer, data.remaining(), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glNamedBufferDataEXT(int buffer, DoubleBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferDataEXT(buffer, (data.remaining() << 3), data, data.position() << 3, usage, function_pointer);
+		nglNamedBufferDataEXT(buffer, (data.remaining() << 3), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glNamedBufferDataEXT(int buffer, FloatBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferDataEXT(buffer, (data.remaining() << 2), data, data.position() << 2, usage, function_pointer);
+		nglNamedBufferDataEXT(buffer, (data.remaining() << 2), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glNamedBufferDataEXT(int buffer, IntBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferDataEXT(buffer, (data.remaining() << 2), data, data.position() << 2, usage, function_pointer);
+		nglNamedBufferDataEXT(buffer, (data.remaining() << 2), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
 	public static void glNamedBufferDataEXT(int buffer, ShortBuffer data, int usage) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferDataEXT(buffer, (data.remaining() << 1), data, data.position() << 1, usage, function_pointer);
+		nglNamedBufferDataEXT(buffer, (data.remaining() << 1), MemoryUtil.getAddress(data), usage, function_pointer);
 	}
-	static native void nglNamedBufferDataEXT(int buffer, long data_size, Buffer data, int data_position, int usage, long function_pointer);
+	static native void nglNamedBufferDataEXT(int buffer, long data_size, long data, int usage, long function_pointer);
 
 	public static void glNamedBufferSubDataEXT(int buffer, long offset, ByteBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferSubDataEXT(buffer, offset, data.remaining(), data, data.position(), function_pointer);
+		nglNamedBufferSubDataEXT(buffer, offset, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glNamedBufferSubDataEXT(int buffer, long offset, DoubleBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 3), data, data.position() << 3, function_pointer);
+		nglNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 3), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glNamedBufferSubDataEXT(int buffer, long offset, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glNamedBufferSubDataEXT(int buffer, long offset, IntBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glNamedBufferSubDataEXT(int buffer, long offset, ShortBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 1), data, data.position() << 1, function_pointer);
+		nglNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 1), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglNamedBufferSubDataEXT(int buffer, long offset, long data_size, Buffer data, int data_position, long function_pointer);
+	static native void nglNamedBufferSubDataEXT(int buffer, long offset, long data_size, long data, long function_pointer);
 
 	/**
 	 *  glMapNamedBufferEXT maps a GL buffer object to a ByteBuffer. The old_buffer argument can be null,
@@ -2097,17 +2097,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetNamedBufferParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetNamedBufferParameterivEXT(buffer, pname, params, params.position(), function_pointer);
+		nglGetNamedBufferParameterivEXT(buffer, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedBufferParameterivEXT(int buffer, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedBufferParameterivEXT(int buffer, int pname, long params, long function_pointer);
 
 	/** Overloads glGetNamedBufferParameterivEXT. */
 	public static int glGetNamedBufferParameterEXT(int buffer, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedBufferParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetNamedBufferParameterivEXT(buffer, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetNamedBufferParameterivEXT(buffer, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -2125,37 +2125,37 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetNamedBufferSubDataEXT(buffer, offset, data.remaining(), data, data.position(), function_pointer);
+		nglGetNamedBufferSubDataEXT(buffer, offset, data.remaining(), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetNamedBufferSubDataEXT(int buffer, long offset, DoubleBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 3), data, data.position() << 3, function_pointer);
+		nglGetNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 3), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetNamedBufferSubDataEXT(int buffer, long offset, FloatBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglGetNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetNamedBufferSubDataEXT(int buffer, long offset, IntBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 2), data, data.position() << 2, function_pointer);
+		nglGetNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 2), MemoryUtil.getAddress(data), function_pointer);
 	}
 	public static void glGetNamedBufferSubDataEXT(int buffer, long offset, ShortBuffer data) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedBufferSubDataEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(data);
-		nglGetNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 1), data, data.position() << 1, function_pointer);
+		nglGetNamedBufferSubDataEXT(buffer, offset, (data.remaining() << 1), MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglGetNamedBufferSubDataEXT(int buffer, long offset, long data_size, Buffer data, int data_position, long function_pointer);
+	static native void nglGetNamedBufferSubDataEXT(int buffer, long offset, long data_size, long data, long function_pointer);
 
 	public static void glProgramUniform1fEXT(int program, int location, float v0) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -2226,153 +2226,153 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glProgramUniform1fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform1fvEXT(program, location, value.remaining(), value, value.position(), function_pointer);
+		nglProgramUniform1fvEXT(program, location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform1fvEXT(int program, int location, int value_count, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform1fvEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform2EXT(int program, int location, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform2fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform2fvEXT(program, location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglProgramUniform2fvEXT(program, location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform2fvEXT(int program, int location, int value_count, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform2fvEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform3EXT(int program, int location, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform3fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform3fvEXT(program, location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglProgramUniform3fvEXT(program, location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform3fvEXT(int program, int location, int value_count, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform3fvEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform4EXT(int program, int location, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform4fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform4fvEXT(program, location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglProgramUniform4fvEXT(program, location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform4fvEXT(int program, int location, int value_count, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform4fvEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform1EXT(int program, int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform1ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform1ivEXT(program, location, value.remaining(), value, value.position(), function_pointer);
+		nglProgramUniform1ivEXT(program, location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform1ivEXT(int program, int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform1ivEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform2EXT(int program, int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform2ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform2ivEXT(program, location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglProgramUniform2ivEXT(program, location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform2ivEXT(int program, int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform2ivEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform3EXT(int program, int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform3ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform3ivEXT(program, location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglProgramUniform3ivEXT(program, location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform3ivEXT(int program, int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform3ivEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform4EXT(int program, int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform4ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform4ivEXT(program, location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglProgramUniform4ivEXT(program, location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform4ivEXT(int program, int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform4ivEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix2EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix2fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix2fvEXT(program, location, value.remaining() >> 2, transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix2fvEXT(program, location, value.remaining() >> 2, transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix2fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix2fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix3EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix3fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix3fvEXT(program, location, value.remaining() / (3 * 3), transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix3fvEXT(program, location, value.remaining() / (3 * 3), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix3fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix3fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix4EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix4fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix4fvEXT(program, location, value.remaining() >> 4, transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix4fvEXT(program, location, value.remaining() >> 4, transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix4fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix4fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix2x3EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix2x3fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix2x3fvEXT(program, location, value.remaining() / (2 * 3), transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix2x3fvEXT(program, location, value.remaining() / (2 * 3), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix2x3fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix2x3fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix3x2EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix3x2fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix3x2fvEXT(program, location, value.remaining() / (3 * 2), transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix3x2fvEXT(program, location, value.remaining() / (3 * 2), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix3x2fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix3x2fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix2x4EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix2x4fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix2x4fvEXT(program, location, value.remaining() >> 3, transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix2x4fvEXT(program, location, value.remaining() >> 3, transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix2x4fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix2x4fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix4x2EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix4x2fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix4x2fvEXT(program, location, value.remaining() >> 3, transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix4x2fvEXT(program, location, value.remaining() >> 3, transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix4x2fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix4x2fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix3x4EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix3x4fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix3x4fvEXT(program, location, value.remaining() / (3 * 4), transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix3x4fvEXT(program, location, value.remaining() / (3 * 4), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix3x4fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix3x4fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glProgramUniformMatrix4x3EXT(int program, int location, boolean transpose, FloatBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniformMatrix4x3fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniformMatrix4x3fvEXT(program, location, value.remaining() / (4 * 3), transpose, value, value.position(), function_pointer);
+		nglProgramUniformMatrix4x3fvEXT(program, location, value.remaining() / (4 * 3), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniformMatrix4x3fvEXT(int program, int location, int value_count, boolean transpose, FloatBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniformMatrix4x3fvEXT(int program, int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glTextureBufferEXT(int texture, int target, int internalformat, int buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -2395,16 +2395,16 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glTextureParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglTextureParameterIivEXT(texture, target, pname, params, params.position(), function_pointer);
+		nglTextureParameterIivEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglTextureParameterIivEXT(int texture, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglTextureParameterIivEXT(int texture, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glTextureParameterIivEXT. */
 	public static void glTextureParameterIEXT(int texture, int target, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTextureParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglTextureParameterIivEXT(texture, target, pname, APIUtil.getBufferInt().put(0, param), 0, function_pointer);
+		nglTextureParameterIivEXT(texture, target, pname, APIUtil.getInt(caps, param), function_pointer);
 	}
 
 	public static void glTextureParameterIuEXT(int texture, int target, int pname, IntBuffer params) {
@@ -2412,16 +2412,16 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glTextureParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglTextureParameterIuivEXT(texture, target, pname, params, params.position(), function_pointer);
+		nglTextureParameterIuivEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglTextureParameterIuivEXT(int texture, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglTextureParameterIuivEXT(int texture, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glTextureParameterIuivEXT. */
 	public static void glTextureParameterIuEXT(int texture, int target, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glTextureParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglTextureParameterIuivEXT(texture, target, pname, APIUtil.getBufferInt().put(0, param), 0, function_pointer);
+		nglTextureParameterIuivEXT(texture, target, pname, APIUtil.getInt(caps, param), function_pointer);
 	}
 
 	public static void glGetTextureParameterIEXT(int texture, int target, int pname, IntBuffer params) {
@@ -2429,17 +2429,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetTextureParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTextureParameterIivEXT(texture, target, pname, params, params.position(), function_pointer);
+		nglGetTextureParameterIivEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTextureParameterIivEXT(int texture, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetTextureParameterIivEXT(int texture, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetTextureParameterIivEXT. */
 	public static int glGetTextureParameterIiEXT(int texture, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTextureParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetTextureParameterIivEXT(texture, target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetTextureParameterIivEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -2448,17 +2448,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetTextureParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetTextureParameterIuivEXT(texture, target, pname, params, params.position(), function_pointer);
+		nglGetTextureParameterIuivEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetTextureParameterIuivEXT(int texture, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetTextureParameterIuivEXT(int texture, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetTextureParameterIuivEXT. */
 	public static int glGetTextureParameterIuiEXT(int texture, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetTextureParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetTextureParameterIuivEXT(texture, target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetTextureParameterIuivEXT(texture, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -2467,16 +2467,16 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglMultiTexParameterIivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglMultiTexParameterIivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglMultiTexParameterIivEXT(int texunit, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglMultiTexParameterIivEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glMultiTexParameterIivEXT. */
 	public static void glMultiTexParameterIEXT(int texunit, int target, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglMultiTexParameterIivEXT(texunit, target, pname, APIUtil.getBufferInt().put(0, param), 0, function_pointer);
+		nglMultiTexParameterIivEXT(texunit, target, pname, APIUtil.getInt(caps, param), function_pointer);
 	}
 
 	public static void glMultiTexParameterIuEXT(int texunit, int target, int pname, IntBuffer params) {
@@ -2484,16 +2484,16 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glMultiTexParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglMultiTexParameterIuivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglMultiTexParameterIuivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglMultiTexParameterIuivEXT(int texunit, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglMultiTexParameterIuivEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glMultiTexParameterIuivEXT. */
 	public static void glMultiTexParameterIuEXT(int texunit, int target, int pname, int param) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMultiTexParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglMultiTexParameterIuivEXT(texunit, target, pname, APIUtil.getBufferInt().put(0, param), 0, function_pointer);
+		nglMultiTexParameterIuivEXT(texunit, target, pname, APIUtil.getInt(caps, param), function_pointer);
 	}
 
 	public static void glGetMultiTexParameterIEXT(int texunit, int target, int pname, IntBuffer params) {
@@ -2501,17 +2501,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetMultiTexParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexParameterIivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglGetMultiTexParameterIivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexParameterIivEXT(int texunit, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexParameterIivEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetMultiTexParameterIivEXT. */
 	public static int glGetMultiTexParameterIiEXT(int texunit, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetMultiTexParameterIivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetMultiTexParameterIivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -2520,17 +2520,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetMultiTexParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetMultiTexParameterIuivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		nglGetMultiTexParameterIuivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetMultiTexParameterIuivEXT(int texunit, int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetMultiTexParameterIuivEXT(int texunit, int target, int pname, long params, long function_pointer);
 
 	/** Overloads glGetMultiTexParameterIuivEXT. */
 	public static int glGetMultiTexParameterIuiEXT(int texunit, int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetMultiTexParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetMultiTexParameterIuivEXT(texunit, target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetMultiTexParameterIuivEXT(texunit, target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -2571,45 +2571,45 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glProgramUniform1uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform1uivEXT(program, location, value.remaining(), value, value.position(), function_pointer);
+		nglProgramUniform1uivEXT(program, location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform1uivEXT(int program, int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform1uivEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform2uEXT(int program, int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform2uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform2uivEXT(program, location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglProgramUniform2uivEXT(program, location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform2uivEXT(int program, int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform2uivEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform3uEXT(int program, int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform3uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform3uivEXT(program, location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglProgramUniform3uivEXT(program, location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform3uivEXT(int program, int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform3uivEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform4uEXT(int program, int location, IntBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform4uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform4uivEXT(program, location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglProgramUniform4uivEXT(program, location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform4uivEXT(int program, int location, int value_count, IntBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform4uivEXT(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glNamedProgramLocalParameters4EXT(int program, int target, int index, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedProgramLocalParameters4fvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglNamedProgramLocalParameters4fvEXT(program, target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglNamedProgramLocalParameters4fvEXT(program, target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglNamedProgramLocalParameters4fvEXT(int program, int target, int index, int params_count, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglNamedProgramLocalParameters4fvEXT(int program, int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glNamedProgramLocalParameterI4iEXT(int program, int target, int index, int x, int y, int z, int w) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -2624,18 +2624,18 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glNamedProgramLocalParameterI4ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglNamedProgramLocalParameterI4ivEXT(program, target, index, params, params.position(), function_pointer);
+		nglNamedProgramLocalParameterI4ivEXT(program, target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglNamedProgramLocalParameterI4ivEXT(int program, int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglNamedProgramLocalParameterI4ivEXT(int program, int target, int index, long params, long function_pointer);
 
 	public static void glNamedProgramLocalParametersI4EXT(int program, int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedProgramLocalParametersI4ivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglNamedProgramLocalParametersI4ivEXT(program, target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglNamedProgramLocalParametersI4ivEXT(program, target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglNamedProgramLocalParametersI4ivEXT(int program, int target, int index, int params_count, IntBuffer params, int params_position, long function_pointer);
+	static native void nglNamedProgramLocalParametersI4ivEXT(int program, int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glNamedProgramLocalParameterI4uiEXT(int program, int target, int index, int x, int y, int z, int w) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -2650,36 +2650,36 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glNamedProgramLocalParameterI4uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglNamedProgramLocalParameterI4uivEXT(program, target, index, params, params.position(), function_pointer);
+		nglNamedProgramLocalParameterI4uivEXT(program, target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglNamedProgramLocalParameterI4uivEXT(int program, int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglNamedProgramLocalParameterI4uivEXT(int program, int target, int index, long params, long function_pointer);
 
 	public static void glNamedProgramLocalParametersI4uEXT(int program, int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNamedProgramLocalParametersI4uivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglNamedProgramLocalParametersI4uivEXT(program, target, index, params.remaining() >> 2, params, params.position(), function_pointer);
+		nglNamedProgramLocalParametersI4uivEXT(program, target, index, params.remaining() >> 2, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglNamedProgramLocalParametersI4uivEXT(int program, int target, int index, int params_count, IntBuffer params, int params_position, long function_pointer);
+	static native void nglNamedProgramLocalParametersI4uivEXT(int program, int target, int index, int params_count, long params, long function_pointer);
 
 	public static void glGetNamedProgramLocalParameterIEXT(int program, int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedProgramLocalParameterIivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetNamedProgramLocalParameterIivEXT(program, target, index, params, params.position(), function_pointer);
+		nglGetNamedProgramLocalParameterIivEXT(program, target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedProgramLocalParameterIivEXT(int program, int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedProgramLocalParameterIivEXT(int program, int target, int index, long params, long function_pointer);
 
 	public static void glGetNamedProgramLocalParameterIuEXT(int program, int target, int index, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedProgramLocalParameterIuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetNamedProgramLocalParameterIuivEXT(program, target, index, params, params.position(), function_pointer);
+		nglGetNamedProgramLocalParameterIuivEXT(program, target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedProgramLocalParameterIuivEXT(int program, int target, int index, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedProgramLocalParameterIuivEXT(int program, int target, int index, long params, long function_pointer);
 
 	public static void glNamedRenderbufferStorageEXT(int renderbuffer, int internalformat, int width, int height) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -2694,17 +2694,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetNamedRenderbufferParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetNamedRenderbufferParameterivEXT(renderbuffer, pname, params, params.position(), function_pointer);
+		nglGetNamedRenderbufferParameterivEXT(renderbuffer, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedRenderbufferParameterivEXT(int renderbuffer, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedRenderbufferParameterivEXT(int renderbuffer, int pname, long params, long function_pointer);
 
 	/** Overloads glGetNamedRenderbufferParameterivEXT. */
 	public static int glGetNamedRenderbufferParameterEXT(int renderbuffer, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedRenderbufferParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetNamedRenderbufferParameterivEXT(renderbuffer, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetNamedRenderbufferParameterivEXT(renderbuffer, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -2770,17 +2770,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetNamedFramebufferAttachmentParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetNamedFramebufferAttachmentParameterivEXT(framebuffer, attachment, pname, params, params.position(), function_pointer);
+		nglGetNamedFramebufferAttachmentParameterivEXT(framebuffer, attachment, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetNamedFramebufferAttachmentParameterivEXT(int framebuffer, int attachment, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetNamedFramebufferAttachmentParameterivEXT(int framebuffer, int attachment, int pname, long params, long function_pointer);
 
 	/** Overloads glGetNamedFramebufferAttachmentParameterivEXT. */
 	public static int glGetNamedFramebufferAttachmentParameterEXT(int framebuffer, int attachment, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetNamedFramebufferAttachmentParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetNamedFramebufferAttachmentParameterivEXT(framebuffer, attachment, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetNamedFramebufferAttachmentParameterivEXT(framebuffer, attachment, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -2813,9 +2813,9 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glFramebufferDrawBuffersEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(bufs);
-		nglFramebufferDrawBuffersEXT(framebuffer, bufs.remaining(), bufs, bufs.position(), function_pointer);
+		nglFramebufferDrawBuffersEXT(framebuffer, bufs.remaining(), MemoryUtil.getAddress(bufs), function_pointer);
 	}
-	static native void nglFramebufferDrawBuffersEXT(int framebuffer, int bufs_n, IntBuffer bufs, int bufs_position, long function_pointer);
+	static native void nglFramebufferDrawBuffersEXT(int framebuffer, int bufs_n, long bufs, long function_pointer);
 
 	public static void glFramebufferReadBufferEXT(int framebuffer, int mode) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -2830,17 +2830,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetFramebufferParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 4);
-		nglGetFramebufferParameterivEXT(framebuffer, pname, param, param.position(), function_pointer);
+		nglGetFramebufferParameterivEXT(framebuffer, pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglGetFramebufferParameterivEXT(int framebuffer, int pname, IntBuffer param, int param_position, long function_pointer);
+	static native void nglGetFramebufferParameterivEXT(int framebuffer, int pname, long param, long function_pointer);
 
 	/** Overloads glGetFramebufferParameterivEXT. */
 	public static int glGetFramebufferParameterEXT(int framebuffer, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetFramebufferParameterivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer param = APIUtil.getBufferInt();
-		nglGetFramebufferParameterivEXT(framebuffer, pname, param, param.position(), function_pointer);
+		IntBuffer param = APIUtil.getBufferInt(caps);
+		nglGetFramebufferParameterivEXT(framebuffer, pname, MemoryUtil.getAddress(param), function_pointer);
 		return param.get(0);
 	}
 
@@ -3017,17 +3017,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetVertexArrayIntegervEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 16);
-		nglGetVertexArrayIntegervEXT(vaobj, pname, param, param.position(), function_pointer);
+		nglGetVertexArrayIntegervEXT(vaobj, pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglGetVertexArrayIntegervEXT(int vaobj, int pname, IntBuffer param, int param_position, long function_pointer);
+	static native void nglGetVertexArrayIntegervEXT(int vaobj, int pname, long param, long function_pointer);
 
 	/** Overloads glGetVertexArrayIntegervEXT. */
 	public static int glGetVertexArrayIntegerEXT(int vaobj, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexArrayIntegervEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer param = APIUtil.getBufferInt();
-		nglGetVertexArrayIntegervEXT(vaobj, pname, param, param.position(), function_pointer);
+		IntBuffer param = APIUtil.getBufferInt(caps);
+		nglGetVertexArrayIntegervEXT(vaobj, pname, MemoryUtil.getAddress(param), function_pointer);
 		return param.get(0);
 	}
 
@@ -3045,17 +3045,17 @@ public final class EXTDirectStateAccess {
 		long function_pointer = caps.glGetVertexArrayIntegeri_vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(param, 16);
-		nglGetVertexArrayIntegeri_vEXT(vaobj, index, pname, param, param.position(), function_pointer);
+		nglGetVertexArrayIntegeri_vEXT(vaobj, index, pname, MemoryUtil.getAddress(param), function_pointer);
 	}
-	static native void nglGetVertexArrayIntegeri_vEXT(int vaobj, int index, int pname, IntBuffer param, int param_position, long function_pointer);
+	static native void nglGetVertexArrayIntegeri_vEXT(int vaobj, int index, int pname, long param, long function_pointer);
 
 	/** Overloads glGetVertexArrayIntegeri_vEXT. */
 	public static int glGetVertexArrayIntegeriEXT(int vaobj, int index, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexArrayIntegeri_vEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer param = APIUtil.getBufferInt();
-		nglGetVertexArrayIntegeri_vEXT(vaobj, index, pname, param, param.position(), function_pointer);
+		IntBuffer param = APIUtil.getBufferInt(caps);
+		nglGetVertexArrayIntegeri_vEXT(vaobj, index, pname, MemoryUtil.getAddress(param), function_pointer);
 		return param.get(0);
 	}
 

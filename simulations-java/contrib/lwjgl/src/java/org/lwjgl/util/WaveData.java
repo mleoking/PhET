@@ -53,8 +53,8 @@ import com.sun.media.sound.WaveFileReader;
  * Utitlity class for loading wavefiles.
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3438 $
- * $Id: WaveData.java 3438 2010-10-12 15:34:26Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class WaveData {
 	/** actual wave data */

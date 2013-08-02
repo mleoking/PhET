@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * according to a specified Buffer parameter.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3256 $
- * $Id: StripPostfix.java 3256 2009-12-01 03:37:27Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import java.lang.annotation.Target;

@@ -33,17 +33,17 @@ public final class ARBOcclusionQuery {
 		long function_pointer = caps.glGenQueriesARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(ids);
-		nglGenQueriesARB(ids.remaining(), ids, ids.position(), function_pointer);
+		nglGenQueriesARB(ids.remaining(), MemoryUtil.getAddress(ids), function_pointer);
 	}
-	static native void nglGenQueriesARB(int ids_n, IntBuffer ids, int ids_position, long function_pointer);
+	static native void nglGenQueriesARB(int ids_n, long ids, long function_pointer);
 
 	/** Overloads glGenQueriesARB. */
 	public static int glGenQueriesARB() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenQueriesARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer ids = APIUtil.getBufferInt();
-		nglGenQueriesARB(1, ids, ids.position(), function_pointer);
+		IntBuffer ids = APIUtil.getBufferInt(caps);
+		nglGenQueriesARB(1, MemoryUtil.getAddress(ids), function_pointer);
 		return ids.get(0);
 	}
 
@@ -52,16 +52,16 @@ public final class ARBOcclusionQuery {
 		long function_pointer = caps.glDeleteQueriesARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(ids);
-		nglDeleteQueriesARB(ids.remaining(), ids, ids.position(), function_pointer);
+		nglDeleteQueriesARB(ids.remaining(), MemoryUtil.getAddress(ids), function_pointer);
 	}
-	static native void nglDeleteQueriesARB(int ids_n, IntBuffer ids, int ids_position, long function_pointer);
+	static native void nglDeleteQueriesARB(int ids_n, long ids, long function_pointer);
 
 	/** Overloads glDeleteQueriesARB. */
 	public static void glDeleteQueriesARB(int id) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteQueriesARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteQueriesARB(1, APIUtil.getBufferInt().put(0, id), 0, function_pointer);
+		nglDeleteQueriesARB(1, APIUtil.getInt(caps, id), function_pointer);
 	}
 
 	public static boolean glIsQueryARB(int id) {
@@ -94,17 +94,27 @@ public final class ARBOcclusionQuery {
 		long function_pointer = caps.glGetQueryivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryivARB(target, pname, params, params.position(), function_pointer);
+		nglGetQueryivARB(target, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryivARB(int target, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryivARB(int target, int pname, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetQueryivARB.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetQueryiARB} instead. 
+	 */
+	@Deprecated
+	public static int glGetQueryARB(int target, int pname) {
+		return ARBOcclusionQuery.glGetQueryiARB(target, pname);
+	}
 
 	/** Overloads glGetQueryivARB. */
-	public static int glGetQueryARB(int target, int pname) {
+	public static int glGetQueryiARB(int target, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetQueryivARB(target, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetQueryivARB(target, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -113,17 +123,17 @@ public final class ARBOcclusionQuery {
 		long function_pointer = caps.glGetQueryObjectivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryObjectivARB(id, pname, params, params.position(), function_pointer);
+		nglGetQueryObjectivARB(id, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryObjectivARB(int id, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryObjectivARB(int id, int pname, long params, long function_pointer);
 
 	/** Overloads glGetQueryObjectivARB. */
 	public static int glGetQueryObjectiARB(int id, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryObjectivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetQueryObjectivARB(id, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetQueryObjectivARB(id, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -132,17 +142,17 @@ public final class ARBOcclusionQuery {
 		long function_pointer = caps.glGetQueryObjectuivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryObjectuivARB(id, pname, params, params.position(), function_pointer);
+		nglGetQueryObjectuivARB(id, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryObjectuivARB(int id, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryObjectuivARB(int id, int pname, long params, long function_pointer);
 
 	/** Overloads glGetQueryObjectuivARB. */
 	public static int glGetQueryObjectuiARB(int id, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryObjectuivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetQueryObjectuivARB(id, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetQueryObjectuivARB(id, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 }

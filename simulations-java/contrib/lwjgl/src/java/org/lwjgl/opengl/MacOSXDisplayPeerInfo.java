@@ -38,14 +38,14 @@ import org.lwjgl.LWJGLException;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: MacOSXDisplayPeerInfo.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class MacOSXDisplayPeerInfo extends MacOSXCanvasPeerInfo {
 	private boolean locked;
 
-	MacOSXDisplayPeerInfo(PixelFormat pixel_format, boolean support_pbuffer) throws LWJGLException {
-		super(pixel_format, support_pbuffer);
+	MacOSXDisplayPeerInfo(PixelFormat pixel_format, ContextAttribs attribs, boolean support_pbuffer) throws LWJGLException {
+		super(pixel_format, attribs, support_pbuffer);
 	}
 
 	protected void doLockAndInitHandle() throws LWJGLException {

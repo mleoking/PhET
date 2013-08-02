@@ -128,7 +128,7 @@ public interface ARB_program {
 	void glDeleteProgramsARB(@AutoSize("programs") @GLsizei int n, @Const @GLuint IntBuffer programs);
 
 	@Alternate("glDeleteProgramsARB")
-	void glDeleteProgramsARB(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getBufferInt().put(0, program), 0", keepParam = true) int program);
+	void glDeleteProgramsARB(@Constant("1") @GLsizei int n, @Constant(value = "APIUtil.getInt(caps, program)", keepParam = true) int program);
 
 	void glGenProgramsARB(@AutoSize("programs") @GLsizei int n, @OutParameter @GLuint IntBuffer programs);
 
@@ -171,15 +171,23 @@ public interface ARB_program {
 	@StripPostfix("params")
 	void glGetProgramivARB(@GLenum int target, @GLenum int parameterName, @OutParameter @Check("4") IntBuffer params);
 
+	/** @deprecated Will be removed in 3.0. Use {@link #glGetProgramiARB} instead. */
 	@Alternate("glGetProgramivARB")
 	@GLreturn("params")
 	@StripPostfix("params")
+	@Reuse(value = "ARBProgram", method = "glGetProgramiARB")
+	@Deprecated
 	void glGetProgramivARB2(@GLenum int target, @GLenum int parameterName, @OutParameter IntBuffer params);
+
+	@Alternate("glGetProgramivARB")
+	@GLreturn("params")
+	@StripPostfix(value = "params", postfix = "v")
+	void glGetProgramivARB3(@GLenum int target, @GLenum int parameterName, @OutParameter IntBuffer params);
 
 	void glGetProgramStringARB(@GLenum int target, @GLenum int parameterName, @OutParameter @Check @GLbyte Buffer paramString);
 
 	@Alternate("glGetProgramStringARB")
-	@Code("\t\tint programLength = glGetProgramARB(target, GL_PROGRAM_LENGTH_ARB);")
+	@Code("\t\tint programLength = glGetProgramiARB(target, GL_PROGRAM_LENGTH_ARB);")
 	@GLreturn(value="paramString", maxLength = "programLength", forceMaxLength = true)
 	void glGetProgramStringARB2(@GLenum int target, @GLenum int parameterName, @OutParameter @GLchar ByteBuffer paramString);
 

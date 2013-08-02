@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * checked for a trailing '\0'
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3260 $
- * $Id: NullTerminated.java 3260 2009-12-04 04:49:19Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import java.lang.annotation.Target;

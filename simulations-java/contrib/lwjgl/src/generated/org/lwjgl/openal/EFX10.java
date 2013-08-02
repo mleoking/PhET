@@ -207,7 +207,7 @@ public final class EFX10 {
 		AL_REVERB_DEFAULT_REFLECTIONS_GAIN = 0.05f,
 		AL_REVERB_MIN_REFLECTIONS_DELAY = 0.0f,
 		AL_REVERB_MAX_REFLECTIONS_DELAY = 0.3f,
-		AL_REVERB_DEFAULT_REFLECTIONS_DELAY = 0.0070f,
+		AL_REVERB_DEFAULT_REFLECTIONS_DELAY = 0.007f,
 		AL_REVERB_MIN_LATE_REVERB_GAIN = 0.0f,
 		AL_REVERB_MAX_LATE_REVERB_GAIN = 10.0f,
 		AL_REVERB_DEFAULT_LATE_REVERB_GAIN = 1.26f,
@@ -254,7 +254,7 @@ public final class EFX10 {
 		AL_EAXREVERB_DEFAULT_REFLECTIONS_GAIN = 0.05f,
 		AL_EAXREVERB_MIN_REFLECTIONS_DELAY = 0.0f,
 		AL_EAXREVERB_MAX_REFLECTIONS_DELAY = 0.3f,
-		AL_EAXREVERB_DEFAULT_REFLECTIONS_DELAY = 0.0070f,
+		AL_EAXREVERB_DEFAULT_REFLECTIONS_DELAY = 0.007f,
 		AL_EAXREVERB_DEFAULT_REFLECTIONS_PAN_XYZ = 0.0f,
 		AL_EAXREVERB_MIN_LATE_REVERB_GAIN = 0.0f,
 		AL_EAXREVERB_MAX_LATE_REVERB_GAIN = 10.0f,
@@ -362,8 +362,8 @@ public final class EFX10 {
 		AL_FLANGER_MAX_FEEDBACK = 1.0f,
 		AL_FLANGER_DEFAULT_FEEDBACK = -0.5f,
 		AL_FLANGER_MIN_DELAY = 0.0f,
-		AL_FLANGER_MAX_DELAY = 0.0040f,
-		AL_FLANGER_DEFAULT_DELAY = 0.0020f,
+		AL_FLANGER_MAX_DELAY = 0.004f,
+		AL_FLANGER_DEFAULT_DELAY = 0.002f,
 		AL_FREQUENCY_SHIFTER_MIN_FREQUENCY = 0.0f,
 		AL_FREQUENCY_SHIFTER_MAX_FREQUENCY = 24000.0f,
 		AL_FREQUENCY_SHIFTER_DEFAULT_FREQUENCY = 0.0f;
@@ -526,9 +526,9 @@ public final class EFX10 {
 
 	public static void alGenAuxiliaryEffectSlots(IntBuffer auxiliaryeffectslots) {
 		BufferChecks.checkDirect(auxiliaryeffectslots);
-		nalGenAuxiliaryEffectSlots(auxiliaryeffectslots.remaining(), auxiliaryeffectslots, auxiliaryeffectslots.position());
+		nalGenAuxiliaryEffectSlots(auxiliaryeffectslots.remaining(), MemoryUtil.getAddress(auxiliaryeffectslots));
 	}
-	static native void nalGenAuxiliaryEffectSlots(int auxiliaryeffectslots_n, IntBuffer auxiliaryeffectslots, int auxiliaryeffectslots_position);
+	static native void nalGenAuxiliaryEffectSlots(int auxiliaryeffectslots_n, long auxiliaryeffectslots);
 
 	/** Overloads alGenAuxiliaryEffectSlots. */
 	public static int alGenAuxiliaryEffectSlots() {
@@ -539,9 +539,9 @@ public final class EFX10 {
 
 	public static void alDeleteAuxiliaryEffectSlots(IntBuffer auxiliaryeffectslots) {
 		BufferChecks.checkDirect(auxiliaryeffectslots);
-		nalDeleteAuxiliaryEffectSlots(auxiliaryeffectslots.remaining(), auxiliaryeffectslots, auxiliaryeffectslots.position());
+		nalDeleteAuxiliaryEffectSlots(auxiliaryeffectslots.remaining(), MemoryUtil.getAddress(auxiliaryeffectslots));
 	}
-	static native void nalDeleteAuxiliaryEffectSlots(int auxiliaryeffectslots_n, IntBuffer auxiliaryeffectslots, int auxiliaryeffectslots_position);
+	static native void nalDeleteAuxiliaryEffectSlots(int auxiliaryeffectslots_n, long auxiliaryeffectslots);
 
 	/** Overloads alDeleteAuxiliaryEffectSlots. */
 	public static void alDeleteAuxiliaryEffectSlots(int auxiliaryeffectslot) {
@@ -562,9 +562,9 @@ public final class EFX10 {
 
 	public static void alAuxiliaryEffectSlot(int auxiliaryeffectslot, int param, IntBuffer values) {
 		BufferChecks.checkBuffer(values, 1);
-		nalAuxiliaryEffectSlotiv(auxiliaryeffectslot, param, values, values.position());
+		nalAuxiliaryEffectSlotiv(auxiliaryeffectslot, param, MemoryUtil.getAddress(values));
 	}
-	static native void nalAuxiliaryEffectSlotiv(int auxiliaryeffectslot, int param, IntBuffer values, int values_position);
+	static native void nalAuxiliaryEffectSlotiv(int auxiliaryeffectslot, int param, long values);
 
 	public static void alAuxiliaryEffectSlotf(int auxiliaryeffectslot, int param, float value) {
 		nalAuxiliaryEffectSlotf(auxiliaryeffectslot, param, value);
@@ -573,9 +573,9 @@ public final class EFX10 {
 
 	public static void alAuxiliaryEffectSlot(int auxiliaryeffectslot, int param, FloatBuffer values) {
 		BufferChecks.checkBuffer(values, 1);
-		nalAuxiliaryEffectSlotfv(auxiliaryeffectslot, param, values, values.position());
+		nalAuxiliaryEffectSlotfv(auxiliaryeffectslot, param, MemoryUtil.getAddress(values));
 	}
-	static native void nalAuxiliaryEffectSlotfv(int auxiliaryeffectslot, int param, FloatBuffer values, int values_position);
+	static native void nalAuxiliaryEffectSlotfv(int auxiliaryeffectslot, int param, long values);
 
 	public static int alGetAuxiliaryEffectSloti(int auxiliaryeffectslot, int param) {
 		int __result = nalGetAuxiliaryEffectSloti(auxiliaryeffectslot, param);
@@ -585,9 +585,9 @@ public final class EFX10 {
 
 	public static void alGetAuxiliaryEffectSlot(int auxiliaryeffectslot, int param, IntBuffer intdata) {
 		BufferChecks.checkBuffer(intdata, 1);
-		nalGetAuxiliaryEffectSlotiv(auxiliaryeffectslot, param, intdata, intdata.position());
+		nalGetAuxiliaryEffectSlotiv(auxiliaryeffectslot, param, MemoryUtil.getAddress(intdata));
 	}
-	static native void nalGetAuxiliaryEffectSlotiv(int auxiliaryeffectslot, int param, IntBuffer intdata, int intdata_position);
+	static native void nalGetAuxiliaryEffectSlotiv(int auxiliaryeffectslot, int param, long intdata);
 
 	public static float alGetAuxiliaryEffectSlotf(int auxiliaryeffectslot, int param) {
 		float __result = nalGetAuxiliaryEffectSlotf(auxiliaryeffectslot, param);
@@ -597,15 +597,15 @@ public final class EFX10 {
 
 	public static void alGetAuxiliaryEffectSlot(int auxiliaryeffectslot, int param, FloatBuffer floatdata) {
 		BufferChecks.checkBuffer(floatdata, 1);
-		nalGetAuxiliaryEffectSlotfv(auxiliaryeffectslot, param, floatdata, floatdata.position());
+		nalGetAuxiliaryEffectSlotfv(auxiliaryeffectslot, param, MemoryUtil.getAddress(floatdata));
 	}
-	static native void nalGetAuxiliaryEffectSlotfv(int auxiliaryeffectslot, int param, FloatBuffer floatdata, int floatdata_position);
+	static native void nalGetAuxiliaryEffectSlotfv(int auxiliaryeffectslot, int param, long floatdata);
 
 	public static void alGenEffects(IntBuffer effects) {
 		BufferChecks.checkDirect(effects);
-		nalGenEffects(effects.remaining(), effects, effects.position());
+		nalGenEffects(effects.remaining(), MemoryUtil.getAddress(effects));
 	}
-	static native void nalGenEffects(int effects_n, IntBuffer effects, int effects_position);
+	static native void nalGenEffects(int effects_n, long effects);
 
 	/** Overloads alGenEffects. */
 	public static int alGenEffects() {
@@ -616,9 +616,9 @@ public final class EFX10 {
 
 	public static void alDeleteEffects(IntBuffer effects) {
 		BufferChecks.checkDirect(effects);
-		nalDeleteEffects(effects.remaining(), effects, effects.position());
+		nalDeleteEffects(effects.remaining(), MemoryUtil.getAddress(effects));
 	}
-	static native void nalDeleteEffects(int effects_n, IntBuffer effects, int effects_position);
+	static native void nalDeleteEffects(int effects_n, long effects);
 
 	/** Overloads alDeleteEffects. */
 	public static void alDeleteEffects(int effect) {
@@ -639,9 +639,9 @@ public final class EFX10 {
 
 	public static void alEffect(int effect, int param, IntBuffer values) {
 		BufferChecks.checkBuffer(values, 1);
-		nalEffectiv(effect, param, values, values.position());
+		nalEffectiv(effect, param, MemoryUtil.getAddress(values));
 	}
-	static native void nalEffectiv(int effect, int param, IntBuffer values, int values_position);
+	static native void nalEffectiv(int effect, int param, long values);
 
 	public static void alEffectf(int effect, int param, float value) {
 		nalEffectf(effect, param, value);
@@ -650,9 +650,9 @@ public final class EFX10 {
 
 	public static void alEffect(int effect, int param, FloatBuffer values) {
 		BufferChecks.checkBuffer(values, 1);
-		nalEffectfv(effect, param, values, values.position());
+		nalEffectfv(effect, param, MemoryUtil.getAddress(values));
 	}
-	static native void nalEffectfv(int effect, int param, FloatBuffer values, int values_position);
+	static native void nalEffectfv(int effect, int param, long values);
 
 	public static int alGetEffecti(int effect, int param) {
 		int __result = nalGetEffecti(effect, param);
@@ -662,9 +662,9 @@ public final class EFX10 {
 
 	public static void alGetEffect(int effect, int param, IntBuffer intdata) {
 		BufferChecks.checkBuffer(intdata, 1);
-		nalGetEffectiv(effect, param, intdata, intdata.position());
+		nalGetEffectiv(effect, param, MemoryUtil.getAddress(intdata));
 	}
-	static native void nalGetEffectiv(int effect, int param, IntBuffer intdata, int intdata_position);
+	static native void nalGetEffectiv(int effect, int param, long intdata);
 
 	public static float alGetEffectf(int effect, int param) {
 		float __result = nalGetEffectf(effect, param);
@@ -674,15 +674,15 @@ public final class EFX10 {
 
 	public static void alGetEffect(int effect, int param, FloatBuffer floatdata) {
 		BufferChecks.checkBuffer(floatdata, 1);
-		nalGetEffectfv(effect, param, floatdata, floatdata.position());
+		nalGetEffectfv(effect, param, MemoryUtil.getAddress(floatdata));
 	}
-	static native void nalGetEffectfv(int effect, int param, FloatBuffer floatdata, int floatdata_position);
+	static native void nalGetEffectfv(int effect, int param, long floatdata);
 
 	public static void alGenFilters(IntBuffer filters) {
 		BufferChecks.checkDirect(filters);
-		nalGenFilters(filters.remaining(), filters, filters.position());
+		nalGenFilters(filters.remaining(), MemoryUtil.getAddress(filters));
 	}
-	static native void nalGenFilters(int filters_n, IntBuffer filters, int filters_position);
+	static native void nalGenFilters(int filters_n, long filters);
 
 	/** Overloads alGenFilters. */
 	public static int alGenFilters() {
@@ -693,9 +693,9 @@ public final class EFX10 {
 
 	public static void alDeleteFilters(IntBuffer filters) {
 		BufferChecks.checkDirect(filters);
-		nalDeleteFilters(filters.remaining(), filters, filters.position());
+		nalDeleteFilters(filters.remaining(), MemoryUtil.getAddress(filters));
 	}
-	static native void nalDeleteFilters(int filters_n, IntBuffer filters, int filters_position);
+	static native void nalDeleteFilters(int filters_n, long filters);
 
 	/** Overloads alDeleteFilters. */
 	public static void alDeleteFilters(int filter) {
@@ -716,9 +716,9 @@ public final class EFX10 {
 
 	public static void alFilter(int filter, int param, IntBuffer values) {
 		BufferChecks.checkBuffer(values, 1);
-		nalFilteriv(filter, param, values, values.position());
+		nalFilteriv(filter, param, MemoryUtil.getAddress(values));
 	}
-	static native void nalFilteriv(int filter, int param, IntBuffer values, int values_position);
+	static native void nalFilteriv(int filter, int param, long values);
 
 	public static void alFilterf(int filter, int param, float value) {
 		nalFilterf(filter, param, value);
@@ -727,9 +727,9 @@ public final class EFX10 {
 
 	public static void alFilter(int filter, int param, FloatBuffer values) {
 		BufferChecks.checkBuffer(values, 1);
-		nalFilterfv(filter, param, values, values.position());
+		nalFilterfv(filter, param, MemoryUtil.getAddress(values));
 	}
-	static native void nalFilterfv(int filter, int param, FloatBuffer values, int values_position);
+	static native void nalFilterfv(int filter, int param, long values);
 
 	public static int alGetFilteri(int filter, int param) {
 		int __result = nalGetFilteri(filter, param);
@@ -739,9 +739,9 @@ public final class EFX10 {
 
 	public static void alGetFilter(int filter, int param, IntBuffer intdata) {
 		BufferChecks.checkBuffer(intdata, 1);
-		nalGetFilteriv(filter, param, intdata, intdata.position());
+		nalGetFilteriv(filter, param, MemoryUtil.getAddress(intdata));
 	}
-	static native void nalGetFilteriv(int filter, int param, IntBuffer intdata, int intdata_position);
+	static native void nalGetFilteriv(int filter, int param, long intdata);
 
 	public static float alGetFilterf(int filter, int param) {
 		float __result = nalGetFilterf(filter, param);
@@ -751,7 +751,7 @@ public final class EFX10 {
 
 	public static void alGetFilter(int filter, int param, FloatBuffer floatdata) {
 		BufferChecks.checkBuffer(floatdata, 1);
-		nalGetFilterfv(filter, param, floatdata, floatdata.position());
+		nalGetFilterfv(filter, param, MemoryUtil.getAddress(floatdata));
 	}
-	static native void nalGetFilterfv(int filter, int param, FloatBuffer floatdata, int floatdata_position);
+	static native void nalGetFilterfv(int filter, int param, long floatdata);
 }

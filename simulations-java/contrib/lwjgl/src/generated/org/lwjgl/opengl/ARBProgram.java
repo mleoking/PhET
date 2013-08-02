@@ -101,16 +101,16 @@ public class ARBProgram {
 		long function_pointer = caps.glProgramStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(string);
-		nglProgramStringARB(target, format, string.remaining(), string, string.position(), function_pointer);
+		nglProgramStringARB(target, format, string.remaining(), MemoryUtil.getAddress(string), function_pointer);
 	}
-	static native void nglProgramStringARB(int target, int format, int string_length, Buffer string, int string_position, long function_pointer);
+	static native void nglProgramStringARB(int target, int format, int string_length, long string, long function_pointer);
 
 	/** Overloads glProgramStringARB. */
 	public static void glProgramStringARB(int target, int format, CharSequence string) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglProgramStringARB(target, format, string.length(), APIUtil.getBuffer(string), 0, function_pointer);
+		nglProgramStringARB(target, format, string.length(), APIUtil.getBuffer(caps, string), function_pointer);
 	}
 
 	public static void glBindProgramARB(int target, int program) {
@@ -126,16 +126,16 @@ public class ARBProgram {
 		long function_pointer = caps.glDeleteProgramsARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(programs);
-		nglDeleteProgramsARB(programs.remaining(), programs, programs.position(), function_pointer);
+		nglDeleteProgramsARB(programs.remaining(), MemoryUtil.getAddress(programs), function_pointer);
 	}
-	static native void nglDeleteProgramsARB(int programs_n, IntBuffer programs, int programs_position, long function_pointer);
+	static native void nglDeleteProgramsARB(int programs_n, long programs, long function_pointer);
 
 	/** Overloads glDeleteProgramsARB. */
 	public static void glDeleteProgramsARB(int program) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteProgramsARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteProgramsARB(1, APIUtil.getBufferInt().put(0, program), 0, function_pointer);
+		nglDeleteProgramsARB(1, APIUtil.getInt(caps, program), function_pointer);
 	}
 
 	public static void glGenProgramsARB(IntBuffer programs) {
@@ -143,17 +143,17 @@ public class ARBProgram {
 		long function_pointer = caps.glGenProgramsARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(programs);
-		nglGenProgramsARB(programs.remaining(), programs, programs.position(), function_pointer);
+		nglGenProgramsARB(programs.remaining(), MemoryUtil.getAddress(programs), function_pointer);
 	}
-	static native void nglGenProgramsARB(int programs_n, IntBuffer programs, int programs_position, long function_pointer);
+	static native void nglGenProgramsARB(int programs_n, long programs, long function_pointer);
 
 	/** Overloads glGenProgramsARB. */
 	public static int glGenProgramsARB() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenProgramsARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer programs = APIUtil.getBufferInt();
-		nglGenProgramsARB(1, programs, programs.position(), function_pointer);
+		IntBuffer programs = APIUtil.getBufferInt(caps);
+		nglGenProgramsARB(1, MemoryUtil.getAddress(programs), function_pointer);
 		return programs.get(0);
 	}
 
@@ -178,18 +178,18 @@ public class ARBProgram {
 		long function_pointer = caps.glProgramEnvParameter4fvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglProgramEnvParameter4fvARB(target, index, params, params.position(), function_pointer);
+		nglProgramEnvParameter4fvARB(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramEnvParameter4fvARB(int target, int index, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglProgramEnvParameter4fvARB(int target, int index, long params, long function_pointer);
 
 	public static void glProgramEnvParameter4ARB(int target, int index, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramEnvParameter4dvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglProgramEnvParameter4dvARB(target, index, params, params.position(), function_pointer);
+		nglProgramEnvParameter4dvARB(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramEnvParameter4dvARB(int target, int index, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglProgramEnvParameter4dvARB(int target, int index, long params, long function_pointer);
 
 	public static void glProgramLocalParameter4fARB(int target, int index, float x, float y, float z, float w) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -212,71 +212,81 @@ public class ARBProgram {
 		long function_pointer = caps.glProgramLocalParameter4fvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglProgramLocalParameter4fvARB(target, index, params, params.position(), function_pointer);
+		nglProgramLocalParameter4fvARB(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramLocalParameter4fvARB(int target, int index, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglProgramLocalParameter4fvARB(int target, int index, long params, long function_pointer);
 
 	public static void glProgramLocalParameter4ARB(int target, int index, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramLocalParameter4dvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglProgramLocalParameter4dvARB(target, index, params, params.position(), function_pointer);
+		nglProgramLocalParameter4dvARB(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglProgramLocalParameter4dvARB(int target, int index, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglProgramLocalParameter4dvARB(int target, int index, long params, long function_pointer);
 
 	public static void glGetProgramEnvParameterARB(int target, int index, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramEnvParameterfvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramEnvParameterfvARB(target, index, params, params.position(), function_pointer);
+		nglGetProgramEnvParameterfvARB(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramEnvParameterfvARB(int target, int index, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramEnvParameterfvARB(int target, int index, long params, long function_pointer);
 
 	public static void glGetProgramEnvParameterARB(int target, int index, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramEnvParameterdvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramEnvParameterdvARB(target, index, params, params.position(), function_pointer);
+		nglGetProgramEnvParameterdvARB(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramEnvParameterdvARB(int target, int index, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramEnvParameterdvARB(int target, int index, long params, long function_pointer);
 
 	public static void glGetProgramLocalParameterARB(int target, int index, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramLocalParameterfvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramLocalParameterfvARB(target, index, params, params.position(), function_pointer);
+		nglGetProgramLocalParameterfvARB(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramLocalParameterfvARB(int target, int index, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramLocalParameterfvARB(int target, int index, long params, long function_pointer);
 
 	public static void glGetProgramLocalParameterARB(int target, int index, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramLocalParameterdvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramLocalParameterdvARB(target, index, params, params.position(), function_pointer);
+		nglGetProgramLocalParameterdvARB(target, index, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramLocalParameterdvARB(int target, int index, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramLocalParameterdvARB(int target, int index, long params, long function_pointer);
 
 	public static void glGetProgramARB(int target, int parameterName, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetProgramivARB(target, parameterName, params, params.position(), function_pointer);
+		nglGetProgramivARB(target, parameterName, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetProgramivARB(int target, int parameterName, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetProgramivARB(int target, int parameterName, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetProgramivARB.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetProgramiARB} instead. 
+	 */
+	@Deprecated
+	public static int glGetProgramARB(int target, int parameterName) {
+		return ARBProgram.glGetProgramiARB(target, parameterName);
+	}
 
 	/** Overloads glGetProgramivARB. */
-	public static int glGetProgramARB(int target, int parameterName) {
+	public static int glGetProgramiARB(int target, int parameterName) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetProgramivARB(target, parameterName, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetProgramivARB(target, parameterName, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -285,20 +295,20 @@ public class ARBProgram {
 		long function_pointer = caps.glGetProgramStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(paramString);
-		nglGetProgramStringARB(target, parameterName, paramString, paramString.position(), function_pointer);
+		nglGetProgramStringARB(target, parameterName, MemoryUtil.getAddress(paramString), function_pointer);
 	}
-	static native void nglGetProgramStringARB(int target, int parameterName, Buffer paramString, int paramString_position, long function_pointer);
+	static native void nglGetProgramStringARB(int target, int parameterName, long paramString, long function_pointer);
 
 	/** Overloads glGetProgramStringARB. */
 	public static String glGetProgramStringARB(int target, int parameterName) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramStringARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int programLength = glGetProgramARB(target, GL_PROGRAM_LENGTH_ARB);
-		ByteBuffer paramString = APIUtil.getBufferByte(programLength);
-		nglGetProgramStringARB(target, parameterName, paramString, paramString.position(), function_pointer);
+		int programLength = glGetProgramiARB(target, GL_PROGRAM_LENGTH_ARB);
+		ByteBuffer paramString = APIUtil.getBufferByte(caps, programLength);
+		nglGetProgramStringARB(target, parameterName, MemoryUtil.getAddress(paramString), function_pointer);
 		paramString.limit(programLength);
-		return APIUtil.getString(paramString);
+		return APIUtil.getString(caps, paramString);
 	}
 
 	public static boolean glIsProgramARB(int program) {

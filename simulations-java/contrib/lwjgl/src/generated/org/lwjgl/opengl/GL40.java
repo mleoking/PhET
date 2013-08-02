@@ -212,7 +212,9 @@ public final class GL40 {
 	 *  Accepted by the &lt;pname&gt; parameter of GetBooleanv, GetDoublev, GetIntegerv,
 	 *  and GetFloatv:
 	 */
-	public static final int GL_TRANSFORM_FEEDBACK_BUFFER_PAUSED = 0x8E23,
+	public static final int GL_TRANSFORM_FEEDBACK_PAUSED = 0x8E23,
+		GL_TRANSFORM_FEEDBACK_ACTIVE = 0x8E24,
+		GL_TRANSFORM_FEEDBACK_BUFFER_PAUSED = 0x8E23,
 		GL_TRANSFORM_FEEDBACK_BUFFER_ACTIVE = 0x8E24,
 		GL_TRANSFORM_FEEDBACK_BINDING = 0x8E25;
 
@@ -256,16 +258,15 @@ public final class GL40 {
 	}
 	static native void nglBlendFuncSeparatei(int buf, int srcRGB, int dstRGB, int srcAlpha, int dstAlpha, long function_pointer);
 
-	public static void glDrawArraysIndirect(int mode, IntBuffer indirect) {
+	public static void glDrawArraysIndirect(int mode, ByteBuffer indirect) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDrawArraysIndirect;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureIndirectBOdisabled(caps);
-		BufferChecks.checkBuffer(indirect, 4);
-		BufferChecks.checkNullTerminated(indirect);
-		nglDrawArraysIndirect(mode, indirect, indirect.position(), function_pointer);
+		BufferChecks.checkBuffer(indirect, 4 * 4);
+		nglDrawArraysIndirect(mode, MemoryUtil.getAddress(indirect), function_pointer);
 	}
-	static native void nglDrawArraysIndirect(int mode, IntBuffer indirect, int indirect_position, long function_pointer);
+	static native void nglDrawArraysIndirect(int mode, long indirect, long function_pointer);
 	public static void glDrawArraysIndirect(int mode, long indirect_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDrawArraysIndirect;
@@ -275,16 +276,25 @@ public final class GL40 {
 	}
 	static native void nglDrawArraysIndirectBO(int mode, long indirect_buffer_offset, long function_pointer);
 
-	public static void glDrawElementsIndirect(int mode, int type, IntBuffer indirect) {
+	/** Overloads glDrawArraysIndirect. */
+	public static void glDrawArraysIndirect(int mode, IntBuffer indirect) {
+		ContextCapabilities caps = GLContext.getCapabilities();
+		long function_pointer = caps.glDrawArraysIndirect;
+		BufferChecks.checkFunctionAddress(function_pointer);
+		GLChecks.ensureIndirectBOdisabled(caps);
+		BufferChecks.checkBuffer(indirect, 4);
+		nglDrawArraysIndirect(mode, MemoryUtil.getAddress(indirect), function_pointer);
+	}
+
+	public static void glDrawElementsIndirect(int mode, int type, ByteBuffer indirect) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDrawElementsIndirect;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		GLChecks.ensureIndirectBOdisabled(caps);
-		BufferChecks.checkBuffer(indirect, 5);
-		BufferChecks.checkNullTerminated(indirect);
-		nglDrawElementsIndirect(mode, type, indirect, indirect.position(), function_pointer);
+		BufferChecks.checkBuffer(indirect, 5 * 4);
+		nglDrawElementsIndirect(mode, type, MemoryUtil.getAddress(indirect), function_pointer);
 	}
-	static native void nglDrawElementsIndirect(int mode, int type, IntBuffer indirect, int indirect_position, long function_pointer);
+	static native void nglDrawElementsIndirect(int mode, int type, long indirect, long function_pointer);
 	public static void glDrawElementsIndirect(int mode, int type, long indirect_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDrawElementsIndirect;
@@ -293,6 +303,16 @@ public final class GL40 {
 		nglDrawElementsIndirectBO(mode, type, indirect_buffer_offset, function_pointer);
 	}
 	static native void nglDrawElementsIndirectBO(int mode, int type, long indirect_buffer_offset, long function_pointer);
+
+	/** Overloads glDrawElementsIndirect. */
+	public static void glDrawElementsIndirect(int mode, int type, IntBuffer indirect) {
+		ContextCapabilities caps = GLContext.getCapabilities();
+		long function_pointer = caps.glDrawElementsIndirect;
+		BufferChecks.checkFunctionAddress(function_pointer);
+		GLChecks.ensureIndirectBOdisabled(caps);
+		BufferChecks.checkBuffer(indirect, 5);
+		nglDrawElementsIndirect(mode, type, MemoryUtil.getAddress(indirect), function_pointer);
+	}
 
 	public static void glUniform1d(int location, double x) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -331,126 +351,126 @@ public final class GL40 {
 		long function_pointer = caps.glUniform1dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform1dv(location, value.remaining(), value, value.position(), function_pointer);
+		nglUniform1dv(location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform1dv(int location, int value_count, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniform1dv(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform2(int location, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform2dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform2dv(location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglUniform2dv(location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform2dv(int location, int value_count, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniform2dv(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform3(int location, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform3dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform3dv(location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglUniform3dv(location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform3dv(int location, int value_count, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniform3dv(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform4(int location, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform4dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform4dv(location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglUniform4dv(location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform4dv(int location, int value_count, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniform4dv(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniformMatrix2(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix2dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix2dv(location, value.remaining() >> 2, transpose, value, value.position(), function_pointer);
+		nglUniformMatrix2dv(location, value.remaining() >> 2, transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix2dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix2dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glUniformMatrix3(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix3dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix3dv(location, value.remaining() / (3 * 3), transpose, value, value.position(), function_pointer);
+		nglUniformMatrix3dv(location, value.remaining() / (3 * 3), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix3dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix3dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glUniformMatrix4(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix4dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix4dv(location, value.remaining() >> 4, transpose, value, value.position(), function_pointer);
+		nglUniformMatrix4dv(location, value.remaining() >> 4, transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix4dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix4dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glUniformMatrix2x3(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix2x3dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix2x3dv(location, value.remaining() / (2 * 3), transpose, value, value.position(), function_pointer);
+		nglUniformMatrix2x3dv(location, value.remaining() / (2 * 3), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix2x3dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix2x3dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glUniformMatrix2x4(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix2x4dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix2x4dv(location, value.remaining() >> 3, transpose, value, value.position(), function_pointer);
+		nglUniformMatrix2x4dv(location, value.remaining() >> 3, transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix2x4dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix2x4dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glUniformMatrix3x2(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix3x2dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix3x2dv(location, value.remaining() / (3 * 2), transpose, value, value.position(), function_pointer);
+		nglUniformMatrix3x2dv(location, value.remaining() / (3 * 2), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix3x2dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix3x2dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glUniformMatrix3x4(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix3x4dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix3x4dv(location, value.remaining() / (3 * 4), transpose, value, value.position(), function_pointer);
+		nglUniformMatrix3x4dv(location, value.remaining() / (3 * 4), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix3x4dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix3x4dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glUniformMatrix4x2(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix4x2dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix4x2dv(location, value.remaining() >> 3, transpose, value, value.position(), function_pointer);
+		nglUniformMatrix4x2dv(location, value.remaining() >> 3, transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix4x2dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix4x2dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glUniformMatrix4x3(int location, boolean transpose, DoubleBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniformMatrix4x3dv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniformMatrix4x3dv(location, value.remaining() / (4 * 3), transpose, value, value.position(), function_pointer);
+		nglUniformMatrix4x3dv(location, value.remaining() / (4 * 3), transpose, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniformMatrix4x3dv(int location, int value_count, boolean transpose, DoubleBuffer value, int value_position, long function_pointer);
+	static native void nglUniformMatrix4x3dv(int location, int value_count, boolean transpose, long value, long function_pointer);
 
 	public static void glGetUniform(int program, int location, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetUniformdv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetUniformdv(program, location, params, params.position(), function_pointer);
+		nglGetUniformdv(program, location, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetUniformdv(int program, int location, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetUniformdv(int program, int location, long params, long function_pointer);
 
 	public static void glMinSampleShading(float value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -466,10 +486,19 @@ public final class GL40 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkNullTerminated(name);
-		int __result = nglGetSubroutineUniformLocation(program, shadertype, name, name.position(), function_pointer);
+		int __result = nglGetSubroutineUniformLocation(program, shadertype, MemoryUtil.getAddress(name), function_pointer);
 		return __result;
 	}
-	static native int nglGetSubroutineUniformLocation(int program, int shadertype, ByteBuffer name, int name_position, long function_pointer);
+	static native int nglGetSubroutineUniformLocation(int program, int shadertype, long name, long function_pointer);
+
+	/** Overloads glGetSubroutineUniformLocation. */
+	public static int glGetSubroutineUniformLocation(int program, int shadertype, CharSequence name) {
+		ContextCapabilities caps = GLContext.getCapabilities();
+		long function_pointer = caps.glGetSubroutineUniformLocation;
+		BufferChecks.checkFunctionAddress(function_pointer);
+		int __result = nglGetSubroutineUniformLocation(program, shadertype, APIUtil.getBufferNT(caps, name), function_pointer);
+		return __result;
+	}
 
 	public static int glGetSubroutineIndex(int program, int shadertype, ByteBuffer name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -477,27 +506,46 @@ public final class GL40 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkNullTerminated(name);
-		int __result = nglGetSubroutineIndex(program, shadertype, name, name.position(), function_pointer);
+		int __result = nglGetSubroutineIndex(program, shadertype, MemoryUtil.getAddress(name), function_pointer);
 		return __result;
 	}
-	static native int nglGetSubroutineIndex(int program, int shadertype, ByteBuffer name, int name_position, long function_pointer);
+	static native int nglGetSubroutineIndex(int program, int shadertype, long name, long function_pointer);
+
+	/** Overloads glGetSubroutineIndex. */
+	public static int glGetSubroutineIndex(int program, int shadertype, CharSequence name) {
+		ContextCapabilities caps = GLContext.getCapabilities();
+		long function_pointer = caps.glGetSubroutineIndex;
+		BufferChecks.checkFunctionAddress(function_pointer);
+		int __result = nglGetSubroutineIndex(program, shadertype, APIUtil.getBufferNT(caps, name), function_pointer);
+		return __result;
+	}
 
 	public static void glGetActiveSubroutineUniform(int program, int shadertype, int index, int pname, IntBuffer values) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveSubroutineUniformiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(values, 1);
-		nglGetActiveSubroutineUniformiv(program, shadertype, index, pname, values, values.position(), function_pointer);
+		nglGetActiveSubroutineUniformiv(program, shadertype, index, pname, MemoryUtil.getAddress(values), function_pointer);
 	}
-	static native void nglGetActiveSubroutineUniformiv(int program, int shadertype, int index, int pname, IntBuffer values, int values_position, long function_pointer);
+	static native void nglGetActiveSubroutineUniformiv(int program, int shadertype, int index, int pname, long values, long function_pointer);
+
+	/**
+	 * Overloads glGetActiveSubroutineUniformiv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetActiveSubroutineUniformi} instead. 
+	 */
+	@Deprecated
+	public static int glGetActiveSubroutineUniform(int program, int shadertype, int index, int pname) {
+		return GL40.glGetActiveSubroutineUniformi(program, shadertype, index, pname);
+	}
 
 	/** Overloads glGetActiveSubroutineUniformiv. */
-	public static int glGetActiveSubroutineUniform(int program, int shadertype, int index, int pname) {
+	public static int glGetActiveSubroutineUniformi(int program, int shadertype, int index, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveSubroutineUniformiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer values = APIUtil.getBufferInt();
-		nglGetActiveSubroutineUniformiv(program, shadertype, index, pname, values, values.position(), function_pointer);
+		IntBuffer values = APIUtil.getBufferInt(caps);
+		nglGetActiveSubroutineUniformiv(program, shadertype, index, pname, MemoryUtil.getAddress(values), function_pointer);
 		return values.get(0);
 	}
 
@@ -508,20 +556,20 @@ public final class GL40 {
 		if (length != null)
 			BufferChecks.checkBuffer(length, 1);
 		BufferChecks.checkDirect(name);
-		nglGetActiveSubroutineUniformName(program, shadertype, index, name.remaining(), length, length != null ? length.position() : 0, name, name.position(), function_pointer);
+		nglGetActiveSubroutineUniformName(program, shadertype, index, name.remaining(), MemoryUtil.getAddressSafe(length), MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglGetActiveSubroutineUniformName(int program, int shadertype, int index, int name_bufsize, IntBuffer length, int length_position, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglGetActiveSubroutineUniformName(int program, int shadertype, int index, int name_bufsize, long length, long name, long function_pointer);
 
 	/** Overloads glGetActiveSubroutineUniformName. */
 	public static String glGetActiveSubroutineUniformName(int program, int shadertype, int index, int bufsize) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveSubroutineUniformName;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer name_length = APIUtil.getLengths();
-		ByteBuffer name = APIUtil.getBufferByte(bufsize);
-		nglGetActiveSubroutineUniformName(program, shadertype, index, bufsize, name_length, 0, name, name.position(), function_pointer);
+		IntBuffer name_length = APIUtil.getLengths(caps);
+		ByteBuffer name = APIUtil.getBufferByte(caps, bufsize);
+		nglGetActiveSubroutineUniformName(program, shadertype, index, bufsize, MemoryUtil.getAddress0(name_length), MemoryUtil.getAddress(name), function_pointer);
 		name.limit(name_length.get(0));
-		return APIUtil.getString(name);
+		return APIUtil.getString(caps, name);
 	}
 
 	public static void glGetActiveSubroutineName(int program, int shadertype, int index, IntBuffer length, ByteBuffer name) {
@@ -531,20 +579,20 @@ public final class GL40 {
 		if (length != null)
 			BufferChecks.checkBuffer(length, 1);
 		BufferChecks.checkDirect(name);
-		nglGetActiveSubroutineName(program, shadertype, index, name.remaining(), length, length != null ? length.position() : 0, name, name.position(), function_pointer);
+		nglGetActiveSubroutineName(program, shadertype, index, name.remaining(), MemoryUtil.getAddressSafe(length), MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglGetActiveSubroutineName(int program, int shadertype, int index, int name_bufsize, IntBuffer length, int length_position, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglGetActiveSubroutineName(int program, int shadertype, int index, int name_bufsize, long length, long name, long function_pointer);
 
 	/** Overloads glGetActiveSubroutineName. */
 	public static String glGetActiveSubroutineName(int program, int shadertype, int index, int bufsize) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveSubroutineName;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer name_length = APIUtil.getLengths();
-		ByteBuffer name = APIUtil.getBufferByte(bufsize);
-		nglGetActiveSubroutineName(program, shadertype, index, bufsize, name_length, 0, name, name.position(), function_pointer);
+		IntBuffer name_length = APIUtil.getLengths(caps);
+		ByteBuffer name = APIUtil.getBufferByte(caps, bufsize);
+		nglGetActiveSubroutineName(program, shadertype, index, bufsize, MemoryUtil.getAddress0(name_length), MemoryUtil.getAddress(name), function_pointer);
 		name.limit(name_length.get(0));
-		return APIUtil.getString(name);
+		return APIUtil.getString(caps, name);
 	}
 
 	public static void glUniformSubroutinesu(int shadertype, IntBuffer indices) {
@@ -552,26 +600,36 @@ public final class GL40 {
 		long function_pointer = caps.glUniformSubroutinesuiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(indices);
-		nglUniformSubroutinesuiv(shadertype, indices.remaining(), indices, indices.position(), function_pointer);
+		nglUniformSubroutinesuiv(shadertype, indices.remaining(), MemoryUtil.getAddress(indices), function_pointer);
 	}
-	static native void nglUniformSubroutinesuiv(int shadertype, int indices_count, IntBuffer indices, int indices_position, long function_pointer);
+	static native void nglUniformSubroutinesuiv(int shadertype, int indices_count, long indices, long function_pointer);
 
 	public static void glGetUniformSubroutineu(int shadertype, int location, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetUniformSubroutineuiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetUniformSubroutineuiv(shadertype, location, params, params.position(), function_pointer);
+		nglGetUniformSubroutineuiv(shadertype, location, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetUniformSubroutineuiv(int shadertype, int location, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetUniformSubroutineuiv(int shadertype, int location, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetUniformSubroutineuiv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetUniformSubroutineui} instead. 
+	 */
+	@Deprecated
+	public static int glGetUniformSubroutineu(int shadertype, int location) {
+		return GL40.glGetUniformSubroutineui(shadertype, location);
+	}
 
 	/** Overloads glGetUniformSubroutineuiv. */
-	public static int glGetUniformSubroutineu(int shadertype, int location) {
+	public static int glGetUniformSubroutineui(int shadertype, int location) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetUniformSubroutineuiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetUniformSubroutineuiv(shadertype, location, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetUniformSubroutineuiv(shadertype, location, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -580,17 +638,27 @@ public final class GL40 {
 		long function_pointer = caps.glGetProgramStageiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(values, 1);
-		nglGetProgramStageiv(program, shadertype, pname, values, values.position(), function_pointer);
+		nglGetProgramStageiv(program, shadertype, pname, MemoryUtil.getAddress(values), function_pointer);
 	}
-	static native void nglGetProgramStageiv(int program, int shadertype, int pname, IntBuffer values, int values_position, long function_pointer);
+	static native void nglGetProgramStageiv(int program, int shadertype, int pname, long values, long function_pointer);
+
+	/**
+	 * Overloads glGetProgramStageiv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetProgramStagei} instead. 
+	 */
+	@Deprecated
+	public static int glGetProgramStage(int program, int shadertype, int pname) {
+		return GL40.glGetProgramStagei(program, shadertype, pname);
+	}
 
 	/** Overloads glGetProgramStageiv. */
-	public static int glGetProgramStage(int program, int shadertype, int pname) {
+	public static int glGetProgramStagei(int program, int shadertype, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetProgramStageiv;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer values = APIUtil.getBufferInt();
-		nglGetProgramStageiv(program, shadertype, pname, values, values.position(), function_pointer);
+		IntBuffer values = APIUtil.getBufferInt(caps);
+		nglGetProgramStageiv(program, shadertype, pname, MemoryUtil.getAddress(values), function_pointer);
 		return values.get(0);
 	}
 
@@ -607,9 +675,9 @@ public final class GL40 {
 		long function_pointer = caps.glPatchParameterfv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(values, 4);
-		nglPatchParameterfv(pname, values, values.position(), function_pointer);
+		nglPatchParameterfv(pname, MemoryUtil.getAddress(values), function_pointer);
 	}
-	static native void nglPatchParameterfv(int pname, FloatBuffer values, int values_position, long function_pointer);
+	static native void nglPatchParameterfv(int pname, long values, long function_pointer);
 
 	public static void glBindTransformFeedback(int target, int id) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -624,16 +692,16 @@ public final class GL40 {
 		long function_pointer = caps.glDeleteTransformFeedbacks;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(ids);
-		nglDeleteTransformFeedbacks(ids.remaining(), ids, ids.position(), function_pointer);
+		nglDeleteTransformFeedbacks(ids.remaining(), MemoryUtil.getAddress(ids), function_pointer);
 	}
-	static native void nglDeleteTransformFeedbacks(int ids_n, IntBuffer ids, int ids_position, long function_pointer);
+	static native void nglDeleteTransformFeedbacks(int ids_n, long ids, long function_pointer);
 
 	/** Overloads glDeleteTransformFeedbacks. */
 	public static void glDeleteTransformFeedbacks(int id) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteTransformFeedbacks;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteTransformFeedbacks(1, APIUtil.getBufferInt().put(0, id), 0, function_pointer);
+		nglDeleteTransformFeedbacks(1, APIUtil.getInt(caps, id), function_pointer);
 	}
 
 	public static void glGenTransformFeedbacks(IntBuffer ids) {
@@ -641,17 +709,17 @@ public final class GL40 {
 		long function_pointer = caps.glGenTransformFeedbacks;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(ids);
-		nglGenTransformFeedbacks(ids.remaining(), ids, ids.position(), function_pointer);
+		nglGenTransformFeedbacks(ids.remaining(), MemoryUtil.getAddress(ids), function_pointer);
 	}
-	static native void nglGenTransformFeedbacks(int ids_n, IntBuffer ids, int ids_position, long function_pointer);
+	static native void nglGenTransformFeedbacks(int ids_n, long ids, long function_pointer);
 
 	/** Overloads glGenTransformFeedbacks. */
 	public static int glGenTransformFeedbacks() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenTransformFeedbacks;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer ids = APIUtil.getBufferInt();
-		nglGenTransformFeedbacks(1, ids, ids.position(), function_pointer);
+		IntBuffer ids = APIUtil.getBufferInt(caps);
+		nglGenTransformFeedbacks(1, MemoryUtil.getAddress(ids), function_pointer);
 		return ids.get(0);
 	}
 
@@ -717,17 +785,27 @@ public final class GL40 {
 		long function_pointer = caps.glGetQueryIndexediv;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetQueryIndexediv(target, index, pname, params, params.position(), function_pointer);
+		nglGetQueryIndexediv(target, index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetQueryIndexediv(int target, int index, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetQueryIndexediv(int target, int index, int pname, long params, long function_pointer);
+
+	/**
+	 * Overloads glGetQueryIndexediv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetQueryIndexedi} instead. 
+	 */
+	@Deprecated
+	public static int glGetQueryIndexed(int target, int index, int pname) {
+		return GL40.glGetQueryIndexedi(target, index, pname);
+	}
 
 	/** Overloads glGetQueryIndexediv. */
-	public static int glGetQueryIndexed(int target, int index, int pname) {
+	public static int glGetQueryIndexedi(int target, int index, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetQueryIndexediv;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetQueryIndexediv(target, index, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetQueryIndexediv(target, index, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 }

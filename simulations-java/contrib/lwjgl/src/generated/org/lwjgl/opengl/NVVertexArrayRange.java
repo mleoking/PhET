@@ -20,37 +20,37 @@ public final class NVVertexArrayRange {
 		long function_pointer = caps.glVertexArrayRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglVertexArrayRangeNV(pPointer.remaining(), pPointer, pPointer.position(), function_pointer);
+		nglVertexArrayRangeNV(pPointer.remaining(), MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glVertexArrayRangeNV(DoubleBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexArrayRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglVertexArrayRangeNV((pPointer.remaining() << 3), pPointer, pPointer.position() << 3, function_pointer);
+		nglVertexArrayRangeNV((pPointer.remaining() << 3), MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glVertexArrayRangeNV(FloatBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexArrayRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglVertexArrayRangeNV((pPointer.remaining() << 2), pPointer, pPointer.position() << 2, function_pointer);
+		nglVertexArrayRangeNV((pPointer.remaining() << 2), MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glVertexArrayRangeNV(IntBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexArrayRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglVertexArrayRangeNV((pPointer.remaining() << 2), pPointer, pPointer.position() << 2, function_pointer);
+		nglVertexArrayRangeNV((pPointer.remaining() << 2), MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glVertexArrayRangeNV(ShortBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexArrayRangeNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglVertexArrayRangeNV((pPointer.remaining() << 1), pPointer, pPointer.position() << 1, function_pointer);
+		nglVertexArrayRangeNV((pPointer.remaining() << 1), MemoryUtil.getAddress(pPointer), function_pointer);
 	}
-	static native void nglVertexArrayRangeNV(int pPointer_size, Buffer pPointer, int pPointer_position, long function_pointer);
+	static native void nglVertexArrayRangeNV(int pPointer_size, long pPointer, long function_pointer);
 
 	public static void glFlushVertexArrayRangeNV() {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -74,7 +74,7 @@ public final class NVVertexArrayRange {
 		long function_pointer = caps.glFreeMemoryNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pointer);
-		nglFreeMemoryNV(pointer, pointer.position(), function_pointer);
+		nglFreeMemoryNV(MemoryUtil.getAddress(pointer), function_pointer);
 	}
-	static native void nglFreeMemoryNV(Buffer pointer, int pointer_position, long function_pointer);
+	static native void nglFreeMemoryNV(long pointer, long function_pointer);
 }

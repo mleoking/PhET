@@ -51,8 +51,8 @@ import static org.lwjgl.util.glu.GLU.*;
  * Tests Pbuffers
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: PbufferTest.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class PbufferTest {
 

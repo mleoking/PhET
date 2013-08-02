@@ -84,36 +84,36 @@ public final class NVGpuShader5 {
 		long function_pointer = caps.glUniform1i64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform1i64vNV(location, value.remaining(), value, value.position(), function_pointer);
+		nglUniform1i64vNV(location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform1i64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniform1i64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform2NV(int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform2i64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform2i64vNV(location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglUniform2i64vNV(location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform2i64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniform2i64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform3NV(int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform3i64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform3i64vNV(location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglUniform3i64vNV(location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform3i64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniform3i64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform4NV(int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform4i64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform4i64vNV(location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglUniform4i64vNV(location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform4i64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniform4i64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform1ui64NV(int location, long x) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -152,54 +152,54 @@ public final class NVGpuShader5 {
 		long function_pointer = caps.glUniform1ui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform1ui64vNV(location, value.remaining(), value, value.position(), function_pointer);
+		nglUniform1ui64vNV(location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform1ui64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniform1ui64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform2uNV(int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform2ui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform2ui64vNV(location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglUniform2ui64vNV(location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform2ui64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniform2ui64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform3uNV(int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform3ui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform3ui64vNV(location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglUniform3ui64vNV(location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform3ui64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniform3ui64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glUniform4uNV(int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUniform4ui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglUniform4ui64vNV(location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglUniform4ui64vNV(location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglUniform4ui64vNV(int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglUniform4ui64vNV(int location, int value_count, long value, long function_pointer);
 
 	public static void glGetUniformNV(int program, int location, LongBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetUniformi64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetUniformi64vNV(program, location, params, params.position(), function_pointer);
+		nglGetUniformi64vNV(program, location, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetUniformi64vNV(int program, int location, LongBuffer params, int params_position, long function_pointer);
+	static native void nglGetUniformi64vNV(int program, int location, long params, long function_pointer);
 
 	public static void glGetUniformuNV(int program, int location, LongBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetUniformui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 1);
-		nglGetUniformui64vNV(program, location, params, params.position(), function_pointer);
+		nglGetUniformui64vNV(program, location, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetUniformui64vNV(int program, int location, LongBuffer params, int params_position, long function_pointer);
+	static native void nglGetUniformui64vNV(int program, int location, long params, long function_pointer);
 
 	public static void glProgramUniform1i64NV(int program, int location, long x) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -238,36 +238,36 @@ public final class NVGpuShader5 {
 		long function_pointer = caps.glProgramUniform1i64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform1i64vNV(program, location, value.remaining(), value, value.position(), function_pointer);
+		nglProgramUniform1i64vNV(program, location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform1i64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform1i64vNV(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform2NV(int program, int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform2i64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform2i64vNV(program, location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglProgramUniform2i64vNV(program, location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform2i64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform2i64vNV(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform3NV(int program, int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform3i64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform3i64vNV(program, location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglProgramUniform3i64vNV(program, location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform3i64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform3i64vNV(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform4NV(int program, int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform4i64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform4i64vNV(program, location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglProgramUniform4i64vNV(program, location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform4i64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform4i64vNV(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform1ui64NV(int program, int location, long x) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -306,34 +306,34 @@ public final class NVGpuShader5 {
 		long function_pointer = caps.glProgramUniform1ui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform1ui64vNV(program, location, value.remaining(), value, value.position(), function_pointer);
+		nglProgramUniform1ui64vNV(program, location, value.remaining(), MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform1ui64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform1ui64vNV(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform2uNV(int program, int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform2ui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform2ui64vNV(program, location, value.remaining() >> 1, value, value.position(), function_pointer);
+		nglProgramUniform2ui64vNV(program, location, value.remaining() >> 1, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform2ui64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform2ui64vNV(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform3uNV(int program, int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform3ui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform3ui64vNV(program, location, value.remaining() / 3, value, value.position(), function_pointer);
+		nglProgramUniform3ui64vNV(program, location, value.remaining() / 3, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform3ui64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform3ui64vNV(int program, int location, int value_count, long value, long function_pointer);
 
 	public static void glProgramUniform4uNV(int program, int location, LongBuffer value) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glProgramUniform4ui64vNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(value);
-		nglProgramUniform4ui64vNV(program, location, value.remaining() >> 2, value, value.position(), function_pointer);
+		nglProgramUniform4ui64vNV(program, location, value.remaining() >> 2, MemoryUtil.getAddress(value), function_pointer);
 	}
-	static native void nglProgramUniform4ui64vNV(int program, int location, int value_count, LongBuffer value, int value_position, long function_pointer);
+	static native void nglProgramUniform4ui64vNV(int program, int location, int value_count, long value, long function_pointer);
 }

@@ -46,8 +46,8 @@ import static org.lwjgl.util.glu.GLU.*;
  * Tests switching between windowed and fullscreen
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3418 $
- * $Id: FullScreenWindowedTest.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class FullScreenWindowedTest {
 	/** Intended deiplay mode */

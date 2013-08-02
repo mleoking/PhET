@@ -20,17 +20,17 @@ public final class APPLEFence {
 		long function_pointer = caps.glGenFencesAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(fences);
-		nglGenFencesAPPLE(fences.remaining(), fences, fences.position(), function_pointer);
+		nglGenFencesAPPLE(fences.remaining(), MemoryUtil.getAddress(fences), function_pointer);
 	}
-	static native void nglGenFencesAPPLE(int fences_n, IntBuffer fences, int fences_position, long function_pointer);
+	static native void nglGenFencesAPPLE(int fences_n, long fences, long function_pointer);
 
 	/** Overloads glGenFencesAPPLE. */
 	public static int glGenFencesAPPLE() {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGenFencesAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer fences = APIUtil.getBufferInt();
-		nglGenFencesAPPLE(1, fences, fences.position(), function_pointer);
+		IntBuffer fences = APIUtil.getBufferInt(caps);
+		nglGenFencesAPPLE(1, MemoryUtil.getAddress(fences), function_pointer);
 		return fences.get(0);
 	}
 
@@ -39,16 +39,16 @@ public final class APPLEFence {
 		long function_pointer = caps.glDeleteFencesAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(fences);
-		nglDeleteFencesAPPLE(fences.remaining(), fences, fences.position(), function_pointer);
+		nglDeleteFencesAPPLE(fences.remaining(), MemoryUtil.getAddress(fences), function_pointer);
 	}
-	static native void nglDeleteFencesAPPLE(int fences_n, IntBuffer fences, int fences_position, long function_pointer);
+	static native void nglDeleteFencesAPPLE(int fences_n, long fences, long function_pointer);
 
 	/** Overloads glDeleteFencesAPPLE. */
 	public static void glDeleteFencesAPPLE(int fence) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glDeleteFencesAPPLE;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglDeleteFencesAPPLE(1, APIUtil.getBufferInt().put(0, fence), 0, function_pointer);
+		nglDeleteFencesAPPLE(1, APIUtil.getInt(caps, fence), function_pointer);
 	}
 
 	public static void glSetFenceAPPLE(int fence) {

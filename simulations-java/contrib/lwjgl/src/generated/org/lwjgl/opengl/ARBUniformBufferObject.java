@@ -91,9 +91,19 @@ public final class ARBUniformBufferObject {
 		GL31.glGetActiveUniforms(program, uniformIndices, pname, params);
 	}
 
-	/** Overloads glGetActiveUniformsiv. */
+	/**
+	 * Overloads glGetActiveUniformsiv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetActiveUniformsi} instead. 
+	 */
+	@Deprecated
 	public static int glGetActiveUniforms(int program, int uniformIndex, int pname) {
-		return GL31.glGetActiveUniforms(program, uniformIndex, pname);
+		return GL31.glGetActiveUniformsi(program, uniformIndex, pname);
+	}
+
+	/** Overloads glGetActiveUniformsiv. */
+	public static int glGetActiveUniformsi(int program, int uniformIndex, int pname) {
+		return GL31.glGetActiveUniformsi(program, uniformIndex, pname);
 	}
 
 	public static void glGetActiveUniformName(int program, int uniformIndex, IntBuffer length, ByteBuffer uniformName) {
@@ -118,9 +128,19 @@ public final class ARBUniformBufferObject {
 		GL31.glGetActiveUniformBlock(program, uniformBlockIndex, pname, params);
 	}
 
-	/** Overloads glGetActiveUniformBlockiv. */
+	/**
+	 * Overloads glGetActiveUniformBlockiv.
+	 * <p>
+	 * @deprecated Will be removed in 3.0. Use {@link #glGetActiveUniformBlocki} instead. 
+	 */
+	@Deprecated
 	public static int glGetActiveUniformBlock(int program, int uniformBlockIndex, int pname) {
-		return GL31.glGetActiveUniformBlock(program, uniformBlockIndex, pname);
+		return GL31.glGetActiveUniformBlocki(program, uniformBlockIndex, pname);
+	}
+
+	/** Overloads glGetActiveUniformBlockiv. */
+	public static int glGetActiveUniformBlocki(int program, int uniformBlockIndex, int pname) {
+		return GL31.glGetActiveUniformBlocki(program, uniformBlockIndex, pname);
 	}
 
 	public static void glGetActiveUniformBlockName(int program, int uniformBlockIndex, IntBuffer length, ByteBuffer uniformBlockName) {

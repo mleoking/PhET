@@ -38,8 +38,8 @@ import java.nio.IntBuffer;
 
 /**
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
- *          $Id: LinuxContextImplementation.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ *          $Id$
  */
 final class LinuxContextImplementation implements ContextImplementation {
 
@@ -67,7 +67,7 @@ final class LinuxContextImplementation implements ContextImplementation {
 	}
 
 	public void swapBuffers() throws LWJGLException {
-		Context current_context = Context.getCurrentContext();
+		ContextGL current_context = ContextGL.getCurrentContext();
 		if ( current_context == null )
 			throw new IllegalStateException("No context is current");
 		synchronized ( current_context ) {
@@ -89,7 +89,7 @@ final class LinuxContextImplementation implements ContextImplementation {
 	private static native void nSwapBuffers(ByteBuffer peer_info_handle) throws LWJGLException;
 
 	public void releaseCurrentContext() throws LWJGLException {
-		Context current_context = Context.getCurrentContext();
+		ContextGL current_context = ContextGL.getCurrentContext();
 		if ( current_context == null )
 			throw new IllegalStateException("No context is current");
 		synchronized ( current_context ) {
@@ -142,17 +142,30 @@ final class LinuxContextImplementation implements ContextImplementation {
 	private static native boolean nIsCurrent(ByteBuffer context_handle) throws LWJGLException;
 
 	public void setSwapInterval(int value) {
-		Context current_context = Context.getCurrentContext();
+		ContextGL current_context = ContextGL.getCurrentContext();
+		PeerInfo peer_info = current_context.getPeerInfo();
+		
 		if ( current_context == null )
 			throw new IllegalStateException("No context is current");
 		synchronized ( current_context ) {
 			LinuxDisplay.lockAWT();
-			nSetSwapInterval(current_context.getHandle(), value);
-			LinuxDisplay.unlockAWT();
+			try {
+				ByteBuffer peer_handle = peer_info.lockAndGetHandle();
+				try {
+					nSetSwapInterval(peer_handle, current_context.getHandle(), value);
+				} finally {
+					peer_info.unlock();
+				}
+			} catch (LWJGLException e) {
+				// API CHANGE - this methods should throw LWJGLException
+				e.printStackTrace();
+			} finally {
+				LinuxDisplay.unlockAWT();
+			}
 		}
 	}
 
-	private static native void nSetSwapInterval(ByteBuffer context_handle, int value);
+	private static native void nSetSwapInterval(ByteBuffer peer_handle, ByteBuffer context_handle, int value);
 
 	public void destroy(PeerInfo peer_info, ByteBuffer handle) throws LWJGLException {
 		LinuxDisplay.lockAWT();

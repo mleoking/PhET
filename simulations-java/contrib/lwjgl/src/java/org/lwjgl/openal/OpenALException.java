@@ -37,8 +37,8 @@ package org.lwjgl.openal;
  * causes an error.
  * 
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: OpenALException.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class OpenALException extends RuntimeException {
 

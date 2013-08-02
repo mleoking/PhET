@@ -35,8 +35,8 @@ package org.lwjgl;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3426 $
- * $Id: DefaultSysImplementation.java 3426 2010-10-01 22:20:14Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 abstract class DefaultSysImplementation implements SysImplementation {
 	public native int getJNIVersion();

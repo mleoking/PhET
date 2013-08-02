@@ -397,11 +397,11 @@ public final class CL10 {
 		if (num_platforms != null)
 			BufferChecks.checkBuffer(num_platforms, 1);
 		if ( num_platforms == null ) num_platforms = APIUtil.getBufferInt();
-		int __result = nclGetPlatformIDs((platforms == null ? 0 : platforms.remaining()), platforms != null ? platforms.getBuffer() : null, platforms != null ? platforms.positionByte() : 0, num_platforms, num_platforms != null ? num_platforms.position() : 0, function_pointer);
+		int __result = nclGetPlatformIDs((platforms == null ? 0 : platforms.remaining()), MemoryUtil.getAddressSafe(platforms), MemoryUtil.getAddressSafe(num_platforms), function_pointer);
 		if ( __result == CL_SUCCESS && platforms != null ) CLPlatform.registerCLPlatforms(platforms, num_platforms);
 		return __result;
 	}
-	static native int nclGetPlatformIDs(int platforms_num_entries, ByteBuffer platforms, int platforms_position, IntBuffer num_platforms, int num_platforms_position, long function_pointer);
+	static native int nclGetPlatformIDs(int platforms_num_entries, long platforms, long num_platforms, long function_pointer);
 
 	public static int clGetPlatformInfo(CLPlatform platform, int param_name, ByteBuffer param_value, PointerBuffer param_value_size_ret) {
 		long function_pointer = CLCapabilities.clGetPlatformInfo;
@@ -410,10 +410,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetPlatformInfo(platform == null ? 0 : platform.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetPlatformInfo(platform == null ? 0 : platform.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetPlatformInfo(long platform, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetPlatformInfo(long platform, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static int clGetDeviceIDs(CLPlatform platform, long device_type, PointerBuffer devices, IntBuffer num_devices) {
 		long function_pointer = CLCapabilities.clGetDeviceIDs;
@@ -424,11 +424,11 @@ public final class CL10 {
 			BufferChecks.checkBuffer(num_devices, 1);
 		else
 			num_devices = APIUtil.getBufferInt();
-		int __result = nclGetDeviceIDs(platform.getPointer(), device_type, (devices == null ? 0 : devices.remaining()), devices != null ? devices.getBuffer() : null, devices != null ? devices.positionByte() : 0, num_devices, num_devices != null ? num_devices.position() : 0, function_pointer);
+		int __result = nclGetDeviceIDs(platform.getPointer(), device_type, (devices == null ? 0 : devices.remaining()), MemoryUtil.getAddressSafe(devices), MemoryUtil.getAddressSafe(num_devices), function_pointer);
 		if ( __result == CL_SUCCESS && devices != null ) platform.registerCLDevices(devices, num_devices);
 		return __result;
 	}
-	static native int nclGetDeviceIDs(long platform, long device_type, int devices_num_entries, ByteBuffer devices, int devices_position, IntBuffer num_devices, int num_devices_position, long function_pointer);
+	static native int nclGetDeviceIDs(long platform, long device_type, int devices_num_entries, long devices, long num_devices, long function_pointer);
 
 	public static int clGetDeviceInfo(CLDevice device, int param_name, ByteBuffer param_value, PointerBuffer param_value_size_ret) {
 		long function_pointer = CLCapabilities.clGetDeviceInfo;
@@ -437,10 +437,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetDeviceInfo(device.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetDeviceInfo(device.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetDeviceInfo(long device, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetDeviceInfo(long device, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	/**
 	 * LWJGL requires CL_CONTEXT_PLATFORM to be present in the cl_context_properties buffer. 
@@ -456,13 +456,13 @@ public final class CL10 {
 		long user_data = pfn_notify == null || pfn_notify.isCustom() ? 0 : CallbackUtil.createGlobalRef(pfn_notify);
 		CLContext __result = null;
 		try {
-			__result = new CLContext(nclCreateContext(properties.getBuffer(), properties.positionByte(), devices.remaining(), devices.getBuffer(), devices.positionByte(), pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), APIUtil.getCLPlatform(properties));
+			__result = new CLContext(nclCreateContext(MemoryUtil.getAddress(properties), devices.remaining(), MemoryUtil.getAddress(devices), pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, MemoryUtil.getAddressSafe(errcode_ret), function_pointer), APIUtil.getCLPlatform(properties));
 			return __result;
 		} finally {
-			CallbackUtil.registerCallback(__result, user_data);
+			if ( __result != null ) __result.setContextCallback(user_data);
 		}
 	}
-	static native long nclCreateContext(ByteBuffer properties, int properties_position, int devices_num_devices, ByteBuffer devices, int devices_position, long pfn_notify, long user_data, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateContext(long properties, int devices_num_devices, long devices, long pfn_notify, long user_data, long errcode_ret, long function_pointer);
 
 	/**
 	 * Overloads clCreateContext.
@@ -479,10 +479,10 @@ public final class CL10 {
 		long user_data = pfn_notify == null || pfn_notify.isCustom() ? 0 : CallbackUtil.createGlobalRef(pfn_notify);
 		CLContext __result = null;
 		try {
-			__result = new CLContext(nclCreateContext(properties.getBuffer(), properties.positionByte(), 1, APIUtil.getBufferPointer().put(0, device).getBuffer(), 0, pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), APIUtil.getCLPlatform(properties));
+			__result = new CLContext(nclCreateContext(MemoryUtil.getAddress(properties), 1, APIUtil.getPointer(device), pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, MemoryUtil.getAddressSafe(errcode_ret), function_pointer), APIUtil.getCLPlatform(properties));
 			return __result;
 		} finally {
-			CallbackUtil.registerCallback(__result, user_data);
+			if ( __result != null ) __result.setContextCallback(user_data);
 		}
 	}
 
@@ -496,16 +496,16 @@ public final class CL10 {
 		BufferChecks.checkNullTerminated(properties);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		long user_data = CallbackUtil.createGlobalRef(pfn_notify);
+		long user_data = pfn_notify == null || pfn_notify.isCustom() ? 0 : CallbackUtil.createGlobalRef(pfn_notify);
 		CLContext __result = null;
 		try {
-			__result = new CLContext(nclCreateContextFromType(properties.getBuffer(), properties.positionByte(), device_type, pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), APIUtil.getCLPlatform(properties));
+			__result = new CLContext(nclCreateContextFromType(MemoryUtil.getAddress(properties), device_type, pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, MemoryUtil.getAddressSafe(errcode_ret), function_pointer), APIUtil.getCLPlatform(properties));
 			return __result;
 		} finally {
-			CallbackUtil.registerCallback(__result, user_data);
+			if ( __result != null ) __result.setContextCallback(user_data);
 		}
 	}
-	static native long nclCreateContextFromType(ByteBuffer properties, int properties_position, long device_type, long pfn_notify, long user_data, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateContextFromType(long properties, long device_type, long pfn_notify, long user_data, long errcode_ret, long function_pointer);
 
 	public static int clRetainContext(CLContext context) {
 		long function_pointer = CLCapabilities.clRetainContext;
@@ -521,7 +521,7 @@ public final class CL10 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		APIUtil.releaseObjects(context);
 		int __result = nclReleaseContext(context.getPointer(), function_pointer);
-		if ( __result == CL_SUCCESS ) CallbackUtil.unregisterCallback(context);
+		if ( __result == CL_SUCCESS ) context.releaseImpl();
 		return __result;
 	}
 	static native int nclReleaseContext(long context, long function_pointer);
@@ -534,21 +534,21 @@ public final class CL10 {
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
 		if ( param_value_size_ret == null && APIUtil.isDevicesParam(param_name) ) param_value_size_ret = APIUtil.getBufferPointer();
-		int __result = nclGetContextInfo(context.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetContextInfo(context.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		if ( __result == CL_SUCCESS && param_value != null && APIUtil.isDevicesParam(param_name) ) context.getParent().registerCLDevices(param_value, param_value_size_ret);
 		return __result;
 	}
-	static native int nclGetContextInfo(long context, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetContextInfo(long context, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static CLCommandQueue clCreateCommandQueue(CLContext context, CLDevice device, long properties, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateCommandQueue;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLCommandQueue __result = new CLCommandQueue(nclCreateCommandQueue(context.getPointer(), device.getPointer(), properties, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context, device);
+		CLCommandQueue __result = new CLCommandQueue(nclCreateCommandQueue(context.getPointer(), device.getPointer(), properties, MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context, device);
 		return __result;
 	}
-	static native long nclCreateCommandQueue(long context, long device, long properties, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateCommandQueue(long context, long device, long properties, long errcode_ret, long function_pointer);
 
 	public static int clRetainCommandQueue(CLCommandQueue command_queue) {
 		long function_pointer = CLCapabilities.clRetainCommandQueue;
@@ -576,17 +576,17 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetCommandQueueInfo(command_queue.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetCommandQueueInfo(command_queue.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetCommandQueueInfo(long command_queue, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetCommandQueueInfo(long command_queue, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static CLMem clCreateBuffer(CLContext context, long flags, long host_ptr_size, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateBuffer;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, host_ptr_size, null, 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, host_ptr_size, 0L, MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateBuffer(CLContext context, long flags, ByteBuffer host_ptr, IntBuffer errcode_ret) {
@@ -595,7 +595,7 @@ public final class CL10 {
 		BufferChecks.checkDirect(host_ptr);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, host_ptr.remaining(), host_ptr, host_ptr.position(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, host_ptr.remaining(), MemoryUtil.getAddress(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateBuffer(CLContext context, long flags, DoubleBuffer host_ptr, IntBuffer errcode_ret) {
@@ -604,7 +604,7 @@ public final class CL10 {
 		BufferChecks.checkDirect(host_ptr);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 3), host_ptr, host_ptr.position() << 3, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 3), MemoryUtil.getAddress(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateBuffer(CLContext context, long flags, FloatBuffer host_ptr, IntBuffer errcode_ret) {
@@ -613,7 +613,7 @@ public final class CL10 {
 		BufferChecks.checkDirect(host_ptr);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 2), host_ptr, host_ptr.position() << 2, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 2), MemoryUtil.getAddress(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateBuffer(CLContext context, long flags, IntBuffer host_ptr, IntBuffer errcode_ret) {
@@ -622,7 +622,7 @@ public final class CL10 {
 		BufferChecks.checkDirect(host_ptr);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 2), host_ptr, host_ptr.position() << 2, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 2), MemoryUtil.getAddress(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateBuffer(CLContext context, long flags, LongBuffer host_ptr, IntBuffer errcode_ret) {
@@ -631,7 +631,7 @@ public final class CL10 {
 		BufferChecks.checkDirect(host_ptr);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 3), host_ptr, host_ptr.position() << 3, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 3), MemoryUtil.getAddress(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateBuffer(CLContext context, long flags, ShortBuffer host_ptr, IntBuffer errcode_ret) {
@@ -640,10 +640,10 @@ public final class CL10 {
 		BufferChecks.checkDirect(host_ptr);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 1), host_ptr, host_ptr.position() << 1, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateBuffer(context.getPointer(), flags, (host_ptr.remaining() << 1), MemoryUtil.getAddress(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateBuffer(long context, long flags, long host_ptr_size, Buffer host_ptr, int host_ptr_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateBuffer(long context, long flags, long host_ptr_size, long host_ptr, long errcode_ret, long function_pointer);
 
 	public static int clEnqueueReadBuffer(CLCommandQueue command_queue, CLMem buffer, int blocking_read, long offset, ByteBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueReadBuffer;
@@ -653,7 +653,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, ptr.remaining(), ptr, ptr.position(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, ptr.remaining(), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -665,7 +665,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 3), ptr, ptr.position() << 3, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 3), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -677,7 +677,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 2), ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 2), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -689,7 +689,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 2), ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 2), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -701,7 +701,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 3), ptr, ptr.position() << 3, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 3), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -713,11 +713,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 1), ptr, ptr.position() << 1, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_read, offset, (ptr.remaining() << 1), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueReadBuffer(long command_queue, long buffer, int blocking_read, long offset, long ptr_cb, Buffer ptr, int ptr_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueReadBuffer(long command_queue, long buffer, int blocking_read, long offset, long ptr_size, long ptr, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clEnqueueWriteBuffer(CLCommandQueue command_queue, CLMem buffer, int blocking_write, long offset, ByteBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueWriteBuffer;
@@ -727,7 +727,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, ptr.remaining(), ptr, ptr.position(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, ptr.remaining(), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -739,7 +739,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 3), ptr, ptr.position() << 3, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 3), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -751,7 +751,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 2), ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 2), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -763,7 +763,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 2), ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 2), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -775,7 +775,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 3), ptr, ptr.position() << 3, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 3), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -787,26 +787,26 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 1), ptr, ptr.position() << 1, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_write, offset, (ptr.remaining() << 1), MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueWriteBuffer(long command_queue, long buffer, int blocking_write, long offset, long ptr_cb, Buffer ptr, int ptr_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueWriteBuffer(long command_queue, long buffer, int blocking_write, long offset, long ptr_size, long ptr, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
-	public static int clEnqueueCopyBuffer(CLCommandQueue command_queue, CLMem src_buffer, CLMem dst_buffer, long src_offset, long dst_offset, long cb, PointerBuffer event_wait_list, PointerBuffer event) {
+	public static int clEnqueueCopyBuffer(CLCommandQueue command_queue, CLMem src_buffer, CLMem dst_buffer, long src_offset, long dst_offset, long size, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueCopyBuffer;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (event_wait_list != null)
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueCopyBuffer(command_queue.getPointer(), src_buffer.getPointer(), dst_buffer.getPointer(), src_offset, dst_offset, cb, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueCopyBuffer(command_queue.getPointer(), src_buffer.getPointer(), dst_buffer.getPointer(), src_offset, dst_offset, size, (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueCopyBuffer(long command_queue, long src_buffer, long dst_buffer, long src_offset, long dst_offset, long cb, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueCopyBuffer(long command_queue, long src_buffer, long dst_buffer, long src_offset, long dst_offset, long size, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
-	public static ByteBuffer clEnqueueMapBuffer(CLCommandQueue command_queue, CLMem buffer, int blocking_map, long map_flags, long offset, long cb, PointerBuffer event_wait_list, PointerBuffer event, IntBuffer errcode_ret) {
+	public static ByteBuffer clEnqueueMapBuffer(CLCommandQueue command_queue, CLMem buffer, int blocking_map, long map_flags, long offset, long size, PointerBuffer event_wait_list, PointerBuffer event, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clEnqueueMapBuffer;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (event_wait_list != null)
@@ -815,11 +815,11 @@ public final class CL10 {
 			BufferChecks.checkBuffer(event, 1);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		ByteBuffer __result = nclEnqueueMapBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_map, map_flags, offset, cb, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, cb, function_pointer);
+		ByteBuffer __result = nclEnqueueMapBuffer(command_queue.getPointer(), buffer.getPointer(), blocking_map, map_flags, offset, size, (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), MemoryUtil.getAddressSafe(errcode_ret), size, function_pointer);
 		if ( __result != null ) command_queue.registerCLEvent(event);
 		return LWJGLUtil.CHECKS && __result == null ? null : __result.order(ByteOrder.nativeOrder());
 	}
-	static native ByteBuffer nclEnqueueMapBuffer(long command_queue, long buffer, int blocking_map, long map_flags, long offset, long cb, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, IntBuffer errcode_ret, int errcode_ret_position, long result_size, long function_pointer);
+	static native ByteBuffer nclEnqueueMapBuffer(long command_queue, long buffer, int blocking_map, long map_flags, long offset, long size, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long errcode_ret, long result_size, long function_pointer);
 
 	public static CLMem clCreateImage2D(CLContext context, long flags, ByteBuffer image_format, long image_width, long image_height, long image_row_pitch, ByteBuffer host_ptr, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateImage2D;
@@ -829,7 +829,7 @@ public final class CL10 {
 			BufferChecks.checkBuffer(host_ptr, CLChecks.calculateImage2DSize(image_format, image_width, image_height, image_row_pitch));
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateImage2D(context.getPointer(), flags, image_format, image_format.position(), image_width, image_height, image_row_pitch, host_ptr, host_ptr != null ? host_ptr.position() : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateImage2D(context.getPointer(), flags, MemoryUtil.getAddress(image_format), image_width, image_height, image_row_pitch, MemoryUtil.getAddressSafe(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateImage2D(CLContext context, long flags, ByteBuffer image_format, long image_width, long image_height, long image_row_pitch, FloatBuffer host_ptr, IntBuffer errcode_ret) {
@@ -840,7 +840,7 @@ public final class CL10 {
 			BufferChecks.checkBuffer(host_ptr, CLChecks.calculateImage2DSize(image_format, image_width, image_height, image_row_pitch));
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateImage2D(context.getPointer(), flags, image_format, image_format.position(), image_width, image_height, image_row_pitch, host_ptr, host_ptr != null ? host_ptr.position() << 2 : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateImage2D(context.getPointer(), flags, MemoryUtil.getAddress(image_format), image_width, image_height, image_row_pitch, MemoryUtil.getAddressSafe(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateImage2D(CLContext context, long flags, ByteBuffer image_format, long image_width, long image_height, long image_row_pitch, IntBuffer host_ptr, IntBuffer errcode_ret) {
@@ -851,7 +851,7 @@ public final class CL10 {
 			BufferChecks.checkBuffer(host_ptr, CLChecks.calculateImage2DSize(image_format, image_width, image_height, image_row_pitch));
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateImage2D(context.getPointer(), flags, image_format, image_format.position(), image_width, image_height, image_row_pitch, host_ptr, host_ptr != null ? host_ptr.position() << 2 : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateImage2D(context.getPointer(), flags, MemoryUtil.getAddress(image_format), image_width, image_height, image_row_pitch, MemoryUtil.getAddressSafe(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateImage2D(CLContext context, long flags, ByteBuffer image_format, long image_width, long image_height, long image_row_pitch, ShortBuffer host_ptr, IntBuffer errcode_ret) {
@@ -862,10 +862,10 @@ public final class CL10 {
 			BufferChecks.checkBuffer(host_ptr, CLChecks.calculateImage2DSize(image_format, image_width, image_height, image_row_pitch));
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateImage2D(context.getPointer(), flags, image_format, image_format.position(), image_width, image_height, image_row_pitch, host_ptr, host_ptr != null ? host_ptr.position() << 1 : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateImage2D(context.getPointer(), flags, MemoryUtil.getAddress(image_format), image_width, image_height, image_row_pitch, MemoryUtil.getAddressSafe(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateImage2D(long context, long flags, ByteBuffer image_format, int image_format_position, long image_width, long image_height, long image_row_pitch, Buffer host_ptr, int host_ptr_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateImage2D(long context, long flags, long image_format, long image_width, long image_height, long image_row_pitch, long host_ptr, long errcode_ret, long function_pointer);
 
 	public static CLMem clCreateImage3D(CLContext context, long flags, ByteBuffer image_format, long image_width, long image_height, long image_depth, long image_row_pitch, long image_slice_pitch, ByteBuffer host_ptr, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateImage3D;
@@ -875,7 +875,7 @@ public final class CL10 {
 			BufferChecks.checkBuffer(host_ptr, CLChecks.calculateImage3DSize(image_format, image_width, image_height, image_height, image_row_pitch, image_slice_pitch));
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateImage3D(context.getPointer(), flags, image_format, image_format.position(), image_width, image_height, image_depth, image_row_pitch, image_slice_pitch, host_ptr, host_ptr != null ? host_ptr.position() : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateImage3D(context.getPointer(), flags, MemoryUtil.getAddress(image_format), image_width, image_height, image_depth, image_row_pitch, image_slice_pitch, MemoryUtil.getAddressSafe(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateImage3D(CLContext context, long flags, ByteBuffer image_format, long image_width, long image_height, long image_depth, long image_row_pitch, long image_slice_pitch, FloatBuffer host_ptr, IntBuffer errcode_ret) {
@@ -886,7 +886,7 @@ public final class CL10 {
 			BufferChecks.checkBuffer(host_ptr, CLChecks.calculateImage3DSize(image_format, image_width, image_height, image_height, image_row_pitch, image_slice_pitch));
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateImage3D(context.getPointer(), flags, image_format, image_format.position(), image_width, image_height, image_depth, image_row_pitch, image_slice_pitch, host_ptr, host_ptr != null ? host_ptr.position() << 2 : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateImage3D(context.getPointer(), flags, MemoryUtil.getAddress(image_format), image_width, image_height, image_depth, image_row_pitch, image_slice_pitch, MemoryUtil.getAddressSafe(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateImage3D(CLContext context, long flags, ByteBuffer image_format, long image_width, long image_height, long image_depth, long image_row_pitch, long image_slice_pitch, IntBuffer host_ptr, IntBuffer errcode_ret) {
@@ -897,7 +897,7 @@ public final class CL10 {
 			BufferChecks.checkBuffer(host_ptr, CLChecks.calculateImage3DSize(image_format, image_width, image_height, image_height, image_row_pitch, image_slice_pitch));
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateImage3D(context.getPointer(), flags, image_format, image_format.position(), image_width, image_height, image_depth, image_row_pitch, image_slice_pitch, host_ptr, host_ptr != null ? host_ptr.position() << 2 : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateImage3D(context.getPointer(), flags, MemoryUtil.getAddress(image_format), image_width, image_height, image_depth, image_row_pitch, image_slice_pitch, MemoryUtil.getAddressSafe(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 	public static CLMem clCreateImage3D(CLContext context, long flags, ByteBuffer image_format, long image_width, long image_height, long image_depth, long image_row_pitch, long image_slice_pitch, ShortBuffer host_ptr, IntBuffer errcode_ret) {
@@ -908,10 +908,10 @@ public final class CL10 {
 			BufferChecks.checkBuffer(host_ptr, CLChecks.calculateImage3DSize(image_format, image_width, image_height, image_height, image_row_pitch, image_slice_pitch));
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLMem __result = new CLMem(nclCreateImage3D(context.getPointer(), flags, image_format, image_format.position(), image_width, image_height, image_depth, image_row_pitch, image_slice_pitch, host_ptr, host_ptr != null ? host_ptr.position() << 1 : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLMem __result = new CLMem(nclCreateImage3D(context.getPointer(), flags, MemoryUtil.getAddress(image_format), image_width, image_height, image_depth, image_row_pitch, image_slice_pitch, MemoryUtil.getAddressSafe(host_ptr), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateImage3D(long context, long flags, ByteBuffer image_format, int image_format_position, long image_width, long image_height, long image_depth, long image_row_pitch, long image_slice_pitch, Buffer host_ptr, int host_ptr_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateImage3D(long context, long flags, long image_format, long image_width, long image_height, long image_depth, long image_row_pitch, long image_slice_pitch, long host_ptr, long errcode_ret, long function_pointer);
 
 	public static int clGetSupportedImageFormats(CLContext context, long flags, int image_type, ByteBuffer image_formats, IntBuffer num_image_formats) {
 		long function_pointer = CLCapabilities.clGetSupportedImageFormats;
@@ -920,10 +920,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(image_formats);
 		if (num_image_formats != null)
 			BufferChecks.checkBuffer(num_image_formats, 1);
-		int __result = nclGetSupportedImageFormats(context.getPointer(), flags, image_type, (image_formats == null ? 0 : image_formats.remaining()) / (2 * 4), image_formats, image_formats != null ? image_formats.position() : 0, num_image_formats, num_image_formats != null ? num_image_formats.position() : 0, function_pointer);
+		int __result = nclGetSupportedImageFormats(context.getPointer(), flags, image_type, (image_formats == null ? 0 : image_formats.remaining()) / (2 * 4), MemoryUtil.getAddressSafe(image_formats), MemoryUtil.getAddressSafe(num_image_formats), function_pointer);
 		return __result;
 	}
-	static native int nclGetSupportedImageFormats(long context, long flags, int image_type, int image_formats_num_entries, ByteBuffer image_formats, int image_formats_position, IntBuffer num_image_formats, int num_image_formats_position, long function_pointer);
+	static native int nclGetSupportedImageFormats(long context, long flags, int image_type, int image_formats_num_entries, long image_formats, long num_image_formats, long function_pointer);
 
 	public static int clEnqueueReadImage(CLCommandQueue command_queue, CLMem image, int blocking_read, PointerBuffer origin, PointerBuffer region, long row_pitch, long slice_pitch, ByteBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueReadImage;
@@ -935,7 +935,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadImage(command_queue.getPointer(), image.getPointer(), blocking_read, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), row_pitch, slice_pitch, ptr, ptr.position(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadImage(command_queue.getPointer(), image.getPointer(), blocking_read, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), row_pitch, slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -949,7 +949,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadImage(command_queue.getPointer(), image.getPointer(), blocking_read, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), row_pitch, slice_pitch, ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadImage(command_queue.getPointer(), image.getPointer(), blocking_read, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), row_pitch, slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -963,7 +963,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadImage(command_queue.getPointer(), image.getPointer(), blocking_read, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), row_pitch, slice_pitch, ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadImage(command_queue.getPointer(), image.getPointer(), blocking_read, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), row_pitch, slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -977,11 +977,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueReadImage(command_queue.getPointer(), image.getPointer(), blocking_read, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), row_pitch, slice_pitch, ptr, ptr.position() << 1, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueReadImage(command_queue.getPointer(), image.getPointer(), blocking_read, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), row_pitch, slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueReadImage(long command_queue, long image, int blocking_read, ByteBuffer origin, int origin_position, ByteBuffer region, int region_position, long row_pitch, long slice_pitch, Buffer ptr, int ptr_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueReadImage(long command_queue, long image, int blocking_read, long origin, long region, long row_pitch, long slice_pitch, long ptr, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clEnqueueWriteImage(CLCommandQueue command_queue, CLMem image, int blocking_write, PointerBuffer origin, PointerBuffer region, long input_row_pitch, long input_slice_pitch, ByteBuffer ptr, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueWriteImage;
@@ -993,7 +993,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteImage(command_queue.getPointer(), image.getPointer(), blocking_write, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), input_row_pitch, input_slice_pitch, ptr, ptr.position(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteImage(command_queue.getPointer(), image.getPointer(), blocking_write, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), input_row_pitch, input_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -1007,7 +1007,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteImage(command_queue.getPointer(), image.getPointer(), blocking_write, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), input_row_pitch, input_slice_pitch, ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteImage(command_queue.getPointer(), image.getPointer(), blocking_write, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), input_row_pitch, input_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -1021,7 +1021,7 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteImage(command_queue.getPointer(), image.getPointer(), blocking_write, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), input_row_pitch, input_slice_pitch, ptr, ptr.position() << 2, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteImage(command_queue.getPointer(), image.getPointer(), blocking_write, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), input_row_pitch, input_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
@@ -1035,11 +1035,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueWriteImage(command_queue.getPointer(), image.getPointer(), blocking_write, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), input_row_pitch, input_slice_pitch, ptr, ptr.position() << 1, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueWriteImage(command_queue.getPointer(), image.getPointer(), blocking_write, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), input_row_pitch, input_slice_pitch, MemoryUtil.getAddress(ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueWriteImage(long command_queue, long image, int blocking_write, ByteBuffer origin, int origin_position, ByteBuffer region, int region_position, long input_row_pitch, long input_slice_pitch, Buffer ptr, int ptr_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueWriteImage(long command_queue, long image, int blocking_write, long origin, long region, long input_row_pitch, long input_slice_pitch, long ptr, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clEnqueueCopyImage(CLCommandQueue command_queue, CLMem src_image, CLMem dst_image, PointerBuffer src_origin, PointerBuffer dst_origin, PointerBuffer region, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueCopyImage;
@@ -1051,11 +1051,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueCopyImage(command_queue.getPointer(), src_image.getPointer(), dst_image.getPointer(), src_origin.getBuffer(), src_origin.positionByte(), dst_origin.getBuffer(), dst_origin.positionByte(), region.getBuffer(), region.positionByte(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueCopyImage(command_queue.getPointer(), src_image.getPointer(), dst_image.getPointer(), MemoryUtil.getAddress(src_origin), MemoryUtil.getAddress(dst_origin), MemoryUtil.getAddress(region), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueCopyImage(long command_queue, long src_image, long dst_image, ByteBuffer src_origin, int src_origin_position, ByteBuffer dst_origin, int dst_origin_position, ByteBuffer region, int region_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueCopyImage(long command_queue, long src_image, long dst_image, long src_origin, long dst_origin, long region, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clEnqueueCopyImageToBuffer(CLCommandQueue command_queue, CLMem src_image, CLMem dst_buffer, PointerBuffer src_origin, PointerBuffer region, long dst_offset, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueCopyImageToBuffer;
@@ -1066,11 +1066,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueCopyImageToBuffer(command_queue.getPointer(), src_image.getPointer(), dst_buffer.getPointer(), src_origin.getBuffer(), src_origin.positionByte(), region.getBuffer(), region.positionByte(), dst_offset, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueCopyImageToBuffer(command_queue.getPointer(), src_image.getPointer(), dst_buffer.getPointer(), MemoryUtil.getAddress(src_origin), MemoryUtil.getAddress(region), dst_offset, (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueCopyImageToBuffer(long command_queue, long src_image, long dst_buffer, ByteBuffer src_origin, int src_origin_position, ByteBuffer region, int region_position, long dst_offset, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueCopyImageToBuffer(long command_queue, long src_image, long dst_buffer, long src_origin, long region, long dst_offset, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clEnqueueCopyBufferToImage(CLCommandQueue command_queue, CLMem src_buffer, CLMem dst_image, long src_offset, PointerBuffer dst_origin, PointerBuffer region, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueCopyBufferToImage;
@@ -1081,11 +1081,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueCopyBufferToImage(command_queue.getPointer(), src_buffer.getPointer(), dst_image.getPointer(), src_offset, dst_origin.getBuffer(), dst_origin.positionByte(), region.getBuffer(), region.positionByte(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueCopyBufferToImage(command_queue.getPointer(), src_buffer.getPointer(), dst_image.getPointer(), src_offset, MemoryUtil.getAddress(dst_origin), MemoryUtil.getAddress(region), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueCopyBufferToImage(long command_queue, long src_buffer, long dst_image, long src_offset, ByteBuffer dst_origin, int dst_origin_position, ByteBuffer region, int region_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueCopyBufferToImage(long command_queue, long src_buffer, long dst_image, long src_offset, long dst_origin, long region, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static ByteBuffer clEnqueueMapImage(CLCommandQueue command_queue, CLMem image, int blocking_map, long map_flags, PointerBuffer origin, PointerBuffer region, PointerBuffer image_row_pitch, PointerBuffer image_slice_pitch, PointerBuffer event_wait_list, PointerBuffer event, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clEnqueueMapImage;
@@ -1101,11 +1101,11 @@ public final class CL10 {
 			BufferChecks.checkBuffer(event, 1);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		ByteBuffer __result = nclEnqueueMapImage(command_queue.getPointer(), image.getPointer(), blocking_map, map_flags, origin.getBuffer(), origin.positionByte(), region.getBuffer(), region.positionByte(), image_row_pitch.getBuffer(), image_row_pitch.positionByte(), image_slice_pitch != null ? image_slice_pitch.getBuffer() : null, image_slice_pitch != null ? image_slice_pitch.positionByte() : 0, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer);
+		ByteBuffer __result = nclEnqueueMapImage(command_queue.getPointer(), image.getPointer(), blocking_map, map_flags, MemoryUtil.getAddress(origin), MemoryUtil.getAddress(region), MemoryUtil.getAddress(image_row_pitch), MemoryUtil.getAddressSafe(image_slice_pitch), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), MemoryUtil.getAddressSafe(errcode_ret), function_pointer);
 		if ( __result != null ) command_queue.registerCLEvent(event);
 		return LWJGLUtil.CHECKS && __result == null ? null : __result.order(ByteOrder.nativeOrder());
 	}
-	static native ByteBuffer nclEnqueueMapImage(long command_queue, long image, int blocking_map, long map_flags, ByteBuffer origin, int origin_position, ByteBuffer region, int region_position, ByteBuffer image_row_pitch, int image_row_pitch_position, ByteBuffer image_slice_pitch, int image_slice_pitch_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native ByteBuffer nclEnqueueMapImage(long command_queue, long image, int blocking_map, long map_flags, long origin, long region, long image_row_pitch, long image_slice_pitch, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long errcode_ret, long function_pointer);
 
 	public static int clGetImageInfo(CLMem image, int param_name, ByteBuffer param_value, PointerBuffer param_value_size_ret) {
 		long function_pointer = CLCapabilities.clGetImageInfo;
@@ -1114,10 +1114,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetImageInfo(image.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetImageInfo(image.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetImageInfo(long image, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetImageInfo(long image, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static int clRetainMemObject(CLMem memobj) {
 		long function_pointer = CLCapabilities.clRetainMemObject;
@@ -1145,11 +1145,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueUnmapMemObject(command_queue.getPointer(), memobj.getPointer(), mapped_ptr, mapped_ptr.position(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueUnmapMemObject(command_queue.getPointer(), memobj.getPointer(), MemoryUtil.getAddress(mapped_ptr), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueUnmapMemObject(long command_queue, long memobj, ByteBuffer mapped_ptr, int mapped_ptr_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueUnmapMemObject(long command_queue, long memobj, long mapped_ptr, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clGetMemObjectInfo(CLMem memobj, int param_name, ByteBuffer param_value, PointerBuffer param_value_size_ret) {
 		long function_pointer = CLCapabilities.clGetMemObjectInfo;
@@ -1158,20 +1158,20 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetMemObjectInfo(memobj.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetMemObjectInfo(memobj.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetMemObjectInfo(long memobj, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetMemObjectInfo(long memobj, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static CLSampler clCreateSampler(CLContext context, int normalized_coords, int addressing_mode, int filter_mode, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateSampler;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLSampler __result = new CLSampler(nclCreateSampler(context.getPointer(), normalized_coords, addressing_mode, filter_mode, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLSampler __result = new CLSampler(nclCreateSampler(context.getPointer(), normalized_coords, addressing_mode, filter_mode, MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateSampler(long context, int normalized_coords, int addressing_mode, int filter_mode, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateSampler(long context, int normalized_coords, int addressing_mode, int filter_mode, long errcode_ret, long function_pointer);
 
 	public static int clRetainSampler(CLSampler sampler) {
 		long function_pointer = CLCapabilities.clRetainSampler;
@@ -1198,10 +1198,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetSamplerInfo(sampler.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetSamplerInfo(sampler.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetSamplerInfo(long sampler, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetSamplerInfo(long sampler, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static CLProgram clCreateProgramWithSource(CLContext context, ByteBuffer string, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateProgramWithSource;
@@ -1209,10 +1209,10 @@ public final class CL10 {
 		BufferChecks.checkDirect(string);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLProgram __result = new CLProgram(nclCreateProgramWithSource(context.getPointer(), 1, string, string.position(), string.remaining(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLProgram __result = new CLProgram(nclCreateProgramWithSource(context.getPointer(), 1, MemoryUtil.getAddress(string), string.remaining(), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateProgramWithSource(long context, int count, ByteBuffer string, int string_position, long string_lengths, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateProgramWithSource(long context, int count, long string, long string_lengths, long errcode_ret, long function_pointer);
 
 	/** Overloads clCreateProgramWithSource. */
 	public static CLProgram clCreateProgramWithSource(CLContext context, ByteBuffer strings, PointerBuffer lengths, IntBuffer errcode_ret) {
@@ -1222,10 +1222,10 @@ public final class CL10 {
 		BufferChecks.checkBuffer(lengths, 1);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLProgram __result = new CLProgram(nclCreateProgramWithSource2(context.getPointer(), lengths.remaining(), strings, strings.position(), lengths.getBuffer(), lengths.positionByte(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLProgram __result = new CLProgram(nclCreateProgramWithSource2(context.getPointer(), lengths.remaining(), MemoryUtil.getAddress(strings), MemoryUtil.getAddress(lengths), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateProgramWithSource2(long context, int lengths_count, ByteBuffer strings, int strings_position, ByteBuffer lengths, int lengths_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateProgramWithSource2(long context, int lengths_count, long strings, long lengths, long errcode_ret, long function_pointer);
 
 	/** Overloads clCreateProgramWithSource. */
 	public static CLProgram clCreateProgramWithSource(CLContext context, ByteBuffer[] strings, IntBuffer errcode_ret) {
@@ -1234,10 +1234,10 @@ public final class CL10 {
 		BufferChecks.checkArray(strings, 1);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLProgram __result = new CLProgram(nclCreateProgramWithSource3(context.getPointer(), strings.length, strings, APIUtil.getLengths(strings).getBuffer(), 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLProgram __result = new CLProgram(nclCreateProgramWithSource3(context.getPointer(), strings.length, strings, APIUtil.getLengths(strings), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateProgramWithSource3(long context, int count, ByteBuffer[] strings, ByteBuffer lengths, int lengths_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateProgramWithSource3(long context, int count, ByteBuffer[] strings, long lengths, long errcode_ret, long function_pointer);
 
 	/** Overloads clCreateProgramWithSource. */
 	public static CLProgram clCreateProgramWithSource(CLContext context, CharSequence string, IntBuffer errcode_ret) {
@@ -1245,7 +1245,7 @@ public final class CL10 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLProgram __result = new CLProgram(nclCreateProgramWithSource(context.getPointer(), 1, APIUtil.getBuffer(string), 0, string.length(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLProgram __result = new CLProgram(nclCreateProgramWithSource(context.getPointer(), 1, APIUtil.getBuffer(string), string.length(), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
 
@@ -1256,10 +1256,10 @@ public final class CL10 {
 		BufferChecks.checkArray(strings);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLProgram __result = new CLProgram(nclCreateProgramWithSource4(context.getPointer(), strings.length, APIUtil.getBuffer(strings), 0, APIUtil.getLengths(strings).getBuffer(), 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLProgram __result = new CLProgram(nclCreateProgramWithSource4(context.getPointer(), strings.length, APIUtil.getBuffer(strings), APIUtil.getLengths(strings), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateProgramWithSource4(long context, int count, ByteBuffer strings, int strings_position, ByteBuffer lengths, int lengths_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateProgramWithSource4(long context, int count, long strings, long lengths, long errcode_ret, long function_pointer);
 
 	public static CLProgram clCreateProgramWithBinary(CLContext context, CLDevice device, ByteBuffer binary, IntBuffer binary_status, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateProgramWithBinary;
@@ -1268,10 +1268,10 @@ public final class CL10 {
 		BufferChecks.checkBuffer(binary_status, 1);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLProgram __result = new CLProgram(nclCreateProgramWithBinary(context.getPointer(), 1, device.getPointer(), binary.remaining(), binary, binary.position(), binary_status, binary_status.position(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLProgram __result = new CLProgram(nclCreateProgramWithBinary(context.getPointer(), 1, device.getPointer(), binary.remaining(), MemoryUtil.getAddress(binary), MemoryUtil.getAddress(binary_status), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateProgramWithBinary(long context, int num_devices, long device, long binary_lengths, ByteBuffer binary, int binary_position, IntBuffer binary_status, int binary_status_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateProgramWithBinary(long context, int num_devices, long device, long binary_lengths, long binary, long binary_status, long errcode_ret, long function_pointer);
 
 	/** Overloads clCreateProgramWithBinary. */
 	public static CLProgram clCreateProgramWithBinary(CLContext context, PointerBuffer device_list, PointerBuffer lengths, ByteBuffer binaries, IntBuffer binary_status, IntBuffer errcode_ret) {
@@ -1283,10 +1283,10 @@ public final class CL10 {
 		BufferChecks.checkBuffer(binary_status, device_list.remaining());
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLProgram __result = new CLProgram(nclCreateProgramWithBinary2(context.getPointer(), device_list.remaining(), device_list.getBuffer(), device_list.positionByte(), lengths.getBuffer(), lengths.positionByte(), binaries, binaries.position(), binary_status, binary_status.position(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLProgram __result = new CLProgram(nclCreateProgramWithBinary2(context.getPointer(), device_list.remaining(), MemoryUtil.getAddress(device_list), MemoryUtil.getAddress(lengths), MemoryUtil.getAddress(binaries), MemoryUtil.getAddress(binary_status), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateProgramWithBinary2(long context, int device_list_num_devices, ByteBuffer device_list, int device_list_position, ByteBuffer lengths, int lengths_position, ByteBuffer binaries, int binaries_position, IntBuffer binary_status, int binary_status_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateProgramWithBinary2(long context, int device_list_num_devices, long device_list, long lengths, long binaries, long binary_status, long errcode_ret, long function_pointer);
 
 	/** Overloads clCreateProgramWithBinary. */
 	public static CLProgram clCreateProgramWithBinary(CLContext context, PointerBuffer device_list, ByteBuffer[] binaries, IntBuffer binary_status, IntBuffer errcode_ret) {
@@ -1297,10 +1297,10 @@ public final class CL10 {
 		BufferChecks.checkBuffer(binary_status, binaries.length);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLProgram __result = new CLProgram(nclCreateProgramWithBinary3(context.getPointer(), binaries.length, device_list.getBuffer(), device_list.positionByte(), APIUtil.getLengths(binaries).getBuffer(), 0, binaries, binary_status, binary_status.position(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLProgram __result = new CLProgram(nclCreateProgramWithBinary3(context.getPointer(), binaries.length, MemoryUtil.getAddress(device_list), APIUtil.getLengths(binaries), binaries, MemoryUtil.getAddress(binary_status), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateProgramWithBinary3(long context, int num_devices, ByteBuffer device_list, int device_list_position, ByteBuffer lengths, int lengths_position, ByteBuffer[] binaries, IntBuffer binary_status, int binary_status_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateProgramWithBinary3(long context, int num_devices, long device_list, long lengths, ByteBuffer[] binaries, long binary_status, long errcode_ret, long function_pointer);
 
 	public static int clRetainProgram(CLProgram program) {
 		long function_pointer = CLCapabilities.clRetainProgram;
@@ -1329,15 +1329,16 @@ public final class CL10 {
 		BufferChecks.checkDirect(options);
 		BufferChecks.checkNullTerminated(options);
 		long user_data = CallbackUtil.createGlobalRef(pfn_notify);
+		if ( pfn_notify != null ) pfn_notify.setContext(program.getParent());
 		int __result = 0;
 		try {
-			__result = nclBuildProgram(program.getPointer(), (device_list == null ? 0 : device_list.remaining()), device_list != null ? device_list.getBuffer() : null, device_list != null ? device_list.positionByte() : 0, options, options.position(), pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, function_pointer);
+			__result = nclBuildProgram(program.getPointer(), (device_list == null ? 0 : device_list.remaining()), MemoryUtil.getAddressSafe(device_list), MemoryUtil.getAddress(options), pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, function_pointer);
 			return __result;
 		} finally {
 			CallbackUtil.checkCallback(__result, user_data);
 		}
 	}
-	static native int nclBuildProgram(long program, int device_list_num_devices, ByteBuffer device_list, int device_list_position, ByteBuffer options, int options_position, long pfn_notify, long user_data, long function_pointer);
+	static native int nclBuildProgram(long program, int device_list_num_devices, long device_list, long options, long pfn_notify, long user_data, long function_pointer);
 
 	/** Overloads clBuildProgram. */
 	public static int clBuildProgram(CLProgram program, PointerBuffer device_list, CharSequence options, CLBuildProgramCallback pfn_notify) {
@@ -1346,9 +1347,10 @@ public final class CL10 {
 		if (device_list != null)
 			BufferChecks.checkDirect(device_list);
 		long user_data = CallbackUtil.createGlobalRef(pfn_notify);
+		if ( pfn_notify != null ) pfn_notify.setContext(program.getParent());
 		int __result = 0;
 		try {
-			__result = nclBuildProgram(program.getPointer(), (device_list == null ? 0 : device_list.remaining()), device_list != null ? device_list.getBuffer() : null, device_list != null ? device_list.positionByte() : 0, APIUtil.getBufferNT(options), 0, pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, function_pointer);
+			__result = nclBuildProgram(program.getPointer(), (device_list == null ? 0 : device_list.remaining()), MemoryUtil.getAddressSafe(device_list), APIUtil.getBufferNT(options), pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, function_pointer);
 			return __result;
 		} finally {
 			CallbackUtil.checkCallback(__result, user_data);
@@ -1360,9 +1362,10 @@ public final class CL10 {
 		long function_pointer = CLCapabilities.clBuildProgram;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		long user_data = CallbackUtil.createGlobalRef(pfn_notify);
+		if ( pfn_notify != null ) pfn_notify.setContext(program.getParent());
 		int __result = 0;
 		try {
-			__result = nclBuildProgram(program.getPointer(), 1, APIUtil.getBufferPointer().put(0, device).getBuffer(), 0, APIUtil.getBufferNT(options), 0, pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, function_pointer);
+			__result = nclBuildProgram(program.getPointer(), 1, APIUtil.getPointer(device), APIUtil.getBufferNT(options), pfn_notify == null ? 0 : pfn_notify.getPointer(), user_data, function_pointer);
 			return __result;
 		} finally {
 			CallbackUtil.checkCallback(__result, user_data);
@@ -1384,10 +1387,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetProgramInfo(program.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetProgramInfo(program.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetProgramInfo(long program, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetProgramInfo(long program, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	/**
 	 * Overloads clGetProgramInfo.
@@ -1410,10 +1413,10 @@ public final class CL10 {
 		BufferChecks.checkBuffer(param_value, APIUtil.getSize(sizes));
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetProgramInfo2(program.getPointer(), CL_PROGRAM_BINARIES, sizes.remainingByte(), sizes.getBuffer(), sizes.positionByte(), param_value, param_value.position(), param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetProgramInfo2(program.getPointer(), CL_PROGRAM_BINARIES, sizes.remainingByte(), MemoryUtil.getAddress(sizes), MemoryUtil.getAddress(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetProgramInfo2(long program, int param_name, long param_value_size, ByteBuffer sizes, int sizes_position, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetProgramInfo2(long program, int param_name, long param_value_size, long sizes, long param_value, long param_value_size_ret, long function_pointer);
 
 	/**
 	 * Overloads clGetProgramInfo.
@@ -1435,10 +1438,10 @@ public final class CL10 {
 		BufferChecks.checkArray(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetProgramInfo3(program.getPointer(), CL_PROGRAM_BINARIES, param_value.length * PointerBuffer.getPointerSize(), param_value, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetProgramInfo3(program.getPointer(), CL_PROGRAM_BINARIES, param_value.length * PointerBuffer.getPointerSize(), param_value, MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetProgramInfo3(long program, int param_name, long param_value_size, ByteBuffer[] param_value, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetProgramInfo3(long program, int param_name, long param_value_size, ByteBuffer[] param_value, long param_value_size_ret, long function_pointer);
 
 	public static int clGetProgramBuildInfo(CLProgram program, CLDevice device, int param_name, ByteBuffer param_value, PointerBuffer param_value_size_ret) {
 		long function_pointer = CLCapabilities.clGetProgramBuildInfo;
@@ -1447,10 +1450,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetProgramBuildInfo(program.getPointer(), device.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetProgramBuildInfo(program.getPointer(), device.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetProgramBuildInfo(long program, long device, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetProgramBuildInfo(long program, long device, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static CLKernel clCreateKernel(CLProgram program, ByteBuffer kernel_name, IntBuffer errcode_ret) {
 		long function_pointer = CLCapabilities.clCreateKernel;
@@ -1459,10 +1462,10 @@ public final class CL10 {
 		BufferChecks.checkNullTerminated(kernel_name);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLKernel __result = new CLKernel(nclCreateKernel(program.getPointer(), kernel_name, kernel_name.position(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), program);
+		CLKernel __result = new CLKernel(nclCreateKernel(program.getPointer(), MemoryUtil.getAddress(kernel_name), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), program);
 		return __result;
 	}
-	static native long nclCreateKernel(long program, ByteBuffer kernel_name, int kernel_name_position, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateKernel(long program, long kernel_name, long errcode_ret, long function_pointer);
 
 	/** Overloads clCreateKernel. */
 	public static CLKernel clCreateKernel(CLProgram program, CharSequence kernel_name, IntBuffer errcode_ret) {
@@ -1470,7 +1473,7 @@ public final class CL10 {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLKernel __result = new CLKernel(nclCreateKernel(program.getPointer(), APIUtil.getBufferNT(kernel_name), 0, errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), program);
+		CLKernel __result = new CLKernel(nclCreateKernel(program.getPointer(), APIUtil.getBufferNT(kernel_name), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), program);
 		return __result;
 	}
 
@@ -1481,11 +1484,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(kernels);
 		if (num_kernels_ret != null)
 			BufferChecks.checkBuffer(num_kernels_ret, 1);
-		int __result = nclCreateKernelsInProgram(program.getPointer(), (kernels == null ? 0 : kernels.remaining()), kernels != null ? kernels.getBuffer() : null, kernels != null ? kernels.positionByte() : 0, num_kernels_ret, num_kernels_ret != null ? num_kernels_ret.position() : 0, function_pointer);
+		int __result = nclCreateKernelsInProgram(program.getPointer(), (kernels == null ? 0 : kernels.remaining()), MemoryUtil.getAddressSafe(kernels), MemoryUtil.getAddressSafe(num_kernels_ret), function_pointer);
 		if ( __result == CL_SUCCESS && kernels != null ) program.registerCLKernels(kernels);
 		return __result;
 	}
-	static native int nclCreateKernelsInProgram(long program, int kernels_num_kernels, ByteBuffer kernels, int kernels_position, IntBuffer num_kernels_ret, int num_kernels_ret_position, long function_pointer);
+	static native int nclCreateKernelsInProgram(long program, int kernels_num_kernels, long kernels, long num_kernels_ret, long function_pointer);
 
 	public static int clRetainKernel(CLKernel kernel) {
 		long function_pointer = CLCapabilities.clRetainKernel;
@@ -1505,67 +1508,61 @@ public final class CL10 {
 	}
 	static native int nclReleaseKernel(long kernel, long function_pointer);
 
+	public static int clSetKernelArg(CLKernel kernel, int arg_index, long arg_value_arg_size) {
+		long function_pointer = CLCapabilities.clSetKernelArg;
+		BufferChecks.checkFunctionAddress(function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, arg_value_arg_size, 0L, function_pointer);
+		return __result;
+	}
 	public static int clSetKernelArg(CLKernel kernel, int arg_index, ByteBuffer arg_value) {
 		long function_pointer = CLCapabilities.clSetKernelArg;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(arg_value);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, arg_value.remaining(), arg_value, arg_value.position(), function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, arg_value.remaining(), MemoryUtil.getAddress(arg_value), function_pointer);
 		return __result;
 	}
 	public static int clSetKernelArg(CLKernel kernel, int arg_index, DoubleBuffer arg_value) {
 		long function_pointer = CLCapabilities.clSetKernelArg;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(arg_value);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 3), arg_value, arg_value.position() << 3, function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 3), MemoryUtil.getAddress(arg_value), function_pointer);
 		return __result;
 	}
 	public static int clSetKernelArg(CLKernel kernel, int arg_index, FloatBuffer arg_value) {
 		long function_pointer = CLCapabilities.clSetKernelArg;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(arg_value);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 2), arg_value, arg_value.position() << 2, function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 2), MemoryUtil.getAddress(arg_value), function_pointer);
 		return __result;
 	}
 	public static int clSetKernelArg(CLKernel kernel, int arg_index, IntBuffer arg_value) {
 		long function_pointer = CLCapabilities.clSetKernelArg;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(arg_value);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 2), arg_value, arg_value.position() << 2, function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 2), MemoryUtil.getAddress(arg_value), function_pointer);
 		return __result;
 	}
 	public static int clSetKernelArg(CLKernel kernel, int arg_index, LongBuffer arg_value) {
 		long function_pointer = CLCapabilities.clSetKernelArg;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(arg_value);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 3), arg_value, arg_value.position() << 3, function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 3), MemoryUtil.getAddress(arg_value), function_pointer);
 		return __result;
 	}
 	public static int clSetKernelArg(CLKernel kernel, int arg_index, ShortBuffer arg_value) {
 		long function_pointer = CLCapabilities.clSetKernelArg;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(arg_value);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 1), arg_value, arg_value.position() << 1, function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, (arg_value.remaining() << 1), MemoryUtil.getAddress(arg_value), function_pointer);
 		return __result;
 	}
-	static native int nclSetKernelArg(long kernel, int arg_index, long arg_value_arg_size, Buffer arg_value, int arg_value_position, long function_pointer);
+	static native int nclSetKernelArg(long kernel, int arg_index, long arg_value_arg_size, long arg_value, long function_pointer);
 
 	/** Overloads clSetKernelArg. */
 	public static int clSetKernelArg(CLKernel kernel, int arg_index, CLObject arg_value) {
 		long function_pointer = CLCapabilities.clSetKernelArg;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, PointerBuffer.getPointerSize(), APIUtil.getBufferPointer().put(0, arg_value == null ? 0 : arg_value.getPointer()).getBuffer(), 0, function_pointer);
-		return __result;
-	}
-
-	/**
-	 * Overloads clSetKernelArg.
-	 * <p>
-	 * Sets the size of a __local kernel argument at the specified index. 
-	 */
-	public static int clSetKernelArg(CLKernel kernel, int arg_index, long arg_size) {
-		long function_pointer = CLCapabilities.clSetKernelArg;
-		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, arg_size, null, 0, function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, PointerBuffer.getPointerSize(), APIUtil.getPointerSafe(arg_value), function_pointer);
 		return __result;
 	}
 
@@ -1573,7 +1570,7 @@ public final class CL10 {
 	static int clSetKernelArg(CLKernel kernel, int arg_index, long arg_size, Buffer arg_value) {
 		long function_pointer = CLCapabilities.clSetKernelArg;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, arg_size, arg_value, 0, function_pointer);
+		int __result = nclSetKernelArg(kernel.getPointer(), arg_index, arg_size, MemoryUtil.getAddress0(arg_value), function_pointer);
 		return __result;
 	}
 
@@ -1584,10 +1581,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetKernelInfo(kernel.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetKernelInfo(kernel.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetKernelInfo(long kernel, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetKernelInfo(long kernel, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static int clGetKernelWorkGroupInfo(CLKernel kernel, CLDevice device, int param_name, ByteBuffer param_value, PointerBuffer param_value_size_ret) {
 		long function_pointer = CLCapabilities.clGetKernelWorkGroupInfo;
@@ -1596,10 +1593,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetKernelWorkGroupInfo(kernel.getPointer(), device == null ? 0 : device.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetKernelWorkGroupInfo(kernel.getPointer(), device == null ? 0 : device.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetKernelWorkGroupInfo(long kernel, long device, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetKernelWorkGroupInfo(long kernel, long device, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static int clEnqueueNDRangeKernel(CLCommandQueue command_queue, CLKernel kernel, int work_dim, PointerBuffer global_work_offset, PointerBuffer global_work_size, PointerBuffer local_work_size, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueNDRangeKernel;
@@ -1614,11 +1611,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueNDRangeKernel(command_queue.getPointer(), kernel.getPointer(), work_dim, global_work_offset != null ? global_work_offset.getBuffer() : null, global_work_offset != null ? global_work_offset.positionByte() : 0, global_work_size != null ? global_work_size.getBuffer() : null, global_work_size != null ? global_work_size.positionByte() : 0, local_work_size != null ? local_work_size.getBuffer() : null, local_work_size != null ? local_work_size.positionByte() : 0, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueNDRangeKernel(command_queue.getPointer(), kernel.getPointer(), work_dim, MemoryUtil.getAddressSafe(global_work_offset), MemoryUtil.getAddressSafe(global_work_size), MemoryUtil.getAddressSafe(local_work_size), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueNDRangeKernel(long command_queue, long kernel, int work_dim, ByteBuffer global_work_offset, int global_work_offset_position, ByteBuffer global_work_size, int global_work_size_position, ByteBuffer local_work_size, int local_work_size_position, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueNDRangeKernel(long command_queue, long kernel, int work_dim, long global_work_offset, long global_work_size, long local_work_size, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clEnqueueTask(CLCommandQueue command_queue, CLKernel kernel, PointerBuffer event_wait_list, PointerBuffer event) {
 		long function_pointer = CLCapabilities.clEnqueueTask;
@@ -1627,11 +1624,11 @@ public final class CL10 {
 			BufferChecks.checkDirect(event_wait_list);
 		if (event != null)
 			BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueTask(command_queue.getPointer(), kernel.getPointer(), (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+		int __result = nclEnqueueTask(command_queue.getPointer(), kernel.getPointer(), (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueTask(long command_queue, long kernel, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueTask(long command_queue, long kernel, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	/**
 	 *  Enqueues a native kernel to the specified command queue. The <code>mem_list</code> parameter
@@ -1664,29 +1661,29 @@ public final class CL10 {
 		ByteBuffer args = APIUtil.getNativeKernelArgs(user_func_ref, mem_list, sizes);
 		int __result = 0;
 		try {
-			__result = nclEnqueueNativeKernel(command_queue.getPointer(), user_func.getPointer(), args, 0, args.remaining(), mem_list == null ? 0 : mem_list.length, mem_list, (event_wait_list == null ? 0 : event_wait_list.remaining()), event_wait_list != null ? event_wait_list.getBuffer() : null, event_wait_list != null ? event_wait_list.positionByte() : 0, event != null ? event.getBuffer() : null, event != null ? event.positionByte() : 0, function_pointer);
+			__result = nclEnqueueNativeKernel(command_queue.getPointer(), user_func.getPointer(), MemoryUtil.getAddress0(args), args.remaining(), mem_list == null ? 0 : mem_list.length, mem_list, (event_wait_list == null ? 0 : event_wait_list.remaining()), MemoryUtil.getAddressSafe(event_wait_list), MemoryUtil.getAddressSafe(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 			return __result;
 		} finally {
 			CallbackUtil.checkCallback(__result, user_func_ref);
 		}
 	}
-	static native int nclEnqueueNativeKernel(long command_queue, long user_func, ByteBuffer args, int args_position, long args_cb_args, int num_mem_objects, CLMem[] mem_list, int event_wait_list_num_events_in_wait_list, ByteBuffer event_wait_list, int event_wait_list_position, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueNativeKernel(long command_queue, long user_func, long args, long args_cb_args, int num_mem_objects, CLMem[] mem_list, int event_wait_list_num_events_in_wait_list, long event_wait_list, long event, long function_pointer);
 
 	public static int clWaitForEvents(PointerBuffer event_list) {
 		long function_pointer = CLCapabilities.clWaitForEvents;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(event_list, 1);
-		int __result = nclWaitForEvents(event_list.remaining(), event_list.getBuffer(), event_list.positionByte(), function_pointer);
+		int __result = nclWaitForEvents(event_list.remaining(), MemoryUtil.getAddress(event_list), function_pointer);
 		return __result;
 	}
-	static native int nclWaitForEvents(int event_list_num_events, ByteBuffer event_list, int event_list_position, long function_pointer);
+	static native int nclWaitForEvents(int event_list_num_events, long event_list, long function_pointer);
 
 	/** Overloads clWaitForEvents. */
 	public static int clWaitForEvents(CLEvent event) {
 		long function_pointer = CLCapabilities.clWaitForEvents;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nclWaitForEvents(1, APIUtil.getBufferPointer().put(0, event).getBuffer(), 0, function_pointer);
+		int __result = nclWaitForEvents(1, APIUtil.getPointer(event), function_pointer);
 		return __result;
 	}
 
@@ -1697,10 +1694,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetEventInfo(event.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetEventInfo(event.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetEventInfo(long event, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetEventInfo(long event, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static int clRetainEvent(CLEvent event) {
 		long function_pointer = CLCapabilities.clRetainEvent;
@@ -1724,11 +1721,11 @@ public final class CL10 {
 		long function_pointer = CLCapabilities.clEnqueueMarker;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(event, 1);
-		int __result = nclEnqueueMarker(command_queue.getPointer(), event.getBuffer(), event.positionByte(), function_pointer);
+		int __result = nclEnqueueMarker(command_queue.getPointer(), MemoryUtil.getAddress(event), function_pointer);
 		if ( __result == CL_SUCCESS ) command_queue.registerCLEvent(event);
 		return __result;
 	}
-	static native int nclEnqueueMarker(long command_queue, ByteBuffer event, int event_position, long function_pointer);
+	static native int nclEnqueueMarker(long command_queue, long event, long function_pointer);
 
 	public static int clEnqueueBarrier(CLCommandQueue command_queue) {
 		long function_pointer = CLCapabilities.clEnqueueBarrier;
@@ -1742,16 +1739,16 @@ public final class CL10 {
 		long function_pointer = CLCapabilities.clEnqueueWaitForEvents;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(event_list, 1);
-		int __result = nclEnqueueWaitForEvents(command_queue.getPointer(), event_list.remaining(), event_list.getBuffer(), event_list.positionByte(), function_pointer);
+		int __result = nclEnqueueWaitForEvents(command_queue.getPointer(), event_list.remaining(), MemoryUtil.getAddress(event_list), function_pointer);
 		return __result;
 	}
-	static native int nclEnqueueWaitForEvents(long command_queue, int event_list_num_events, ByteBuffer event_list, int event_list_position, long function_pointer);
+	static native int nclEnqueueWaitForEvents(long command_queue, int event_list_num_events, long event_list, long function_pointer);
 
 	/** Overloads clEnqueueWaitForEvents. */
 	public static int clEnqueueWaitForEvents(CLCommandQueue command_queue, CLEvent event) {
 		long function_pointer = CLCapabilities.clEnqueueWaitForEvents;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nclEnqueueWaitForEvents(command_queue.getPointer(), 1, APIUtil.getBufferPointer().put(0, event).getBuffer(), 0, function_pointer);
+		int __result = nclEnqueueWaitForEvents(command_queue.getPointer(), 1, APIUtil.getPointer(event), function_pointer);
 		return __result;
 	}
 
@@ -1762,10 +1759,10 @@ public final class CL10 {
 			BufferChecks.checkDirect(param_value);
 		if (param_value_size_ret != null)
 			BufferChecks.checkBuffer(param_value_size_ret, 1);
-		int __result = nclGetEventProfilingInfo(event.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), param_value, param_value != null ? param_value.position() : 0, param_value_size_ret != null ? param_value_size_ret.getBuffer() : null, param_value_size_ret != null ? param_value_size_ret.positionByte() : 0, function_pointer);
+		int __result = nclGetEventProfilingInfo(event.getPointer(), param_name, (param_value == null ? 0 : param_value.remaining()), MemoryUtil.getAddressSafe(param_value), MemoryUtil.getAddressSafe(param_value_size_ret), function_pointer);
 		return __result;
 	}
-	static native int nclGetEventProfilingInfo(long event, int param_name, long param_value_param_value_size, ByteBuffer param_value, int param_value_position, ByteBuffer param_value_size_ret, int param_value_size_ret_position, long function_pointer);
+	static native int nclGetEventProfilingInfo(long event, int param_name, long param_value_param_value_size, long param_value, long param_value_size_ret, long function_pointer);
 
 	public static int clFlush(CLCommandQueue command_queue) {
 		long function_pointer = CLCapabilities.clFlush;
@@ -1786,17 +1783,18 @@ public final class CL10 {
 	static CLFunctionAddress clGetExtensionFunctionAddress(ByteBuffer func_name) {
 		long function_pointer = CLCapabilities.clGetExtensionFunctionAddress;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		BufferChecks.checkBuffer(func_name, 1);
-		CLFunctionAddress __result = new CLFunctionAddress(nclGetExtensionFunctionAddress(func_name, func_name.position(), function_pointer));
+		BufferChecks.checkDirect(func_name);
+		BufferChecks.checkNullTerminated(func_name);
+		CLFunctionAddress __result = new CLFunctionAddress(nclGetExtensionFunctionAddress(MemoryUtil.getAddress(func_name), function_pointer));
 		return __result;
 	}
-	static native long nclGetExtensionFunctionAddress(ByteBuffer func_name, int func_name_position, long function_pointer);
+	static native long nclGetExtensionFunctionAddress(long func_name, long function_pointer);
 
 	/** Overloads clGetExtensionFunctionAddress. */
 	static CLFunctionAddress clGetExtensionFunctionAddress(CharSequence func_name) {
 		long function_pointer = CLCapabilities.clGetExtensionFunctionAddress;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		CLFunctionAddress __result = new CLFunctionAddress(nclGetExtensionFunctionAddress(APIUtil.getBuffer(func_name), 0, function_pointer));
+		CLFunctionAddress __result = new CLFunctionAddress(nclGetExtensionFunctionAddress(APIUtil.getBufferNT(func_name), function_pointer));
 		return __result;
 	}
 }

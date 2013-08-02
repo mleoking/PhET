@@ -10,6 +10,7 @@ public class CLPlatformCapabilities {
 	public final int minorVersion;
 
 	public final boolean OpenCL11;
+	public final boolean OpenCL12;
 
 	public final boolean CL_KHR_d3d10_sharing;
 	public final boolean CL_KHR_gl_event;
@@ -29,6 +30,7 @@ public class CLPlatformCapabilities {
 			minorVersion = Integer.parseInt(tokenizer.nextToken());
 
 			OpenCL11 = 1 < majorVersion || (1 == majorVersion && 1 <= minorVersion);
+			OpenCL12 = 1 < majorVersion || (1 == majorVersion && 2 <= minorVersion);
 		} catch (RuntimeException e) {
 			throw new RuntimeException("The major and/or minor OpenCL version \"" + version + "\" is malformed: " + e.getMessage());
 		}

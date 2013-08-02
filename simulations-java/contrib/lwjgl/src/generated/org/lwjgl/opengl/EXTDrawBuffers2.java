@@ -22,17 +22,17 @@ public final class EXTDrawBuffers2 {
 		long function_pointer = caps.glGetBooleanIndexedvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(data, 4);
-		nglGetBooleanIndexedvEXT(value, index, data, data.position(), function_pointer);
+		nglGetBooleanIndexedvEXT(value, index, MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglGetBooleanIndexedvEXT(int value, int index, ByteBuffer data, int data_position, long function_pointer);
+	static native void nglGetBooleanIndexedvEXT(int value, int index, long data, long function_pointer);
 
 	/** Overloads glGetBooleanIndexedvEXT. */
 	public static boolean glGetBooleanIndexedEXT(int value, int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetBooleanIndexedvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		ByteBuffer data = APIUtil.getBufferByte(1);
-		nglGetBooleanIndexedvEXT(value, index, data, data.position(), function_pointer);
+		ByteBuffer data = APIUtil.getBufferByte(caps, 1);
+		nglGetBooleanIndexedvEXT(value, index, MemoryUtil.getAddress(data), function_pointer);
 		return data.get(0) == 1;
 	}
 
@@ -41,17 +41,17 @@ public final class EXTDrawBuffers2 {
 		long function_pointer = caps.glGetIntegerIndexedvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(data, 4);
-		nglGetIntegerIndexedvEXT(value, index, data, data.position(), function_pointer);
+		nglGetIntegerIndexedvEXT(value, index, MemoryUtil.getAddress(data), function_pointer);
 	}
-	static native void nglGetIntegerIndexedvEXT(int value, int index, IntBuffer data, int data_position, long function_pointer);
+	static native void nglGetIntegerIndexedvEXT(int value, int index, long data, long function_pointer);
 
 	/** Overloads glGetIntegerIndexedvEXT. */
 	public static int glGetIntegerIndexedEXT(int value, int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetIntegerIndexedvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer data = APIUtil.getBufferInt();
-		nglGetIntegerIndexedvEXT(value, index, data, data.position(), function_pointer);
+		IntBuffer data = APIUtil.getBufferInt(caps);
+		nglGetIntegerIndexedvEXT(value, index, MemoryUtil.getAddress(data), function_pointer);
 		return data.get(0);
 	}
 

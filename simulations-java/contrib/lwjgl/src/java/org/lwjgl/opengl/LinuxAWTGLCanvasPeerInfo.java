@@ -40,8 +40,8 @@ import java.awt.Canvas;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- * $Id: LinuxAWTGLCanvasPeerInfo.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class LinuxAWTGLCanvasPeerInfo extends LinuxPeerInfo {
 	private final Canvas component;

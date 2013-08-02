@@ -42,9 +42,9 @@ import org.lwjgl.opengl.DisplayMode;
 /**
  * Display initialization utility, that can be used to find display modes and pick
  * one for you based on your criteria.
- * @author $Author: spasi $
- * @version $Revision: 3418 $
- * $Id: Display.java 3418 2010-09-28 21:11:35Z spasi $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 public final class Display {
 

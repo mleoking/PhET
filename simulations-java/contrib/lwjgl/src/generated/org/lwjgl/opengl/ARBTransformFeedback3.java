@@ -33,7 +33,7 @@ public final class ARBTransformFeedback3 {
 	}
 
 	/** Overloads glGetQueryIndexediv. */
-	public static int glGetQueryIndexed(int target, int index, int pname) {
-		return GL40.glGetQueryIndexed(target, index, pname);
+	public static int glGetQueryIndexedi(int target, int index, int pname) {
+		return GL40.glGetQueryIndexedi(target, index, pname);
 	}
 }

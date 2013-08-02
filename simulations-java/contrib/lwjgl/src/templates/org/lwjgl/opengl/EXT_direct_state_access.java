@@ -520,11 +520,11 @@ public interface EXT_direct_state_access {
     value parameters
 	 */
 
-	@Optional(reason = "AMD does not expose this (last driver checked: 10.9)")
+	@Optional(reason = "AMD does not expose this (last driver checked: 11.7)")
 	@Dependent("OpenGL30")
 	void glEnableClientStateiEXT(@GLenum int array, @GLuint int index);
 
-	@Optional(reason = "AMD does not expose this (last driver checked: 10.9)")
+	@Optional(reason = "AMD does not expose this (last driver checked: 11.7)")
 	@Dependent("OpenGL30")
 	void glDisableClientStateiEXT(@GLenum int array, @GLuint int index);
 
@@ -566,7 +566,7 @@ public interface EXT_direct_state_access {
     and before state value parameters
 	 */
 
-	@Optional(reason = "AMD does not expose this (last driver checked: 10.9)")
+	@Optional(reason = "AMD does not expose this (last driver checked: 11.7)")
 	@Dependent("OpenGL30")
 	@StripPostfix("params")
 	void glGetFloati_vEXT(@GLenum int pname, @GLuint int index, @OutParameter @Check("16") FloatBuffer params);
@@ -577,7 +577,7 @@ public interface EXT_direct_state_access {
 	@StripPostfix("params")
 	void glGetFloati_vEXT2(@GLenum int pname, @GLuint int index, @OutParameter FloatBuffer params);
 
-	@Optional(reason = "AMD does not expose this (last driver checked: 10.9)")
+	@Optional(reason = "AMD does not expose this (last driver checked: 11.7)")
 	@Dependent("OpenGL30")
 	@StripPostfix("params")
 	void glGetDoublei_vEXT(@GLenum int pname, @GLuint int index, @OutParameter @Check("16") DoubleBuffer params);
@@ -588,7 +588,7 @@ public interface EXT_direct_state_access {
 	@StripPostfix("params")
 	void glGetDoublei_vEXT2(@GLenum int pname, @GLuint int index, @OutParameter DoubleBuffer params);
 
-	@Optional(reason = "AMD does not expose this (last driver checked: 10.9)")
+	@Optional(reason = "AMD does not expose this (last driver checked: 11.7)")
 	@Dependent("OpenGL30")
 	@StripPostfix(value = "params", hasPostfix = false)
 	void glGetPointeri_vEXT(@GLenum int pname, @GLuint int index, @Result @GLvoid ByteBuffer params);
@@ -862,6 +862,7 @@ public interface EXT_direct_state_access {
 	@Dependent("OpenGL15")
 	@GenerateAutos
 	void glNamedBufferDataEXT(@GLuint int buffer, @AutoSize("data") @GLsizeiptr long size,
+	                          @Check
 	                          @Const
 	                          @GLbyte
 	                          @GLshort
@@ -1075,7 +1076,7 @@ public interface EXT_direct_state_access {
 	@Alternate("glTextureParameterIivEXT")
 	@Dependent("GL_EXT_texture_integer")
 	@StripPostfix("param")
-	void glTextureParameterIivEXT(@GLuint int texture, @GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getBufferInt().put(0, param), 0", keepParam = true) int param);
+	void glTextureParameterIivEXT(@GLuint int texture, @GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getInt(caps, param)", keepParam = true) int param);
 
 	@Dependent("GL_EXT_texture_integer")
 	@StripPostfix("params")
@@ -1084,7 +1085,7 @@ public interface EXT_direct_state_access {
 	@Alternate("glTextureParameterIuivEXT")
 	@Dependent("GL_EXT_texture_integer")
 	@StripPostfix("param")
-	void glTextureParameterIuivEXT(@GLuint int texture, @GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getBufferInt().put(0, param), 0", keepParam = true) @GLuint int param);
+	void glTextureParameterIuivEXT(@GLuint int texture, @GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getInt(caps, param)", keepParam = true) @GLuint int param);
 
 	@Dependent("GL_EXT_texture_integer")
 	@StripPostfix("params")
@@ -1119,7 +1120,7 @@ public interface EXT_direct_state_access {
 	@Alternate("glMultiTexParameterIivEXT")
 	@Dependent("GL_EXT_texture_integer")
 	@StripPostfix("param")
-	void glMultiTexParameterIivEXT(@GLenum int texunit, @GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getBufferInt().put(0, param), 0", keepParam = true) int param);
+	void glMultiTexParameterIivEXT(@GLenum int texunit, @GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getInt(caps, param)", keepParam = true) int param);
 
 	@Dependent("GL_EXT_texture_integer")
 	@StripPostfix("params")
@@ -1128,7 +1129,7 @@ public interface EXT_direct_state_access {
 	@Alternate("glMultiTexParameterIuivEXT")
 	@Dependent("GL_EXT_texture_integer")
 	@StripPostfix("param")
-	void glMultiTexParameterIuivEXT(@GLenum int texunit, @GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getBufferInt().put(0, param), 0", keepParam = true) int param);
+	void glMultiTexParameterIuivEXT(@GLenum int texunit, @GLenum int target, @GLenum int pname, @Constant(value = "APIUtil.getInt(caps, param)", keepParam = true) int param);
 
 	@Dependent("GL_EXT_texture_integer")
 	@StripPostfix("params")
@@ -1352,13 +1353,13 @@ public interface EXT_direct_state_access {
     framebuffer"
 	 */
 
-	@Dependent("GL_EXT_geometry_shader4,NV_geometry_program4")
+	@Dependent("GL_EXT_geometry_shader4,GL_NV_geometry_program4")
 	void glNamedFramebufferTextureEXT(@GLuint int framebuffer, @GLenum int attachment, @GLuint int texture, int level);
 
-	@Dependent("GL_EXT_geometry_shader4,NV_geometry_program4")
+	@Dependent("GL_EXT_geometry_shader4,GL_NV_geometry_program4")
 	void glNamedFramebufferTextureLayerEXT(@GLuint int framebuffer, @GLenum int attachment, @GLuint int texture, int level, int layer);
 
-	@Dependent("GL_EXT_geometry_shader4,NV_geometry_program4")
+	@Dependent("GL_EXT_geometry_shader4,GL_NV_geometry_program4")
 	void glNamedFramebufferTextureFaceEXT(@GLuint int framebuffer, @GLenum int attachment, @GLuint int texture, int level, @GLenum int face);
 
 	/*

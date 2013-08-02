@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2010 LWJGL Project
+ * Copyright (c) 2002-2011 LWJGL Project
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,29 +33,11 @@ package org.lwjgl.opencl;
 
 /**
  * Instances of this class can be used to receive OpenCL program build notifications.
+ * A single CLBuildProgramCallback instance should only be used with programs created
+ * in the same CLContext.
  *
  * @author Spasi
  */
-public abstract class CLBuildProgramCallback extends CLCallback {
-
-	protected CLBuildProgramCallback() {
-		super(CallbackUtil.getBuildProgramCallback());
-	}
-
-	/**
-	 * Called from native code.
-	 *
-	 * @param program_address the CLProgram object pointer
-	 */
-	private void handleMessage(long program_address) {
-		handleMessage(CLContext.getCLProgramGlobal(program_address));
-	}
-
-	/**
-	 * The callback method.
-	 *
-	 * @param program the CLProgram object that was built
-	 */
-	protected abstract void handleMessage(CLProgram program);
+public abstract class CLBuildProgramCallback extends CLProgramCallback {
 
 }

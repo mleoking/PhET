@@ -37,8 +37,8 @@ package org.lwjgl.util.generator;
  * A TypeVisitor that generates the native typedefs.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
- * $Id: TypedefsGenerator.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import com.sun.mirror.declaration.*;

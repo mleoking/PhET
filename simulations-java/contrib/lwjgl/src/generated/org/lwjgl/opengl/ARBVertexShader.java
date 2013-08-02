@@ -57,8 +57,7 @@ public final class ARBVertexShader {
 	/**
 	 * Returned by the &lt;type&gt; parameter of GetActiveAttribARB: 
 	 */
-	public static final int GL_FLOAT = 0x1406,
-		GL_FLOAT_VEC2_ARB = 0x8B50,
+	public static final int GL_FLOAT_VEC2_ARB = 0x8B50,
 		GL_FLOAT_VEC3_ARB = 0x8B51,
 		GL_FLOAT_VEC4_ARB = 0x8B52,
 		GL_FLOAT_MAT2_ARB = 0x8B5A,
@@ -178,7 +177,7 @@ public final class ARBVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerARB(index, size, GL11.GL_DOUBLE, normalized, stride, buffer, buffer.position() << 3, function_pointer);
+		nglVertexAttribPointerARB(index, size, GL11.GL_DOUBLE, normalized, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribPointerARB(int index, int size, boolean normalized, int stride, FloatBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -187,7 +186,7 @@ public final class ARBVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerARB(index, size, GL11.GL_FLOAT, normalized, stride, buffer, buffer.position() << 2, function_pointer);
+		nglVertexAttribPointerARB(index, size, GL11.GL_FLOAT, normalized, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribPointerARB(int index, int size, boolean unsigned, boolean normalized, int stride, ByteBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -196,7 +195,7 @@ public final class ARBVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerARB(index, size, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, normalized, stride, buffer, buffer.position(), function_pointer);
+		nglVertexAttribPointerARB(index, size, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, normalized, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribPointerARB(int index, int size, boolean unsigned, boolean normalized, int stride, IntBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -205,7 +204,7 @@ public final class ARBVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerARB(index, size, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, normalized, stride, buffer, buffer.position() << 2, function_pointer);
+		nglVertexAttribPointerARB(index, size, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, normalized, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
 	public static void glVertexAttribPointerARB(int index, int size, boolean unsigned, boolean normalized, int stride, ShortBuffer buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -214,9 +213,9 @@ public final class ARBVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(buffer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
-		nglVertexAttribPointerARB(index, size, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, normalized, stride, buffer, buffer.position() << 1, function_pointer);
+		nglVertexAttribPointerARB(index, size, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, normalized, stride, MemoryUtil.getAddress(buffer), function_pointer);
 	}
-	static native void nglVertexAttribPointerARB(int index, int size, int type, boolean normalized, int stride, Buffer buffer, int buffer_position, long function_pointer);
+	static native void nglVertexAttribPointerARB(int index, int size, int type, boolean normalized, int stride, long buffer, long function_pointer);
 	public static void glVertexAttribPointerARB(int index, int size, int type, boolean normalized, int stride, long buffer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribPointerARB;
@@ -225,6 +224,17 @@ public final class ARBVertexShader {
 		nglVertexAttribPointerARBBO(index, size, type, normalized, stride, buffer_buffer_offset, function_pointer);
 	}
 	static native void nglVertexAttribPointerARBBO(int index, int size, int type, boolean normalized, int stride, long buffer_buffer_offset, long function_pointer);
+
+	/** Overloads glVertexAttribPointerARB. */
+	public static void glVertexAttribPointerARB(int index, int size, int type, boolean normalized, int stride, ByteBuffer buffer) {
+		ContextCapabilities caps = GLContext.getCapabilities();
+		long function_pointer = caps.glVertexAttribPointerARB;
+		BufferChecks.checkFunctionAddress(function_pointer);
+		GLChecks.ensureArrayVBOdisabled(caps);
+		BufferChecks.checkDirect(buffer);
+		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).glVertexAttribPointer_buffer[index] = buffer;
+		nglVertexAttribPointerARB(index, size, type, normalized, stride, MemoryUtil.getAddress(buffer), function_pointer);
+	}
 
 	public static void glEnableVertexAttribArrayARB(int index) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -248,16 +258,16 @@ public final class ARBVertexShader {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkNullTerminated(name);
-		nglBindAttribLocationARB(programObj, index, name, name.position(), function_pointer);
+		nglBindAttribLocationARB(programObj, index, MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglBindAttribLocationARB(int programObj, int index, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglBindAttribLocationARB(int programObj, int index, long name, long function_pointer);
 
 	/** Overloads glBindAttribLocationARB. */
 	public static void glBindAttribLocationARB(int programObj, int index, CharSequence name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glBindAttribLocationARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		nglBindAttribLocationARB(programObj, index, APIUtil.getBufferNT(name), 0, function_pointer);
+		nglBindAttribLocationARB(programObj, index, APIUtil.getBufferNT(caps, name), function_pointer);
 	}
 
 	public static void glGetActiveAttribARB(int programObj, int index, IntBuffer length, IntBuffer size, IntBuffer type, ByteBuffer name) {
@@ -269,9 +279,9 @@ public final class ARBVertexShader {
 		BufferChecks.checkBuffer(size, 1);
 		BufferChecks.checkBuffer(type, 1);
 		BufferChecks.checkDirect(name);
-		nglGetActiveAttribARB(programObj, index, name.remaining(), length, length != null ? length.position() : 0, size, size.position(), type, type.position(), name, name.position(), function_pointer);
+		nglGetActiveAttribARB(programObj, index, name.remaining(), MemoryUtil.getAddressSafe(length), MemoryUtil.getAddress(size), MemoryUtil.getAddress(type), MemoryUtil.getAddress(name), function_pointer);
 	}
-	static native void nglGetActiveAttribARB(int programObj, int index, int name_maxLength, IntBuffer length, int length_position, IntBuffer size, int size_position, IntBuffer type, int type_position, ByteBuffer name, int name_position, long function_pointer);
+	static native void nglGetActiveAttribARB(int programObj, int index, int name_maxLength, long length, long size, long type, long name, long function_pointer);
 
 	/**
 	 * Overloads glGetActiveAttribARB.
@@ -283,11 +293,11 @@ public final class ARBVertexShader {
 		long function_pointer = caps.glGetActiveAttribARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(sizeType, 2);
-		IntBuffer name_length = APIUtil.getLengths();
-		ByteBuffer name = APIUtil.getBufferByte(maxLength);
-		nglGetActiveAttribARB(programObj, index, maxLength, name_length, 0, sizeType, sizeType.position(), sizeType, sizeType.position() + 1, name, name.position(), function_pointer);
+		IntBuffer name_length = APIUtil.getLengths(caps);
+		ByteBuffer name = APIUtil.getBufferByte(caps, maxLength);
+		nglGetActiveAttribARB(programObj, index, maxLength, MemoryUtil.getAddress0(name_length), MemoryUtil.getAddress(sizeType), MemoryUtil.getAddress(sizeType, sizeType.position() + 1), MemoryUtil.getAddress(name), function_pointer);
 		name.limit(name_length.get(0));
-		return APIUtil.getString(name);
+		return APIUtil.getString(caps, name);
 	}
 
 	/**
@@ -299,11 +309,11 @@ public final class ARBVertexShader {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveAttribARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer name_length = APIUtil.getLengths();
-		ByteBuffer name = APIUtil.getBufferByte(maxLength);
-		nglGetActiveAttribARB(programObj, index, maxLength, name_length, 0, APIUtil.getBufferInt(), 0, APIUtil.getBufferInt(), 1, name, name.position(), function_pointer);
+		IntBuffer name_length = APIUtil.getLengths(caps);
+		ByteBuffer name = APIUtil.getBufferByte(caps, maxLength);
+		nglGetActiveAttribARB(programObj, index, maxLength, MemoryUtil.getAddress0(name_length), MemoryUtil.getAddress0(APIUtil.getBufferInt(caps)), MemoryUtil.getAddress(APIUtil.getBufferInt(caps), 1), MemoryUtil.getAddress(name), function_pointer);
 		name.limit(name_length.get(0));
-		return APIUtil.getString(name);
+		return APIUtil.getString(caps, name);
 	}
 
 	/**
@@ -315,8 +325,8 @@ public final class ARBVertexShader {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveAttribARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer size = APIUtil.getBufferInt();
-		nglGetActiveAttribARB(programObj, index, 0, null, 0, size, size.position(), size, 1, APIUtil.getBufferByte(0), 0, function_pointer);
+		IntBuffer size = APIUtil.getBufferInt(caps);
+		nglGetActiveAttribARB(programObj, index, 0, 0L, MemoryUtil.getAddress(size), MemoryUtil.getAddress(size, 1), APIUtil.getBufferByte0(caps), function_pointer);
 		return size.get(0);
 	}
 
@@ -329,8 +339,8 @@ public final class ARBVertexShader {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetActiveAttribARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer type = APIUtil.getBufferInt();
-		nglGetActiveAttribARB(programObj, index, 0, null, 0, type, 1, type, type.position(), APIUtil.getBufferByte(0), 0, function_pointer);
+		IntBuffer type = APIUtil.getBufferInt(caps);
+		nglGetActiveAttribARB(programObj, index, 0, 0L, MemoryUtil.getAddress(type, 1), MemoryUtil.getAddress(type), APIUtil.getBufferByte0(caps), function_pointer);
 		return type.get(0);
 	}
 
@@ -340,17 +350,17 @@ public final class ARBVertexShader {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(name);
 		BufferChecks.checkNullTerminated(name);
-		int __result = nglGetAttribLocationARB(programObj, name, name.position(), function_pointer);
+		int __result = nglGetAttribLocationARB(programObj, MemoryUtil.getAddress(name), function_pointer);
 		return __result;
 	}
-	static native int nglGetAttribLocationARB(int programObj, ByteBuffer name, int name_position, long function_pointer);
+	static native int nglGetAttribLocationARB(int programObj, long name, long function_pointer);
 
 	/** Overloads glGetAttribLocationARB. */
 	public static int glGetAttribLocationARB(int programObj, CharSequence name) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetAttribLocationARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nglGetAttribLocationARB(programObj, APIUtil.getBufferNT(name), 0, function_pointer);
+		int __result = nglGetAttribLocationARB(programObj, APIUtil.getBufferNT(caps, name), function_pointer);
 		return __result;
 	}
 
@@ -359,27 +369,27 @@ public final class ARBVertexShader {
 		long function_pointer = caps.glGetVertexAttribfvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribfvARB(index, pname, params, params.position(), function_pointer);
+		nglGetVertexAttribfvARB(index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribfvARB(int index, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribfvARB(int index, int pname, long params, long function_pointer);
 
 	public static void glGetVertexAttribARB(int index, int pname, DoubleBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexAttribdvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribdvARB(index, pname, params, params.position(), function_pointer);
+		nglGetVertexAttribdvARB(index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribdvARB(int index, int pname, DoubleBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribdvARB(int index, int pname, long params, long function_pointer);
 
 	public static void glGetVertexAttribARB(int index, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVertexAttribivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVertexAttribivARB(index, pname, params, params.position(), function_pointer);
+		nglGetVertexAttribivARB(index, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVertexAttribivARB(int index, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetVertexAttribivARB(int index, int pname, long params, long function_pointer);
 
 	public static ByteBuffer glGetVertexAttribPointerARB(int index, int pname, long result_size) {
 		ContextCapabilities caps = GLContext.getCapabilities();

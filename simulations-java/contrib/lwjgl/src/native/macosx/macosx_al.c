@@ -41,12 +41,12 @@
 #include "common_tools.h"
 
 /**
- * $Id: macosx_al.c 3416 2010-09-27 00:25:59Z spasi $
+ * $Id$
  *
  * This file contains the AL extension assigning mechanism
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 3416 $
+ * @version $Revision$
  */
 
 static const struct mach_header* handleOAL = NULL;

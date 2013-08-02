@@ -36,8 +36,8 @@ package org.lwjgl.util.vector;
  * Quaternions for LWJGL!
  *
  * @author fbi
- * @version $Revision: 3418 $
- * $Id: Quaternion.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import java.nio.FloatBuffer;

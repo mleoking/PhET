@@ -42,8 +42,8 @@ import org.lwjgl.util.WaveData;
  * Simple test for stresstesting OpenAL playing random samples ad nausea
  *
  * @author Brian Matzon <brian@matzon.dk>
- * @version $Revision: 2983 $
- * $Id: StressTest.java 2983 2008-04-07 18:36:09Z matzon $
+ * @version $Revision$
+ * $Id$
  */
 public class StressTest extends BasicTest {
 

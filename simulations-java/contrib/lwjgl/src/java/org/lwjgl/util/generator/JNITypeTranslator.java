@@ -32,6 +32,10 @@
 
 package org.lwjgl.util.generator;
 
+import org.lwjgl.PointerBuffer;
+
+import java.nio.Buffer;
+
 import com.sun.mirror.type.*;
 import com.sun.mirror.util.*;
 
@@ -41,14 +45,21 @@ import com.sun.mirror.util.*;
  * type strings.
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3412 $
- * $Id: JNITypeTranslator.java 3412 2010-09-26 23:43:24Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 public class JNITypeTranslator implements TypeVisitor {
+
 	private final StringBuilder signature = new StringBuilder();
+
+	private boolean objectReturn;
 
 	public String getSignature() {
 		return signature.toString();
+	}
+
+	public String getReturnSignature() {
+		return objectReturn ? "jobject" : signature.toString();
 	}
 
 	public void visitAnnotationType(AnnotationType t) {
@@ -58,7 +69,7 @@ public class JNITypeTranslator implements TypeVisitor {
 	public void visitArrayType(ArrayType t) {
 		final String className = t.getComponentType().toString();
 		if ( "java.lang.CharSequence".equals(className) )
-			signature.append("jobject");
+			signature.append("jlong");
 		else if ( "java.nio.ByteBuffer".equals(className) )
 			signature.append("jobjectArray");
 		else if ( "org.lwjgl.opencl.CLMem".equals(className) )
@@ -68,7 +79,12 @@ public class JNITypeTranslator implements TypeVisitor {
 	}
 
 	public void visitClassType(ClassType t) {
-		signature.append("jobject");
+		final Class<?> type = Utils.getJavaType(t);
+		if ( Buffer.class.isAssignableFrom(type) || PointerBuffer.class.isAssignableFrom(type) ) {
+			signature.append("jlong");
+			objectReturn = true;
+		} else
+			signature.append("jobject");
 	}
 
 	public void visitDeclaredType(DeclaredType t) {

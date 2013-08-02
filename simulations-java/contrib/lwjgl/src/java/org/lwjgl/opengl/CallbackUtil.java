@@ -42,9 +42,11 @@ import java.util.Map;
 final class CallbackUtil {
 
 	/** Context -> Long */
-	private static final Map<Context, Long> contextUserParamsARB = new HashMap<Context, Long>();
+	private static final Map<ContextCapabilities, Long> contextUserParamsARB = new HashMap<ContextCapabilities, Long>();
 	/** Context -> Long */
-	private static final Map<Context, Long> contextUserParamsAMD = new HashMap<Context, Long>();
+	private static final Map<ContextCapabilities, Long> contextUserParamsAMD = new HashMap<ContextCapabilities, Long>();
+	/** Context -> Long */
+	private static final Map<ContextCapabilities, Long> contextUserParamsKHR = new HashMap<ContextCapabilities, Long>();
 
 	private CallbackUtil() {}
 
@@ -84,19 +86,19 @@ final class CallbackUtil {
 	 *
 	 * @param userParam the global reference pointer
 	 */
-	private static void registerContextCallback(final long userParam, final Map<Context, Long> contextUserData) {
-		Context context = Context.getCurrentContext();
-		if ( context == null ) {
+	private static void registerContextCallback(final long userParam, final Map<ContextCapabilities, Long> contextUserData) {
+		ContextCapabilities caps = GLContext.getCapabilities();
+		if ( caps == null ) {
 			deleteGlobalRef(userParam);
 			throw new IllegalStateException("No context is current.");
 		}
 
-		final Long userParam_old = contextUserData.remove(context);
+		final Long userParam_old = contextUserData.remove(caps);
 		if ( userParam_old != null )
 			deleteGlobalRef(userParam_old);
 
 		if ( userParam != 0 )
-			contextUserData.put(context, userParam);
+			contextUserData.put(caps, userParam);
 	}
 
 	/**
@@ -104,12 +106,19 @@ final class CallbackUtil {
 	 *
 	 * @param context the Context to unregister
 	 */
-	static void unregisterCallbacks(final Context context) {
-		Long userParam = contextUserParamsARB.remove(context);
+	static void unregisterCallbacks(final Object context) {
+		// TODO: This is never called for custom contexts. Need to fix for LWJGL 3.0
+		final ContextCapabilities caps = GLContext.getCapabilities(context);
+
+		Long userParam = contextUserParamsARB.remove(caps);
 		if ( userParam != null )
 			deleteGlobalRef(userParam);
 
-		userParam = contextUserParamsAMD.remove(context);
+		userParam = contextUserParamsAMD.remove(caps);
+		if ( userParam != null )
+			deleteGlobalRef(userParam);
+
+		userParam = contextUserParamsKHR.remove(caps);
 		if ( userParam != null )
 			deleteGlobalRef(userParam);
 	}
@@ -152,6 +161,26 @@ final class CallbackUtil {
 	 */
 	static void registerContextCallbackAMD(final long userParam) {
 		registerContextCallback(userParam, contextUserParamsAMD);
+	}
+
+	// --------- [ KHR_debug ] ---------
+
+	/**
+	 * Returns the memory address of the native function we pass to glDebugMessageCallback.
+	 *
+	 * @return the callback function address
+	 */
+	static native long getDebugCallbackKHR();
+
+	/**
+	 * Associates the current OpenGL context with the specified global reference. If there
+	 * is no context current, the global reference is deleted and an exception is thrown.
+	 * Any previous callback registrations will be cleared.
+	 *
+	 * @param userParam the global reference pointer
+	 */
+	static void registerContextCallbackKHR(final long userParam) {
+		registerContextCallback(userParam, contextUserParamsKHR);
 	}
 
 }

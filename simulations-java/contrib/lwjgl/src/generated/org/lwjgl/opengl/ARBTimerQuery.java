@@ -31,8 +31,8 @@ public final class ARBTimerQuery {
 	}
 
 	/** Overloads glGetQueryObjecti64v. */
-	public static long glGetQueryObject(int id, int pname) {
-		return GL33.glGetQueryObject(id, pname);
+	public static long glGetQueryObjecti64(int id, int pname) {
+		return GL33.glGetQueryObjecti64(id, pname);
 	}
 
 	public static void glGetQueryObjectu(int id, int pname, LongBuffer params) {
@@ -40,7 +40,7 @@ public final class ARBTimerQuery {
 	}
 
 	/** Overloads glGetQueryObjectui64v. */
-	public static long glGetQueryObjectu(int id, int pname) {
-		return GL33.glGetQueryObjectu(id, pname);
+	public static long glGetQueryObjectui64(int id, int pname) {
+		return GL33.glGetQueryObjectui64(id, pname);
 	}
 }

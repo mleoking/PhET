@@ -191,34 +191,34 @@ public final class NVHalfFloat {
 		long function_pointer = caps.glVertexAttribs1hvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(attribs);
-		nglVertexAttribs1hvNV(index, attribs.remaining(), attribs, attribs.position(), function_pointer);
+		nglVertexAttribs1hvNV(index, attribs.remaining(), MemoryUtil.getAddress(attribs), function_pointer);
 	}
-	static native void nglVertexAttribs1hvNV(int index, int attribs_n, ShortBuffer attribs, int attribs_position, long function_pointer);
+	static native void nglVertexAttribs1hvNV(int index, int attribs_n, long attribs, long function_pointer);
 
 	public static void glVertexAttribs2NV(int index, ShortBuffer attribs) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs2hvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(attribs);
-		nglVertexAttribs2hvNV(index, attribs.remaining() >> 1, attribs, attribs.position(), function_pointer);
+		nglVertexAttribs2hvNV(index, attribs.remaining() >> 1, MemoryUtil.getAddress(attribs), function_pointer);
 	}
-	static native void nglVertexAttribs2hvNV(int index, int attribs_n, ShortBuffer attribs, int attribs_position, long function_pointer);
+	static native void nglVertexAttribs2hvNV(int index, int attribs_n, long attribs, long function_pointer);
 
 	public static void glVertexAttribs3NV(int index, ShortBuffer attribs) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs3hvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(attribs);
-		nglVertexAttribs3hvNV(index, attribs.remaining() / 3, attribs, attribs.position(), function_pointer);
+		nglVertexAttribs3hvNV(index, attribs.remaining() / 3, MemoryUtil.getAddress(attribs), function_pointer);
 	}
-	static native void nglVertexAttribs3hvNV(int index, int attribs_n, ShortBuffer attribs, int attribs_position, long function_pointer);
+	static native void nglVertexAttribs3hvNV(int index, int attribs_n, long attribs, long function_pointer);
 
 	public static void glVertexAttribs4NV(int index, ShortBuffer attribs) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVertexAttribs4hvNV;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(attribs);
-		nglVertexAttribs4hvNV(index, attribs.remaining() >> 2, attribs, attribs.position(), function_pointer);
+		nglVertexAttribs4hvNV(index, attribs.remaining() >> 2, MemoryUtil.getAddress(attribs), function_pointer);
 	}
-	static native void nglVertexAttribs4hvNV(int index, int attribs_n, ShortBuffer attribs, int attribs_position, long function_pointer);
+	static native void nglVertexAttribs4hvNV(int index, int attribs_n, long attribs, long function_pointer);
 }

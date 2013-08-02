@@ -44,9 +44,9 @@ import java.nio.ShortBuffer;
 /**
  * Some often-used Buffer code for creating native buffers of the appropriate size.
  *
- * @author $Author: matzon $
- * @version $Revision: 3456 $
- * $Id: BufferUtils.java 3456 2010-11-24 21:48:23Z matzon $
+ * @author $Author$
+ * @version $Revision$
+ * $Id$
  */
 
 public final class BufferUtils {
@@ -192,4 +192,14 @@ public final class BufferUtils {
 
 	/** Fill buffer with zeros from position to remaining */
 	private static native void zeroBuffer0(Buffer b, long off, long size);
+
+	/**
+	 * Returns the memory address of the specified buffer.
+	 *
+	 * @param buffer the buffer
+	 *
+	 * @return the memory address
+	 */
+	static native long getBufferAddress(Buffer buffer);
+
 }

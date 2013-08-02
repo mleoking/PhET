@@ -34,8 +34,8 @@ package org.lwjgl.util.generator;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3262 $
- * $Id: CachedResult.java 3262 2010-01-04 18:47:49Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 
 import java.lang.annotation.Target;

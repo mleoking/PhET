@@ -31,10 +31,10 @@
  */
 
 /**
- * $Id: org_lwjgl_opengl_WindowsAWTGLCanvasPeerInfo.c 2985 2008-04-07 18:42:36Z matzon $
+ * $Id$
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 2985 $
+ * @version $Revision$
  */
 
 #include <jni.h>

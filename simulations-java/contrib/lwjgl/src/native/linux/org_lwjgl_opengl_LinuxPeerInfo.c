@@ -31,10 +31,10 @@
  */
 
 /**
- * $Id: org_lwjgl_opengl_LinuxPeerInfo.c 3358 2010-06-03 15:49:26Z spasi $
+ * $Id$
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3358 $
+ * @version $Revision$
  */
 
 #include <jni.h>

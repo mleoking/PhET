@@ -224,7 +224,7 @@ public final class ATIFragmentShader {
 		long function_pointer = caps.glSetFragmentShaderConstantATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pfValue, 4);
-		nglSetFragmentShaderConstantATI(dst, pfValue, pfValue.position(), function_pointer);
+		nglSetFragmentShaderConstantATI(dst, MemoryUtil.getAddress(pfValue), function_pointer);
 	}
-	static native void nglSetFragmentShaderConstantATI(int dst, FloatBuffer pfValue, int pfValue_position, long function_pointer);
+	static native void nglSetFragmentShaderConstantATI(int dst, long pfValue, long function_pointer);
 }

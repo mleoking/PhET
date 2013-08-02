@@ -38,8 +38,8 @@ import org.lwjgl.LWJGLException;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3116 $
- * $Id: LinuxPbufferPeerInfo.java 3116 2008-08-19 16:46:03Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class LinuxPbufferPeerInfo extends LinuxPeerInfo {
 	LinuxPbufferPeerInfo(int width, int height, PixelFormat pixel_format) throws LWJGLException {

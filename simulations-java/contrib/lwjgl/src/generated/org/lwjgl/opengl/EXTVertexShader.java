@@ -231,146 +231,146 @@ public final class EXTVertexShader {
 		long function_pointer = caps.glSetInvariantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetInvariantEXT(id, GL11.GL_DOUBLE, pAddr, pAddr.position() << 3, function_pointer);
+		nglSetInvariantEXT(id, GL11.GL_DOUBLE, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glSetInvariantEXT(int id, FloatBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetInvariantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetInvariantEXT(id, GL11.GL_FLOAT, pAddr, pAddr.position() << 2, function_pointer);
+		nglSetInvariantEXT(id, GL11.GL_FLOAT, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glSetInvariantEXT(int id, boolean unsigned, ByteBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetInvariantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetInvariantEXT(id, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, pAddr, pAddr.position(), function_pointer);
+		nglSetInvariantEXT(id, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glSetInvariantEXT(int id, boolean unsigned, IntBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetInvariantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetInvariantEXT(id, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, pAddr, pAddr.position() << 2, function_pointer);
+		nglSetInvariantEXT(id, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glSetInvariantEXT(int id, boolean unsigned, ShortBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetInvariantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetInvariantEXT(id, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, pAddr, pAddr.position() << 1, function_pointer);
+		nglSetInvariantEXT(id, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglSetInvariantEXT(int id, int type, Buffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglSetInvariantEXT(int id, int type, long pAddr, long function_pointer);
 
 	public static void glSetLocalConstantEXT(int id, DoubleBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetLocalConstantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetLocalConstantEXT(id, GL11.GL_DOUBLE, pAddr, pAddr.position() << 3, function_pointer);
+		nglSetLocalConstantEXT(id, GL11.GL_DOUBLE, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glSetLocalConstantEXT(int id, FloatBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetLocalConstantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetLocalConstantEXT(id, GL11.GL_FLOAT, pAddr, pAddr.position() << 2, function_pointer);
+		nglSetLocalConstantEXT(id, GL11.GL_FLOAT, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glSetLocalConstantEXT(int id, boolean unsigned, ByteBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetLocalConstantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetLocalConstantEXT(id, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, pAddr, pAddr.position(), function_pointer);
+		nglSetLocalConstantEXT(id, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glSetLocalConstantEXT(int id, boolean unsigned, IntBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetLocalConstantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetLocalConstantEXT(id, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, pAddr, pAddr.position() << 2, function_pointer);
+		nglSetLocalConstantEXT(id, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glSetLocalConstantEXT(int id, boolean unsigned, ShortBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glSetLocalConstantEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglSetLocalConstantEXT(id, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, pAddr, pAddr.position() << 1, function_pointer);
+		nglSetLocalConstantEXT(id, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglSetLocalConstantEXT(int id, int type, Buffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglSetLocalConstantEXT(int id, int type, long pAddr, long function_pointer);
 
 	public static void glVariantEXT(int id, ByteBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantbvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglVariantbvEXT(id, pAddr, pAddr.position(), function_pointer);
+		nglVariantbvEXT(id, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantbvEXT(int id, ByteBuffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantbvEXT(int id, long pAddr, long function_pointer);
 
 	public static void glVariantEXT(int id, ShortBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantsvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglVariantsvEXT(id, pAddr, pAddr.position(), function_pointer);
+		nglVariantsvEXT(id, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantsvEXT(int id, ShortBuffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantsvEXT(int id, long pAddr, long function_pointer);
 
 	public static void glVariantEXT(int id, IntBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglVariantivEXT(id, pAddr, pAddr.position(), function_pointer);
+		nglVariantivEXT(id, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantivEXT(int id, IntBuffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantivEXT(int id, long pAddr, long function_pointer);
 
 	public static void glVariantEXT(int id, FloatBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantfvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglVariantfvEXT(id, pAddr, pAddr.position(), function_pointer);
+		nglVariantfvEXT(id, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantfvEXT(int id, FloatBuffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantfvEXT(int id, long pAddr, long function_pointer);
 
 	public static void glVariantEXT(int id, DoubleBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantdvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglVariantdvEXT(id, pAddr, pAddr.position(), function_pointer);
+		nglVariantdvEXT(id, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantdvEXT(int id, DoubleBuffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantdvEXT(int id, long pAddr, long function_pointer);
 
 	public static void glVariantuEXT(int id, ByteBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantubvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglVariantubvEXT(id, pAddr, pAddr.position(), function_pointer);
+		nglVariantubvEXT(id, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantubvEXT(int id, ByteBuffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantubvEXT(int id, long pAddr, long function_pointer);
 
 	public static void glVariantuEXT(int id, ShortBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantusvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglVariantusvEXT(id, pAddr, pAddr.position(), function_pointer);
+		nglVariantusvEXT(id, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantusvEXT(int id, ShortBuffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantusvEXT(int id, long pAddr, long function_pointer);
 
 	public static void glVariantuEXT(int id, IntBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantuivEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pAddr, 4);
-		nglVariantuivEXT(id, pAddr, pAddr.position(), function_pointer);
+		nglVariantuivEXT(id, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantuivEXT(int id, IntBuffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantuivEXT(int id, long pAddr, long function_pointer);
 
 	public static void glVariantPointerEXT(int id, int stride, DoubleBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -379,7 +379,7 @@ public final class EXTVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pAddr);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_vertex_shader_glVariantPointerEXT_pAddr = pAddr;
-		nglVariantPointerEXT(id, GL11.GL_DOUBLE, stride, pAddr, pAddr.position() << 3, function_pointer);
+		nglVariantPointerEXT(id, GL11.GL_DOUBLE, stride, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glVariantPointerEXT(int id, int stride, FloatBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -388,7 +388,7 @@ public final class EXTVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pAddr);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_vertex_shader_glVariantPointerEXT_pAddr = pAddr;
-		nglVariantPointerEXT(id, GL11.GL_FLOAT, stride, pAddr, pAddr.position() << 2, function_pointer);
+		nglVariantPointerEXT(id, GL11.GL_FLOAT, stride, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glVariantPointerEXT(int id, boolean unsigned, int stride, ByteBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -397,7 +397,7 @@ public final class EXTVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pAddr);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_vertex_shader_glVariantPointerEXT_pAddr = pAddr;
-		nglVariantPointerEXT(id, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, stride, pAddr, pAddr.position(), function_pointer);
+		nglVariantPointerEXT(id, unsigned ? GL11.GL_UNSIGNED_BYTE : GL11.GL_BYTE, stride, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glVariantPointerEXT(int id, boolean unsigned, int stride, IntBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -406,7 +406,7 @@ public final class EXTVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pAddr);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_vertex_shader_glVariantPointerEXT_pAddr = pAddr;
-		nglVariantPointerEXT(id, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, stride, pAddr, pAddr.position() << 2, function_pointer);
+		nglVariantPointerEXT(id, unsigned ? GL11.GL_UNSIGNED_INT : GL11.GL_INT, stride, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
 	public static void glVariantPointerEXT(int id, boolean unsigned, int stride, ShortBuffer pAddr) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -415,9 +415,9 @@ public final class EXTVertexShader {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pAddr);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).EXT_vertex_shader_glVariantPointerEXT_pAddr = pAddr;
-		nglVariantPointerEXT(id, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, stride, pAddr, pAddr.position() << 1, function_pointer);
+		nglVariantPointerEXT(id, unsigned ? GL11.GL_UNSIGNED_SHORT : GL11.GL_SHORT, stride, MemoryUtil.getAddress(pAddr), function_pointer);
 	}
-	static native void nglVariantPointerEXT(int id, int type, int stride, Buffer pAddr, int pAddr_position, long function_pointer);
+	static native void nglVariantPointerEXT(int id, int type, int stride, long pAddr, long function_pointer);
 	public static void glVariantPointerEXT(int id, int type, int stride, long pAddr_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glVariantPointerEXT;
@@ -502,27 +502,27 @@ public final class EXTVertexShader {
 		long function_pointer = caps.glGetVariantBooleanvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetVariantBooleanvEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetVariantBooleanvEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetVariantBooleanvEXT(int id, int value, ByteBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetVariantBooleanvEXT(int id, int value, long pbData, long function_pointer);
 
 	public static void glGetVariantIntegerEXT(int id, int value, IntBuffer pbData) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVariantIntegervEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetVariantIntegervEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetVariantIntegervEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetVariantIntegervEXT(int id, int value, IntBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetVariantIntegervEXT(int id, int value, long pbData, long function_pointer);
 
 	public static void glGetVariantFloatEXT(int id, int value, FloatBuffer pbData) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVariantFloatvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetVariantFloatvEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetVariantFloatvEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetVariantFloatvEXT(int id, int value, FloatBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetVariantFloatvEXT(int id, int value, long pbData, long function_pointer);
 
 	public static ByteBuffer glGetVariantPointerEXT(int id, int value, long result_size) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -538,52 +538,52 @@ public final class EXTVertexShader {
 		long function_pointer = caps.glGetInvariantBooleanvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetInvariantBooleanvEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetInvariantBooleanvEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetInvariantBooleanvEXT(int id, int value, ByteBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetInvariantBooleanvEXT(int id, int value, long pbData, long function_pointer);
 
 	public static void glGetInvariantIntegerEXT(int id, int value, IntBuffer pbData) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetInvariantIntegervEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetInvariantIntegervEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetInvariantIntegervEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetInvariantIntegervEXT(int id, int value, IntBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetInvariantIntegervEXT(int id, int value, long pbData, long function_pointer);
 
 	public static void glGetInvariantFloatEXT(int id, int value, FloatBuffer pbData) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetInvariantFloatvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetInvariantFloatvEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetInvariantFloatvEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetInvariantFloatvEXT(int id, int value, FloatBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetInvariantFloatvEXT(int id, int value, long pbData, long function_pointer);
 
 	public static void glGetLocalConstantBooleanEXT(int id, int value, ByteBuffer pbData) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetLocalConstantBooleanvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetLocalConstantBooleanvEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetLocalConstantBooleanvEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetLocalConstantBooleanvEXT(int id, int value, ByteBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetLocalConstantBooleanvEXT(int id, int value, long pbData, long function_pointer);
 
 	public static void glGetLocalConstantIntegerEXT(int id, int value, IntBuffer pbData) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetLocalConstantIntegervEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetLocalConstantIntegervEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetLocalConstantIntegervEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetLocalConstantIntegervEXT(int id, int value, IntBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetLocalConstantIntegervEXT(int id, int value, long pbData, long function_pointer);
 
 	public static void glGetLocalConstantFloatEXT(int id, int value, FloatBuffer pbData) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetLocalConstantFloatvEXT;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(pbData, 4);
-		nglGetLocalConstantFloatvEXT(id, value, pbData, pbData.position(), function_pointer);
+		nglGetLocalConstantFloatvEXT(id, value, MemoryUtil.getAddress(pbData), function_pointer);
 	}
-	static native void nglGetLocalConstantFloatvEXT(int id, int value, FloatBuffer pbData, int pbData_position, long function_pointer);
+	static native void nglGetLocalConstantFloatvEXT(int id, int value, long pbData, long function_pointer);
 }

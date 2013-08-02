@@ -44,8 +44,8 @@ import org.lwjgl.LWJGLUtil;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3418 $
- * $Id: WindowsCanvasImplementation.java 3418 2010-09-28 21:11:35Z spasi $
+ * @version $Revision$
+ * $Id$
  */
 final class WindowsCanvasImplementation implements AWTCanvasImplementation {
 	static {
@@ -66,7 +66,7 @@ final class WindowsCanvasImplementation implements AWTCanvasImplementation {
 		});
 	}
 
-	public PeerInfo createPeerInfo(Canvas component, PixelFormat pixel_format) throws LWJGLException {
+	public PeerInfo createPeerInfo(Canvas component, PixelFormat pixel_format, ContextAttribs attribs) throws LWJGLException {
 		return new WindowsAWTGLCanvasPeerInfo(component, pixel_format);
 	}
 

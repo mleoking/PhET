@@ -20,8 +20,8 @@ public final class KHRGLEvent {
 		BufferChecks.checkFunctionAddress(function_pointer);
 		if (errcode_ret != null)
 			BufferChecks.checkBuffer(errcode_ret, 1);
-		CLEvent __result = new CLEvent(nclCreateEventFromGLsyncKHR(context.getPointer(), sync.getPointer(), errcode_ret, errcode_ret != null ? errcode_ret.position() : 0, function_pointer), context);
+		CLEvent __result = new CLEvent(nclCreateEventFromGLsyncKHR(context.getPointer(), sync.getPointer(), MemoryUtil.getAddressSafe(errcode_ret), function_pointer), context);
 		return __result;
 	}
-	static native long nclCreateEventFromGLsyncKHR(long context, long sync, IntBuffer errcode_ret, int errcode_ret_position, long function_pointer);
+	static native long nclCreateEventFromGLsyncKHR(long context, long sync, long errcode_ret, long function_pointer);
 }

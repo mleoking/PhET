@@ -40,14 +40,14 @@ import org.lwjgl.LWJGLException;
 /**
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 3002 $
- * $Id: AWTCanvasImplementation.java 3002 2008-04-10 20:25:54Z elias_naur $
+ * @version $Revision$
+ * $Id$
  */
 interface AWTCanvasImplementation {
 	/**
 	 * Return an opaque handle to the canvas peer information required to create a context from it.
 	 */
-	PeerInfo createPeerInfo(Canvas component, PixelFormat pixel_format) throws LWJGLException;
+	PeerInfo createPeerInfo(Canvas component, PixelFormat pixel_format, ContextAttribs attribs) throws LWJGLException;
 
 	/**
 	 * Find a proper GraphicsConfiguration from the given GraphicsDevice and PixelFormat.

@@ -22,7 +22,7 @@ public final class ATIVertexArrayObject {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glNewObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		int __result = nglNewObjectBufferATI(pPointer_size, null, 0, usage, function_pointer);
+		int __result = nglNewObjectBufferATI(pPointer_size, 0L, usage, function_pointer);
 		return __result;
 	}
 	public static int glNewObjectBufferATI(ByteBuffer pPointer, int usage) {
@@ -30,7 +30,7 @@ public final class ATIVertexArrayObject {
 		long function_pointer = caps.glNewObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		int __result = nglNewObjectBufferATI(pPointer.remaining(), pPointer, pPointer.position(), usage, function_pointer);
+		int __result = nglNewObjectBufferATI(pPointer.remaining(), MemoryUtil.getAddress(pPointer), usage, function_pointer);
 		return __result;
 	}
 	public static int glNewObjectBufferATI(DoubleBuffer pPointer, int usage) {
@@ -38,7 +38,7 @@ public final class ATIVertexArrayObject {
 		long function_pointer = caps.glNewObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		int __result = nglNewObjectBufferATI((pPointer.remaining() << 3), pPointer, pPointer.position() << 3, usage, function_pointer);
+		int __result = nglNewObjectBufferATI((pPointer.remaining() << 3), MemoryUtil.getAddress(pPointer), usage, function_pointer);
 		return __result;
 	}
 	public static int glNewObjectBufferATI(FloatBuffer pPointer, int usage) {
@@ -46,7 +46,7 @@ public final class ATIVertexArrayObject {
 		long function_pointer = caps.glNewObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		int __result = nglNewObjectBufferATI((pPointer.remaining() << 2), pPointer, pPointer.position() << 2, usage, function_pointer);
+		int __result = nglNewObjectBufferATI((pPointer.remaining() << 2), MemoryUtil.getAddress(pPointer), usage, function_pointer);
 		return __result;
 	}
 	public static int glNewObjectBufferATI(IntBuffer pPointer, int usage) {
@@ -54,7 +54,7 @@ public final class ATIVertexArrayObject {
 		long function_pointer = caps.glNewObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		int __result = nglNewObjectBufferATI((pPointer.remaining() << 2), pPointer, pPointer.position() << 2, usage, function_pointer);
+		int __result = nglNewObjectBufferATI((pPointer.remaining() << 2), MemoryUtil.getAddress(pPointer), usage, function_pointer);
 		return __result;
 	}
 	public static int glNewObjectBufferATI(ShortBuffer pPointer, int usage) {
@@ -62,10 +62,10 @@ public final class ATIVertexArrayObject {
 		long function_pointer = caps.glNewObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		int __result = nglNewObjectBufferATI((pPointer.remaining() << 1), pPointer, pPointer.position() << 1, usage, function_pointer);
+		int __result = nglNewObjectBufferATI((pPointer.remaining() << 1), MemoryUtil.getAddress(pPointer), usage, function_pointer);
 		return __result;
 	}
-	static native int nglNewObjectBufferATI(int pPointer_size, Buffer pPointer, int pPointer_position, int usage, long function_pointer);
+	static native int nglNewObjectBufferATI(int pPointer_size, long pPointer, int usage, long function_pointer);
 
 	public static boolean glIsObjectBufferATI(int buffer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -81,63 +81,63 @@ public final class ATIVertexArrayObject {
 		long function_pointer = caps.glUpdateObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglUpdateObjectBufferATI(buffer, offset, pPointer.remaining(), pPointer, pPointer.position(), preserve, function_pointer);
+		nglUpdateObjectBufferATI(buffer, offset, pPointer.remaining(), MemoryUtil.getAddress(pPointer), preserve, function_pointer);
 	}
 	public static void glUpdateObjectBufferATI(int buffer, int offset, DoubleBuffer pPointer, int preserve) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUpdateObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglUpdateObjectBufferATI(buffer, offset, (pPointer.remaining() << 3), pPointer, pPointer.position() << 3, preserve, function_pointer);
+		nglUpdateObjectBufferATI(buffer, offset, (pPointer.remaining() << 3), MemoryUtil.getAddress(pPointer), preserve, function_pointer);
 	}
 	public static void glUpdateObjectBufferATI(int buffer, int offset, FloatBuffer pPointer, int preserve) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUpdateObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglUpdateObjectBufferATI(buffer, offset, (pPointer.remaining() << 2), pPointer, pPointer.position() << 2, preserve, function_pointer);
+		nglUpdateObjectBufferATI(buffer, offset, (pPointer.remaining() << 2), MemoryUtil.getAddress(pPointer), preserve, function_pointer);
 	}
 	public static void glUpdateObjectBufferATI(int buffer, int offset, IntBuffer pPointer, int preserve) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUpdateObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglUpdateObjectBufferATI(buffer, offset, (pPointer.remaining() << 2), pPointer, pPointer.position() << 2, preserve, function_pointer);
+		nglUpdateObjectBufferATI(buffer, offset, (pPointer.remaining() << 2), MemoryUtil.getAddress(pPointer), preserve, function_pointer);
 	}
 	public static void glUpdateObjectBufferATI(int buffer, int offset, ShortBuffer pPointer, int preserve) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glUpdateObjectBufferATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pPointer);
-		nglUpdateObjectBufferATI(buffer, offset, (pPointer.remaining() << 1), pPointer, pPointer.position() << 1, preserve, function_pointer);
+		nglUpdateObjectBufferATI(buffer, offset, (pPointer.remaining() << 1), MemoryUtil.getAddress(pPointer), preserve, function_pointer);
 	}
-	static native void nglUpdateObjectBufferATI(int buffer, int offset, int pPointer_size, Buffer pPointer, int pPointer_position, int preserve, long function_pointer);
+	static native void nglUpdateObjectBufferATI(int buffer, int offset, int pPointer_size, long pPointer, int preserve, long function_pointer);
 
 	public static void glGetObjectBufferATI(int buffer, int pname, FloatBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetObjectBufferfvATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetObjectBufferfvATI(buffer, pname, params, params.position(), function_pointer);
+		nglGetObjectBufferfvATI(buffer, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetObjectBufferfvATI(int buffer, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetObjectBufferfvATI(int buffer, int pname, long params, long function_pointer);
 
 	public static void glGetObjectBufferATI(int buffer, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetObjectBufferivATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(params);
-		nglGetObjectBufferivATI(buffer, pname, params, params.position(), function_pointer);
+		nglGetObjectBufferivATI(buffer, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetObjectBufferivATI(int buffer, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetObjectBufferivATI(int buffer, int pname, long params, long function_pointer);
 
 	/** Overloads glGetObjectBufferivATI. */
-	public static int glGetObjectBufferATI(int buffer, int pname) {
+	public static int glGetObjectBufferiATI(int buffer, int pname) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetObjectBufferivATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
-		IntBuffer params = APIUtil.getBufferInt();
-		nglGetObjectBufferivATI(buffer, pname, params, params.position(), function_pointer);
+		IntBuffer params = APIUtil.getBufferInt(caps);
+		nglGetObjectBufferivATI(buffer, pname, MemoryUtil.getAddress(params), function_pointer);
 		return params.get(0);
 	}
 
@@ -162,18 +162,18 @@ public final class ATIVertexArrayObject {
 		long function_pointer = caps.glGetArrayObjectfvATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetArrayObjectfvATI(array, pname, params, params.position(), function_pointer);
+		nglGetArrayObjectfvATI(array, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetArrayObjectfvATI(int array, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetArrayObjectfvATI(int array, int pname, long params, long function_pointer);
 
 	public static void glGetArrayObjectATI(int array, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetArrayObjectivATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetArrayObjectivATI(array, pname, params, params.position(), function_pointer);
+		nglGetArrayObjectivATI(array, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetArrayObjectivATI(int array, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetArrayObjectivATI(int array, int pname, long params, long function_pointer);
 
 	public static void glVariantArrayObjectATI(int id, int type, int stride, int buffer, int offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -188,16 +188,16 @@ public final class ATIVertexArrayObject {
 		long function_pointer = caps.glGetVariantArrayObjectfvATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVariantArrayObjectfvATI(id, pname, params, params.position(), function_pointer);
+		nglGetVariantArrayObjectfvATI(id, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVariantArrayObjectfvATI(int id, int pname, FloatBuffer params, int params_position, long function_pointer);
+	static native void nglGetVariantArrayObjectfvATI(int id, int pname, long params, long function_pointer);
 
 	public static void glGetVariantArrayObjectATI(int id, int pname, IntBuffer params) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glGetVariantArrayObjectivATI;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkBuffer(params, 4);
-		nglGetVariantArrayObjectivATI(id, pname, params, params.position(), function_pointer);
+		nglGetVariantArrayObjectivATI(id, pname, MemoryUtil.getAddress(params), function_pointer);
 	}
-	static native void nglGetVariantArrayObjectivATI(int id, int pname, IntBuffer params, int params_position, long function_pointer);
+	static native void nglGetVariantArrayObjectivATI(int id, int pname, long params, long function_pointer);
 }

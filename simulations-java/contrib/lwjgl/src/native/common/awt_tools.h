@@ -31,10 +31,10 @@
  */
 
 /**
- * $Id: awt_tools.h 2985 2008-04-07 18:42:36Z matzon $
+ * $Id$
  *
  * @author elias_naur <elias_naur@users.sourceforge.net>
- * @version $Revision: 2985 $
+ * @version $Revision$
  */
 
 #ifndef __LWJGL_AWT_TOOLS_H

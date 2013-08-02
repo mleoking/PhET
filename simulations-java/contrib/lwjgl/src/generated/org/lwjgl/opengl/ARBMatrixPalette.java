@@ -35,7 +35,7 @@ public final class ARBMatrixPalette {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).ARB_matrix_palette_glMatrixIndexPointerARB_pPointer = pPointer;
-		nglMatrixIndexPointerARB(size, GL11.GL_UNSIGNED_BYTE, stride, pPointer, pPointer.position(), function_pointer);
+		nglMatrixIndexPointerARB(size, GL11.GL_UNSIGNED_BYTE, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glMatrixIndexPointerARB(int size, int stride, IntBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -44,7 +44,7 @@ public final class ARBMatrixPalette {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).ARB_matrix_palette_glMatrixIndexPointerARB_pPointer = pPointer;
-		nglMatrixIndexPointerARB(size, GL11.GL_UNSIGNED_INT, stride, pPointer, pPointer.position() << 2, function_pointer);
+		nglMatrixIndexPointerARB(size, GL11.GL_UNSIGNED_INT, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
 	public static void glMatrixIndexPointerARB(int size, int stride, ShortBuffer pPointer) {
 		ContextCapabilities caps = GLContext.getCapabilities();
@@ -53,9 +53,9 @@ public final class ARBMatrixPalette {
 		GLChecks.ensureArrayVBOdisabled(caps);
 		BufferChecks.checkDirect(pPointer);
 		if ( LWJGLUtil.CHECKS ) StateTracker.getReferences(caps).ARB_matrix_palette_glMatrixIndexPointerARB_pPointer = pPointer;
-		nglMatrixIndexPointerARB(size, GL11.GL_UNSIGNED_SHORT, stride, pPointer, pPointer.position() << 1, function_pointer);
+		nglMatrixIndexPointerARB(size, GL11.GL_UNSIGNED_SHORT, stride, MemoryUtil.getAddress(pPointer), function_pointer);
 	}
-	static native void nglMatrixIndexPointerARB(int size, int type, int stride, Buffer pPointer, int pPointer_position, long function_pointer);
+	static native void nglMatrixIndexPointerARB(int size, int type, int stride, long pPointer, long function_pointer);
 	public static void glMatrixIndexPointerARB(int size, int type, int stride, long pPointer_buffer_offset) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixIndexPointerARB;
@@ -70,25 +70,25 @@ public final class ARBMatrixPalette {
 		long function_pointer = caps.glMatrixIndexubvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pIndices);
-		nglMatrixIndexubvARB(pIndices.remaining(), pIndices, pIndices.position(), function_pointer);
+		nglMatrixIndexubvARB(pIndices.remaining(), MemoryUtil.getAddress(pIndices), function_pointer);
 	}
-	static native void nglMatrixIndexubvARB(int pIndices_size, ByteBuffer pIndices, int pIndices_position, long function_pointer);
+	static native void nglMatrixIndexubvARB(int pIndices_size, long pIndices, long function_pointer);
 
 	public static void glMatrixIndexuARB(ShortBuffer pIndices) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixIndexusvARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pIndices);
-		nglMatrixIndexusvARB(pIndices.remaining(), pIndices, pIndices.position(), function_pointer);
+		nglMatrixIndexusvARB(pIndices.remaining(), MemoryUtil.getAddress(pIndices), function_pointer);
 	}
-	static native void nglMatrixIndexusvARB(int pIndices_size, ShortBuffer pIndices, int pIndices_position, long function_pointer);
+	static native void nglMatrixIndexusvARB(int pIndices_size, long pIndices, long function_pointer);
 
 	public static void glMatrixIndexuARB(IntBuffer pIndices) {
 		ContextCapabilities caps = GLContext.getCapabilities();
 		long function_pointer = caps.glMatrixIndexuivARB;
 		BufferChecks.checkFunctionAddress(function_pointer);
 		BufferChecks.checkDirect(pIndices);
-		nglMatrixIndexuivARB(pIndices.remaining(), pIndices, pIndices.position(), function_pointer);
+		nglMatrixIndexuivARB(pIndices.remaining(), MemoryUtil.getAddress(pIndices), function_pointer);
 	}
-	static native void nglMatrixIndexuivARB(int pIndices_size, IntBuffer pIndices, int pIndices_position, long function_pointer);
+	static native void nglMatrixIndexuivARB(int pIndices_size, long pIndices, long function_pointer);
 }
