@@ -6,7 +6,7 @@ August 8th, 2013
 
 Time period covered: July 18th through August 8th.  This is a three week period, due to a cancelled status meeting and vacation.
 
-Build an Atom (HTML5 version) - 35.0 hrs
+Build an Atom (HTML5 version) - 41.0 hrs
 
 o	Reviewed in design meeting.
 o	Fixed issues with counts-to-charge problem.
@@ -39,17 +39,18 @@ o	Reviewed design in design meeting.
 Ohm's Law (HTML5 version) - 1.5 hrs
 
 o	Reviewed, entered issues in GitHub.
+o	Worked on publishing a new version with Scenery and Joist.
 
 Gravity Force Labs (HTML5 version) - 3.0 hrs
 
 o	Reviewed and logged issues in GitHub.
 o	Published to dev for review.
 
-Wave on a String (HTML5 version) - 1.0 hrs
+Wave on a String (HTML5 version) - 1.5 hrs
 
 o	Sent spec off to MLL.
 
-Balancing Act (Java version) - 1.0 hrs
+Balancing Act (Java version) - 1.5 hrs
 
 o	Tested in order to verify that none of the changes for Stanford had crept into the main sim, then redeployed in order to update preferred font information.
 
@@ -61,7 +62,7 @@ HTML5 Startup: Process Development - 5.0 hrs
 
 o	Weekly developer meetings and collaboration (x2).
 
-Teach Site - 20.0 hrs
+Teach Site - 22.0 hrs
 
 o	Met with CU Office of Information Technology (OIT) to discuss their managed services.
 o	Modified RFP based on OIT information.
@@ -77,11 +78,12 @@ Environment - 1.0 hrs
 
 o	Looked at Adobe Connect with Oliver as a possible Team Viewer replacement.
 
-Meetings, Email, and Other Administrative Overhead - 14.0 hrs
+Meetings, Email, and Other Administrative Overhead - 15.0 hrs
 
 o	Status report.
 o	Weekly team meeting.
 o	Yuen-ying's survey.
+o	Discussions on sim and PhET philosophy with Ariel, Oliver, and Emily.
 o	Normal email and administrative overhead.
 
 Vacation, Holidays, and Sick Time - 20.0 hrs
