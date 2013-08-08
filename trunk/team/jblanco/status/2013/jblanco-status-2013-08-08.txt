@@ -1,0 +1,89 @@
+PhET Progress Report, J. Blanco, 8-8-2013
+
+PhET Weekly Progress Report
+John Blanco
+August 8th, 2013
+
+Time period covered: July 18th through August 8th.  This is a three week period, due to a cancelled status meeting and vacation.
+
+Build an Atom (HTML5 version) - 35.0 hrs
+
+o	Reviewed in design meeting.
+o	Fixed issues with counts-to-charge problem.
+o	Implemented counts-to-mass-number problem.
+o	Implemented first cut of all counts-to-symbol problems.
+o	Switched to PhetFont.
+o	Integrated new icons for all tabs.
+o	Made check boxes a bit less eye catching (based on input received during design meeting).
+o	Changed layout of reset button and check boxes that control label visibility (based on input received during design meeting).
+o	Fixed issue where "Model" control was inconsistent between tabs.
+o	Updated scale image for better cross-browser look.
+o	Fixed issue where charges could go out of accordion box.
+o	Worked with JO on performance improvements.
+o	Made stability unchecked by default, and made the stability check box also control the animation.
+o	Fixed issue where particles that are "on the move" weren't being reset.
+o	Worked - a lot - on 'long pause' bug.
+o	Optimized nucleus layering algorithm for better iPad performance.
+o	Published several release candidates for testing.
+o	Added analytics.
+o	Published version 1.0.0 to the main server (Figaro).
+
+Molarity (HTML5 version) - 1.5 hrs
+
+o	Code review.
+
+Balancing Act (HTML5 version) - 1.0 hrs
+
+o	Reviewed design in design meeting.
+
+Ohm's Law (HTML5 version) - 1.5 hrs
+
+o	Reviewed, entered issues in GitHub.
+
+Gravity Force Labs (HTML5 version) - 3.0 hrs
+
+o	Reviewed and logged issues in GitHub.
+o	Published to dev for review.
+
+Wave on a String (HTML5 version) - 1.0 hrs
+
+o	Sent spec off to MLL.
+
+Balancing Act (Java version) - 1.0 hrs
+
+o	Tested in order to verify that none of the changes for Stanford had crept into the main sim, then redeployed in order to update preferred font information.
+
+Lac Operon (Java version) - 1.0 hrs
+
+o	Looked at more scaffolded version created by outside vendor.
+
+HTML5 Startup: Process Development - 5.0 hrs
+
+o	Weekly developer meetings and collaboration (x2).
+
+Teach Site - 20.0 hrs
+
+o	Met with CU Office of Information Technology (OIT) to discuss their managed services.
+o	Modified RFP based on OIT information.
+o	Several rounds of modify, circulated, and incorporate comments from others.
+o	Held a review meeting with KP, JO, AP, & SR.
+
+Logo Review - 1.5 hrs
+
+o	Reviewed logos with Kathy.
+o	Participated in email discussion of logo design.
+
+Environment - 1.0 hrs
+
+o	Looked at Adobe Connect with Oliver as a possible Team Viewer replacement.
+
+Meetings, Email, and Other Administrative Overhead - 14.0 hrs
+
+o	Status report.
+o	Weekly team meeting.
+o	Yuen-ying's survey.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 20.0 hrs
+
+o	Moved to British Columbia.
