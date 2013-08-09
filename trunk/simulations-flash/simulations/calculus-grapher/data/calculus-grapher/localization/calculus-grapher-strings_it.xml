@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_it.xml created Thu Feb 02 22:10:25 CET 2012 using: calculus-grapher 2.08.00 (55025), translation-utility 2.13.00 (59150) dic 8, 2011-->
+<SimStrings>
+<string key="integral" value="Integrale"/>
+<string key="grid" value="Griglia"/>
+<string key="dragMe" value="Trascinami!"/>
+<string key="hill" value="Curva"/>
+<string key="cursor" value="Cursore"/>
+<string key="simTitle" value="Calcolatrice grafica"/>
+<string key="offset" value="Sposta"/>
+<string key="freeform" value="forma libera"/>
+<string key="pedestal" value="Onda quadra"/>
+<string key="line" value="spigolo"/>
+<string key="drawingTools" value="Strumenti di disegno"/>
+<string key="view" value="Vista"/>
+<string key="sine" value="Seno"/>
+<string key="smooth" value="Ammorbidisci"/>
+<string key="tilt" value="Inclina"/>
+<string key="translation.credits" value="Vito Garganese&lt;br&gt; vito.garganese@alice.it&lt;/br&gt;"/>
+<string key="derivative" value="Derivata"/>
+<string key="undo" value="Indietro"/>
+</SimStrings>
