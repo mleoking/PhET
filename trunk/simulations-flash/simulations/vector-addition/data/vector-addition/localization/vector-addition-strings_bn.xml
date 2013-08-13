@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_bn.xml created Mon Aug 05 10:52:36 ALMT 2013 using: vector-addition 2.02.00 (52287), translation-utility 2.14.02 (73366) Jul 19, 2013--><SimStrings>
+<string key="showSum" value="লব্ধি দেখাও"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;Pritom Bose &lt;br&gt;&#10;&lt;A&gt;BigganSchool.org&lt;/A&gt;&#10;&lt;/html&gt;"/>
+<string key="simTitle" value="ভেক্টর যোগ"/>
+<string key="grabOne" value="এগুলো নাও"/>
+<string key="clearAll" value="সবকিছু মুছে দাও"/>
+<string key="componentDisplay" value="উপাংশ দেখাও"/>
+<string key="y" value="y অক্ষ"/>
+<string key="style3" value="স্টাইল ৩"/>
+<string key="none" value="কিছুই না"/>
+<string key="showGrid" value="ছকে রেখা দেখাও"/>
+<string key="style2" value="স্টাইল ২"/>
+<string key="x" value="x অক্ষ"/>
+<string key="style1" value="স্টাইল ১"/>
+</SimStrings>
