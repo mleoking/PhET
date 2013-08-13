@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_bn.xml created Mon Aug 05 11:12:50 ALMT 2013 using: projectile-motion 2.03.00 (52266), translation-utility 2.14.02 (73366) Jul 19, 2013--><SimStrings>
+<string key="dragLabel" value="ড্র্যাগ গুণাঙ্ক"/>
+<string key="userChoice" value="তোমার পছন্দে"/>
+<string key="altitudeLabel" value="উন্নতি  (মিটার)"/>
+<string key="football" value="ফূটবল"/>
+<string key="golfball" value="গলফ বল"/>
+<string key="simTitle" value="প্রাসের গতি"/>
+<string key="collision" value="সংঘর্ষ !"/>
+<string key="adultHuman" value="বড় মানুষ"/>
+<string key="time" value="সময়"/>
+<string key="buick" value="আস্ত গাড়ি !!!"/>
+<string key="diameter" value="ব্যাস (মিটার)"/>
+<string key="initSpeed" value="আদিবেগ"/>
+<string key="bowlingball" value="বলিং বল"/>
+<string key="piano" value="পিয়ানো"/>
+<string key="sound" value="শব্দ"/>
+<string key="range" value="পাল্লা"/>
+<string key="mass" value="ভর"/>
+<string key="height" value="উচ্চতা (মিটার)"/>
+<string key="pumpkin" value="কুমড়া !"/>
+<string key="score" value="স্কোর !!!!"/>
+<string key="angle" value="কোন (ডিগ্রি)"/>
+<string key="baseball" value="বেসবল"/>
+<string key="airResistance" value="বাতাসের বাঁধা"/>
+<string key="fire" value="ফায়ার কর"/>
+<string key="erase" value="মূছে দাও"/>
+<string key="tankshell" value="ট্যাঙ্কের গোলা!"/>
+</SimStrings>
