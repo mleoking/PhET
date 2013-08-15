@@ -141,6 +141,7 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "autoTracking_phet.js" ) ) ).append( "\n" );
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "jquery-1.4.4.min.js" ) ) ).append( "\n" );
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "jquery.autocomplete.js" ) ) ).append( "\n" );
+                jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "modernizr-custom-min.js" ) ) ).append( "\n" );
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "contribution-browse.js" ) ) ).append( "\n" );
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-autocomplete.js" ) ) ).append( "\n" );
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-misc.js" ) ) ).append( "\n" );
