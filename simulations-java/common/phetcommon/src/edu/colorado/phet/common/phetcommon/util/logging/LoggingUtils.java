@@ -81,6 +81,9 @@ public class LoggingUtils {
             return loggers.get( name );
         }
         else {
+            //Work around the Java 7 update 25 problem, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3557?cycle=true
+            java.util.logging.Logger.getLogger("logger-workaround");
+
             // grab an anonymous logger with the specific name
             Logger logger = Logger.getAnonymousLogger();
 
