@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_de.xml created Mon Aug 19 17:03:52 CEST 2013 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) Okt 9, 2012--><SimStrings>
+<string key="duration" value="Dauer"/>
+<string key="bump" value="Impuls"/>
+<string key="radiating-charge.simTitle" value="Strahlende Ladung"/>
+<string key="stopCharge" value="Ladung anhalten"/>
+<string key="sinusoidal" value="Sinusförmige Bewegung"/>
+<string key="amplitude" value="Amplitude"/>
+<string key="speedOfLight" value="c"/>
+<string key="noFrictionManual" value="keine Reibung"/>
+<string key="frequency" value="Frequenz"/>
+<string key="restart" value="Neustart"/>
+<string key="showVelocity" value="Geschwindigkeit anzeigen"/>
+<string key="speed" value="Geschwindigkeit"/>
+<string key="translation.credits" value="Dr. Lauth"/>
+<string key="frictionManual" value="Manuell bewegen (Maus)"/>
+<string key="linear" value="Lineare Bewegung"/>
+<string key="paused" value="PAUSE"/>
+<string key="reset" value="Zurück"/>
+<string key="circular" value="Kreisbewegung"/>
+</SimStrings>
