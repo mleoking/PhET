@@ -4,7 +4,7 @@ PhET Weekly Progress Report
 John Blanco
 August 8th, 2013
 
-Time period covered: July 18th through August 8th.  This is a three week period, due to a cancelled status meeting and vacation.
+Time period covered: July 18th through August 7th.  This is a three week period, due to a cancelled status meeting and vacation.
 
 Build an Atom (HTML5 version) - 41.0 hrs
 

@@ -1,0 +1,83 @@
+PhET Progress Report, J. Blanco, 8-29-2013
+
+PhET Weekly Progress Report
+John Blanco
+August 29th, 2013
+
+Time period covered: August 8th through August 28th.  This is a three week period due to vacation.
+
+Build an Atom (HTML5 version) - 18.0 hrs
+
+o	Duplicated "long pause" issue with event log turned on, sent log to JO.
+o	Published a version with event tracking enabled, sent to Emily for duplication testing.
+o	Worked on "long pause" issue with Jonathan, no definitive fix yet.
+o	Updated credits.
+o	Implemented the Start Game buttons to match those shown in the spec.
+o	Created icons for the Start Game buttons.
+o	Implemented initial representation of game progress indicator, which goes on the Start Game buttons.
+o	Made the interactive symbol properly format charge values and proton number.
+o	Ported the symbol-to-counts problem.
+
+Ohm's Law (HTML5 version) - 2.0 hrs
+
+o	Removed RSC from credits (they had been copied by MLL from another sim).
+o	Made changes to support interaction with build tools, used tools to build and publish release candidates.
+o	Made some layout changes.
+o	Published a release candidate.
+
+Resistance in a Wire (HTML5 version) - 1.0 hrs
+
+o	Removed RSC from credits (they had been copied by MLL from another sim).
+o	Made changes to support interaction with build tools, used tools to build and publish release candidates.
+o	Published a release candidate.
+
+Gravity Force Labs (HTML5 version) - 2.5 hrs
+
+o	Logged tickets for UI changes requested by the team.
+o	Changed layout of control panel.
+o	Published version for testing.
+o	Updated credits.
+
+Graphing Lines - 0.75 hrs
+
+o	Collaborated with Chris M.
+
+HTML5 Startup: Process Development - 4.0 hrs
+
+o	Weekly developer meetings and collaboration.
+o	Logged issue about running multiple sims at once on an iPad.
+o	Reviewed Phase II goals, discussed with other developers.
+
+HTML5 Startup: MLL Management - 1.0 hrs
+
+o	Discussed some issues about the knowledge base.
+o	Discussed status of GFL simulation with team so that we can let MLL know if initial version is accepted.
+
+Teach with PhET Site - 2.5 hrs
+
+o	Reviewed RFP with Kathy, Ariel, Jonathan, and Sam.
+o	Posted the "Interaction Notes" (part of the UX design) to Spot and added link to the RFP.
+o	Send RFP to CU contract officer.
+
+Installer - 0.5 hrs
+
+o	Updated the Unfuddle notebook that describes how to use the installer so that others could manage it while I was out.
+
+Build Tools - 1.5 hrs
+
+o	Spent time studying Node.js, grunt, current build tools.
+
+Environment - 1.0 hrs
+
+o	Set up several IntelliJ templates that Chris M had created in order to speed up creation of new types/classes.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Status report.
+o	Weekly team meeting.
+o	Planned coverage for me while out on vacation.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 80.0 hrs
+
+o	Two weeks of vacation.
