@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_it.xml created Sat Aug 10 11:19:11 CEST 2013 using: curve-fitting 2.02.00 (52265), translation-utility 2.14.00 (69024) ott 9, 2012--><SimStrings>
+<string key="clearAll" value="Pulisci"/>
+<string key="deviations" value="mostra le deviazioni"/>
+<string key="quartic" value="Quartica"/>
+<string key="bestFit" value="Migliore corrispondenza"/>
+<string key="quadratic" value="Quadratica"/>
+<string key="bucketHelp2" value="o torna indietro"/>
+<string key="bucketHelp1" value="metti i punti"/>
+<string key="cubic" value="Cubica"/>
+<string key="noFit" value="non corrispondente"/>
+<string key="adjustableFit2" value="Approssimazione regolabile"/>
+<string key="dataPointHelp" value="barre di errore trascinabili"/>
+<string key="bestFit2" value="Migliore corrispondenza:"/>
+<string key="hideHelp" value="Nascondi aiuto"/>
+<string key="correlation" value="Coefficiente di correlazione"/>
+<string key="chiSqHelp5" value=": corrispondenza eccessiva (barre di errore troppo ridotte)"/>
+<string key="bucketLabel" value="punti dati"/>
+<string key="chiSqHelp4" value=": buona corrispondenza  (zona verde)"/>
+<string key="chiSqHelp3" value=": scarsa corrispondenza (zona rossa)"/>
+<string key="chiSqHelp2" value="N = numero dei punti dati \n f = numero dei parametri interpolati \n (f = 4 per l'interpolazione cubica)"/>
+<string key="help" value="Aiuto"/>
+<string key="chiSqHelp1" value="La riduzione statistica chi-quadro è:"/>
+<string key="adjustableFit" value="Approssimazione regolabile"/>
+<string key="linear" value="Lineare"/>
+</SimStrings>
