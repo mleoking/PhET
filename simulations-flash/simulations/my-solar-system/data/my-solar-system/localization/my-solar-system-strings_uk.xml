@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_uk.xml created Wed Aug 14 01:14:44 EEST 2013 using: my-solar-system 2.04.00 (72347), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="slingshot" value="Рогатка"/>
+<string key="binaryStarPlanet" value="Подвійна зірка, планета"/>
+<string key="sunAndPlanet" value="Сонце і планети"/>
+<string key="body4" value="тіло 4"/>
+<string key="numberOfBodies" value="кількість/з тіл"/>
+<string key="body3" value="тіло 3"/>
+<string key="body2" value="тіло 2"/>
+<string key="body1" value="тіло 1"/>
+<string key="velocity" value="швидкість"/>
+<string key="doubleDouble" value="Двічі подвійні"/>
+<string key="xVel" value="x "/>
+<string key="massEquals" value="маса ="/>
+<string key="yEquals" value="y ="/>
+<string key="hyperbolics" value="Гіперболи"/>
+<string key="xEquals" value="x ="/>
+<string key="help9" value="Авторські права застережено Проектом  PhET та Університетом Колорадо (Boulder)."/>
+<string key="help8" value="На відміну від Рунге-Кутта, алгоритм Верле зберігає енергію в коливальних системах для отримання стабільних орбіт. Як і в будь-якому фіксованому час-крок алгоритмі Верле отримує нефізичні результати, коли тіла знаходяться занадто близько і в результаті прискорення занадто великі. Щоб уникнути цього, тіла, які  занадто близько розташовані зливаються при збереженні імпульсу зіткнення."/>
+<string key="help6" value=" В цьму моделюванні використовується фіксований часовий крок-швидкість-алгоритм Верле, щоб інтегрувати траєкторії:"/>
+<string key="stop" value="Стоп"/>
+<string key="help5" value="Коли система з центром перевірена, центр маси  системи видаляється."/>
+<string key="help4" value="Для поточного положення і швидкості, натисніть Стоп і помістіть курсор на  тілі."/>
+<string key="help3" value="Лишайте маси менше, ніж кілька тисяч або ризикуєте отримати дивні результати."/>
+<string key="help2" value="Відстані, маси і час - в умовних одиницях. Придумайте свої власні!"/>
+<string key="help1" value="Зробіть свою власну сонячну систему, перетягуючи тіла і задавши значення V (V  швидкість) \ або, ввівши в вихідну таблицю їх параметри."/>
+<string key="help0" value="Моделювання орбіт моєї сонячної системи"/>
+<string key="doubleSlingshot" value="Подвійна рогатка"/>
+<string key="vYEquals" value="v y ="/>
+<string key="systemCentered" value="Центрична система"/>
+<string key="vXEquals" value="v x ="/>
+<string key="start" value="Старт"/>
+<string key="showTraces" value="Показати шляхи"/>
+<string key="back" value="назад"/>
+<string key="xPos" value="x"/>
+<string key="help" value="Допомога"/>
+<string key="tapeMeasure" value="Вимірювальна стрічка"/>
+<string key="accurate" value="точно"/>
+<string key="showGrid" value="Показати сітку"/>
+<string key="selectPreset" value="Оберіть попередньо встановлене"/>
+<string key="yVel" value="y "/>
+<string key="timeEquals" value="час ="/>
+<string key="ellipses" value="Еліпси"/>
+<string key="trojanAsteroids" value="Троянський астероїд"/>
+<string key="fourStarBallet" value="&quot;Танок&quot; чотирьох зірок"/>
+<string key="position" value="Розташування"/>
+<string key="reset" value="Перезапустити"/>
+<string key="mass" value="маса"/>
+<string key="fast" value="швидко"/>
+<string key="simTitle" value="Моя сонячна система"/>
+<string key="sunPlanetMoon" value="Сонце, планети, місяць"/>
+<string key="initialSettings" value="Початкові умови:"/>
+<string key="yPos" value="y"/>
+<string key="sunPlanetComet" value="Сонце, планети, комети"/>
+</SimStrings>
