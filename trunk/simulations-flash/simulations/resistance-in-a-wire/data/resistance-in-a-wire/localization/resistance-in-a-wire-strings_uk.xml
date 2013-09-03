@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_uk.xml created Tue Aug 13 23:16:56 EEST 2013 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="cm" value="см"/>
+<string key="resistanceEq" value="опір ="/>
+<string key="ohm" value="Ом"/>
+<string key="simTitle" value="Опір дроту"/>
+</SimStrings>
