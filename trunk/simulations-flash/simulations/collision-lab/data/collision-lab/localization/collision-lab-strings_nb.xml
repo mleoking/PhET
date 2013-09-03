@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_nb.xml created Mon Sep 02 06:22:59 CEST 2013 using: collision-lab 2.01.00 (69163), translation-utility 2.14.00 (69024) okt 9, 2012--><SimStrings>
+<string key="ShowValues.velocityCaption" value="Hastighet (m/s)"/>
+<string key="ControlPanel.showValues" value="Vis verdier"/>
+<string key="PlayPauseButtons.step" value="Trinn"/>
+<string key="DataTable.velocity" value="Hastighet"/>
+<string key="MomentumView.total" value="tot"/>
+<string key="DataTable.positionWithUnits" value="Posisjon (m)"/>
+<string key="ShowValues.speedReadout" value="| v | = {0}"/>
+<string key="ControlPanel.sound" value="Lyd"/>
+<string key="ControlPanel.showMomentumVectors" value="Bevegelsesmengdevektorer"/>
+<string key="ShowValues.speedCaption" value="Hastighet (m/s)"/>
+<string key="ControlPanel.oneHundredPercent" value="Elastisk"/>
+<string key="DataTable.lessData" value="Mindre data"/>
+<string key="DataTable.momentumWithUnits" value="Bevegelsesmengde (kg m/s)"/>
+<string key="translation.credits" value="Thomas Lervik Engåvoll"/>
+<string key="MomentumView.momenta" value="Bevegelsesmengder"/>
+<string key="DataTable.units.kilogramMetersPerSecond" value="kg m/s/"/>
+<string key="ControlPanel.elasticityReadout" value="Elastisitet {0}%"/>
+<string key="DataTable.ball" value="Ball"/>
+<string key="TableView.kineticEnergy" value="Kinetisk energi = {0} J"/>
+<string key="advancedTab" value="Avansert"/>
+<string key="ControlPanel.showVelocities" value="Hastighetsvektorer"/>
+<string key="ControlPanel.showPaths" value="Vis spor"/>
+<string key="DataTable.mass" value="Masse"/>
+<string key="DataTable.addBall" value="Flere kuler"/>
+<string key="DataTable.position" value="Posisjon"/>
+<string key="DataTable.py" value="py"/>
+<string key="DataTable.px" value="px"/>
+<string key="DataTable.units.kilograms" value="kg"/>
+<string key="DataTable.units.metersPerSecond" value="m/s"/>
+<string key="ShowValues.momentumReadout" value="p = {0}"/>
+<string key="PlayPauseButtons.pause" value="Pause"/>
+<string key="DataTable.vy" value="vy"/>
+<string key="DataTable.vx" value="vx"/>
+<string key="ControlPanel.reflectingBorder" value="Reflekterende kant"/>
+<string key="ControlPanel.2d" value="2 dimensjoner"/>
+<string key="DataTable.moreData" value="Mer data"/>
+<string key="DataTable.removeBall" value="Fjern kule"/>
+<string key="DataTable.momentum" value="Bevegelsesmengde"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.x" value="x"/>
+<string key="ShowValues.momentumCaption" value="Bevegelsesmengde (kg m/s)"/>
+<string key="ControlPanel.resetAll" value="Tilbakestill alt"/>
+<string key="ControlPanel.momentaDiagram" value="Bevegelsesmengdediagram"/>
+<string key="ControlPanel.elasticity" value="Elastisitet"/>
+<string key="DataTable.units.meters" value="m"/>
+<string key="ControlPanel.showCenterOfMass" value="Massesenter"/>
+<string key="ControlPanel.zeroPercent" value="Uelastisk"/>
+<string key="DataTable.velocityWithUnits" value="Hastighet (m/s)"/>
+<string key="ShowValues.absoluteMomentumReadout" value="| p | = {0}"/>
+<string key="TableView.returnBalls" value="Flytt baller tilbake"/>
+<string key="DataTable.massWithUnits" value="Masse (kg)"/>
+<string key="introductionTab" value="Introduksjon"/>
+<string key="TableView.timeRate" value="Simuleringsfart"/>
+<string key="simTitle" value="Støt-laboratorium"/>
+<string key="ShowValues.velocityReadout" value="v = {0}"/>
+<string key="PlayPauseButtons.play" value="Kjør"/>
+<string key="ControlPanel.kineticEnergy" value="Kinetisk energi"/>
+<string key="MomentumView.tipToTail" value="summer vektorer"/>
+<string key="PlayPauseButtons.back" value="Tilbake"/>
+<string key="TableView.time" value="Tid = {0} s"/>
+<string key="ControlPanel.1d" value="1 dimensjon"/>
+<string key="PlayPauseButtons.rewind" value="Start på nytt"/>
+</SimStrings>
