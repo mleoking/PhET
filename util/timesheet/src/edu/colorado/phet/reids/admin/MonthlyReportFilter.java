@@ -211,6 +211,7 @@ public class MonthlyReportFilter {
         if ( category.equals( "admin" ) ) { return mapCategory( "Administrative/Documentation" ); }
         if ( category.equals( "woas" ) ) { return mapCategory( "Wave on a String" ); }
         if ( category.equals( "gfl" ) ) { return mapCategory( "Gravity Force Lab" ); }
+        if ( category.equals( "baa" ) ) { return mapCategory( "build-an-atom" ); }
 
         if ( category.equals( category.toLowerCase() ) ) {
             System.out.println( "No match found for the category: " + category );
