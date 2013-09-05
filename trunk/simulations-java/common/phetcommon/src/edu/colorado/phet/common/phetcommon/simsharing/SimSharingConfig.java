@@ -146,7 +146,7 @@ public class SimSharingConfig {
     public final boolean requestId; // does the study request that students provide an id?
     public final boolean idRequired; // true=id required, false=optional
     public final String idPrompt; // prompt used to request student's id (irrelevant if requestId is false)
-    public final boolean sendToLogFile; // prompt used to request student's id (irrelevant if requestId is false)
+    public final boolean sendToLogFile;
     public final boolean sendToServer;
     public final boolean collectIPAddress = false;
     public final Function1<Character, Boolean> characterValidation;
