@@ -56,7 +56,7 @@ public class X2Y2DragHandler extends LineManipulatorDragHandler {
         double y2 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), y2Range.get() ) );
         // Don't allow points to be the same, this would result in slope=0/0 (undefined line.)
         if ( !( x2 == line.get().x1 && y2 == line.get().y1 ) ) {
-            // Keep (x2,y2) constant, change (x2,y2) and slope.
+            // Keep (x1,y1) constant, change (x2,y2) and slope.
             line.set( new Line( line.get().x1, line.get().y1, x2, y2, line.get().color ) );
         }
     }
