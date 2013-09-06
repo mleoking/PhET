@@ -1,0 +1,63 @@
+PhET Progress Report, J. Blanco, 9-5-2013
+
+PhET Weekly Progress Report
+John Blanco
+September 5th, 2013
+
+Time period covered: August 29th through September 4th.
+
+Build an Atom (HTML5 version) - 12.0 hrs
+
+o	Ported symbol-to-schematic problem, all problems now ported.
+o	Tracked down an issue with accordion boxes where contents weren't visible.
+o	Added padding to "Show" dialog (as requested in review meeting).
+
+Ohm's Law (HTML5 version) - 3.0 hrs
+
+o	Made units separately translatable from the symbols in the equation.
+o	Fixed some issues with layout of the box where the current is displayed.
+o	Tested font changes.
+o	Deployed a release candidate (had to do twice due to initial misunderstanding of current build process).
+
+Resistance in a Wire (HTML5 version) - 2.0 hrs
+
+o	Tested font changes.
+o	Deployed a release candidate (had to do twice due to initial misunderstanding of current build process).
+
+Common Code (HTML5) - 1.0 hrs
+
+o	Reviewed changes for ArrowNode.
+o	Collaborated with Chris M on issue with ObservableArray.
+
+Build Tools for HTML5 - 4.0 hrs
+
+o	Tried out the single-file build process for RIAW.
+o	Discussion with CM about "agreed upon" process.
+o	Research and investigation of grunt and Node.js.
+o	Figured out how to embed audio resources into single-file HTML.
+o	Started investigating methods for loading of audio resources.
+
+HTML5 Startup: Process Development - 4.0 hrs
+
+o	Weekly developer meetings and collaboration.
+o	Various discussions about build process, common code, communication with MLL.
+
+HTML5 Startup: MLL Management - 1.5 hrs
+
+o	Let Dmitry know that he can invoice for GFL simulation.
+o	Worked with Dmitry via email on issues surrounding our ability to edit the MLL-PhET Knowledge Base.
+o	Added information about changes.txt to the knowledge base.
+
+Installer - 0.25 hrs
+
+o	Small amount of investigation into a request for a translated version, see Unfuddle #3564.
+
+Meetings, Email, and Other Administrative Overhead - 4.25 hrs
+
+o	Status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o	Monday, September 2nd, was Labor Day.
