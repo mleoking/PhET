@@ -1,3 +1,4 @@
+# 1.01.03 (73445) Sep 6, 2013
 # 1.01.02 (73441) Sep 5, 2013
 # 1.01.01 (73413) Aug 29, 2013
 4/15/13 #3531 print out all possible equations in GameFactory.main
