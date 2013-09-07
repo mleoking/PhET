@@ -140,7 +140,10 @@ public class SimSharingManager {
             logs.add( new ConsoleLog() );
             logs.add( stringLog );
             if ( simSharingConfig.sendToLogFile ) {
-                logs.add( new SimSharingFileLogger( machineCookie, sessionId ) );
+                logs.add( new SimSharingFileLogger( machineCookie, sessionId,false ) );
+            }
+            if (simSharingConfig.sendToLogFileNearJAR){
+                logs.add( new SimSharingFileLogger( machineCookie, sessionId,true ) );
             }
 
             //If Mongo delivery is enabled, add that log (but if trying to connect to unknown host, print an exception and skip it)

@@ -25,9 +25,17 @@ public class SimSharingConfig {
             return Character.isLetterOrDigit( character.charValue() ) || Character.isWhitespace( character.charValue() ) || character.charValue() == '.';
         }
     };
+    public static final Function1<Character, Boolean> NO_WHITESPACE = new Function1<Character, Boolean>() {
+        public Boolean apply( Character character ) {
+            return !character.toString().equals( " " );
+        }
+    };
 
     // General-purpose config, for routine interviews.
     public static final SimSharingConfig INTERVIEWS = new SimSharingConfig( "interviews", true, false, false, false );
+
+    // For saving on a USB drive with the sim on the drive
+    public static final SimSharingConfig USB_DRIVE = new SimSharingConfig( "usb-drive", false, true, false, false, false, NO_WHITESPACE );
 
     /*
      * Location: CU Boulder, Chem 1113 course
@@ -39,7 +47,7 @@ public class SimSharingConfig {
      * But this study was done during prototyping, before "study configurations" were conceived.
      * Since PhET has an investment in data files containing this study name, we're stuck with it.
      */
-    public static final SimSharingConfig COLORADO_CONFIG = new SimSharingConfig( "colorado", false, true, true, true, "Enter your computer number:" );
+    public static final SimSharingConfig COLORADO_CONFIG = new SimSharingConfig( "colorado", false, false,true, true, true, "Enter your computer number:" );
 
     /*
      * Location: Weber State University, UT
@@ -51,7 +59,7 @@ public class SimSharingConfig {
      * But this study was done during prototyping, before "study configurations" were conceived.
      * Since PhET has an investment in data files containing this study name, we're stuck with it.
      */
-    public static final SimSharingConfig UTAH_CONFIG = new SimSharingConfig( "utah", false, true, true, false, "Enter your audio recorder number:" );
+    public static final SimSharingConfig UTAH_CONFIG = new SimSharingConfig( "utah", false, false,true, true, false, "Enter your audio recorder number:" );
 
     /*
     * Location: Dallas, TX
@@ -81,7 +89,7 @@ public class SimSharingConfig {
      *  Balancing Act study that will be done in conjunction with researchers
      *  at Stanford.  Time frame is February 2012.  See #3207.
      */
-    public static final SimSharingConfig BALANCING_ACT_SPRING_2012 = new SimSharingConfig( "balancing-act-spring-2012", true, true, true, true, "Please enter your user ID:", WORDS );
+    public static final SimSharingConfig BALANCING_ACT_SPRING_2012 = new SimSharingConfig( "balancing-act-spring-2012", true, false,true, true, true, "Please enter your user ID:", WORDS );
 
     /*
      *  Molecule Shapes study to be done in Feb 2012. See #3238.
@@ -96,7 +104,7 @@ public class SimSharingConfig {
     public static final SimSharingConfig LOAD_TESTING = new SimSharingConfig( "load-testing", false, true, false, false );
 
     // Config used when study name doesn't match any other config.
-    public static final SimSharingConfig DEFAULT = new SimSharingConfig( "default", false, false, false, false, "" );
+    public static final SimSharingConfig DEFAULT = new SimSharingConfig( "default", false, false,false, false, false, "" );
 
     /*
      * Reactants, Products and Leftovers (RPAL) study to be done in April 2012. See #3204.
@@ -110,7 +118,7 @@ public class SimSharingConfig {
      * Principal Researcher: Ido Roll.
      * Location: University of British Columbia (UBC), Vancouver, Canada.
      */
-    public static final SimSharingConfig CCK_UBC_SPRING_2013 = new SimSharingConfig( "cck-ubc-spring-2013", true, false, true, true, "Please enter your assigned ID:" );
+    public static final SimSharingConfig CCK_UBC_SPRING_2013 = new SimSharingConfig( "cck-ubc-spring-2013", true, false,false, true, true, "Please enter your assigned ID:" );
 
     private static final HashMap<String, SimSharingConfig> CONFIG_MAP = new HashMap<String, SimSharingConfig>();
 
@@ -121,6 +129,7 @@ public class SimSharingConfig {
 
     static {
         addConfig( INTERVIEWS );
+        addConfig( USB_DRIVE );
         addConfig( COLORADO_CONFIG );
         addConfig( UTAH_CONFIG );
         addConfig( DALLAS_JAN_2012 );
@@ -147,25 +156,27 @@ public class SimSharingConfig {
     public final boolean idRequired; // true=id required, false=optional
     public final String idPrompt; // prompt used to request student's id (irrelevant if requestId is false)
     public final boolean sendToLogFile;
+    public final boolean sendToLogFileNearJAR; // true if it should save a copy to a site near the JAR, for use on USB drives
     public final boolean sendToServer;
     public final boolean collectIPAddress = false;
     public final Function1<Character, Boolean> characterValidation;
 
     protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired ) {
-        this( studyName, sendToLogFile, sendToServer, requestId, idRequired, DIGITS );
+        this( studyName, sendToLogFile, false,sendToServer, requestId, idRequired, DIGITS );
     }
 
-    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired, Function1<Character, Boolean> characterValidation ) {
-        this( studyName, sendToLogFile, sendToServer, requestId, idRequired, null, characterValidation );
+    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToLogFileNearJAR, boolean sendToServer, boolean requestId, boolean idRequired, Function1<Character, Boolean> characterValidation ) {
+        this( studyName, sendToLogFile, sendToLogFileNearJAR, sendToServer, requestId, idRequired, null, characterValidation );
     }
 
-    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired, String idPrompt ) {
-        this( studyName, sendToLogFile, sendToServer, requestId, idRequired, idPrompt, DIGITS );
+    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToLogFileNearJAR,boolean sendToServer, boolean requestId, boolean idRequired, String idPrompt ) {
+        this( studyName, sendToLogFile, sendToLogFileNearJAR, sendToServer, requestId, idRequired, idPrompt, DIGITS );
     }
 
-    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired, String idPrompt, Function1<Character, Boolean> characterValidation ) {
+    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToLogFileNearJAR,boolean sendToServer, boolean requestId, boolean idRequired, String idPrompt, Function1<Character, Boolean> characterValidation ) {
         this.studyName = studyName;
         this.sendToLogFile = sendToLogFile;
+        this.sendToLogFileNearJAR = sendToLogFileNearJAR;
         this.sendToServer = sendToServer;
         this.requestId = requestId;
         this.idPrompt = idPrompt;

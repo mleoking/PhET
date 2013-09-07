@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,26 +15,41 @@ import java.util.Date;
  * @author Sam Reid
  */
 public class SimSharingFileLogger implements Log {
-    private BufferedWriter logWriter;
     private final String machineCookie;
     private final String sessionId;
+    private boolean nearJAR;
+    private BufferedWriter logWriter;
     private File file;
 
-    public SimSharingFileLogger( String machineCookie, String sessionId ) {
+    public SimSharingFileLogger( String machineCookie, String sessionId, boolean nearJAR ) {
         this.machineCookie = machineCookie;
         this.sessionId = sessionId;
+        this.nearJAR = nearJAR;
     }
 
     private void createLogWriter() {
-        file = new File( System.getProperty( "user.home" ), "phet-logs/" +
-                                                            new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
+        if ( nearJAR ) {
+            File base;
+            try {
+                base = new File( SimSharingFileLogger.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath() ).getParentFile();
+            }
+            catch( URISyntaxException e ) {
+                throw new RuntimeException( e );
+            }
+            file = new File( base, "phet-logs/" + new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
+        }
+        else {
+            file = new File( System.getProperty( "user.home" ), "phet-logs/" +
+                                                                new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
+        }
+
         file.getParentFile().mkdirs();
         System.out.println( "Logging sim-sharing messages to file: " + file );//TODO this should use logger
         try {
             file.createNewFile();
             logWriter = new BufferedWriter( new FileWriter( file, true ) );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -57,7 +73,7 @@ public class SimSharingFileLogger implements Log {
         try {
             logWriter.close();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
