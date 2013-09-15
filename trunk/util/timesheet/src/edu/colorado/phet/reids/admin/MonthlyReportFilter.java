@@ -43,6 +43,7 @@ public class MonthlyReportFilter {
         allList.add( "acid-base-solutions-study" );
         allList.add( "energy-skate-park-basics-study" );
         allList.add( "reflection-and-refaction" );
+        allList.add( "gravity-force-lab" );
 
         //As of 3/5/2012, we are supposed to put all sim research study support in this category
         allList.add( "sim-data-analysis-research-support" );
@@ -69,7 +70,9 @@ public class MonthlyReportFilter {
         String categoryString =
                 "Administrative/Documentation\n" +            //includes meetings
                 "Build Process\n" +
+                "Build Process (Java)\n" +
                 "Common Code\n" +
+                "Common Code (HTML5)\n" +
                 "Conferences, Workshops and Booths\n" +
                 "Customer Support\n" +
                 "Environment/Maintenance/Tools\n" +
@@ -212,6 +215,9 @@ public class MonthlyReportFilter {
         if ( category.equals( "woas" ) ) { return mapCategory( "Wave on a String" ); }
         if ( category.equals( "gfl" ) ) { return mapCategory( "Gravity Force Lab" ); }
         if ( category.equals( "baa" ) ) { return mapCategory( "build-an-atom" ); }
+        if ( category.equals( "dot" ) ) { return mapCategory( "Common Code (HTML5)" ); }
+        if ( category.equals( "html" ) ) { return mapCategory( "Common Code (HTML5)" ); }
+        if ( category.equals( "java-u25-redeploys" ) ) { return mapCategory( "Build Process (Java)" ); }
 
         if ( category.equals( category.toLowerCase() ) ) {
             System.out.println( "No match found for the category: " + category );
