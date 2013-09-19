@@ -1,0 +1,80 @@
+PhET Progress Report, J. Blanco, 9-19-2013
+
+PhET Weekly Progress Report
+John Blanco
+September 5th, 2013
+
+Time period covered: September 5th through September 18th.
+
+Build an Atom (HTML5 version) - 28.0 hrs
+
+o	Ported the list of problem configurations that can be used for games.
+o	Ported the problem sets, which track the list of problems that can be used within a given sub-game.
+o	Ported the problem set generation code.
+o	Made the stars on the start buttons work as progress indicators.
+o	Tested on iPhone based on some input from KP.
+o	Added reset button, sound control, and time control to initial game tab.
+o	Made the scoreboard work.
+o	Added screen for 'Level Complete'.
+
+Build Tools for HTML5: Audio for Single File - 28.0 hrs
+
+o	Researched how to make Base64 audio work on Mac and iPad
+o	Tested various 3rd party libraries, such as Howler and SoundManager2
+o	Set up a repository for our own sound management library (called 'vibe').
+o	Created a set of experiments for qualifying what does and doesn't work for playing sound effects on our targeted platforms.
+o	Created a class that supports playing sound effects on targeted platforms.
+o	Integrated with Ohm's Law and Forces and Motion Basics.
+o	Integrated workaround for iOS quirks.
+
+Ohm's Law (HTML5 version) - 3.0 hrs
+
+o	Replaced slider image with one drawn by Sharon.
+o	Integrated audio support for single-file HTML.
+
+Resistance in a Wire (HTML5 version) - 0.5 hrs
+
+o	Replaced slider image with one drawn by Sharon.
+
+Friction - 2.0 hrs
+
+o	Discussed in design meeting.
+o	Added section on implementation requirements.
+o	Edits and revisions.
+
+Under Pressure - 0.5 hrs
+
+o	Discussed in design meeting.
+
+John Travoltage - 1.5 hrs
+
+o	Looked at CoffeePhysics demos, discussed (via email) alternatives to the physics engine in order to resolve performance issues.
+
+Energy Skate Park Basics - 1.0 hrs
+
+o	Worked with SR on an issue where the skater pauses for a long time.
+
+Common Code (HTML5) - 2.0 hrs
+
+o	Moved ExpandCollapseNode from graphing-lines to Sun, integrated it with AccordionBox.
+o	Provided feedback on ruler design changes from Ariel & Sharon, updated associated ticket.
+
+HTML5 Startup: Process Development - 1.0 hrs
+
+o	Created document for build process, added an initial diagram.
+
+Environment - 2.0 hrs
+
+o	Tried out Google Hangouts for screen sharing.
+o	Worked with JO and SR to diagnose and fix the PhET web site when it went down.
+o	Requested and obtained the permissions needed to restart Tomcat (part of the web site infrastructure) if needed.
+
+Meetings, Email, and Other Administrative Overhead - 9.0 hrs
+
+o	Status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	No vacation on the immediate horizon.
