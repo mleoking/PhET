@@ -1,0 +1,74 @@
+PhET Progress Report, J. Blanco, 9-26-2013
+
+PhET Weekly Progress Report
+John Blanco
+September 26th, 2013
+
+Time period covered: September 19th through September 25th.
+
+Build an Atom (HTML5 version) - 22.5 hrs
+
+o	Switched side of up/down arrows on all game dialogs that contain them to make them work better on touch screens (for right handers).
+o	Enhanced touch areas on number entry dialogs on games for better usability on tablets.
+o	Published version for review with Emily M.
+o	Met with Emily M to work on redesign of the 'level completed' screen and the scoreboard.
+o	Worked on the 'long pause' issue.
+o	Added '+1' and '+2' indicators to the feedback node.
+o	Corrected several issues with the behavior of the score as the game progressed.
+o	Tested a particular version on iPhone to follow up on some issues noted by KP.
+o	Implemented redesigned "level completed" screen.
+o	Implemented redesigned scoreboard (fairly minor revisions).
+o	Started organizing the test effort.
+o	Various internal code cleanup in preparation for release.
+o	Various layout and label cleanup in preparation for release.
+o	Removed various debug printouts.
+o	Published a dev version for early feedback.
+
+HTML5 Audio - 4.0 hrs
+
+o	Finalized workaround for iPad (plays an initial 'silence' sound on first touch event).
+o	Created GameAudioPlayer for playing game sounds, changed Java version of game sounds to MP3s and incorporated them.
+o	Created sounds for incorrect answer and for game over with all answers correct that are compatible with PhET's licensing terms.
+
+Ohm's Law (HTML5 version) - 0.5 hrs
+
+o	Finished replacing audio with Vibe.
+
+Friction - 1.0 hrs
+
+o	Discussed in design meeting.
+o	Sent spec off to MLL for a quote.
+
+Wave on a String - 1.0 hrs
+
+o	Followed up on some issues and questions raised by MLL.
+
+Under Pressure - 0.5 hrs
+
+o	Discussed in design meeting.
+
+Estimation - 0.5 hrs
+
+o	Discussed in design meeting.
+
+Build Tools - 1.5 hrs
+
+o	Worked with Sam R on requirejs plugin for including audio using the module system.
+
+Common Code (HTML5) - 3.0 hrs
+
+o	Collaborated with Sam R on the addition of code to show the position of touch events.
+
+HTML5 Startup: Process Development - 0.5 hrs
+
+o	Reviewed and edited process document for the Rolls Royce group.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	No vacation on the immediate horizon.
