@@ -1,0 +1,67 @@
+PhET Progress Report, J. Blanco, 10-03-2013
+
+PhET Weekly Progress Report
+John Blanco
+October 10th, 2013
+
+Time period covered: September 26th through October 2nd.
+
+Build an Atom (HTML5 version) - 20.5 hrs
+
+o	Fixed an issue with extraction of electrons from the electron cloud.
+o	Discussed game in design meeting.
+o	Created and integrated new clock icon, updated behavior of "timer toggle" button.
+o	Improved layout of many of the individual challenge screens.
+o	Revised look of the game scoreboard based on team feedback.
+o	Made reset return particles to original positions in tabs 1 & 2.
+o	Changed game titles and captions as agreed upon in design meeting.
+o	Made time keep running when tabs are switched.
+o	Made stars on the game selection screen reflect best score instead of most recent.
+o	Deleted unused audio and image files, updated license files.
+o	Worked on various performance improvements in collaboration with Jon O and Sam R.
+o	Fixed an issue where the user could change the date entered on the game screens when they shouldn't be able to (e.g. during the "Display Correct Answer" screen).
+o	Changed layout of 1st and 2nd tabs so that nucleus doesn't overlap the element name or stability indicator for the heavier elements.
+o	Modified layout of "Level Completed" screen based on feedback from design team.
+o	Modified layout of interactive symbol node to make the interactive numbers line up better with and look more like the non-interactive numbers.
+
+HTML5 Audio - 8.0 hrs
+
+o	Removed backward compatibility for pre-audio plugin usage.
+o	Fixed lint issues, added it to list of common libs run through lint when sims are built.
+o	Fixed an issue where sounds were not being played on single-file sim versions in non-Web Audio browsers (i.e. IE and Firefox).
+o	Worked with Sam R on an issue with performance of the John Travoltage simulation that seems related to audio in an odd way.
+
+Friction - 1.5 hrs
+
+o	Let MLL know that quote is approved.
+o	Set up repository for this simulation, added basic project files.
+
+Balancing Act - 1.0 hrs
+
+o	Set up a repository, added basic project files.
+
+Record and Playback - 1.0 hrs
+
+o	Discussed this feature with Sam R and Jon O.
+
+Under Pressure - 0.5 hrs
+
+o	Discussed in design meeting.
+
+Estimation - 0.5 hrs
+
+o	Discussed in design meeting.
+
+Build Tools - 2.0 hrs
+
+o	Did a little work (in collaboration with Sam R) on a script for checking out all dependencies for a simulation.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	Planning to be out on Monday, 10/14 (Canadian Thanksgiving).
