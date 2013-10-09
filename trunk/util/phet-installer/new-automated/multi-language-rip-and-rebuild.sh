@@ -1,8 +1,8 @@
 #!/bin/sh
 
 #############################################################################
-# This script kicks off a full rebuild of the standard PhET installers,
-# meaning the installers that are available for download from the web site.
+# This script kicks off a full rebuild of a PhET installer that contains
+# multiple languages.
 #############################################################################
 
 LOG=./installer-builder-log.txt

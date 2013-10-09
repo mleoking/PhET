@@ -84,7 +84,7 @@
     // react somewhat differently (generally filtering out some links) when it
     // is being ripped for the installers.
     define("RIPPER_USER_AGENT_PHET",             '"httrack-web-offline-en"');
-    define("RIPPER_USER_AGENT_MULTI_LANGUAGE",   '"httrack-web-offline-en,es,zh_CN,ar_SA"');
+    define("RIPPER_USER_AGENT_MULTI_LANGUAGE",   '"httrack-web-offline-en,zh_TW"');
     define("RIPPER_USER_AGENT_YF",               '"httrack-web-mirror-yf"');
     define("RIPPER_USER_AGENT_KSU_LOCAL",        '"httrack-web-offline-ar_SA"');
     define("RIPPER_USER_AGENT_KSU_WEB",          '"httrack-web-mirror-ar_SA"');
