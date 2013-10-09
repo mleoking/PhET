@@ -79,13 +79,7 @@
                             <origin>$RIP_BASE_DIR$/en</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/es</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/ar_SA</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/zh_CN</origin>
+                            <origin>$RIP_BASE_DIR$/zh_TW</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/css</origin>
