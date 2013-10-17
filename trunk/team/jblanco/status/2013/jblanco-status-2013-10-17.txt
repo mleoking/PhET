@@ -1,0 +1,95 @@
+PhET Progress Report, J. Blanco, 10-17-2013
+
+PhET Weekly Progress Report
+John Blanco
+October 17th, 2013
+
+Time period covered: October 3rd through October 16th (two-week period due to canceled status meeting).
+
+Build an Atom (HTML5 version) - 22.0 hrs
+
+o	Testing on multiple platforms.
+o	Fine tuned touch areas on all interactive game screens.
+o	Updated to use new plugin for managing strings.
+o	Improved algorithm for arranging nucleons in the nucleus.
+o	More work on the "long pause" bug, since SR was seeing something similar on another sim.
+o	Added 'reward screen' for the end of each level.
+o	Fixed an issue where several of the game problems were be reset between user attempts.
+o	Tested running from file:// on several platforms.
+o	Put out a release candidate for testing.
+o	Various code cleanup.
+o	Minor changes to layout of first tab based on reported issue.
+o	Gathered information on and updated issue reports from testing of version 1.1.0-rc.2.
+
+Under Pressure - 1.5 hrs
+
+o	Added implementation details to design spec.
+o	Discussed in design meeting.
+
+Estimation - 1.0 hrs
+
+o	Discussed in design meeting.
+
+Ohm's Law - 0.5 hrs
+
+o	Updated to use new plugin for managing strings.
+
+Resistance in a Wire - 0.5 hrs
+
+o	Updated to use new plugin for managing strings.
+
+Gravity Force Lab - 3.0 hrs
+
+o	Imported strings from Java version.
+o	Updated to use new plugin for managing strings.
+o	Modified code (originally done by MLL) to have more overlap with strings from original Java sim.
+
+Friction - 1.0 hrs
+
+o	Discussed programmatic thermometer with MLL, they are on board.
+o	Updated to use new plugin for managing strings.
+
+Balancing Act - 3.0 hrs
+
+o	More work on basic project setup.
+o	Imported images and strings from the Java version.
+
+John Travoltage - 2.0 hrs
+
+o	Tested during "testing party", logged issues.
+o	Tested audio on various platforms when working on the common code audio issues.
+
+HTML5 Common Code - 3.0 hrs
+
+o	Expanded touch area for the open/close buttons.
+o	Set up game component repository (called Vegas).
+o	Moved the GameAudioPlayer into common code.
+o	Updated GameAudioPlayer to have .ogg files (supports operation of Firefox on OSX, XP, and probably Linux).
+
+HTML5 Audio - 11.0 hrs
+
+o	Research and solved issue where audio is not heard on Firefox running on OSX or WinXP.  Fix involved adding support for another audio format (ogg vorbis).
+o	Created .ogg versions of all sounds needed for games, also archived .wav versions.
+
+HTML5 Process Development - 7.0 hrs
+
+o	Testing tutorial meeting.
+o	Developer meetings.
+
+HTML5 Build Tools - 3.0 hrs
+
+o	Added feature for falling back to English strings when no translated string is available (in collaboration with SR).
+
+Installer - 1.5 hrs
+
+o	Created a version of the installer that included only English and Taiwanese (locale = zh_TN).
+
+Meetings, Email, and Other Administrative Overhead - 9.0 hrs
+
+o	Status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 9.0 hrs
+
+o	Left early on Friday, 10/11, and was out on Monday 10/14 (Canadian Thanksgiving).
