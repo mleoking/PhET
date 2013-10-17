@@ -1,12 +1,11 @@
 package edu.colorado.phet.flashlauncher.util;
 
-//See http://www.centerkey.com/java/browser/
-
 /////////////////////////////////////////////////////////
 //  Bare Bones Browser Launch                          //
-//  Version 1.5 (December 10, 2005)                    //
+//  Version 3.1 (June 6, 2010)                         //
 //  By Dem Pilafian                                    //
-//  Supports: Mac OS X, GNU/Linux, Unix, Windows XP    //
+//  Supports:                                          //
+//     Mac OS X, GNU/Linux, Unix, Windows XP/Vista/7   //
 //  Example Usage:                                     //
 //     String url = "http://www.centerkey.com/";       //
 //     BareBonesBrowserLaunch.openURL(url);            //
@@ -14,6 +13,7 @@ package edu.colorado.phet.flashlauncher.util;
 /////////////////////////////////////////////////////////
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import javax.swing.*;
 
@@ -21,48 +21,51 @@ import edu.colorado.phet.flashlauncher.FlashLauncher;
 
 public class BareBonesBrowserLaunch {
 
-    private static final String errMsg = "Error attempting to launch web browser";
+    static final String[] browsers = {"google-chrome", "firefox", "opera",
+            "epiphany", "konqueror", "conkeror", "midori", "kazehakase", "mozilla"};
+    static final String errMsg = "Error attempting to launch web browser";
 
     public static void openURL( String url ) {
-        String osName = System.getProperty( "os.name" );
-        FlashLauncher.println( "osName = " + osName );
-        try {
-            if ( osName.startsWith( "Mac OS" ) ) {
-                FlashLauncher.println( "Mac" );
-                Class fileMgr = Class.forName( "com.apple.eio.FileManager" );
-                FlashLauncher.println( "fileMgr = " + fileMgr );
-                Method openURL = fileMgr.getDeclaredMethod( "openURL",
-                                                            new Class[]{String.class} );
-                FlashLauncher.println( "openURL = " + openURL );
-                FlashLauncher.println( "url = " + url );
-                openURL.invoke( null, new Object[]{url} );
-                FlashLauncher.println( "invocation finished" );
-            }
-            else if ( osName.startsWith( "Windows" ) ) {
-                Runtime.getRuntime().exec( "rundll32 url.dll,FileProtocolHandler " + url );
-            }
-            else { //assume Unix or Linux
-                String[] browsers = {
-                        "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape"};
-                String browser = null;
-                for ( int count = 0; count < browsers.length && browser == null; count++ ) {
-                    if ( Runtime.getRuntime().exec(
-                            new String[]{"which", browsers[count]} ).waitFor() == 0 ) {
-                        browser = browsers[count];
-                    }
-                }
-                if ( browser == null ) {
-                    throw new Exception( "Could not find web browser" );
-                }
-                else {
-                    Runtime.getRuntime().exec( new String[]{browser, url} );
-                }
-            }
+        FlashLauncher.println( "Starting OpenURL..." );
+        try {  //attempt to use Desktop library from JDK 1.6+
+            Class<?> d = Class.forName( "java.awt.Desktop" );
+            FlashLauncher.println( "found class " + d );
+            d.getDeclaredMethod( "browse", new Class[]{java.net.URI.class} ).invoke(
+                    d.getDeclaredMethod( "getDesktop" ).invoke( null ),
+                    new Object[]{java.net.URI.create( url )} );
+            //above code mimicks:  java.awt.Desktop.getDesktop().browse()
         }
-        catch( Exception e ) {
-            JOptionPane.showMessageDialog( null, errMsg + ":\n" + e.getLocalizedMessage() );
+        catch( Exception ignore ) {  //library not available or failed
+            String osName = System.getProperty( "os.name" );
+            try {
+                if ( osName.startsWith( "Mac OS" ) ) {
+                    Method method = Class.forName( "com.apple.eio.FileManager" ).getDeclaredMethod(
+                            "openURL", new Class[]{String.class} );
+                    FlashLauncher.println( "found OSX Method" + method );
+                    method.invoke( null,
+                                   new Object[]{url} );
+                }
+                else if ( osName.startsWith( "Windows" ) ) {
+                    FlashLauncher.println( "Starting browser on Windows" );
+                    Runtime.getRuntime().exec(
+                            "rundll32 url.dll,FileProtocolHandler " + url );
+                }
+                else { //assume Unix or Linux
+                    FlashLauncher.println( "Starting browser on Unix/Linux" );
+                    String browser = null;
+                    for ( String b : browsers ) {
+                        if ( browser == null && Runtime.getRuntime().exec( new String[]
+                                                                                   {"which", b} ).getInputStream().read() != -1 ) {
+                            Runtime.getRuntime().exec( new String[]{browser = b, url} );
+                        }
+                    }
+                    if ( browser == null ) { throw new Exception( Arrays.toString( browsers ) ); }
+                }
+            }
+            catch( Exception e ) {
+                JOptionPane.showMessageDialog( null, errMsg + "\n" + e.toString() );
+            }
         }
     }
 
 }
-
