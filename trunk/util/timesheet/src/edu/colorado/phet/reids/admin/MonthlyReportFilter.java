@@ -32,6 +32,7 @@ public class MonthlyReportFilter {
         allList.add( "ti" );
         allList.add( "Sim data collection/processing" );
 
+        allList.add( "concentration" );
         allList.add( "forces-and-motion-basics" );
         allList.add( "example-sim" );
         allList.add( "energy-skate-park-basics" );
@@ -218,6 +219,12 @@ public class MonthlyReportFilter {
         if ( category.equals( "dot" ) ) { return mapCategory( "Common Code (HTML5)" ); }
         if ( category.equals( "html" ) ) { return mapCategory( "Common Code (HTML5)" ); }
         if ( category.equals( "java-u25-redeploys" ) ) { return mapCategory( "Build Process (Java)" ); }
+
+        //[unknown: espb, unknown: vibe, unknown: concentration, unknown: smorgasbord, unknown: mobius]
+        if ( category.equals( "espb" ) ) { return mapCategory( "energy-skate-park-basics" ); }
+        if ( category.equals( "vibe" ) ) { return mapCategory( "Common Code (HTML5)" ); }
+        if ( category.equals( "smorgasbord" ) ) { return mapCategory( "Common Code (HTML5)" ); }
+        if ( category.equals( "mobius" ) ) { return mapCategory( "Common Code (HTML5)" ); }
 
         if ( category.equals( category.toLowerCase() ) ) {
             System.out.println( "No match found for the category: " + category );
