@@ -13,7 +13,7 @@ public class ModuleInfo {
     boolean running;
     private long startTime;
     private long elapsedTime = 0;
-    private int clicks;
+    private int clicks = 0;
     private Module module;
 
     public ModuleInfo( Module module ) {
