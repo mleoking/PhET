@@ -5,8 +5,7 @@ import fj.F;
 import fj.Ord;
 import fj.data.List;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -230,7 +229,7 @@ public class DynamicNumberLineNode extends PNode {
         }}, color, borderStroke, Color.black ) {{
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new SimSharingDragHandler( Components.numberLineKnob, UserComponentTypes.sprite, true ) {
+            addInputEventListener( new SimSharingDragHandler( Components.numberLineKnob, UserComponentTypes.sprite, false ) {
                 @Override protected void startDrag( final PInputEvent event ) {
                     super.startDrag( event );
                     handleMousePress( event );
@@ -252,7 +251,7 @@ public class DynamicNumberLineNode extends PNode {
         //Arrow pointing to the location (for when tick marks get dense)
         arrowPath = new PhetPPath( color, new BasicStroke( borderStroke.getLineWidth() / 2f ), Color.black ) {{
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new SimSharingDragHandler( Components.numberLineArrow, UserComponentTypes.sprite, true ) {
+            addInputEventListener( new SimSharingDragHandler( Components.numberLineArrow, UserComponentTypes.sprite, false ) {
                 @Override protected void startDrag( final PInputEvent event ) {
                     super.startDrag( event );
                     handleMousePress( event );

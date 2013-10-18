@@ -23,7 +23,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
 import static edu.colorado.phet.fractions.fractionmatcher.model.Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES;
-import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.*;
+import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.MOVE_TO_LEFT_SCALE;
+import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.MOVE_TO_RIGHT_SCALE;
+import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.moveToCell;
 import static fj.data.TreeMap.fromMutableMap;
 
 /**
@@ -44,7 +46,7 @@ class MovableFractionNode extends PNode {
         //Attach input handlers if the fraction hasn't already been placed in the target location.
         if ( !f.scored ) {
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new SimSharingDragHandler( f.userComponent, UserComponentTypes.sprite, true ) {
+            addInputEventListener( new SimSharingDragHandler( f.userComponent, UserComponentTypes.sprite, false ) {
 
                 //Flag one slice as dragging
                 @Override protected void startDrag( final PInputEvent event ) {
