@@ -41,7 +41,6 @@ public class Report {
     }
 
     public void moduleAdded( Module module ) {
-        System.out.println( "module added " + module.getName() );
         if ( this.startTime == 0 ) {
             startTime = System.currentTimeMillis();
         }
