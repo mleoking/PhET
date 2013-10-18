@@ -25,7 +25,7 @@ public class Report {
         String b = "";
         for ( Module m : modules ) {
             ModuleInfo info = moduleMap.get( m );
-            b = b + m.getName() + ": " + ( info != null ? info.getElapsedTime() / 1000.0 : '0' ) + " sec, clicks: " + info.getClicks() + "\n";
+            b = b + m.getName() + ": " + info.toString() + "\n";
         }
         return a + b;
     }
