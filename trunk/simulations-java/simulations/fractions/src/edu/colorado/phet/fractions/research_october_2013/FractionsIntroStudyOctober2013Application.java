@@ -1,6 +1,7 @@
 // Copyright 2002-2013, University of Colorado
-package edu.colorado.phet.fractions.fractionsintro;
+package edu.colorado.phet.fractions.research_october_2013;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,6 +31,9 @@ public class FractionsIntroStudyOctober2013Application extends PiccoloPhetApplic
 
     //Global flag for whether this functionality should be enabled
     public static boolean recordRegressionData;
+    public static boolean isReport = true;
+    public static Report report = new Report();
+    private final TextArea reportArea = new TextArea();
 
     public FractionsIntroStudyOctober2013Application( PhetApplicationConfig config ) {
         super( config );
@@ -76,6 +80,20 @@ public class FractionsIntroStudyOctober2013Application extends PiccoloPhetApplic
                 }
             } );
         }} );
+
+        if ( isReport ) {
+            JFrame frame = new JFrame( "Report" );
+            frame.setContentPane( new JScrollPane( reportArea ) );
+            frame.setSize( 800, 600 );
+            frame.setVisible( true );
+            Timer t = new Timer( 1000, new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    report.update();
+                    reportArea.setText( report.toString() );
+                }
+            } );
+            t.start();
+        }
     }
 
     public static void main( String[] args ) {
