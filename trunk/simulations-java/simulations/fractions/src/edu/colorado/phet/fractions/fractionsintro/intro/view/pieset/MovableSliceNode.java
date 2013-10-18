@@ -34,7 +34,7 @@ public class MovableSliceNode extends PNode {
 
         addInputEventListener( new CursorHandler() );
 
-        addInputEventListener( new SimSharingDragHandler( sliceComponent, sprite, true ) {
+        addInputEventListener( new SimSharingDragHandler( sliceComponent, sprite, false ) {
 
             //Flag one slice as dragging
             @Override protected void startDrag( final PInputEvent event ) {
