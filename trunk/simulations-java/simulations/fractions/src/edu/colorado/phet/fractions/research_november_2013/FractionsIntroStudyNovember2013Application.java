@@ -9,6 +9,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
+import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -27,7 +29,7 @@ import edu.umd.cs.piccolo.util.PDebug;
  *
  * @author Sam Reid
  */
-public class FractionsIntroStudyOctober2013Application extends PiccoloPhetApplication {
+public class FractionsIntroStudyNovember2013Application extends PiccoloPhetApplication {
 
     //Global flag for whether this functionality should be enabled
     public static boolean recordRegressionData;
@@ -35,8 +37,22 @@ public class FractionsIntroStudyOctober2013Application extends PiccoloPhetApplic
     public static Report report = new Report();
     private final TextArea reportArea = new TextArea();
 
-    public FractionsIntroStudyOctober2013Application( PhetApplicationConfig config ) {
+    public FractionsIntroStudyNovember2013Application( PhetApplicationConfig config ) {
         super( config );
+
+        addModuleObserver( new ModuleObserver() {
+            public void moduleAdded( ModuleEvent event ) {
+                report.moduleAdded( event.getModule() );
+            }
+
+            public void activeModuleChanged( ModuleEvent event ) {
+                report.setActiveModule( event.getModule() );
+            }
+
+            public void moduleRemoved( ModuleEvent event ) {
+
+            }
+        } );
 
         //Another way to do this would be to pass a FunctionInvoker to all the modules
         recordRegressionData = config.hasCommandLineArg( "-recordRegressionData" );
@@ -97,7 +113,7 @@ public class FractionsIntroStudyOctober2013Application extends PiccoloPhetApplic
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyOctober2013Application.class );
+        new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
     }
 
     //Utility method for testing a single module
