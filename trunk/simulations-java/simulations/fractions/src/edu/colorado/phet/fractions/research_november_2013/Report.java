@@ -1,5 +1,5 @@
 // Copyright 2002-2013, University of Colorado
-package edu.colorado.phet.fractions.research_october_2013;
+package edu.colorado.phet.fractions.research_november_2013;
 
 /**
  * Created by Sam on 10/18/13.
