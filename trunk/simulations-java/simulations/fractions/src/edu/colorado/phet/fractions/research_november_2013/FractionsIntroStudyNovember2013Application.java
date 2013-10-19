@@ -150,8 +150,15 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             representationPaintHashMap.put( Representation.WATER_GLASSES, Color.yellow );
             representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
             final EnumPropertyNode<Representation> representationNode = new EnumPropertyNode<Representation>( introModule.model.representation, representationPaintHashMap, 15, timeScalingFunction, addTickListener );
+            final NumericPropertyNode<Integer> denominator = new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 50, 25 ), timeScalingFunction, addTickListener );
+            final NumericPropertyNode<Integer> numerator = new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 60 ), timeScalingFunction, addTickListener );
+            final NumericPropertyNode<Integer> max = new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 350, 310 ), timeScalingFunction, addTickListener );
             visualizationCanvas.addScreenChild( moduleNode );
             visualizationCanvas.addScreenChild( representationNode );
+            visualizationCanvas.addScreenChild( denominator );
+            visualizationCanvas.addScreenChild( numerator );
+            visualizationCanvas.addScreenChild( max );
+
             Timer t = new Timer( 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     report.update();
