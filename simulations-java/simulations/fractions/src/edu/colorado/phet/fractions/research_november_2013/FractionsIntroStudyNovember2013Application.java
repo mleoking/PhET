@@ -139,25 +139,20 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 }
             };
             final long startTime = System.currentTimeMillis();
-            final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 10000, 0, 800 ) );
+            final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 60000, 0, 800 ) );
 
-            final EnumPropertyNode<Module> moduleNode = new EnumPropertyNode<Module>( module, modulePaintHashMap, 5, timeScalingFunction, addTickListener );
             HashMap<Representation, Paint> representationPaintHashMap = new HashMap<Representation, Paint>();
-            representationPaintHashMap.put( Representation.PIE, Color.green );
-            representationPaintHashMap.put( Representation.HORIZONTAL_BAR, Color.blue );
-            representationPaintHashMap.put( Representation.VERTICAL_BAR, Color.red );
-            representationPaintHashMap.put( Representation.CAKE, Color.darkGray );
-            representationPaintHashMap.put( Representation.WATER_GLASSES, Color.yellow );
+            representationPaintHashMap.put( Representation.PIE, new Color( 0x8cc63f ) );
+            representationPaintHashMap.put( Representation.HORIZONTAL_BAR, new Color( 0xe94545 ) );
+            representationPaintHashMap.put( Representation.VERTICAL_BAR, new Color( 0x57b6dd ) );
+            representationPaintHashMap.put( Representation.WATER_GLASSES, new Color( 0xffc800 ) );
+            representationPaintHashMap.put( Representation.CAKE, new Color( 0xa55a41 ) );
             representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
-            final EnumPropertyNode<Representation> representationNode = new EnumPropertyNode<Representation>( introModule.model.representation, representationPaintHashMap, 15, timeScalingFunction, addTickListener );
-            final NumericPropertyNode<Integer> denominator = new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 50, 25 ), timeScalingFunction, addTickListener );
-            final NumericPropertyNode<Integer> numerator = new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 60 ), timeScalingFunction, addTickListener );
-            final NumericPropertyNode<Integer> max = new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 350, 310 ), timeScalingFunction, addTickListener );
-            visualizationCanvas.addScreenChild( moduleNode );
-            visualizationCanvas.addScreenChild( representationNode );
-            visualizationCanvas.addScreenChild( denominator );
-            visualizationCanvas.addScreenChild( numerator );
-            visualizationCanvas.addScreenChild( max );
+            visualizationCanvas.addScreenChild( new EnumPropertyNode<Module>( module, modulePaintHashMap, 5, timeScalingFunction, addTickListener ) );
+            visualizationCanvas.addScreenChild( new EnumPropertyNode<Representation>( introModule.model.representation, representationPaintHashMap, 15, timeScalingFunction, addTickListener ) );
+            visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 50, 25 ), timeScalingFunction, addTickListener ) );
+            visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 60 ), timeScalingFunction, addTickListener ) );
+            visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 350, 310 ), timeScalingFunction, addTickListener ) );
 
             Timer t = new Timer( 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

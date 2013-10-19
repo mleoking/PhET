@@ -4,8 +4,7 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 import fj.data.List;
 import fj.data.Option;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
@@ -53,23 +52,17 @@ import static java.awt.Color.black;
 public class FractionNode extends RichPNode {
 
     public final Box whole = new Box();//Whole box is only shown and used for mixed numbers
-
     public final Box numerator = new Box();
     public final PhetPPath divisorLine;
     public final Box denominator = new Box();
-
     public final UndoButton undoButton;
-
+    public final boolean mixedNumber;
     private final ArrayList<VoidFunction1<Option<Fraction>>> undoListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
+    private final FractionDraggingContext context;
+    private final double SCALE_IN_TOOLBOX = 0.7;
     private double toolboxPositionX;
     private double toolboxPositionY;
-
     private FractionCardNode cardNode;
-    private final FractionDraggingContext context;
-    public final boolean mixedNumber;
-
-    private final double SCALE_IN_TOOLBOX = 0.7;
-
     //Keep track of recent activity so it can be incrementally undone with the "undo" button
     private List<FractionNodePosition> dropListHistory = List.nil();
 
@@ -110,7 +103,7 @@ public class FractionNode extends RichPNode {
         addChild( undoButton );
 
         dragRegion.addInputEventListener( new CursorHandler() );
-        dragRegion.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fraction, FractionNode.this.hashCode() ), FractionNode.this ) {
+        dragRegion.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fraction, FractionNode.this.hashCode() ), FractionNode.this, false ) {
             @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
                 final String numString = numerator.numberNode != null ? numerator.numberNode.number + "" : "empty";
                 final String denString = denominator.numberNode != null ? denominator.numberNode.number + "" : "empty";
@@ -162,6 +155,14 @@ public class FractionNode extends RichPNode {
                 }
             } );
         }
+    }
+
+    private static PhetPPath box() {
+        return box( 1.0 );
+    }
+
+    private static PhetPPath box( double scale ) {
+        return new PhetPPath( new Rectangle2D.Double( 0, 0, 40 * scale, 50 * scale ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[]{10, 6}, 0 ), Color.red );
     }
 
     //Send the last piece to the toolbox (First-In-Last-Out)
@@ -230,14 +231,6 @@ public class FractionNode extends RichPNode {
 
             box.setEnabled( true );
         }
-    }
-
-    private static PhetPPath box() {
-        return box( 1.0 );
-    }
-
-    private static PhetPPath box( double scale ) {
-        return new PhetPPath( new Rectangle2D.Double( 0, 0, 40 * scale, 50 * scale ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), Color.red );
     }
 
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
