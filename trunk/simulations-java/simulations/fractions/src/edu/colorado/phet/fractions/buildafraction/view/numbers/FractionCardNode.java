@@ -6,8 +6,7 @@ import fj.F;
 import fj.data.List;
 import fj.data.Option;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -76,7 +75,7 @@ class FractionCardNode extends RichPNode {
         };
         cardShapeNode.addInputEventListener( new CursorHandler() );
 
-        cardShapeNode.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fractionCard, FractionCardNode.this.hashCode() ), FractionCardNode.this ) {
+        cardShapeNode.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fractionCard, FractionCardNode.this.hashCode() ), FractionCardNode.this, false ) {
             @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
                 return super.getParametersForAllEvents( event ).with( numerator, fractionNode.getTopNumberNode().number ).with( denominator, fractionNode.getBottomNumberNode().number );
             }

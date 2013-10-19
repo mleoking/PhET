@@ -3,8 +3,7 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
 import fj.data.Option;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -36,8 +35,8 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  */
 public class NumberCardNode extends Stackable {
     public final int number;
-    private final PhetPPath cardShape;
     public final NumberNode numberNode;
+    private final PhetPPath cardShape;
     private final Dimension2DDouble size;
     private final NumberDragContext context;
 
@@ -53,12 +52,13 @@ public class NumberCardNode extends Stackable {
             }
         };
         addChild( cardShape );
-        numberNode = new NumberNode( number ) {{
-            centerFullBoundsOnPoint( size.width / 2, size.height / 2 );
-        }};
+        numberNode = new
+                NumberNode( number ) {{
+                    centerFullBoundsOnPoint( size.width / 2, size.height / 2 );
+                }};
         addChild( numberNode );
 
-        addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( numberCard, NumberCardNode.this.hashCode() ), NumberCardNode.this ) {
+        addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( numberCard, NumberCardNode.this.hashCode() ), NumberCardNode.this, false ) {
             @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
                 return super.getParametersForAllEvents( event ).with( value, number );
             }

@@ -6,8 +6,7 @@ import fj.F;
 import fj.data.List;
 import fj.function.Doubles;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -49,6 +48,24 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  * @author Sam Reid
  */
 class SingleContainerNode extends PNode {
+    //Function that gets the fraction value.
+    public static final F<SingleContainerNode, Fraction> _getFractionValue = new F<SingleContainerNode, Fraction>() {
+        @Override public Fraction f( final SingleContainerNode singleContainerNode ) {
+            return singleContainerNode.getFractionValue();
+        }
+    };
+    //Gets the number of pieces that have been dropped in this SingleContainerNode
+    public static final F<SingleContainerNode, Integer> _getNumberPieces = new F<SingleContainerNode, Integer>() {
+        @Override public Integer f( final SingleContainerNode singleContainerNode ) {
+            return singleContainerNode.getPieces().length();
+        }
+    };
+    //Effect that sends all pieces back to the toolbox.
+    public static final Effect<SingleContainerNode> _undoAll = new Effect<SingleContainerNode>() {
+        @Override public void e( final SingleContainerNode s ) {
+            s.undoAll();
+        }
+    };
     public final ContainerNode parent;
     private final PNode dottedLineLayer;
     private final ContainerShapeNode shapeLayer;
@@ -65,7 +82,7 @@ class SingleContainerNode extends PNode {
                     if ( dottedLineLayer != null ) {
                         dottedLineLayer.moveToFront();
                     }
-                    final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 );
+                    final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{10, 10}, 0 );
                     if ( shapeType == BAR ) {
                         final double pieceWidth = ContainerShapeNode.rectangleWidth / number;
                         double x = pieceWidth;
@@ -92,7 +109,7 @@ class SingleContainerNode extends PNode {
             addChild( new PhetPPath( shapeType == BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight )
                                                       : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
 
-            addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( container, parent.hashCode() ), SingleContainerNode.this ) {
+            addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( container, parent.hashCode() ), SingleContainerNode.this, false ) {
                 @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
                     return super.getParametersForAllEvents( event ).with( ParameterKeys.shapeType, shapeType.name() ).with( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.value, getFractionValue().toDouble() );
                 }
@@ -140,22 +157,8 @@ class SingleContainerNode extends PNode {
     //Get the value just in this SingleContainerNode
     Fraction getFractionValue() { return sum( getPieces().map( _toFraction ) ); }
 
-    //Function that gets the fraction value.
-    public static final F<SingleContainerNode, Fraction> _getFractionValue = new F<SingleContainerNode, Fraction>() {
-        @Override public Fraction f( final SingleContainerNode singleContainerNode ) {
-            return singleContainerNode.getFractionValue();
-        }
-    };
-
     //Gets a list of all the pieces that have been dropped in this SingleContainerNode
     private List<PieceNode> getPieces() {return getChildren( this, PieceNode.class );}
-
-    //Gets the number of pieces that have been dropped in this SingleContainerNode
-    public static final F<SingleContainerNode, Integer> _getNumberPieces = new F<SingleContainerNode, Integer>() {
-        @Override public Integer f( final SingleContainerNode singleContainerNode ) {
-            return singleContainerNode.getPieces().length();
-        }
-    };
 
     //How far over should a new piece be added in?
     double getPiecesWidthUnscaled() {
@@ -185,13 +188,6 @@ class SingleContainerNode extends PNode {
             parent.parent.undoPieceFromContainer( child );
         }
     }
-
-    //Effect that sends all pieces back to the toolbox.
-    public static final Effect<SingleContainerNode> _undoAll = new Effect<SingleContainerNode>() {
-        @Override public void e( final SingleContainerNode s ) {
-            s.undoAll();
-        }
-    };
 
     //Gets the location where a PieceNode should be dropped within this SingleContainerNode.
     public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
