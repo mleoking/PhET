@@ -27,6 +27,7 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
+import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDebug;
 
@@ -140,9 +141,17 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             final long startTime = System.currentTimeMillis();
             final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 10000, 0, 800 ) );
 
-            final EnumPropertyNode<Module> moduleNode = new EnumPropertyNode<Module>( module, modulePaintHashMap, 5,
-                                                                                      timeScalingFunction, addTickListener );
+            final EnumPropertyNode<Module> moduleNode = new EnumPropertyNode<Module>( module, modulePaintHashMap, 5, timeScalingFunction, addTickListener );
+            HashMap<Representation, Paint> representationPaintHashMap = new HashMap<Representation, Paint>();
+            representationPaintHashMap.put( Representation.PIE, Color.green );
+            representationPaintHashMap.put( Representation.HORIZONTAL_BAR, Color.blue );
+            representationPaintHashMap.put( Representation.VERTICAL_BAR, Color.red );
+            representationPaintHashMap.put( Representation.CAKE, Color.darkGray );
+            representationPaintHashMap.put( Representation.WATER_GLASSES, Color.yellow );
+            representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
+            final EnumPropertyNode<Representation> representationNode = new EnumPropertyNode<Representation>( introModule.model.representation, representationPaintHashMap, 15, timeScalingFunction, addTickListener );
             visualizationCanvas.addScreenChild( moduleNode );
+            visualizationCanvas.addScreenChild( representationNode );
             Timer t = new Timer( 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     report.update();

@@ -17,6 +17,8 @@ import static edu.colorado.phet.fractions.fractionsintro.intro.model.IntroState.
  * @author Sam Reid
  */
 public class FractionsIntroModule extends AbstractFractionsModule {
+    public final FractionsIntroModel model;
+
     public FractionsIntroModule() {
         this( new FractionsIntroModel( IntroState.newState( 1, createFactorySet(), System.currentTimeMillis() ), createFactorySet() ) );
     }
@@ -24,6 +26,7 @@ public class FractionsIntroModule extends AbstractFractionsModule {
     private FractionsIntroModule( FractionsIntroModel model ) {
         super( Components.introTab, Strings.INTRO, model.getClock() );
         setSimulationPanel( new FractionsIntroCanvas( model ) );
+        this.model = model;
     }
 
     //Test main for launching this module in an application by itself for testing
