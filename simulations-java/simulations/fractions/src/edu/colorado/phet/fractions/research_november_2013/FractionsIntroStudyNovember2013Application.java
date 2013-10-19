@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.research_november_2013;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +30,6 @@ import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDebug;
 
 /**
@@ -47,10 +48,32 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     public FractionsIntroStudyNovember2013Application( PhetApplicationConfig config ) {
         super( config );
+        final Property<Integer> totalClicks = new Property<Integer>( 0 );
 
         addModuleObserver( new ModuleObserver() {
             public void moduleAdded( ModuleEvent event ) {
                 report.moduleAdded( event.getModule() );
+                event.getModule().getSimulationPanel().addMouseListener( new MouseListener() {
+                    public void mouseClicked( MouseEvent e ) {
+
+                    }
+
+                    public void mousePressed( MouseEvent e ) {
+                        totalClicks.set( totalClicks.get() + 1 );
+                    }
+
+                    public void mouseReleased( MouseEvent e ) {
+
+                    }
+
+                    public void mouseEntered( MouseEvent e ) {
+
+                    }
+
+                    public void mouseExited( MouseEvent e ) {
+
+                    }
+                } );
             }
 
             public void activeModuleChanged( ModuleEvent event ) {
@@ -120,7 +143,6 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
             JFrame canvasFrame = new JFrame( "Visualization" );
             final PhetPCanvas visualizationCanvas = new PhetPCanvas();
-            visualizationCanvas.addScreenChild( new PText( "Hello" ) );
             canvasFrame.setContentPane( visualizationCanvas );
             canvasFrame.setSize( 800, 600 );
             canvasFrame.setLocation( 0, 400 );
@@ -148,11 +170,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             representationPaintHashMap.put( Representation.WATER_GLASSES, new Color( 0xffc800 ) );
             representationPaintHashMap.put( Representation.CAKE, new Color( 0xa55a41 ) );
             representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
-            visualizationCanvas.addScreenChild( new EnumPropertyNode<Module>( module, modulePaintHashMap, 5, timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new EnumPropertyNode<Representation>( introModule.model.representation, representationPaintHashMap, 15, timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 50, 25 ), timeScalingFunction, addTickListener ) );
+            visualizationCanvas.addScreenChild( new EnumPropertyNode<Module>( module, modulePaintHashMap, 10, timeScalingFunction, addTickListener ) );
+            visualizationCanvas.addScreenChild( new EnumPropertyNode<Representation>( introModule.model.representation, representationPaintHashMap, 20, timeScalingFunction, addTickListener ) );
+            visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 50, 26 ), timeScalingFunction, addTickListener ) );
             visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 60 ), timeScalingFunction, addTickListener ) );
             visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 350, 310 ), timeScalingFunction, addTickListener ) );
+            visualizationCanvas.addScreenChild( new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
 
             Timer t = new Timer( 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -161,7 +184,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                     for ( VoidFunction0 listener : tickListeners ) {
                         listener.apply();
                     }
-                    if ( System.currentTimeMillis() - startTime > 10000 ) {
+                    if ( System.currentTimeMillis() - startTime > 60000 ) {
                         timeScalingFunction.set( new Function.LinearFunction( startTime, System.currentTimeMillis(), 0, 800 ) );
                     }
                 }
