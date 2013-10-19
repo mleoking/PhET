@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolo.PNode;
 public class EnumPropertyNode<T> extends PNode {
     private ArrayList<Pair<T, Long>> timestamps = new ArrayList<Pair<T, Long>>();
 
-    public EnumPropertyNode( Property<T> property, final HashMap<T, Paint> paint, final int y, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener ) {
+    public EnumPropertyNode( ObservableProperty<T> property, final HashMap<T, Paint> paint, final int y, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener ) {
         final VoidFunction0 update = new VoidFunction0() {
             public void apply() {
                 for ( Pair<T, Long> timestamp : timestamps ) {
