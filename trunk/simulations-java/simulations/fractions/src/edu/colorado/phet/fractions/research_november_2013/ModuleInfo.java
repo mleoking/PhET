@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.research_november_2013;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -24,6 +25,7 @@ public class ModuleInfo {
     //For Fractions Intro
     private Representation representation;
     private HashSet<String> usedRepresentations = new HashSet<String>();
+    private HashMap<Representation, RepresentationInfo> representationMap = new HashMap<Representation, RepresentationInfo>();
 
     public ModuleInfo( Module module ) {
         this.module = module;
@@ -52,18 +54,34 @@ public class ModuleInfo {
         if ( module instanceof FractionsIntroModule ) {
             FractionsIntroModule m = (FractionsIntroModule) module;
             FractionsIntroCanvas canvas = (FractionsIntroCanvas) m.getSimulationPanel();
-            FractionsIntroModel model = canvas.model;
+            final FractionsIntroModel model = canvas.model;
             model.representation.addObserver( new VoidFunction1<Representation>() {
                 public void apply( Representation representation ) {
                     ModuleInfo.this.representation = representation;
                     usedRepresentations.add( representation.name() );
                 }
             } );
+            model.denominator.addObserver( new VoidFunction1<Integer>() {
+                public void apply( Integer integer ) {
+                    if ( !representationMap.containsKey( representation ) ) {
+                        representationMap.put( representation, new RepresentationInfo() );
+                    }
+                    representationMap.get( representation ).fractionChanged( model.numerator.get(), model.denominator.get() );
+                }
+            } );
+            model.numerator.addObserver( new VoidFunction1<Integer>() {
+                public void apply( Integer integer ) {
+                    if ( !representationMap.containsKey( representation ) ) {
+                        representationMap.put( representation, new RepresentationInfo() );
+                    }
+                    representationMap.get( representation ).fractionChanged( model.numerator.get(), model.denominator.get() );
+                }
+            } );
         }
     }
 
     @Override public String toString() {
-        return getElapsedTime() / 1000.0 + " sec, clicks: " + getClicks() + ", " + ( ( module instanceof FractionsIntroModule ) ? "representations: " + usedRepresentations.toString() : "" );
+        return getElapsedTime() / 1000.0 + " sec, clicks: " + getClicks() + ", " + ( ( module instanceof FractionsIntroModule ) ? "representations: " + usedRepresentations.toString() + ", " + representationMap.toString() : "" );
     }
 
     public long getElapsedTime() {
