@@ -4,7 +4,7 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 import fj.F;
 import fj.data.Option;
 
-import java.awt.BasicStroke;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public abstract class PieceNode extends Stackable {
     void installInputListeners() {
         addInputEventListener( new CursorHandler() );
 
-        addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( piece, PieceNode.this.hashCode() ), PieceNode.this ) {
+        addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( piece, PieceNode.this.hashCode() ), PieceNode.this, false ) {
             @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
                 return super.getParametersForAllEvents( event ).with( denominator, pieceSize );
             }
