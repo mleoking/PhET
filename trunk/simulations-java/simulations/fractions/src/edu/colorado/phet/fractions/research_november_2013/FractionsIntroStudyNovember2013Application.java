@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -48,6 +50,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     public FractionsIntroStudyNovember2013Application( PhetApplicationConfig config ) {
         super( config );
+
+        //New properties for recording
         final Property<Integer> totalClicks = new Property<Integer>( 0 );
 
         addModuleObserver( new ModuleObserver() {
@@ -84,6 +88,19 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             public void moduleRemoved( ModuleEvent event ) {
 
             }
+        } );
+        final Property<Boolean> windowActive = new Property<Boolean>( true );
+        final Property<Boolean> windowIconified = new Property<Boolean>( false );
+
+        //See code in PhetFrame
+        getPhetFrame().addWindowListener( new WindowAdapter() {
+            public void windowIconified( WindowEvent e ) { windowIconified.set( true ); }
+
+            public void windowDeiconified( WindowEvent e ) { windowIconified.set( false ); }
+
+            public void windowActivated( WindowEvent e ) { windowActive.set( true ); }
+
+            public void windowDeactivated( WindowEvent e ) {windowActive.set( false );}
         } );
 
         //Another way to do this would be to pass a FunctionInvoker to all the modules
@@ -154,6 +171,11 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             modulePaintHashMap.put( equalityLabModule, Color.green );
             modulePaintHashMap.put( matchingGameModule, Color.yellow );
             modulePaintHashMap.put( fractionLabModule, Color.magenta );
+
+            HashMap<Boolean, Paint> activePaintMap = new HashMap<Boolean, Paint>();
+            activePaintMap.put( true, Color.yellow );
+            activePaintMap.put( false, Color.gray );
+
             final ArrayList<VoidFunction0> tickListeners = new ArrayList<VoidFunction0>();
             VoidFunction1<VoidFunction0> addTickListener = new VoidFunction1<VoidFunction0>() {
                 public void apply( VoidFunction0 voidFunction0 ) {
@@ -170,6 +192,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             representationPaintHashMap.put( Representation.WATER_GLASSES, new Color( 0xffc800 ) );
             representationPaintHashMap.put( Representation.CAKE, new Color( 0xa55a41 ) );
             representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
+            visualizationCanvas.addScreenChild( new EnumPropertyNode<Boolean>( windowActive, activePaintMap, 0, timeScalingFunction, addTickListener ) );
             visualizationCanvas.addScreenChild( new EnumPropertyNode<Module>( module, modulePaintHashMap, 10, timeScalingFunction, addTickListener ) );
             visualizationCanvas.addScreenChild( new EnumPropertyNode<Representation>( introModule.model.representation, representationPaintHashMap, 20, timeScalingFunction, addTickListener ) );
             visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 50, 26 ), timeScalingFunction, addTickListener ) );
