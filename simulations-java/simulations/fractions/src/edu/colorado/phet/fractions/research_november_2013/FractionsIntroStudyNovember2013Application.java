@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -28,6 +29,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
@@ -159,8 +161,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             frame.setVisible( true );
 
             JFrame canvasFrame = new JFrame( "Visualization" );
-            final PhetPCanvas visualizationCanvas = new PhetPCanvas();
-            canvasFrame.setContentPane( visualizationCanvas );
+            final PhetPCanvas c = new PhetPCanvas();
+            canvasFrame.setContentPane( c );
             canvasFrame.setSize( 800, 600 );
             canvasFrame.setLocation( 0, 400 );
             canvasFrame.setVisible( true );
@@ -171,10 +173,6 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             modulePaintHashMap.put( equalityLabModule, Color.green );
             modulePaintHashMap.put( matchingGameModule, Color.yellow );
             modulePaintHashMap.put( fractionLabModule, Color.magenta );
-
-            HashMap<Boolean, Paint> booleanPaintMap = new HashMap<Boolean, Paint>();
-            booleanPaintMap.put( true, Color.green );
-            booleanPaintMap.put( false, Color.gray );
 
             final ArrayList<VoidFunction0> tickListeners = new ArrayList<VoidFunction0>();
             VoidFunction1<VoidFunction0> addTickListener = new VoidFunction1<VoidFunction0>() {
@@ -192,14 +190,27 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             representationPaintHashMap.put( Representation.WATER_GLASSES, new Color( 0xffc800 ) );
             representationPaintHashMap.put( Representation.CAKE, new Color( 0xa55a41 ) );
             representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
-            visualizationCanvas.addScreenChild( new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 0, timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 10, timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new EnumPropertyNode<Module>( module, modulePaintHashMap, 20, timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new EnumPropertyNode<Representation>( introModule.model.representation, representationPaintHashMap, 30, timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 60, 36 ), timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 310, 70 ), timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 360, 320 ), timeScalingFunction, addTickListener ) );
-            visualizationCanvas.addScreenChild( new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
+
+            Function1<Boolean, Paint> booleanPaintMap = new Function1<Boolean, Paint>() {
+                public Paint apply( Boolean b ) {
+                    return b ? Color.green : Color.gray;
+                }
+            };
+            c.addScreenChild( new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 0, timeScalingFunction, addTickListener ) );
+            c.addScreenChild( new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 10, timeScalingFunction, addTickListener ) );
+            c.addScreenChild( new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 20, timeScalingFunction, addTickListener ) );
+            c.addScreenChild( new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 30, timeScalingFunction, addTickListener ) );
+            c.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 60, 36 ), timeScalingFunction, addTickListener ) );
+            c.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 310, 70 ), timeScalingFunction, addTickListener ) );
+            c.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 360, 320 ), timeScalingFunction, addTickListener ) );
+            c.addScreenChild( new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
+            c.addScreenChild( new EnumPropertyNode<BuildAFractionScreenType>( buildAFractionModule.canvas.screenType, new Function1<BuildAFractionScreenType, Paint>() {
+                public Paint apply( BuildAFractionScreenType type ) {
+                    return type.equals( BuildAFractionScreenType.LEVEL_SELECTION ) ? Color.green :
+                           type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
+                           Color.black;
+                }
+            }, 370, timeScalingFunction, addTickListener ) );
 
             Timer t = new Timer( 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -215,6 +226,14 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             } );
             t.start();
         }
+    }
+
+    private static <T> Function1<T, Paint> toFunction( final HashMap<T, Paint> map ) {
+        return new Function1<T, Paint>() {
+            public Paint apply( T t ) {
+                return map.get( t );
+            }
+        };
     }
 
     public static void main( String[] args ) {

@@ -9,6 +9,8 @@ import java.awt.Stroke;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
@@ -40,6 +42,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     private final String title;
 
     public static final Color LIGHT_BLUE = new Color( 236, 251, 251 );
+
+    public final Property<BuildAFractionScreenType> screenType=new Property<BuildAFractionScreenType>(BuildAFractionScreenType.LEVEL_SELECTION );
 
     public BuildAFractionCanvas( final BuildAFractionModel model, String title ) {
         this.model = model;
@@ -111,6 +115,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
         //if level was in progress, go back to it.  Otherwise create a new one and cache it.
         animateTo( levelNode( info.levelIdentifier ), Direction.RIGHT );
+        screenType.set( info.levelIdentifier.levelType.equals( LevelType.SHAPES )? BuildAFractionScreenType.SHAPES : BuildAFractionScreenType.NUMBERS);
     }
 
     private PNode levelNode( final LevelIdentifier level ) {
@@ -124,6 +129,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         model.resetAll();
         levelMap.clear();
         crossFadeTo( createLevelSelectionNode() );
+        screenType.set( BuildAFractionScreenType.LEVEL_SELECTION );
     }
 
     //Creates the level selection node to be displayed
@@ -145,17 +151,20 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     //Animates to the right to show the specified shape level
     public void goToShapeLevel( final int newLevelIndex ) {
         animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ) ), Direction.RIGHT );
+        screenType.set( BuildAFractionScreenType.SHAPES );
     }
 
     //Animates to the right to show the specified number level
     public void goToNumberLevel( final int newLevelIndex ) {
         animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ) ), Direction.RIGHT );
+        screenType.set( BuildAFractionScreenType.NUMBERS );
     }
 
     //Animates to show the level selection screen
     public void goToLevelSelectionScreen( final int fromLevelIndex ) {
         model.selectedPage.set( fromLevelIndex < 5 ? 0 : 1 );
         animateTo( createLevelSelectionNode(), Direction.LEFT );
+        screenType.set( BuildAFractionScreenType.LEVEL_SELECTION);
     }
 
     //The user has pressed the "refresh" button on a shape level and the level will be regenerated.
@@ -164,6 +173,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         final PNode newNode = createLevelNode( levelIndex, LevelType.SHAPES );
         levelMap.put( new LevelIdentifier( levelIndex, LevelType.SHAPES ), newNode );
         crossFadeTo( newNode );
+        screenType.set( BuildAFractionScreenType.SHAPES );
     }
 
     //The user has pressed the "refresh" button on a number level and the level will be regenerated.
@@ -172,5 +182,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         final PNode newNode = createLevelNode( levelIndex, LevelType.NUMBERS );
         levelMap.put( new LevelIdentifier( levelIndex, LevelType.NUMBERS ), newNode );
         crossFadeTo( newNode );
+        screenType.set( BuildAFractionScreenType.NUMBERS );
     }
 }
