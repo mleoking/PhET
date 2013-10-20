@@ -34,6 +34,8 @@ import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDebug;
 
 /**
@@ -49,6 +51,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
     public static Report report = new Report();
     private final TextArea reportArea = new TextArea();
     private final Property<Module> module;
+    private final PhetPCanvas reportCanvas = new PhetPCanvas();
 
     public FractionsIntroStudyNovember2013Application( PhetApplicationConfig config ) {
         super( config );
@@ -161,8 +164,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             frame.setVisible( true );
 
             JFrame canvasFrame = new JFrame( "Visualization" );
-            final PhetPCanvas c = new PhetPCanvas();
-            canvasFrame.setContentPane( c );
+            canvasFrame.setContentPane( reportCanvas );
             canvasFrame.setSize( 800, 600 );
             canvasFrame.setLocation( 0, 400 );
             canvasFrame.setVisible( true );
@@ -196,21 +198,21 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                     return b ? Color.green : Color.gray;
                 }
             };
-            c.addScreenChild( new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 0, timeScalingFunction, addTickListener ) );
-            c.addScreenChild( new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 10, timeScalingFunction, addTickListener ) );
-            c.addScreenChild( new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 20, timeScalingFunction, addTickListener ) );
-            c.addScreenChild( new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 30, timeScalingFunction, addTickListener ) );
-            c.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 60, 36 ), timeScalingFunction, addTickListener ) );
-            c.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 310, 70 ), timeScalingFunction, addTickListener ) );
-            c.addScreenChild( new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 360, 320 ), timeScalingFunction, addTickListener ) );
-            c.addScreenChild( new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
-            c.addScreenChild( new EnumPropertyNode<BuildAFractionScreenType>( buildAFractionModule.canvas.screenType, new Function1<BuildAFractionScreenType, Paint>() {
+            addVariable( "window up", new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 6, timeScalingFunction, addTickListener ) );
+            addVariable( "window active", new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 16, timeScalingFunction, addTickListener ) );
+            addVariable( "tab", new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 30, timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.rep", new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 40, timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.denominator", new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.numerator", new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.max", new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener ) );
+            addVariable( "", new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
+            addVariable( "tab2.screen", new EnumPropertyNode<BuildAFractionScreenType>( buildAFractionModule.canvas.screenType, new Function1<BuildAFractionScreenType, Paint>() {
                 public Paint apply( BuildAFractionScreenType type ) {
                     return type.equals( BuildAFractionScreenType.LEVEL_SELECTION ) ? Color.green :
                            type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
                            Color.black;
                 }
-            }, 370, timeScalingFunction, addTickListener ) );
+            }, 350, timeScalingFunction, addTickListener ) );
 
             Timer t = new Timer( 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -220,7 +222,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                         listener.apply();
                     }
                     if ( System.currentTimeMillis() - startTime > 60000 ) {
-                        timeScalingFunction.set( new Function.LinearFunction( startTime, System.currentTimeMillis(), 0, 800 ) );
+                        timeScalingFunction.set( new Function.LinearFunction( startTime, System.currentTimeMillis(), 0, 700 ) );
                     }
                 }
             } );
@@ -238,5 +240,13 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
+    }
+
+    private void addVariable( String name, PNode node ) {
+        reportCanvas.addScreenChild( node );
+        node.setOffset( 100, 0 );
+        PText text = new PText( name );
+        text.setOffset( 0, node.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+        reportCanvas.addScreenChild( text );
     }
 }
