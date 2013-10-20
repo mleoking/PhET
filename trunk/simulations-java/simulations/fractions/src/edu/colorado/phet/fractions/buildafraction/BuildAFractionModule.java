@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction;
 
+import edu.colorado.phet.fractions.FractionsResources;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
@@ -14,9 +15,11 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Compo
  */
 public class BuildAFractionModule extends AbstractFractionsModule {
     public static final int ANIMATION_TIME = 200;
+    public final BuildAFractionCanvas canvas;
 
     public BuildAFractionModule( BuildAFractionModel model ) {
         super( Components.buildAFractionTab, Strings.BUILD_A_FRACTION, model.clock );
-        setSimulationPanel( new BuildAFractionCanvas( model, Strings.BUILD_A_FRACTION ) );
+        canvas = new BuildAFractionCanvas( model, Strings.BUILD_A_FRACTION );
+        setSimulationPanel( canvas );
     }
 }
