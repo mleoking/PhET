@@ -279,6 +279,15 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                         PText description = new PText( targetString );
                         description.setOffset( levelNode.getFullBounds().getX(), levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2 );
                         reportCanvas.addScreenChild( description );
+
+                        numberSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
+                            public void apply( ShapeSceneNode.DropResult dropResult ) {
+                                PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source+(dropResult.hit?"":"in "+dropResult.target ));
+                                text.setOffset( 100 + timeScalingFunction.get().evaluate( System.currentTimeMillis() ), levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+                                reportCanvas.addScreenChild( text );
+                                System.out.println( dropResult );
+                            }
+                        } );
                     }
 
                     y.set( y.get() + 12 );
