@@ -253,11 +253,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                         String targetString = level.targets.toString();
                         //TODO: Send event
                         PText description = new PText( targetString );
-                        addEventNode( description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
+                        addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
                         shapeSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
                             public void apply( ShapeSceneNode.DropResult dropResult ) {
-                                PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target );
-                                addEventNode( text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+                                String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
+                                PText text = new PText( dropResultText );
+                                addEventNode( dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
                             }
                         } );
                     }
@@ -276,12 +277,13 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                             }
                         } ).toString();
                         PText description = new PText( targetString );
-                        addEventNode( description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
+                        addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
 
                         numberSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
                             public void apply( ShapeSceneNode.DropResult dropResult ) {
-                                PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target );
-                                addEventNode( text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+                                String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
+                                PText text = new PText( dropResultText );
+                                addEventNode( dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
                             }
                         } );
                     }
@@ -318,7 +320,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
     }
 
-    private void addEventNode( final PNode node, final double y, final Property<Function.LinearFunction> timeScalingFunction ) {
+    private void addEventNode( String name, final PNode node, final double y, final Property<Function.LinearFunction> timeScalingFunction ) {
         final long time = System.currentTimeMillis();
         reportCanvas.addScreenChild( node );
         timeScalingFunction.addObserver( new VoidFunction1<Function.LinearFunction>() {
@@ -326,6 +328,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 node.setOffset( 100 + linearFunction.evaluate( time ), y );
             }
         } );
+        SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.occurred,
+                                            ParameterSet.parameterSet( ParameterKeys.name, name ) );
     }
 
     private void addVariable( final String name, ObservableProperty property, PNode node ) {

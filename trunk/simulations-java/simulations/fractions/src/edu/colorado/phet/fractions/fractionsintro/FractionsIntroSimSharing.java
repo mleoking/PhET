@@ -90,16 +90,16 @@ public class FractionsIntroSimSharing {
 
     public enum ModelComponents implements IModelComponent {
         containerSetComponent, leftScaleValue,
-        rightScaleValue, answer, game
+        rightScaleValue, answer, game, event
     }
 
     public enum ModelComponentTypes implements IModelComponentType {
         containerSetComponentType,
-        scale, answer, game, property
+        scale, answer, game, property, event
     }
 
     public enum ModelActions implements IModelAction {
-        changed, checked, finished
+        changed, checked, finished, occurred
     }
 
     public enum ParameterKeys implements IParameterKey {
