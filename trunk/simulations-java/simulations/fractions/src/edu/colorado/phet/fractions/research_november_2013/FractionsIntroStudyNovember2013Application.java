@@ -22,7 +22,12 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -39,6 +44,7 @@ import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
@@ -206,15 +212,15 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                     return b ? Color.green : Color.gray;
                 }
             };
-            addVariable( "window up", new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 6.0, timeScalingFunction, addTickListener ) );
-            addVariable( "window active", new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 16.0, timeScalingFunction, addTickListener ) );
-            addVariable( "tab", new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.rep", new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.denominator", new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.numerator", new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.max", new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener ) );
-            addVariable( "", new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
-            addVariable( "tab2.screen", new EnumPropertyNode<BuildAFractionScreenType>( buildAFractionModule.canvas.screenType, new Function1<BuildAFractionScreenType, Paint>() {
+            addVariable( "window.up", windowNotIconified, new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 6.0, timeScalingFunction, addTickListener ) );
+            addVariable( "window.active", windowActive, new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 16.0, timeScalingFunction, addTickListener ) );
+            addVariable( "tab", module, new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.rep", introModule.model.representation, new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.denominator", introModule.model.denominator, new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.numerator", introModule.model.numerator, new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.max", introModule.model.maximum, new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener ) );
+            addVariable( "clicks", totalClicks, new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
+            addVariable( "tab2.screen", buildAFractionModule.canvas.screenType, new EnumPropertyNode<BuildAFractionScreenType>( buildAFractionModule.canvas.screenType, new Function1<BuildAFractionScreenType, Paint>() {
                 public Paint apply( BuildAFractionScreenType type ) {
                     return type.equals( BuildAFractionScreenType.LEVEL_SELECTION ) ? Color.green :
                            type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
@@ -225,7 +231,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             //Keep track of levels started so we can easily create a full state matrix at the end of a run (knowing the number of levels started)
             final Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
 
-            addVariable( "tab2.levelsStarted", new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener ) );
+            addVariable( "tab2.levelsStarted", buildAFractionLevelsStarted, new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener ) );
 
             final Property<Double> y = new Property<Double>( 415.0 );
             //when a level is started, show values for it.
@@ -233,14 +239,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             //todo: show star lines?
             buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
                 public void apply( PNode node ) {
-//                    ShapeSceneNode||NumberSceneNode
-                    System.out.println( node );
                     buildAFractionLevelsStarted.set( buildAFractionLevelsStarted.get() + 1 );
 
                     //TODO: How to record newly created properties?  Will it get recorded in addVariable?
                     Property<Boolean> started = new Property<Boolean>( false );
                     final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener );
-                    addVariable( "tab2.levelIndex." + buildAFractionLevelsStarted.get(), levelNode );
+                    addVariable( "tab2.levelIndex." + buildAFractionLevelsStarted.get(), started, levelNode );
                     started.set( true );
 
                     if ( node instanceof ShapeSceneNode ) {
@@ -248,14 +252,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                         ShapeLevel level = shapeSceneNode.level;
                         String targetString = level.targets.toString();
                         //TODO: Send event
-                        System.out.println( "targets = " + targetString );
                         PText description = new PText( targetString );
                         addEventNode( description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
                         shapeSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
                             public void apply( ShapeSceneNode.DropResult dropResult ) {
                                 PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target );
                                 addEventNode( text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
-                                System.out.println( "dropResult = " + dropResult );
                             }
                         } );
                     }
@@ -280,7 +282,6 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                             public void apply( ShapeSceneNode.DropResult dropResult ) {
                                 PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target );
                                 addEventNode( text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
-                                System.out.println( "dropResult = " + dropResult );
                             }
                         } );
                     }
@@ -327,7 +328,26 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         } );
     }
 
-    private void addVariable( String name, PNode node ) {
+    private void addVariable( final String name, ObservableProperty property, PNode node ) {
+        property.addObserver( new VoidFunction1() {
+            public void apply( final Object o ) {
+
+                SimSharingManager.sendModelMessage(
+                        new IModelComponent() {
+                            @Override public String toString() {
+                                return name;
+                            }
+                        },
+                        FractionsIntroSimSharing.ModelComponentTypes.property,
+                        FractionsIntroSimSharing.ModelActions.changed,
+                        ParameterSet.parameterSet( ParameterKeys.value, new Function1<Object, String>() {
+                            public String apply( Object o ) {
+                                return o instanceof Module ? ( (Module) o ).getName() : o.toString();
+                            }
+                        }.apply( o ) )
+                );
+            }
+        } );
         reportCanvas.addScreenChild( node );
         node.setOffset( 100, 0 );
         PText text = new PText( name );

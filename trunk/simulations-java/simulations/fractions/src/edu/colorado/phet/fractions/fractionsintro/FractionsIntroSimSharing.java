@@ -95,7 +95,7 @@ public class FractionsIntroSimSharing {
 
     public enum ModelComponentTypes implements IModelComponentType {
         containerSetComponentType,
-        scale, answer, game
+        scale, answer, game, property
     }
 
     public enum ModelActions implements IModelAction {
