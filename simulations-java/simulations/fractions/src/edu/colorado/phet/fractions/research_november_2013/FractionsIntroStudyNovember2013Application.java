@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractions.research_november_2013;
 
 import fj.F;
-import fj.data.List;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,7 +31,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
@@ -241,33 +239,41 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
                     //TODO: How to record newly created properties?  Will it get recorded in addVariable?
                     Property<Boolean> started = new Property<Boolean>( false );
-                    addVariable( "tab2.levelIndex." + buildAFractionLevelsStarted.get(), new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener ) );
-                    y.set( y.get() + 12 );
+                    EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener );
+                    addVariable( "tab2.levelIndex." + buildAFractionLevelsStarted.get(), levelNode );
                     started.set( true );
 
                     if ( node instanceof ShapeSceneNode ) {
                         ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
                         ShapeLevel level = shapeSceneNode.level;
-                        List<MixedFraction> targets = level.targets;
-
+                        String targetString = level.targets.toString();
                         //TODO: Send event
-                        System.out.println( "targets = " + targets );
+                        System.out.println( "targets = " + targetString );
+                        PText description = new PText( targetString );
+                        description.setOffset( levelNode.getFullBounds().getX(), levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2 );
+                        reportCanvas.addScreenChild( description );
                     }
                     else if ( node instanceof NumberSceneNode ) {
                         NumberSceneNode numberSceneNode = (NumberSceneNode) node;
                         NumberLevel level = numberSceneNode.level;
 
                         //TODO: Send event
-                        System.out.println( "targets = " + level.targets.map( new F<NumberTarget, Object>() {
+                        String targetString = level.targets.map( new F<NumberTarget, Object>() {
                             @Override public Object f( NumberTarget numberTarget ) {
-                                return numberTarget.mixedFraction+" : "+numberTarget.filledPattern.map( new F<FilledPattern, Object>() {
+                                return numberTarget.mixedFraction + " : " + numberTarget.filledPattern.map( new F<FilledPattern, Object>() {
                                     @Override public Object f( FilledPattern filledPattern ) {
                                         return filledPattern.type;
                                     }
                                 } );
                             }
-                        } ) );
+                        } ).toString();
+                        System.out.println( "targets = " + targetString );
+                        PText description = new PText( targetString );
+                        description.setOffset( levelNode.getFullBounds().getX(), levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2 );
+                        reportCanvas.addScreenChild( description );
                     }
+
+                    y.set( y.get() + 12 );
                 }
             } );
 
