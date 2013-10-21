@@ -6,11 +6,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Paint;
 import java.awt.Stroke;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
@@ -43,6 +46,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     public static final Color LIGHT_BLUE = new Color( 236, 251, 251 );
 
+    private ArrayList<VoidFunction1<PNode>> levelStartedListeners = new ArrayList<VoidFunction1<PNode>>();
+
     public final Property<BuildAFractionScreenType> screenType=new Property<BuildAFractionScreenType>(BuildAFractionScreenType.LEVEL_SELECTION );
 
     public BuildAFractionCanvas( final BuildAFractionModel model, String title ) {
@@ -53,6 +58,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
         currentScene = createLevelSelectionNode();
         addChild( currentScene );
+    }
+
+    public void addLevelStartedListener(VoidFunction1<PNode> listener) {
+        levelStartedListeners.add( listener );
     }
 
     public static enum Direction {
@@ -114,8 +123,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     public void levelButtonPressed( final LevelInfo info ) {
 
         //if level was in progress, go back to it.  Otherwise create a new one and cache it.
-        animateTo( levelNode( info.levelIdentifier ), Direction.RIGHT );
+        PNode levelNode = levelNode( info.levelIdentifier );
+        animateTo( levelNode, Direction.RIGHT );
         screenType.set( info.levelIdentifier.levelType.equals( LevelType.SHAPES )? BuildAFractionScreenType.SHAPES : BuildAFractionScreenType.NUMBERS);
+        for ( VoidFunction1<PNode> listener : levelStartedListeners ) { listener.apply(levelNode); }
     }
 
     private PNode levelNode( final LevelIdentifier level ) {

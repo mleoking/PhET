@@ -214,6 +214,19 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 }
             }, 350, timeScalingFunction, addTickListener ) );
 
+            //Keep track of levels started so we can easily create a full state matrix at the end of a run (knowing the number of levels started)
+            Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
+            Property<Double> y = new Property<Double>( 360.0 );
+            //when a level is started, show values for it.
+
+            //todo: show star lines?
+            buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
+                public void apply( PNode node ) {
+//                    ShapeSceneNode||NumberSceneNode
+                    System.out.println( node );
+                }
+            } );
+
             Timer t = new Timer( 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     report.update();
