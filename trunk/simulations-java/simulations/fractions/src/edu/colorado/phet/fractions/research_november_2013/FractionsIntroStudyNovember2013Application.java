@@ -1,6 +1,9 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
+import fj.F;
+import fj.data.List;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,8 +32,15 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
+import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
+import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
@@ -177,7 +187,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             modulePaintHashMap.put( fractionLabModule, Color.magenta );
 
             final ArrayList<VoidFunction0> tickListeners = new ArrayList<VoidFunction0>();
-            VoidFunction1<VoidFunction0> addTickListener = new VoidFunction1<VoidFunction0>() {
+            final VoidFunction1<VoidFunction0> addTickListener = new VoidFunction1<VoidFunction0>() {
                 public void apply( VoidFunction0 voidFunction0 ) {
                     tickListeners.add( voidFunction0 );
                 }
@@ -193,15 +203,15 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             representationPaintHashMap.put( Representation.CAKE, new Color( 0xa55a41 ) );
             representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
 
-            Function1<Boolean, Paint> booleanPaintMap = new Function1<Boolean, Paint>() {
+            final Function1<Boolean, Paint> booleanPaintMap = new Function1<Boolean, Paint>() {
                 public Paint apply( Boolean b ) {
                     return b ? Color.green : Color.gray;
                 }
             };
-            addVariable( "window up", new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 6, timeScalingFunction, addTickListener ) );
-            addVariable( "window active", new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 16, timeScalingFunction, addTickListener ) );
-            addVariable( "tab", new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 30, timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.rep", new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 40, timeScalingFunction, addTickListener ) );
+            addVariable( "window up", new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 6.0, timeScalingFunction, addTickListener ) );
+            addVariable( "window active", new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 16.0, timeScalingFunction, addTickListener ) );
+            addVariable( "tab", new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener ) );
+            addVariable( "tab1.rep", new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener ) );
             addVariable( "tab1.denominator", new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener ) );
             addVariable( "tab1.numerator", new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener ) );
             addVariable( "tab1.max", new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener ) );
@@ -212,11 +222,14 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                            type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
                            Color.black;
                 }
-            }, 350, timeScalingFunction, addTickListener ) );
+            }, 350.0, timeScalingFunction, addTickListener ) );
 
             //Keep track of levels started so we can easily create a full state matrix at the end of a run (knowing the number of levels started)
-            Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
-            Property<Double> y = new Property<Double>( 360.0 );
+            final Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
+
+            addVariable( "tab2.levelsStarted", new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener ) );
+
+            final Property<Double> y = new Property<Double>( 415.0 );
             //when a level is started, show values for it.
 
             //todo: show star lines?
@@ -224,6 +237,37 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 public void apply( PNode node ) {
 //                    ShapeSceneNode||NumberSceneNode
                     System.out.println( node );
+                    buildAFractionLevelsStarted.set( buildAFractionLevelsStarted.get() + 1 );
+
+                    //TODO: How to record newly created properties?  Will it get recorded in addVariable?
+                    Property<Boolean> started = new Property<Boolean>( false );
+                    addVariable( "tab2.levelIndex." + buildAFractionLevelsStarted.get(), new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener ) );
+                    y.set( y.get() + 12 );
+                    started.set( true );
+
+                    if ( node instanceof ShapeSceneNode ) {
+                        ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
+                        ShapeLevel level = shapeSceneNode.level;
+                        List<MixedFraction> targets = level.targets;
+
+                        //TODO: Send event
+                        System.out.println( "targets = " + targets );
+                    }
+                    else if ( node instanceof NumberSceneNode ) {
+                        NumberSceneNode numberSceneNode = (NumberSceneNode) node;
+                        NumberLevel level = numberSceneNode.level;
+
+                        //TODO: Send event
+                        System.out.println( "targets = " + level.targets.map( new F<NumberTarget, Object>() {
+                            @Override public Object f( NumberTarget numberTarget ) {
+                                return numberTarget.mixedFraction+" : "+numberTarget.filledPattern.map( new F<FilledPattern, Object>() {
+                                    @Override public Object f( FilledPattern filledPattern ) {
+                                        return filledPattern.type;
+                                    }
+                                } );
+                            }
+                        } ) );
+                    }
                 }
             } );
 
