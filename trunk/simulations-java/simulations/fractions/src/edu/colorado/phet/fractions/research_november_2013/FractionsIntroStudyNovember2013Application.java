@@ -10,8 +10,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 import javax.swing.*;
 
@@ -28,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -61,7 +65,6 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     //Global flag for whether this functionality should be enabled
     public static boolean recordRegressionData;
-    public static boolean isReport = true;
     public static Report report = new Report();
     private final TextArea reportArea = new TextArea();
     private final Property<Module> module;
@@ -171,142 +174,144 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             } );
         }} );
 
-        if ( isReport ) {
-            JFrame frame = new JFrame( "Report" );
-            frame.setContentPane( new JScrollPane( reportArea ) );
-            frame.setSize( 800, 600 );
-            frame.setVisible( true );
+        JFrame frame = new JFrame( "Report" );
+        frame.setContentPane( new JScrollPane( reportArea ) );
+        frame.setSize( 800, 600 );
+        frame.setVisible( true );
 
-            JFrame canvasFrame = new JFrame( "Visualization" );
-            canvasFrame.setContentPane( reportCanvas );
-            canvasFrame.setSize( 800, 600 );
-            canvasFrame.setLocation( 0, 400 );
-            canvasFrame.setVisible( true );
+        JFrame canvasFrame = new JFrame( "Visualization" );
+        canvasFrame.setContentPane( reportCanvas );
+        canvasFrame.setSize( 800, 600 );
+        canvasFrame.setLocation( 0, 400 );
+        canvasFrame.setVisible( true );
 
-            HashMap<Module, Paint> modulePaintHashMap = new HashMap<Module, Paint>();
-            modulePaintHashMap.put( introModule, Color.blue );
-            modulePaintHashMap.put( buildAFractionModule, Color.red );
-            modulePaintHashMap.put( equalityLabModule, Color.green );
-            modulePaintHashMap.put( matchingGameModule, Color.yellow );
-            modulePaintHashMap.put( fractionLabModule, Color.magenta );
+        HashMap<Module, Paint> modulePaintHashMap = new HashMap<Module, Paint>();
+        modulePaintHashMap.put( introModule, Color.blue );
+        modulePaintHashMap.put( buildAFractionModule, Color.red );
+        modulePaintHashMap.put( equalityLabModule, Color.green );
+        modulePaintHashMap.put( matchingGameModule, Color.yellow );
+        modulePaintHashMap.put( fractionLabModule, Color.magenta );
 
-            final ArrayList<VoidFunction0> tickListeners = new ArrayList<VoidFunction0>();
-            final VoidFunction1<VoidFunction0> addTickListener = new VoidFunction1<VoidFunction0>() {
-                public void apply( VoidFunction0 voidFunction0 ) {
-                    tickListeners.add( voidFunction0 );
-                }
-            };
-            final long startTime = System.currentTimeMillis();
-            final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 60000, 0, 700 ) );
+        final ArrayList<VoidFunction0> tickListeners = new ArrayList<VoidFunction0>();
+        final VoidFunction1<VoidFunction0> addTickListener = new
 
-            HashMap<Representation, Paint> representationPaintHashMap = new HashMap<Representation, Paint>();
-            representationPaintHashMap.put( Representation.PIE, new Color( 0x8cc63f ) );
-            representationPaintHashMap.put( Representation.HORIZONTAL_BAR, new Color( 0xe94545 ) );
-            representationPaintHashMap.put( Representation.VERTICAL_BAR, new Color( 0x57b6dd ) );
-            representationPaintHashMap.put( Representation.WATER_GLASSES, new Color( 0xffc800 ) );
-            representationPaintHashMap.put( Representation.CAKE, new Color( 0xa55a41 ) );
-            representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
-
-            final Function1<Boolean, Paint> booleanPaintMap = new Function1<Boolean, Paint>() {
-                public Paint apply( Boolean b ) {
-                    return b ? Color.green : Color.gray;
-                }
-            };
-            addVariable( "window.up", windowNotIconified, new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 6.0, timeScalingFunction, addTickListener ) );
-            addVariable( "window.active", windowActive, new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 16.0, timeScalingFunction, addTickListener ) );
-            addVariable( "tab", module, new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.rep", introModule.model.representation, new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.denominator", introModule.model.denominator, new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.numerator", introModule.model.numerator, new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener ) );
-            addVariable( "tab1.max", introModule.model.maximum, new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener ) );
-            addVariable( "clicks", totalClicks, new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
-            addVariable( "tab2.screen", buildAFractionModule.canvas.screenType, new EnumPropertyNode<BuildAFractionScreenType>( buildAFractionModule.canvas.screenType, new Function1<BuildAFractionScreenType, Paint>() {
-                public Paint apply( BuildAFractionScreenType type ) {
-                    return type.equals( BuildAFractionScreenType.LEVEL_SELECTION ) ? Color.green :
-                           type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
-                           Color.black;
-                }
-            }, 350.0, timeScalingFunction, addTickListener ) );
-
-            //Keep track of levels started so we can easily create a full state matrix at the end of a run (knowing the number of levels started)
-            final Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
-
-            addVariable( "tab2.levelsStarted", buildAFractionLevelsStarted, new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener ) );
-
-            final Property<Double> y = new Property<Double>( 415.0 );
-            //when a level is started, show values for it.
-
-            //todo: show star lines?
-            buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
-                public void apply( PNode node ) {
-                    buildAFractionLevelsStarted.set( buildAFractionLevelsStarted.get() + 1 );
-
-                    //TODO: How to record newly created properties?  Will it get recorded in addVariable?
-                    Property<Boolean> started = new Property<Boolean>( false );
-                    final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener );
-                    final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
-                    addVariable( levelKey, started, levelNode );
-                    started.set( true );
-
-                    if ( node instanceof ShapeSceneNode ) {
-                        ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
-                        ShapeLevel level = shapeSceneNode.level;
-                        String targetString = level.targets.toString();
-                        //TODO: Send event
-                        PText description = new PText( targetString );
-                        addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
-                        shapeSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
-                            public void apply( ShapeSceneNode.DropResult dropResult ) {
-                                String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
-                                PText text = new PText( dropResultText );
-                                addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
-                            }
-                        } );
+                VoidFunction1<VoidFunction0>() {
+                    public void apply( VoidFunction0 voidFunction0 ) {
+                        tickListeners.add( voidFunction0 );
                     }
-                    else if ( node instanceof NumberSceneNode ) {
-                        NumberSceneNode numberSceneNode = (NumberSceneNode) node;
-                        NumberLevel level = numberSceneNode.level;
+                };
+        final long startTime = System.currentTimeMillis();
+        final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 60000, 0, 700 ) );
 
-                        //TODO: Send event
-                        String targetString = level.targets.map( new F<NumberTarget, Object>() {
-                            @Override public Object f( NumberTarget numberTarget ) {
-                                return numberTarget.mixedFraction + " : " + numberTarget.filledPattern.map( new F<FilledPattern, Object>() {
-                                    @Override public Object f( FilledPattern filledPattern ) {
-                                        return filledPattern.type;
-                                    }
-                                } );
-                            }
-                        } ).toString();
-                        PText description = new PText( targetString );
-                        addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
+        HashMap<Representation, Paint> representationPaintHashMap = new HashMap<Representation, Paint>();
+        representationPaintHashMap.put( Representation.PIE, new Color( 0x8cc63f ) );
+        representationPaintHashMap.put( Representation.HORIZONTAL_BAR, new Color( 0xe94545 ) );
+        representationPaintHashMap.put( Representation.VERTICAL_BAR, new Color( 0x57b6dd ) );
+        representationPaintHashMap.put( Representation.WATER_GLASSES, new Color( 0xffc800 ) );
+        representationPaintHashMap.put( Representation.CAKE, new Color( 0xa55a41 ) );
+        representationPaintHashMap.put( Representation.NUMBER_LINE, Color.black );
 
-                        numberSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
-                            public void apply( ShapeSceneNode.DropResult dropResult ) {
-                                String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
-                                PText text = new PText( dropResultText );
-                                addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
-                            }
-                        } );
+        final Function1<Boolean, Paint> booleanPaintMap = new
+
+                Function1<Boolean, Paint>() {
+                    public Paint apply( Boolean b ) {
+                        return b ? Color.green : Color.gray;
                     }
+                };
+        addVariable( "window.up", windowNotIconified, new EnumPropertyNode<Boolean>( windowNotIconified, booleanPaintMap, 6.0, timeScalingFunction, addTickListener ) );
+        addVariable( "window.active", windowActive, new EnumPropertyNode<Boolean>( windowActive, booleanPaintMap, 16.0, timeScalingFunction, addTickListener ) );
+        addVariable( "tab", module, new EnumPropertyNode<Module>( module, toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener ) );
+        addVariable( "tab1.rep", introModule.model.representation, new EnumPropertyNode<Representation>( introModule.model.representation, toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener ) );
+        addVariable( "tab1.denominator", introModule.model.denominator, new NumericPropertyNode<Integer>( introModule.model.denominator, new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener ) );
+        addVariable( "tab1.numerator", introModule.model.numerator, new NumericPropertyNode<Integer>( introModule.model.numerator, new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener ) );
+        addVariable( "tab1.max", introModule.model.maximum, new NumericPropertyNode<Integer>( introModule.model.maximum, new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener ) );
+        addVariable( "clicks", totalClicks, new EventOverlayNode<Integer>( totalClicks, 0, 600, timeScalingFunction, addTickListener ) );
+        addVariable( "tab2.screen", buildAFractionModule.canvas.screenType, new EnumPropertyNode<BuildAFractionScreenType>( buildAFractionModule.canvas.screenType, new Function1<BuildAFractionScreenType, Paint>() {
+            public Paint apply( BuildAFractionScreenType type ) {
+                return type.equals( BuildAFractionScreenType.LEVEL_SELECTION ) ? Color.green :
+                       type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
+                       Color.black;
+            }
+        }, 350.0, timeScalingFunction, addTickListener ) );
 
-                    y.set( y.get() + 12 );
+        //Keep track of levels started so we can easily create a full state matrix at the end of a run (knowing the number of levels started)
+        final Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
+
+        addVariable( "tab2.levelsStarted", buildAFractionLevelsStarted, new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener ) );
+
+        final Property<Double> y = new Property<Double>( 415.0 );
+        //when a level is started, show values for it.
+
+        //todo: show star lines?
+        buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
+            public void apply( PNode node ) {
+                buildAFractionLevelsStarted.set( buildAFractionLevelsStarted.get() + 1 );
+
+                //TODO: How to record newly created properties?  Will it get recorded in addVariable?
+                Property<Boolean> started = new Property<Boolean>( false );
+                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener );
+                final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
+                addVariable( levelKey, started, levelNode );
+                started.set( true );
+
+                if ( node instanceof ShapeSceneNode ) {
+                    ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
+                    ShapeLevel level = shapeSceneNode.level;
+                    String targetString = level.targets.toString();
+                    //TODO: Send event
+                    PText description = new PText( targetString );
+                    addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
+                    shapeSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
+                        public void apply( ShapeSceneNode.DropResult dropResult ) {
+                            String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
+                            PText text = new PText( dropResultText );
+                            addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+                        }
+                    } );
                 }
-            } );
+                else if ( node instanceof NumberSceneNode ) {
+                    NumberSceneNode numberSceneNode = (NumberSceneNode) node;
+                    NumberLevel level = numberSceneNode.level;
 
-            Timer t = new Timer( 1000, new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    report.update();
-                    reportArea.setText( report.toString() );
-                    for ( VoidFunction0 listener : tickListeners ) {
-                        listener.apply();
-                    }
-                    if ( System.currentTimeMillis() - startTime > 60000 ) {
-                        timeScalingFunction.set( new Function.LinearFunction( startTime, System.currentTimeMillis(), 0, 700 ) );
-                    }
+                    //TODO: Send event
+                    String targetString = level.targets.map( new F<NumberTarget, Object>() {
+                        @Override public Object f( NumberTarget numberTarget ) {
+                            return numberTarget.mixedFraction + " : " + numberTarget.filledPattern.map( new F<FilledPattern, Object>() {
+                                @Override public Object f( FilledPattern filledPattern ) {
+                                    return filledPattern.type;
+                                }
+                            } );
+                        }
+                    } ).toString();
+                    PText description = new PText( targetString );
+                    addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
+
+                    numberSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
+                        public void apply( ShapeSceneNode.DropResult dropResult ) {
+                            String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
+                            PText text = new PText( dropResultText );
+                            addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+                        }
+                    } );
                 }
-            } );
-            t.start();
-        }
+
+                y.set( y.get() + 12 );
+            }
+        } );
+
+        Timer t = new Timer( 1000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                report.update();
+                reportArea.setText( report.toString() );
+                for ( VoidFunction0 listener : tickListeners ) {
+                    listener.apply();
+                }
+                if ( System.currentTimeMillis() - startTime > 60000 ) {
+                    timeScalingFunction.set( new Function.LinearFunction( startTime, System.currentTimeMillis(), 0, 700 ) );
+                }
+            }
+        } );
+        t.start();
     }
 
     private static <T> Function1<T, Paint> toFunction( final HashMap<T, Paint> map ) {
@@ -319,6 +324,37 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
+    }
+
+    public static class Playback {
+        public static void main( String[] args ) throws IOException {
+            File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
+            String text = FileUtils.loadFileAsString( file );
+            StringTokenizer st = new StringTokenizer( text, "\n" );
+            HashMap<String, Property> properties = new HashMap<String, Property>();
+            while ( st.hasMoreTokens() ) {
+                String line = st.nextToken();
+                StringTokenizer st2 = new StringTokenizer( line, "\t" );
+                ArrayList<String> elements = new ArrayList<String>();
+                while ( st2.hasMoreTokens() ) {
+                    String element = st2.nextToken();
+                    elements.add( element );
+                }
+                if ( elements.get( 3 ).equals( "property" ) ) {
+                    String propertyName = elements.get( 2 );
+//                    System.out.println( "Found property: " + propertyName );
+                    String value = elements.get( 5 ).substring( elements.get( 5 ).indexOf( '=' ) + 1 ).trim();
+                    if ( !properties.containsKey( propertyName ) ) {
+                        properties.put( propertyName, new Property( value ) );
+                        System.out.println( "created " + propertyName + " with value " + value );
+                    }
+                    else {
+                        properties.get( propertyName ).set( value );
+                        System.out.println( "Set " + propertyName + " to " + value );
+                    }
+                }
+            }
+        }
     }
 
     private void addEventNode( String name, final PNode node, final double y, final Property<Function.LinearFunction> timeScalingFunction ) {
