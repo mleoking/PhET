@@ -10,11 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
 import javax.swing.*;
 
@@ -31,7 +28,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -324,37 +320,6 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
-    }
-
-    public static class Playback {
-        public static void main( String[] args ) throws IOException {
-            File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
-            String text = FileUtils.loadFileAsString( file );
-            StringTokenizer st = new StringTokenizer( text, "\n" );
-            HashMap<String, Property> properties = new HashMap<String, Property>();
-            while ( st.hasMoreTokens() ) {
-                String line = st.nextToken();
-                StringTokenizer st2 = new StringTokenizer( line, "\t" );
-                ArrayList<String> elements = new ArrayList<String>();
-                while ( st2.hasMoreTokens() ) {
-                    String element = st2.nextToken();
-                    elements.add( element );
-                }
-                if ( elements.get( 3 ).equals( "property" ) ) {
-                    String propertyName = elements.get( 2 );
-//                    System.out.println( "Found property: " + propertyName );
-                    String value = elements.get( 5 ).substring( elements.get( 5 ).indexOf( '=' ) + 1 ).trim();
-                    if ( !properties.containsKey( propertyName ) ) {
-                        properties.put( propertyName, new Property( value ) );
-                        System.out.println( "created " + propertyName + " with value " + value );
-                    }
-                    else {
-                        properties.get( propertyName ).set( value );
-                        System.out.println( "Set " + propertyName + " to " + value );
-                    }
-                }
-            }
-        }
     }
 
     private void addEventNode( String name, final PNode node, final double y, final Property<Function.LinearFunction> timeScalingFunction ) {
