@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
@@ -81,6 +82,19 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final BuildAFractionModel model;
     public int toolboxHeight;
     private boolean toolboxEnabled = true;
+
+    public static class DropResult{
+        public final boolean hit;
+        public final Fraction source;
+        public final Fraction target;
+
+        public DropResult( boolean hit, Fraction source,Fraction target ) {
+            this.hit = hit;
+            this.source = source;
+            this.target=target;
+        }
+    }
+    public final ArrayList<VoidFunction1<DropResult>> dropListeners = new ArrayList<VoidFunction1<DropResult>>(  );
 
     public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab, final boolean showContainerNodeOnStartup ) {
         this( levelIndex, model, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, context, soundEnabled, fractionLab, showContainerNodeOnStartup ) ), fractionLab, showContainerNodeOnStartup );
@@ -376,6 +390,13 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     }
 
                 }
+            }
+        }
+
+        //For data collection, send a notification when they tried to drop something in a collection box
+        if (!skipCollectionBoxes){
+            for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
+                dropListener.apply( new DropResult( hit,containerNode.getFractionValue(),pairs.index( 0 ).value.toFraction() ) );
             }
         }
 
