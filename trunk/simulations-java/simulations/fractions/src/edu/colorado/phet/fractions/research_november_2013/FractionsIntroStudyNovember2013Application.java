@@ -244,7 +244,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                     //TODO: How to record newly created properties?  Will it get recorded in addVariable?
                     Property<Boolean> started = new Property<Boolean>( false );
                     final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener );
-                    addVariable( "tab2.levelIndex." + buildAFractionLevelsStarted.get(), started, levelNode );
+                    final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
+                    addVariable( levelKey, started, levelNode );
                     started.set( true );
 
                     if ( node instanceof ShapeSceneNode ) {
@@ -258,7 +259,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                             public void apply( ShapeSceneNode.DropResult dropResult ) {
                                 String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
                                 PText text = new PText( dropResultText );
-                                addEventNode( dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+                                addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
                             }
                         } );
                     }
@@ -283,7 +284,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                             public void apply( ShapeSceneNode.DropResult dropResult ) {
                                 String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
                                 PText text = new PText( dropResultText );
-                                addEventNode( dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+                                addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
                             }
                         } );
                     }
