@@ -24,6 +24,7 @@ public class EnumPropertyNode<T> extends PNode {
     public EnumPropertyNode( ObservableProperty<T> property, final Function1<T, Paint> paint, final int y, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener ) {
         final VoidFunction0 update = new VoidFunction0() {
             public void apply() {
+                removeAllChildren();
                 for ( Pair<T, Long> timestamp : timestamps ) {
                     Shape shape = new Line2D.Double( (float) timeToX.get().evaluate( timestamp._2 ), y, (float) timeToX.get().evaluate( System.currentTimeMillis() ), y );
                     PhetPPath path = new PhetPPath( shape, new BasicStroke( 10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), paint.apply( timestamp._1 ) );
@@ -41,7 +42,6 @@ public class EnumPropertyNode<T> extends PNode {
         property.addObserver( new VoidFunction1<T>() {
             public void apply( T t ) {
                 timestamps.add( new Pair<T, Long>( t, System.currentTimeMillis() ) );
-                removeAllChildren();
                 update.apply();
             }
         } );

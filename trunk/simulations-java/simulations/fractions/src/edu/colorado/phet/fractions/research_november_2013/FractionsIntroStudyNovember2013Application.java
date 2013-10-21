@@ -183,7 +183,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 }
             };
             final long startTime = System.currentTimeMillis();
-            final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 60000, 0, 800 ) );
+            final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 60000, 0, 700 ) );
 
             HashMap<Representation, Paint> representationPaintHashMap = new HashMap<Representation, Paint>();
             representationPaintHashMap.put( Representation.PIE, new Color( 0x8cc63f ) );
