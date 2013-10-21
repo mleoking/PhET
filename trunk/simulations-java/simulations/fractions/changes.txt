@@ -1,3 +1,4 @@
+# 1.02.04 (73503) Oct 21, 2013
 Started november 2013 research study
 # 1.02.03 (71811) Jan 19, 2013
 Research Study: Fraction Lab Tab: Made the rectangle the default container in the play area
