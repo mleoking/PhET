@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -34,6 +35,8 @@ import edu.colorado.phet.fractions.buildafraction.view.SceneContext;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
@@ -70,6 +73,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private double toolboxPositionY;
     private double offsetX;
     private Vector2D initialToolboxPositionForSkeletons;
+    public final ArrayList<VoidFunction1<ShapeSceneNode.DropResult>> dropListeners=new ArrayList<VoidFunction1<ShapeSceneNode.DropResult>>(  );
 
     public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );
@@ -409,7 +413,10 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     //Called when a challenge is completed by dropping a correct fraction into a collection box.
-    public void fractionCardNodeDroppedInCollectionBox() {
+    public void fractionCardNodeDroppedInCollectionBox( NumberCollectionBoxNode scoreCell ) {
+        for ( VoidFunction1<ShapeSceneNode.DropResult> listener : dropListeners ) {
+            listener.apply( new ShapeSceneNode.DropResult( true, scoreCell.mixedFraction.toFraction(), scoreCell.mixedFraction.toFraction() ) );
+        }
         level.filledTargets.increment();
 
         //Add a new fraction skeleton when the previous one is completed
@@ -557,6 +564,12 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             stackOffset += spaceBetweenStacks;
         }
         return stackOffset + ( isFractionLab() ? 72 : 0 );
+    }
+
+    public void fractionCardNodeDroppedInWrongCollectionBox( Fraction value, NumberCollectionBoxNode scoreCell ) {
+        for ( VoidFunction1<ShapeSceneNode.DropResult> listener : dropListeners ) {
+            listener.apply( new ShapeSceneNode.DropResult( false, value, scoreCell.mixedFraction.toFraction() ) );
+        }
     }
 
     //Created with IDEA's "create value method", used to create and add regular (non-mixed) fraction nodes to the toolbox.

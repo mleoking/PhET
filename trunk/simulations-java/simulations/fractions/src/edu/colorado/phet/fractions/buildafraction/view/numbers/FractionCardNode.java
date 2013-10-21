@@ -132,7 +132,7 @@ class FractionCardNode extends RichPNode {
                         scoreCell.setCompletedFraction( fractionNode );
                         locked = true;
 
-                        numberSceneNode.fractionCardNodeDroppedInCollectionBox();
+                        numberSceneNode.fractionCardNodeDroppedInCollectionBox(scoreCell);
                         break;
                     }
                 }
@@ -140,9 +140,11 @@ class FractionCardNode extends RichPNode {
                 //If no match, and is overlapping a score cell or too far to the right, send back to play area
                 if ( !locked ) {
                     boolean hitWrongOne = false;
-                    for ( NumberCollectionBoxNode scoreCell : scoreCells ) {
+                    for ( NumberCollectionBoxNode scoreCell : sortedCells ) {
                         if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) || cardShapeNode.getGlobalBounds().getMaxX() > numberSceneNode.minimumCollectionBoxX() ) {
                             hitWrongOne = true;
+                            numberSceneNode.fractionCardNodeDroppedInWrongCollectionBox(fractionNode.getValue(),scoreCell);
+                            break;
                         }
                     }
                     if ( hitWrongOne ) {
