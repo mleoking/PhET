@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.PNode;
 public class EnumPropertyNode<T> extends PNode {
     private ArrayList<Pair<T, Long>> timestamps = new ArrayList<Pair<T, Long>>();
 
-    public EnumPropertyNode( ObservableProperty<T> property, final Function1<T, Paint> paint, final int y, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener ) {
+    public EnumPropertyNode( ObservableProperty<T> property, final Function1<T, Paint> paint, final double y, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener ) {
         final VoidFunction0 update = new VoidFunction0() {
             public void apply() {
                 removeAllChildren();

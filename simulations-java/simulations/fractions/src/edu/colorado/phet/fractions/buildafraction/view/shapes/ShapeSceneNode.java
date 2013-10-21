@@ -72,7 +72,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     private final double distanceBetweenStacks;
     private final double layoutXOffset;
-    private final ShapeLevel level;
+    public final ShapeLevel level;
     private final ArrayList<Vector2D> containerNodeToolboxLocations = new ArrayList<Vector2D>();
     private static final Random random = new Random();
 
