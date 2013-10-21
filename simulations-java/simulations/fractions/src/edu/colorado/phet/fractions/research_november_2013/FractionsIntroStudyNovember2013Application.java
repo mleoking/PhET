@@ -250,14 +250,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                         //TODO: Send event
                         System.out.println( "targets = " + targetString );
                         PText description = new PText( targetString );
-                        description.setOffset( levelNode.getFullBounds().getX(), levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2 );
-                        reportCanvas.addScreenChild( description );
+                        addEventNode( description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
                         shapeSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
                             public void apply( ShapeSceneNode.DropResult dropResult ) {
-                                PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source+(dropResult.hit?"":"in "+dropResult.target ));
-                                text.setOffset( 100 + timeScalingFunction.get().evaluate( System.currentTimeMillis() ), levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
-                                reportCanvas.addScreenChild( text );
-                                System.out.println( dropResult );
+                                PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target );
+                                addEventNode( text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+                                System.out.println( "dropResult = " + dropResult );
                             }
                         } );
                     }
@@ -275,17 +273,14 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                                 } );
                             }
                         } ).toString();
-                        System.out.println( "targets = " + targetString );
                         PText description = new PText( targetString );
-                        description.setOffset( levelNode.getFullBounds().getX(), levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2 );
-                        reportCanvas.addScreenChild( description );
+                        addEventNode( description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
 
                         numberSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
                             public void apply( ShapeSceneNode.DropResult dropResult ) {
-                                PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source+(dropResult.hit?"":"in "+dropResult.target ));
-                                text.setOffset( 100 + timeScalingFunction.get().evaluate( System.currentTimeMillis() ), levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
-                                reportCanvas.addScreenChild( text );
-                                System.out.println( dropResult );
+                                PText text = new PText( ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target );
+                                addEventNode( text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+                                System.out.println( "dropResult = " + dropResult );
                             }
                         } );
                     }
@@ -320,6 +315,16 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
+    }
+
+    private void addEventNode( final PNode node, final double y, final Property<Function.LinearFunction> timeScalingFunction ) {
+        final long time = System.currentTimeMillis();
+        reportCanvas.addScreenChild( node );
+        timeScalingFunction.addObserver( new VoidFunction1<Function.LinearFunction>() {
+            public void apply( Function.LinearFunction linearFunction ) {
+                node.setOffset( 100 + linearFunction.evaluate( time ), y );
+            }
+        } );
     }
 
     private void addVariable( String name, PNode node ) {
