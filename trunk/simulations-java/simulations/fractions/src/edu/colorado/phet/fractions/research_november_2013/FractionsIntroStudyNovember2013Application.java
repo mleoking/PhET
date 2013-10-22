@@ -203,4 +203,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
     public Function0<Long> time() {
         return timeFunction;
     }
+
+    public Function0<Long> endTime() {
+        return timeFunction;
+    }
 }

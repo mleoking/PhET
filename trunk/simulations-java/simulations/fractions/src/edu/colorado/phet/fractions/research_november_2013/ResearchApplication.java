@@ -30,4 +30,6 @@ public interface ResearchApplication {
     void addBAFLevelStartedListener( VoidFunction1<PNode> listener );
 
     Function0<Long> time();
+
+    Function0<Long> endTime();
 }
