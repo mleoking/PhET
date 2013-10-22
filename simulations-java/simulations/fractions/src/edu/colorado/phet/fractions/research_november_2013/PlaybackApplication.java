@@ -1,18 +1,14 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.FileUtils;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.common.phetcommon.model.property.*;
+import edu.colorado.phet.common.phetcommon.util.*;
+import edu.colorado.phet.common.phetcommon.util.function.*;
+import edu.colorado.phet.fractions.buildafraction.view.*;
+import edu.umd.cs.piccolo.*;
 
 /**
  * Created by Sam on 10/21/13.
@@ -20,10 +16,28 @@ import edu.umd.cs.piccolo.PNode;
 public class PlaybackApplication implements ResearchApplication {
     private final ArrayList<VoidFunction1<PNode>> bafLevelStartedListeners = new ArrayList<VoidFunction1<PNode>>();
     private final HashMap<String, Property> properties;
+    private final String text;
 
     public PlaybackApplication( String text ) {
-        StringTokenizer st = new StringTokenizer( text, "\n" );
+        this.text = text;
         properties = new HashMap<String, Property>();
+        processAll();
+
+        //get ready for launch
+        for ( Property property : properties.values() ) {
+            property.reset();
+        }
+    }
+
+    public static void main( String[] args ) throws IOException {
+        File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
+
+        String text = FileUtils.loadFileAsString( file );
+        new PlaybackApplication( text ).start();
+    }
+
+    private void processAll() {
+        StringTokenizer st = new StringTokenizer( text, "\n" );
         while ( st.hasMoreTokens() ) {
             String line = st.nextToken();
             StringTokenizer st2 = new StringTokenizer( line, "\t" );
@@ -48,14 +62,7 @@ public class PlaybackApplication implements ResearchApplication {
         }
     }
 
-    public static void main( String[] args ) throws IOException {
-        File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
-
-        String text = FileUtils.loadFileAsString( file );
-        new PlaybackApplication( text ).start();
-    }
-
-    private void start() {
+    public void start() {
     }
 
     public ObservableProperty<Boolean> windowNotIconified() {
