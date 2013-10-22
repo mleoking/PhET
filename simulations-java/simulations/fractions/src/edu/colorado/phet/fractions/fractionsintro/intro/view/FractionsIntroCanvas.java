@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.fractionsintro.intro.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -21,18 +21,8 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontr
 import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontrolpanel.VerticalBarIcon;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.cakeRadioButton;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.horizontalBarRadioButton;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.numberLineRadioButton;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.pieRadioButton;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.verticalBarRadioButton;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.waterGlassesRadioButton;
-import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.CAKE;
-import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.HORIZONTAL_BAR;
-import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.NUMBER_LINE;
-import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.PIE;
-import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.VERTICAL_BAR;
-import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.WATER_GLASSES;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.*;
+import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.*;
 import static java.util.Arrays.asList;
 
 /**

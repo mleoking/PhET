@@ -1,31 +1,42 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
-import fj.*;
+import fj.F;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.application.*;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.property.*;
-import edu.colorado.phet.common.phetcommon.simsharing.*;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.*;
-import edu.colorado.phet.common.phetcommon.util.function.*;
-import edu.colorado.phet.common.piccolophet.*;
-import edu.colorado.phet.fractions.buildafraction.model.numbers.*;
-import edu.colorado.phet.fractions.buildafraction.model.shapes.*;
-import edu.colorado.phet.fractions.buildafraction.view.*;
-import edu.colorado.phet.fractions.buildafraction.view.numbers.*;
-import edu.colorado.phet.fractions.buildafraction.view.shapes.*;
-import edu.colorado.phet.fractions.fractionmatcher.view.*;
-import edu.colorado.phet.fractions.fractionsintro.*;
-import edu.umd.cs.piccolo.*;
-import edu.umd.cs.piccolo.nodes.*;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
+import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
+import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
+import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Created by Sam on 10/21/13.

@@ -44,7 +44,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
 
     public static IntroState newState( int maximum, FactorySet factorySet, long randomSeed ) {
         int denominator = 1;
-        return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim().maximum( maximum ), false, false,
+        return new IntroState( new ContainerSet( denominator, new Container[]{new Container( 1, new int[]{} )} ).padAndTrim().maximum( maximum ), false, false,
                                new PieSet( maximum, factorySet.circularSliceFactory, randomSeed ),
                                new PieSet( maximum, factorySet.horizontalSliceFactory, randomSeed ),
                                new PieSet( maximum, factorySet.verticalSliceFactory, randomSeed ),

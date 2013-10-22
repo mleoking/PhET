@@ -1,16 +1,21 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.model.property.*;
-import edu.colorado.phet.common.phetcommon.util.*;
-import edu.colorado.phet.common.phetcommon.util.function.*;
-import edu.colorado.phet.fractions.buildafraction.view.*;
-import edu.umd.cs.piccolo.*;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Created by Sam on 10/21/13.

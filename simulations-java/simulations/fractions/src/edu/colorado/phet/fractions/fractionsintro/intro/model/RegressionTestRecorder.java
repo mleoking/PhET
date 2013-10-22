@@ -124,7 +124,7 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         try {
             FileUtils.writeString( file, xml );
         }
-        catch ( IOException e1 ) {
+        catch( IOException e1 ) {
             e1.printStackTrace();
         }
 
