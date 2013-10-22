@@ -31,9 +31,10 @@ public class PlaybackApplication implements ResearchApplication {
 
     public static void main( String[] args ) throws IOException {
         File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
-
         String text = FileUtils.loadFileAsString( file );
-        new PlaybackApplication( text ).start();
+        PlaybackApplication app = new PlaybackApplication( text );
+        new ApplicationVisualization( app );
+        app.start();
     }
 
     private void processAll() {
@@ -50,8 +51,26 @@ public class PlaybackApplication implements ResearchApplication {
                 String propertyName = elements.get( 2 );
 //                    System.out.println( "Found property: " + propertyName );
                 String values = elements.get( 5 );
-                System.out.println( values );
-                String value = values.substring( values.indexOf( '=' ) + 1 ).trim();
+                String type = elements.get( 6 ).substring( elements.get( 6 ).indexOf( '=' ) + 1 ).trim();
+                String valueString = values.substring( values.indexOf( '=' ) + 1 ).trim();
+                System.out.println( "value=" + valueString + ", types=" + type );
+                Object value = null;
+                if ( type.equals( "java.lang.Integer" ) ) {
+                    value = Integer.parseInt( valueString );
+                }
+                else if ( type.equals( "java.lang.Boolean" ) ) {
+                    value = Boolean.parseBoolean( valueString );
+                }
+                else if ( type.equals( "java.lang.String" ) ) {
+                    value = valueString;
+                }
+                else if ( type.equals( "edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType" ) ) {
+                    value = BuildAFractionScreenType.valueOf( valueString );
+                    System.out.println( "PARSED " + value );
+                }
+                else {
+                    System.out.println( "Unknown type: " + type );
+                }
                 if ( !properties.containsKey( propertyName ) ) {
                     properties.put( propertyName, new Property( value ) );
                     System.out.println( "created " + propertyName + " with value " + value );
@@ -65,6 +84,7 @@ public class PlaybackApplication implements ResearchApplication {
     }
 
     public void start() {
+        processAll();
     }
 
     public ObservableProperty<Boolean> windowNotIconified() {
@@ -100,7 +120,9 @@ public class PlaybackApplication implements ResearchApplication {
     }
 
     public ObservableProperty<BuildAFractionScreenType> bafScreenType() {
-        return null;
+
+        //TODO: Wire this up
+        return new Property<BuildAFractionScreenType>( BuildAFractionScreenType.LEVEL_SELECTION );
     }
 
     public void addBAFLevelStartedListener( VoidFunction1<PNode> listener ) {

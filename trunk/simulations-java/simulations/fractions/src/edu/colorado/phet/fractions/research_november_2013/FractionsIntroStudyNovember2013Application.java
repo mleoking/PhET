@@ -1,33 +1,22 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
-import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
-import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
-import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
-import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
-import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
-import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDebug;
+import edu.colorado.phet.common.phetcommon.application.*;
+import edu.colorado.phet.common.phetcommon.model.property.*;
+import edu.colorado.phet.common.phetcommon.util.function.*;
+import edu.colorado.phet.common.piccolophet.*;
+import edu.colorado.phet.fractions.buildafraction.*;
+import edu.colorado.phet.fractions.buildafraction.model.*;
+import edu.colorado.phet.fractions.fractionmatcher.*;
+import edu.colorado.phet.fractions.fractionsintro.equalitylab.*;
+import edu.colorado.phet.fractions.fractionsintro.intro.*;
+import edu.colorado.phet.fractions.fractionsintro.intro.view.*;
+import edu.umd.cs.piccolo.*;
+import edu.umd.cs.piccolo.util.*;
 
 /**
  * "Fractions Intro" PhET Application
@@ -38,7 +27,14 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     //Global flag for whether this functionality should be enabled
     public static boolean recordRegressionData;
+    public static FractionsIntroStudyNovember2013Application instance;
     private final Property<String> module;
+    private final Property<Boolean> windowNotIconified;
+    private final Property<Boolean> windowActive;
+    private final FractionsIntroModule introModule;
+    private final Property<String> introRepresentation;
+    private final Property<Integer> totalClicks;
+    private final BuildAFractionModule buildAFractionModule;
 
     public FractionsIntroStudyNovember2013Application( PhetApplicationConfig config ) {
         super( config );
@@ -162,9 +158,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
+        new ApplicationVisualization( FractionsIntroStudyNovember2013Application.instance );
     }
-
-    public static FractionsIntroStudyNovember2013Application instance;
 
     public ObservableProperty<Boolean> windowNotIconified() { return windowNotIconified; }
 
@@ -199,11 +194,4 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
     public void addBAFLevelStartedListener( VoidFunction1<PNode> listener ) {
         buildAFractionModule.canvas.addLevelStartedListener( listener );
     }
-
-    private final Property<Boolean> windowNotIconified;
-    private final Property<Boolean> windowActive;
-    private final FractionsIntroModule introModule;
-    private final Property<String> introRepresentation;
-    private final Property<Integer> totalClicks;
-    private final BuildAFractionModule buildAFractionModule;
 }

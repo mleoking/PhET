@@ -5,7 +5,6 @@ import fj.*;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -16,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.*;
 import edu.colorado.phet.common.phetcommon.simsharing.*;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.*;
-import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.util.function.*;
 import edu.colorado.phet.common.piccolophet.*;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.*;
@@ -224,22 +222,5 @@ public class ApplicationVisualization {
         PText text = new PText( name );
         text.setOffset( 0, node.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
         reportCanvas.addScreenChild( text );
-    }
-
-    public static class LaunchWithSim {
-        public static void main( String[] args ) {
-            new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
-            new ApplicationVisualization( FractionsIntroStudyNovember2013Application.instance );
-        }
-    }
-
-    public static class LaunchWithFile {
-        public static void main( String[] args ) throws IOException {
-            File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
-            String text = FileUtils.loadFileAsString( file );
-            PlaybackApplication app = new PlaybackApplication( text );
-            new ApplicationVisualization( app );
-            app.start();
-        }
     }
 }
