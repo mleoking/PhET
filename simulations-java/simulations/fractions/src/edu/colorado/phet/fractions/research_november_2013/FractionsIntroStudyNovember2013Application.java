@@ -28,7 +28,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.Log;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -269,8 +268,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         //TODO: Remove these for publication
         new Timer( 60, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                //send a dummy message to get the messages to re-render
-                SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.time, ModelComponentTypes.feature, FractionsIntroSimSharing.ModelActions.changed, new ParameterSet() );
+                report.sync();
             }
         } ).start();
     }
