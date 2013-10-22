@@ -189,7 +189,6 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "tab1.numerator", this.introNumerator() );
         trackState( "tab1.max", this.introMaximum() );
         trackState( "clicks", this.totalClicks() );
-        trackState( "tab2.screen", this.bafScreenType() );
     }
 
     public static void main( String[] args ) {
