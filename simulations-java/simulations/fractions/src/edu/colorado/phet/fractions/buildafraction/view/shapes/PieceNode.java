@@ -4,7 +4,7 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 import fj.F;
 import fj.data.Option;
 
-import java.awt.*;
+import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

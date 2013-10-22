@@ -73,7 +73,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private double toolboxPositionY;
     private double offsetX;
     private Vector2D initialToolboxPositionForSkeletons;
-    public final ArrayList<VoidFunction1<ShapeSceneNode.DropResult>> dropListeners=new ArrayList<VoidFunction1<ShapeSceneNode.DropResult>>(  );
+    public final ArrayList<VoidFunction1<ShapeSceneNode.DropResult>> dropListeners = new ArrayList<VoidFunction1<ShapeSceneNode.DropResult>>();
 
     public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );

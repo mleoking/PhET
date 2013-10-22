@@ -3,7 +3,8 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
 import fj.data.Option;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
