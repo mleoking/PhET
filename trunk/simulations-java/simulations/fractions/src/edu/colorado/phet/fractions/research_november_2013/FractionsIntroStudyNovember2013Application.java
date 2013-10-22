@@ -1,12 +1,16 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
+import fj.F;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
 
@@ -29,7 +33,14 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
+import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
+import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
@@ -59,6 +70,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             return System.currentTimeMillis();
         }
     };
+    private ArrayList<VoidFunction1<BAFLevel>> bafLevelStartedListeners = new ArrayList<VoidFunction1<BAFLevel>>();
 
     public FractionsIntroStudyNovember2013Application( PhetApplicationConfig config ) {
         super( config );
@@ -189,6 +201,43 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "tab1.numerator", this.introNumerator() );
         trackState( "tab1.max", this.introMaximum() );
         trackState( "clicks", this.totalClicks() );
+
+        buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
+            public void apply( PNode node ) {
+
+                List<String> targetString = null;
+                if ( node instanceof ShapeSceneNode ) {
+                    ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
+                    ShapeLevel level = shapeSceneNode.level;
+                    targetString = new ArrayList<String>( level.targets.map( new F<MixedFraction, String>() {
+                        @Override public String f( MixedFraction mixedFraction ) {
+                            return mixedFraction.toString();
+                        }
+                    } ).toCollection() );
+                }
+                else if ( node instanceof NumberSceneNode ) {
+                    NumberSceneNode numberSceneNode = (NumberSceneNode) node;
+                    NumberLevel level = numberSceneNode.level;
+
+                    //TODO: Send event
+                    targetString = new ArrayList<String>( level.targets.map( new F<NumberTarget, String>() {
+                        @Override public String f( NumberTarget numberTarget ) {
+                            return numberTarget.mixedFraction + " : " + numberTarget.filledPattern.map( new F<FilledPattern, String>() {
+                                @Override public String f( FilledPattern filledPattern ) {
+                                    return filledPattern.type.toString();
+                                }
+                            } );
+                        }
+                    } ).toCollection() );
+                }
+
+                BAFLevel level = new BAFLevel( "name", "type", targetString );
+
+                for ( VoidFunction1<BAFLevel> bafLevelVoidFunction1 : bafLevelStartedListeners ) {
+                    bafLevelVoidFunction1.apply( level );
+                }
+            }
+        } );
     }
 
     public static void main( String[] args ) {
@@ -248,8 +297,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         return buildAFractionModule.canvas.screenType;
     }
 
-    public void addBAFLevelStartedListener( VoidFunction1<PNode> listener ) {
-        buildAFractionModule.canvas.addLevelStartedListener( listener );
+    public void addBAFLevelStartedListener( final VoidFunction1<BAFLevel> listener ) {
+        bafLevelStartedListeners.add( listener );
     }
 
     public Function0<Long> time() {
