@@ -15,13 +15,12 @@ import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Created by Sam on 10/21/13.
  */
 public class PlaybackApplication implements ResearchApplication {
-    private final ArrayList<VoidFunction1<PNode>> bafLevelStartedListeners = new ArrayList<VoidFunction1<PNode>>();
+    private final ArrayList<VoidFunction1<BAFLevel>> bafLevelStartedListeners = new ArrayList<VoidFunction1<BAFLevel>>();
     private final HashMap<String, Property> properties;
     private final String text;
     private long t = 0;
@@ -167,7 +166,7 @@ public class PlaybackApplication implements ResearchApplication {
         return new Property<BuildAFractionScreenType>( BuildAFractionScreenType.LEVEL_SELECTION );
     }
 
-    public void addBAFLevelStartedListener( VoidFunction1<PNode> listener ) {
+    public void addBAFLevelStartedListener( VoidFunction1<BAFLevel> listener ) {
         //TODO: trigger calls there
         bafLevelStartedListeners.add( listener );
     }

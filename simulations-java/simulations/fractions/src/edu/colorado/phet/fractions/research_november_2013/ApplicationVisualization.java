@@ -1,8 +1,6 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
-import fj.F;
-
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.TextArea;
@@ -24,13 +22,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
-import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
-import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
-import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
-import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
-import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -73,7 +65,6 @@ public class ApplicationVisualization {
                     }
                 };
         final long startTime = app.time().apply();
-        System.out.println( "startTime = " + startTime );
         final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 60000, 0, 700 ) );
 
         HashMap<String, Paint> representationPaintHashMap = new HashMap<String, Paint>();
@@ -113,62 +104,84 @@ public class ApplicationVisualization {
         final Property<Double> y = new Property<Double>( 415.0 );
         //when a level is started, show values for it.
 
-        //todo: show star lines?
-        app.addBAFLevelStartedListener( new VoidFunction1<PNode>() {
-            public void apply( PNode node ) {
-                buildAFractionLevelsStarted.set( buildAFractionLevelsStarted.get() + 1 );
-
-                //TODO: How to record newly created properties?  Will it get recorded in addVariable?
+        app.addBAFLevelStartedListener( new VoidFunction1<BAFLevel>() {
+            public void apply( BAFLevel level ) {
+                //Add Properties for the level.  One property line for each challenge to make it easy to read
                 Property<Boolean> started = new Property<Boolean>( false );
-                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanMap, y.get(), timeScalingFunction, addTickListener, app.time(), app.endTime() );
-                final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
-                addVariable( levelKey, levelNode );
-                started.set( true );
+                started.set( true );//For now, init to false and set to true, so it will reset properly on parse x2
+                EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanMap, y.get(), timeScalingFunction, addTickListener, app.time(), app.endTime() );
+                addVariable( level.name, levelNode );
 
-                if ( node instanceof ShapeSceneNode ) {
-                    ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
-                    ShapeLevel level = shapeSceneNode.level;
-                    String targetString = level.targets.toString();
-                    //TODO: Send event
-                    PText description = new PText( targetString );
-                    addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
-                    shapeSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
-                        public void apply( ShapeSceneNode.DropResult dropResult ) {
-                            String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
-                            PText text = new PText( dropResultText );
-                            addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
-                        }
-                    } );
-                }
-                else if ( node instanceof NumberSceneNode ) {
-                    NumberSceneNode numberSceneNode = (NumberSceneNode) node;
-                    NumberLevel level = numberSceneNode.level;
-
-                    //TODO: Send event
-                    String targetString = level.targets.map( new F<NumberTarget, Object>() {
-                        @Override public Object f( NumberTarget numberTarget ) {
-                            return numberTarget.mixedFraction + " : " + numberTarget.filledPattern.map( new F<FilledPattern, Object>() {
-                                @Override public Object f( FilledPattern filledPattern ) {
-                                    return filledPattern.type;
-                                }
-                            } );
-                        }
-                    } ).toString();
-                    PText description = new PText( targetString );
-                    addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
-
-                    numberSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
-                        public void apply( ShapeSceneNode.DropResult dropResult ) {
-                            String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
-                            PText text = new PText( dropResultText );
-                            addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
-                        }
-                    } );
-                }
-
+                //TODO: Send event
+                PText description = new PText( level.name );
+                addEventNode( level.name, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
                 y.set( y.get() + 12 );
+
+                for ( int i = 0; i < level.targets.size(); i++ ) {
+                    String target = level.targets.get( i );
+                    PText d = new PText( target );
+                    addEventNode( level.name, d, y.get() - d.getFullBounds().getHeight() / 2, timeScalingFunction );
+                    y.set( y.get() + 12 );
+                }
             }
         } );
+
+        //todo: show star lines?
+//        app.addBAFLevelStartedListener( new VoidFunction1<PNode>() {
+//            public void apply( PNode node ) {
+//                buildAFractionLevelsStarted.set( buildAFractionLevelsStarted.get() + 1 );
+//
+//                //TODO: How to record newly created properties?  Will it get recorded in addVariable?
+//                Property<Boolean> started = new Property<Boolean>( false );
+//                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanMap, y.get(), timeScalingFunction, addTickListener, app.time(), app.endTime() );
+//                final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
+//                addVariable( levelKey, levelNode );
+//                started.set( true );
+//
+//                if ( node instanceof ShapeSceneNode ) {
+//                    ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
+//                    ShapeLevel level = shapeSceneNode.level;
+//                    String targetString = level.targets.toString();
+//                    //TODO: Send event
+//                    PText description = new PText( targetString );
+//                    addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
+//                    shapeSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
+//                        public void apply( ShapeSceneNode.DropResult dropResult ) {
+//                            String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
+//                            PText text = new PText( dropResultText );
+//                            addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+//                        }
+//                    } );
+//                }
+//                else if ( node instanceof NumberSceneNode ) {
+//                    NumberSceneNode numberSceneNode = (NumberSceneNode) node;
+//                    NumberLevel level = numberSceneNode.level;
+//
+//                    //TODO: Send event
+//                    String targetString = level.targets.map( new F<NumberTarget, Object>() {
+//                        @Override public Object f( NumberTarget numberTarget ) {
+//                            return numberTarget.mixedFraction + " : " + numberTarget.filledPattern.map( new F<FilledPattern, Object>() {
+//                                @Override public Object f( FilledPattern filledPattern ) {
+//                                    return filledPattern.type;
+//                                }
+//                            } );
+//                        }
+//                    } ).toString();
+//                    PText description = new PText( targetString );
+//                    addEventNode( targetString, description, levelNode.getFullBounds().getCenterY() - description.getFullBounds().getHeight() / 2, timeScalingFunction );
+//
+//                    numberSceneNode.dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
+//                        public void apply( ShapeSceneNode.DropResult dropResult ) {
+//                            String dropResultText = ( dropResult.hit ? "\u2605" : "x" ) + dropResult.source + " in " + dropResult.target;
+//                            PText text = new PText( dropResultText );
+//                            addEventNode( levelKey + " " + dropResultText, text, levelNode.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2, timeScalingFunction );
+//                        }
+//                    } );
+//                }
+//
+//                y.set( y.get() + 12 );
+//            }
+//        } );
 
         if ( app instanceof FractionsIntroStudyNovember2013Application ) {
             Timer t = new Timer( 1000, new ActionListener() {
