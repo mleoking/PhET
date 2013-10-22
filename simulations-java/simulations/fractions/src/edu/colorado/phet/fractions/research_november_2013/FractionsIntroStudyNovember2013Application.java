@@ -265,7 +265,9 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             }
         } );
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
-        new Timer( 1000, new ActionListener() {
+
+        //TODO: Remove these for publication
+        new Timer( 60, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //send a dummy message to get the messages to re-render
                 SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.time, ModelComponentTypes.feature, FractionsIntroSimSharing.ModelActions.changed, new ParameterSet() );
