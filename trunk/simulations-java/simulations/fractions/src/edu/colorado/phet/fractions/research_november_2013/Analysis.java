@@ -3,7 +3,6 @@ package edu.colorado.phet.fractions.research_november_2013;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.TextArea;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
@@ -47,20 +45,12 @@ public class Analysis {
         canvasFrame.setLocation( 0, 400 );
         canvasFrame.setVisible( true );
 
-        HashMap<String, Paint> modulePaintHashMap = new HashMap<String, Paint>();
+        modulePaintHashMap = new HashMap<String, Color>();
         modulePaintHashMap.put( "Intro", Color.blue );
         modulePaintHashMap.put( "Build a Fraction", Color.red );
         modulePaintHashMap.put( "Equality Lab", Color.green );
         modulePaintHashMap.put( "Matching Game", Color.yellow );
         modulePaintHashMap.put( "Fraction Lab", Color.magenta );
-    }
-
-    private static <T> Function1<T, Paint> toFunction( final HashMap<T, Paint> map ) {
-        return new Function1<T, Paint>() {
-            public Paint apply( T t ) {
-                return map.get( t );
-            }
-        };
     }
 
     private void addVariable( final String name, PNode node ) {
@@ -91,6 +81,15 @@ public class Analysis {
     }
 
     private void showRepresentation( StateRepresentation representation ) {
+
+        HashMap<String, Color> representationPaintHashMap = new HashMap<String, Color>();
+        representationPaintHashMap.put( "Pie", new Color( 0x8cc63f ) );
+        representationPaintHashMap.put( "HorizontalBar", new Color( 0xe94545 ) );
+        representationPaintHashMap.put( "VerticalBar", new Color( 0x57b6dd ) );
+        representationPaintHashMap.put( "WaterGlasses", new Color( 0xffc800 ) );
+        representationPaintHashMap.put( "Cake", new Color( 0xa55a41 ) );
+        representationPaintHashMap.put( "NumberLine", Color.black );
+
         reportNode.removeAllChildren();
         double y = 0;
         Function.LinearFunction time = new Function.LinearFunction( representation.startTime, Math.max( representation.endTime, representation.startTime + 60000 ), 100, 700 );
@@ -110,7 +109,11 @@ public class Analysis {
                     Record record = recordList.get( i );
                     double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
                     Object value = record.value;
-                    PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 10 ), value == Boolean.TRUE ? Color.green : Color.gray, new BasicStroke( 1 ), Color.black );
+                    Color fill = record.type.equals( "java.lang.Boolean" ) ? value == Boolean.TRUE ? Color.green : Color.gray :
+                                 record.property.equals( "tab" ) ? modulePaintHashMap.get( record.value ) :
+                                 record.property.equals( "tab1.rep" ) ? representationPaintHashMap.get( record.value ) :
+                                 Color.red;
+                    PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 10 ), fill, new BasicStroke( 1 ), Color.black );
                     bars.add( bar );
                     reportNode.addChild( bar );
                 }
@@ -209,4 +212,6 @@ public class Analysis {
             this.events = events;
         }
     }
+
+    private final HashMap<String, Color> modulePaintHashMap;
 }
