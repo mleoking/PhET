@@ -1,39 +1,33 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
-import fj.F;
+import fj.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
-import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
-import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
-import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
-import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
-import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
-import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
-import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.colorado.phet.common.phetcommon.model.property.*;
+import edu.colorado.phet.common.phetcommon.simsharing.*;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.*;
+import edu.colorado.phet.common.phetcommon.util.*;
+import edu.colorado.phet.common.phetcommon.util.function.*;
+import edu.colorado.phet.common.piccolophet.*;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.*;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.*;
+import edu.colorado.phet.fractions.buildafraction.view.*;
+import edu.colorado.phet.fractions.buildafraction.view.numbers.*;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.*;
+import edu.colorado.phet.fractions.fractionmatcher.view.*;
+import edu.colorado.phet.fractions.fractionsintro.*;
+import edu.umd.cs.piccolo.*;
+import edu.umd.cs.piccolo.nodes.*;
 
 /**
  * Created by Sam on 10/21/13.
@@ -232,8 +226,20 @@ public class ApplicationVisualization {
         reportCanvas.addScreenChild( text );
     }
 
-    public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
-        new ApplicationVisualization( FractionsIntroStudyNovember2013Application.instance );
+    public static class LaunchWithSim {
+        public static void main( String[] args ) {
+            new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
+            new ApplicationVisualization( FractionsIntroStudyNovember2013Application.instance );
+        }
+    }
+
+    public static class LaunchWithFile {
+        public static void main( String[] args ) throws IOException {
+            File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
+            String text = FileUtils.loadFileAsString( file );
+            PlaybackApplication app = new PlaybackApplication( text );
+            new ApplicationVisualization( app );
+            app.start();
+        }
     }
 }
