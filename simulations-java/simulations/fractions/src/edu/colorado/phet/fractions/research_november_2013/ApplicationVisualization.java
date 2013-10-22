@@ -15,12 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -88,18 +85,19 @@ public class ApplicationVisualization {
         representationPaintHashMap.put( "NumberLine", Color.black );
 
         final Function1<Boolean, Paint> booleanMap = new
+
                 Function1<Boolean, Paint>() {
                     public Paint apply( Boolean b ) { return b ? Color.green : Color.gray; }
                 };
-        addVariable( "window.up", app.windowNotIconified(), new EnumPropertyNode<Boolean>( app.windowNotIconified(), booleanMap, 6.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "window.active", app.windowActive(), new EnumPropertyNode<Boolean>( app.windowActive(), booleanMap, 16.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "tab", app.module(), new EnumPropertyNode<String>( app.module(), toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "tab1.rep", app.introRepresentation(), new EnumPropertyNode<String>( app.introRepresentation(), toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "tab1.denominator", app.introDenominator(), new NumericPropertyNode<Integer>( app.introDenominator(), new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "tab1.numerator", app.introNumerator(), new NumericPropertyNode<Integer>( app.introNumerator(), new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "tab1.max", app.introMaximum(), new NumericPropertyNode<Integer>( app.introMaximum(), new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "clicks", app.totalClicks(), new EventOverlayNode<Integer>( app.totalClicks(), 0, 600, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "tab2.screen", app.bafScreenType(), new EnumPropertyNode<BuildAFractionScreenType>( app.bafScreenType(), new Function1<BuildAFractionScreenType, Paint>() {
+        addVariable( "window.up", new EnumPropertyNode<Boolean>( app.windowNotIconified(), booleanMap, 6.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "window.active", new EnumPropertyNode<Boolean>( app.windowActive(), booleanMap, 16.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab", new EnumPropertyNode<String>( app.module(), toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab1.rep", new EnumPropertyNode<String>( app.introRepresentation(), toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab1.denominator", new NumericPropertyNode<Integer>( app.introDenominator(), new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab1.numerator", new NumericPropertyNode<Integer>( app.introNumerator(), new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab1.max", new NumericPropertyNode<Integer>( app.introMaximum(), new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "clicks", new EventOverlayNode<Integer>( app.totalClicks(), 0, 600, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab2.screen", new EnumPropertyNode<BuildAFractionScreenType>( app.bafScreenType(), new Function1<BuildAFractionScreenType, Paint>() {
             public Paint apply( BuildAFractionScreenType type ) {
                 return type.equals( BuildAFractionScreenType.LEVEL_SELECTION ) ? Color.green :
                        type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
@@ -110,7 +108,7 @@ public class ApplicationVisualization {
         //Keep track of levels started so we can easily create a full state matrix at the end of a run (knowing the number of levels started)
         final Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
 
-        addVariable( "tab2.levelsStarted", buildAFractionLevelsStarted, new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab2.levelsStarted", new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
 
         final Property<Double> y = new Property<Double>( 415.0 );
         //when a level is started, show values for it.
@@ -124,7 +122,7 @@ public class ApplicationVisualization {
                 Property<Boolean> started = new Property<Boolean>( false );
                 final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanMap, y.get(), timeScalingFunction, addTickListener, app.time(), app.endTime() );
                 final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
-                addVariable( levelKey, started, levelNode );
+                addVariable( levelKey, levelNode );
                 started.set( true );
 
                 if ( node instanceof ShapeSceneNode ) {
@@ -209,26 +207,7 @@ public class ApplicationVisualization {
                                             ParameterSet.parameterSet( ParameterKeys.name, name ) );
     }
 
-    private void addVariable( final String name, ObservableProperty property, PNode node ) {
-        property.addObserver( new VoidFunction1() {
-            public void apply( final Object o ) {
-
-                SimSharingManager.sendModelMessage(
-                        new IModelComponent() {
-                            @Override public String toString() {
-                                return name;
-                            }
-                        },
-                        FractionsIntroSimSharing.ModelComponentTypes.property,
-                        FractionsIntroSimSharing.ModelActions.changed,
-                        ParameterSet.parameterSet( ParameterKeys.value, new Function1<Object, String>() {
-                            public String apply( Object o ) {
-                                return o instanceof Module ? ( (Module) o ).getName() : o.toString();
-                            }
-                        }.apply( o ) ).with( ParameterKeys.type, o.getClass().getName() )
-                );
-            }
-        } );
+    private void addVariable( final String name, PNode node ) {
         reportCanvas.addScreenChild( node );
         node.setOffset( 100, 0 );
         PText text = new PText( name );

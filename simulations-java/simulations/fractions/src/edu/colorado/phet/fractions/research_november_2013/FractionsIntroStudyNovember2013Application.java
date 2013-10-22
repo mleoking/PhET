@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JCheckBoxMenuItem;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -17,13 +18,19 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
@@ -171,11 +178,45 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 }
             } );
         }} );
+
+        trackState( "window.up", windowNotIconified() );
+
+        trackState( "window.up", this.windowNotIconified() );
+        trackState( "window.active", this.windowActive() );
+        trackState( "tab", this.module() );
+        trackState( "tab1.rep", this.introRepresentation() );
+        trackState( "tab1.denominator", this.introDenominator() );
+        trackState( "tab1.numerator", this.introNumerator() );
+        trackState( "tab1.max", this.introMaximum() );
+        trackState( "clicks", this.totalClicks() );
+        trackState( "tab2.screen", this.bafScreenType() );
     }
 
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
         new ApplicationVisualization( FractionsIntroStudyNovember2013Application.instance );
+    }
+
+    private void trackState( final String name, ObservableProperty property ) {
+        property.addObserver( new VoidFunction1() {
+            public void apply( final Object o ) {
+
+                SimSharingManager.sendModelMessage(
+                        new IModelComponent() {
+                            @Override public String toString() {
+                                return name;
+                            }
+                        },
+                        FractionsIntroSimSharing.ModelComponentTypes.property,
+                        FractionsIntroSimSharing.ModelActions.changed,
+                        ParameterSet.parameterSet( ParameterKeys.value, new Function1<Object, String>() {
+                            public String apply( Object o ) {
+                                return o instanceof Module ? ( (Module) o ).getName() : o.toString();
+                            }
+                        }.apply( o ) ).with( ParameterKeys.type, o.getClass().getName() )
+                );
+            }
+        } );
     }
 
     public ObservableProperty<Boolean> windowNotIconified() { return windowNotIconified; }
