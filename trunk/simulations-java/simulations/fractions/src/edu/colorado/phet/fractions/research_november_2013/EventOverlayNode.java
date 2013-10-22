@@ -9,8 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.*;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -20,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 public class EventOverlayNode<T extends Number> extends PNode {
     private ArrayList<Pair<T, Long>> timestamps = new ArrayList<Pair<T, Long>>();
 
-    public EventOverlayNode( ObservableProperty<T> property, final double minY, final double maxY, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener ) {
+    public EventOverlayNode( ObservableProperty<T> property, final double minY, final double maxY, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener, final Function0<Long> time, final Function0<Long> endTime ) {
         final VoidFunction0 update = new VoidFunction0() {
             public void apply() {
                 removeAllChildren();
@@ -42,7 +41,7 @@ public class EventOverlayNode<T extends Number> extends PNode {
 
         property.addObserver( new VoidFunction1<T>() {
             public void apply( T t ) {
-                timestamps.add( new Pair<T, Long>( t, System.currentTimeMillis() ) );
+                timestamps.add( new Pair<T, Long>( t, time.apply() ) );
                 removeAllChildren();
                 update.apply();
             }
