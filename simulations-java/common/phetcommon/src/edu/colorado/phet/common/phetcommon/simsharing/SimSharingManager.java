@@ -32,6 +32,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.tests.MongoLoadTesterSimLauncher;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.model;
@@ -82,6 +83,9 @@ public class SimSharingManager {
     //Part of the mongoDB password, see #3231
     public static final String MONGO_PASSWORD = "8zkamme";
 
+    //Get a callback when the SimSharingManager has been initialized
+    public static final ArrayList<VoidFunction1<SimSharingManager>> initListeners = new ArrayList<VoidFunction1<SimSharingManager>>();
+
     public static final SimSharingManager getInstance() {
 
         //If we try to use sim sharing before init called (say from a sample main), init with sim-sharing turned off.
@@ -104,6 +108,9 @@ public class SimSharingManager {
 
     public static void init( final PhetApplicationConfig config, String dbName ) {
         INSTANCE = new SimSharingManager( config, dbName );
+        for ( VoidFunction1<SimSharingManager> initListener : initListeners ) {
+            initListener.apply( INSTANCE );
+        }
     }
 
     // These members are always initialized.
@@ -210,6 +217,9 @@ public class SimSharingManager {
     public String getStudyName() {
         return studyName;
     }
+
+    //Add a log
+    public void addLog( Log log ) { logs.add( log ); }
 
     //Convenience overload to provide no parameters
     public static void sendSystemMessage( ISystemComponent component, ISystemComponentType componentType, ISystemAction action ) {
