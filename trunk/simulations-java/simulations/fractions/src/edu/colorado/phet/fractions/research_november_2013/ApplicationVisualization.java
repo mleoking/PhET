@@ -83,13 +83,13 @@ public class ApplicationVisualization {
                         return b ? Color.green : Color.gray;
                     }
                 };
-        addVariable( "window.up", app.windowNotIconified(), new EnumPropertyNode<Boolean>( app.windowNotIconified(), booleanPaintMap, 6.0, timeScalingFunction, addTickListener, app.time() ) );
-        addVariable( "window.active", app.windowActive(), new EnumPropertyNode<Boolean>( app.windowActive(), booleanPaintMap, 16.0, timeScalingFunction, addTickListener, app.time() ) );
-        addVariable( "tab", app.module(), new EnumPropertyNode<String>( app.module(), toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener, app.time() ) );
-        addVariable( "tab1.rep", app.introRepresentation(), new EnumPropertyNode<String>( app.introRepresentation(), toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener, app.time() ) );
+        addVariable( "window.up", app.windowNotIconified(), new EnumPropertyNode<Boolean>( app.windowNotIconified(), booleanPaintMap, 6.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "window.active", app.windowActive(), new EnumPropertyNode<Boolean>( app.windowActive(), booleanPaintMap, 16.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab", app.module(), new EnumPropertyNode<String>( app.module(), toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab1.rep", app.introRepresentation(), new EnumPropertyNode<String>( app.introRepresentation(), toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
         addVariable( "tab1.denominator", app.introDenominator(), new NumericPropertyNode<Integer>( app.introDenominator(), new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "tab1.numerator", app.introNumerator(), new NumericPropertyNode<Integer>( app.introNumerator(), new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener, app.time(), app.endTime()  ) );
-        addVariable( "tab1.max", app.introMaximum(), new NumericPropertyNode<Integer>( app.introMaximum(), new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener, app.time(), app.endTime()  ) );
+        addVariable( "tab1.numerator", app.introNumerator(), new NumericPropertyNode<Integer>( app.introNumerator(), new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "tab1.max", app.introMaximum(), new NumericPropertyNode<Integer>( app.introMaximum(), new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
         addVariable( "clicks", app.totalClicks(), new EventOverlayNode<Integer>( app.totalClicks(), 0, 600, timeScalingFunction, addTickListener ) );
         addVariable( "tab2.screen", app.bafScreenType(), new EnumPropertyNode<BuildAFractionScreenType>( app.bafScreenType(), new Function1<BuildAFractionScreenType, Paint>() {
             public Paint apply( BuildAFractionScreenType type ) {
@@ -97,12 +97,12 @@ public class ApplicationVisualization {
                        type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
                        Color.black;
             }
-        }, 350.0, timeScalingFunction, addTickListener, app.time() ) );
+        }, 350.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
 
         //Keep track of levels started so we can easily create a full state matrix at the end of a run (knowing the number of levels started)
         final Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
 
-        addVariable( "tab2.levelsStarted", buildAFractionLevelsStarted, new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener, app.time(), app.endTime()  ) );
+        addVariable( "tab2.levelsStarted", buildAFractionLevelsStarted, new NumericPropertyNode<Integer>( buildAFractionLevelsStarted, new Function.LinearFunction( 0, 10, 400, 360 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
 
         final Property<Double> y = new Property<Double>( 415.0 );
         //when a level is started, show values for it.
@@ -114,7 +114,7 @@ public class ApplicationVisualization {
 
                 //TODO: How to record newly created properties?  Will it get recorded in addVariable?
                 Property<Boolean> started = new Property<Boolean>( false );
-                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener, app.time() );
+                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener, app.time(), app.endTime() );
                 final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
                 addVariable( levelKey, started, levelNode );
                 started.set( true );

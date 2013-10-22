@@ -18,12 +18,12 @@ import edu.umd.cs.piccolo.*;
 public class EnumPropertyNode<T> extends PNode {
     private ArrayList<Pair<T, Long>> timestamps = new ArrayList<Pair<T, Long>>();
 
-    public EnumPropertyNode( ObservableProperty<T> property, final Function1<T, Paint> paint, final double y, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener, final Function0<Long> time ) {
+    public EnumPropertyNode( ObservableProperty<T> property, final Function1<T, Paint> paint, final double y, final Property<Function.LinearFunction> timeToX, VoidFunction1<VoidFunction0> addTickListener, final Function0<Long> time, final Function0<Long> endTime ) {
         final VoidFunction0 update = new VoidFunction0() {
             public void apply() {
                 removeAllChildren();
                 for ( Pair<T, Long> timestamp : timestamps ) {
-                    Shape shape = new Line2D.Double( (float) timeToX.get().evaluate( timestamp._2 ), y, (float) timeToX.get().evaluate( time.apply() ), y );
+                    Shape shape = new Line2D.Double( (float) timeToX.get().evaluate( timestamp._2 ), y, (float) timeToX.get().evaluate( endTime.apply() ), y );
                     PhetPPath path = new PhetPPath( shape, new BasicStroke( 10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), paint.apply( timestamp._1 ) );
                     addChild( path );
                 }
