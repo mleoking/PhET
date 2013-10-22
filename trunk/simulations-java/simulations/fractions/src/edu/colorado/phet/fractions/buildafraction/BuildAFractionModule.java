@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction;
 
-import edu.colorado.phet.fractions.FractionsResources;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
