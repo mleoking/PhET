@@ -215,7 +215,7 @@ public class ApplicationVisualization {
                             public String apply( Object o ) {
                                 return o instanceof Module ? ( (Module) o ).getName() : o.toString();
                             }
-                        }.apply( o ) )
+                        }.apply( o ) ).with( ParameterKeys.type, o.getClass().getName() )
                 );
             }
         } );

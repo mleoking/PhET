@@ -49,7 +49,9 @@ public class PlaybackApplication implements ResearchApplication {
             if ( elements.get( 3 ).equals( "property" ) ) {
                 String propertyName = elements.get( 2 );
 //                    System.out.println( "Found property: " + propertyName );
-                String value = elements.get( 5 ).substring( elements.get( 5 ).indexOf( '=' ) + 1 ).trim();
+                String values = elements.get( 5 );
+                System.out.println( values );
+                String value = values.substring( values.indexOf( '=' ) + 1 ).trim();
                 if ( !properties.containsKey( propertyName ) ) {
                     properties.put( propertyName, new Property( value ) );
                     System.out.println( "created " + propertyName + " with value " + value );
