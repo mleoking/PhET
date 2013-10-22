@@ -76,15 +76,12 @@ public class ApplicationVisualization {
         representationPaintHashMap.put( "Cake", new Color( 0xa55a41 ) );
         representationPaintHashMap.put( "NumberLine", Color.black );
 
-        final Function1<Boolean, Paint> booleanPaintMap = new
-
+        final Function1<Boolean, Paint> booleanMap = new
                 Function1<Boolean, Paint>() {
-                    public Paint apply( Boolean b ) {
-                        return b ? Color.green : Color.gray;
-                    }
+                    public Paint apply( Boolean b ) { return b ? Color.green : Color.gray; }
                 };
-        addVariable( "window.up", app.windowNotIconified(), new EnumPropertyNode<Boolean>( app.windowNotIconified(), booleanPaintMap, 6.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "window.active", app.windowActive(), new EnumPropertyNode<Boolean>( app.windowActive(), booleanPaintMap, 16.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "window.up", app.windowNotIconified(), new EnumPropertyNode<Boolean>( app.windowNotIconified(), booleanMap, 6.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
+        addVariable( "window.active", app.windowActive(), new EnumPropertyNode<Boolean>( app.windowActive(), booleanMap, 16.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
         addVariable( "tab", app.module(), new EnumPropertyNode<String>( app.module(), toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
         addVariable( "tab1.rep", app.introRepresentation(), new EnumPropertyNode<String>( app.introRepresentation(), toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
         addVariable( "tab1.denominator", app.introDenominator(), new NumericPropertyNode<Integer>( app.introDenominator(), new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
@@ -114,7 +111,7 @@ public class ApplicationVisualization {
 
                 //TODO: How to record newly created properties?  Will it get recorded in addVariable?
                 Property<Boolean> started = new Property<Boolean>( false );
-                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener, app.time(), app.endTime() );
+                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanMap, y.get(), timeScalingFunction, addTickListener, app.time(), app.endTime() );
                 final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
                 addVariable( levelKey, started, levelNode );
                 started.set( true );
