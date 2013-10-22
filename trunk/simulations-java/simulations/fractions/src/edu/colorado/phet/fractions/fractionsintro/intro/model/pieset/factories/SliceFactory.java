@@ -109,6 +109,8 @@ public @Data abstract class SliceFactory {
         } ) );
 
         //Only allow it if the shapes actually overlapped
-        return closestCell != null && !( new Area( closestCell.getShape() ) {{intersect( new Area( s.getShape() ) );}}.isEmpty() ) ? closestCell : null;
+        return closestCell != null && !( new Area( closestCell.getShape() ) {{
+            intersect( new Area( s.getShape() ) );
+        }}.isEmpty() ) ? closestCell : null;
     }
 }

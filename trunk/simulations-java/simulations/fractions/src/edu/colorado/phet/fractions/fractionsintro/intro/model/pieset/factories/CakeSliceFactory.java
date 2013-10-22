@@ -61,14 +61,14 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
 
     //Find which should appear before/after others in z-ordering.  Must be back to front.
     private static final HashMap<Integer, int[]> _renderOrder = new HashMap<Integer, int[]>() {{
-        put( 1, new int[] { 1 } );
-        put( 2, new int[] { 2, 1 } );
-        put( 3, new int[] { 1, 2, 3 } );
-        put( 4, new int[] { 1, 2, 3, 4 } );
-        put( 5, new int[] { 2, 1, 3, 5, 4 } );
-        put( 6, new int[] { 2, 1, 3, 6, 4, 5 } );
-        put( 7, new int[] { 2, 3, 1, 4, 7, 5, 6 } );
-        put( 8, new int[] { 2, 3, 1, 4, 5, 8, 6, 7 } );
+        put( 1, new int[]{1} );
+        put( 2, new int[]{2, 1} );
+        put( 3, new int[]{1, 2, 3} );
+        put( 4, new int[]{1, 2, 3, 4} );
+        put( 5, new int[]{2, 1, 3, 5, 4} );
+        put( 6, new int[]{2, 1, 3, 6, 4, 5} );
+        put( 7, new int[]{2, 3, 1, 4, 7, 5, 6} );
+        put( 8, new int[]{2, 3, 1, 4, 5, 8, 6, 7} );
     }};
 
     //Fix the z-ordering for cake slices.  This is done in the model since it applies to any possible view

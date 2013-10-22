@@ -1,22 +1,34 @@
 // Copyright 2002-2013, University of Colorado
 package edu.colorado.phet.fractions.research_november_2013;
 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
 
-import edu.colorado.phet.common.phetcommon.application.*;
-import edu.colorado.phet.common.phetcommon.model.property.*;
-import edu.colorado.phet.common.phetcommon.util.function.*;
-import edu.colorado.phet.common.piccolophet.*;
-import edu.colorado.phet.fractions.buildafraction.*;
-import edu.colorado.phet.fractions.buildafraction.model.*;
-import edu.colorado.phet.fractions.fractionmatcher.*;
-import edu.colorado.phet.fractions.fractionsintro.equalitylab.*;
-import edu.colorado.phet.fractions.fractionsintro.intro.*;
-import edu.colorado.phet.fractions.fractionsintro.intro.view.*;
-import edu.umd.cs.piccolo.*;
-import edu.umd.cs.piccolo.util.*;
+import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
+import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
+import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
+import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
+import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
+import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
+import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * "Fractions Intro" PhET Application

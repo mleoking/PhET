@@ -68,7 +68,7 @@ public @Data class ContainerSet {
     //Remove any trailing containers that are completely empty
     ContainerSet trim() {
         final List<Container> reversed = containers.reverse();
-        final boolean[] foundNonEmpty = { false };
+        final boolean[] foundNonEmpty = {false};
 
         final ArrayList<Container> all = new ArrayList<Container>() {{
             for ( Container container : reversed ) {

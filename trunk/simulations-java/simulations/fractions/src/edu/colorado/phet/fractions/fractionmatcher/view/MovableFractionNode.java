@@ -23,9 +23,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
 import static edu.colorado.phet.fractions.fractionmatcher.model.Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES;
-import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.MOVE_TO_LEFT_SCALE;
-import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.MOVE_TO_RIGHT_SCALE;
-import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.moveToCell;
+import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.*;
 import static fj.data.TreeMap.fromMutableMap;
 
 /**

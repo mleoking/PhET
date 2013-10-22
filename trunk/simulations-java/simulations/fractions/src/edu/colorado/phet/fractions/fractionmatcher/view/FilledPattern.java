@@ -45,7 +45,9 @@ public @Data class FilledPattern {
     public static FilledPattern randomFill( Pattern pattern, final int numFilled, final long seed ) {
         int numElements = pattern.shapes.length();
 
-        final List<Integer> elm = List.iterableList( new ArrayList<Integer>( List.range( 0, numElements ).toCollection() ) {{ Collections.shuffle( this, new Random( seed ) ); }} ).take( numFilled );
+        final List<Integer> elm = List.iterableList( new ArrayList<Integer>( List.range( 0, numElements ).toCollection() ) {{
+            Collections.shuffle( this, new Random( seed ) );
+        }} ).take( numFilled );
 
         return new FilledPattern( pattern.shapes.zipIndex().map( new F<P2<Shape, Integer>, P2<Shape, Boolean>>() {
             @Override public P2<Shape, Boolean> f( final P2<Shape, Integer> p ) {

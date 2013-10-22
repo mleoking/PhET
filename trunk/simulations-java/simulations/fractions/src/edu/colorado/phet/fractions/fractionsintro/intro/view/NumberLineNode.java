@@ -5,7 +5,8 @@ import fj.F;
 import fj.Ord;
 import fj.data.List;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
