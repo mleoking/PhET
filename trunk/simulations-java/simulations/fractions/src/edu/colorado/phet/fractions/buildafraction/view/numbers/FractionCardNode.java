@@ -6,7 +6,8 @@ import fj.F;
 import fj.data.List;
 import fj.data.Option;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -132,7 +133,7 @@ class FractionCardNode extends RichPNode {
                         scoreCell.setCompletedFraction( fractionNode );
                         locked = true;
 
-                        numberSceneNode.fractionCardNodeDroppedInCollectionBox(scoreCell);
+                        numberSceneNode.fractionCardNodeDroppedInCollectionBox( scoreCell );
                         break;
                     }
                 }
@@ -143,7 +144,7 @@ class FractionCardNode extends RichPNode {
                     for ( NumberCollectionBoxNode scoreCell : sortedCells ) {
                         if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) || cardShapeNode.getGlobalBounds().getMaxX() > numberSceneNode.minimumCollectionBoxX() ) {
                             hitWrongOne = true;
-                            numberSceneNode.fractionCardNodeDroppedInWrongCollectionBox(fractionNode.getValue(),scoreCell);
+                            numberSceneNode.fractionCardNodeDroppedInWrongCollectionBox( fractionNode.getValue(), scoreCell );
                             break;
                         }
                     }

@@ -38,9 +38,9 @@ import static fj.data.List.list;
  * @author Sam Reid
  */
 public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
-    public static final Color[] colors = new Color[] { Colors.LIGHT_RED, Colors.LIGHT_BLUE,
+    public static final Color[] colors = new Color[]{Colors.LIGHT_RED, Colors.LIGHT_BLUE,
             new Color( 75, 198, 28 ),
-            Colors.LIGHT_ORANGE, Color.magenta, Color.yellow, Color.CYAN, new Color( 146, 54, 173 ), new Color( 255, 112, 213 ), new Color( 45, 165, 59 ) };
+            Colors.LIGHT_ORANGE, Color.magenta, Color.yellow, Color.CYAN, new Color( 146, 54, 173 ), new Color( 255, 112, 213 ), new Color( 45, 165, 59 )};
 
     public MixedNumbersLevelSelectionNode( final String title, final BuildAFractionCanvas canvas, BooleanProperty audioEnabled, IntegerProperty selectedPage, F<LevelIdentifier, LevelProgress> gameProgress ) {
         super( title, list( new Page( page1( gameProgress ) ), new Page( page2( gameProgress ) ) ), canvas, selectedPage );

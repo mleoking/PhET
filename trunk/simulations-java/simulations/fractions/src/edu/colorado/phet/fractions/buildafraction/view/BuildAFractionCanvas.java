@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
@@ -48,7 +46,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     private ArrayList<VoidFunction1<PNode>> levelStartedListeners = new ArrayList<VoidFunction1<PNode>>();
 
-    public final Property<BuildAFractionScreenType> screenType=new Property<BuildAFractionScreenType>(BuildAFractionScreenType.LEVEL_SELECTION );
+    public final Property<BuildAFractionScreenType> screenType = new Property<BuildAFractionScreenType>( BuildAFractionScreenType.LEVEL_SELECTION );
 
     public BuildAFractionCanvas( final BuildAFractionModel model, String title ) {
         this.model = model;
@@ -60,7 +58,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         addChild( currentScene );
     }
 
-    public void addLevelStartedListener(VoidFunction1<PNode> listener) {
+    public void addLevelStartedListener( VoidFunction1<PNode> listener ) {
         levelStartedListeners.add( listener );
     }
 
@@ -125,8 +123,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         //if level was in progress, go back to it.  Otherwise create a new one and cache it.
         PNode levelNode = levelNode( info.levelIdentifier );
         animateTo( levelNode, Direction.RIGHT );
-        screenType.set( info.levelIdentifier.levelType.equals( LevelType.SHAPES )? BuildAFractionScreenType.SHAPES : BuildAFractionScreenType.NUMBERS);
-        for ( VoidFunction1<PNode> listener : levelStartedListeners ) { listener.apply(levelNode); }
+        screenType.set( info.levelIdentifier.levelType.equals( LevelType.SHAPES ) ? BuildAFractionScreenType.SHAPES : BuildAFractionScreenType.NUMBERS );
+        for ( VoidFunction1<PNode> listener : levelStartedListeners ) { listener.apply( levelNode ); }
     }
 
     private PNode levelNode( final LevelIdentifier level ) {
@@ -175,7 +173,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     public void goToLevelSelectionScreen( final int fromLevelIndex ) {
         model.selectedPage.set( fromLevelIndex < 5 ? 0 : 1 );
         animateTo( createLevelSelectionNode(), Direction.LEFT );
-        screenType.set( BuildAFractionScreenType.LEVEL_SELECTION);
+        screenType.set( BuildAFractionScreenType.LEVEL_SELECTION );
     }
 
     //The user has pressed the "refresh" button on a shape level and the level will be regenerated.

@@ -70,7 +70,9 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
         };
         final BooleanProperty soundEnabled = new BooleanProperty( false );
 
-        final NumberSceneNode numberSceneNode = new NumberSceneNode( 0, rootNode, circleModel, context, soundEnabled, true ) {{moveToFrontDuringInteraction();}};
+        final NumberSceneNode numberSceneNode = new NumberSceneNode( 0, rootNode, circleModel, context, soundEnabled, true ) {{
+            moveToFrontDuringInteraction();
+        }};
         addChild( numberSceneNode );
 
         final ShapeSceneNode circleShapeSceneNode = new ShapeSceneNode( 0, circleModel, context, soundEnabled, true, !rectangleDefault ) {{
@@ -86,8 +88,12 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
         addChild( barShapeSceneNode );
 
         //unchecked warning
-        final java.util.List<Element<ShapeType>> elements = Arrays.asList( new Element<ShapeType>( new PhetPPath( createPieSlice( 1 ), colors[0], stroke, black ) {{scale( 0.15 );}}, PIE, Components.pieShapeRadioButton ),
-                                                                           new Element<ShapeType>( new PhetPPath( createRect( 1 ), colors[1], stroke, black ) {{scale( 0.15 );}}, BAR, Components.barShapeRadioButton ) );
+        final java.util.List<Element<ShapeType>> elements = Arrays.asList( new Element<ShapeType>( new PhetPPath( createPieSlice( 1 ), colors[0], stroke, black ) {{
+            scale( 0.15 );
+        }}, PIE, Components.pieShapeRadioButton ),
+                                                                           new Element<ShapeType>( new PhetPPath( createRect( 1 ), colors[1], stroke, black ) {{
+                                                                               scale( 0.15 );
+                                                                           }}, BAR, Components.barShapeRadioButton ) );
         final Property<ShapeType> selectedShapeType = new Property<ShapeType>( rectangleDefault ? BAR : PIE );
         selectedShapeType.addObserver( new VoidFunction1<ShapeType>() {
             public void apply( final ShapeType shapeType ) {

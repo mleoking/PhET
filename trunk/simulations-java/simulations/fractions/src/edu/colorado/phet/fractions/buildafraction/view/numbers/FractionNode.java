@@ -4,7 +4,8 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 import fj.data.List;
 import fj.data.Option;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
