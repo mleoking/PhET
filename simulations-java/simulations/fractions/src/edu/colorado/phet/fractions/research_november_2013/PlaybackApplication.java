@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.research_november_2013;
 import java.io.*;
 import java.util.*;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.property.*;
 import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.util.function.*;
@@ -19,9 +21,15 @@ public class PlaybackApplication implements ResearchApplication {
     private final String text;
     private long t = 0;
     private Long startTime = null;
+    private long endTime = 0;
     private Function0<Long> theTime = new Function0<Long>() {
         public Long apply() {
             return t;
+        }
+    };
+    private Function0<Long> theEndTime = new Function0<Long>() {
+        public Long apply() {
+            return endTime;
         }
     };
 
@@ -34,14 +42,27 @@ public class PlaybackApplication implements ResearchApplication {
         for ( Property property : properties.values() ) {
             property.reset();
         }
+
+        //get ready to go again (processAll called once in constructor and once again in running)
+        t = startTime;
     }
 
     public static void main( String[] args ) throws IOException {
-        File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
-        String text = FileUtils.loadFileAsString( file );
-        PlaybackApplication app = new PlaybackApplication( text );
-        new ApplicationVisualization( app );
-        app.start();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
+                String text = null;
+                try {
+                    text = FileUtils.loadFileAsString( file );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                PlaybackApplication app = new PlaybackApplication( text );
+                new ApplicationVisualization( app );
+                app.start();
+            }
+        } );
     }
 
     private void processAll() {
@@ -59,6 +80,9 @@ public class PlaybackApplication implements ResearchApplication {
             t = Long.parseLong( elements.get( 0 ) );
             if ( startTime == null ) {
                 startTime = t;
+            }
+            if ( t > endTime ) {
+                endTime = t;
             }
             if ( elements.get( 3 ).equals( "property" ) ) {
                 String propertyName = elements.get( 2 );
@@ -94,9 +118,6 @@ public class PlaybackApplication implements ResearchApplication {
                 }
             }
         }
-
-        //get ready to go again (called once in constructor and once again in running)
-        t = startTime;
     }
 
     public void start() {
@@ -148,5 +169,9 @@ public class PlaybackApplication implements ResearchApplication {
 
     public Function0<Long> time() {
         return theTime;
+    }
+
+    public Function0<Long> endTime() {
+        return theEndTime;
     }
 }
