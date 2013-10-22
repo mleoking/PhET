@@ -90,7 +90,7 @@ public class ApplicationVisualization {
         addVariable( "tab1.denominator", app.introDenominator(), new NumericPropertyNode<Integer>( app.introDenominator(), new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
         addVariable( "tab1.numerator", app.introNumerator(), new NumericPropertyNode<Integer>( app.introNumerator(), new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
         addVariable( "tab1.max", app.introMaximum(), new NumericPropertyNode<Integer>( app.introMaximum(), new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
-        addVariable( "clicks", app.totalClicks(), new EventOverlayNode<Integer>( app.totalClicks(), 0, 600, timeScalingFunction, addTickListener ) );
+        addVariable( "clicks", app.totalClicks(), new EventOverlayNode<Integer>( app.totalClicks(), 0, 600, timeScalingFunction, addTickListener, app.time(), app.endTime() ) );
         addVariable( "tab2.screen", app.bafScreenType(), new EnumPropertyNode<BuildAFractionScreenType>( app.bafScreenType(), new Function1<BuildAFractionScreenType, Paint>() {
             public Paint apply( BuildAFractionScreenType type ) {
                 return type.equals( BuildAFractionScreenType.LEVEL_SELECTION ) ? Color.green :
