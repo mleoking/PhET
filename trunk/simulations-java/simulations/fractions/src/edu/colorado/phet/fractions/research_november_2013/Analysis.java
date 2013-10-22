@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.research_november_2013;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.TextArea;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,23 +105,41 @@ public class Analysis {
         } );
         for ( ArrayList<Record> recordList : list ) {
             if ( recordList.size() > 0 ) {
-                ArrayList<PNode> bars = new ArrayList<PNode>();
-                for ( int i = 0; i < recordList.size(); i++ ) {
-                    Record record = recordList.get( i );
-                    double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
-                    Object value = record.value;
-                    Color fill = record.type.equals( "java.lang.Boolean" ) ? value == Boolean.TRUE ? Color.green : Color.gray :
-                                 record.property.equals( "tab" ) ? modulePaintHashMap.get( record.value ) :
-                                 record.property.equals( "tab1.rep" ) ? representationPaintHashMap.get( record.value ) :
-                                 Color.red;
-                    PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 10 ), fill, new BasicStroke( 1 ), Color.black );
-                    bars.add( bar );
-                    reportNode.addChild( bar );
+                if ( recordList.get( 0 ).type.equals( "java.lang.Boolean" ) || recordList.get( 0 ).property.equals( "clicks" ) || recordList.get( 0 ).type.equals( "java.lang.String" ) ) {
+                    ArrayList<PNode> bars = new ArrayList<PNode>();
+                    for ( int i = 0; i < recordList.size(); i++ ) {
+                        Record record = recordList.get( i );
+                        double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
+                        Object value = record.value;
+                        Color fill = record.type.equals( "java.lang.Boolean" ) ? value == Boolean.TRUE ? Color.green : Color.gray :
+                                     record.property.equals( "tab" ) ? modulePaintHashMap.get( record.value ) :
+                                     record.property.equals( "tab1.rep" ) ? representationPaintHashMap.get( record.value ) :
+                                     Color.red;
+                        PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 10 ), fill, new BasicStroke( 1 ), Color.black );
+                        bars.add( bar );
+                        reportNode.addChild( bar );
+                    }
+                    PText textNode = new PText( recordList.get( 0 ).property );
+                    textNode.setOffset( bars.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), bars.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
+                    reportNode.addChild( textNode );
+                    y = y + 20;
                 }
-                PText textNode = new PText( recordList.get( 0 ).property );
-                textNode.setOffset( bars.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), bars.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
-                reportNode.addChild( textNode );
-                y = y + 20;
+                else if ( recordList.get( 0 ).type.equals( "java.lang.Integer" ) ) {
+                    ArrayList<PNode> segments = new ArrayList<PNode>();
+                    for ( int i = 0; i < recordList.size(); i++ ) {
+                        Record record = recordList.get( i );
+                        double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
+                        Integer value = (Integer) record.value;
+                        Function.LinearFunction yFunction = new Function.LinearFunction( 0, 8, y + 20, y );
+                        PhetPPath bar = new PhetPPath( new Line2D.Double( time.evaluate( record.timestamp ), yFunction.evaluate( value ), time.evaluate( maxTime ), yFunction.evaluate( value ) ), new BasicStroke( 2 ), Color.black );
+                        segments.add( bar );
+                        reportNode.addChild( bar );
+                    }
+                    PText textNode = new PText( recordList.get( 0 ).property );
+                    textNode.setOffset( segments.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), segments.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
+                    reportNode.addChild( textNode );
+                    y = y + 20;
+                }
             }
         }
     }
@@ -214,4 +233,10 @@ public class Analysis {
     }
 
     private final HashMap<String, Color> modulePaintHashMap;
+
+    //update but without adding new data
+    public void sync() {
+        addMessage( System.currentTimeMillis() + "\tmodel\ttime\tfeature\tchanged\t" );
+        messages.remove( messages.size() - 1 );
+    }
 }
