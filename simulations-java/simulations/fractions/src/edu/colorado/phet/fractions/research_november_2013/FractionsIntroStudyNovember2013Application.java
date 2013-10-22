@@ -9,10 +9,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
@@ -22,8 +24,11 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.Log;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -53,7 +58,7 @@ import edu.umd.cs.piccolo.util.PDebug;
  *
  * @author Sam Reid
  */
-public class FractionsIntroStudyNovember2013Application extends PiccoloPhetApplication implements ResearchApplication {
+public class FractionsIntroStudyNovember2013Application extends PiccoloPhetApplication {
 
     //Global flag for whether this functionality should be enabled
     public static boolean recordRegressionData;
@@ -240,9 +245,32 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         } );
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
+        final Analysis report = new Analysis();
+        SimSharingManager.initListeners.add( new VoidFunction1<SimSharingManager>() {
+            public void apply( SimSharingManager simSharingManager ) {
+                simSharingManager.addLog( new Log() {
+                    public void addMessage( SimSharingMessage message ) throws IOException {
+                        report.addMessage( message.toString() );
+                    }
+
+                    public String getName() {
+                        return "Fractions Intro Study November 2013";
+                    }
+
+                    public void shutdown() {
+
+                    }
+                } );
+            }
+        } );
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
-        new ApplicationVisualization( FractionsIntroStudyNovember2013Application.instance );
+        new Timer( 1000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                //send a dummy message to get the messages to re-render
+                SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.time, ModelComponentTypes.feature, FractionsIntroSimSharing.ModelActions.changed, new ParameterSet() );
+            }
+        } ).start();
     }
 
     private void trackState( final String name, ObservableProperty property ) {
@@ -293,19 +321,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         return totalClicks;
     }
 
-    public ObservableProperty bafScreenType() {
-        return buildAFractionModule.canvas.screenType;
-    }
-
-    public void addBAFLevelStartedListener( final VoidFunction1<BAFLevel> listener ) {
-        bafLevelStartedListeners.add( listener );
-    }
-
     public Function0<Long> time() {
-        return timeFunction;
-    }
-
-    public Function0<Long> endTime() {
         return timeFunction;
     }
 }

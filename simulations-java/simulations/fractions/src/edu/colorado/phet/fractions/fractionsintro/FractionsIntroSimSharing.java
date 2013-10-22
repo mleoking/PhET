@@ -90,7 +90,8 @@ public class FractionsIntroSimSharing {
 
     public enum ModelComponents implements IModelComponent {
         containerSetComponent, leftScaleValue,
-        rightScaleValue, answer, game, event
+        rightScaleValue, answer, game, event,
+        time
     }
 
     public enum ModelComponentTypes implements IModelComponentType {
