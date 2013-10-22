@@ -1,7 +1,7 @@
 package edu.colorado.phet.fractions.research_november_2013;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.*;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
 import edu.umd.cs.piccolo.PNode;
 
@@ -28,4 +28,6 @@ public interface ResearchApplication {
     ObservableProperty<BuildAFractionScreenType> bafScreenType();
 
     void addBAFLevelStartedListener( VoidFunction1<PNode> listener );
+
+    Function0<Long> time();
 }

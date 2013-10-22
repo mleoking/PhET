@@ -34,9 +34,10 @@ public class ApplicationVisualization {
     public static Report report = new Report();
     private final TextArea reportArea = new TextArea();
     private final PhetPCanvas reportCanvas = new PhetPCanvas();
+    private final ResearchApplication app;
 
-    public ApplicationVisualization( ResearchApplication app ) {
-
+    public ApplicationVisualization( final ResearchApplication app ) {
+        this.app = app;
         JFrame frame = new JFrame( "Report" );
         frame.setContentPane( new JScrollPane( reportArea ) );
         frame.setSize( 800, 600 );
@@ -63,7 +64,8 @@ public class ApplicationVisualization {
                         tickListeners.add( voidFunction0 );
                     }
                 };
-        final long startTime = System.currentTimeMillis();
+        final long startTime = app.time().apply();
+        System.out.println( "startTime = " + startTime );
         final Property<Function.LinearFunction> timeScalingFunction = new Property<Function.LinearFunction>( new Function.LinearFunction( startTime, startTime + 60000, 0, 700 ) );
 
         HashMap<String, Paint> representationPaintHashMap = new HashMap<String, Paint>();
@@ -81,10 +83,10 @@ public class ApplicationVisualization {
                         return b ? Color.green : Color.gray;
                     }
                 };
-        addVariable( "window.up", app.windowNotIconified(), new EnumPropertyNode<Boolean>( app.windowNotIconified(), booleanPaintMap, 6.0, timeScalingFunction, addTickListener ) );
-        addVariable( "window.active", app.windowActive(), new EnumPropertyNode<Boolean>( app.windowActive(), booleanPaintMap, 16.0, timeScalingFunction, addTickListener ) );
-        addVariable( "tab", app.module(), new EnumPropertyNode<String>( app.module(), toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener ) );
-        addVariable( "tab1.rep", app.introRepresentation(), new EnumPropertyNode<String>( app.introRepresentation(), toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener ) );
+        addVariable( "window.up", app.windowNotIconified(), new EnumPropertyNode<Boolean>( app.windowNotIconified(), booleanPaintMap, 6.0, timeScalingFunction, addTickListener, app.time() ) );
+        addVariable( "window.active", app.windowActive(), new EnumPropertyNode<Boolean>( app.windowActive(), booleanPaintMap, 16.0, timeScalingFunction, addTickListener, app.time() ) );
+        addVariable( "tab", app.module(), new EnumPropertyNode<String>( app.module(), toFunction( modulePaintHashMap ), 30.0, timeScalingFunction, addTickListener, app.time() ) );
+        addVariable( "tab1.rep", app.introRepresentation(), new EnumPropertyNode<String>( app.introRepresentation(), toFunction( representationPaintHashMap ), 40.0, timeScalingFunction, addTickListener, app.time() ) );
         addVariable( "tab1.denominator", app.introDenominator(), new NumericPropertyNode<Integer>( app.introDenominator(), new Function.LinearFunction( 1, 8, 80, 50 ), timeScalingFunction, addTickListener ) );
         addVariable( "tab1.numerator", app.introNumerator(), new NumericPropertyNode<Integer>( app.introNumerator(), new Function.LinearFunction( 1, 48, 300, 90 ), timeScalingFunction, addTickListener ) );
         addVariable( "tab1.max", app.introMaximum(), new NumericPropertyNode<Integer>( app.introMaximum(), new Function.LinearFunction( 1, 6, 340, 300 ), timeScalingFunction, addTickListener ) );
@@ -95,7 +97,7 @@ public class ApplicationVisualization {
                        type.equals( BuildAFractionScreenType.SHAPES ) ? Color.red :
                        Color.black;
             }
-        }, 350.0, timeScalingFunction, addTickListener ) );
+        }, 350.0, timeScalingFunction, addTickListener, app.time() ) );
 
         //Keep track of levels started so we can easily create a full state matrix at the end of a run (knowing the number of levels started)
         final Property<Integer> buildAFractionLevelsStarted = new Property<Integer>( 0 );
@@ -112,7 +114,7 @@ public class ApplicationVisualization {
 
                 //TODO: How to record newly created properties?  Will it get recorded in addVariable?
                 Property<Boolean> started = new Property<Boolean>( false );
-                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener );
+                final EnumPropertyNode<Boolean> levelNode = new EnumPropertyNode<Boolean>( started, booleanPaintMap, y.get(), timeScalingFunction, addTickListener, app.time() );
                 final String levelKey = "tab2.levelIndex." + buildAFractionLevelsStarted.get();
                 addVariable( levelKey, started, levelNode );
                 started.set( true );
@@ -162,19 +164,21 @@ public class ApplicationVisualization {
             }
         } );
 
-        Timer t = new Timer( 1000, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                report.update();
-                reportArea.setText( report.toString() );
-                for ( VoidFunction0 listener : tickListeners ) {
-                    listener.apply();
+        if ( app instanceof FractionsIntroStudyNovember2013Application ) {
+            Timer t = new Timer( 1000, new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    report.update();
+                    reportArea.setText( report.toString() );
+                    for ( VoidFunction0 listener : tickListeners ) {
+                        listener.apply();
+                    }
+                    if ( app.time().apply() - startTime > 60000 ) {
+                        timeScalingFunction.set( new Function.LinearFunction( startTime, app.time().apply(), 0, 700 ) );
+                    }
                 }
-                if ( System.currentTimeMillis() - startTime > 60000 ) {
-                    timeScalingFunction.set( new Function.LinearFunction( startTime, System.currentTimeMillis(), 0, 700 ) );
-                }
-            }
-        } );
-        t.start();
+            } );
+            t.start();
+        }
     }
 
     private static <T> Function1<T, Paint> toFunction( final HashMap<T, Paint> map ) {
@@ -186,7 +190,7 @@ public class ApplicationVisualization {
     }
 
     private void addEventNode( String name, final PNode node, final double y, final Property<Function.LinearFunction> timeScalingFunction ) {
-        final long time = System.currentTimeMillis();
+        final long time = app.time().apply();
         reportCanvas.addScreenChild( node );
         timeScalingFunction.addObserver( new VoidFunction1<Function.LinearFunction>() {
             public void apply( Function.LinearFunction linearFunction ) {

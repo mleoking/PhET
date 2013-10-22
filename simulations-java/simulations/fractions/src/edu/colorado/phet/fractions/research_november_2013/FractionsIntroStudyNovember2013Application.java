@@ -35,6 +35,11 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
     private final Property<String> introRepresentation;
     private final Property<Integer> totalClicks;
     private final BuildAFractionModule buildAFractionModule;
+    private Function0<Long> timeFunction = new Function0<Long>() {
+        public Long apply() {
+            return System.currentTimeMillis();
+        }
+    };
 
     public FractionsIntroStudyNovember2013Application( PhetApplicationConfig config ) {
         super( config );
@@ -193,5 +198,9 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
     public void addBAFLevelStartedListener( VoidFunction1<PNode> listener ) {
         buildAFractionModule.canvas.addLevelStartedListener( listener );
+    }
+
+    public Function0<Long> time() {
+        return timeFunction;
     }
 }

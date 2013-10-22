@@ -17,6 +17,13 @@ public class PlaybackApplication implements ResearchApplication {
     private final ArrayList<VoidFunction1<PNode>> bafLevelStartedListeners = new ArrayList<VoidFunction1<PNode>>();
     private final HashMap<String, Property> properties;
     private final String text;
+    private long t = 0;
+    private Long startTime = null;
+    private Function0<Long> theTime = new Function0<Long>() {
+        public Long apply() {
+            return t;
+        }
+    };
 
     public PlaybackApplication( String text ) {
         this.text = text;
@@ -46,6 +53,12 @@ public class PlaybackApplication implements ResearchApplication {
             while ( st2.hasMoreTokens() ) {
                 String element = st2.nextToken();
                 elements.add( element );
+            }
+
+            //Crazy hack workaround to get the times to read out right
+            t = Long.parseLong( elements.get( 0 ) );
+            if ( startTime == null ) {
+                startTime = t;
             }
             if ( elements.get( 3 ).equals( "property" ) ) {
                 String propertyName = elements.get( 2 );
@@ -81,6 +94,9 @@ public class PlaybackApplication implements ResearchApplication {
                 }
             }
         }
+
+        //get ready to go again (called once in constructor and once again in running)
+        t = startTime;
     }
 
     public void start() {
@@ -128,5 +144,9 @@ public class PlaybackApplication implements ResearchApplication {
     public void addBAFLevelStartedListener( VoidFunction1<PNode> listener ) {
         //TODO: trigger calls there
         bafLevelStartedListeners.add( listener );
+    }
+
+    public Function0<Long> time() {
+        return theTime;
     }
 }
