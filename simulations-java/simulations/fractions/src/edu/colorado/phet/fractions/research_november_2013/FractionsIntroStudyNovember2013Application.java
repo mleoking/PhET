@@ -45,7 +45,6 @@ import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
-import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
@@ -192,6 +191,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "tab1.numerator", introModule.model.numerator );
         trackState( "tab1.max", introModule.model.maximum );
         trackState( "clicks", totalClicks );
+        trackState( "tab2.screenType", toStringProperty( buildAFractionModule.canvas.screenType ) );
 
         buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
             public void apply( final PNode node ) {
@@ -257,15 +257,19 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                                                             with( GameSimSharing.ParameterKeys.level, index ) );
                 trackState( "bafLevelID." + id + ".matchExists", level.matchExists );
                 trackState( "bafLevelID." + id + ".filledTargets", level.filledTargets );
-                final Property<String> p = new Property<String>( level.createdFractions.get().toString() );
-                level.createdFractions.addObserver( new VoidFunction1<fj.data.List<Fraction>>() {
-                    public void apply( fj.data.List<Fraction> fractions ) {
-                        p.set( fractions.toString() );
-                    }
-                } );
-                trackState( "bafLevelID." + id + ".createdFractions", p );
+                trackState( "bafLevelID." + id + ".createdFractions", toStringProperty( level.createdFractions ) );
             }
         } );
+    }
+
+    private ObservableProperty<String> toStringProperty( Property screenType ) {
+        final Property<String> p = new Property<String>( screenType.get().toString() );
+        screenType.addObserver( new VoidFunction1() {
+            public void apply( Object obj ) {
+                p.set( obj.toString() );
+            }
+        } );
+        return p;
     }
 
     public static void main( final String[] args ) {

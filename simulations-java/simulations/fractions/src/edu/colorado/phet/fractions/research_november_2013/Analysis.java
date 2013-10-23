@@ -77,6 +77,11 @@ public class Analysis {
         representationPaintHashMap.put( "Cake", new Color( 0xa55a41 ) );
         representationPaintHashMap.put( "NumberLine", Color.black );
 
+        HashMap<String, Color> screenTypeHashMap = new HashMap<String, Color>();
+        screenTypeHashMap.put( BuildAFractionScreenType.LEVEL_SELECTION.toString(), Color.gray );
+        screenTypeHashMap.put( BuildAFractionScreenType.SHAPES.toString(), Color.red );
+        screenTypeHashMap.put( BuildAFractionScreenType.NUMBERS.toString(), Color.black );
+
         reportNode.removeAllChildren();
 
         PNode gridLines = new PNode();
@@ -104,6 +109,7 @@ public class Analysis {
                             Color fill = record.type.equals( "java.lang.Boolean" ) ? value == Boolean.TRUE ? Color.green : Color.gray :
                                          record.property.equals( "tab" ) ? modulePaintHashMap.get( record.value ) :
                                          record.property.equals( "tab1.rep" ) ? representationPaintHashMap.get( record.value ) :
+                                         record.property.equals( "tab2.screenType" ) ? screenTypeHashMap.get( record.value ) :
                                          Color.red;
                             PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 10 ), fill, new BasicStroke( 1 ), Color.black );
                             bars.add( bar );
