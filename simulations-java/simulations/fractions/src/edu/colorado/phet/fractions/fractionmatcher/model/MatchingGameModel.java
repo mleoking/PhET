@@ -21,10 +21,14 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.CompositeIntegerProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction3;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelComponents;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
@@ -32,6 +36,8 @@ import static edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameStat
 import static edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState.newLevel;
 import static edu.colorado.phet.fractions.fractionmatcher.model.Mode.SHOWING_GAME_OVER_SCREEN;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelActions.changed;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelActions.matchingGameLevelResumed;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelActions.matchingGameLevelStarted;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.scale;
 
 /**
@@ -80,6 +86,9 @@ public class MatchingGameModel {
     private final HashMap<Integer, MatchingGameState> savedGames = new HashMap<Integer, MatchingGameState>();
     private final ArrayList<VoidFunction0> refreshListeners = new ArrayList<VoidFunction0>();
     private final ArrayList<VoidFunction1<Integer>> levelStartedListeners = new ArrayList<VoidFunction1<Integer>>();
+
+    //For data collection, receives a notification after level started and model updated
+    private final ArrayList<VoidFunction3<IModelAction,Integer,MatchingGameState>> levelStartedListenersPost = new ArrayList<VoidFunction3<IModelAction,Integer,MatchingGameState>>(  );
     public final Clock clock;
 
     private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
@@ -246,6 +255,9 @@ public class MatchingGameModel {
 
     public void finishRefresh() {
         startNewGame( level.get(), state.get().getInfo().audio, state.get().getInfo().timerVisible );
+        for ( VoidFunction3<IModelAction, Integer, MatchingGameState> listener : levelStartedListenersPost ) {
+            listener.apply( FractionsIntroSimSharing.ModelActions.matchingGameLevelRefreshed, level.get(), state.get() );
+        }
     }
 
     private void startNewGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
@@ -268,9 +280,15 @@ public class MatchingGameModel {
                     withTimerVisible( timerEnabled ).
                     withGameResults( state.get().gameResults );//Restore any state that needs to be updated since we just want to load the level
             state.set( m );
+            for ( VoidFunction3<IModelAction,Integer,MatchingGameState> listener : levelStartedListenersPost ) {
+                listener.apply( matchingGameLevelResumed,level,state.get() );
+            }
         }
         else {
             startNewGame( level, soundEnabled, timerEnabled );
+            for ( VoidFunction3<IModelAction,Integer,MatchingGameState> listener : levelStartedListenersPost ) {
+                listener.apply( matchingGameLevelStarted,level,state.get() );
+            }
         }
     }
 
@@ -280,6 +298,10 @@ public class MatchingGameModel {
 
     public void addLevelStartedListener( final VoidFunction1<Integer> listener ) {
         levelStartedListeners.add( listener );
+    }
+
+    public void addLevelStartedListenerPost( final VoidFunction3<IModelAction,Integer,MatchingGameState> listener ) {
+        levelStartedListenersPost.add( listener );
     }
 
     public void startNewGame() {

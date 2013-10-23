@@ -28,11 +28,14 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.Log;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction3;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
@@ -46,6 +49,8 @@ import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
+import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState;
+import edu.colorado.phet.fractions.fractionmatcher.model.MovableFraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
@@ -261,6 +266,18 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 trackState( "bafLevelID." + id + ".matchExists", level.matchExists );
                 trackState( "bafLevelID." + id + ".filledTargets", level.filledTargets );
                 trackState( "bafLevelID." + id + ".createdFractions", toStringProperty( level.createdFractions ) );
+            }
+        } );
+
+        matchingGameModule.model.addLevelStartedListenerPost( new VoidFunction3<IModelAction, Integer, MatchingGameState>() {
+            public void apply( IModelAction action, Integer level, MatchingGameState state ) {
+                SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event,
+                                                    action,
+                                                    ParameterSet.parameterSet( FractionsIntroSimSharing.ParameterKeys.fractions, state.fractions.map( new F<MovableFraction, String>() {
+                                                        @Override public String f( MovableFraction movableFraction ) {
+                                                            return movableFraction.numerator + "/" + movableFraction.denominator + " " + movableFraction.representationName;
+                                                        }
+                                                    } ).toString() ) );
             }
         } );
     }
