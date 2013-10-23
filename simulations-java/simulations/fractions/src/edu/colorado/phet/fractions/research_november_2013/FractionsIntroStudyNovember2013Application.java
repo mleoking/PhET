@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.Timer;
 
+import edu.colorado.phet.common.games.GameSimSharing;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
@@ -40,6 +41,7 @@ import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
+import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
@@ -193,8 +195,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             public void apply( PNode node ) {
 
                 List<String> targetString = null;
+                String type = null;
+                int index = -1;
                 if ( node instanceof ShapeSceneNode ) {
+                    type = "Shapes";
                     ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
+                    index = shapeSceneNode.levelIndex;
                     ShapeLevel level = shapeSceneNode.level;
                     targetString = new ArrayList<String>( level.targets.map( new F<MixedFraction, String>() {
                         @Override public String f( MixedFraction mixedFraction ) {
@@ -203,8 +209,10 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                     } ).toCollection() );
                 }
                 else if ( node instanceof NumberSceneNode ) {
+                    type = "Numbers";
                     NumberSceneNode numberSceneNode = (NumberSceneNode) node;
                     NumberLevel level = numberSceneNode.level;
+                    index = numberSceneNode.levelIndex;
 
                     //TODO: Send event
                     targetString = new ArrayList<String>( level.targets.map( new F<NumberTarget, String>() {
@@ -219,7 +227,10 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 }
 
                 SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.buildAFractionLevelStarted,
-                                                    ParameterSet.parameterSet( FractionsIntroSimSharing.ParameterKeys.targets, targetString.toString() ) );
+                                                    ParameterSet.parameterSet( ParameterKeys.id, ( (SceneNode) node ).id ).
+                                                            with( FractionsIntroSimSharing.ParameterKeys.targets, targetString.toString() ).
+                                                            with( ParameterKeys.type, type ).
+                                                            with( GameSimSharing.ParameterKeys.level, index ) );
             }
         } );
     }
