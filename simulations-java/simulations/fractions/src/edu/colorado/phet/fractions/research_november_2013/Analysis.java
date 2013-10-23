@@ -124,7 +124,7 @@ public class Analysis {
                 double centerX = time.evaluate( event.timestamp );
                 double centerY = y;
                 PhetPPath path = new PhetPPath( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ), Color.blue, new BasicStroke( 1 ), Color.black );
-                PText text = new PText( event.name );
+                PText text = new PText( event.name + ": " + event.parameters.toString() );
                 text.setOffset( path.getFullBounds().getMaxX() + 2, path.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
                 y += 20;
                 reportNode.addChild( path );
