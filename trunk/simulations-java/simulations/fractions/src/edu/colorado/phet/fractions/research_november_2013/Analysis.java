@@ -81,6 +81,7 @@ public class Analysis {
         List<Record> list = representation.orderedEventsAndPropertyDeltas();
         HashMap<String, Object> properties = new HashMap<String, Object>();
         HashMap<String, Integer> clicksPerTab = new HashMap<String, Integer>();
+        HashMap<String, Integer> clicksPerIntroRepresentation = new HashMap<String, Integer>();
         for ( Record record : list ) {
             if ( record instanceof PropertyChange ) {
                 PropertyChange pc = (PropertyChange) record;
@@ -91,6 +92,11 @@ public class Analysis {
                     //check the state and histogram it
                     String tabName = properties.get( "tab" ).toString();
                     clicksPerTab.put( tabName, ( clicksPerTab.containsKey( tabName ) ? clicksPerTab.get( tabName ) : 0 ) + 1 );
+
+                    if ( tabName.equals( "Intro" ) ) {
+                        String rep = properties.get( "tab1.rep" ).toString();
+                        clicksPerIntroRepresentation.put( rep, ( clicksPerIntroRepresentation.containsKey( rep ) ? clicksPerIntroRepresentation.get( rep ) : 0 ) + 1 );
+                    }
                 }
             }
             else if ( record instanceof Event ) {
@@ -101,7 +107,8 @@ public class Analysis {
             }
         }
         return "Elapsed time: " + timeText + "\n" +
-               "Clicks Per Tab: " + clicksPerTab;
+               "Clicks Per Tab: " + clicksPerTab + "\n" +
+               "Clicks Per Intro Representation: " + clicksPerIntroRepresentation;
     }
 
     private void displayGraphically( StateRepresentation representation ) {
