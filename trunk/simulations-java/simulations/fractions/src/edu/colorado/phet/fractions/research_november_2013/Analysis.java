@@ -74,7 +74,13 @@ public class Analysis {
 
         reportNode.removeAllChildren();
         double y = 0;
-        Function.LinearFunction time = new Function.LinearFunction( representation.startTime, Math.max( representation.endTime, representation.startTime + 60000 ), 100, 700 );
+
+        //Auto-shrink to fit in the window
+//        Function.LinearFunction time = new Function.LinearFunction( representation.startTime, Math.max( representation.endTime, representation.startTime + 60000 ), 100, 700 );
+
+        //Don't shrink
+        Function.LinearFunction time = new Function.LinearFunction( representation.startTime, representation.startTime + 60000, 100, 700 );
+
         List<Record> list = representation.orderedEventsAndProperties();
         for ( Record r : list ) {
             if ( r instanceof ParameterLife ) {
