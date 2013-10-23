@@ -83,7 +83,6 @@ public class FractionsIntroSimSharing {
 
     public static final String on = "on";
     public static final String off = "off";
-
     //For chaining with component types
     public static final String rightSide = "rightSide";
     public static final String leftSide = "leftSide";
@@ -100,7 +99,7 @@ public class FractionsIntroSimSharing {
     }
 
     public enum ModelActions implements IModelAction {
-        changed, checked, finished, occurred, buildAFractionLevelStarted
+        changed, checked, finished, occurred, buildAFractionLevelStarted, shapeContainerDropped
     }
 
     public enum ParameterKeys implements IParameterKey {
@@ -110,7 +109,8 @@ public class FractionsIntroSimSharing {
         containerSetKey,
         scale,
         autoSpin,
-        soundEnabled, timerEnabled, isCorrect, points, shapeType, targets
+        soundEnabled, timerEnabled, isCorrect, points, shapeType, targets,
+        hit, source, levelID, target
     }
 
     public enum SystemComponents implements ISystemComponent {
