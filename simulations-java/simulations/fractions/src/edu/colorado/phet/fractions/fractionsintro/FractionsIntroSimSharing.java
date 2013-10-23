@@ -110,7 +110,7 @@ public class FractionsIntroSimSharing {
         scale,
         autoSpin,
         soundEnabled, timerEnabled, isCorrect, points, shapeType, targets,
-        hit, source, levelID, target
+        hit, source, levelID, target, divisions
     }
 
     public enum SystemComponents implements ISystemComponent {

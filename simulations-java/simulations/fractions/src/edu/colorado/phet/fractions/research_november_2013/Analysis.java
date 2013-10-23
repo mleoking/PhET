@@ -7,6 +7,8 @@ import java.awt.TextArea;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,8 +18,10 @@ import java.util.StringTokenizer;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
 import edu.umd.cs.piccolo.PCanvas;
@@ -303,5 +307,33 @@ public class Analysis {
     public void sync() {
         addMessage( System.currentTimeMillis() + "\tmodel\ttime\tfeature\tchanged\t" );
         messages.remove( messages.size() - 1 );
+    }
+
+    public static void main( String[] args ) throws IOException {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
+                try {
+                    String s = FileUtils.loadFileAsString( file );
+                    final ArrayList<String> messages = new ArrayList<String>();
+                    final Analysis report = new Analysis();
+                    StringTokenizer st = new StringTokenizer( s, "\n" );
+                    while ( st.hasMoreTokens() ) {
+                        messages.add( st.nextToken() );
+                    }
+                    report.addMessages( messages );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+
+            }
+        } );
+    }
+
+    private void addMessages( ArrayList<String> messages ) {
+        this.messages.addAll( messages );
+        StateRepresentation representation = parseAll();
+        showRepresentation( representation );
     }
 }

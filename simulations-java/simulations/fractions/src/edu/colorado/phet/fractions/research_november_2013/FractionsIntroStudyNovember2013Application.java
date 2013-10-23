@@ -236,12 +236,17 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 final int id = ( (SceneNode) node ).id;
                 dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
                     public void apply( ShapeSceneNode.DropResult dropResult ) {
+                        ParameterSet parameters = ParameterSet.parameterSet(
+                                FractionsIntroSimSharing.ParameterKeys.levelID, id ).
+                                with( FractionsIntroSimSharing.ParameterKeys.hit, dropResult.hit ).
+                                with( FractionsIntroSimSharing.ParameterKeys.source, dropResult.source.toString() ).
+                                with( FractionsIntroSimSharing.ParameterKeys.target, dropResult.target.toString() );
+                        if ( dropResult.selectedPieceSize != -1 ) {
+                            parameters = parameters.with( FractionsIntroSimSharing.ParameterKeys.divisions, dropResult.selectedPieceSize );
+                        }
+
                         SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.shapeContainerDropped,
-                                                            ParameterSet.parameterSet(
-                                                                    FractionsIntroSimSharing.ParameterKeys.levelID, id ).
-                                                                    with( FractionsIntroSimSharing.ParameterKeys.hit, dropResult.hit ).
-                                                                    with( FractionsIntroSimSharing.ParameterKeys.source, dropResult.source.toString() ).
-                                                                    with( FractionsIntroSimSharing.ParameterKeys.target, dropResult.target.toString() ) );
+                                                            parameters );
                     }
                 } );
 

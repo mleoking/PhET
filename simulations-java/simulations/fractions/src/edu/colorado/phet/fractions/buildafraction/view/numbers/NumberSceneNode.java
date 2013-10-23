@@ -415,7 +415,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     //Called when a challenge is completed by dropping a correct fraction into a collection box.
     public void fractionCardNodeDroppedInCollectionBox( NumberCollectionBoxNode scoreCell ) {
         for ( VoidFunction1<ShapeSceneNode.DropResult> listener : dropListeners ) {
-            listener.apply( new ShapeSceneNode.DropResult( true, scoreCell.mixedFraction.toFraction(), scoreCell.mixedFraction.toFraction() ) );
+            listener.apply( new ShapeSceneNode.DropResult( true, scoreCell.mixedFraction.toFraction(), scoreCell.mixedFraction.toFraction(),-1 ) );
         }
         level.filledTargets.increment();
 
@@ -568,7 +568,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public void fractionCardNodeDroppedInWrongCollectionBox( Fraction value, NumberCollectionBoxNode scoreCell ) {
         for ( VoidFunction1<ShapeSceneNode.DropResult> listener : dropListeners ) {
-            listener.apply( new ShapeSceneNode.DropResult( false, value, scoreCell.mixedFraction.toFraction() ) );
+            listener.apply( new ShapeSceneNode.DropResult( false, value, scoreCell.mixedFraction.toFraction(),-1 ) );
         }
     }
 
