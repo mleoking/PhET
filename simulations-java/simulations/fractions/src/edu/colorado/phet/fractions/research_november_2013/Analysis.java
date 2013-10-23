@@ -9,6 +9,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,6 +25,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
 import edu.umd.cs.piccolo.PCanvas;
@@ -175,6 +177,8 @@ public class Analysis {
         reportNode.addChild( gridLines );
         double y = 0;
 
+        double labelInset = 6;
+
         //Auto-shrink to fit in the window
 //        Function.LinearFunction time = new Function.LinearFunction( representation.startTime, Math.max( representation.endTime, representation.startTime + 60000 ), 100, 700 );
 
@@ -203,7 +207,7 @@ public class Analysis {
                             reportNode.addChild( bar );
                         }
                         PText textNode = new PText( recordList.get( 0 ).property );
-                        textNode.setOffset( bars.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), bars.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
+                        textNode.setOffset( bars.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth() - labelInset, bars.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
                         reportNode.addChild( textNode );
                         y = y + 20;
                     }
@@ -215,13 +219,21 @@ public class Analysis {
                             Number value = (Number) record.value;
                             Function.LinearFunction yFunction = record.property.endsWith( ".filledTargets" ) ?
                                                                 new Function.LinearFunction( 0, 4, y + 20, y ) :
+                                                                recordList.get( 0 ).type.equals( "java.lang.Double" ) ? new Function.LinearFunction( 0, 1, y + 20, y ) :
                                                                 new Function.LinearFunction( 0, 8, y + 20, y );
                             PhetPPath bar = new PhetPPath( new Line2D.Double( time.evaluate( record.timestamp ), yFunction.evaluate( value.doubleValue() ), time.evaluate( maxTime ), yFunction.evaluate( value.doubleValue() ) ), new BasicStroke( 2 ), Color.black );
                             segments.add( bar );
+
+                            PText number = new PText( value instanceof Integer ? value + "" : new DecimalFormat( "0.00" ).format( value.doubleValue() ) );
+                            number.setOffset( bar.getFullBounds().getMinX(), bar.getFullBounds().getCenterY() - number.getFullBounds().getHeight() / 2 );
+                            PhetPPath textBackground = new PhetPPath( RectangleUtils.expand( number.getFullBounds(), 2, 2 ), Color.yellow );
+
                             reportNode.addChild( bar );
+                            reportNode.addChild( textBackground );
+                            reportNode.addChild( number );
                         }
                         PText textNode = new PText( recordList.get( 0 ).property );
-                        textNode.setOffset( segments.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), segments.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
+                        textNode.setOffset( segments.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth() - labelInset, segments.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
                         reportNode.addChild( textNode );
                         y = y + 30;
                     }
