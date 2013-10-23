@@ -30,7 +30,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -62,27 +61,32 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
     //Global flag for whether this functionality should be enabled
     public static boolean recordRegressionData;
     public static FractionsIntroStudyNovember2013Application instance;
-    private final Property<String> module;
-    private final Property<Boolean> windowNotIconified;
-    private final Property<Boolean> windowActive;
-    private final FractionsIntroModule introModule;
-    private final Property<String> introRepresentation;
-    private final Property<Integer> totalClicks;
-    private final BuildAFractionModule buildAFractionModule;
-    private Function0<Long> timeFunction = new Function0<Long>() {
-        public Long apply() {
-            return System.currentTimeMillis();
-        }
-    };
-    private ArrayList<VoidFunction1<BAFLevel>> bafLevelStartedListeners = new ArrayList<VoidFunction1<BAFLevel>>();
 
     public FractionsIntroStudyNovember2013Application( PhetApplicationConfig config ) {
         super( config );
         instance = this;
 
         //New properties for recording
-        totalClicks = new Property<Integer>( 0 );
+        final Property<Integer> totalClicks = new Property<Integer>( 0 );
 
+        final Property<Boolean> windowActive = new Property<Boolean>( true );
+        final Property<Boolean> windowNotIconified = new Property<Boolean>( true );
+
+        //See code in PhetFrame
+        getPhetFrame().addWindowListener( new WindowAdapter() {
+            public void windowIconified( WindowEvent e ) { windowNotIconified.set( false ); }
+
+            public void windowDeiconified( WindowEvent e ) { windowNotIconified.set( true ); }
+
+            public void windowActivated( WindowEvent e ) { windowActive.set( true ); }
+
+            public void windowDeactivated( WindowEvent e ) {windowActive.set( false );}
+        } );
+
+        //Another way to do this would be to pass a FunctionInvoker to all the modules
+        recordRegressionData = config.hasCommandLineArg( "-recordRegressionData" );
+        FractionsIntroModule introModule = new FractionsIntroModule();
+        final Property<String> module = new Property<String>( introModule.getName() );
         addModuleObserver( new ModuleObserver() {
             public void moduleAdded( ModuleEvent event ) {
 //                report.moduleAdded( event.getModule() );
@@ -111,33 +115,15 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
 
             public void activeModuleChanged( ModuleEvent event ) {
                 module.set( event.getModule().getName() );
-//                report.setActiveModule( event.getModule() );
             }
 
             public void moduleRemoved( ModuleEvent event ) {
 
             }
         } );
-        windowActive = new Property<Boolean>( true );
-        windowNotIconified = new Property<Boolean>( true );
-
-        //See code in PhetFrame
-        getPhetFrame().addWindowListener( new WindowAdapter() {
-            public void windowIconified( WindowEvent e ) { windowNotIconified.set( false ); }
-
-            public void windowDeiconified( WindowEvent e ) { windowNotIconified.set( true ); }
-
-            public void windowActivated( WindowEvent e ) { windowActive.set( true ); }
-
-            public void windowDeactivated( WindowEvent e ) {windowActive.set( false );}
-        } );
-
-        //Another way to do this would be to pass a FunctionInvoker to all the modules
-        recordRegressionData = config.hasCommandLineArg( "-recordRegressionData" );
-        introModule = new FractionsIntroModule();
         addModule( introModule );
         final BooleanProperty audioEnabled = new BooleanProperty( true );
-        buildAFractionModule = new BuildAFractionModule( new BuildAFractionModel( new BooleanProperty( false ), audioEnabled ) );
+        BuildAFractionModule buildAFractionModule = new BuildAFractionModule( new BuildAFractionModel( new BooleanProperty( false ), audioEnabled ) );
         addModule( buildAFractionModule );
         EqualityLabModule equalityLabModule = new EqualityLabModule();
         addModule( equalityLabModule );
@@ -146,8 +132,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         FractionLabModule fractionLabModule = new FractionLabModule( false );
         addModule( fractionLabModule );
 
-        module = new Property<String>( getModule( 0 ).getName() );
-        introRepresentation = new Property<String>( introModule.model.representation.get().toString() );
+        final Property<String> introRepresentation = new Property<String>( introModule.model.representation.get().toString() );
         introModule.model.representation.addObserver( new VoidFunction1<Representation>() {
             public void apply( Representation representation ) {
                 introRepresentation.set(
@@ -195,16 +180,14 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             } );
         }} );
 
-        trackState( "window.up", windowNotIconified() );
-
-        trackState( "window.up", this.windowNotIconified() );
-        trackState( "window.active", this.windowActive() );
-        trackState( "tab", this.module() );
-        trackState( "tab1.rep", this.introRepresentation() );
-        trackState( "tab1.denominator", this.introDenominator() );
-        trackState( "tab1.numerator", this.introNumerator() );
-        trackState( "tab1.max", this.introMaximum() );
-        trackState( "clicks", this.totalClicks() );
+        trackState( "window.up", windowNotIconified );
+        trackState( "window.active", windowActive );
+        trackState( "tab", module );
+        trackState( "tab1.rep", introRepresentation );
+        trackState( "tab1.denominator", introModule.model.denominator );
+        trackState( "tab1.numerator", introModule.model.numerator );
+        trackState( "tab1.max", introModule.model.maximum );
+        trackState( "clicks", totalClicks );
 
         buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
             public void apply( PNode node ) {
@@ -236,10 +219,6 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 }
 
                 BAFLevel level = new BAFLevel( "name", "type", targetString );
-
-                for ( VoidFunction1<BAFLevel> bafLevelVoidFunction1 : bafLevelStartedListeners ) {
-                    bafLevelVoidFunction1.apply( level );
-                }
             }
         } );
     }
@@ -293,35 +272,5 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 );
             }
         } );
-    }
-
-    public ObservableProperty<Boolean> windowNotIconified() { return windowNotIconified; }
-
-    public ObservableProperty<Boolean> windowActive() { return windowActive; }
-
-    public ObservableProperty<String> module() { return module;}
-
-    public ObservableProperty<String> introRepresentation() {
-        return introRepresentation;
-    }
-
-    public ObservableProperty<Integer> introDenominator() {
-        return introModule.model.denominator;
-    }
-
-    public ObservableProperty<Integer> introNumerator() {
-        return introModule.model.numerator;
-    }
-
-    public ObservableProperty<Integer> introMaximum() {
-        return introModule.model.maximum;
-    }
-
-    public ObservableProperty<Integer> totalClicks() {
-        return totalClicks;
-    }
-
-    public Function0<Long> time() {
-        return timeFunction;
     }
 }
