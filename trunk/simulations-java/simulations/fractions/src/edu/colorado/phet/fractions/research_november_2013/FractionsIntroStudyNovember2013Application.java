@@ -218,7 +218,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                     } ).toCollection() );
                 }
 
-                BAFLevel level = new BAFLevel( "name", "type", targetString );
+                SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.buildAFractionLevelStarted,
+                                                    ParameterSet.parameterSet( FractionsIntroSimSharing.ParameterKeys.targets, targetString.toString() ) );
             }
         } );
     }
