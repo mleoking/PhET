@@ -126,20 +126,21 @@ public class Analysis {
 
 
             if ( record instanceof PropertyChange ) {
+                String tabName = properties.get( "tab" ) == null ? "<none>" : properties.get( "tab" ).toString();
+
                 PropertyChange pc = (PropertyChange) record;
                 properties.put( pc.property, pc.value );
 
-                if ( pc.property.equals( "tab1.rep" ) ) {
+                if ( tabName.equals( "Intro" ) && pc.property.equals( "tab1.rep" ) ) {
                     visitedIntroRepresentations.add( pc.value.toString() );
                 }
-                if ( pc.property.equals( "tab3.leftRepresentation" ) ) {
+                if ( tabName.equals( "Equality Lab" ) && pc.property.equals( "tab3.leftRepresentation" ) ) {
                     visitedEqualityLabRepresentations.add( pc.value.toString() );
                 }
 
                 //Ignore first "clicks = 0" event
                 if ( pc.property.equals( "clicks" ) && ( (Integer) pc.value ) > 0 ) {
                     //check the state and histogram it
-                    String tabName = properties.get( "tab" ).toString();
                     augment( clicksPerTab, tabName, 1 );
 
                     if ( tabName.equals( "Intro" ) ) {
@@ -152,6 +153,15 @@ public class Analysis {
             }
             else {
                 throw new RuntimeException( "?" );
+            }
+
+            String tabName = properties.get( "tab" ) == null ? "<none>" : properties.get( "tab" ).toString();
+
+            if ( tabName.equals( "Intro" ) && properties.containsKey( "tab1.rep" ) ) {
+                visitedIntroRepresentations.add( properties.get( "tab1.rep" ).toString() );
+            }
+            if ( tabName.equals( "Equality Lab" ) && properties.containsKey( "tab3.leftRepresentation" ) ) {
+                visitedEqualityLabRepresentations.add( properties.get( "tab3.leftRepresentation" ).toString() );
             }
 
             previousTime = record.getTime();
