@@ -62,7 +62,7 @@ public class ContainerNode extends PNode {
     private final UndoButton undoButton;
 
     //For showing the divisions
-    final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
+    public final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
 
     private final DynamicCursorHandler dynamicCursorHandler;
     public final ShapeSceneNode parent;
