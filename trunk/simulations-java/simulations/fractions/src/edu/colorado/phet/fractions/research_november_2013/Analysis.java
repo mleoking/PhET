@@ -92,6 +92,7 @@ public class Analysis {
         HashMap<String, Long> timePerIntroRepresentation = new HashMap<String, Long>();
         HashMap<String, Long> timePerEqualityLabLeftRepresentation = new HashMap<String, Long>();
         HashMap<String, Long> timePerEqualityLabSameRepresentations = new HashMap<String, Long>();
+        HashSet<String> visitedEqualityLabRepresentations = new HashSet<String>();
         long previousTime = list.size() > 0 ? list.get( 0 ).getTime() : 0;
         for ( Record record : list ) {
             long elapsedTime = record.getTime() - previousTime;//TODO: rounding or counting errors?
@@ -131,6 +132,9 @@ public class Analysis {
                 if ( pc.property.equals( "tab1.rep" ) ) {
                     visitedIntroRepresentations.add( pc.value.toString() );
                 }
+                if ( pc.property.equals( "tab3.leftRepresentation" ) ) {
+                    visitedEqualityLabRepresentations.add( pc.value.toString() );
+                }
 
                 //Ignore first "clicks = 0" event
                 if ( pc.property.equals( "clicks" ) && ( (Integer) pc.value ) > 0 ) {
@@ -161,7 +165,9 @@ public class Analysis {
                "Time per tab: " + valuesToStrings( timePerTab ) + "\n" +
                "Time per intro representation: " + valuesToStrings( timePerIntroRepresentation ) + "\n" +
                "Time per equality lab representation (left): " + valuesToStrings( timePerEqualityLabLeftRepresentation ) + "\n" +
-               "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations );
+               "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations ) + "\n" +
+               "Number of equality lab representations visited: " + visitedEqualityLabRepresentations.size() + "\n" +
+               "Visited equality lab representations: " + visitedEqualityLabRepresentations + "\n";
     }
 
     private void augment( HashMap<String, Long> map, String key, long newValue ) {
