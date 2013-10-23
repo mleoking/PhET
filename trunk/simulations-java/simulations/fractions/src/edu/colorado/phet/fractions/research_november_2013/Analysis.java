@@ -202,9 +202,15 @@ public class Analysis {
                                          record.property.equals( "tab1.rep" ) ? representationPaintHashMap.get( record.value ) :
                                          record.property.equals( "tab2.screenType" ) ? screenTypeHashMap.get( record.value ) :
                                          Color.red;
-                            PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 10 ), fill, new BasicStroke( 1 ), Color.black );
+                            PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 14 ), fill, new BasicStroke( 1 ), Color.black );
                             bars.add( bar );
                             reportNode.addChild( bar );
+
+                            PText text = new PText( value.toString() );
+                            text.setOffset( bar.getFullBounds().getMinX(), bar.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+//                            PhetPPath textBackground = new PhetPPath( RectangleUtils.expand( text.getFullBounds(), 2, 2 ), Color.yellow );
+//                            reportNode.addChild( textBackground );
+                            reportNode.addChild( text );
                         }
                         PText textNode = new PText( recordList.get( 0 ).property );
                         textNode.setOffset( bars.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth() - labelInset, bars.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
