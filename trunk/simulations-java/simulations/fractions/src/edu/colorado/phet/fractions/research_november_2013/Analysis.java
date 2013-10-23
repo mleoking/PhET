@@ -85,7 +85,29 @@ public class Analysis {
         HashMap<String, Integer> clicksPerTab = new HashMap<String, Integer>();
         HashMap<String, Integer> clicksPerIntroRepresentation = new HashMap<String, Integer>();
         HashSet<String> visitedIntroRepresentations = new HashSet<String>();
+
+        HashMap<String, Long> timePerTab = new HashMap<String, Long>();
+        HashMap<String, Long> timePerIntroRepresentation = new HashMap<String, Long>();
+        long previousTime = list.size() > 0 ? list.get( 0 ).getTime() : 0;
         for ( Record record : list ) {
+            long elapsedTime = record.getTime() - previousTime;//TODO: rounding or counting errors?
+
+            //before moving to new steps, process previous for timing
+
+            if ( properties.get( "tab" ) != null ) {
+                String tabString = properties.get( "tab" ).toString();
+                timePerTab.put( tabString, ( timePerTab.containsKey( tabString ) ? timePerTab.get( tabString ) : 0 ) + elapsedTime );
+
+                if ( tabString.equals( "Intro" ) ) {
+                    Object tab1Rep = properties.get( "tab1.rep" );
+                    if ( tab1Rep != null ) {
+                        String rep = tab1Rep.toString();
+                        timePerIntroRepresentation.put( rep, ( timePerIntroRepresentation.containsKey( rep ) ? timePerIntroRepresentation.get( rep ) : 0 ) + elapsedTime );
+                    }
+                }
+            }
+
+
             if ( record instanceof PropertyChange ) {
                 PropertyChange pc = (PropertyChange) record;
                 properties.put( pc.property, pc.value );
@@ -112,12 +134,24 @@ public class Analysis {
             else {
                 throw new RuntimeException( "?" );
             }
+
+            previousTime = record.getTime();
         }
         return "Elapsed time: " + timeText + "\n" +
                "Clicks Per Tab: " + clicksPerTab + "\n" +
                "Clicks Per Intro Representation: " + clicksPerIntroRepresentation + "\n" +
                "Number of intro representations visited: " + visitedIntroRepresentations.size() + "\n" +
-               "Visited intro representations: " + visitedIntroRepresentations;
+               "Visited intro representations: " + visitedIntroRepresentations + "\n" +
+               "Time per tab: " + valuesToStrings( timePerTab ) + "\n" +
+               "Time per intro representation: " + valuesToStrings( timePerIntroRepresentation );
+    }
+
+    private HashMap<String, String> valuesToStrings( HashMap<String, Long> timePerTab ) {
+        HashMap<String, String> out = new HashMap<String, String>();
+        for ( String key : timePerTab.keySet() ) {
+            out.put( key, timePerTab.get( key ) / 1000 + " sec" );
+        }
+        return out;
     }
 
     private void displayGraphically( StateRepresentation representation ) {
@@ -195,18 +229,24 @@ public class Analysis {
             }
             else if ( r instanceof Event ) {
                 Event event = (Event) r;
-                double radius = 4;
-                double centerX = time.evaluate( event.timestamp );
-                double centerY = y;
-                PNode shape = event.hitTrue() ? new PText( "\u2605" ) {{setTextPaint( Color.black );}} :
-                              event.hitFalse() ? new PText( "X" ) {{setTextPaint( Color.black );}} :
-                              new PhetPPath( new Ellipse2D.Double( 0, 0, radius * 2, radius * 2 ), Color.blue, new BasicStroke( 1 ), Color.black );
-                shape.setOffset( centerX - shape.getFullBounds().getWidth() / 2, centerY - shape.getFullBounds().getHeight() / 2 );
-                PText text = new PText( event.name + ": " + event.parameters.toString() );
-                text.setOffset( shape.getFullBounds().getMaxX() + 2, shape.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
-                y += 20;
-                reportNode.addChild( shape );
-                reportNode.addChild( text );
+                //suppress the "sync" message
+                if ( event.name.equals( "changed" ) ) {
+                    //noop
+                }
+                else {
+                    double radius = 4;
+                    double centerX = time.evaluate( event.timestamp );
+                    double centerY = y;
+                    PNode shape = event.hitTrue() ? new PText( "\u2605" ) {{setTextPaint( Color.black );}} :
+                                  event.hitFalse() ? new PText( "X" ) {{setTextPaint( Color.black );}} :
+                                  new PhetPPath( new Ellipse2D.Double( 0, 0, radius * 2, radius * 2 ), Color.blue, new BasicStroke( 1 ), Color.black );
+                    shape.setOffset( centerX - shape.getFullBounds().getWidth() / 2, centerY - shape.getFullBounds().getHeight() / 2 );
+                    PText text = new PText( event.name + ": " + event.parameters.toString() );
+                    text.setOffset( shape.getFullBounds().getMaxX() + 2, shape.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+                    y += 20;
+                    reportNode.addChild( shape );
+                    reportNode.addChild( text );
+                }
             }
         }
 
@@ -281,7 +321,8 @@ public class Analysis {
                 ArrayList<PropertyChange> records = properties.get( propertyName );
                 records.add( new PropertyChange( propertyName, time, value, type ) );
             }
-            else if ( entries.get( 3 ).equals( "event" ) ) {
+            else if ( entries.get( 3 ).equals( "event" ) ||
+                      ( entries.get( 2 ).equals( "time" ) && entries.get( 3 ).equals( "feature" ) ) ) {
                 String eventName = entries.get( 4 );
                 Event event = new Event( time, eventName, new ArrayList<String>( entries.subList( 5, entries.size() ) ) );
                 events.add( event );
