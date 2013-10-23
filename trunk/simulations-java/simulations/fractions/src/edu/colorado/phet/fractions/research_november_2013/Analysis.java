@@ -33,18 +33,19 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Created by Sam on 10/21/13.
  */
 public class Analysis {
-    private final TextArea reportArea = new TextArea();
-    private final PCanvas reportCanvas = new PCanvas();
     private final PNode reportNode;
+    private final TextArea reportArea;
     private final ArrayList<String> messages = new ArrayList<String>();
 
     public Analysis() {
         JFrame frame = new JFrame( "Report" );
+        reportArea = new TextArea();
         frame.setContentPane( new JScrollPane( reportArea ) );
         frame.setSize( 800, 600 );
         frame.setVisible( true );
 
         JFrame canvasFrame = new JFrame( "Visualization" );
+        PCanvas reportCanvas = new PCanvas();
         canvasFrame.setContentPane( reportCanvas );
         reportNode = new PNode();
         reportCanvas.getLayer().addChild( reportNode );
@@ -64,10 +65,46 @@ public class Analysis {
     public void addMessage( String line ) {
         messages.add( line );
         StateRepresentation representation = parseAll();
-        showRepresentation( representation );
+        displayGraphically( representation );
+        createTextReport( representation );
     }
 
-    private void showRepresentation( StateRepresentation representation ) {
+    private void createTextReport( StateRepresentation representation ) {
+        reportArea.setText( toReportText( representation ) );
+    }
+
+    private String toReportText( StateRepresentation representation ) {
+        long seconds = ( representation.endTime - representation.startTime ) / 1000;
+        long minute = TimeUnit.SECONDS.toMinutes( seconds );
+        long second = TimeUnit.SECONDS.toSeconds( seconds ) - ( TimeUnit.SECONDS.toMinutes( seconds ) * 60 );
+        String timeText = minute + ":" + ( second < 10 ? "0" + second : second );
+        List<Record> list = representation.orderedEventsAndPropertyDeltas();
+        HashMap<String, Object> properties = new HashMap<String, Object>();
+        HashMap<String, Integer> clicksPerTab = new HashMap<String, Integer>();
+        for ( Record record : list ) {
+            if ( record instanceof PropertyChange ) {
+                PropertyChange pc = (PropertyChange) record;
+                properties.put( pc.property, pc.value );
+
+                //Ignore first "clicks = 0" event
+                if ( pc.property.equals( "clicks" ) && ( (Integer) pc.value ) > 0 ) {
+                    //check the state and histogram it
+                    String tabName = properties.get( "tab" ).toString();
+                    clicksPerTab.put( tabName, ( clicksPerTab.containsKey( tabName ) ? clicksPerTab.get( tabName ) : 0 ) + 1 );
+                }
+            }
+            else if ( record instanceof Event ) {
+
+            }
+            else {
+                throw new RuntimeException( "?" );
+            }
+        }
+        return "Elapsed time: " + timeText + "\n" +
+               "Clicks Per Tab: " + clicksPerTab;
+    }
+
+    private void displayGraphically( StateRepresentation representation ) {
 
         HashMap<String, Color> representationPaintHashMap = new HashMap<String, Color>();
         representationPaintHashMap.put( "Pie", new Color( 0x8cc63f ) );
@@ -94,7 +131,7 @@ public class Analysis {
         //Don't shrink
         Function.LinearFunction time = new Function.LinearFunction( representation.startTime, representation.startTime + 60000, 100, 700 );
 
-        List<Record> list = representation.orderedEventsAndProperties();
+        List<Record> list = representation.orderedEventsAndPropertyLifetimes();
         for ( Record r : list ) {
             if ( r instanceof ParameterLife ) {
                 final ParameterLife recordX = (ParameterLife) r;
@@ -303,7 +340,24 @@ public class Analysis {
             this.events = events;
         }
 
-        public ArrayList<Record> orderedEventsAndProperties() {
+        public ArrayList<Record> orderedEventsAndPropertyDeltas() {
+            ArrayList<Record> out = new ArrayList<Record>();
+            for ( ArrayList<PropertyChange> propertyChanges : properties.values() ) {
+                for ( PropertyChange propertyChange : propertyChanges ) {
+                    out.add( propertyChange );
+                }
+            }
+            out.addAll( events );
+
+            Collections.sort( out, new Comparator<Record>() {
+                public int compare( Record o1, Record o2 ) {
+                    return Double.compare( o1.getTime(), o2.getTime() );
+                }
+            } );
+            return out;
+        }
+
+        public ArrayList<Record> orderedEventsAndPropertyLifetimes() {
             ArrayList<Record> out = new ArrayList<Record>();
             for ( ArrayList<PropertyChange> propertyChanges : properties.values() ) {
                 out.add( new ParameterLife( propertyChanges ) );
@@ -363,6 +417,7 @@ public class Analysis {
     private void addMessages( ArrayList<String> messages ) {
         this.messages.addAll( messages );
         StateRepresentation representation = parseAll();
-        showRepresentation( representation );
+        displayGraphically( representation );
+        createTextReport( representation );
     }
 }
