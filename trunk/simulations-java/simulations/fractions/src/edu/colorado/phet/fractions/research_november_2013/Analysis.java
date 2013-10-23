@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -77,6 +78,9 @@ public class Analysis {
         representationPaintHashMap.put( "NumberLine", Color.black );
 
         reportNode.removeAllChildren();
+
+        PNode gridLines = new PNode();
+        reportNode.addChild( gridLines );
         double y = 0;
 
         //Auto-shrink to fit in the window
@@ -145,6 +149,26 @@ public class Analysis {
                 reportNode.addChild( shape );
                 reportNode.addChild( text );
             }
+        }
+
+        //overlay time ticks
+//        int msPerTick = 60000;//one minute
+        int msPerTick = 10000;//10 seconds
+        for ( long t = representation.startTime + msPerTick; t <= representation.endTime; t = t + msPerTick ) {
+            double x = time.evaluate( t );
+            double y0 = 0;
+            double y1 = y;
+            boolean isMinute = ( t - representation.startTime ) % 60000 == 0;
+            PhetPPath timeLine = new PhetPPath( new Line2D.Double( x, y0, x, y1 ), new BasicStroke( isMinute ? 2 : 1 ), isMinute ? Color.black : Color.gray );
+            gridLines.addChild( timeLine );
+
+            long seconds = ( t - representation.startTime ) / 1000;
+            long minute = TimeUnit.SECONDS.toMinutes( seconds );
+            long second = TimeUnit.SECONDS.toSeconds( seconds ) - ( TimeUnit.SECONDS.toMinutes( seconds ) * 60 );
+            String timeText = minute + ":" + ( second < 10 ? "0" + second : second );
+            PText text = new PText( timeText );
+            text.setOffset( timeLine.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2, timeLine.getFullBounds().getMaxY() + 2 );
+            gridLines.addChild( text );
         }
     }
 
