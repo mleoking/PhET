@@ -37,6 +37,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.FractionLabModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractions.buildafraction.model.Level;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
@@ -44,6 +45,7 @@ import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
@@ -198,12 +200,14 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 String type = null;
                 int index = -1;
                 ArrayList<VoidFunction1<ShapeSceneNode.DropResult>> dropListeners = null;
+                Level level = null;
                 if ( node instanceof ShapeSceneNode ) {
                     type = "Shapes";
                     ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
                     index = shapeSceneNode.levelIndex;
-                    ShapeLevel level = shapeSceneNode.level;
-                    targetString = new ArrayList<String>( level.targets.map( new F<MixedFraction, String>() {
+                    ShapeLevel shapeLevel = shapeSceneNode.level;
+                    level = shapeLevel;
+                    targetString = new ArrayList<String>( shapeLevel.targets.map( new F<MixedFraction, String>() {
                         @Override public String f( MixedFraction mixedFraction ) {
                             return mixedFraction.toString();
                         }
@@ -213,11 +217,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 else if ( node instanceof NumberSceneNode ) {
                     type = "Numbers";
                     NumberSceneNode numberSceneNode = (NumberSceneNode) node;
-                    NumberLevel level = numberSceneNode.level;
+                    NumberLevel numberLevel = numberSceneNode.level;
+                    level = numberLevel;
                     index = numberSceneNode.levelIndex;
 
                     //TODO: Send event
-                    targetString = new ArrayList<String>( level.targets.map( new F<NumberTarget, String>() {
+                    targetString = new ArrayList<String>( numberLevel.targets.map( new F<NumberTarget, String>() {
                         @Override public String f( NumberTarget numberTarget ) {
                             return numberTarget.mixedFraction + " : " + numberTarget.filledPattern.map( new F<FilledPattern, String>() {
                                 @Override public String f( FilledPattern filledPattern ) {
@@ -228,11 +233,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                     } ).toCollection() );
                     dropListeners = numberSceneNode.dropListeners;
                 }
+                final int id = ( (SceneNode) node ).id;
                 dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
                     public void apply( ShapeSceneNode.DropResult dropResult ) {
                         SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.shapeContainerDropped,
                                                             ParameterSet.parameterSet(
-                                                                    FractionsIntroSimSharing.ParameterKeys.levelID, ( (SceneNode) node ).id ).
+                                                                    FractionsIntroSimSharing.ParameterKeys.levelID, id ).
                                                                     with( FractionsIntroSimSharing.ParameterKeys.hit, dropResult.hit ).
                                                                     with( FractionsIntroSimSharing.ParameterKeys.source, dropResult.source.toString() ).
                                                                     with( FractionsIntroSimSharing.ParameterKeys.target, dropResult.target.toString() ) );
@@ -240,10 +246,19 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 } );
 
                 SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.buildAFractionLevelStarted,
-                                                    ParameterSet.parameterSet( ParameterKeys.id, ( (SceneNode) node ).id ).
+                                                    ParameterSet.parameterSet( ParameterKeys.id, id ).
                                                             with( FractionsIntroSimSharing.ParameterKeys.targets, targetString.toString() ).
                                                             with( ParameterKeys.type, type ).
                                                             with( GameSimSharing.ParameterKeys.level, index ) );
+                trackState( "bafLevelID." + id + ".matchExists", level.matchExists );
+                trackState( "bafLevelID." + id + ".filledTargets", level.filledTargets );
+                final Property<String> p = new Property<String>( level.createdFractions.get().toString() );
+                level.createdFractions.addObserver( new VoidFunction1<fj.data.List<Fraction>>() {
+                    public void apply( fj.data.List<Fraction> fractions ) {
+                        p.set( fractions.toString() );
+                    }
+                } );
+                trackState( "bafLevelID." + id + ".createdFractions", p );
             }
         } );
     }
