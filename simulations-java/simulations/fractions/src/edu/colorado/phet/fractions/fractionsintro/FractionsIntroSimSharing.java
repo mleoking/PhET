@@ -100,7 +100,7 @@ public class FractionsIntroSimSharing {
     }
 
     public enum ModelActions implements IModelAction {
-        changed, checked, finished, occurred
+        changed, checked, finished, occurred, buildAFractionLevelStarted
     }
 
     public enum ParameterKeys implements IParameterKey {
@@ -110,7 +110,7 @@ public class FractionsIntroSimSharing {
         containerSetKey,
         scale,
         autoSpin,
-        soundEnabled, timerEnabled, isCorrect, points, shapeType
+        soundEnabled, timerEnabled, isCorrect, points, shapeType, targets
     }
 
     public enum SystemComponents implements ISystemComponent {

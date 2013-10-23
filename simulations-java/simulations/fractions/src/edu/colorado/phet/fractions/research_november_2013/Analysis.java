@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.research_november_2013;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.TextArea;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -54,26 +55,6 @@ public class Analysis {
         modulePaintHashMap.put( "Fraction Lab", Color.magenta );
     }
 
-    private void addVariable( final String name, PNode node ) {
-        reportCanvas.addScreenChild( node );
-        node.setOffset( 100, 0 );
-        PText text = new PText( name );
-        text.setOffset( 0, node.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
-        reportCanvas.addScreenChild( text );
-    }
-
-//    private void addEventNode( String name, final PNode node, final double y, final Property<Function.LinearFunction> timeScalingFunction ) {
-//        final long time = app.time().apply();
-//        reportCanvas.addScreenChild( node );
-//        timeScalingFunction.addObserver( new VoidFunction1<Function.LinearFunction>() {
-//            public void apply( Function.LinearFunction linearFunction ) {
-//                node.setOffset( 100 + linearFunction.evaluate( time ), y );
-//            }
-//        } );
-//        SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.occurred,
-//                                            ParameterSet.parameterSet( ParameterKeys.name, name ) );
-//    }
-
     //when you see a new property, add it to the trace
     public void addMessage( String line ) {
         messages.add( line );
@@ -94,59 +75,67 @@ public class Analysis {
         reportNode.removeAllChildren();
         double y = 0;
         Function.LinearFunction time = new Function.LinearFunction( representation.startTime, Math.max( representation.endTime, representation.startTime + 60000 ), 100, 700 );
-        List<ArrayList<Record>> list = new ArrayList<ArrayList<Record>>();
-        for ( ArrayList<Record> records : representation.properties.values() ) {
-            list.add( records );
-        }
-        Collections.sort( list, new Comparator<ArrayList<Record>>() {
-            public int compare( ArrayList<Record> o1, ArrayList<Record> o2 ) {
-                return Double.compare( o1.get( 0 ).timestamp, o2.get( 0 ).timestamp );
+        List<Record> list = representation.orderedEventsAndProperties();
+        for ( Record r : list ) {
+            if ( r instanceof ParameterLife ) {
+                final ParameterLife recordX = (ParameterLife) r;
+                final ArrayList<PropertyChange> recordList = recordX.propertyChanges;
+                if ( recordList.size() > 0 ) {
+                    if ( recordList.get( 0 ).type.equals( "java.lang.Boolean" ) || recordList.get( 0 ).property.equals( "clicks" ) || recordList.get( 0 ).type.equals( "java.lang.String" ) ) {
+                        ArrayList<PNode> bars = new ArrayList<PNode>();
+                        for ( int i = 0; i < recordList.size(); i++ ) {
+                            PropertyChange record = recordList.get( i );
+                            double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
+                            Object value = record.value;
+                            Color fill = record.type.equals( "java.lang.Boolean" ) ? value == Boolean.TRUE ? Color.green : Color.gray :
+                                         record.property.equals( "tab" ) ? modulePaintHashMap.get( record.value ) :
+                                         record.property.equals( "tab1.rep" ) ? representationPaintHashMap.get( record.value ) :
+                                         Color.red;
+                            PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 10 ), fill, new BasicStroke( 1 ), Color.black );
+                            bars.add( bar );
+                            reportNode.addChild( bar );
+                        }
+                        PText textNode = new PText( recordList.get( 0 ).property );
+                        textNode.setOffset( bars.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), bars.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
+                        reportNode.addChild( textNode );
+                        y = y + 20;
+                    }
+                    else if ( recordList.get( 0 ).type.equals( "java.lang.Integer" ) ) {
+                        ArrayList<PNode> segments = new ArrayList<PNode>();
+                        for ( int i = 0; i < recordList.size(); i++ ) {
+                            PropertyChange record = recordList.get( i );
+                            double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
+                            Integer value = (Integer) record.value;
+                            Function.LinearFunction yFunction = new Function.LinearFunction( 0, 8, y + 20, y );
+                            PhetPPath bar = new PhetPPath( new Line2D.Double( time.evaluate( record.timestamp ), yFunction.evaluate( value ), time.evaluate( maxTime ), yFunction.evaluate( value ) ), new BasicStroke( 2 ), Color.black );
+                            segments.add( bar );
+                            reportNode.addChild( bar );
+                        }
+                        PText textNode = new PText( recordList.get( 0 ).property );
+                        textNode.setOffset( segments.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), segments.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
+                        reportNode.addChild( textNode );
+                        y = y + 20;
+                    }
+                }
             }
-        } );
-        for ( ArrayList<Record> recordList : list ) {
-            if ( recordList.size() > 0 ) {
-                if ( recordList.get( 0 ).type.equals( "java.lang.Boolean" ) || recordList.get( 0 ).property.equals( "clicks" ) || recordList.get( 0 ).type.equals( "java.lang.String" ) ) {
-                    ArrayList<PNode> bars = new ArrayList<PNode>();
-                    for ( int i = 0; i < recordList.size(); i++ ) {
-                        Record record = recordList.get( i );
-                        double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
-                        Object value = record.value;
-                        Color fill = record.type.equals( "java.lang.Boolean" ) ? value == Boolean.TRUE ? Color.green : Color.gray :
-                                     record.property.equals( "tab" ) ? modulePaintHashMap.get( record.value ) :
-                                     record.property.equals( "tab1.rep" ) ? representationPaintHashMap.get( record.value ) :
-                                     Color.red;
-                        PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 10 ), fill, new BasicStroke( 1 ), Color.black );
-                        bars.add( bar );
-                        reportNode.addChild( bar );
-                    }
-                    PText textNode = new PText( recordList.get( 0 ).property );
-                    textNode.setOffset( bars.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), bars.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
-                    reportNode.addChild( textNode );
-                    y = y + 20;
-                }
-                else if ( recordList.get( 0 ).type.equals( "java.lang.Integer" ) ) {
-                    ArrayList<PNode> segments = new ArrayList<PNode>();
-                    for ( int i = 0; i < recordList.size(); i++ ) {
-                        Record record = recordList.get( i );
-                        double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
-                        Integer value = (Integer) record.value;
-                        Function.LinearFunction yFunction = new Function.LinearFunction( 0, 8, y + 20, y );
-                        PhetPPath bar = new PhetPPath( new Line2D.Double( time.evaluate( record.timestamp ), yFunction.evaluate( value ), time.evaluate( maxTime ), yFunction.evaluate( value ) ), new BasicStroke( 2 ), Color.black );
-                        segments.add( bar );
-                        reportNode.addChild( bar );
-                    }
-                    PText textNode = new PText( recordList.get( 0 ).property );
-                    textNode.setOffset( segments.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), segments.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
-                    reportNode.addChild( textNode );
-                    y = y + 20;
-                }
+            else if ( r instanceof Event ) {
+                Event event = (Event) r;
+                double radius = 4;
+                double centerX = time.evaluate( event.timestamp );
+                double centerY = y;
+                PhetPPath path = new PhetPPath( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ), Color.blue, new BasicStroke( 1 ), Color.black );
+                PText text = new PText( event.name );
+                text.setOffset( path.getFullBounds().getMaxX() + 2, path.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+                y += 20;
+                reportNode.addChild( path );
+                reportNode.addChild( text );
             }
         }
     }
 
     private StateRepresentation parseAll() {
-        final HashMap<String, ArrayList<Record>> properties = new HashMap<String, ArrayList<Record>>();
-        final ArrayList<Record> events = new ArrayList<Record>();
+        final HashMap<String, ArrayList<PropertyChange>> properties = new HashMap<String, ArrayList<PropertyChange>>();
+        final ArrayList<Event> events = new ArrayList<Event>();
         Long startTime = null;
         Long time = null;
         for ( String line : messages ) {
@@ -188,14 +177,16 @@ public class Analysis {
                     System.out.println( "Unknown type: " + type );
                 }
                 if ( !properties.containsKey( propertyName ) ) {
-                    properties.put( propertyName, new ArrayList<Record>() );
+                    properties.put( propertyName, new ArrayList<PropertyChange>() );
                 }
 
-                ArrayList<Record> records = properties.get( propertyName );
-                records.add( new Record( propertyName, time, value, type ) );
+                ArrayList<PropertyChange> records = properties.get( propertyName );
+                records.add( new PropertyChange( propertyName, time, value, type ) );
             }
             else if ( entries.get( 3 ).equals( "event" ) ) {
-
+                String eventName = entries.get( 4 );
+                Event event = new Event( time, eventName, new ArrayList<String>( entries.subList( 5, entries.size() ) ) );
+                events.add( event );
             }
             else {
             }
@@ -203,33 +194,84 @@ public class Analysis {
         return new StateRepresentation( startTime, time, properties, events );
     }
 
-    public static class Record {
+    public static class Event implements Record {
+        long timestamp;
+        String name;
+        ArrayList<String> parameters;
+
+        public Event( long timestamp, String name, ArrayList<String> parameters ) {
+            this.timestamp = timestamp;
+            this.name = name;
+            this.parameters = parameters;
+        }
+
+        public long getTime() {
+            return timestamp;
+        }
+    }
+
+    public static interface Record {
+        long getTime();
+    }
+
+    public static class PropertyChange implements Record {
         long timestamp;
         Object value;
         private String property;
         private String type;
 
-        public Record( String property, long timestamp, Object value, String type ) {
+        public PropertyChange( String property, long timestamp, Object value, String type ) {
             this.property = property;
             this.timestamp = timestamp;
             this.value = value;
             this.type = type;
         }
+
+        public long getTime() {
+            return timestamp;
+        }
     }
 
     private static class StateRepresentation {
-        public final HashMap<String, ArrayList<Record>> properties;
-        public final ArrayList<Record> events;
+        public final HashMap<String, ArrayList<PropertyChange>> properties;
+        public final ArrayList<Event> events;
         private final long startTime;
         private final long endTime;
 
-        public StateRepresentation( long startTime, long endTime, HashMap<String, ArrayList<Record>> properties, ArrayList<Record> events ) {
+        public StateRepresentation( long startTime, long endTime, HashMap<String, ArrayList<PropertyChange>> properties, ArrayList<Event> events ) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.properties = properties;
 
             this.events = events;
         }
+
+        public ArrayList<Record> orderedEventsAndProperties() {
+            ArrayList<Record> out = new ArrayList<Record>();
+            for ( ArrayList<PropertyChange> propertyChanges : properties.values() ) {
+                out.add( new ParameterLife( propertyChanges ) );
+            }
+            out.addAll( events );
+            Collections.sort( out, new Comparator<Record>() {
+                public int compare( Record o1, Record o2 ) {
+                    return Double.compare( o1.getTime(), o2.getTime() );
+                }
+            } );
+            return out;
+        }
+    }
+
+    private static class ParameterLife implements Record {
+        private ArrayList<PropertyChange> propertyChanges;
+
+        public ParameterLife( ArrayList<PropertyChange> propertyChanges ) {
+            this.propertyChanges = propertyChanges;
+        }
+
+        public long getTime() {
+            return this.propertyChanges.get( 0 ).timestamp;
+        }
+
     }
 
     private final HashMap<String, Color> modulePaintHashMap;
