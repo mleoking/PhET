@@ -326,7 +326,6 @@ public class Analysis {
                 catch( IOException e ) {
                     e.printStackTrace();
                 }
-
             }
         } );
     }
