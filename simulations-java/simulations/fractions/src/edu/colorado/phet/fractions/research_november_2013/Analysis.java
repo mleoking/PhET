@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
@@ -82,10 +83,15 @@ public class Analysis {
         HashMap<String, Object> properties = new HashMap<String, Object>();
         HashMap<String, Integer> clicksPerTab = new HashMap<String, Integer>();
         HashMap<String, Integer> clicksPerIntroRepresentation = new HashMap<String, Integer>();
+        HashSet<String> visitedIntroRepresentations = new HashSet<String>();
         for ( Record record : list ) {
             if ( record instanceof PropertyChange ) {
                 PropertyChange pc = (PropertyChange) record;
                 properties.put( pc.property, pc.value );
+
+                if ( pc.property.equals( "tab1.rep" ) ) {
+                    visitedIntroRepresentations.add( pc.value.toString() );
+                }
 
                 //Ignore first "clicks = 0" event
                 if ( pc.property.equals( "clicks" ) && ( (Integer) pc.value ) > 0 ) {
@@ -108,7 +114,9 @@ public class Analysis {
         }
         return "Elapsed time: " + timeText + "\n" +
                "Clicks Per Tab: " + clicksPerTab + "\n" +
-               "Clicks Per Intro Representation: " + clicksPerIntroRepresentation;
+               "Clicks Per Intro Representation: " + clicksPerIntroRepresentation + "\n" +
+               "Number of intro representations visited: " + visitedIntroRepresentations.size() + "\n" +
+               "Visited intro representations: " + visitedIntroRepresentations;
     }
 
     private void displayGraphically( StateRepresentation representation ) {
