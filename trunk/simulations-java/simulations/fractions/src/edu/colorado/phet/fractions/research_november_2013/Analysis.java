@@ -101,7 +101,7 @@ public class Analysis {
 
             if ( properties.get( "tab" ) != null ) {
                 String tabString = properties.get( "tab" ).toString();
-                timePerTab.put( tabString, ( timePerTab.containsKey( tabString ) ? timePerTab.get( tabString ) : 0 ) + elapsedTime );
+                augment( timePerTab, tabString, elapsedTime );
 
                 if ( tabString.equals( "Intro" ) ) {
                     Object tab1Rep = properties.get( "tab1.rep" );
@@ -140,11 +140,10 @@ public class Analysis {
                 if ( pc.property.equals( "clicks" ) && ( (Integer) pc.value ) > 0 ) {
                     //check the state and histogram it
                     String tabName = properties.get( "tab" ).toString();
-                    clicksPerTab.put( tabName, ( clicksPerTab.containsKey( tabName ) ? clicksPerTab.get( tabName ) : 0 ) + 1 );
+                    augment( clicksPerTab, tabName, 1 );
 
                     if ( tabName.equals( "Intro" ) ) {
-                        String rep = properties.get( "tab1.rep" ).toString();
-                        clicksPerIntroRepresentation.put( rep, ( clicksPerIntroRepresentation.containsKey( rep ) ? clicksPerIntroRepresentation.get( rep ) : 0 ) + 1 );
+                        augment( clicksPerIntroRepresentation, properties.get( "tab1.rep" ).toString(), 1 );
                     }
                 }
             }
@@ -168,6 +167,10 @@ public class Analysis {
                "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations ) + "\n" +
                "Number of equality lab representations visited: " + visitedEqualityLabRepresentations.size() + "\n" +
                "Visited equality lab representations: " + visitedEqualityLabRepresentations + "\n";
+    }
+
+    private void augment( HashMap<String, Integer> map, String key, int newValue ) {
+        map.put( key, ( map.containsKey( key ) ? map.get( key ) : 0 ) + newValue );
     }
 
     private void augment( HashMap<String, Long> map, String key, long newValue ) {
