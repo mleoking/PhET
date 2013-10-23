@@ -176,6 +176,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "tab1.max", introModule.model.maximum );
         trackState( "clicks", totalClicks );
         trackState( "tab2.screenType", toStringProperty( buildAFractionModule.canvas.screenType ) );
+
         trackState( "tab3.leftRepresentation", toStringProperty( equalityLabModule.equalityLabModel.leftRepresentation ) );
         trackState( "tab3.rightRepresentation", toStringProperty( equalityLabModule.equalityLabModel.rightRepresentation ) );
         trackState( "tab3.sameRepresentation", equalityLabModule.equalityLabModel.sameAsLeft );

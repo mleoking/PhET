@@ -90,6 +90,8 @@ public class Analysis {
 
         HashMap<String, Long> timePerTab = new HashMap<String, Long>();
         HashMap<String, Long> timePerIntroRepresentation = new HashMap<String, Long>();
+        HashMap<String, Long> timePerEqualityLabLeftRepresentation = new HashMap<String, Long>();
+        HashMap<String, Long> timePerEqualityLabSameRepresentations = new HashMap<String, Long>();
         long previousTime = list.size() > 0 ? list.get( 0 ).getTime() : 0;
         for ( Record record : list ) {
             long elapsedTime = record.getTime() - previousTime;//TODO: rounding or counting errors?
@@ -103,8 +105,20 @@ public class Analysis {
                 if ( tabString.equals( "Intro" ) ) {
                     Object tab1Rep = properties.get( "tab1.rep" );
                     if ( tab1Rep != null ) {
-                        String rep = tab1Rep.toString();
-                        timePerIntroRepresentation.put( rep, ( timePerIntroRepresentation.containsKey( rep ) ? timePerIntroRepresentation.get( rep ) : 0 ) + elapsedTime );
+                        augment( timePerIntroRepresentation, tab1Rep.toString(), elapsedTime );
+                    }
+                }
+                if ( tabString.equals( "Equality Lab" ) ) {
+                    Object repObject = properties.get( "tab3.leftRepresentation" );
+                    if ( repObject != null ) {
+                        augment( timePerEqualityLabLeftRepresentation, repObject.toString(), elapsedTime );
+                    }
+                }
+
+                if ( tabString.equals( "Equality Lab" ) ) {
+                    Object repObject = properties.get( "tab3.sameRepresentation" );
+                    if ( repObject != null ) {
+                        augment( timePerEqualityLabSameRepresentations, repObject.toString(), elapsedTime );
                     }
                 }
             }
@@ -145,7 +159,13 @@ public class Analysis {
                "Number of intro representations visited: " + visitedIntroRepresentations.size() + "\n" +
                "Visited intro representations: " + visitedIntroRepresentations + "\n" +
                "Time per tab: " + valuesToStrings( timePerTab ) + "\n" +
-               "Time per intro representation: " + valuesToStrings( timePerIntroRepresentation );
+               "Time per intro representation: " + valuesToStrings( timePerIntroRepresentation ) + "\n" +
+               "Time per equality lab representation (left): " + valuesToStrings( timePerEqualityLabLeftRepresentation ) + "\n" +
+               "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations );
+    }
+
+    private void augment( HashMap<String, Long> map, String key, long newValue ) {
+        map.put( key, ( map.containsKey( key ) ? map.get( key ) : 0 ) + newValue );
     }
 
     private HashMap<String, String> valuesToStrings( HashMap<String, Long> timePerTab ) {
