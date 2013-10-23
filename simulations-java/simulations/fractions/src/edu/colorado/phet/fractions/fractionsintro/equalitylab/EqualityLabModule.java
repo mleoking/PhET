@@ -15,13 +15,19 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroApplicati
  * @author Sam Reid
  */
 public class EqualityLabModule extends AbstractFractionsModule {
+
+    public final EqualityLabModel equalityLabModel;
+    public final EqualityLabCanvas equalityLabCanvas;
+
     public EqualityLabModule() {
         this( new EqualityLabModel() );
     }
 
     private EqualityLabModule( EqualityLabModel model ) {
         super( Components.equalityLabTab, Strings.EQUALITY_LAB, model.clock );
-        setSimulationPanel( new EqualityLabCanvas( model ) );
+        this.equalityLabModel = model;
+        this.equalityLabCanvas = new EqualityLabCanvas( model );
+        setSimulationPanel( equalityLabCanvas );
     }
 
     //Test main for launching this module in an application by itself for testing

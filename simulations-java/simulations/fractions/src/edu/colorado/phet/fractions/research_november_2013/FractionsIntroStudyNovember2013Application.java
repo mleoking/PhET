@@ -50,7 +50,6 @@ import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
-import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDebug;
 
@@ -135,22 +134,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         FractionLabModule fractionLabModule = new FractionLabModule( false );
         addModule( fractionLabModule );
 
-        final Property<String> introRepresentation = new Property<String>( introModule.model.representation.get().toString() );
-        introModule.model.representation.addObserver( new VoidFunction1<Representation>() {
-            public void apply( Representation representation ) {
-                introRepresentation.set(
-                        representation.equals( Representation.CAKE ) ? "Cake" :
-                        representation.equals( Representation.HORIZONTAL_BAR ) ? "HorizontalBar" :
-                        representation.equals( Representation.NUMBER_LINE ) ? "NumberLine" :
-                        representation.equals( Representation.PIE ) ? "Pie" :
-                        representation.equals( Representation.VERTICAL_BAR ) ? "VerticalBar" :
-                        representation.equals( Representation.WATER_GLASSES ) ? "WaterGlasses" :
-                        null
-                );
-            }
-        } );
         //Add developer menu items for debugging performance, see #3314
-
         getPhetFrame().getDeveloperMenu().add( new JCheckBoxMenuItem( "PDebug.regionManagement", PDebug.debugRegionManagement ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
@@ -186,12 +170,20 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "window.up", windowNotIconified );
         trackState( "window.active", windowActive );
         trackState( "tab", module );
-        trackState( "tab1.rep", introRepresentation );
+        trackState( "tab1.rep", toStringProperty( introModule.model.representation ) );
         trackState( "tab1.denominator", introModule.model.denominator );
         trackState( "tab1.numerator", introModule.model.numerator );
         trackState( "tab1.max", introModule.model.maximum );
         trackState( "clicks", totalClicks );
         trackState( "tab2.screenType", toStringProperty( buildAFractionModule.canvas.screenType ) );
+        trackState( "tab3.leftRepresentation", toStringProperty( equalityLabModule.equalityLabModel.leftRepresentation ) );
+        trackState( "tab3.rightRepresentation", toStringProperty( equalityLabModule.equalityLabModel.rightRepresentation ) );
+        trackState( "tab3.sameRepresentation", equalityLabModule.equalityLabModel.sameAsLeft );
+        trackState( "tab3.scale", equalityLabModule.equalityLabModel.scale );
+        trackState( "tab3.maximum", equalityLabModule.equalityLabModel.maximum );
+        trackState( "tab3.numerator", equalityLabModule.equalityLabModel.numerator );
+        trackState( "tab3.denominator", equalityLabModule.equalityLabModel.denominator );
+
         trackState( "tab4.audio", matchingGameModule.audioEnabled );
         trackState( "tab4.timerVisible", matchingGameModule.model.timerVisible );
         trackState( "tab4.level", matchingGameModule.model.level );
@@ -272,7 +264,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         } );
     }
 
-    private ObservableProperty<String> toStringProperty( Property screenType ) {
+    private ObservableProperty<String> toStringProperty( ObservableProperty screenType ) {
         final Property<String> p = new Property<String>( screenType.get().toString() );
         screenType.addObserver( new VoidFunction1() {
             public void apply( Object obj ) {

@@ -159,12 +159,12 @@ public class Analysis {
     private void displayGraphically( StateRepresentation representation ) {
 
         HashMap<String, Color> representationPaintHashMap = new HashMap<String, Color>();
-        representationPaintHashMap.put( "Pie", new Color( 0x8cc63f ) );
-        representationPaintHashMap.put( "HorizontalBar", new Color( 0xe94545 ) );
-        representationPaintHashMap.put( "VerticalBar", new Color( 0x57b6dd ) );
-        representationPaintHashMap.put( "WaterGlasses", new Color( 0xffc800 ) );
-        representationPaintHashMap.put( "Cake", new Color( 0xa55a41 ) );
-        representationPaintHashMap.put( "NumberLine", Color.black );
+        representationPaintHashMap.put( "PIE", new Color( 0x8cc63f ) );
+        representationPaintHashMap.put( "HORIZONTAL_BAR", new Color( 0xe94545 ) );
+        representationPaintHashMap.put( "VERTICAL_BAR", new Color( 0x57b6dd ) );
+        representationPaintHashMap.put( "WATER_GLASSES", new Color( 0xffc800 ) );
+        representationPaintHashMap.put( "CAKE", new Color( 0xa55a41 ) );
+        representationPaintHashMap.put( "NUMBER_LINE", Color.black );
 
         HashMap<String, Color> screenTypeHashMap = new HashMap<String, Color>();
         screenTypeHashMap.put( BuildAFractionScreenType.LEVEL_SELECTION.toString(), Color.gray );
@@ -201,6 +201,8 @@ public class Analysis {
                                          record.property.equals( "tab" ) ? modulePaintHashMap.get( record.value ) :
                                          record.property.equals( "tab1.rep" ) ? representationPaintHashMap.get( record.value ) :
                                          record.property.equals( "tab2.screenType" ) ? screenTypeHashMap.get( record.value ) :
+                                         record.property.equals( "tab3.leftRepresentation" ) ? representationPaintHashMap.get( record.value ) :
+                                         record.property.equals( "tab3.rightRepresentation" ) ? representationPaintHashMap.get( record.value ) :
                                          Color.red;
                             PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 16 ), fill, new BasicStroke( 1 ), Color.black );
                             bars.add( bar );
