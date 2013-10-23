@@ -21,8 +21,8 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Compo
  */
 public class MatchingGameModule extends AbstractFractionsModule {
     private final boolean dev;
-    private final BooleanProperty audioEnabled;
-    private MatchingGameModel model;
+    public final BooleanProperty audioEnabled;
+    public MatchingGameModel model;
 
     public MatchingGameModule( boolean dev, BooleanProperty audioEnabled ) {
         this( dev, new MatchingGameModel( new ConstantDtClock( 60.0 ), new IntroLevelFactory() ), audioEnabled );

@@ -207,16 +207,16 @@ public class Analysis {
                         reportNode.addChild( textNode );
                         y = y + 20;
                     }
-                    else if ( recordList.get( 0 ).type.equals( "java.lang.Integer" ) ) {
+                    else if ( recordList.get( 0 ).type.equals( "java.lang.Integer" ) || recordList.get( 0 ).type.equals( "java.lang.Double" ) ) {
                         ArrayList<PNode> segments = new ArrayList<PNode>();
                         for ( int i = 0; i < recordList.size(); i++ ) {
                             PropertyChange record = recordList.get( i );
                             double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
-                            Integer value = (Integer) record.value;
+                            Number value = (Number) record.value;
                             Function.LinearFunction yFunction = record.property.endsWith( ".filledTargets" ) ?
                                                                 new Function.LinearFunction( 0, 4, y + 20, y ) :
                                                                 new Function.LinearFunction( 0, 8, y + 20, y );
-                            PhetPPath bar = new PhetPPath( new Line2D.Double( time.evaluate( record.timestamp ), yFunction.evaluate( value ), time.evaluate( maxTime ), yFunction.evaluate( value ) ), new BasicStroke( 2 ), Color.black );
+                            PhetPPath bar = new PhetPPath( new Line2D.Double( time.evaluate( record.timestamp ), yFunction.evaluate( value.doubleValue() ), time.evaluate( maxTime ), yFunction.evaluate( value.doubleValue() ) ), new BasicStroke( 2 ), Color.black );
                             segments.add( bar );
                             reportNode.addChild( bar );
                         }
@@ -311,8 +311,11 @@ public class Analysis {
                     value = BuildAFractionScreenType.valueOf( valueString );
 //                    System.out.println( "PARSED " + value );
                 }
+                else if ( type.equals( "java.lang.Double" ) ) {
+                    value = Double.parseDouble( valueString );
+                }
                 else {
-                    System.out.println( "Unknown type: " + type );
+                    System.out.println( "Unknown type: " + type + ", " + line );
                 }
                 if ( !properties.containsKey( propertyName ) ) {
                     properties.put( propertyName, new ArrayList<PropertyChange>() );

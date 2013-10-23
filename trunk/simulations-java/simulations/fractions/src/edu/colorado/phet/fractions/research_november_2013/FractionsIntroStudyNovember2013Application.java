@@ -192,6 +192,16 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "tab1.max", introModule.model.maximum );
         trackState( "clicks", totalClicks );
         trackState( "tab2.screenType", toStringProperty( buildAFractionModule.canvas.screenType ) );
+        trackState( "tab4.audio", matchingGameModule.audioEnabled );
+        trackState( "tab4.timerVisible", matchingGameModule.model.timerVisible );
+        trackState( "tab4.level", matchingGameModule.model.level );
+        trackState( "tab4.checks", matchingGameModule.model.checks );
+        trackState( "tab4.choosingSettings", matchingGameModule.model.choosingSettings );
+        trackState( "tab4.leftScaleValue", matchingGameModule.model.leftScaleValue );
+        trackState( "tab4.rightScaleValue", matchingGameModule.model.rightScaleValue );
+        trackState( "tab4.revealClues", matchingGameModule.model.revealClues );
+        trackState( "tab4.score", matchingGameModule.model.score );
+        trackState( "tab4.scored", matchingGameModule.model.scored );
 
         buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
             public void apply( final PNode node ) {
