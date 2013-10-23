@@ -71,7 +71,8 @@ public class Analysis {
     }
 
     private void createTextReport( StateRepresentation representation ) {
-        reportArea.setText( toReportText( representation ) );
+        String reportText = toReportText( representation );
+        if ( !reportText.equals( reportArea.getText() ) ) { reportArea.setText( reportText ); }
     }
 
     private String toReportText( StateRepresentation representation ) {
