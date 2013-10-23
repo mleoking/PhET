@@ -207,9 +207,12 @@ public class Analysis {
                             reportNode.addChild( bar );
 
                             PText text = new PText( value.toString() );
-                            text.setOffset( bar.getFullBounds().getMinX(), bar.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
-                            reportNode.addChild( text );
+                            if ( text.getFullBounds().getWidth() < bar.getFullBounds().getWidth() ) {
+                                text.setOffset( bar.getFullBounds().getMinX(), bar.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+                                reportNode.addChild( text );
+                            }
                         }
+
                         PText textNode = new PText( recordList.get( 0 ).property );
                         textNode.setOffset( bars.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth() - labelInset, bars.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
                         reportNode.addChild( textNode );
@@ -227,14 +230,15 @@ public class Analysis {
                                                                 new Function.LinearFunction( 0, 8, y + 20, y );
                             PhetPPath bar = new PhetPPath( new Line2D.Double( time.evaluate( record.timestamp ), yFunction.evaluate( value.doubleValue() ), time.evaluate( maxTime ), yFunction.evaluate( value.doubleValue() ) ), new BasicStroke( 2 ), Color.black );
                             segments.add( bar );
+                            reportNode.addChild( bar );
 
                             PText number = new PText( value instanceof Integer ? value + "" : new DecimalFormat( "0.00" ).format( value.doubleValue() ) );
-                            number.setOffset( bar.getFullBounds().getMinX(), bar.getFullBounds().getCenterY() - number.getFullBounds().getHeight() / 2 );
-                            PhetPPath textBackground = new PhetPPath( RectangleUtils.expand( number.getFullBounds(), 2, 2 ), Color.yellow );
-
-                            reportNode.addChild( bar );
-                            reportNode.addChild( textBackground );
-                            reportNode.addChild( number );
+                            if ( number.getFullBounds().getWidth() < bar.getFullBounds().getWidth() ) {
+                                number.setOffset( bar.getFullBounds().getMinX(), bar.getFullBounds().getCenterY() - number.getFullBounds().getHeight() / 2 );
+                                PhetPPath textBackground = new PhetPPath( RectangleUtils.expand( number.getFullBounds(), 2, 2 ), Color.yellow );
+                                reportNode.addChild( textBackground );
+                                reportNode.addChild( number );
+                            }
                         }
                         PText textNode = new PText( recordList.get( 0 ).property );
                         textNode.setOffset( segments.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth() - labelInset, segments.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
