@@ -73,6 +73,10 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     //When dragging an object, move to front for fraction lab
     private ArrayList<SimpleObserver> interactionHandlers = new ArrayList<SimpleObserver>();
 
+    //For Sim Sharing
+    public static int idCounter = 0;
+    public final int id = idCounter++;
+
     protected SceneNode( final int levelIndex, BooleanProperty audioEnabled, final SceneContext context, boolean fractionLab ) {
         this.fractionLab = fractionLab;
         this.levelIndex = levelIndex;
