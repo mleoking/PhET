@@ -374,6 +374,11 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     containerNode.setAllPickable( false );
 
                     hit = true;
+
+                    //Send a data collection message
+                    for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
+                        dropListener.apply( new DropResult( hit, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ) );
+                    }
                     break;
                 }
                 else if ( intersects && !fractionLab ) {
@@ -385,19 +390,22 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     } ) ) {
                         double angle = Math.PI * 2 * random.nextDouble();
                         animateToPosition( containerNode, getContainerPosition().plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
+
+                        //Send a data collection message
+                        for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
+                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ) );
+                        }
                     }
                     else {
                         animateToPosition( containerNode, getContainerPosition(), new MoveAwayFromCollectionBoxes( this, containerNode ) );
+
+                        //Send a data collection message
+                        for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
+                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ) );
+                        }
                     }
 
                 }
-            }
-        }
-
-        //For data collection, send a notification when they tried to drop something in a collection box
-        if ( !skipCollectionBoxes ) {
-            for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                dropListener.apply( new DropResult( hit, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ) );
             }
         }
 
