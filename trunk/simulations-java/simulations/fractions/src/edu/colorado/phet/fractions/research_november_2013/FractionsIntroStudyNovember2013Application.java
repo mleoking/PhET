@@ -192,11 +192,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "clicks", totalClicks );
 
         buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
-            public void apply( PNode node ) {
+            public void apply( final PNode node ) {
 
                 List<String> targetString = null;
                 String type = null;
                 int index = -1;
+                ArrayList<VoidFunction1<ShapeSceneNode.DropResult>> dropListeners = null;
                 if ( node instanceof ShapeSceneNode ) {
                     type = "Shapes";
                     ShapeSceneNode shapeSceneNode = (ShapeSceneNode) node;
@@ -207,6 +208,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                             return mixedFraction.toString();
                         }
                     } ).toCollection() );
+                    dropListeners = shapeSceneNode.dropListeners;
                 }
                 else if ( node instanceof NumberSceneNode ) {
                     type = "Numbers";
@@ -224,7 +226,18 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                             } );
                         }
                     } ).toCollection() );
+                    dropListeners = numberSceneNode.dropListeners;
                 }
+                dropListeners.add( new VoidFunction1<ShapeSceneNode.DropResult>() {
+                    public void apply( ShapeSceneNode.DropResult dropResult ) {
+                        SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.shapeContainerDropped,
+                                                            ParameterSet.parameterSet(
+                                                                    FractionsIntroSimSharing.ParameterKeys.levelID, ( (SceneNode) node ).id ).
+                                                                    with( FractionsIntroSimSharing.ParameterKeys.hit, dropResult.hit ).
+                                                                    with( FractionsIntroSimSharing.ParameterKeys.source, dropResult.source.toString() ).
+                                                                    with( FractionsIntroSimSharing.ParameterKeys.target, dropResult.target.toString() ) );
+                    }
+                } );
 
                 SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event, FractionsIntroSimSharing.ModelActions.buildAFractionLevelStarted,
                                                     ParameterSet.parameterSet( ParameterKeys.id, ( (SceneNode) node ).id ).

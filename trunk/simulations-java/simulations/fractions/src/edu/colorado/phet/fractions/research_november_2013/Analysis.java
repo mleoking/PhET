@@ -18,9 +18,9 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class Analysis {
     private final TextArea reportArea = new TextArea();
-    private final PhetPCanvas reportCanvas = new PhetPCanvas();
+    private final PCanvas reportCanvas = new PCanvas();
     private final PNode reportNode;
     private final ArrayList<String> messages = new ArrayList<String>();
 
@@ -42,7 +42,7 @@ public class Analysis {
         JFrame canvasFrame = new JFrame( "Visualization" );
         canvasFrame.setContentPane( reportCanvas );
         reportNode = new PNode();
-        reportCanvas.addScreenChild( reportNode );
+        reportCanvas.getLayer().addChild( reportNode );
         canvasFrame.setSize( 800, 600 );
         canvasFrame.setLocation( 0, 400 );
         canvasFrame.setVisible( true );
@@ -123,11 +123,14 @@ public class Analysis {
                 double radius = 4;
                 double centerX = time.evaluate( event.timestamp );
                 double centerY = y;
-                PhetPPath path = new PhetPPath( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ), Color.blue, new BasicStroke( 1 ), Color.black );
+                PNode shape = event.hitTrue() ? new PText( "\u2605" ) {{setTextPaint( Color.black );}} :
+                              event.hitFalse() ? new PText( "X" ) {{setTextPaint( Color.black );}} :
+                              new PhetPPath( new Ellipse2D.Double( 0, 0, radius * 2, radius * 2 ), Color.blue, new BasicStroke( 1 ), Color.black );
+                shape.setOffset( centerX - shape.getFullBounds().getWidth() / 2, centerY - shape.getFullBounds().getHeight() / 2 );
                 PText text = new PText( event.name + ": " + event.parameters.toString() );
-                text.setOffset( path.getFullBounds().getMaxX() + 2, path.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+                text.setOffset( shape.getFullBounds().getMaxX() + 2, shape.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
                 y += 20;
-                reportNode.addChild( path );
+                reportNode.addChild( shape );
                 reportNode.addChild( text );
             }
         }
@@ -203,11 +206,23 @@ public class Analysis {
             this.timestamp = timestamp;
             this.name = name;
             this.parameters = parameters;
+            map = new HashMap<String, String>();
+            for ( String parameter : parameters ) {
+                StringTokenizer st = new StringTokenizer( parameter, "=" );
+                map.put( st.nextToken().trim(), st.nextToken().trim() );
+            }
         }
 
         public long getTime() {
             return timestamp;
         }
+
+        //true if there is a hit parameter and it is true
+        public boolean hitTrue() { return map.containsKey( "hit" ) && map.get( "hit" ).equals( "true" ); }
+
+        public boolean hitFalse() { return map.containsKey( "hit" ) && map.get( "hit" ).equals( "false" ); }
+
+        private final HashMap<String, String> map;
     }
 
     public static interface Record {
