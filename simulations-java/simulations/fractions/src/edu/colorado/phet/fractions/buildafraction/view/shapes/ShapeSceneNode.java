@@ -331,6 +331,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //The user finished dragging a container node.  Perhaps they dropped it in a correct or incorrect collection box, or over the toolbox.
     public void endDrag( final ContainerNode containerNode ) {
 
+        //Deep copy the selected piece size for sim event data collection (in case it was dropped over a collection box, we want to know how they had set the divisions)
+        //Necessary because the divisions get reset during the drop into the target
+        int selectedPieceSize = containerNode.selectedPieceSize.get();
+
         //Enable the buttons
         containerNode.updateExpansionButtonsEnabled();
 
@@ -382,7 +386,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     //Send a data collection message
                     for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
                         containerNode.moveDottedLinesToFront();
-                        dropListener.apply( new DropResult( true, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ,containerNode.selectedPieceSize.get()) );
+                        dropListener.apply( new DropResult( true, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ,selectedPieceSize) );
                     }
                     break;
                 }
@@ -398,7 +402,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
                         //Send a data collection message
                         for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),containerNode.selectedPieceSize.get() ) );
+                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),selectedPieceSize ) );
                         }
                     }
                     else {
@@ -406,7 +410,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
                         //Send a data collection message
                         for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),containerNode.selectedPieceSize.get() ) );
+                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),selectedPieceSize ) );
                         }
                     }
 
