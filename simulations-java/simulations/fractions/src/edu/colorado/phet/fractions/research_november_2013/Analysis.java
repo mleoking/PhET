@@ -112,7 +112,9 @@ public class Analysis {
                             PropertyChange record = recordList.get( i );
                             double maxTime = i == recordList.size() - 1 ? representation.endTime : recordList.get( i + 1 ).timestamp;
                             Integer value = (Integer) record.value;
-                            Function.LinearFunction yFunction = new Function.LinearFunction( 0, 8, y + 20, y );
+                            Function.LinearFunction yFunction = record.property.endsWith( ".filledTargets" ) ?
+                                                                new Function.LinearFunction( 0, 4, y + 20, y ) :
+                                                                new Function.LinearFunction( 0, 8, y + 20, y );
                             PhetPPath bar = new PhetPPath( new Line2D.Double( time.evaluate( record.timestamp ), yFunction.evaluate( value ), time.evaluate( maxTime ), yFunction.evaluate( value ) ), new BasicStroke( 2 ), Color.black );
                             segments.add( bar );
                             reportNode.addChild( bar );
@@ -120,7 +122,7 @@ public class Analysis {
                         PText textNode = new PText( recordList.get( 0 ).property );
                         textNode.setOffset( segments.get( 0 ).getFullBounds().getX() - textNode.getFullBounds().getWidth(), segments.get( 0 ).getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
                         reportNode.addChild( textNode );
-                        y = y + 20;
+                        y = y + 30;
                     }
                 }
             }
