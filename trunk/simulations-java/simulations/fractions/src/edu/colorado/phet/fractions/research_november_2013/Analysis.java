@@ -25,6 +25,8 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
@@ -84,6 +86,8 @@ public class Analysis {
         String timeText = minute + ":" + ( second < 10 ? "0" + second : second );
         List<Record> list = representation.orderedEventsAndPropertyDeltas();
         HashMap<String, Object> properties = new HashMap<String, Object>();
+        final ArrayList<Event> events = new ArrayList<Event>();
+
         HashMap<String, Integer> clicksPerTab = new HashMap<String, Integer>();
         HashMap<String, Integer> clicksPerIntroRepresentation = new HashMap<String, Integer>();
         HashSet<String> visitedIntroRepresentations = new HashSet<String>();
@@ -93,6 +97,8 @@ public class Analysis {
         HashMap<String, Long> timePerEqualityLabLeftRepresentation = new HashMap<String, Long>();
         HashMap<String, Long> timePerEqualityLabSameRepresentations = new HashMap<String, Long>();
         HashSet<String> visitedEqualityLabRepresentations = new HashSet<String>();
+        final ArrayList<BAFLevel> bafLevels = new ArrayList<BAFLevel>();
+
         long previousTime = list.size() > 0 ? list.get( 0 ).getTime() : 0;
         for ( Record record : list ) {
             long elapsedTime = record.getTime() - previousTime;//TODO: rounding or counting errors?
@@ -149,7 +155,20 @@ public class Analysis {
                 }
             }
             else if ( record instanceof Event ) {
-
+                Event event = (Event) record;
+                events.add( event );
+                if ( event.name.equals( "buildAFractionLevelStarted" ) ) {
+                    int id = Integer.parseInt( event.parameters.get( "id" ) );
+                    int level = Integer.parseInt( event.parameters.get( "level" ) );
+                    String type = event.parameters.get( "type" );
+                    String targets = event.parameters.get( "targets" );
+                    for ( BAFLevel bafLevel : bafLevels ) {
+                        if ( bafLevel.id == id ) {
+                            throw new RuntimeException( "Same level id created twice" );
+                        }
+                    }
+                    bafLevels.add( new BAFLevel( id, level, type, targets ) );
+                }
             }
             else {
                 throw new RuntimeException( "?" );
@@ -166,6 +185,21 @@ public class Analysis {
 
             previousTime = record.getTime();
         }
+
+        ObservableList<String> result = new ObservableList<BAFLevel>( bafLevels ).map( new Function1<BAFLevel, String>() {
+            public String apply( BAFLevel bafLevel ) {
+//                shapeContainerDropped	levelID = 6	hit = true	source = 1/3	target = 1/3	divisions = 1 targetIndex
+                //search all events for
+                HashMap<Integer, Boolean> solved = new HashMap<Integer, Boolean>();
+                for ( Event event : events ) {
+                    if ( event.parameters.containsKey( "levelID" ) && event.parameters.get( "levelID" ).equals( "" + bafLevel.id ) ) {
+                        solved.put( Integer.parseInt( event.parameters.get( "targetIndex" ) ), event.parameters.get( "hit" ).equals( "true" ) );
+                    }
+                }
+                return bafLevel.toString() + ": " + solved;
+            }
+        } );
+
         return "Elapsed time: " + timeText + "\n" +
                "Clicks Per Tab: " + clicksPerTab + "\n" +
                "Clicks Per Intro Representation: " + clicksPerIntroRepresentation + "\n" +
@@ -176,7 +210,8 @@ public class Analysis {
                "Time per equality lab representation (left): " + valuesToStrings( timePerEqualityLabLeftRepresentation ) + "\n" +
                "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations ) + "\n" +
                "Number of equality lab representations visited: " + visitedEqualityLabRepresentations.size() + "\n" +
-               "Visited equality lab representations: " + visitedEqualityLabRepresentations + "\n";
+               "Visited equality lab representations: " + visitedEqualityLabRepresentations + "\n" +
+               "Build a Fraction Levels\n" + result.mkString( "\n" );
     }
 
     private void augment( HashMap<String, Integer> map, String key, int newValue ) {
@@ -302,7 +337,7 @@ public class Analysis {
                                   event.hitFalse() ? new PText( "X" ) {{setTextPaint( Color.black );}} :
                                   new PhetPPath( new Ellipse2D.Double( 0, 0, radius * 2, radius * 2 ), Color.blue, new BasicStroke( 1 ), Color.black );
                     shape.setOffset( centerX - shape.getFullBounds().getWidth() / 2, centerY - shape.getFullBounds().getHeight() / 2 );
-                    PText text = new PText( event.name + ": " + event.parameters.toString() );
+                    PText text = new PText( event.name + ": " + event.parameterList.toString() );
                     text.setOffset( shape.getFullBounds().getMaxX() + 2, shape.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
                     y += 20;
                     reportNode.addChild( shape );
@@ -400,16 +435,17 @@ public class Analysis {
     public static class Event implements Record {
         long timestamp;
         String name;
-        ArrayList<String> parameters;
+        ArrayList<String> parameterList;
+        private final HashMap<String, String> parameters;
 
-        public Event( long timestamp, String name, ArrayList<String> parameters ) {
+        public Event( long timestamp, String name, ArrayList<String> parameterList ) {
             this.timestamp = timestamp;
             this.name = name;
-            this.parameters = parameters;
-            map = new HashMap<String, String>();
-            for ( String parameter : parameters ) {
+            this.parameterList = parameterList;
+            parameters = new HashMap<String, String>();
+            for ( String parameter : parameterList ) {
                 StringTokenizer st = new StringTokenizer( parameter, "=" );
-                map.put( st.nextToken().trim(), st.nextToken().trim() );
+                parameters.put( st.nextToken().trim(), st.nextToken().trim() );
             }
         }
 
@@ -418,11 +454,9 @@ public class Analysis {
         }
 
         //true if there is a hit parameter and it is true
-        public boolean hitTrue() { return map.containsKey( "hit" ) && map.get( "hit" ).equals( "true" ); }
+        public boolean hitTrue() { return parameters.containsKey( "hit" ) && parameters.get( "hit" ).equals( "true" ); }
 
-        public boolean hitFalse() { return map.containsKey( "hit" ) && map.get( "hit" ).equals( "false" ); }
-
-        private final HashMap<String, String> map;
+        public boolean hitFalse() { return parameters.containsKey( "hit" ) && parameters.get( "hit" ).equals( "false" ); }
     }
 
     public static interface Record {

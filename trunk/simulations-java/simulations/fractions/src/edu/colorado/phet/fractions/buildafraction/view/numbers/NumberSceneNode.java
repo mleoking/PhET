@@ -415,7 +415,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     //Called when a challenge is completed by dropping a correct fraction into a collection box.
     public void fractionCardNodeDroppedInCollectionBox( NumberCollectionBoxNode scoreCell ) {
         for ( VoidFunction1<ShapeSceneNode.DropResult> listener : dropListeners ) {
-            listener.apply( new ShapeSceneNode.DropResult( true, scoreCell.mixedFraction.toFraction(), scoreCell.mixedFraction.toFraction(),-1 ) );
+            listener.apply( new ShapeSceneNode.DropResult( true, scoreCell.mixedFraction.toFraction(), scoreCell.mixedFraction.toFraction(), -1, getTargetIndex( scoreCell ) ) );
         }
         level.filledTargets.increment();
 
@@ -448,6 +448,14 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
             notifyAllCompleted();
         }
+    }
+
+    private int getTargetIndex( NumberCollectionBoxNode scoreCell ) {List<NumberCollectionBoxNode> list = this.getCollectionBoxPairs().map( new F<NumberSceneCollectionBoxPair, NumberCollectionBoxNode>() {
+        @Override public NumberCollectionBoxNode f( NumberSceneCollectionBoxPair numberSceneCollectionBoxPair ) {
+            return numberSceneCollectionBoxPair.collectionBoxNode;
+        }
+    } );
+        return list.elementIndex( Equal.<NumberCollectionBoxNode>anyEqual(), scoreCell ).some();
     }
 
     private boolean allTargetsComplete() {
@@ -568,7 +576,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public void fractionCardNodeDroppedInWrongCollectionBox( Fraction value, NumberCollectionBoxNode scoreCell ) {
         for ( VoidFunction1<ShapeSceneNode.DropResult> listener : dropListeners ) {
-            listener.apply( new ShapeSceneNode.DropResult( false, value, scoreCell.mixedFraction.toFraction(),-1 ) );
+            listener.apply( new ShapeSceneNode.DropResult( false, value, scoreCell.mixedFraction.toFraction(), -1, getTargetIndex( scoreCell ) ) );
         }
     }
 
