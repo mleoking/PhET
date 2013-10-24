@@ -293,32 +293,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
     }
 
     public static void main( final String[] args ) {
-        final Analysis report = new Analysis();
-        SimSharingManager.initListeners.add( new VoidFunction1<SimSharingManager>() {
-            public void apply( SimSharingManager simSharingManager ) {
-                simSharingManager.addLog( new Log() {
-                    public void addMessage( SimSharingMessage message ) throws IOException {
-                        report.addMessage( message.toString() );
-                    }
-
-                    public String getName() {
-                        return "Fractions Intro Study November 2013";
-                    }
-
-                    public void shutdown() {
-
-                    }
-                } );
-            }
-        } );
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
-
-        //TODO: Remove these for publication
-        new Timer( 60, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                report.sync();
-            }
-        } ).start();
     }
 
     private void trackState( final String name, ObservableProperty property ) {
