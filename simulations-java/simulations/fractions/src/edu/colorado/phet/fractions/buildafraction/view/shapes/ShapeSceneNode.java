@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import fj.Effect;
+import fj.Equal;
 import fj.F;
 import fj.P2;
 import fj.data.List;
@@ -89,13 +90,15 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         public final Fraction target;
 
         //Size the container is divided into, or -1 if it was a card
-        public int selectedPieceSize;
+        public final int selectedPieceSize;
+        public final int targetIndex;
 
-        public DropResult( boolean hit, Fraction source, Fraction target,int selectedPieceSize ) {
+        public DropResult( boolean hit, Fraction source, Fraction target,int selectedPieceSize,int targetIndex ) {
             this.hit = hit;
             this.source = source;
             this.target = target;
             this.selectedPieceSize = selectedPieceSize;
+            this.targetIndex = targetIndex;
         }
     }
 
@@ -358,6 +361,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         double distanceToToolboxY = Math.abs( toolboxY - containerNodeY );
         boolean closerToToolboxCenter = distanceToToolboxY < distanceToCollectionBoxInY;
         boolean skipCollectionBoxes = intersectsToolbox && closerToToolboxCenter;
+        int targetIndex = this.getCollectionBoxPairs().elementIndex( Equal.<ShapeSceneCollectionBoxPair>anyEqual(), pairs.index( 0 ) ).some();
 
         if ( !skipCollectionBoxes ) {
 
@@ -386,7 +390,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     //Send a data collection message
                     for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
                         containerNode.moveDottedLinesToFront();
-                        dropListener.apply( new DropResult( true, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ,selectedPieceSize) );
+                        dropListener.apply( new DropResult( true, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ,selectedPieceSize,targetIndex ) );
                     }
                     break;
                 }
@@ -402,7 +406,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
                         //Send a data collection message
                         for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),selectedPieceSize ) );
+                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),selectedPieceSize,targetIndex ) );
                         }
                     }
                     else {
@@ -410,7 +414,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
                         //Send a data collection message
                         for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),selectedPieceSize ) );
+                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),selectedPieceSize,targetIndex ) );
                         }
                     }
 
