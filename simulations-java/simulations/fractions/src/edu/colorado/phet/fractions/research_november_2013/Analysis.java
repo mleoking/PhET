@@ -186,17 +186,24 @@ public class Analysis {
             previousTime = record.getTime();
         }
 
-        ObservableList<String> result = new ObservableList<BAFLevel>( bafLevels ).map( new Function1<BAFLevel, String>() {
+        ObservableList<String> bafTargetResults = new ObservableList<BAFLevel>( bafLevels ).map( new Function1<BAFLevel, String>() {
             public String apply( BAFLevel bafLevel ) {
-//                shapeContainerDropped	levelID = 6	hit = true	source = 1/3	target = 1/3	divisions = 1 targetIndex
-                //search all events for
-                HashMap<Integer, Boolean> solved = new HashMap<Integer, Boolean>();
+                //search all events for hit or miss
+                final HashMap<Integer, ArrayList<String>> guesses = new HashMap<Integer, ArrayList<String>>();
                 for ( Event event : events ) {
                     if ( event.parameters.containsKey( "levelID" ) && event.parameters.get( "levelID" ).equals( "" + bafLevel.id ) ) {
-                        solved.put( Integer.parseInt( event.parameters.get( "targetIndex" ) ), event.parameters.get( "hit" ).equals( "true" ) );
+                        Integer key = Integer.parseInt( event.parameters.get( "targetIndex" ) );
+                        if ( !guesses.containsKey( key ) ) {
+                            guesses.put( key, new ArrayList<String>() );
+                        }
+                        guesses.get( key ).add( "created " + event.parameters.get( "source" ) + " with divisions = " + event.parameters.get( "divisions" ) + " for target " + event.parameters.get( "target" ) + ": " + ( event.parameters.get( "hit" ).equals( "true" ) ? "right" : "wrong" ) );//Track all the times it was correct or wrong
                     }
                 }
-                return bafLevel.toString() + ": " + solved;
+                return bafLevel.toString() + ":\n" + new ObservableList<Integer>( guesses.keySet() ).map( new Function1<Integer, Object>() {
+                    public Object apply( Integer integer ) {
+                        return "\tTarget " + integer + ": " + guesses.get( integer );
+                    }
+                } ).mkString( "\n" );
             }
         } );
 
@@ -211,7 +218,7 @@ public class Analysis {
                "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations ) + "\n" +
                "Number of equality lab representations visited: " + visitedEqualityLabRepresentations.size() + "\n" +
                "Visited equality lab representations: " + visitedEqualityLabRepresentations + "\n" +
-               "Build a Fraction Levels\n" + result.mkString( "\n" );
+               "Build a Fraction Levels\n" + bafTargetResults.mkString( "\n" );
     }
 
     private void augment( HashMap<String, Integer> map, String key, int newValue ) {
