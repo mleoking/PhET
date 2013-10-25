@@ -59,7 +59,14 @@ class Controller {
 
             //Send a message to indicate whether it was right or wrong and how many points the user got
             SimSharingManager.sendModelMessage( ModelComponents.answer, ModelComponentTypes.answer, ModelActions.checked,
-                                                ParameterSet.parameterSet( ParameterKeys.isCorrect, correct ).with( ParameterKeys.points, correct ? points : 0 ) );
+                                                ParameterSet.parameterSet( ParameterKeys.isCorrect, correct ).
+                                                        with( ParameterKeys.levelID, state.levelID ).
+                                                        with( ParameterKeys.points, correct ? points : 0 ).
+                                                        with( ParameterKeys.correct, correct ).
+                                                        with( ParameterKeys.leftScaleNumerator, state.getLeftScaleNumerator() ).
+                                                        with( ParameterKeys.leftScaleDenominator, state.getLeftScaleDenominator() ).
+                                                        with( ParameterKeys.rightScaleNumerator, state.getRightScaleNumerator() ).
+                                                        with( ParameterKeys.rightScaleDenominator, state.getRightScaleDenominator() ) );
             return correct ?
                    state.withChecks( state.info.checks + 1 ).
                            withMode( USER_CHECKED_CORRECT_ANSWER ).

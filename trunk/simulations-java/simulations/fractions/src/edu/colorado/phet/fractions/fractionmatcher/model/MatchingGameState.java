@@ -52,14 +52,20 @@ public @Data class MatchingGameState {
     //Last wrong answer, stored for purposes of making sure the user changes their answer before pressing try again
     public final Option<Answer> lastWrongAnswer;
 
+    //Track unique level id for data collection
+    public final int levelID;
+
     public static MatchingGameState initialState( AbstractLevelFactory factory ) {
         return newLevel( 1, List.<GameResult>nil(), factory ).withMode( Mode.CHOOSING_SETTINGS );
     }
 
+    //Keep track of levels for levelID only (for sim data collection)
+    public static int levelCount = 0;
+
     public static MatchingGameState newLevel( int level, List<GameResult> gameResults, AbstractLevelFactory factory ) {
         final List<Cell> startCells = createCells( 100, 427, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( factory.createLevel( level, startCells ), startCells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES, 0, 0, 0, true ), 0, gameResults, Option.<Answer>none() );
+        return new MatchingGameState( factory.createLevel( level, startCells ), startCells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES, 0, 0, 0, true ), 0, gameResults, Option.<Answer>none() ,levelCount++);
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -79,26 +85,26 @@ public @Data class MatchingGameState {
 
     public int getChecks() {return info.checks;}
 
-    public MatchingGameState withFractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    public MatchingGameState withFractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer,levelID ); }
 
-    MatchingGameState withScored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    MatchingGameState withScored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ,levelID); }
 
-    public MatchingGameState withAudio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info.withAudio( audio ), barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    public MatchingGameState withAudio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info.withAudio( audio ), barGraphAnimationTime, gameResults, lastWrongAnswer ,levelID); }
 
-    public MatchingGameState withLeftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    public MatchingGameState withLeftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ,levelID); }
 
-    public MatchingGameState withRightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    public MatchingGameState withRightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ,levelID); }
 
     //NOTE: changing modes resets the bar graph animation time
     public MatchingGameState withMode( final Mode mode ) { return withInfo( info.withMode( mode ) ).withBarGraphAnimationTime( 0.0 ); }
 
-    public MatchingGameState withInfo( final GameInfo info ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    public MatchingGameState withInfo( final GameInfo info ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer,levelID ); }
 
-    MatchingGameState withBarGraphAnimationTime( final double barGraphAnimationTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    MatchingGameState withBarGraphAnimationTime( final double barGraphAnimationTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer,levelID ); }
 
-    MatchingGameState withGameResults( final List<GameResult> gameResults ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    MatchingGameState withGameResults( final List<GameResult> gameResults ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer,levelID ); }
 
-    public MatchingGameState withLastWrongAnswer( final Option<Answer> lastWrongAnswer ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+    public MatchingGameState withLastWrongAnswer( final Option<Answer> lastWrongAnswer ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer,levelID ); }
 
     public MatchingGameState stepInTime( final double dt ) {
         return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {

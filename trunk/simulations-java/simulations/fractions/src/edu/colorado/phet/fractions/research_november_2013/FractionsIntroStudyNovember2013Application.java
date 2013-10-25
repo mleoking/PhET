@@ -204,7 +204,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "tab4.score", matchingGameModule.model.score );
         trackState( "tab4.scored", matchingGameModule.model.scored );
 
-        trackState( "tab5.representation",toStringProperty( fractionLabModule.fractionLabCanvas.selectedShapeType ) );
+        trackState( "tab5.representation", toStringProperty( fractionLabModule.fractionLabCanvas.selectedShapeType ) );
 
         buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
             public void apply( final PNode node ) {
@@ -279,11 +279,12 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
             public void apply( IModelAction action, Integer level, MatchingGameState state ) {
                 SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event,
                                                     action,
-                                                    ParameterSet.parameterSet( FractionsIntroSimSharing.ParameterKeys.fractions, state.fractions.map( new F<MovableFraction, String>() {
-                                                        @Override public String f( MovableFraction movableFraction ) {
-                                                            return movableFraction.numerator + "/" + movableFraction.denominator + " " + movableFraction.representationName;
-                                                        }
-                                                    } ).toString() ) );
+                                                    ParameterSet.parameterSet( FractionsIntroSimSharing.ParameterKeys.levelID, state.levelID ).
+                                                            with( FractionsIntroSimSharing.ParameterKeys.fractions, state.fractions.map( new F<MovableFraction, String>() {
+                                                                @Override public String f( MovableFraction movableFraction ) {
+                                                                    return movableFraction.numerator + "/" + movableFraction.denominator + " " + movableFraction.representationName;
+                                                                }
+                                                            } ).toString() ) );
             }
         } );
     }
