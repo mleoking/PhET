@@ -162,12 +162,15 @@ public class Analysis {
                     int level = Integer.parseInt( event.parameters.get( "level" ) );
                     String type = event.parameters.get( "type" );
                     String targets = event.parameters.get( "targets" );
+                    boolean isNew = true;
                     for ( BAFLevel bafLevel : bafLevels ) {
                         if ( bafLevel.id == id ) {
-                            throw new RuntimeException( "Same level id created twice" );
+                            isNew = false;
                         }
                     }
-                    bafLevels.add( new BAFLevel( id, level, type, targets ) );
+                    if ( isNew ) {
+                        bafLevels.add( new BAFLevel( id, level, type, targets ) );
+                    }
                 }
             }
             else {

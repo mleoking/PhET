@@ -82,6 +82,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
             }
         } );
         currentScene = newNode;
+        notifyLevelStarted( newNode );
     }
 
     //Scroll the main view to show the specified PNode by scrolling the specified direction.
@@ -116,6 +117,14 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         }, new DisablePickingWhileAnimating( currentScene, true ) ) );
         node.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
         currentScene = node;
+        notifyLevelStarted( node );
+    }
+
+    //For sim sharing only, notify that a level has been started (if it is a level and not a level selection screen or other)
+    private void notifyLevelStarted( PNode node ) {
+        if ( node instanceof ShapeSceneNode || node instanceof NumberSceneNode ) {
+            for ( VoidFunction1<PNode> listener : levelStartedListeners ) { listener.apply( node ); }
+        }
     }
 
     public void levelButtonPressed( final LevelInfo info ) {
@@ -124,7 +133,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         PNode levelNode = levelNode( info.levelIdentifier );
         animateTo( levelNode, Direction.RIGHT );
         screenType.set( info.levelIdentifier.levelType.equals( LevelType.SHAPES ) ? BuildAFractionScreenType.SHAPES : BuildAFractionScreenType.NUMBERS );
-        for ( VoidFunction1<PNode> listener : levelStartedListeners ) { listener.apply( levelNode ); }
     }
 
     private PNode levelNode( final LevelIdentifier level ) {
