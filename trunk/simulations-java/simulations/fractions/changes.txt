@@ -1,3 +1,5 @@
+Fixed: matching game was reporting leftNumerator/leftNumerator
+fixed number index for build a fraction levels
 # 1.02.08 (73577) Oct 25, 2013
 # 1.02.07 (73575) Oct 25, 2013
 Many more updates for fractions study
