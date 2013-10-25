@@ -297,7 +297,7 @@ public class Analysis {
                 int numAttempted = level.guesses.size();
                 return "\tlevelID: " + level.id + ", Level: " + level.level + ", correct/attempted = " + numCorrect + "/" + numAttempted + "\n" + new ObservableList<MatchingGameGuess>( level.guesses ).map( new Function1<MatchingGameGuess, String>() {
                     public String apply( MatchingGameGuess m ) {
-                        return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + m.leftScaleNumerator + "/" + m.leftScaleNumerator + " compared to " + m.rightScaleNumerator + "/" + m.rightScaleDenominator;
+                        return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + m.leftScaleNumerator + "/" + m.leftScaleDenominator + " compared to " + m.rightScaleNumerator + "/" + m.rightScaleDenominator;
                     }
                 } ).mkString( "\n" );
             }
