@@ -100,6 +100,8 @@ public class Analysis {
         HashSet<String> visitedEqualityLabRepresentations = new HashSet<String>();
         HashMap<String, Long> timePerFractionLabRepresentation = new HashMap<String, Long>();
         final ArrayList<BAFLevel> bafLevels = new ArrayList<BAFLevel>();
+        final ArrayList<MatchingGameLevel> matchingGameLevels = new ArrayList<MatchingGameLevel>();
+        HashMap<Integer, MatchingGameLevel> matchingGameLevelMap = new HashMap<Integer, MatchingGameLevel>();
 
         long previousTime = list.size() > 0 ? list.get( 0 ).getTime() : 0;
         for ( Record record : list ) {
@@ -183,6 +185,28 @@ public class Analysis {
                         bafLevels.add( new BAFLevel( id, level, type, targets ) );
                     }
                 }
+
+                if ( event.name.equals( "matchingGameLevelStarted" ) || event.name.equals( "matchingGameLevelRefreshed" ) ) {
+                    int id = Integer.parseInt( event.parameters.get( "levelID" ) );
+                    String fractions = event.parameters.get( "targets" );
+                    int level = Integer.parseInt( event.parameters.get( "level" ) );
+                    MatchingGameLevel e = new MatchingGameLevel( id, level, fractions );
+                    matchingGameLevels.add( e );
+                    matchingGameLevelMap.put( id, e );
+                }
+
+                if ( event.name.equals( "checked" ) ) {
+                    int id = Integer.parseInt( event.parameters.get( "levelID" ) );
+                    MatchingGameLevel level = matchingGameLevelMap.get( id );
+                    //1382712859566	model	answer	answer	checked	isCorrect = true	levelID = 1	points = 2	correct = true	leftScaleNumerator = 3	leftScaleDenominator = 4	rightScaleNumerator = 3	rightScaleDenominator = 4
+                    int points = Integer.parseInt( event.parameters.get( "points" ) );
+                    boolean correct = Boolean.parseBoolean( event.parameters.get( "correct" ) );
+                    int leftScaleNumerator = Integer.parseInt( event.parameters.get( "leftScaleNumerator" ) );
+                    int leftScaleDenominator = Integer.parseInt( event.parameters.get( "leftScaleDenominator" ) );
+                    int rightScaleNumerator = Integer.parseInt( event.parameters.get( "rightScaleNumerator" ) );
+                    int rightScaleDenominator = Integer.parseInt( event.parameters.get( "rightScaleDenominator" ) );
+                    level.addGuess( new MatchingGameGuess( points, correct, leftScaleNumerator, leftScaleDenominator, rightScaleNumerator, rightScaleDenominator ) );
+                }
             }
             else {
                 throw new RuntimeException( "?" );
@@ -226,6 +250,8 @@ public class Analysis {
         ArrayList<String> numeratorSpinnerDownButton = new ArrayList<String>();
         ArrayList<String> denominatorSpinnerDownButton = new ArrayList<String>();
         ArrayList<String> sliceComponent = new ArrayList<String>();
+
+        //Parse raw messages that were not already put in event format, where older messages were re-used
         for ( String message : messages ) {
             if ( message.contains( "\tnumeratorSpinnerUpButton\t" ) ) {
                 numeratorSpinnerUpButton.add( message );
@@ -262,6 +288,17 @@ public class Analysis {
                "FRACTION LAB:\n" +
                "Time per Fraction Lab Representation :" + valuesToStrings( timePerFractionLabRepresentation ) + "\n" +
                "Clicks per Fraction Lab Representation :" + clicksPerFractionLabRepresentation + "\n" +
+               "MATCHING GAME:\n" +
+               "Number of levels attempted:" + matchingGameLevelMap.keySet().size() + "\n" +
+               new ObservableList<MatchingGameLevel>( matchingGameLevels ).map( new Function1<MatchingGameLevel, String>() {
+                   public String apply( MatchingGameLevel level ) {
+                       return "\tlevelID: " + level.id + ", Level: " + level.level + "\n" + new ObservableList<MatchingGameGuess>( level.guesses ).map( new Function1<MatchingGameGuess, String>() {
+                           public String apply( MatchingGameGuess m ) {
+                               return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + m.leftScaleNumerator + "/" + m.leftScaleNumerator + " compared to " + m.rightScaleNumerator + "/" + m.rightScaleDenominator;
+                           }
+                       } ).mkString( "\n" );
+                   }
+               } ).mkString( "\n" ) + "\n" +
                "BUILD A FRACTION:\n" +
                "Build a Fraction Levels\n" + bafTargetResults.mkString( "\n" );
     }
@@ -474,6 +511,12 @@ public class Analysis {
                       ( entries.get( 2 ).equals( "time" ) && entries.get( 3 ).equals( "feature" ) ) ) {
                 String eventName = entries.get( 4 );
                 Event event = new Event( time, eventName, new ArrayList<String>( entries.subList( 5, entries.size() ) ) );
+                events.add( event );
+            }
+
+            //Re-using model answer checked message for matching game
+            else if ( line.contains( "model\tanswer\tanswer\tchecked\t" ) ) {
+                Event event = new Event( time, "checked", new ArrayList<String>( entries.subList( 5, entries.size() ) ) );
                 events.add( event );
             }
             else {
