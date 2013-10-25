@@ -71,15 +71,15 @@ public class Analysis {
         messages.add( line );
         StateRepresentation representation = parseAll();
         displayGraphically( representation );
-        createTextReport( representation );
+        createTextReport( messages, representation );
     }
 
-    private void createTextReport( StateRepresentation representation ) {
-        String reportText = toReportText( representation );
+    private void createTextReport( ArrayList<String> messages, StateRepresentation representation ) {
+        String reportText = toReportText( messages, representation );
         if ( !reportText.equals( reportArea.getText() ) ) { reportArea.setText( reportText ); }
     }
 
-    private String toReportText( StateRepresentation representation ) {
+    private String toReportText( ArrayList<String> messages, StateRepresentation representation ) {
         long seconds = ( representation.endTime - representation.startTime ) / 1000;
         long minute = TimeUnit.SECONDS.toMinutes( seconds );
         long second = TimeUnit.SECONDS.toSeconds( seconds ) - ( TimeUnit.SECONDS.toMinutes( seconds ) * 60 );
@@ -221,19 +221,48 @@ public class Analysis {
             }
         } );
 
+        ArrayList<String> numeratorSpinnerUpButton = new ArrayList<String>();
+        ArrayList<String> denominatorSpinnerUpButton = new ArrayList<String>();
+        ArrayList<String> numeratorSpinnerDownButton = new ArrayList<String>();
+        ArrayList<String> denominatorSpinnerDownButton = new ArrayList<String>();
+        ArrayList<String> sliceComponent = new ArrayList<String>();
+        for ( String message : messages ) {
+            if ( message.contains( "\tnumeratorSpinnerUpButton\t" ) ) {
+                numeratorSpinnerUpButton.add( message );
+            }
+            else if ( message.contains( "\tdenominatorSpinnerUpButton\t" ) ) {
+                denominatorSpinnerUpButton.add( message );
+            }
+            else if ( message.contains( "\tnumeratorSpinnerDownButton\t" ) ) {
+                numeratorSpinnerDownButton.add( message );
+            }
+            else if ( message.contains( "\tdenominatorSpinnerDownButton\t" ) ) {
+                denominatorSpinnerDownButton.add( message );
+            }
+            else if ( message.contains( "user\tsliceComponent\tsprite\tendDrag" ) ) {
+                sliceComponent.add( message );
+            }
+        }
+
         return "Elapsed time: " + timeText + "\n" +
+               "Time per tab: " + valuesToStrings( timePerTab ) + "\n" +
                "Clicks Per Tab: " + clicksPerTab + "\n" +
+               "Number of clicks on numerator/denominator up/down spinners (tabs 1,3): " + ( numeratorSpinnerUpButton.size() + numeratorSpinnerDownButton.size() + denominatorSpinnerDownButton.size() + denominatorSpinnerUpButton.size() ) + "\n" +
+               "Number of clicks on pieces themselves (tabs 1,3): " + sliceComponent.size() + "\n" +
+               "INTRO\n" +
                "Clicks Per Intro Representation: " + clicksPerIntroRepresentation + "\n" +
                "Number of intro representations visited: " + visitedIntroRepresentations.size() + "\n" +
                "Visited intro representations: " + visitedIntroRepresentations + "\n" +
-               "Time per tab: " + valuesToStrings( timePerTab ) + "\n" +
                "Time per intro representation: " + valuesToStrings( timePerIntroRepresentation ) + "\n" +
+               "EQUALITY LAB:\n" +
                "Time per equality lab representation (left): " + valuesToStrings( timePerEqualityLabLeftRepresentation ) + "\n" +
                "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations ) + "\n" +
                "Number of equality lab representations visited: " + visitedEqualityLabRepresentations.size() + "\n" +
                "Visited equality lab representations: " + visitedEqualityLabRepresentations + "\n" +
+               "FRACTION LAB:\n" +
                "Time per Fraction Lab Representation :" + valuesToStrings( timePerFractionLabRepresentation ) + "\n" +
                "Clicks per Fraction Lab Representation :" + clicksPerFractionLabRepresentation + "\n" +
+               "BUILD A FRACTION:\n" +
                "Build a Fraction Levels\n" + bafTargetResults.mkString( "\n" );
     }
 
@@ -594,6 +623,6 @@ public class Analysis {
         this.messages.addAll( messages );
         StateRepresentation representation = parseAll();
         displayGraphically( representation );
-        createTextReport( representation );
+        createTextReport( messages, representation );
     }
 }
