@@ -90,6 +90,7 @@ public class Analysis {
 
         HashMap<String, Integer> clicksPerTab = new HashMap<String, Integer>();
         HashMap<String, Integer> clicksPerIntroRepresentation = new HashMap<String, Integer>();
+        HashMap<String, Integer> clicksPerFractionLabRepresentation = new HashMap<String, Integer>();
         HashSet<String> visitedIntroRepresentations = new HashSet<String>();
 
         HashMap<String, Long> timePerTab = new HashMap<String, Long>();
@@ -97,6 +98,7 @@ public class Analysis {
         HashMap<String, Long> timePerEqualityLabLeftRepresentation = new HashMap<String, Long>();
         HashMap<String, Long> timePerEqualityLabSameRepresentations = new HashMap<String, Long>();
         HashSet<String> visitedEqualityLabRepresentations = new HashSet<String>();
+        HashMap<String, Long> timePerFractionLabRepresentation = new HashMap<String, Long>();
         final ArrayList<BAFLevel> bafLevels = new ArrayList<BAFLevel>();
 
         long previousTime = list.size() > 0 ? list.get( 0 ).getTime() : 0;
@@ -128,6 +130,12 @@ public class Analysis {
                         augment( timePerEqualityLabSameRepresentations, repObject.toString(), elapsedTime );
                     }
                 }
+                if ( tabString.equals( "Fraction Lab" ) ) {
+                    Object repObject = properties.get( "tab5.representation" );
+                    if ( repObject != null ) {
+                        augment( timePerFractionLabRepresentation, repObject.toString(), elapsedTime );
+                    }
+                }
             }
 
 
@@ -151,6 +159,9 @@ public class Analysis {
 
                     if ( tabName.equals( "Intro" ) ) {
                         augment( clicksPerIntroRepresentation, properties.get( "tab1.rep" ).toString(), 1 );
+                    }
+                    if ( tabName.equals( "Fraction Lab" ) ) {
+                        augment( clicksPerFractionLabRepresentation, properties.get( "tab5.representation" ).toString(), 1 );
                     }
                 }
             }
@@ -221,6 +232,8 @@ public class Analysis {
                "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations ) + "\n" +
                "Number of equality lab representations visited: " + visitedEqualityLabRepresentations.size() + "\n" +
                "Visited equality lab representations: " + visitedEqualityLabRepresentations + "\n" +
+               "Time per Fraction Lab Representation :" + valuesToStrings( timePerFractionLabRepresentation ) + "\n" +
+               "Clicks per Fraction Lab Representation :" + clicksPerFractionLabRepresentation + "\n" +
                "Build a Fraction Levels\n" + bafTargetResults.mkString( "\n" );
     }
 
@@ -263,9 +276,6 @@ public class Analysis {
 
         double labelInset = 6;
 
-        //Auto-shrink to fit in the window
-//        Function.LinearFunction time = new Function.LinearFunction( representation.startTime, Math.max( representation.endTime, representation.startTime + 60000 ), 100, 700 );
-
         //Don't shrink
         Function.LinearFunction time = new Function.LinearFunction( representation.startTime, representation.startTime + 60000, 100, 700 );
 
@@ -287,6 +297,7 @@ public class Analysis {
                                          record.property.equals( "tab2.screenType" ) ? screenTypeHashMap.get( record.value ) :
                                          record.property.equals( "tab3.leftRepresentation" ) ? representationPaintHashMap.get( record.value ) :
                                          record.property.equals( "tab3.rightRepresentation" ) ? representationPaintHashMap.get( record.value ) :
+                                         record.property.equals( "tab5.representation" ) ? record.value.equals( "PIE" ) ? Color.red : new Color( 0x57b6dd ) :
                                          Color.red;
                             PhetPPath bar = new PhetPPath( new Rectangle2D.Double( time.evaluate( record.timestamp ), y, time.evaluate( maxTime ) - time.evaluate( record.timestamp ), 16 ), fill, new BasicStroke( 1 ), Color.black );
                             bars.add( bar );

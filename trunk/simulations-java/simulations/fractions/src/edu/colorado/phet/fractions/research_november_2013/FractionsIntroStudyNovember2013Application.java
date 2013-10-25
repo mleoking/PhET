@@ -196,6 +196,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "tab4.score", matchingGameModule.model.score );
         trackState( "tab4.scored", matchingGameModule.model.scored );
 
+        trackState( "tab5.representation",toStringProperty( fractionLabModule.fractionLabCanvas.selectedShapeType ) );
+
         buildAFractionModule.canvas.addLevelStartedListener( new VoidFunction1<PNode>() {
             public void apply( final PNode node ) {
 
