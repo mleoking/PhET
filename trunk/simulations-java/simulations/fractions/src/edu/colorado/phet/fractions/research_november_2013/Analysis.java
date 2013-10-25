@@ -270,6 +270,21 @@ public class Analysis {
             }
         }
 
+        String matchingGameResults = new ObservableList<MatchingGameLevel>( matchingGameLevels ).map( new Function1<MatchingGameLevel, String>() {
+            public String apply( MatchingGameLevel level ) {
+                int numCorrect = new ObservableList<MatchingGameGuess>( level.guesses ).filter( new Function1<MatchingGameGuess, Boolean>() {
+                    public Boolean apply( MatchingGameGuess matchingGameGuess ) {
+                        return matchingGameGuess.correct;
+                    }
+                } ).size();
+                int numAttempted = level.guesses.size();
+                return "\tlevelID: " + level.id + ", Level: " + level.level + ", correct/attempted = " + numCorrect + "/" + numAttempted + "\n" + new ObservableList<MatchingGameGuess>( level.guesses ).map( new Function1<MatchingGameGuess, String>() {
+                    public String apply( MatchingGameGuess m ) {
+                        return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + m.leftScaleNumerator + "/" + m.leftScaleNumerator + " compared to " + m.rightScaleNumerator + "/" + m.rightScaleDenominator;
+                    }
+                } ).mkString( "\n" );
+            }
+        } ).mkString( "\n" );
         return "Elapsed time: " + timeText + "\n" +
                "Time per tab: " + valuesToStrings( timePerTab ) + "\n" +
                "Clicks Per Tab: " + clicksPerTab + "\n" +
@@ -290,15 +305,7 @@ public class Analysis {
                "Clicks per Fraction Lab Representation :" + clicksPerFractionLabRepresentation + "\n" +
                "MATCHING GAME:\n" +
                "Number of levels attempted:" + matchingGameLevelMap.keySet().size() + "\n" +
-               new ObservableList<MatchingGameLevel>( matchingGameLevels ).map( new Function1<MatchingGameLevel, String>() {
-                   public String apply( MatchingGameLevel level ) {
-                       return "\tlevelID: " + level.id + ", Level: " + level.level + "\n" + new ObservableList<MatchingGameGuess>( level.guesses ).map( new Function1<MatchingGameGuess, String>() {
-                           public String apply( MatchingGameGuess m ) {
-                               return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + m.leftScaleNumerator + "/" + m.leftScaleNumerator + " compared to " + m.rightScaleNumerator + "/" + m.rightScaleDenominator;
-                           }
-                       } ).mkString( "\n" );
-                   }
-               } ).mkString( "\n" ) + "\n" +
+               matchingGameResults + "\n" +
                "BUILD A FRACTION:\n" +
                "Build a Fraction Levels\n" + bafTargetResults.mkString( "\n" );
     }
