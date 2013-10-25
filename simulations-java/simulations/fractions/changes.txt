@@ -1,3 +1,4 @@
+# 1.02.08 (73577) Oct 25, 2013
 # 1.02.07 (73575) Oct 25, 2013
 Many more updates for fractions study
 # 1.02.06 (73560) Oct 23, 2013
