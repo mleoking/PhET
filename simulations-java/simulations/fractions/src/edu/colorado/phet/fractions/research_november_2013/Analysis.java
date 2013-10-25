@@ -222,7 +222,9 @@ public class Analysis {
                     int leftScaleDenominator = Integer.parseInt( event.parameters.get( "leftScaleDenominator" ) );
                     int rightScaleNumerator = Integer.parseInt( event.parameters.get( "rightScaleNumerator" ) );
                     int rightScaleDenominator = Integer.parseInt( event.parameters.get( "rightScaleDenominator" ) );
-                    level.addGuess( new MatchingGameGuess( points, correct, leftScaleNumerator, leftScaleDenominator, rightScaleNumerator, rightScaleDenominator ) );
+                    String leftScaleRepresentation = event.parameters.get( "leftScaleRepresentation" );
+                    String rightScaleRepresentation = event.parameters.get( "rightScaleRepresentation" );
+                    level.addGuess( new MatchingGameGuess( points, correct, leftScaleNumerator, leftScaleDenominator, rightScaleNumerator, rightScaleDenominator, leftScaleRepresentation, rightScaleRepresentation ) );
                 }
             }
             else {
@@ -297,7 +299,7 @@ public class Analysis {
                 int numAttempted = level.guesses.size();
                 return "\tlevelID: " + level.id + ", Level: " + level.level + ", correct/attempted = " + numCorrect + "/" + numAttempted + "\n" + new ObservableList<MatchingGameGuess>( level.guesses ).map( new Function1<MatchingGameGuess, String>() {
                     public String apply( MatchingGameGuess m ) {
-                        return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + m.leftScaleNumerator + "/" + m.leftScaleDenominator + " compared to " + m.rightScaleNumerator + "/" + m.rightScaleDenominator;
+                        return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + m.leftScaleNumerator + "/" + m.leftScaleDenominator + " (" + m.leftScaleRepresentation + ")" + " compared to " + m.rightScaleNumerator + "/" + m.rightScaleDenominator + " (" + m.rightScaleRepresentation + ")";
                     }
                 } ).mkString( "\n" );
             }
