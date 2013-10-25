@@ -99,7 +99,7 @@ public class FractionsIntroSimSharing {
     }
 
     public enum ModelActions implements IModelAction {
-        changed, checked, finished, occurred, buildAFractionLevelStarted, shapeContainerDropped, matchingGameLevelStarted,matchingGameLevelRefreshed,matchingGameLevelResumed
+        changed, checked, finished, occurred, buildAFractionLevelStarted, shapeContainerDropped, matchingGameLevelStarted, matchingGameLevelRefreshed, matchingGameLevelResumed
     }
 
     public enum ParameterKeys implements IParameterKey {
@@ -109,7 +109,7 @@ public class FractionsIntroSimSharing {
         containerSetKey,
         scale,
         autoSpin,
-        soundEnabled, timerEnabled, isCorrect, points, shapeType, targets,
+        soundEnabled, timerEnabled, isCorrect, points, shapeType, targets, correct, leftScaleNumerator,leftScaleDenominator,rightScaleNumerator,rightScaleDenominator,
         hit, source, levelID, target, targetIndex, fractions, divisions
     }
 
