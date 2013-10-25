@@ -124,6 +124,14 @@ public @Data class MatchingGameState {
 
     public double getRightScaleValue() { return getScaleValue( rightScale ); }
 
+    public int getLeftScaleNumerator() { return getScaleFraction( leftScale ).isSome() ? getScaleFraction( leftScale ).some().numerator : 0; }
+
+    public int getRightScaleNumerator() { return getScaleFraction( rightScale ).isSome() ? getScaleFraction( rightScale ).some().numerator : 0; }
+
+    public int getLeftScaleDenominator() { return getScaleFraction( leftScale ).isSome() ? getScaleFraction( leftScale ).some().denominator : 0; }
+
+    public int getRightScaleDenominator() { return getScaleFraction( rightScale ).isSome() ? getScaleFraction( rightScale ).some().denominator : 0; }
+
     //Move fractions from the scale back to a free starting cell
     public MatchingGameState jettisonFraction( Scale scale ) {
         final Option<MovableFraction> scaleFraction = getScaleFraction( scale );
