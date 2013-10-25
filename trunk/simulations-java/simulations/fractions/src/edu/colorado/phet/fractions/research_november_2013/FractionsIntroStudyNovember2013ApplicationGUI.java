@@ -41,7 +41,7 @@ public class FractionsIntroStudyNovember2013ApplicationGUI {
         } );
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
 
-        new Timer( 60, new ActionListener() {
+        new Timer( 5000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 report.sync();
             }
