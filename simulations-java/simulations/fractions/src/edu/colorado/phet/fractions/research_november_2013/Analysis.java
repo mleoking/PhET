@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.research_november_2013;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.TextArea;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -44,12 +46,22 @@ public class Analysis {
 
     public Analysis() {
         JFrame frame = new JFrame( "Report" );
+        frame.addWindowListener( new WindowAdapter() {
+            @Override public void windowClosing( WindowEvent e ) {
+                System.exit( 0 );
+            }
+        } );
         reportArea = new TextArea();
         frame.setContentPane( new JScrollPane( reportArea ) );
         frame.setSize( 800, 600 );
         frame.setVisible( true );
 
         JFrame canvasFrame = new JFrame( "Visualization" );
+        canvasFrame.addWindowListener( new WindowAdapter() {
+            @Override public void windowClosing( WindowEvent e ) {
+                System.exit( 0 );
+            }
+        } );
         PCanvas reportCanvas = new PCanvas();
         canvasFrame.setContentPane( reportCanvas );
         reportNode = new PNode();
@@ -648,25 +660,27 @@ public class Analysis {
         messages.remove( messages.size() - 1 );
     }
 
-    public static void main( String[] args ) throws IOException {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                File file = new File( "C:/Users/Sam/Desktop/trace.txt" );
-                try {
-                    String s = FileUtils.loadFileAsString( file );
-                    final ArrayList<String> messages = new ArrayList<String>();
-                    final Analysis report = new Analysis();
-                    StringTokenizer st = new StringTokenizer( s, "\n" );
-                    while ( st.hasMoreTokens() ) {
-                        messages.add( st.nextToken() );
+    public static void main( final String[] args ) throws IOException {
+        if ( args.length == 1 && new File( args[0] ).exists() && !new File( args[0] ).isDirectory() ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    File file = new File( args[0] );
+                    try {
+                        String s = FileUtils.loadFileAsString( file );
+                        final ArrayList<String> messages = new ArrayList<String>();
+                        final Analysis report = new Analysis();
+                        StringTokenizer st = new StringTokenizer( s, "\n" );
+                        while ( st.hasMoreTokens() ) {
+                            messages.add( st.nextToken() );
+                        }
+                        report.addMessages( messages );
                     }
-                    report.addMessages( messages );
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                    }
                 }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
-            }
-        } );
+            } );
+        }
     }
 
     private void addMessages( ArrayList<String> messages ) {
