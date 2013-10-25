@@ -23,7 +23,8 @@ public class FractionLabModule extends AbstractFractionsModule implements Fracti
 
     public FractionLabModule( boolean rectangleDefault ) {
         super( Components.fractionLabTab, Strings.FRACTION_LAB, new ConstantDtClock() );
-        setSimulationPanel( new FractionLabCanvas( this, rectangleDefault ) );
+        fractionLabCanvas = new FractionLabCanvas( this, rectangleDefault );
+        setSimulationPanel( fractionLabCanvas );
         this.rectangleDefault = rectangleDefault;
     }
 
@@ -49,4 +50,6 @@ public class FractionLabModule extends AbstractFractionsModule implements Fracti
             }
         } );
     }
+
+    public final FractionLabCanvas fractionLabCanvas;
 }

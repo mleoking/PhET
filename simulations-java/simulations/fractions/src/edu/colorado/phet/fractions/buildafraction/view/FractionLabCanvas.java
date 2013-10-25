@@ -47,6 +47,8 @@ import static java.awt.Color.black;
  * @author Sam Reid
  */
 public class FractionLabCanvas extends AbstractFractionsCanvas {
+    public final Property<ShapeType> selectedShapeType;
+
     @SuppressWarnings("unchecked") public FractionLabCanvas( final FractionLabCanvasContext context2, final boolean rectangleDefault ) {
         setBackground( BuildAFractionCanvas.LIGHT_BLUE );
         final BuildAFractionModel circleModel = createModel( PIE, colors[0] );
@@ -94,7 +96,7 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
                                                                            new Element<ShapeType>( new PhetPPath( createRect( 1 ), colors[1], stroke, black ) {{
                                                                                scale( 0.15 );
                                                                            }}, BAR, Components.barShapeRadioButton ) );
-        final Property<ShapeType> selectedShapeType = new Property<ShapeType>( rectangleDefault ? BAR : PIE );
+        selectedShapeType = new Property<ShapeType>( rectangleDefault ? BAR : PIE );
         selectedShapeType.addObserver( new VoidFunction1<ShapeType>() {
             public void apply( final ShapeType shapeType ) {
                 if ( shapeType == BAR ) {
