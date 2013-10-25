@@ -268,7 +268,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                                                     ParameterSet.parameterSet( ParameterKeys.id, id ).
                                                             with( FractionsIntroSimSharing.ParameterKeys.targets, targetString.toString() ).
                                                             with( ParameterKeys.type, type ).
-                                                            with( GameSimSharing.ParameterKeys.level, index ) );
+                                                            with( GameSimSharing.ParameterKeys.level, index+1 ) );
                 trackState( "bafLevelID." + id + ".matchExists", level.matchExists );
                 trackState( "bafLevelID." + id + ".filledTargets", level.filledTargets );
                 trackState( "bafLevelID." + id + ".createdFractions", toStringProperty( level.createdFractions ) );
