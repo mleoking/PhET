@@ -66,7 +66,9 @@ class Controller {
                                                         with( ParameterKeys.leftScaleNumerator, state.getLeftScaleNumerator() ).
                                                         with( ParameterKeys.leftScaleDenominator, state.getLeftScaleDenominator() ).
                                                         with( ParameterKeys.rightScaleNumerator, state.getRightScaleNumerator() ).
-                                                        with( ParameterKeys.rightScaleDenominator, state.getRightScaleDenominator() ) );
+                                                        with( ParameterKeys.rightScaleDenominator, state.getRightScaleDenominator() ).
+                                                        with( ParameterKeys.leftScaleRepresentation, state.getLeftScaleRepresentation() ).
+                                                        with( ParameterKeys.rightScaleRepresentation, state.getRightScaleRepresentation() ) );
             return correct ?
                    state.withChecks( state.info.checks + 1 ).
                            withMode( USER_CHECKED_CORRECT_ANSWER ).

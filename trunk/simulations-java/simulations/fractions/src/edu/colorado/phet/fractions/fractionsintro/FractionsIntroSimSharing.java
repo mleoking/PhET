@@ -109,7 +109,8 @@ public class FractionsIntroSimSharing {
         containerSetKey,
         scale,
         autoSpin,
-        soundEnabled, timerEnabled, isCorrect, points, shapeType, targets, correct, leftScaleNumerator,leftScaleDenominator,rightScaleNumerator,rightScaleDenominator,
+        soundEnabled, timerEnabled, isCorrect, points, shapeType, targets, correct, leftScaleNumerator, leftScaleDenominator, rightScaleNumerator, rightScaleDenominator,
+        leftScaleRepresentation, rightScaleRepresentation,
         hit, source, levelID, target, targetIndex, fractions, divisions
     }
 
