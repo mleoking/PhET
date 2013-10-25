@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public class FractionsIntroStudyNovember2013ApplicationGUI {
 
     public static void main( final String[] args ) {
-        final Analysis report = new Analysis();
+        final Analysis report = new Analysis( "Running App", false );
         SimSharingManager.initListeners.add( new VoidFunction1<SimSharingManager>() {
             public void apply( SimSharingManager simSharingManager ) {
                 simSharingManager.addLog( new Log() {
