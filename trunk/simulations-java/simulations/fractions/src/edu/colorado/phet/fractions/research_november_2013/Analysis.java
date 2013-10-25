@@ -44,8 +44,10 @@ public class Analysis {
     private final TextArea reportArea;
     private final ArrayList<String> messages = new ArrayList<String>();
 
-    public Analysis() {
-        JFrame frame = new JFrame( "Report" );
+    public Analysis( String name, boolean writeToConsole ) {
+        this.name = name;
+        this.writeToConsole = writeToConsole;
+        JFrame frame = new JFrame( "Report for " + name );
         frame.addWindowListener( new WindowAdapter() {
             @Override public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
@@ -56,7 +58,7 @@ public class Analysis {
         frame.setSize( 800, 600 );
         frame.setVisible( true );
 
-        JFrame canvasFrame = new JFrame( "Visualization" );
+        JFrame canvasFrame = new JFrame( "Visualization for " + name );
         canvasFrame.addWindowListener( new WindowAdapter() {
             @Override public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
@@ -89,6 +91,9 @@ public class Analysis {
     private void createTextReport( ArrayList<String> messages, StateRepresentation representation ) {
         String reportText = toReportText( messages, representation );
         if ( !reportText.equals( reportArea.getText() ) ) { reportArea.setText( reportText ); }
+        if ( writeToConsole ) {
+            System.out.println( reportText + "\n#################################\n" );
+        }
     }
 
     private String toReportText( ArrayList<String> messages, StateRepresentation representation ) {
@@ -297,7 +302,8 @@ public class Analysis {
                 } ).mkString( "\n" );
             }
         } ).mkString( "\n" );
-        return "Elapsed time: " + timeText + "\n" +
+        return "Report for " + name + "\n" +
+               "Elapsed time: " + timeText + "\n" +
                "Time per tab: " + valuesToStrings( timePerTab ) + "\n" +
                "Clicks Per Tab: " + clicksPerTab + "\n" +
                "Number of clicks on numerator/denominator up/down spinners (tabs 1,3): " + ( numeratorSpinnerUpButton.size() + numeratorSpinnerDownButton.size() + denominatorSpinnerDownButton.size() + denominatorSpinnerUpButton.size() ) + "\n" +
@@ -661,14 +667,19 @@ public class Analysis {
     }
 
     public static void main( final String[] args ) throws IOException {
-        if ( args.length == 1 && new File( args[0] ).exists() && !new File( args[0] ).isDirectory() ) {
+        if ( args.length == 1 && new File( args[0] ).exists() && new File( args[0] ).isDirectory() ) {
+            for ( File file : new File( args[0] ).listFiles() ) {
+                main( new String[]{file.getAbsolutePath()} );
+            }
+        }
+        else if ( args.length == 1 && new File( args[0] ).exists() ) {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                     File file = new File( args[0] );
                     try {
                         String s = FileUtils.loadFileAsString( file );
                         final ArrayList<String> messages = new ArrayList<String>();
-                        final Analysis report = new Analysis();
+                        final Analysis report = new Analysis( file.getName(), true );
                         StringTokenizer st = new StringTokenizer( s, "\n" );
                         while ( st.hasMoreTokens() ) {
                             messages.add( st.nextToken() );
@@ -681,6 +692,9 @@ public class Analysis {
                 }
             } );
         }
+        else {
+            System.out.println( "Usage: java -jar [jarname] [path]" );
+        }
     }
 
     private void addMessages( ArrayList<String> messages ) {
@@ -689,4 +703,7 @@ public class Analysis {
         displayGraphically( representation );
         createTextReport( messages, representation );
     }
+
+    private final String name;
+    private boolean writeToConsole;
 }
