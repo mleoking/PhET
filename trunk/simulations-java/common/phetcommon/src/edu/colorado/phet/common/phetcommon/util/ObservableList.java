@@ -339,6 +339,16 @@ public class ObservableList<T> implements List<T> {
         }};
     }
 
+    public ObservableList<T> filter( final Function1<T, Boolean> keep ) {
+        ObservableList<T> result = new ObservableList<T>();
+        for ( T t : list ) {
+            if ( keep.apply( t ) ) {
+                result.add( t );
+            }
+        }
+        return result;
+    }
+
     // return the first matching item, or None if there is none
     public Option<T> find( Function1<T, Boolean> predicate ) {
         for ( T t : list ) {
