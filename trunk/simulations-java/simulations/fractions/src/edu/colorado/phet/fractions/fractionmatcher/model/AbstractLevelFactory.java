@@ -238,6 +238,8 @@ public abstract class AbstractLevelFactory {
 
             //Flag for the primary representation.  Ensure a minimum of 3 numeric representations per stage
             boolean numeric = i < 3 || RANDOM.nextBoolean();
+
+            final String type;
             if ( numeric ) {
                 int scaleFactor = numericScaleFactors.index( RANDOM.nextInt( numericScaleFactors.length() ) );
                 final double fractionSizeScale = 0.3;
@@ -248,13 +250,16 @@ public abstract class AbstractLevelFactory {
                 //Try to use a mixed number representation
                 if ( mixedNumbers && fraction.numerator > fraction.denominator ) {
                     node = new MixedNumberNode( fraction, scaleFactor, fractionSizeScale, mixedNumberWholeScale );
+                    type = "Numeric with scale "+scaleFactor+" as a mixed number";
                 }
                 else {
                     node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale );
+                    type = "Numeric with scale "+scaleFactor;
                 }
             }
             //ensure a minimum of 3 shape representations per stage
             else {
+                type="Shape";
                 if ( allowedRepresentations.size() == 0 ) {
                     allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction );
                 }
@@ -267,13 +272,12 @@ public abstract class AbstractLevelFactory {
             {
                 Cell cell = remainingCells.remove( 0 );
                 final MovableFractionID id = new MovableFractionID();
-                final String representationString = numeric ? "numeric" : representation.toString();
                 result.add( new MovableFraction( id, cell.getPosition(), fraction.numerator, fraction.denominator,
                                                  false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, new IUserComponent() {
                     @Override public String toString() {
-                        return "fraction.id=" + id + ".value=" + fraction.numerator + "/" + fraction.denominator + ".representation=" + representationString;
+                        return "fraction.id=" + id + ".value=" + fraction.numerator + "/" + fraction.denominator + ".representation=" + type;
                     }
-                }, numeric ? Color.black : representation.color, representationString ) );
+                }, numeric ? Color.black : representation.color, type ) );
             }
 
             //If fraction is numeric, partner must not also be numeric.
@@ -295,7 +299,7 @@ public abstract class AbstractLevelFactory {
                     }
                 },
                                                  alternateRepresentation.color,
-                                                 alternateRepresentation.toString() ) );
+                                                 "Shape" ) );
             }
         }
         return iterableList( result );

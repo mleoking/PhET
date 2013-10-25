@@ -1,3 +1,4 @@
+Show scale factor for numeric values in matching game
 Track left and right representation type for matching game
 Fixed: matching game was reporting leftNumerator/leftNumerator
 fixed number index for build a fraction levels
