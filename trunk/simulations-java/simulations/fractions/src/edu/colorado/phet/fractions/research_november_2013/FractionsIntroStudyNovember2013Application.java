@@ -280,6 +280,7 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                 SimSharingManager.sendModelMessage( FractionsIntroSimSharing.ModelComponents.event, FractionsIntroSimSharing.ModelComponentTypes.event,
                                                     action,
                                                     ParameterSet.parameterSet( FractionsIntroSimSharing.ParameterKeys.levelID, state.levelID ).
+                                                            with( GameSimSharing.ParameterKeys.level, level ).
                                                             with( FractionsIntroSimSharing.ParameterKeys.fractions, state.fractions.map( new F<MovableFraction, String>() {
                                                                 @Override public String f( MovableFraction movableFraction ) {
                                                                     return movableFraction.numerator + "/" + movableFraction.denominator + " " + movableFraction.representationName;

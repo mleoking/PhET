@@ -41,7 +41,6 @@ public class FractionsIntroStudyNovember2013ApplicationGUI {
         } );
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", FractionsIntroStudyNovember2013Application.class );
 
-        //TODO: Remove these for publication
         new Timer( 60, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 report.sync();
