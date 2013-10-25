@@ -59,6 +59,13 @@ public class MatchingGameModel {
     //This is meant to be read with IDEA's closure folding feature, so that each declaration takes one line
     public final ObservableProperty<Double> leftScaleValue;
     public final ObservableProperty<Double> rightScaleValue;
+
+    public final ObservableProperty<Integer> leftScaleNumerator;
+    public final ObservableProperty<Integer> rightScaleNumerator;
+
+    public final ObservableProperty<Integer> leftScaleDenominator;
+    public final ObservableProperty<Integer> rightScaleDenominator;
+
     public final ObservableProperty<Integer> checks;
     public final ObservableProperty<Integer> scored;
     public final ObservableProperty<Integer> level;
@@ -199,6 +206,29 @@ public class MatchingGameModel {
                 return s.getRightScaleValue();
             }
         } );
+
+        leftScaleNumerator= intProperty( new F<MatchingGameState, Integer>() {
+            @Override public Integer f( final MatchingGameState s ) {
+                return s.getLeftScaleNumerator();
+            }
+        } );
+        rightScaleNumerator = intProperty( new F<MatchingGameState, Integer>() {
+            @Override public Integer f( final MatchingGameState s ) {
+                return s.getRightScaleNumerator();
+            }
+        } );
+
+        leftScaleDenominator= intProperty( new F<MatchingGameState, Integer>() {
+            @Override public Integer f( final MatchingGameState s ) {
+                return s.getLeftScaleDenominator();
+            }
+        } );
+        rightScaleDenominator = intProperty( new F<MatchingGameState, Integer>() {
+            @Override public Integer f( final MatchingGameState s ) {
+                return s.getRightScaleDenominator();
+            }
+        } );
+
         checks = intProperty( new F<MatchingGameState, Integer>() {
             @Override public Integer f( final MatchingGameState s ) {
                 return s.getChecks();

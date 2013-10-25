@@ -190,8 +190,16 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
         trackState( "tab4.level", matchingGameModule.model.level );
         trackState( "tab4.checks", matchingGameModule.model.checks );
         trackState( "tab4.choosingSettings", matchingGameModule.model.choosingSettings );
+
         trackState( "tab4.leftScaleValue", matchingGameModule.model.leftScaleValue );
         trackState( "tab4.rightScaleValue", matchingGameModule.model.rightScaleValue );
+
+        trackState( "tab4.leftScaleNumerator", matchingGameModule.model.leftScaleNumerator );
+        trackState( "tab4.leftScaleDenominator", matchingGameModule.model.leftScaleDenominator );
+
+        trackState( "tab4.rightScaleNumerator", matchingGameModule.model.rightScaleNumerator );
+        trackState( "tab4.rightScaleDenominator", matchingGameModule.model.rightScaleDenominator );
+
         trackState( "tab4.revealClues", matchingGameModule.model.revealClues );
         trackState( "tab4.score", matchingGameModule.model.score );
         trackState( "tab4.scored", matchingGameModule.model.scored );
