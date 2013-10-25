@@ -61,9 +61,9 @@ public class MatchingGameModel {
     public final ObservableProperty<Double> rightScaleValue;
 
     public final ObservableProperty<Integer> leftScaleNumerator;
-    public final ObservableProperty<Integer> rightScaleNumerator;
-
     public final ObservableProperty<Integer> leftScaleDenominator;
+
+    public final ObservableProperty<Integer> rightScaleNumerator;
     public final ObservableProperty<Integer> rightScaleDenominator;
 
     public final ObservableProperty<Integer> checks;
