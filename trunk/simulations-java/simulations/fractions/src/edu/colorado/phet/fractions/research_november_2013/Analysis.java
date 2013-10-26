@@ -289,6 +289,28 @@ public class Analysis {
             }
         }
 
+        //Count filled targets
+//        trackState( "bafLevelID." + id + ".filledTargets", level.filledTargets );
+        HashMap<String, Integer> bafStars = new HashMap<String, Integer>();
+        for ( String key : properties.keySet() ) {
+            if ( key.startsWith( "bafLevelID." ) && key.endsWith( ".filledTargets" ) ) {
+                String str = key.substring( key.indexOf( '.' ) + 1, key.lastIndexOf( '.' ) );
+                int levelID = Integer.parseInt( str );
+                System.out.println( "key = " + key + ", levelID = " + levelID );
+                //look up the level
+
+                BAFLevel level = null;
+                for ( BAFLevel bafLevel : bafLevels ) {
+                    if ( bafLevel.id == levelID ) {
+                        level = bafLevel;
+                        break;
+                    }
+                }
+                String levelName = "Level " + level.level + " " + level.type;
+                bafStars.put( levelName, Integer.parseInt( properties.get( key ).toString() ) );
+            }
+        }
+
         String matchingGameResults = new ObservableList<MatchingGameLevel>( matchingGameLevels ).map( new Function1<MatchingGameLevel, String>() {
             public String apply( MatchingGameLevel level ) {
                 int numCorrect = new ObservableList<MatchingGameGuess>( level.guesses ).filter( new Function1<MatchingGameGuess, Boolean>() {
@@ -327,6 +349,7 @@ public class Analysis {
                "Number of levels attempted:" + matchingGameLevelMap.keySet().size() + "\n" +
                matchingGameResults + "\n" +
                "BUILD A FRACTION:\n" +
+               "Stars: "+bafStars+"\n"+
                "Build a Fraction Levels\n" + bafTargetResults.mkString( "\n" );
     }
 
