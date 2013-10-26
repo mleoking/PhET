@@ -32,6 +32,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -311,6 +312,25 @@ public class Analysis {
             }
         }
 
+        //1382755920826	model	game	feature	completed	level = 1	score = 11.0	perfectScore = 12.0	time = 27712.0	bestTime = 0.0	isNewBestTime = true	timerVisible = false
+        HashMap<Integer, Fraction> matchingGameStars = new HashMap<Integer, Fraction>();
+        for ( Record record : list ) {
+            if ( record instanceof Event ) {
+                Event e = (Event) record;
+                if ( e.name.equals( "matchingGameFinished" ) ) {
+
+                    //Keep the highest score
+                    Integer level = Integer.parseInt( e.parameters.get( "level" ) );
+                    Integer previousScore = matchingGameStars.containsKey( level ) ? matchingGameStars.get( level ).numerator : -1;
+                    Integer newScore = new Double( Double.parseDouble( e.parameters.get( "score" ) ) ).intValue();
+                    Integer max = new Double( Double.parseDouble( e.parameters.get( "perfectScore" ) ) ).intValue();
+                    if ( newScore > previousScore ) {
+                        matchingGameStars.put( level, new Fraction( newScore, max ) );
+                    }
+                }
+            }
+        }
+
         String matchingGameResults = new ObservableList<MatchingGameLevel>( matchingGameLevels ).map( new Function1<MatchingGameLevel, String>() {
             public String apply( MatchingGameLevel level ) {
                 int numCorrect = new ObservableList<MatchingGameGuess>( level.guesses ).filter( new Function1<MatchingGameGuess, Boolean>() {
@@ -347,9 +367,10 @@ public class Analysis {
                "Clicks per Fraction Lab Representation :" + clicksPerFractionLabRepresentation + "\n" +
                "MATCHING GAME:\n" +
                "Number of levels attempted:" + matchingGameLevelMap.keySet().size() + "\n" +
+               "Stars (reported as points/possiblePoints per level): " + matchingGameStars + "\n" +
                matchingGameResults + "\n" +
                "BUILD A FRACTION:\n" +
-               "Stars: "+bafStars+"\n"+
+               "Stars: " + bafStars + "\n" +
                "Build a Fraction Levels\n" + bafTargetResults.mkString( "\n" );
     }
 
@@ -567,6 +588,10 @@ public class Analysis {
             //Re-using model answer checked message for matching game
             else if ( line.contains( "model\tanswer\tanswer\tchecked\t" ) ) {
                 Event event = new Event( time, "checked", new ArrayList<String>( entries.subList( 5, entries.size() ) ) );
+                events.add( event );
+            }
+            else if ( line.contains( "model\tgame\tfeature\tcompleted\t" ) ) {
+                Event event = new Event( time, "matchingGameFinished", new ArrayList<String>( entries.subList( 5, entries.size() ) ) );
                 events.add( event );
             }
             else {
