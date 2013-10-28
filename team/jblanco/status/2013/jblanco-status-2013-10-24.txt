@@ -1,0 +1,58 @@
+PhET Progress Report, J. Blanco, 10-24-2013
+
+PhET Weekly Progress Report
+John Blanco
+October 24th, 2013
+
+Time period covered: October 17th through October 23rd.
+
+Build an Atom (HTML5 version) - 13.0 hrs
+
+o	Made number entry dialogs limited to zero in the lower direction for cases where it made sense.
+o	Cleaned up code in preparation for code review.
+o	Responded to code review comments (thanks to Chris M for the fast and helpful review).
+o	Implemented several optimizations for the reward screen.
+o	Profiled to check for performance or memory issues.
+o	Published a release candidate and notified team.
+o	Reviewed with Jonathan about reasons that layers seem to break Firefox.
+o	i18n
+o	Added workaround for large dt on the reward screen.
+o	Held issue review and disposition meeting with Ariel and Emily.
+
+Balancing Act - 6.0 hrs
+
+o	Added (temporary) icons for the project tabs.
+o	Ported some of the basic model classes.
+o	Ported the view classes that make up the background for each of the tabs.
+
+HTML5 Common Code - 6.0 hrs
+
+o	Met with CM to discuss generalization of game components.
+o	Generalized LevelCompletedNode and LevelStart button, moved them from BAA to common code.
+o	Internationalized LevelCompletedNode.
+o	Ported game strings from Java to the game repository (Vegas).
+
+HTML5 Process Development - 5.0 hrs
+
+o	Developer meetings.
+o	Discussed support for Samsung Note tablet.
+
+Environment - 1.0 hrs
+
+o	Reviewed past work on Java signing certificates, logged bug for renewing current one (expires in February), contacted CU guy that we worked with last time (no response yet).
+
+UBC Research Meeting - 5.0 hrs
+
+o	Attended research meeting at UBC.
+o	Connected Julia C to Ido and Adrianna of UBC to potentially discuss collection and interpretation of student drawings.
+o	Wrote up and circulated a few notes from meeting.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	No vacation plans on immediate horizon.
