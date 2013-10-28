@@ -1,3 +1,4 @@
+Show scaled fractions with their displayed value
 # 1.02.09 (73585) Oct 25, 2013
 Show scale factor for numeric values in matching game
 Track left and right representation type for matching game
