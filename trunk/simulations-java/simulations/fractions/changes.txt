@@ -1,3 +1,4 @@
+Show clicks and time per number line vs same representation in equality lab
 Show scaled fractions with their displayed value
 # 1.02.09 (73585) Oct 25, 2013
 Show scale factor for numeric values in matching game
