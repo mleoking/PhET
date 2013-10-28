@@ -110,6 +110,7 @@ public class Analysis {
         HashMap<String, Integer> clicksPerTab = new HashMap<String, Integer>();
         HashMap<String, Integer> clicksPerIntroRepresentation = new HashMap<String, Integer>();
         HashMap<String, Integer> clicksPerFractionLabRepresentation = new HashMap<String, Integer>();
+        HashMap<String, Integer> clicksPerNumberLineInEqualityLab = new HashMap<String, Integer>();
         HashSet<String> visitedIntroRepresentations = new HashSet<String>();
 
         HashMap<String, Long> timePerTab = new HashMap<String, Long>();
@@ -148,7 +149,7 @@ public class Analysis {
                 if ( tabString.equals( "Equality Lab" ) ) {
                     Object repObject = properties.get( "tab3.sameRepresentation" );
                     if ( repObject != null ) {
-                        augment( timePerEqualityLabSameRepresentations, repObject.toString(), elapsedTime );
+                        augment( timePerEqualityLabSameRepresentations, Boolean.parseBoolean( properties.get( "tab3.sameRepresentation" ).toString() ) ? "Same Representation" : "Number Line", elapsedTime );
                     }
                 }
                 if ( tabString.equals( "Fraction Lab" ) ) {
@@ -183,6 +184,9 @@ public class Analysis {
                     }
                     if ( tabName.equals( "Fraction Lab" ) ) {
                         augment( clicksPerFractionLabRepresentation, properties.get( "tab5.representation" ).toString(), 1 );
+                    }
+                    if ( tabName.equals( "Equality Lab" ) ) {
+                        augment( clicksPerNumberLineInEqualityLab, Boolean.parseBoolean( properties.get( "tab3.sameRepresentation" ).toString() ) ? "Same Representation" : "Number Line", 1 );
                     }
                 }
             }
@@ -362,8 +366,9 @@ public class Analysis {
                "Time per intro representation: " + valuesToStrings( timePerIntroRepresentation ) + "\n" +
                "EQUALITY LAB:\n" +
                "Time per equality lab representation (left): " + valuesToStrings( timePerEqualityLabLeftRepresentation ) + "\n" +
-               "Time per equality lab representations same: " + valuesToStrings( timePerEqualityLabSameRepresentations ) + "\n" +
-               "Number of equality lab representations visited: " + visitedEqualityLabRepresentations.size() + "\n" +
+               "Time per equality lab representations (right): " + valuesToStrings( timePerEqualityLabSameRepresentations ) + "\n" +
+               "Clicks per equality lab representations (right): " + clicksPerNumberLineInEqualityLab + "\n" +
+               "Number of equality lab representations (left) visited: " + visitedEqualityLabRepresentations.size() + "\n" +
                "Visited equality lab representations: " + visitedEqualityLabRepresentations + "\n" +
                "FRACTION LAB:\n" +
                "Time per Fraction Lab Representation :" + valuesToStrings( timePerFractionLabRepresentation ) + "\n" +
