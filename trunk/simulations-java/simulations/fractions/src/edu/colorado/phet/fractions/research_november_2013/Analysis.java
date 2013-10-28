@@ -302,7 +302,6 @@ public class Analysis {
             if ( key.startsWith( "bafLevelID." ) && key.endsWith( ".filledTargets" ) ) {
                 String str = key.substring( key.indexOf( '.' ) + 1, key.lastIndexOf( '.' ) );
                 int levelID = Integer.parseInt( str );
-                System.out.println( "key = " + key + ", levelID = " + levelID );
                 //look up the level
 
                 BAFLevel level = null;

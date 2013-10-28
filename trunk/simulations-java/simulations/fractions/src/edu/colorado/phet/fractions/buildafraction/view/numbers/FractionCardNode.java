@@ -144,7 +144,9 @@ class FractionCardNode extends RichPNode {
                     for ( NumberCollectionBoxNode scoreCell : sortedCells ) {
                         if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) || cardShapeNode.getGlobalBounds().getMaxX() > numberSceneNode.minimumCollectionBoxX() ) {
                             hitWrongOne = true;
-                            numberSceneNode.fractionCardNodeDroppedInWrongCollectionBox( fractionNode.getValue(), scoreCell );
+                            if ( !scoreCell.isCompleted() ) {
+                                numberSceneNode.fractionCardNodeDroppedInWrongCollectionBox( fractionNode.getValue(), scoreCell );
+                            }
                             break;
                         }
                     }
