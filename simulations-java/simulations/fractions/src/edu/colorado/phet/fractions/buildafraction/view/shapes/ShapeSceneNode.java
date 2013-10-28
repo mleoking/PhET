@@ -405,16 +405,20 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                         animateToPosition( containerNode, getContainerPosition().plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
 
                         //Send a data collection message
-                        for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),selectedPieceSize,targetIndex ) );
+                        if ( !occupied ) {
+                            for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
+                                dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(), selectedPieceSize, targetIndex ) );
+                            }
                         }
                     }
                     else {
                         animateToPosition( containerNode, getContainerPosition(), new MoveAwayFromCollectionBoxes( this, containerNode ) );
 
                         //Send a data collection message
-                        for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                            dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(),selectedPieceSize,targetIndex ) );
+                        if ( !occupied ) {
+                            for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
+                                dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(), selectedPieceSize, targetIndex ) );
+                            }
                         }
                     }
 

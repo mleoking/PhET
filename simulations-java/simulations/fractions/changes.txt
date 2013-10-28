@@ -1,3 +1,4 @@
+In Build a Fraction :Omit messages when trying to drop something into a filled collection box
 # 1.02.10 (73588) Oct 28, 2013
 Show clicks and time per number line vs same representation in equality lab
 Show scaled fractions with their displayed value
