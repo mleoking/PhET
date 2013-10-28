@@ -33,6 +33,7 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionScreenType;
 import edu.colorado.phet.fractions.common.math.Fraction;
+import edu.colorado.phet.fractions.fractionmatcher.model.AbstractLevelFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -341,7 +342,9 @@ public class Analysis {
                 int numAttempted = level.guesses.size();
                 return "\tlevelID: " + level.id + ", Level: " + level.level + ", correct/attempted = " + numCorrect + "/" + numAttempted + "\n" + new ObservableList<MatchingGameGuess>( level.guesses ).map( new Function1<MatchingGameGuess, String>() {
                     public String apply( MatchingGameGuess m ) {
-                        return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + m.leftScaleNumerator + "/" + m.leftScaleDenominator + " (" + m.leftScaleRepresentation + ")" + " compared to " + m.rightScaleNumerator + "/" + m.rightScaleDenominator + " (" + m.rightScaleRepresentation + ")";
+                        String left = convertMatchingGameFractionToString( m.leftScaleNumerator, m.leftScaleDenominator, m.leftScaleRepresentation );
+                        String right = convertMatchingGameFractionToString( m.rightScaleNumerator, m.rightScaleDenominator, m.rightScaleRepresentation );
+                        return "\t\t correct=" + m.correct + ", points=" + m.points + ", " + left + " compared to " + right;
                     }
                 } ).mkString( "\n" );
             }
@@ -372,6 +375,19 @@ public class Analysis {
                "BUILD A FRACTION:\n" +
                "Stars: " + bafStars + "\n" +
                "Build a Fraction Levels\n" + bafTargetResults.mkString( "\n" );
+    }
+
+    //Show scaled fractions with their displayed value
+    private String convertMatchingGameFractionToString( int numerator, int denominator, String representation ) {
+        if ( representation.startsWith( AbstractLevelFactory.NUMERIC_REPRESENTATION ) ) {
+            String tail = representation.substring( AbstractLevelFactory.NUMERIC_REPRESENTATION.length() ).trim();
+            StringTokenizer st = new StringTokenizer( tail, " " );
+            int scaleFactor = Integer.parseInt( st.nextToken() );
+            return ( numerator * scaleFactor ) + "/" + ( denominator * scaleFactor ) + " (" + representation + ")";
+        }
+        else {
+            return numerator + "/" + denominator + " (" + representation + ")";
+        }
     }
 
     private void augment( HashMap<String, Integer> map, String key, int newValue ) {

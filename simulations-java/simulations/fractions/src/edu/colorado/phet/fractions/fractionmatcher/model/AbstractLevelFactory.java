@@ -250,11 +250,11 @@ public abstract class AbstractLevelFactory {
                 //Try to use a mixed number representation
                 if ( mixedNumbers && fraction.numerator > fraction.denominator ) {
                     node = new MixedNumberNode( fraction, scaleFactor, fractionSizeScale, mixedNumberWholeScale );
-                    type = "Numeric with scale "+scaleFactor+" as a mixed number";
+                    type = NUMERIC_REPRESENTATION +scaleFactor+" as a mixed number";
                 }
                 else {
                     node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale );
-                    type = "Numeric with scale "+scaleFactor;
+                    type = NUMERIC_REPRESENTATION +scaleFactor;
                 }
             }
             //ensure a minimum of 3 shape representations per stage
@@ -306,4 +306,6 @@ public abstract class AbstractLevelFactory {
     }
 
     public abstract List<MovableFraction> createLevel( final int level, final List<Cell> cells );
+
+    public static final String NUMERIC_REPRESENTATION = "Numeric with scale ";
 }
