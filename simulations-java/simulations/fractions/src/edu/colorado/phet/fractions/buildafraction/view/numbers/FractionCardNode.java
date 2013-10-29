@@ -133,7 +133,7 @@ class FractionCardNode extends RichPNode {
                         scoreCell.setCompletedFraction( fractionNode );
                         locked = true;
 
-                        numberSceneNode.fractionCardNodeDroppedInCollectionBox( scoreCell );
+                        numberSceneNode.fractionCardNodeDroppedInCollectionBox( FractionCardNode.this, scoreCell );
                         break;
                     }
                 }
