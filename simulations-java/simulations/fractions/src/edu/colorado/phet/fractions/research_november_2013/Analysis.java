@@ -259,7 +259,7 @@ public class Analysis {
                         if ( !guesses.containsKey( key ) ) {
                             guesses.put( key, new ArrayList<String>() );
                         }
-                        guesses.get( key ).add( "created " + event.parameters.get( "source" ) + " with divisions = " + event.parameters.get( "divisions" ) + " for target " + event.parameters.get( "target" ) + ": " + ( event.parameters.get( "hit" ).equals( "true" ) ? "right" : "wrong" ) );//Track all the times it was correct or wrong
+                        guesses.get( key ).add( "created " + event.parameters.get( "source" ) + " with divisions = " + event.parameters.get( "divisions" ) + " and pieces = "+event.parameters.get("constituents")+" for target " + event.parameters.get( "target" ) + ": " + ( event.parameters.get( "hit" ).equals( "true" ) ? "right" : "wrong" ) );//Track all the times it was correct or wrong
                     }
                 }
                 return bafLevel.toString() + ":\n" + new ObservableList<Integer>( guesses.keySet() ).map( new Function1<Integer, Object>() {

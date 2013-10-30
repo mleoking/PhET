@@ -1,3 +1,4 @@
+In Build a Fraction: Shapes, show the pieces the user constructed in the data analysis
 Fixed: Fractions aren't reduced in data log for Build a Fraction: Numbers type
 # 1.02.11 (73590) Oct 28, 2013
 In Build a Fraction :Omit messages when trying to drop something into a filled collection box
