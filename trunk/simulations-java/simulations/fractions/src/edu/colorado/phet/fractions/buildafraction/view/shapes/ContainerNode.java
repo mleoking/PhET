@@ -18,6 +18,8 @@ import java.beans.PropertyChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -60,10 +62,8 @@ public class ContainerNode extends PNode {
 
     //Button that can be used to send all pieces back to the toolbox.
     private final UndoButton undoButton;
-
     //For showing the divisions
     public final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
-
     private final DynamicCursorHandler dynamicCursorHandler;
     public final ShapeSceneNode parent;
     public final ContainerContext context;
@@ -79,7 +79,6 @@ public class ContainerNode extends PNode {
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
     private final boolean showIncreaseButton;
-
     //For incremental undo
     private List<Integer> dropLocationList = List.nil();
 
@@ -127,32 +126,36 @@ public class ContainerNode extends PNode {
                 dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
         } );
-        final VoidFunction1<Boolean> increment = new VoidFunction1<Boolean>() {
-            public void apply( final Boolean autoSpinning ) {
-                sendButtonPressed( chain( incrementDivisionsButton, ContainerNode.this.hashCode() + "" ) );
-                selectedPieceSize.increment();
-            }
-        };
-        final VoidFunction1<Boolean> decrement = new VoidFunction1<Boolean>() {
-            public void apply( final Boolean autoSpinning ) {
-                sendButtonPressed( chain( decrementDivisionsButton, ContainerNode.this.hashCode() + "" ) );
-                selectedPieceSize.decrement();
-            }
-        };
-        containerLayer = new PNode() {{
-            addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize ) );
-        }};
+        final VoidFunction1<Boolean> increment = new
+                VoidFunction1<Boolean>() {
+                    public void apply( final Boolean autoSpinning ) {
+                        sendButtonPressed( chain( incrementDivisionsButton, ContainerNode.this.hashCode() + "" ) );
+                        selectedPieceSize.increment();
+                    }
+                };
+        final VoidFunction1<Boolean> decrement = new
+                VoidFunction1<Boolean>() {
+                    public void apply( final Boolean autoSpinning ) {
+                        sendButtonPressed( chain( decrementDivisionsButton, ContainerNode.this.hashCode() + "" ) );
+                        selectedPieceSize.decrement();
+                    }
+                };
+        containerLayer = new
+                PNode() {{
+                    addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize ) );
+                }};
 
         //Property of whether the container node is in the toolbox or not, used for disabling controls when it is in the toolbox.
-        BooleanProperty inToolbox = new BooleanProperty( true ) {{
+        BooleanProperty inToolbox = new
+                BooleanProperty( true ) {{
 
-            //Scale is the only dependency of "isInToolbox" so update it when the scale changes.
-            addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
-                public void propertyChange( final PropertyChangeEvent evt ) {
-                    set( isInToolbox() );
-                }
-            } );
-        }};
+                    //Scale is the only dependency of "isInToolbox" so update it when the scale changes.
+                    addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
+                        public void propertyChange( final PropertyChangeEvent evt ) {
+                            set( isInToolbox() );
+                        }
+                    } );
+                }};
         leftSpinner = new SpinnerButtonNode( withSpinnerButtonScale( LEFT_BUTTON_UP_GREEN ), withSpinnerButtonScale( LEFT_BUTTON_PRESSED_GREEN ), withSpinnerButtonScale( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ).and( Not.not( inToolbox ) ) );
         rightSpinner = new SpinnerButtonNode( withSpinnerButtonScale( RIGHT_BUTTON_UP_GREEN ), withSpinnerButtonScale( RIGHT_BUTTON_PRESSED_GREEN ), withSpinnerButtonScale( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 8 ).and( Not.not( inToolbox ) ) );
         addChild( new VBox( containerLayer,
@@ -269,7 +272,6 @@ public class ContainerNode extends PNode {
             return containerNode.isInCollectionBox();
         }
     };
-
     //Function to determine the fraction value in the ContainerNode based on its current population of pieces.
     public static final F<ContainerNode, Fraction> _getFractionValue = new F<ContainerNode, Fraction>() {
         @Override public Fraction f( final ContainerNode containerNode ) {
@@ -442,5 +444,17 @@ public class ContainerNode extends PNode {
     @Override public void repaint() {
         TEMP_REPAINT_BOUNDS.setRect( RectangleUtils.expand( getFullBoundsReference(), 2, 2 ) );
         repaintFrom( TEMP_REPAINT_BOUNDS, this );
+    }
+
+    public String getConstituentsString() {
+        ObservableList<SingleContainerNode> s = new ObservableList<SingleContainerNode>();
+        for ( SingleContainerNode containerNode : getSingleContainerNodes() ) {
+            s.add( containerNode );
+        }
+        return s.map( new Function1<SingleContainerNode, String>() {
+            public String apply( SingleContainerNode singleContainerNode ) {
+                return singleContainerNode.getPiecesString();
+            }
+        } ).mkString( " + " );
     }
 }

@@ -16,6 +16,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.piccolophet.activities.AnimateToScale;
@@ -237,4 +238,12 @@ class SingleContainerNode extends PNode {
 
     //Fix the z-ordering after pieces have been added to its layer.
     public void moveDottedLineToFront() { dottedLineLayer.moveToFront(); }
+
+    public String getPiecesString() {
+        ObservableList<String> pieces = new ObservableList<String>();
+        for ( PieceNode child : getPieces() ) {
+            pieces.add( "1/" + child.pieceSize );
+        }
+        return pieces.mkString( "," );
+    }
 }

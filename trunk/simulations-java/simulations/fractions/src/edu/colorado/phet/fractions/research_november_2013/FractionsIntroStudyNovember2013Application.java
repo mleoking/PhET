@@ -254,7 +254,8 @@ public class FractionsIntroStudyNovember2013Application extends PiccoloPhetAppli
                                 with( FractionsIntroSimSharing.ParameterKeys.hit, dropResult.hit ).
                                 with( FractionsIntroSimSharing.ParameterKeys.source, dropResult.source.toString() ).
                                 with( FractionsIntroSimSharing.ParameterKeys.target, dropResult.target.toString() ).
-                                with( FractionsIntroSimSharing.ParameterKeys.targetIndex, dropResult.targetIndex );
+                                with( FractionsIntroSimSharing.ParameterKeys.targetIndex, dropResult.targetIndex ).
+                                with( FractionsIntroSimSharing.ParameterKeys.constituents, dropResult.constituents );
                         if ( dropResult.selectedPieceSize != -1 ) {
                             parameters = parameters.with( FractionsIntroSimSharing.ParameterKeys.divisions, dropResult.selectedPieceSize );
                         }

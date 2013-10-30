@@ -92,13 +92,15 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Size the container is divided into, or -1 if it was a card
         public final int selectedPieceSize;
         public final int targetIndex;
+        public final String constituents;
 
-        public DropResult( boolean hit, Fraction source, Fraction target,int selectedPieceSize,int targetIndex ) {
+        public DropResult( boolean hit, Fraction source, Fraction target, int selectedPieceSize, int targetIndex, String constituents ) {
             this.hit = hit;
             this.source = source;
             this.target = target;
             this.selectedPieceSize = selectedPieceSize;
             this.targetIndex = targetIndex;
+            this.constituents = constituents;
         }
     }
 
@@ -390,7 +392,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     //Send a data collection message
                     for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
                         containerNode.moveDottedLinesToFront();
-                        dropListener.apply( new DropResult( true, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ,selectedPieceSize,targetIndex ) );
+                        dropListener.apply( new DropResult( true, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction() ,selectedPieceSize,targetIndex,containerNode.getConstituentsString() ) );
                     }
                     break;
                 }
@@ -407,7 +409,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                         //Send a data collection message
                         if ( !occupied ) {
                             for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                                dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(), selectedPieceSize, targetIndex ) );
+                                dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(), selectedPieceSize, targetIndex,containerNode.getConstituentsString() ) );
                             }
                         }
                     }
@@ -417,7 +419,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                         //Send a data collection message
                         if ( !occupied ) {
                             for ( VoidFunction1<DropResult> dropListener : dropListeners ) {
-                                dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(), selectedPieceSize, targetIndex ) );
+                                dropListener.apply( new DropResult( false, containerNode.getFractionValue(), pairs.index( 0 ).value.toFraction(), selectedPieceSize, targetIndex,containerNode.getConstituentsString() ) );
                             }
                         }
                     }
