@@ -1,0 +1,62 @@
+PhET Progress Report, J. Blanco, 10-31-2013
+
+PhET Weekly Progress Report
+John Blanco
+October 31st, 2013
+
+Time period covered: October 24th through October 30th.
+
+Build an Atom (HTML5 version) - 14.0 hrs
+
+o	Replaced scoreboard with common code version.
+o	Fixed issue with reset of best times.
+o	Reviewed and triaged issues with design team, organized pre-release testing
+o	Added numerical bounds to number entry dialogs.
+o	Added separate icons for nav bar.
+o	Added cursor change when over bucket.
+o	Testing.
+o	Published a release candidate, see http://www.colorado.edu/physics/phet/dev/html/build-an-atom/1.1.0-rc.4/build-an-atom_en.html.
+o	Totaled up time spent on this sim for KP.
+o	Cleaned up game strings to use agreed-upon versions in common code.
+
+Balancing Act - 10.0 hrs
+
+o	Added the fulcrum, made shape work in Scenery.
+o	Added the plank, got it initially working.
+
+HTML5 Common Code - 5.0 hrs
+
+o	Removed empty game string translations.
+o	Started on code-only representation of the reset all button.
+
+HTML5 Process Development - 5.0 hrs
+
+o	Developer meetings.
+o	Discussed support for iOS6.
+o	Tested and did some documenting of issues around off-line operation on iPad.
+
+Friction - 1.0 hrs
+
+o	Started review of code submitted by MLL.
+
+Installer - 0.5 hrs
+
+o	Did a manual rebuild in order to verify fix for Flash sim issues.
+
+Environment - 1.0 hrs
+
+o	Pinged person that we previously worked with at CU to get Java signing certificate, still no response.
+
+Miscellaneous - 0.5 hrs
+
+o	Participated in discussion about summer intern.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	Will probably be taking some time off end of next week and/or beginning of week after.
