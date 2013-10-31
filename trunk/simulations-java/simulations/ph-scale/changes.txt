@@ -1,3 +1,4 @@
+10/31/13 add flavor to publish dev version of TestViewParticles, to assist with design of HTML5 version
 # 1.03.00 (51135) Apr 25, 2011
 # 1.02.04 (51034) Apr 21, 2011
 > added new translation credits features
