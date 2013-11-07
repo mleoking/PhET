@@ -1,3 +1,4 @@
+11/7/13 revert changed made for YY in 1.03.02
 # 1.03.02 (73603) Nov 7, 2013
 11/7/13 dev version for YY
 11/7/13 add molecules images and water color similar to proposed HTML5 version, so that YY can do interviews
