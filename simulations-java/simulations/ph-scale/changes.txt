@@ -1,3 +1,4 @@
+11/7/13 add molecules images and water color similar to proposed HTML5 version, so that YY can do interviews
 # 1.03.01 (73599) Oct 31, 2013
 10/31/13 add flavor to publish dev version of TestViewParticles, to assist with design of HTML5 version
 # 1.03.00 (51135) Apr 25, 2011

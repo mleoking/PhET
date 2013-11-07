@@ -88,7 +88,7 @@ public class PHScaleConstants {
     // H3O, OH, H2O colors (used for pH slider track & bars)
     public static final Color H3O_COLOR = new Color( 242, 102, 101 );
     public static final Color OH_COLOR = new Color( 102, 132, 242 );
-    public static final Color H2O_COLOR = new Color( 193, 222, 227 );
+    public static final Color H2O_COLOR = new Color( 82, 183, 243 );
 
     // H3O and OH particle colors
     public static final Color H3O_PARTICLES_COLOR = new Color( 204, 0, 0 );
