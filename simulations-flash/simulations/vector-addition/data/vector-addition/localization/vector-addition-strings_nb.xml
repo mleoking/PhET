@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_nb.xml created Wed Nov 06 10:27:00 CET 2013 using: vector-addition 2.02.00 (52287), translation-utility 2.14.00 (69024) okt 9, 2012--><SimStrings>
+<string key="showSum" value="Vis sum"/>
+<string key="translation.credits" value="Rune Mathisen&lt;br/&gt;http://ndla.no"/>
+<string key="simTitle" value="Vektoraddisjon"/>
+<string key="grabOne" value="Ta en"/>
+<string key="clearAll" value="Fjern alt"/>
+<string key="componentDisplay" value="Komponent-visning"/>
+<string key="y" value="y"/>
+<string key="style3" value="Stil 3"/>
+<string key="none" value="Ingen"/>
+<string key="showGrid" value="Vis rutenett"/>
+<string key="style2" value="Stil 2"/>
+<string key="x" value="x"/>
+<string key="style1" value="Stil 1"/>
+</SimStrings>
