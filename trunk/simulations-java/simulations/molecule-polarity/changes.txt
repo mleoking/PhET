@@ -1,3 +1,4 @@
+11/8/12 Created a version that can be used for a research study
 10/7/12 #3423, replace MPCanvas base class with CenteredStageCanvas from piccolo-phet
 1/11/12 subclass SimSharingPiccoloModule and add userComponents for tabs
 1/3/12 #3202, sim-sharing changes related to Swing controls

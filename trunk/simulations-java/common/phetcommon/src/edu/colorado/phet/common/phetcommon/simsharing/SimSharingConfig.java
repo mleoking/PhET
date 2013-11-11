@@ -37,6 +37,8 @@ public class SimSharingConfig {
     // For saving on a USB drive with the sim on the drive
     public static final SimSharingConfig USB_DRIVE = new SimSharingConfig( "usb-drive", false, true, false, false, false, NO_WHITESPACE );
 
+    public static final SimSharingConfig USB_DRIVE_AND_GROUP_NUMBER = new SimSharingConfig( "usb-drive-and-group-number", false, true, false, true, true, "Enter your group number:", NO_WHITESPACE );
+
     /*
      * Location: CU Boulder, Chem 1113 course
      * Study dates: 11/7/11 - 11/11/11
@@ -130,6 +132,7 @@ public class SimSharingConfig {
     static {
         addConfig( INTERVIEWS );
         addConfig( USB_DRIVE );
+        addConfig( USB_DRIVE_AND_GROUP_NUMBER );
         addConfig( COLORADO_CONFIG );
         addConfig( UTAH_CONFIG );
         addConfig( DALLAS_JAN_2012 );
