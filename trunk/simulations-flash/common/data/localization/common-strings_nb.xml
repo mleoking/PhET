@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--common-strings_nb.xml created Fri Mar 27 17:10:35 CET 2009 using: flash-common-strings 1.04.00 (29429), translation-utility 1.12.00 (29256)-->
-<SimStrings>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_nb.xml created Mon Nov 11 20:31:00 CET 2013 using: flash-common-strings 2.03.00 (48823), translation-utility 2.14.00 (69024) okt 9, 2012--><SimStrings>
 <string key="About..." value="Om..."/>
 <string key="SoftwareDevelopment" value="Programvareutvikling"/>
 <string key="Cancel" value="Avbryt"/>
@@ -22,6 +21,7 @@
 <string key="StatisticsField-message_type" value="Meldingstype"/>
 <string key="InstallationDated" value="Din PhET Frakoblet Nettsted  installasjon er datert {0}."/>
 <string key="CheckUpdates" value="Se etter oppdateringer automatisk"/>
+<string key="UpToDate" value="Oppdatert"/>
 <string key="StatisticsField-sim_major_version" value="Simularingsversjon (major)"/>
 <string key="StatisticsField-user_total_sessions" value="Totalt antall ganger alle simuleringer har blitt kjørt"/>
 <string key="InstallationNewer" value="En nyere versjon er tilgjengelig, datert  {0}."/>
@@ -30,13 +30,15 @@
 <string key="Yes!" value="Ja!"/>
 <string key="StatisticsField-host_flash_domain" value="Simuleringsdomene"/>
 <string key="DesignTeam" value="Designteam"/>
-<string key="PhETPreferences" value="PhET valg"/>
-<string key="Preferences" value="Valg..."/>
+<string key="PhETPreferences" value="PhET innstillinger"/>
+<string key="Preferences" value="Innstillinger..."/>
 <string key="AllowMessages" value="Tillat at informasjon sendes til PhET"/>
 <string key="Updates" value="Oppdateringer"/>
+<string key="StatisticsField-sim_revision" value="Simuleringsversjon (revisjon):"/>
 <string key="StatisticsField-user_preference_file_creation_time" value="Tidsstempel for oppdatert preferansefil"/>
 <string key="Interviews" value="Intervjuer"/>
 <string key="StatisticsField-host_flash_time_offset" value="Tidssone"/>
+<string key="MostCurrentVersion" value="Du har den nyeste versjonen ({0}) av {1}."/>
 <string key="StatisticsField-sim_deployment" value="Distribusjonstype"/>
 <string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; er gjort fritt tilgjengelig ved hjelp av bidrag som krever at vi samler inn en liten mengde anonym informasjon for å dokumentere bruken av PhET simuleringer, og for å kartlegge behov for oppdateringer."/>
 <string key="StatisticsField-sim_type" value="Simuleringstype"/>
@@ -53,6 +55,7 @@
 <string key="InstallerInfo2" value="Om du velger å hente den nyeste versjonen, vil en nettleser åpne PhET sitt nettsted. Der kan du laste ned PhET Frakoblet Nettsted installasjonsfil."/>
 <string key="InstallerInfo1" value="Ved å holde din PhET Frakoblet Nettsted installasjon oppdatert,&lt;br&gt; kan du sikre deg at du har tilgang til alle de nyeste PhET simuleringene og ekstramaterialet."/>
 <string key="StatisticsField-sim_minor_version" value="Simularingsversjon (minor)"/>
+<string key="translation.credits" value="Rune Mathisen"/>
 <string key="Credits" value="Bidragsytere"/>
 <string key="StatisticsField-host_flash_version" value="Flash-versjon"/>
 <string key="TryNow" value="Prøv nå"/>
@@ -62,14 +65,15 @@
 <string key="Distribution" value="Distribusjon"/>
 <string key="LicenseLibraries" value="Lisensinformasjon for biblioteksfunksjoner:"/>
 <string key="PrivacyDetails" value="Personverndetaljer"/>
-<string key="StatisticsField-sim_svn_revision" value="Simularingsversjon (revisjon)"/>
 <string key="NotUpdateSim" value="Denne simuleringen kan ikke oppdateres automatisk."/>
 <string key="CurrentVersionIs" value="Din nåværende versjon av {0} er {1}."/>
 <string key="StatisticsField-host_flash_os" value="Operativsystem og navn"/>
+<string key="TranslatedBy" value="Oversatt av"/>
 <string key="OK" value="OK"/>
-<string key="StatisticsField-sim_project" value="Prosjektnavn"/>
-<string key="NewerVersionIs" value="En nyere versjon {0} er tilgjengelig."/>
+<string key="Error" value="Feil"/>
 <string key="CheckSimUpdates" value="Se etter simuleringsoppdatering"/>
+<string key="NewerVersionIs" value="En nyere versjon {0} er tilgjengelig."/>
+<string key="StatisticsField-sim_project" value="Prosjektnavn"/>
 <string key="SentInformation" value="Informasjonen som vises nedenfor vil bli sendt til PhET når simuleringen starter."/>
 <string key="OSVersion" value="OS"/>
 <string key="Details" value="Detaljer"/>
@@ -77,5 +81,7 @@
 <string key="LeadDesign" value="Designleder"/>
 <string key="StatisticsField-host_locale_language" value="Vertsspråk"/>
 <string key="AboutSim" value="Om {0}"/>
+<string key="VersionError2" value="Vennligst prøv senere, eller besøk &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
+<string key="VersionError1" value="Det oppsto en feil ved innhenting av versjonsinformasjon."/>
 <string key="StatisticsField-sim_locale_country" value="Land"/>
 </SimStrings>
