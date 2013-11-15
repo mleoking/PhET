@@ -6,7 +6,7 @@ November 14th, 2013
 
 Time period covered: October 30th through November 13th.  This is a two week period due to a canceled status meeting.
 
-Build an Atom (HTML5 version) - 25.0 hrs
+Build an Atom (HTML5 version) - 20.0 hrs
 
 o	Cleaned up game strings.
 o	Bug review and triage with development team.
@@ -25,7 +25,7 @@ o	Published a maintenance release - 1.1.1.
 o	Worked on 'black screen' issue, see https://github.com/phetsims/build-an-atom/issues/76
 o	Published another maintenance release - 1.1.2.
 
-Balancing Act - 20.0 hrs
+Balancing Act - 17.0 hrs
 
 o	Finished initial port of Plank and PlankNode.
 o	Converted to CommonJS format for main.js file.
@@ -34,7 +34,7 @@ o	Ported classes associated with image masses.
 o	Added initial model and view for IntroScreen.
 o	Got basic drag, drop, and add to plank operations working.
 
-HTML5 Common Code - 12.0 hrs
+HTML5 Common Code - 10.0 hrs
 
 o	Removed unused game strings from Vegas (game code repository) and removed 'Games.' prefix from all strings.
 o	Investigated and resolved sound issues on Firefox 25.
@@ -61,7 +61,7 @@ Estimation - 1.5 hrs
 o	Reviewed in design meeting.
 o	Discussed approaches for pseudo 3D implementation.
 
-Web Site - 1.5 hrs
+Web Site - 1.0 hrs
 
 o	Contacted Orrie Gartner and Sam Breed for potential recommendations of someone to help with web site.
 o	Followed up with Mike Wells, recommended by Sam Breed.  This is in progress.
@@ -75,7 +75,7 @@ Miscellaneous - 0.5 hrs
 
 o	Discussion of ASSETT grant funds with Kathy.
 
-Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
 
 o	Weekly status report.
 o	Weekly team meeting.
