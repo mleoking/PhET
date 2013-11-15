@@ -1,0 +1,87 @@
+PhET Progress Report, J. Blanco, 11-14-2013
+
+PhET Weekly Progress Report
+John Blanco
+November 14th, 2013
+
+Time period covered: October 30th through November 13th.  This is a two week period due to a canceled status meeting.
+
+Build an Atom (HTML5 version) - 25.0 hrs
+
+o	Cleaned up game strings.
+o	Bug review and triage with development team.
+o	Removed sound played when user gets low score on game, see https://github.com/phetsims/build-an-atom/issues/64.
+o	Created branch for 1.1 release series.
+o	Fixed the 'best time' bug, see https://github.com/phetsims/build-an-atom/issues/67
+o	Fixed several issues with icons, see https://github.com/phetsims/build-an-atom/issues/68
+o	Fixed several issues with icons, see https://github.com/phetsims/build-an-atom/issues/68
+o	Published release candidate, tested on multiple platforms.
+o	Addressed some font issues, see https://github.com/phetsims/build-an-atom/issues/69 & 70
+o	Converted to CommonJS format for main.js file.
+o	Published to production server.
+o	Fixed an issue with click through from home screen to a game in some circumstances.
+o	Improved highlight for game level selection screens.
+o	Published a maintenance release - 1.1.1.
+o	Worked on 'black screen' issue, see https://github.com/phetsims/build-an-atom/issues/76
+o	Published another maintenance release - 1.1.2.
+
+Balancing Act - 20.0 hrs
+
+o	Finished initial port of Plank and PlankNode.
+o	Converted to CommonJS format for main.js file.
+o	Created version with continuously moving plank for testing of shape updates on all platforms, see http://www.colorado.edu/physics/phet/dev/html/balancing-act/0.0.0-dev.2/balancing-act_en.html.
+o	Ported classes associated with image masses.
+o	Added initial model and view for IntroScreen.
+o	Got basic drag, drop, and add to plank operations working.
+
+HTML5 Common Code - 12.0 hrs
+
+o	Removed unused game strings from Vegas (game code repository) and removed 'Games.' prefix from all strings.
+o	Investigated and resolved sound issues on Firefox 25.
+o	Modified drawn version of Reset All button based on team feedback, implemented optimizations related to pickability.
+o	Cleaned up code for drawn Reset All button, cut it over to be the main version used in sims.
+o	Created a drawn shaded push button prototype for review with design team.
+o	Added 'x' to volume button.
+
+HTML5 Process Development - 8.0 hrs
+
+o	Developer meeting (x4).
+
+Friction - 5.0 hrs
+
+o	Published version as a snapshot for functional testing.
+o	Performed functional testing, logged several issues, many now fixed.
+
+Under Pressure - 1.0 hrs
+
+o	Reminded Dmitry that estimate was needed, got a response, and have given them the go-ahead.
+
+Estimation - 1.5 hrs
+
+o	Reviewed in design meeting.
+o	Discussed approaches for pseudo 3D implementation.
+
+Web Site - 1.5 hrs
+
+o	Contacted Orrie Gartner and Sam Breed for potential recommendations of someone to help with web site.
+o	Followed up with Mike Wells, recommended by Sam Breed.  This is in progress.
+
+Environment - 1.0 hrs
+
+o	Got information needed to start renewal process for Java code signing certificate.
+o	Discussed getting a Chromebook with Oliver and Kathy
+
+Miscellaneous - 0.5 hrs
+
+o	Discussion of ASSETT grant funds with Kathy.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Recorded work hours for August (a little behind on this).
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o	Was out on Monday, Nov 11 (Remembrance Day).
