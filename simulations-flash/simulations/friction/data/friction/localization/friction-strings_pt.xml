@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_pt.xml created Wed Nov 20 18:04:41 GMT 2013 using: friction 2.03.00 (51676), translation-utility 2.14.00 (69024) Out 9, 2012-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Esfregue os átomos amarelos \ncontra os verdes."/>
+<string key="physics" value="Física"/>
+<string key="reset" value="Reiniciar"/>
+<string key="simTitle" value="Atrito"/>
+<string key="translation.credits" value="José Gonçalves"/>
+<string key="chemistry" value="Química"/>
+</SimStrings>
