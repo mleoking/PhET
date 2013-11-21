@@ -1,0 +1,69 @@
+PhET Progress Report, J. Blanco, 11-21-2013
+
+PhET Weekly Progress Report
+John Blanco
+November 21st, 2013
+
+Time period covered: November 14th through November 20th.
+
+Balancing Act - 13.0 hrs
+
+o	Got masses to rotate when on plank.
+o	Got plank moving back to balanced state when masses removed.
+o	Added more masses.
+o	Added pivot point and attachment bar.
+o	Added support columns.
+o	Added upper control panel.
+o	Got mass labels working.
+o	Added level indicators.
+
+Build an Atom (HTML5 version) - 4.5 hrs
+
+o	Changed icons for symbol screen to be a Lithium atom.
+o	Deployed release candidate.
+o	Investigated blurry icons issue.
+o	Published to web site.
+o	Propagated fixes from 1.1 branch to master branch.
+
+Friction - 7.0 hrs
+
+o	Code review and functional testing.
+o	Worked on optimizing performance (in collaboration with JO).
+o	Published 0.0.0-dev.4 for review.
+
+Under Pressure - 2.5 hrs
+
+o	Created repository, added basic infrastructure files.
+o	No commits yet from MLL.
+
+HTML5 Common Code - 2.5 hrs
+
+o	Added 2D gradient prototype of button.
+o	Started working on encoding audio at lower bit rate to reduce file sizes, decided to defer for now.
+
+HTML5 Process Development - 3.5 hrs
+
+o	Developer meeting (x2).
+
+MLL Management - 1.0 hrs
+
+o	Communicated short term sim goals to them, the believe the goals are attainable.
+o	Asked about their holiday schedule, looks like they are out from Dec 31st through Jan 8th.
+
+Miscellaneous - 1.0 hrs
+
+o	Completed online CU Discrimination and Harassment course.
+
+Website - 1.0 hrs
+
+o	Obtained information from Mike Wells and distributed to team, discussed rates, passed off to KP & JO.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	May be working during one of Thanksgiving holidays.
