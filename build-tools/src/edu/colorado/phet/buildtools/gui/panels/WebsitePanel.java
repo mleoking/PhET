@@ -122,6 +122,7 @@ public class WebsitePanel extends JPanel {
         }
 
         PhetWebsite website = PhetWebsite.JON_DEV;
+//        PhetWebsite website = PhetWebsite.PHET_SERVER;
 
         success = project.deploy(
                 website.getServerHost(),
