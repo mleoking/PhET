@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_nb.xml created Thu Dec 05 14:17:39 CET 2013 using: curve-fitting 2.02.00 (52265), translation-utility 2.14.00 (69024) okt 9, 2012--><SimStrings>
+<string key="cEquals" value="c ="/>
+<string key="clearAll" value="Slett alt"/>
+<string key="deviations" value="vis avvik"/>
+<string key="bEquals" value="b = "/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="Fjerdegrad"/>
+<string key="simTitle" value="Kurvetilpasning"/>
+<string key="bestFit" value="Beste tilpasning"/>
+<string key="quadratic" value="Kvadatisk"/>
+<string key="bucketHelp2" value="eller legg tilbake i"/>
+<string key="bucketHelp1" value="Ta datapunkter..."/>
+<string key="cubic" value="Kubisk"/>
+<string key="noFit" value="Ikke tilpasset"/>
+<string key="eEquals" value="e ="/>
+<string key="dEquals" value="d ="/>
+<string key="adjustableFit2" value="Justerbar tilpasning:"/>
+<string key="dataPointHelp" value="flyttbare feilfelt"/>
+<string key="bestFit2" value="Beste tilpasning:"/>
+<string key="correlation" value="korrelasjonskoeffisient"/>
+<string key="hideHelp" value="Skjul hjelp"/>
+<string key="bucketLabel" value="Data-punkter"/>
+<string key="chiSqHelp5" value=":   tilpasning for god (feilfeltene er for små)"/>
+<string key="chiSqHelp4" value=":   god tilpasning      (grønn sone)"/>
+<string key="chiSqHelp3" value=":   dårlig tilpasning     (rød sone)"/>
+<string key="chiSqHelp2" value="N = antall datapunkter \n f= antall parametre i tilpasningen \n (f = 4 for kubisk tilpasning)"/>
+<string key="help" value="Hjelp"/>
+<string key="chiSqHelp1" value="Den reduserte Khikvadratfordelingstatistikken er"/>
+<string key="adjustableFit" value="Justerbar tilpasning"/>
+<string key="translation.credits" value="Rune Mathisen / NDLA"/>
+<string key="linear" value="Lineær"/>
+</SimStrings>
