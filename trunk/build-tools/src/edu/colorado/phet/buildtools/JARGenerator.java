@@ -35,17 +35,17 @@ public class JARGenerator {
     private static final Logger logger = Logger.getLogger( JARGenerator.class.getName() );
 
     public static void main( String[] args ) throws IOException, InterruptedException {
-        System.out.println( "Started offline JAR generator" );
+        System.out.println( "Started offline JAR generator version 0.00.02" );
         if ( args.length < 2 ) {
             System.out.println( "Should specify: \n" +
                                 "args[0] as the path to the offline <project>_all.jar\n" +
-                                "args[1] as the path to a jar utility executable\n" +
-                                "args[2] as the path to build-local.properties" );
+                                "args[1] as the path to build-local.properties\n"+
+                                "args[2] is the path to jdk home (if non-default commands used)" );
         }
-        new JARGenerator().generateOfflineJARs( new File( args[0] ), args[1], BuildLocalProperties.initFromPropertiesFile( new File( args[2] ) ) );
+        new JARGenerator().generateOfflineJARs( new File( args[0] ), BuildLocalProperties.initFromPropertiesFile( new File( args[1] ) ), args[2] );
     }
 
-    public void generateOfflineJARs( File jar, String pathToJARUtility, BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
+    public void generateOfflineJARs( File jar, BuildLocalProperties buildLocalProperties,String jdkHome ) throws IOException, InterruptedException {
         String[] flavors = getFlavors( jar );
         logger.fine( "Found flavors: " + Arrays.asList( flavors ) );
 
@@ -54,7 +54,7 @@ public class JARGenerator {
 
         for ( int i = 0; i < locales.length; i++ ) {
             for ( int j = 0; j < flavors.length; j++ ) {
-                generateOfflineJAR( jar, flavors[j], locales[i], pathToJARUtility, buildLocalProperties );
+                generateOfflineJAR( jar, flavors[j], locales[i], buildLocalProperties, jdkHome );
             }
         }
     }
@@ -64,7 +64,7 @@ public class JARGenerator {
         return stringTokenizer.nextToken();
     }
 
-    private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility, BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
+    private void generateOfflineJAR( File jar, String flavor, Locale locale, BuildLocalProperties buildLocalProperties,String jdkHome ) throws IOException, InterruptedException {
         File newJar = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
         logger.fine( "Writing to: " + newJar.getAbsolutePath() );
         FileUtils.copyTo( jar, newJar );
@@ -91,7 +91,7 @@ public class JARGenerator {
         simulationProperities.store( new FileOutputStream( simulationPropertiesFile ), getSimulationProperitiesComments() );
 
         //add files created above to the jar
-        String command = pathToJARUtility + " uf " + newJar.getAbsolutePath() +
+        String command = jdkHome+"/bin/jar" + " uf " + newJar.getAbsolutePath() +
                          " -C " + workingDir.getAbsolutePath() + " " + jarLauncherPropertiesFile.getName() +
                          " -C " + workingDir.getAbsolutePath() + " " + simulationPropertiesFile.getName();
         logger.warning( "Running command: " + command );
@@ -102,7 +102,7 @@ public class JARGenerator {
         delete( simulationPropertiesFile );
 
         PhetJarSigner jarSigner = new PhetJarSigner( buildLocalProperties );
-        jarSigner.signJar( newJar );
+        jarSigner.signJar( jdkHome, newJar );
     }
 
     private String getSimulationProperitiesComments() {

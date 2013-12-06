@@ -44,7 +44,6 @@ public class PhetJarSigner {
     /**
      * Constructor
      *
-     * @param configPath
      */
     public PhetJarSigner( BuildLocalProperties buildProperties ) {
         this.buildProperties = buildProperties;
@@ -54,10 +53,11 @@ public class PhetJarSigner {
     /**
      * Sign (and verify) the specified jar file.
      *
+     * @param jdkHome only necessary if the commands like 'java', 'jar' and 'jarsigner' need an absolute path, like on spot.  See #
      * @param jarFile - Full path to the jar file to be signed.
      * @return true if successful, false if problems are encountered.
      */
-    public boolean signJar( File jarFile ) {
+    public boolean signJar( String jdkHome, File jarFile ) {
 
         // Make sure that the specified JAR file can be located.
         if ( !jarFile.exists() ) {
@@ -70,7 +70,7 @@ public class PhetJarSigner {
         JarsignerInfo jarsignerInfo = buildProperties.getJarsignerInfo();
 
         String[] cmdArray = {
-                "jarsigner",
+                jdkHome == null ? "jarsigner" : jdkHome + "/bin/jarsigner",
                 "-J-Djsse.enableSNIExtension=false", // workaround for Java 7 jarsigner / TSA buggy interaction. see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=7127374
                 "-keystore", jarsignerInfo.getKeystore(),
                 "-storetype",
@@ -171,7 +171,7 @@ public class PhetJarSigner {
      * @param jarFile The JAR file to pack
      * @return Success
      */
-    public boolean packAndSignJar( File jarFile ) {
+    public boolean packAndSignJar( String jdkHome, File jarFile ) {
         try {
             File packedFile = new File( jarFile.getParent(), jarFile.getName() + ".pack.gz" );
             File temporaryFile = new File( jarFile.getParent(), jarFile.getName() + ".pack.temp" );
@@ -195,7 +195,7 @@ public class PhetJarSigner {
             safeDelete( temporaryFile );
 
             // sign the repacked JAR
-            boolean success = signJar( jarFile );
+            boolean success = signJar( jdkHome, jarFile );
             if ( !success ) {
                 return false;
             }
@@ -324,7 +324,7 @@ public class PhetJarSigner {
 
         BuildLocalProperties buildProperties = BuildLocalProperties.initRelativeToTrunk( trunkDir );
         PhetJarSigner signer = new PhetJarSigner( buildProperties );
-        boolean result = signer.packAndSignJar( jarToBeSigned );
+        boolean result = signer.packAndSignJar( null, jarToBeSigned );
 
         System.out.println( "Done, result = " + result + "." );
     }

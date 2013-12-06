@@ -188,14 +188,6 @@ public abstract class OldPhetServer {
         return developmentServer;
     }
 
-    public String getJavaCommand() {
-        return "java";
-    }
-
-    public String getJarCommand() {
-        return "jar";
-    }
-
     public String getBuildLocalPropertiesFile() {
         return buildLocalPropertiesFile;
     }
@@ -215,6 +207,10 @@ public abstract class OldPhetServer {
 
         public String getServerDeployPath( PhetProject project ) {
             return getServerDeployPath() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
+        }
+
+        @Override public String getJDKHome() {
+            return "/usr/local/j2se/jdk";
         }
 
     }
@@ -247,9 +243,14 @@ public abstract class OldPhetServer {
                 return path;
             }
         }
+
+        @Override public String getJDKHome() {
+            return "/usr/lib/jvm/java-1.7.0";
+        }
     }
 
     public static final OldPhetServer DEFAULT_PRODUCTION_SERVER = FIGARO;
     public static final OldPhetServer DEFAULT_DEVELOPMENT_SERVER = SPOT;
 
+    public abstract String getJDKHome();
 }

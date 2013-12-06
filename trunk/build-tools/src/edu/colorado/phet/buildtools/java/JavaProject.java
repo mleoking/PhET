@@ -328,7 +328,7 @@ public abstract class JavaProject extends PhetProject {
                 File destinationFile = new File( getDeployDir(), file.getName() );
                 FileUtils.copyTo( file, destinationFile );
 
-                jarSigner.signJar( destinationFile );
+                jarSigner.signJar( null, destinationFile );
             }
         }
     }
