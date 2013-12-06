@@ -125,7 +125,9 @@ public class SshConnection
     
     try
     {
-      JSch jsch = new JSch();
+        JSch.setConfig( "PreferredAuthentications", "publickey,password,keyboard-interactive" );
+
+        JSch jsch = new JSch();
       
       validateMembers();
       
