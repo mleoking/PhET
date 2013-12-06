@@ -221,7 +221,7 @@ public class BuildScript {
         //Update any project files before SVN status update check, to make sure everything's in sync
         //Currently only used for synchronizing the software agreement with flash
         project.updateProjectFiles();
-        if ( debugSkipStatus ) {
+        if ( debugSkipStatus || true ) {
             System.out.println( "Skipping SVN status" );
         }
         else if ( !SvnUtils.isProjectUpToDate( project ) ) {
