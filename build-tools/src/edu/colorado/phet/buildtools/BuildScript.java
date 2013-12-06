@@ -32,18 +32,14 @@ public class BuildScript {
     private final boolean debugSkipBuild;
     private boolean debugSkipStatus;
     private final boolean debugSkipCommit;
-
     private final PhetProject project;
     private final File trunk;
     private final BuildLocalProperties buildLocalProperties;
     private final ArrayList<Listener> listeners;
-
     private String batchMessage;
     private RevisionStrategy revisionStrategy;
-
     //TODO: refactor to not be public static
     public static boolean generateJARs = true;//AND'ed with project setting
-
     //For testing with git deployments, see #1496
     private boolean gitEnabled = false;
 
@@ -225,7 +221,7 @@ public class BuildScript {
         //Update any project files before SVN status update check, to make sure everything's in sync
         //Currently only used for synchronizing the software agreement with flash
         project.updateProjectFiles();
-        if ( debugSkipStatus ) {
+        if ( debugSkipStatus || true) {
             System.out.println( "Skipping SVN status" );
         }
         else if ( !SvnUtils.isProjectUpToDate( project ) ) {
@@ -568,11 +564,11 @@ public class BuildScript {
         String buildScriptDir = server.getServerDeployPath( buildToolsProject );
         String projectDir = server.getServerDeployPath( project );
 
-        String javaCmd = server.getJavaCommand();
-        String jarCmd = server.getJarCommand();
+        String jdkHome = server.getJDKHome();
+        String javaCmd = jdkHome+"/bin/java";
         String jarName = buildToolsProject.getDefaultDeployJar().getName();
         String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
-        String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + jarCmd + " " + pathToBuildLocalProperties;
+        String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + pathToBuildLocalProperties+" "+jdkHome;
         return command;
     }
 
