@@ -1,3 +1,4 @@
+# 00.72.00 (73671) Dec 6, 2013
 # 00.71.02 (73666) Dec 6, 2013
 # 00.71.01 (73665) Dec 6, 2013
 Generalized paths so that different versions of Java can be used on spot and figaro, see #3504
