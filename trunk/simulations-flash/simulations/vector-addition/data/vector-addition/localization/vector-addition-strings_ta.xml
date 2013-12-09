@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_ta.xml created Mon Dec 09 21:06:39 IST 2013 using: vector-addition 2.02.00 (52287), translation-utility 2.14.00 (69024) Oct 10, 2012--><SimStrings>
+<string key="showSum" value="தொகை காட்டு "/>
+<string key="translation.credits" value="மதன்கார்த்திக்"/>
+<string key="simTitle" value="காவிக்கூட்டல்"/>
+<string key="grabOne" value="இழு"/>
+<string key="clearAll" value="அழி"/>
+<string key="componentDisplay" value="உபகரண காட்சி"/>
+<string key="style3" value="பாணி 3"/>
+<string key="none" value="இல்லாத"/>
+<string key="showGrid" value="கட்டம்"/>
+<string key="style2" value="பாணி 2"/>
+<string key="style1" value="பாணி 1"/>
+</SimStrings>
