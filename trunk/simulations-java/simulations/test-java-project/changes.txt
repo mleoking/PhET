@@ -1,5 +1,5 @@
-# 2.43.00 (73689) Dec 6, 2013
-# 2.42.00 (73688) Dec 6, 2013
+# 2.43.00 (73689) Dec 6, 2013 (erroneous version number)
+# 2.42.00 (73688) Dec 6, 2013 (erroneous version number)
 12/6/13 Deployment test, see #3504.
 # 2.49.00 (73686) Dec 6, 2013
 # 2.48.00 (73685) Dec 6, 2013
