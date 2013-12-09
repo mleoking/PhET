@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.RevisionStrategy.DynamicRevisionStrategy;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
@@ -221,7 +221,7 @@ public class BuildScript {
         //Update any project files before SVN status update check, to make sure everything's in sync
         //Currently only used for synchronizing the software agreement with flash
         project.updateProjectFiles();
-        if ( debugSkipStatus || true ) {
+        if ( debugSkipStatus ) {
             System.out.println( "Skipping SVN status" );
         }
         else if ( !SvnUtils.isProjectUpToDate( project ) ) {
