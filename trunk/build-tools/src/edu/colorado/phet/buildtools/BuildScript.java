@@ -565,7 +565,7 @@ public class BuildScript {
         String projectDir = server.getServerDeployPath( project );
 
         String jdkHome = server.getJDKHome();
-        String javaCmd = jdkHome+"/bin/java";
+        String javaCmd = jdkHome == null ? "java" : jdkHome + "/bin/java";
         String jarName = buildToolsProject.getDefaultDeployJar().getName();
         String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
         String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + pathToBuildLocalProperties+" "+jdkHome;
