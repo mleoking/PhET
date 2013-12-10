@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.balancelab.view;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
@@ -66,16 +66,15 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                                        new HBox( 20, new MysteryMassCreatorNode( 2, model, mvt, canvas ),
                                                  new MysteryMassCreatorNode( 3, model, mvt, canvas ) )
                                )
+               ),
+               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.MYSTERY_OBJECTS, "2" ) ),
+                               new VBox(
+                                       new HBox( 20, new MysteryMassCreatorNode( 4, model, mvt, canvas ),
+                                                 new MysteryMassCreatorNode( 5, model, mvt, canvas ) ),
+                                       new HBox( 20, new MysteryMassCreatorNode( 6, model, mvt, canvas ),
+                                                 new MysteryMassCreatorNode( 7, model, mvt, canvas ) )
+                               )
                )
-               // Mystery masses removed for the Stanford study.
-//               new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.MYSTERY_OBJECTS, "2" ) ),
-//                               new VBox(
-//                                       new HBox( 20, new MysteryMassCreatorNode( 4, model, mvt, canvas ),
-//                                                 new MysteryMassCreatorNode( 5, model, mvt, canvas ) ),
-//                                       new HBox( 20, new MysteryMassCreatorNode( 6, model, mvt, canvas ),
-//                                                 new MysteryMassCreatorNode( 7, model, mvt, canvas ) )
-//                               )
-//               )
         );
     }
 
