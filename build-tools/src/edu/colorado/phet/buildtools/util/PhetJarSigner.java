@@ -53,7 +53,7 @@ public class PhetJarSigner {
     /**
      * Sign (and verify) the specified jar file.
      *
-     * @param jdkHome only necessary if the commands like 'java', 'jar' and 'jarsigner' need an absolute path, like on spot.  See #
+     * @param jdkHome only necessary if the commands like 'java', 'jar' and 'jarsigner' need an absolute path, like on spot.  Otherwise null.
      * @param jarFile - Full path to the jar file to be signed.
      * @return true if successful, false if problems are encountered.
      */

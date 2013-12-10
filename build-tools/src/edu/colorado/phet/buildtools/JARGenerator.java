@@ -40,12 +40,20 @@ public class JARGenerator {
             System.out.println( "Should specify: \n" +
                                 "args[0] as the path to the offline <project>_all.jar\n" +
                                 "args[1] as the path to build-local.properties\n"+
-                                "args[2] is the path to jdk home (if non-default commands used)" );
+                                "args[2] is the path to jdk home (if non-default commands used, or null if default commands used)" );
         }
-        new JARGenerator().generateOfflineJARs( new File( args[0] ), BuildLocalProperties.initFromPropertiesFile( new File( args[1] ) ), args[2] );
+        new JARGenerator().generateOfflineJARs( new File( args[0] ), BuildLocalProperties.initFromPropertiesFile( new File( args[1] ) ), args[2].equals( "null" ) ? null : args[2] );
     }
 
-    public void generateOfflineJARs( File jar, BuildLocalProperties buildLocalProperties,String jdkHome ) throws IOException, InterruptedException {
+    /**
+     *
+     * @param jar
+     * @param buildLocalProperties
+     * @param jdkHome null if just to use the default commands
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void generateOfflineJARs( File jar, BuildLocalProperties buildLocalProperties, String jdkHome ) throws IOException, InterruptedException {
         String[] flavors = getFlavors( jar );
         logger.fine( "Found flavors: " + Arrays.asList( flavors ) );
 
@@ -64,7 +72,7 @@ public class JARGenerator {
         return stringTokenizer.nextToken();
     }
 
-    private void generateOfflineJAR( File jar, String flavor, Locale locale, BuildLocalProperties buildLocalProperties,String jdkHome ) throws IOException, InterruptedException {
+    private void generateOfflineJAR( File jar, String flavor, Locale locale, BuildLocalProperties buildLocalProperties, String jdkHome ) throws IOException, InterruptedException {
         File newJar = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
         logger.fine( "Writing to: " + newJar.getAbsolutePath() );
         FileUtils.copyTo( jar, newJar );
@@ -91,7 +99,8 @@ public class JARGenerator {
         simulationProperities.store( new FileOutputStream( simulationPropertiesFile ), getSimulationProperitiesComments() );
 
         //add files created above to the jar
-        String command = jdkHome+"/bin/jar" + " uf " + newJar.getAbsolutePath() +
+        String jarCommand = jdkHome == null ? "jar" : jdkHome + "/bin/jar";
+        String command = jarCommand + " uf " + newJar.getAbsolutePath() +
                          " -C " + workingDir.getAbsolutePath() + " " + jarLauncherPropertiesFile.getName() +
                          " -C " + workingDir.getAbsolutePath() + " " + simulationPropertiesFile.getName();
         logger.warning( "Running command: " + command );
