@@ -1,0 +1,89 @@
+PhET Progress Report, J. Blanco, 12-12-2013
+
+PhET Weekly Progress Report
+John Blanco
+December 12th, 2013
+
+Time period covered: November 21st through December 11th.  This is a three week period due to a couple of canceled status meetings.
+
+Balancing Act - 31.0 hrs
+
+o	Added level markers and force vector indicators.
+o	Added tick marks to the plank.
+o	Added rulers, markers, and control panel to turn them on and off.
+o	Added 2nd screen.
+o	Ported class hierarchy for mass creator nodes.
+o	Ported initial people masses.
+o	Added initial cut at mass kit carousel.
+o	Implemented feature to prevent masses from being dragged permanently out of view.
+o	Adjusted plank marker appearance based on feedback from Ariel P.
+o	Implemented removal animation.
+
+Friction - 19.0 hrs
+
+o	Adjusted heat up and cool down rates.
+o	Cleaned up some problematic areas in the code, provided feedback to MLL.
+o	Reviewed in design meeting.
+o	Added motion range limits to upper book.
+o	Fixed an issue with book overlap.
+o	Increased amount of motion for atoms when temperature is high (requested by Mike D).
+o	Published several versions, had design team review.
+o	Worked with Jonathan Olson to implement optimizations so that it runs reasonably well on iPad.
+
+Under Pressure - 3.0 hrs
+
+o	Did initial review, provided initial feedback on code submitted so far.
+
+Acid-Base Solutions - 3.0 hrs
+
+o	Wrote up a 'lite' specification that referenced existing simulation, original design doc, and described some UI changes and implementation details.
+o	Solicited estimate from MLL (estimate not provided yet).
+
+Estimation - 3.0 hrs
+
+o	Discussed design in design meeting (x2)
+
+HTML5 Common Code - 5.0 hrs
+
+o	Worked on generalization of speedometer node to gauge node (in collab with Sam R).
+o	Created a test app for buttons, removed demo buttons from Balancing Act.
+o	Minor cleanup to Ruler Node.
+
+HTML5 Process Development - 10.0 hrs
+
+o	Developer meeting (x6).
+
+MLL Management - 3.0 hrs
+
+o	Set up and held a 'touch base' meeting with Dmitry, Sam R and Ariel P also participated.  Sent out notes from meeting.
+
+Build and Deployment Tools (Java) - 9.0 hrs
+
+o	Worked with CU IT to get Java 7 installed on Figaro and Spot.
+o	Worked on issue with JAR signing and deployment, see Unfuddle #3504.
+
+Environment - 3.0 hrs
+
+o	Tested upcoming security change for Java by getting latest update and logging results, see Unfuddle issue #3591.
+o	Trying to resolve issue where my development machine goes to sleep after ~2 min of being idle.
+
+Scenery - 1.0 hr
+
+o	Discussed implementation questions with Jonathan O.
+
+Miscellaneous - 5.0 hrs
+
+o	Discussions of getting supported platform info more prominent on the web site.
+o	Worked with Ariel on the delivery of simulations to RSC, including documentation and standalone HTML files.
+o	Cleaned up my disk usage on Tigercat (requested by CU IT).
+
+Meetings, Email, and Other Administrative Overhead - 16.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Entered Sept hours in tracking spreadsheet.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o	Thursday, November 28 was Thanksgiving day.
