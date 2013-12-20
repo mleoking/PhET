@@ -1,0 +1,66 @@
+PhET Progress Report, J. Blanco, 12-19-2013
+
+PhET Weekly Progress Report
+John Blanco
+December 19th, 2013
+
+Time period covered: December 12th through December 18th.
+
+Balancing Act - 12.0 hrs
+
+o	Got the mass carousel fully working (except for animation) and sized to match other panels.
+o	Added all 'mystery masses' and got their labels working.
+o	Fixed issue where double occupancy of plank positions was being allowed.
+o	Improved overall layout of 2nd tab.
+o	Implemented the 'highlight when mass above' feature.
+
+Friction - 7.5 hrs
+
+o	Created 1.0 branch and published a release candidate (1.0.0-rc.1).
+o	Gave MLL the go ahead to invoice.
+o	Propagated changes from 1.0 branch to Master branch.
+o	Investigated issue with thermometer appearance on Firefox+Mac (issue #18).
+o	Fixed issue where evaporated particles still tracked book motion (issue #21).
+o	Enlarged the reset button (issue #20).
+
+Under Pressure - 3.5 hrs
+
+o	Responded to MLL on four issues that they raised.
+o	Worked with Jonathan O. to resolve an issue with using Scenery pattern fill to create the grass, implemented demo fix and sent info to MLL.
+o	Renamed string files (most were still 'fluid-pressure-and-flow').
+
+Acid-Base Solutions - 0.5 hrs
+
+o	Discussed schedule with Dmitry via email.
+
+Gravity and Orbits - 2.5 hrs
+
+o	Performed code review, discussed findings with Sam R.
+
+Estimation - 1.0 hrs
+
+o	Met with Bryce and Karina to discuss design.
+
+HTML5 Common Code - 1.0 hrs
+
+o	Reviewed and made some changes to generalization of the Reset All button into RoundShinyButton.
+
+HTML5 Process Development - 3.0 hrs
+
+o	Developer meeting (x2), including planning discussion for deliver dates on sims.
+
+Build and Deployment Tools (Java) - 4.0 hrs
+
+o	Worked with other developers on plan for reformatting JAR files on the web site and then updating build tools to handle upcoming Java security changes.
+o	Worked with CU IT on getting the new code signing certificate.  Some issues came up, am awaiting more information from them.
+o	Test various modified JAR files under Java7u60 (which contains the security changes).
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	Planning to be out all of Christmas week, will work Dec 30 and 31, then out until Jan 6 2014.
