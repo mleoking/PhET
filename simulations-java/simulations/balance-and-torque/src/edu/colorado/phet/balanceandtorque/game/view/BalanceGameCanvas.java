@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.game.view;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -50,8 +48,18 @@ import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNo
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
-import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.*;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.checkAnswer;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.displayAnswer;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.nextChallenge;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.rulersCheckBox;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.tryAgain;
+import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.DISPLAYING_CORRECT_ANSWER;
+import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.OBTAINING_GAME_SETUP;
+import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.PRESENTING_INTERACTIVE_CHALLENGE;
+import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.SHOWING_CORRECT_ANSWER_FEEDBACK;
+import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.SHOWING_GAME_RESULTS;
+import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON;
+import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_TRY_AGAIN;
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
 /**
@@ -616,7 +624,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }
 
     // Utility method for converting seconds to milliseconds, which is needed
-    // because the model things in seconds and the scoreboard uses ms.
+    // because the model thinks in seconds and the scoreboard uses ms.
     static long convertSecondsToMilliseconds( double seconds ) {
         return (long) ( seconds * 1000 );
     }
