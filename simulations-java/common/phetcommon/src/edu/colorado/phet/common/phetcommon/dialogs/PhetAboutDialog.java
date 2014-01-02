@@ -44,7 +44,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
     private static final String COPYRIGHT_HTML_FRAGMENT =
             "<b>PhET Interactive Simulations</b><br>" +
-            "Copyright &copy; 2004-2013 University of Colorado.<br>" +
+            "Copyright &copy; 2004-2014 University of Colorado.<br>" +
             "<a href=" + PhetCommonConstants.PHET_LICENSE_URL + ">Some rights reserved.</a><br>" +
             "Visit " + HTMLUtils.getPhetHomeHref();
 
