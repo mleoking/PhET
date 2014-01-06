@@ -24,15 +24,16 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.DISTANCE_VALUE_FORMATTER;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.MASS_VALUE_FORMATTER;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.challengePresented;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.correctAnswerSubmitted;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.incorrectAnswerSubmitted;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.proposedAnswerSubmitted;
 
 /**
  * Main model class for the balance game.
@@ -90,10 +91,10 @@ public class BalanceGameModel {
     // Masses that the user moves on to the plank to counterbalance the fixed masses.
     public ObservableList<Mass> movableMasses = new ObservableList<Mass>();
 
-    // Support column.  In this model, there is only one.
+    // Tilted support column.
     private final TiltSupportColumn tiltSupportColumn;
 
-    // Support columns
+    // Level support columns
     private final List<LevelSupportColumn> levelSupportColumns = new ArrayList<LevelSupportColumn>() {{
         add( new LevelSupportColumn( PLANK_HEIGHT, -1.625 ) );
         add( new LevelSupportColumn( PLANK_HEIGHT, 1.625 ) );
