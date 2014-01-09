@@ -235,6 +235,10 @@ public class JavaBuildCommand {
         jar.addFileset( toFileSetFile( createJARLauncherPropertiesFile() ) );
 
         manifest.addConfiguredAttribute( attribute );
+
+        manifest.addConfiguredAttribute( new Manifest.Attribute( "Permissions", project.requestAllPermissions() ? "all-permissions" : "sandbox" ) );
+        manifest.addConfiguredAttribute( new Manifest.Attribute( "Codebase", "*" ) );
+
         jar.addConfiguredManifest( manifest );
 
         antTaskRunner.runTask( jar );
