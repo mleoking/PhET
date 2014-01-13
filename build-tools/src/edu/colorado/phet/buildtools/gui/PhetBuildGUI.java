@@ -6,18 +6,13 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.OldPhetServer;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.PhetWebsite;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 /**
@@ -43,6 +38,14 @@ public class PhetBuildGUI {
      * @param trunk We need a reference to trunk for many things
      */
     public PhetBuildGUI( final File trunk ) {
+
+        //Make sure running Java 1.7+ so signatures will be correct.  We should re-evaluate when JDK8 is out, but for now I'll
+        Pair<Integer, Integer> version = getVersion();
+        System.out.println( "PhET Build GUI running Java version: " + version._1 + "." + version._2 );
+        boolean acceptableVersion = version._1 >= 1 && version._2 >= 7;
+        if ( !acceptableVersion ) {
+            throw new RuntimeException( "Java version was too low: " + version._1 + "." + version._2 + ".  Must be >=1.7 to run the PBG." );
+        }
 
         buildLocalProperties = BuildLocalProperties.initRelativeToTrunk( trunk );
 
@@ -122,6 +125,13 @@ public class PhetBuildGUI {
             System.out.println( "Using " + override + " instead of default production server" );
             return PhetWebsite.getWebsiteByName( override );
         }
+    }
+
+    static Pair<Integer, Integer> getVersion() {
+        String version = System.getProperty( "java.version" );
+        int firstDot = version.indexOf( '.' );
+        int secondDot = version.indexOf( '.', firstDot + 1 );
+        return new Pair<Integer, Integer>( Integer.parseInt( version.substring( 0, firstDot ) ), Integer.parseInt( version.substring( firstDot + 1, secondDot ) ) );
     }
 
     public static void main( final String[] args ) {
