@@ -210,7 +210,7 @@ public abstract class OldPhetServer {
         }
 
         @Override public String getJDKHome() {
-            return null;
+            return "/usr/local/j2se/jdk";
         }
 
     }
@@ -245,13 +245,12 @@ public abstract class OldPhetServer {
         }
 
         @Override public String getJDKHome() {
-            return null;
+            return "/usr/lib/jvm/java-1.7.0";
         }
     }
 
     public static final OldPhetServer DEFAULT_PRODUCTION_SERVER = FIGARO;
     public static final OldPhetServer DEFAULT_DEVELOPMENT_SERVER = SPOT;
 
-    //Return the absolute path of the JDK to use, or null if it should just use pathless commands like "java" "jar" and "jarsigner"
     public abstract String getJDKHome();
 }
