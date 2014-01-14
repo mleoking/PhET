@@ -1,3 +1,5 @@
+# 2.58.00 (73732) Jan 14, 2014
+1/14/14 test new code-signing certificate
 # 2.57.00 (73731) Jan 14, 2014
 1/14/14 test new code-signing certificate
 # 2.56.00 (73730) Jan 14, 2014
