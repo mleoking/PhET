@@ -238,6 +238,7 @@ public class JavaBuildCommand {
 
         manifest.addConfiguredAttribute( new Manifest.Attribute( "Permissions", project.requestAllPermissions() ? "all-permissions" : "sandbox" ) );
         manifest.addConfiguredAttribute( new Manifest.Attribute( "Codebase", "*" ) );
+        manifest.addConfiguredAttribute( new Manifest.Attribute( "Application-Name", "PhET Simulation" ) );
 
         jar.addConfiguredManifest( manifest );
 
