@@ -17,11 +17,13 @@ import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.html5.HTML5Project;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
 import edu.colorado.phet.buildtools.preprocessor.ResourceGenerator;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 import edu.colorado.phet.buildtools.util.SvnUtils;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 
 import com.jcraft.jsch.JSchException;
 
@@ -83,7 +85,7 @@ public class BuildScript {
         try {
             new PhetCleanCommand( project, new MyAntTaskRunner() ).execute();
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -186,6 +188,14 @@ public class BuildScript {
         return success;
     }
 
+    static Pair<Integer, Integer> getVersion() {
+        String version = System.getProperty( "java.version" );
+        int firstDot = version.indexOf( '.' );
+        int secondDot = version.indexOf( '.', firstDot + 1 );
+        return new Pair<Integer, Integer>( Integer.parseInt( version.substring( 0, firstDot ) ), Integer.parseInt( version.substring( firstDot + 1, secondDot ) ) );
+    }
+
+
     /**
      * Build everything that is not specific to where it is being deployed, and execute checks to make sure there is
      * nothing that would prevent a deployment.
@@ -195,9 +205,21 @@ public class BuildScript {
      * @return Success
      */
     private boolean prepareForDeployment( VersionIncrement versionIncrement, Boolean dev ) {
-        if ( !BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified() ) {
-            throw new RuntimeException( "Jarsigner credentials must be specified for a deploy." );
+
+        //Make sure running Java 1.7+ so signatures will be correct.  We should re-evaluate when JDK8 is out, but for now I'll
+        if ( project instanceof JavaProject && !( project instanceof WebsiteProject ) ) {
+            Pair<Integer, Integer> version = getVersion();
+            System.out.println( "PhET Build GUI running Java version: " + version._1 + "." + version._2 );
+            boolean acceptableVersion = version._1 >= 1 && version._2 >= 7;
+            if ( !acceptableVersion ) {
+                throw new RuntimeException( "Java version was too low: " + version._1 + "." + version._2 + ".  Must be >=1.7 to run the PBG." );
+            }
+            if ( !BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified() ) {
+                throw new RuntimeException( "Jarsigner credentials must be specified for a deploy." );
+            }
         }
+
+        //Clean
         clean();
 
         //If the project specifies that it should use ResourceGenerator to make its resource loading files, generate them now.
@@ -210,7 +232,7 @@ public class BuildScript {
                     notifyError( project, "Automatically generated resource file changed.  Please review the changed and revert or commit before proceeding." );
                 }
             }
-            catch ( IOException e ) {
+            catch( IOException e ) {
                 throw new RuntimeException( e );
             }
         }
@@ -247,7 +269,7 @@ public class BuildScript {
                 // TODO: possibly roll back .properties file and changes
                 return false;
             }
-            success = SvnUtils.verifyRevision( newRevision, new String[] { project.getProjectPropertiesFile().getAbsolutePath() } );
+            success = SvnUtils.verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
             if ( !success ) {
                 notifyError( project, "Commit of version and change file did not result with the expected revision number. Stopping (see console)" );
                 return false;
@@ -271,7 +293,7 @@ public class BuildScript {
         try {
             project.copyAssets();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             throw new RuntimeException( "Problem copying files to the deployment directory", e );
         }
 
@@ -322,7 +344,7 @@ public class BuildScript {
     private boolean uploadProject( AuthenticationInfo authenticationInfo, String remotePathDir, String host ) {
 
         //Ignore "node_modules" for grunt build directories upload
-        File[] f = project.getDeployDir().listFiles(new FilenameFilter() {
+        File[] f = project.getDeployDir().listFiles( new FilenameFilter() {
             public boolean accept( final File dir, final String name ) {
                 return !name.equals( "node_modules" );
             }
@@ -352,11 +374,11 @@ public class BuildScript {
                 try {
                     ScpTo.uploadFile( fileToUpload, authenticationInfo.getUsername(), host, remotePathDir + "/" + fileToUpload.getName(), authenticationInfo.getPassword() );
                 }
-                catch ( JSchException e ) {
+                catch( JSchException e ) {
                     e.printStackTrace();
                     return false;
                 }
-                catch ( IOException e ) {
+                catch( IOException e ) {
                     e.printStackTrace();
                     return false;
                 }
@@ -378,7 +400,7 @@ public class BuildScript {
             System.out.println( "**** Finished BuildScript.build" );
             return success;
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
             return false;
         }
@@ -388,7 +410,7 @@ public class BuildScript {
         try {
             FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -520,7 +542,7 @@ public class BuildScript {
 
     private boolean prepareStagingArea( PhetWebsite website ) {
         assert project.getName().length() >= 2;//reduce probability of a scary rm
-        return SshUtils.executeCommands( website, new String[] {
+        return SshUtils.executeCommands( website, new String[]{
                 "mkdir -p -m 775 " + website.getSimsStagingPath() + "/" + project.getName(),
                 "rm -f " + website.getSimsStagingPath() + "/" + project.getName() + "/*"
         } );
@@ -553,7 +575,7 @@ public class BuildScript {
             try {
                 SshUtils.executeCommand( getJARGenerationCommand( (JavaProject) project, server ), server.getHost(), authenticationInfo );
             }
-            catch ( IOException e ) {
+            catch( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -568,7 +590,7 @@ public class BuildScript {
         String javaCmd = jdkHome == null ? "java" : jdkHome + "/bin/java";
         String jarName = buildToolsProject.getDefaultDeployJar().getName();
         String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
-        String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + pathToBuildLocalProperties+" "+jdkHome;
+        String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + JARGenerator.class.getName() + " " + projectDir + "/" + project.getDefaultDeployJar().getName() + " " + pathToBuildLocalProperties + " " + jdkHome;
         return command;
     }
 
