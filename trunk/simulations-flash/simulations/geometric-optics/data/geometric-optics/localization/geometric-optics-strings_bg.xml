@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_bg.xml created Mon Jan 06 18:16:06 EET 2014 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
+<string key="draggableScreen" value="преместване на екрана"/>
+<string key="draggableLens" value="преместване на лещата"/>
+<string key="screen" value="Екран"/>
+<string key="draggableRuler" value="преместване на линийката"/>
+<string key="simTitle" value="Геометрична оптика"/>
+<string key="showHelp" value="Помощ"/>
+<string key="moveMe" value="Премести ме!"/>
+<string key="showGuides" value="Крайни лъчи"/>
+<string key="diameter" value="диаметър на леща(m)"/>
+<string key="ruler" value="Линийка"/>
+<string key="focalPoint" value="заден фокус"/>
+<string key="curvatureRadius" value="радиус на крив. (m)"/>
+<string key="changeObject" value="Смяна на обекта"/>
+<string key="principalRays" value="Главен лъч"/>
+<string key="marginalRays" value="Краен лъч"/>
+<string key="virtualImage" value="Недействителен образ"/>
+<string key="noRays" value="Без лъчи"/>
+<string key="secondSource" value="Втора предметна точка"/>
+<string key="hideHelp" value="Скрий помощ"/>
+<string key="refractiveIndex" value="показател на пречупв."/>
+<string key="manyRays" value="Много лъчи"/>
+</SimStrings>
