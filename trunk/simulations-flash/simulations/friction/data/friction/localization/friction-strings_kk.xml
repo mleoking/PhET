@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_kk.xml created Sun Sep 29 14:32:44 MSK 2013 using: friction 2.03.00 (51676), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="rubYellowAtoms" value="үйкеліс сары атом қарсы жасыл"/>
+<string key="physics" value="физика"/>
+<string key="reset" value="түсіру"/>
+<string key="simTitle" value="үйкеліс"/>
+<string key="chemistry" value="химия"/>
+</SimStrings>
