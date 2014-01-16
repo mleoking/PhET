@@ -2,28 +2,29 @@
 
 package edu.colorado.phet.buildtools.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
+import java.nio.charset.Charset;
 import java.util.SortedMap;
-import java.util.StringTokenizer;
+import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 import java.util.jar.Pack200;
 import java.util.logging.Logger;
 import java.util.zip.Deflater;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.tools.ant.taskdefs.SignJar;
 import org.apache.tools.ant.taskdefs.VerifyJar;
 
 import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.JarsignerInfo;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
-import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 import static java.util.jar.Pack200.Packer;
 import static java.util.jar.Pack200.Unpacker;
@@ -171,10 +172,13 @@ public class PhetJarSigner {
      * @param jarFile The JAR file to pack
      * @return Success
      */
-    public boolean packAndSignJar( String jdkHome, File jarFile ) {
+    public boolean createExtraJars( String jdkHome, File jarFile ) {
         try {
-            File packedFile = new File( jarFile.getParent(), jarFile.getName() + ".pack.gz" );
-            File temporaryFile = new File( jarFile.getParent(), jarFile.getName() + ".pack.temp" );
+            String jarName = jarFile.getName();
+            File baseDir = jarFile.getParentFile();
+
+            File packedFile = new File( baseDir, jarName + ".pack.gz" );
+            File temporaryFile = new File( baseDir, jarName + ".pack.temp" );
 
             Packer packer = Pack200.newPacker();
             Unpacker unpacker = Pack200.newUnpacker();
@@ -210,6 +214,48 @@ public class PhetJarSigner {
             else {
                 System.out.println( "Skipping pack-and-compress step due to previous packing failure" );
             }
+
+            /*---------------------------------------------------------------------------*
+            * now add an all-permissions file
+            *----------------------------------------------------------------------------*/
+
+            System.out.println( "Creating the installer all-jar with all-permissions" );
+
+            // where our installer result file will go
+            File installerFile = new File( baseDir, jarName.substring( 0, jarName.length() - ".jar".length() ) + "_installer.jar" );
+
+            String jarCommand = jdkHome == null ? "jar" : jdkHome + "/bin/jar";
+
+            // a temporary directory where an extracted version of the intial JAR will go
+            File extractionDir = new File( jarFile.getParent(), "jar-extraction" );
+            extractionDir.mkdir();
+
+            // extract the JAR into our temporary directory
+            commandAndWait( jarCommand + " xf " + jarFile.getAbsolutePath(), extractionDir );
+
+            // read the manifest from the original JAR
+            JarFile installerJar = new JarFile( jarFile );
+            Manifest manifest = installerJar.getManifest();
+            Attributes mainAttributes = manifest.getMainAttributes();
+            File manifestFile = new File( baseDir, "MANIFEST.MF" );
+            installerJar.close(); // clean up input streams
+
+            // create a temporary manifest file that will be poked in, with the changes made
+            mainAttributes.putValue( "Permissions", "all-permissions" ); // overwrite with all-permissions
+            FileOutputStream manifestOutputStream = new FileOutputStream( manifestFile );
+            manifest.write( manifestOutputStream );
+            manifestOutputStream.close();
+
+            // build the JAR with the exploded contents, but with our new manifest file
+            commandAndWait( jarCommand + " cfm " + installerFile.getName() + " MANIFEST.MF -C " + extractionDir.getName() + "/ .", baseDir );
+
+            // clean up extras
+            FileUtils.delete( extractionDir );
+            safeDelete( manifestFile );
+
+            // sign and verify our new all-permissions JAR
+            signJar( jdkHome, installerFile );
+            verifyJar( installerFile );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -217,6 +263,17 @@ public class PhetJarSigner {
         }
 
         return true; // success
+    }
+
+    private static void commandAndWait( String cmd, File workingDir ) {
+        logger.warning( "Running command: " + cmd );
+        try {
+            Process p = Runtime.getRuntime().exec( cmd, null, workingDir );
+            p.waitFor();
+        } catch( Exception e ) {
+            throw new RuntimeException( e );
+        }
+        //TODO: redirect output to console
     }
 
     private void setPack200Settings( SortedMap<String, String> map ) {
@@ -324,7 +381,7 @@ public class PhetJarSigner {
 
         BuildLocalProperties buildProperties = BuildLocalProperties.initRelativeToTrunk( trunkDir );
         PhetJarSigner signer = new PhetJarSigner( buildProperties );
-        boolean result = signer.packAndSignJar( null, jarToBeSigned );
+        boolean result = signer.createExtraJars( "C:\\Program Files\\Java\\jdk1.7.0_51", jarToBeSigned );
 
         System.out.println( "Done, result = " + result + "." );
     }

@@ -110,7 +110,7 @@ public class JavaBuildCommand {
         PhetJarSigner signer = new PhetJarSigner( BuildLocalProperties.getInstance() );
         // Sign the JAR.
 //        boolean success = signer.signJar( outputJar );
-        boolean success = ( project.isSimulationProject() ? signer.packAndSignJar( null, outputJar ) : signer.signJar( null,outputJar ) );
+        boolean success = ( project.isSimulationProject() ? signer.createExtraJars( null, outputJar ) : signer.signJar( null,outputJar ) );
         if ( !success ) {
             // Signing failed.  Throw an exception in order to force the build process to stop.
             throw new BuildException( "Signing of JAR file failed." );
