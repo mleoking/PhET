@@ -125,6 +125,56 @@
     }
 
     //-------------------------------------------------------------------------
+    // Function for overwriting the ripped *_all.jar files with modified
+    // versions that request all permissions.  This was needed after Java 7u51
+    // introduced some security changes, see Unfuddle #3596.  Note that this
+    // function assumes that the installer builder is running on the same 
+    // machine as the web site, which most of the rest of the code does NOT
+    // assume.
+    //-------------------------------------------------------------------------
+    function ripper_get_all_permissions_jars() {
+
+        // Create a list of all JAR files to be overwritten.
+        $jar_files_to_replace = glob( RIPPED_WEBSITE_ROOT.'phet.colorado.edu/sims/*/*_all.jar' );
+
+        // For each JAR file, see if there is an installer-specific version
+        // and, if so, perform the copy-and-overwrite.  If not, log an error.
+        $failure_count = 0;
+        foreach( $jar_files_to_replace as $jar_file_to_replace ){
+
+            // Decompose the path in order to figure out the path to the modded JAR.
+            $exploded_path = explode( '/', $jar_file_to_replace );
+            $length = count( $exploded_path );
+            $sim_dir = $exploded_path[$length - 2];
+            $sim_jar = $exploded_path[$length - 1];
+
+            // Figure out the path to the installer-specific JAR.  This is the
+            // part that assumes that this installer builder is running on the
+            // machine that is hosting the web site.
+            $path_to_installer_jar = ROOT_DIR_FOR_MODDED_JARS.$sim_dir.'/'.$sim_dir.'_all_installer.jar';
+
+            // Copy the modded file over the originally ripped JAR.
+            if ( file_exists( $path_to_installer_jar ) ){
+                $result = copy( $path_to_installer_jar, $jar_file_to_replace );
+                if ( $result != true ){
+                    flushing_echo( 'Error: Modded installer JAR not found: '.$path_to_installer_jar );
+                    $failure_count++;
+                }
+            }
+            else{
+               flushing_echo( 'Error: Modded installer JAR not found: '.$path_to_installer_jar );
+               $failure_count++;
+            }
+        }
+        if ( $failure_count == 0 ){
+            flushing_echo( 'All installer-specific JAR files successfully copied.' );
+        }
+        else{
+            flushing_echo( 'Error: '.$failure_count.' failures when attempting to copy installer-specific JAR files, see details above.' );
+        }
+    }
+    
+    //-------------------------------------------------------------------------
     // Function for checking if a local copy, a.k.a. mirror, of the web site
     // is present.
     //-------------------------------------------------------------------------

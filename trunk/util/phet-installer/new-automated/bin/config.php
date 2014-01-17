@@ -258,6 +258,11 @@
     define("LOCK_FILE_STEM_NAME", "installer-builder");
 
     // *****************************************************************************
+    // Information needed for overwriting ripped JAR files with files that contain
+    // a request for all permissions, see Unfuddle #3596.
+    define("ROOT_DIR_FOR_MODDED_JARS", "/data/web/htdocs/phet/sims/");
+
+    // *****************************************************************************
     // BitRock Configuration
 
     define("BITROCK_PLATFORM_EXEC_SUFFIX_OSX",         ".app");
