@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_kk.xml created Thu Jan 16 17:46:00 MSK 2014 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="draggableScreen" value="экранды жүргізу"/>
+<string key="draggableLens" value="линзаларды жүргізу"/>
+<string key="screen" value="Экран"/>
+<string key="draggableRuler" value="сызғышты жүргізу"/>
+<string key="simTitle" value="Геометриялық оптика"/>
+<string key="showHelp" value="Көрсетілім көмектеседі"/>
+<string key="moveMe" value="Менің орнымды алмастыр!"/>
+<string key="showGuides" value="Басшылықтар көргізеді"/>
+<string key="diameter" value="диаметр(м)"/>
+<string key="ruler" value="Сызғыш"/>
+<string key="focalPoint" value="фокус пункт"/>
+<string key="curvatureRadius" value="қисалақтаудың радиусы(м)"/>
+<string key="changeObject" value="Нысанды өзгерт"/>
+<string key="principalRays" value="Басты сәулелер"/>
+<string key="marginalRays" value="Межелі сәулелер"/>
+<string key="virtualImage" value="Ауани сурет"/>
+<string key="noRays" value="Сәулелер жоқ"/>
+<string key="secondSource" value="2 нүкте"/>
+<string key="hideHelp" value="Жасыр өмектеседі"/>
+<string key="refractiveIndex" value="марғаудың әріпсаны"/>
+<string key="manyRays" value="Көп сәуле"/>
+</SimStrings>
