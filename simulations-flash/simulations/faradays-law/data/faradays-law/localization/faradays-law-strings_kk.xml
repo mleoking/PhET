@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_kk.xml created Sat Jan 18 13:19:39 MSK 2014 using: faradays-law 2.02.00 (52648), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="showFieldLines" value="Даланың сызықтарын көргіз-"/>
+<string key="oneCoil" value="1 шығыршық"/>
+<string key="noSound" value="Ештеме үндемейді"/>
+<string key="moveMe" value="Мені орын алмастыр-!"/>
+<string key="flipMagnet" value="Қарама-қарсы магнит"/>
+<string key="simTitle" value="Фарадей заңы"/>
+<string key="twoCoils" value="2 шығыршық"/>
+<string key="voltage" value="кернеу"/>
+</SimStrings>
