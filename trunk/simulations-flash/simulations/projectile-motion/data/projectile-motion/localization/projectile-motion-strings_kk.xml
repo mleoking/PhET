@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_kk.xml created Sun Oct 13 18:20:00 UZT 2013 using: projectile-motion 2.03.00 (52266), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="dragLabel" value="еселікті алдап өткізіп жібер-"/>
+<string key="userChoice" value="қолданбалы талғам"/>
+<string key="altitudeLabel" value="биіктік(m)"/>
+<string key="football" value="футболдын доп"/>
+<string key="golfball" value="голфтын доп"/>
+<string key="simTitle" value="снаряддын қозғалыс"/>
+<string key="collision" value=" қақтығысулар"/>
+<string key="adultHuman" value="ересек адам"/>
+<string key="time" value="уақыт(s)"/>
+<string key="buick" value="фвтоколiк"/>
+<string key="diameter" value="Диаметр(m)"/>
+<string key="initSpeed" value="алғы жылдамдық(m/s)"/>
+<string key="bowlingball" value="bowlingball"/>
+<string key="piano" value="пианино"/>
+<string key="sound" value="Дауыс"/>
+<string key="range" value="орналас-(m)"/>
+<string key="mass" value="масса(кг)"/>
+<string key="height" value="биіктік(m)"/>
+<string key="pumpkin" value="асқабақ"/>
+<string key="score" value="ұпай"/>
+<string key="angle" value="бұрыш(градустар)"/>
+<string key="baseball" value="бейсбол"/>
+<string key="airResistance" value="Әуе қарсылық"/>
+<string key="fire" value="ат"/>
+<string key="erase" value="Өшір-"/>
+<string key="tankshell" value="танканын снаряды"/>
+</SimStrings>
