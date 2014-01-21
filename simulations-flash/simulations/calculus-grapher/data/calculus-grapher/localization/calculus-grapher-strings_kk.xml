@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_kk.xml created Sat Jan 18 13:25:59 MSK 2014 using: calculus-grapher 2.08.00 (55025), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="integral" value="Интеграл"/>
+<string key="grid" value="Ауа тартқыш"/>
+<string key="dragMe" value="Мені алдап өткізіп жібер-!"/>
+<string key="hill" value="Төбе"/>
+<string key="cursor" value="Меңзер"/>
+<string key="simTitle" value="Есептегіш графа"/>
+<string key="offset" value="Ауыстырыл"/>
+<string key="freeform" value="Произвольной пішіннің"/>
+<string key="pedestal" value="Тұғыр"/>
+<string key="line" value="Сызық"/>
+<string key="drawingTools" value="Сурет сал аспаптың ақы пұлдары"/>
+<string key="zero" value="Нөл"/>
+<string key="view" value="Қара"/>
+<string key="sine" value="Синус"/>
+<string key="smooth" value="Тегіс"/>
+<string key="tilt" value="Еңкейт"/>
+<string key="parabola" value="Парабола"/>
+<string key="derivative" value="Туындату"/>
+<string key="undo" value="ннулиттеу"/>
+</SimStrings>
