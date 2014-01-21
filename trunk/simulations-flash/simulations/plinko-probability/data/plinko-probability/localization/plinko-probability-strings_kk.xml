@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_kk.xml created Sun Oct 13 17:38:48 UZT 2013 using: plinko-probability 2.02.00 (53818), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="none" value="ештеме"/>
+<string key="number" value="сан"/>
+<string key="start" value="Бастал-"/>
+<string key="continuous" value="толассыз"/>
+<string key="simTitle" value="Пинконын Мүмкіндік "/>
+<string key="fraction" value="фракция"/>
+<string key="NEquals" value="N="/>
+<string key="rows" value="қатарлар"/>
+<string key="sEquals" value="s ="/>
+<string key="sound" value="дауыс"/>
+<string key="oneBall" value="1 доп"/>
+<string key="path" value="жол"/>
+<string key="histogramDisplay" value="Гистограмманың \ндисплай"/>
+<string key="p" value="р"/>
+<string key="stop" value="Токта"/>
+<string key="ball" value="доп"/>
+<string key="help" value="Көмектес-"/>
+<string key="reset" value="Тағы тағайында"/>
+<string key="show" value=": көргіз-"/>
+<string key="autoScale" value="автоның көлемі"/>
+</SimStrings>
