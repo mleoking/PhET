@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_kk.xml created Sun Jan 19 15:16:00 GMT+04:00 2014 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="қарсылық ="/>
+<string key="ohm" value="ohm"/>
+<string key="simTitle" value="Қарсылық тартылымда"/>
+</SimStrings>
