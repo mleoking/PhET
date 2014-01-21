@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_kk.xml created Sun Oct 13 18:11:30 UZT 2013 using: pendulum-lab 2.03.00 (52288), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="resetStopwatch" value="Тағы тағайында"/>
+<string key="earth" value="Жер"/>
+<string key="showPhotoGateTimer" value="фотогейт таймер"/>
+<string key="planetX" value="Ғаламшардың X"/>
+<string key="acceleration" value="үдеу"/>
+<string key="showEnergyOf" value="Қайратты: көргіз-"/>
+<string key="PE" value="PE"/>
+<string key="velocity" value="жылдамдық"/>
+<string key="realTime" value="уакыт"/>
+<string key="length" value="ұзындық"/>
+<string key="lots" value="жеребелер"/>
+<string key="friction" value="қажалыс"/>
+<string key="showSecondPendulum" value="2-й маятниқты көргіз-"/>
+<string key="start" value="Бастал-"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Юпитер"/>
+<string key="moon" value="Ай"/>
+<string key="energyOf" value="қайрат "/>
+<string key="period" value="кез:"/>
+<string key="simStrings" value="Маятниқтың зертханасы"/>
+<string key="noneFriction" value="ештене"/>
+<string key="total" value="қорытынды"/>
+<string key="mass2" value="масса 2:"/>
+<string key="pendulum" value="Маятниқ"/>
+<string key="startPauseStopwatch" value="бастал-тым-тырыс"/>
+<string key="show" value=": көргіз-"/>
+<string key="length2" value="ұзындық 2:"/>
+<string key="photoGateTimer" value="фотогейт таймер"/>
+<string key="thermal" value="жылы"/>
+<string key="pausePlay" value="тым-тырыстың/ойыны"/>
+<string key="reset" value="Тағы тағайында"/>
+<string key="mass" value="масса"/>
+<string key="quarterTime" value="1/4 уакыт"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="ь"/>
+<string key="noneEnergy" value="ештене"/>
+<string key="simTitle" value="Маятниқтың зертханасы"/>
+<string key="otherTools" value="сырттың аспаптары"/>
+<string key="angleUnit" value="градусты"/>
+<string key="paused" value="тоқталган"/>
+<string key="sixteenthTime" value="1/16 уакыт"/>
+</SimStrings>
