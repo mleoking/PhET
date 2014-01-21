@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_kk.xml created Sun Oct 13 17:10:40 UZT 2013 using: ohms-law 2.03.00 (51206), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="currentEq" value="ағымдық = "/>
+<string key="resistance" value="қарсылық"/>
+<string key="simTitle" value="охымнын заны"/>
+<string key="sound" value="дауыс"/>
+<string key="voltage" value="кернеу"/>
+</SimStrings>
