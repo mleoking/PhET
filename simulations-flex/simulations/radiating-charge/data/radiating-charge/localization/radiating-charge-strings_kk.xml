@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_kk.xml created Sun Jan 19 15:19:00 GMT+04:00 2014 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="stopCharge" value="Жүкті тоқтат-"/>
+<string key="bump" value="Итер-"/>
+<string key="speedOfLight" value="c"/>
+<string key="amplitude" value="Amplitude"/>
+<string key="radiating-charge.simTitle" value="Жүктің сәулеленуі"/>
+<string key="speed" value="Жылдамдық"/>
+<string key="frictionManual" value="Басшылық"/>
+<string key="duration" value="ұзақтық"/>
+<string key="noFrictionManual" value="Қажалыс болады"/>
+<string key="linear" value="Linear"/>
+<string key="reset" value="Тағы тағайында-"/>
+<string key="frequency" value="Жиілік"/>
+<string key="circular" value="Домалақ"/>
+<string key="showVelocity" value="Жылдамдықты көргіз- "/>
+<string key="paused" value="ТОҚТА-"/>
+<string key="restart" value="Тағы баста-"/>
+<string key="sinusoidal" value="Sinusoidal"/>
+</SimStrings>
