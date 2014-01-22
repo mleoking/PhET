@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_kk.xml created Thu Jan 16 17:39:54 MSK 2014 using: stern-gerlach 2.02.00 (52653), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="+z" value="+z"/>
+<string key="+x" value="+х"/>
+<string key="angle3" value="бұрыш 3"/>
+<string key="angle2" value="бұрыш 2"/>
+<string key="slow" value="жай"/>
+<string key="randomXZ" value="Кез-келген xz"/>
+<string key="simTitle" value="Stern-Gerlach эксперименті"/>
+<string key="sternGerlachExperiment" value="Stern-Gerlach эксперименті"/>
+<string key="spinOrientation" value="айналдыру"/>
+<string key="on" value="Қосу"/>
+<string key="up" value="жоғары"/>
+<string key="down" value="төмен"/>
+<string key="sound" value="Дауыс"/>
+<string key="fast" value="тез"/>
+<string key="numberOfMagnets" value="магнит саны\"/>
+<string key="-z" value="-z"/>
+<string key="autoFire" value="Авто Қосылу"/>
+<string key="fireAtom" value="Атомды шығару"/>
+<string key="angle" value="бұрыш"/>
+<string key="reset" value="Қайтадан"/>
+<string key="resetCount" value="Қайтадан санау"/>
+<string key="off" value="Сөндіру"/>
+</SimStrings>
