@@ -1,0 +1,70 @@
+PhET Progress Report, J. Blanco, 01-16-2014
+
+PhET Weekly Progress Report
+John Blanco
+January 16th, 2014
+
+Time period covered: January 9th through January 15th.
+
+Balancing Act - 12.0 hrs
+
+o	Requested (from Sharon) and have integrated improved game icons.
+o	Published dev version with working 'Start Game Level' screen, all challenges stubbed.
+o	Got 'Level Completed' node integrated into game and working.
+o	Implemented game infrastructure and basic functionality of the 'Balance Masses' challenge.
+
+Under Pressure - 6.0 hrs
+
+o	Reviewed functionality and logged a number of issues in GitHub, all of which have been addressed.
+o	Worked with Bryce G on getting the Mystery Pool behavior described in the spec.
+
+Acid-Base Solutions - 1.0 hrs
+
+o	Updated the spec to include information about ignoring prototype and test packages as well as sim sharing code.
+o	Discussed via email with Dmitry the importance of this simulation's early February deadline.
+
+Common Code - 1.0 hrs
+
+o	Removed unneeded dependencies from all simulations that I wrote, am writing, or was MLL liaison for.
+
+HTML5 Process Development - 3.0 hrs
+
+o	Developer meeting (x2), much of discussion was around upcoming Foundations and Prioritization meeting.
+
+Installer - 5.0 hrs
+
+o	Worked on incorporating newest logos.
+o	Diagnosed an issue where simulations won't run due to new Java security changes.
+o	Worked with Jonathan O to plan a fix for issues with new Java version, expect to have fixed by tomorrow.
+
+MLL Management - 2.0 hrs
+
+o	Informed them about changes to jshint.
+o	Requested (via email) a process improvement where they do more internal testing and comparison with the spec before supplying it to us for testing.
+
+Build and Deployment Tools (Java) - 5.0 hrs
+
+o	Obtained the new code signing certificate, tested it, worked with Jonathan O to get it integrated into the build and deploy processes.
+o	Collaborated with other developers to implement and test changes to the build and deploy process needed for both the security update and the new code signing certificate.
+
+Customer Support - 0.5 hrs
+
+o	Exchanged emails with Pearson to make sure that they were aware of Java security changes and to let them know when our re-formatted and re-signed sims were ready for download.
+
+Interviews - 4.0 hrs
+
+o	Participated in review of Ryan Palmer, provided feedback to KP.
+
+Environment - 0.5 hrs
+
+o	Logged a request for a firewall exception that would allow SSH access to Figaro from outside CU.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	We be partially out on Wed Jan 29th.
