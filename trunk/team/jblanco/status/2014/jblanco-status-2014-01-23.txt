@@ -1,0 +1,75 @@
+PhET Progress Report, J. Blanco, 01-23-2014
+
+PhET Weekly Progress Report
+John Blanco
+January 23rd, 2014
+
+Time period covered: January 16th through January 22nd.
+
+Balancing Act - 13.0 hrs
+
+o	Implemented the remaining game states (try again, display correct answer, and move to next challenge).
+o	Incorporated scoreboard into game.
+o	Incorporated audio feedback into game.
+o	Ported the 'Tilt Prediction' challenge type.
+o	Started porting the 'Deduce Masses' challenge type.
+
+Under Pressure - 1.5 hrs
+
+o	Published a version for Bryce to review.
+o	Let them know that the cost to implement the Mystery Pool behavior has been approved.
+o	Start code review.
+
+Acid-Base Solutions - 0.5 hrs
+
+o	Verified initial commits from MLL.
+o	Discussed review of initial commits with Chris M.
+
+Common Code - 1.5 hrs
+
+o	Published a test harness for the buttons so that Bryce and Ariel can look at current status.
+o	Softened the 'frowny' face a bit.
+
+HTML5 Process Development - 3.0 hrs
+
+o	Developer meetings (2).
+
+MLL Management - 1.5 hrs
+
+o	Sent an email about using assertions in their code development, updated the Confluence wiki with a summary of this information.
+
+Installer - 9.0 hrs
+
+o	Finished incorporating new logos, will verify after next automated build.
+o	Fixed an issue where sims wouldn't run due to changes to the Java security model, see Unfuddle #3596.
+o	Tested on Win 7, Win XP, and Mac OSX and redeployed fixed version.
+o	Drafted email to send to users about installer changes.
+o	Tested auto-generated version (on Win 7 only).
+o	Logged a ticket with new request for Chinese installer.
+o	Logged a ticket for porting installer to JavaScript + Node.js.
+
+Build and Deployment Tools (Java) - 2.0 hrs
+
+o	Responded to request from CU IT to write up a list of steps taken to get certificate and issues that arose.  This was requested by CU IT for process improvement.
+o	Updated and closed ticket about obtaining a new certificate (Unfuddle #3578).
+
+Foundations and Prioritizations meeting (Moore Foundation) - 3.0 hrs
+
+o	Met with Kathy P and Stephanie C to discuss technical participant survey.
+o	Reviewed and commented upon draft of technical participant survey.
+o	Wrote up some personal thoughts about what PhET can and should get out of the meeting.
+
+Environment - 1.0 hrs
+
+o	Tested firewall exception for SSH on Figaro, requested other on team test as well.  Testing failed, let IT know that it isn't working for us.
+o	Reinstalled IntelliJ 13 to fix issue where it wouldn't run.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	Trading MLK day for Monday 27, will be partially out on Wed Jan 29th.
