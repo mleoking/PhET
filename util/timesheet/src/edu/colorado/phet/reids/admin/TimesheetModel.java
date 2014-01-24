@@ -146,7 +146,12 @@ class TimesheetModel {
     public long getTimeInInterval( long start, long end ) {
         long sum = 0;
         for ( Entry entry : entries ) {
-            sum += entry.getTimeInInterval( start, end );
+
+            //Skip summary from previous year so entries don't double (just for "worked today" calculation)
+            if ( !entry.getCategory().equals( "summary-previous" ) ) {
+                long value = entry.getTimeInInterval( start, end );
+                sum += value;
+            }
         }
         return sum;
     }
