@@ -262,6 +262,53 @@ public abstract class PhetWebsite {
         }
     };
 
+    public static PhetWebsite SIMIAN = new PhetWebsite() {
+        @Override
+        public String getName() {
+            return "simian";
+        }
+
+        @Override
+        public String getDescription() {
+            return "The production website simian.colorado.edu, available at phet-dev.colorado.edu";
+        }
+
+        @Override
+        public OldPhetServer getOldProductionServer() {
+            return OldPhetServer.SIMIAN;
+        }
+
+        @Override
+        public OldPhetServer getOldDevelopmentServer() {
+            return OldPhetServer.SIMIAN_DEV;
+        }
+
+        @Override
+        public String getServerHost() {
+            return "simian.colorado.edu";
+        }
+
+        @Override
+        public String getWebHost() {
+            return "phet-dev.colorado.edu";
+        }
+
+        @Override
+        public String getBuildLocalPropertiesLocation() {
+            return "/usr/local/tomcat/conf/build-local.properties";
+        }
+
+        @Override
+        public String getDocumentRoot() {
+            return "/data/web/htdocs/phetsims";
+        }
+
+        @Override
+        public String getTomcatManagerProtocol() {
+            return "https";
+        }
+    };
+
     public static PhetWebsite PHET_SERVER = new PhetWebsite() {
         @Override
         public String getName() {
