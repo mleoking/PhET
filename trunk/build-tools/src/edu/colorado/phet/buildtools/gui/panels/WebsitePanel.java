@@ -28,8 +28,6 @@ public class WebsitePanel extends JPanel {
     private File trunk;
 
     private WebsiteProject project;
-    private JRadioButton incrementMinor;
-    private JRadioButton incrementMajor;
 
     public WebsitePanel( File trunk, WebsiteProject project ) {
         super( new BorderLayout() );
@@ -59,42 +57,23 @@ public class WebsitePanel extends JPanel {
             }
         } );
 
-        JPanel deployLocalPanel = new VerticalLayoutPanel();
-        deployLocalPanel.setBorder( BorderFactory.createTitledBorder( "Dev Deploy" ) );
+        for ( final PhetWebsite website : new PhetWebsite[]{ PhetWebsite.JON_DEV, PhetWebsite.PHET_SERVER, PhetWebsite.SIMIAN, PhetWebsite.FIGARO } ){
+            JPanel deployLocalPanel = new VerticalLayoutPanel();
+            deployLocalPanel.setBorder( BorderFactory.createTitledBorder( "Deploy" ) );
 
-        JButton testButton = new JButton( "Deploy Dev" );
-        deployLocalPanel.add( testButton );
+            JButton jonDevButton = new JButton( website.getName() );
+            deployLocalPanel.add( jonDevButton );
 
-        controlPanel.add( deployLocalPanel );
+            controlPanel.add( deployLocalPanel );
 
-        testButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                doDeployLocal();
-            }
-        } );
-
-        JPanel deployProdPanel = new VerticalLayoutPanel();
-        deployProdPanel.setBorder( BorderFactory.createTitledBorder( "Production Deploy" ) );
-        incrementMinor = new JRadioButton( "Increment minor version" );
-        incrementMajor = new JRadioButton( "Increment major version " );
-        ButtonGroup incrementGroup = new ButtonGroup();
-        incrementGroup.add( incrementMinor );
-        incrementGroup.add( incrementMajor );
-        deployProdPanel.add( incrementMinor );
-        deployProdPanel.add( incrementMajor );
-        incrementMinor.setSelected( true );
-        JButton deployProdButton = new JButton( "Deploy Prod" );
-        deployProdPanel.add( deployProdButton );
-
-        controlPanel.add( deployProdPanel );
+            jonDevButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent actionEvent ) {
+                    doDeploy( website );
+                }
+            } );
+        }
 
         add( controlPanel, BorderLayout.SOUTH );
-
-        deployProdButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                doDeployProd();
-            }
-        } );
     }
 
     private BuildScript getBuildScript() {
@@ -109,7 +88,9 @@ public class WebsitePanel extends JPanel {
         }
     }
 
-    private void doDeployLocal() {
+    private void doDeploy( PhetWebsite website ) {
+        System.out.println( "Preparing to deploy website to " + website );
+
         BuildLocalProperties props = BuildLocalProperties.getInstance();
 
         getBuildScript().clean();
@@ -121,50 +102,7 @@ public class WebsitePanel extends JPanel {
             return;
         }
 
-        PhetWebsite website = PhetWebsite.JON_DEV;
-//        PhetWebsite website = PhetWebsite.PHET_SERVER;
-
-        success = project.deploy(
-                website.getServerHost(),
-                website.getTomcatManagerProtocol(),
-                website.getServerAuthenticationInfo( props ),
-                website.getTomcatManagerAuthenticationInfo( props ) );
-
-        if ( !success ) {
-            System.out.println( "Errors on deploy" );
-        }
-    }
-
-    private void doDeployProd() {
-//        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, OldPhetServer.PRODUCTION );
-//
-//        if ( !confirm ) {
-//            System.out.println( "Cancelled" );
-//            return;
-//        }
-
-        BuildLocalProperties props = BuildLocalProperties.getInstance();
-
-        // TODO: once in production, start incrementing version numbers
-//        VersionIncrement versionIncrement = null;
-//        if ( incrementMinor.isSelected() ) {
-//            versionIncrement = new VersionIncrement.UpdateProdMinor();
-//        }
-//        else if ( incrementMajor.isSelected() ) {
-//            versionIncrement = new VersionIncrement.UpdateProdMajor();
-//        }
-
-        getBuildScript().clean();
-
-        boolean success = getBuildScript().build();
-
-        if ( !success ) {
-            System.out.println( "Errors on build" );
-            return;
-        }
-
-        PhetWebsite website = PhetBuildGUI.getProductionWebsite();
-        System.out.println( "deploying website to " + website );
+        System.out.println( "Deploying website to " + website );
 
         success = project.deploy(
                 website.getServerHost(),

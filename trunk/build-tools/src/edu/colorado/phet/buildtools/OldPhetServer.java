@@ -43,9 +43,32 @@ public abstract class OldPhetServer {
             "/data/web/htdocs/phetsims/staging/sims",
             "/data/web/htdocs/phet"
     );
+    public static OldPhetServer SIMIAN = new PhetProdServer(
+            "simian.colorado.edu",
+            "phet-dev.colorado.edu",
+            "/data/web/htdocs/phetsims/staging/sims",
+            "/sims",
+            null,
+            null,
+            null,
+            "/usr/local/tomcat/conf/build-local.properties",
+            "/data/web/htdocs/phetsims/staging/sims",
+            "/data/web/htdocs/phet"
+    );
     public static OldPhetServer FIGARO_DEV = new PhetDevServer(
             "figaro.colorado.edu", // Server host
             "phet.colorado.edu",  // Web host
+            "/data/web/htdocs/phetsims/files/dev", // Deploy path on server
+            "/files/dev", // Deploy path on web host
+            null, // Cache clear full URL
+            null, // Cache clear file
+            null, // Localization generation command
+            "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",
+            null
+    );
+    public static OldPhetServer SIMIAN_DEV = new PhetDevServer(
+            "simian.colorado.edu", // Server host
+            "phet-dev.colorado.edu",  // Web host
             "/data/web/htdocs/phetsims/files/dev", // Deploy path on server
             "/files/dev", // Deploy path on web host
             null, // Cache clear full URL
