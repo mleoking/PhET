@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_kk.xml created Thu Jan 30 17:37:23 UZT 2014 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="level" value="деңгей"/>
+<string key="typeAnswer" value="Жауабын түрі,\nEnter клавиші басындар"/>
+<string key="clickToSelect" value="Сайлау үшін, басындар \nдұрыс квадрат"/>
+<string key="correct" value="Дұрыс!"/>
+<string key="end" value="Соң"/>
+<string key="isWrong" value=" ол дұрыс емес."/>
+<string key="start" value="Бастау"/>
+<string key="simTitle" value="Арифметика"/>
+<string key="time" value="Уақыт(сек)"/>
+<string key="finalTime" value="ақыры Сағат:"/>
+<string key="multiply" value="Көбейту"/>
+<string key="tryAgain" value="Тағы бастау."/>
+<string key="sound" value="Дауыс"/>
+<string key="divide" value="Бөлу"/>
+<string key="factor" value="Коэффициент"/>
+<string key="minute" value="минут"/>
+<string key="finalScore" value="ақыры Есеп:"/>
+<string key="nbrRight" value="дұрыс саны:"/>
+<string key="mustTypeNbr" value="Енгізу керек\nсаны"/>
+<string key="score" value="Есеп:"/>
+<string key="scorePer" value="есеп"/>
+<string key="nbrWrong" value="дұрыс емес саны:"/>
+<string key="reset" value="Басынан бастау"/>
+<string key="clock" value="сағат"/>
+<string key="title" value="Арифметикалық жаттығу"/>
+</SimStrings>
