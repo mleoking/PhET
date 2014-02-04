@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_kk.xml created Wed Jan 29 17:54:32 MSK 2014 using: equation-grapher 2.02.00 (52283), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="showYEq" value="y = көрсету"/>
+<string key="erase" value="Өшіру"/>
+<string key="save" value="Сақтау"/>
+<string key="zero" value="Нөл"/>
+<string key="simTitle" value="Өздігінен жазатын уравнение"/>
+</SimStrings>
