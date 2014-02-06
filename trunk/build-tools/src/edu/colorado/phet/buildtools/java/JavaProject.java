@@ -77,7 +77,7 @@ public abstract class JavaProject extends PhetProject {
                 return pathname.getName().toLowerCase().endsWith( ".jar" );
             }
         } );
-        return f.length == 1;//success if there is exactly one jar
+        return f.length == 2;//success if there are exactly 2 JAR files, one for main site and one for the installer
     }
 
     public boolean isShrink() {
