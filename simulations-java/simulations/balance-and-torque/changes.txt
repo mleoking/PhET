@@ -1,5 +1,3 @@
-# 1.05.00 (73816) Feb 5, 2014
-2/5/14 Redeploying to fix an issue where 4 of the 'mystery masses' are missing on the 2nd tab, see #3601
 # 1.04.02 (73626) Nov 15, 2013
 11/15/13 dev version for testing changes to preferred fonts for Bengali (#3553)
 # 1.04.01 (73372) Jul 18, 2013
