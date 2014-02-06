@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_kk.xml created Thu Feb 06 14:45:51 UZT 2014 using: charges-and-fields 2.04.00 (52655), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="directionOnly" value="бағыт ғана"/>
+<string key="grid" value="ауа тартқыш"/>
+<string key="clearAll" value="Барлықты арылт-"/>
+<string key="simTitle" value="Оқтайды және егістіктер"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="Нөмірлерді көргіз-"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 метр"/>
+<string key="showEField" value="E-field көргіз-"/>
+<string key="oneNanoC" value="1 nc"/>
+<string key="showHiRes" value="Сәлемнің hi-res V көргіз-"/>
+<string key="EFieldSensors" value="E-field sensors"/>
+<string key="eFieldUnit" value="M/V"/>
+<string key="clear" value="арылт-"/>
+<string key="plot" value="астыртын сөз байласу"/>
+<string key="equipotential" value="equipotential"/>
+<string key="angleUnit" value="градус"/>
+<string key="showLoRes" value="Lo-res V көргіз-"/>
+<string key="moreSpeedLessRes" value="үлкен жылдамдықтың/кіші res"/>
+<string key="tapeMeasure" value="таспа өлшедім"/>
+<string key="voltage" value="кернеу"/>
+</SimStrings>
