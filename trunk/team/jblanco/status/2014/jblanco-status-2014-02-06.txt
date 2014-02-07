@@ -1,0 +1,84 @@
+PhET Progress Report, J. Blanco, 02-06-2014
+
+PhET Weekly Progress Report
+John Blanco
+February 6th, 2014
+
+Time period covered: January 23rd through February 5th.  This is a two week period due to a canceled status meeting.
+
+Balancing Act - 19.0 hrs
+
+o	Finished mass deduction challenge implementation.
+o	Finished the challenge factory so that all challenge types and levels are now generated.
+o	Tested and fixed various issues with game behavior.
+o	Addressed a number of layout issues.
+o	Integrated new icons for game levels.
+
+Balancing Act, Java version - 2.0 hrs
+
+o	Fixed an issue, reported by a user, where some of the mystery masses had gone missing from the 2nd tab.
+
+Under Pressure - 9.0 hrs
+
+o	Code review.
+o	Worked with Bryce G and MLL to resolve a number of open issues on behavior of simulation.
+o	Cleaned up some layout and appearance issues with the control panels.
+o	Tested and logged issues related to handling of translated strings.
+o	Cleaned up some coding standard items that hadn't been communicated to MLL.
+o	Integrated new icons for the push buttons, supplied by Bryce G.
+
+Acid-Base Solutions - 0.5 hrs
+
+o	Defined alternative input box for MLL to use.
+
+Arithmetic - 2.5 hrs
+
+o	Reviewed spec and provided feedback.
+
+Common Code - 13.0 hrs
+
+o	Modified accordion boxes to allow specification of corner radius.
+o	Tracked down and fixed an issue with Joist timer that was preventing multiple timers from working.
+o	Worked on generalizing buttons.
+o	Created prototype versions of the 'Refresh' and 'Return to Level Selection' buttons.
+o	Set up a repo for button development.
+
+HTML5 Process Development - 6.0 hrs
+
+o	Developer meetings (4).
+
+MLL Management - 1.5 hrs
+
+o	Sent them feedback on their weekly report.
+o	Emailed them about some coding style requests.
+
+Installer - 2.0 hrs
+
+o	Modified installer on phet-dev to rip from that machine.
+o	Still working with Sharon to get a version of the new icon that can be integrated with the installer.
+o	Tested latest version to see if icon integrated.
+
+Build and Deployment Tools (Java) - 1.5 hrs
+
+o	Worked with JO to track down and fix an issue in the build-and-deploy process that resulted from recent changes for security.
+
+Interviews - 2.0 hrs
+
+o	Participated in interview of Sarah Kate Selling.
+
+Miscellaneous - 1.0 hrs
+
+o	Tried out 'Late Nite Labs'
+
+Meetings, Email, and Other Administrative Overhead - 8.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Attended presentation on Graphic Design by Dave Underwood.
+o	Worked on booking travel to Boulder for upcoming meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 12.0 hrs
+
+o	Traded MLK day for Monday Jan 27
+o	Partial sick day Jan 29th
