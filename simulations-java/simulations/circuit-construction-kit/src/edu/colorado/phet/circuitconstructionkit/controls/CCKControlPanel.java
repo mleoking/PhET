@@ -39,6 +39,7 @@ import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
+import edu.colorado.phet.circuitconstructionkit.CircuitConstructionKitDCApplication;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.persistence.CircuitXML;
@@ -85,10 +86,12 @@ public class CCKControlPanel extends ControlPanel {
         }
 
         add( filePanel );
-        if ( module.getParameters().isUseVisualControlPanel() ) {
+        if ( module.getParameters().isUseVisualControlPanel() && !CircuitConstructionKitDCApplication.isStanfordStudy() ) {
             add( makeVisualPanel() );
         }
-        add( makeToolPanel() );
+        if ( !CircuitConstructionKitDCApplication.isStanfordStudy() ) {
+            add( makeToolPanel() );
+        }
         add( new SizeControlPanel( module ) );
 
         if ( debugging ) {
@@ -103,7 +106,7 @@ public class CCKControlPanel extends ControlPanel {
             add( testLifelikeSchematic );
         }
 
-        if ( useAdvanced() ) {
+        if ( useAdvanced() && !CircuitConstructionKitDCApplication.isStanfordStudy() ) {
             add( advancedPanel );
         }
 

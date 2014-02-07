@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -60,6 +60,10 @@ public class CCKModule extends PiccoloModule {
             }
         } );
         setLogoPanel( null );
+
+        if ( CircuitConstructionKitDCApplication.isStanfordStudyA() ) {
+            setElectronsVisible( false );
+        }
     }
 
     public void activate() {
