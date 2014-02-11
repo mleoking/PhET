@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_kk.xml created Sun Feb 09 11:48:43 PKT 2014 using: vector-addition 2.02.00 (52287), translation-utility 2.14.00 (69024) окт 9, 2012-->
+<SimStrings>
+<string key="showSum" value="Жинақты көрсету"/>
+<string key="simTitle" value="Векторлық қосу"/>
+<string key="grabOne" value="Бірі ал"/>
+<string key="clearAll" value="Бәрі өшіру"/>
+<string key="componentDisplay" value="Дисплейдің Компоненті"/>
+<string key="y" value="y"/>
+<string key="style3" value="Түрі 3"/>
+<string key="none" value="Ештене"/>
+<string key="showGrid" value="Кестесі Көрсету"/>
+<string key="style2" value="Түрі 2"/>
+<string key="x" value="x"/>
+<string key="style1" value="Түрі 1"/>
+</SimStrings>
