@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_ur.xml created Mon Feb 10 12:29:36 PKT 2014 using: ohms-law 2.03.00 (51206), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="currentEq" value="کرنٹ ="/>
+<string key="resistance" value="مزاحمت "/>
+<string key="simTitle" value="اوہم کا قانون "/>
+<string key="sound" value="آواز "/>
+<string key="translation.credits" value="&lt;html&gt;&#10;Raja Rashid Mahmood Satti&lt;br&gt;&#10;PhD Scholar (Physics), PIEAS, Nilore,Islamabad&lt;br&gt;&#10;&lt;/html&gt;"/>
+<string key="voltage" value="وولٹ"/>
+</SimStrings>
