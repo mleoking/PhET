@@ -1,0 +1,70 @@
+PhET Progress Report, J. Blanco, 02-13-2014
+
+PhET Weekly Progress Report
+John Blanco
+February 13th, 2014
+
+Time period covered: February 6th through February 12th.
+
+Balancing Act - 6.0 hrs
+
+o	Tested, fixed a number of minor bugs with layout and other UI behavior.
+o	Qualified performance on Firefox and iPad 2, found it in need of optimizations.
+o	Refactored plank and other rotating elements to work in a way that is more compatible with Scenery.
+
+Under Pressure - 1.4 hrs
+
+o	Published latest version, reviewed, reopened two tickets.
+
+Acid-Base Solutions - 4.0 hrs
+
+o	Worked with Chris M to make sure that MLL has all the artwork needed.
+o	Published first dev version.
+o	Fixed a layout issue.
+o	Investigated, but have not yet resolved, an issue with startup time.
+o	Integrated new icons from Bryce.
+
+Arithmetic - 4.0 hrs
+
+o	Finished initial review of spec.
+o	Added 'Implementation Details' section to spec.
+o	Sent off to MLL for a quote.
+
+Common Code - 3.0 hrs
+
+o	Improved gradients on the prototype buttons.
+o	Created prototype 'Return to Level' button.
+o	Published button 'sim' and distributed link to reviewers.
+o	Added new 'grimace' expression to FaceNode.
+o	Discussed adding test app to Sun for testing and demonstrating UI components.
+
+HTML5 Process Development - 3.0 hrs
+
+o	Developer meetings (2).
+
+Installer - 3.0 hrs
+
+o	Finished integrating new logo.
+o	Tested to verify that it still works with web site modifications.
+o	Built Chinese version.
+
+Interviews - 2.0 hrs
+
+o	Participated in informal interview of and discussion of Dave Schmitz.
+
+Working Group Meeting Prep - 2.0 hrs
+
+o	Reviewed NGSS documents send out by KP.
+o	Looked through list of attendees.
+
+Meetings, Email, and Other Administrative Overhead - 3.5 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Worked on planning travel to Boulder for upcoming meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o	Took Monday, Feb 10th as a vacation day.
+o	Will be traveling next Thursday and will miss meetings.
