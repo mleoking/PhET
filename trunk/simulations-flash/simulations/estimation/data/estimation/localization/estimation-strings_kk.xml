@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_kk.xml created Sat Feb 15 13:14:13 UZT 2014 using: estimation 2.02.00 (51675), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="ratioOfAreasIs" value="Облыстың арақатынасы"/>
+<string key="closeEnough" value="Шамалы !/Нақты жауап"/>
+<string key="levelColon" value="Деңгей:"/>
+<string key="score" value="Ұпай"/>
+<string key="EnterNumber" value="Нөмірді кіргіз"/>
+<string key="selectTrainingOrGame" value="Тәлім-тәрбиені таңдап ал- немесе ойын:"/>
+<string key="percentUnderOver" value="пайыз"/>
+<string key="estimation" value="Сарапшылық"/>
+<string key="next" value="Келесі"/>
+<string key="ratioOfLengths" value="ұзындықтың арақатынасы квадрат үшін облыстың және көлемнің ауқымы "/>
+<string key="exactAnswer" value="тиянақты жауап"/>
+<string key="level" value="Деңгей "/>
+<string key="howMany" value="Неше азғантай ана \nfit үлкенде?"/>
+<string key="noCreditIf" value="Кредит болмайды егер"/>
+<string key="home" value="Үй"/>
+<string key="whatIsRatioOfVolumes" value=" мына көлемнің арақатынасы"/>
+<string key="tooFarOff" value="Аса ұзақ ! / Нақты жауап"/>
+<string key="scorePerTimeColon" value="Ұпай/Уақыт"/>
+<string key="PleasePickANumber" value="1 мен 100000 араларындағы нөмірлерді таңдаңыз"/>
+<string key="answerIsOutside" value="жауап шектердің сыртында"/>
+<string key="train" value="Тренировка"/>
+<string key="strategyHelp" value="Стратегия көмектеседі"/>
+<string key="whatIsRatioOfAreas" value=" мына облыстың арақатынасы -?"/>
+<string key="scorePerTime" value="Ұпай/Уақыт"/>
+<string key="gameOver" value="Ойын бітті"/>
+<string key="play" value="Ойнау"/>
+<string key="fullCreditIf" value="Толық кредит"/>
+<string key="back" value="артқа"/>
+<string key="levelOneColon" value="Деңгей 1: сызықтар ғана Деңгей  2: сызық және 2D нысанның  Деңгей 3: барлық нысандар"/>
+<string key="yourAnswer" value="сіздің жауабыңыз"/>
+<string key="or" value="немесе2"/>
+<string key="sound" value="Үнде"/>
+<string key="accuracyIsSmaller" value="Дәлме-дәлділік: кіші"/>
+<string key="averageAccuracy" value="ортаның дәлме-дәлділігі:"/>
+<string key="gameRules" value="Ойынның жөн-жосықтары"/>
+<string key="ratioOfVolumesIs" value="Көлемнің арақатынасы "/>
+<string key="time" value="Уақыт(секунд)"/>
+<string key="numberEstimates" value="сарапшылықтың саны:"/>
+<string key="simTitle" value="Сарапшылық"/>
+<string key="yourAnswerIs" value="сіздің жауабыңыз шегінде 1.3 nfactor сызық, \1.6 nfactor үшін 2D нысандар үшін, \2.0 nfactor 3D нысандар үшін."/>
+<string key="enter" value="Кіргіз"/>
+<string key="endGame" value="Ойынды аяқта-"/>
+<string key="nextLowerCase" value="Келесі"/>
+</SimStrings>
