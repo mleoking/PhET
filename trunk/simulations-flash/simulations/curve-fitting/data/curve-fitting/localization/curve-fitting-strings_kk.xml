@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_kk.xml created Tue Feb 18 11:29:20 MSK 2014 using: curve-fitting 2.02.00 (52265), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="cEquals" value="c ="/>
+<string key="clearAll" value="Барлығын өшеру"/>
+<string key="deviations" value="ауып кетулерді көргізу"/>
+<string key="bEquals" value="b ="/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="Квартика"/>
+<string key="simTitle" value="Формуларды  сайлау"/>
+<string key="bestFit" value="Абзалы қояншық"/>
+<string key="quadratic" value="шаршы"/>
+<string key="bucketHelp2" value="қарамастан немесе салады"/>
+<string key="bucketHelp1" value="Пункттарды ал"/>
+<string key="cubic" value="Куб"/>
+<string key="noFit" value="Керег емес"/>
+<string key="eEquals" value="e ="/>
+<string key="dEquals" value="d ="/>
+<string key="adjustableFit2" value="Реттеулық қояншық:"/>
+<string key="dataPointHelp" value="кемшіліктің қақпашықтары тасу"/>
+<string key="bestFit2" value="Абзалы қояншық:"/>
+<string key="correlation" value="корреляциянің еселігі "/>
+<string key="hideHelp" value="Жасырынған көмек"/>
+<string key="bucketLabel" value="Кестелерде нүктелер"/>
+<string key="chiSqHelp5" value=":   аса жөн    (кемшіліктің қақпашықтары аса аз) сәйкеседі"/>
+<string key="chiSqHelp4" value=":   жөн қояншық    (жасыл зона)"/>
+<string key="chiSqHelp3" value=":   сорлы қояншық    (қызыл зона)"/>
+<string key="chiSqHelp2" value="Деректердің N = саны n параметрдің f = саны ара қояншықтың  \n( f = 4 текше қояншық үшін ) нұсқайды \"/>
+<string key="help" value="Көмек"/>
+<string key="chiSqHelp1" value="Азайту қалыптау шаршыны статистика болады"/>
+<string key="adjustableFit" value="Реттеулық қояншық"/>
+<string key="linear" value="Сызықтық"/>
+</SimStrings>
