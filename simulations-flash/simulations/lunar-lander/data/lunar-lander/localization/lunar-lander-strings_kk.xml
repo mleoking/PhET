@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_kk.xml created Wed Feb 19 15:45:36 MSK 2014 using: lunar-lander 2.04.00 (53815), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="empty" value="жабық"/>
+<string key="hardLanding" value="қатты тоқталу"/>
+<string key="score" value="салу"/>
+<string key="unpause" value="пауза істемеу"/>
+<string key="range" value="көлем"/>
+<string key="fuel" value="бензин топливо"/>
+<string key="altitude" value="ұшудың биіктігі"/>
+<string key="help3" value="пауза"/>
+<string key="help2" value="түсіру"/>
+<string key="help1" value="клавиатуралық контроль"/>
+<string key="hitBoulder" value="ұру аяқты сындыру  жоғалу"/>
+<string key="start" value="бастау"/>
+<string key="hardLandingsColon" value="қатты тоқталу"/>
+<string key="vY" value="v_y (м / с)"/>
+<string key="vX" value="v_x (м / с)"/>
+<string key="help" value="көмек\пауза "/>
+<string key="sound" value="дауыс"/>
+<string key="vectors" value="вектор"/>
+<string key="reset" value="түсіру"/>
+<string key="longHelp" value="ЖЕр, ол да басқалары сияқы тік жер. ОЛ жерге қонғанан кейін тартысты  көру бір рет секір кенен кейін берілмейді. Сен алыста қонсан саған көп ұпай беріледі.Оңай жасасан 5 ұпай береді валундар тисеніз ойынан шығасыз."/>
+<string key="r" value="р"/>
+<string key="p" value="п"/>
+<string key="accVector" value="үдеудік вектор"/>
+<string key="softLanding" value="ыңғайлы тоқталыс"/>
+<string key="thrust" value="тарту"/>
+<string key="simTitle" value="ғарыштық тоқталыс"/>
+<string key="label7" value="неше зоналар бар сен осыны ұстаяаласын ба?ойында сен өлесін v= 6 "/>
+<string key="label6" value="пробел қосу толық тарту"/>
+<string key="label5" value="оңға еңкеу"/>
+<string key="crash2" value="апатқа ұшырау,өлу "/>
+<string key="label4" value="аз тырысу"/>
+<string key="crash1" value="апатқа ұшырау,аяқты сындыру "/>
+<string key="softLandingsColon" value="ыңғайлы тоқталыс"/>
+<string key="full" value="толық"/>
+<string key="label3" value="солға еңкеу"/>
+<string key="label2" value="тырысу жеңілмеу"/>
+<string key="paused" value="пауза"/>
+<string key="label1" value="клавиатураны тоқталыспен басқарту"/>
+<string key="landingSpeedEq" value="тоқталыс жылдамдық"/>
+<string key="velVector" value="жылдамдық вектор"/>
+</SimStrings>
