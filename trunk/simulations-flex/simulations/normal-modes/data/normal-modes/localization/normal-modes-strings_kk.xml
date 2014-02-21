@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_kk.xml created Fri Feb 21 20:42:18 UZT 2014 using: normal-modes 1.01.00 (66456), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="simSpeed" value="сим жылдамдық"/>
+<string key="vertical" value="тік"/>
+<string key="slow" value="жай"/>
+<string key="modeSpectrumDisplay" value="спектр дисплэйдің тізімі"/>
+<string key="phase:" value="фаза"/>
+<string key="minusPi" value="3,14-π"/>
+<string key="zeroPositions" value="нөлдік қалып"/>
+<string key="start" value="бастау"/>
+<string key="step" value="адым"/>
+<string key="modeNumbersXY" value="саңдар тізімі"/>
+<string key="polarization:" value="поляризатоның бақылау "/>
+<string key="amplitude:" value="Амплитуда:"/>
+<string key="plusPi" value="3,14 +π"/>
+<string key="modeSpectrum" value="қалыпты спектірдің тізімі"/>
+<string key="frequency:" value="жиілік"/>
+<string key="normalModes" value="қалыпты тізімдер "/>
+<string key="omega" value="омега"/>
+<string key="showPhases" value="фазаларды көрсету"/>
+<string key="normal-modes.simTitle" value="қалыпты тізімдер "/>
+<string key="showSprings" value="спрингсті көрсету"/>
+<string key="stop" value="тоқтау"/>
+<string key="resetPositions" value="бастапқы қалып"/>
+<string key="normalMode:" value="қалыпты тізім"/>
+<string key="horizontal" value="көлденең"/>
+<string key="paused" value="пауза"/>
+<string key="numberOfMasses" value="массаның қалыпты нөмірі"/>
+<string key="normal" value="қалыпты"/>
+</SimStrings>
