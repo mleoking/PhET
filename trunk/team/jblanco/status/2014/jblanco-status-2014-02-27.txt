@@ -1,0 +1,82 @@
+PhET Progress Report, J. Blanco, 02-27-2014
+
+PhET Weekly Progress Report
+John Blanco
+February 27th, 2014
+
+Time period covered: February 13th through February 26th.  This is a two week period due to a missed status meeting.
+
+Balancing Act - 5.0 hrs
+
+o	Removed all decimal-valued masses with the exception of one mystery mass, added new integer value masses.
+o	Published a version for testing by undergrad testers.
+o	Fixed issue with force vectors being too large.
+o	Fixed an issue where scoring could get messed up if user restarted game after wrong answer.
+o	Modified tilt prediction challenge to not give away answer if first guess is incorrect.
+o	Changed image sizes so that all images are scaled between 0.5x - 1.5x.
+
+Under Pressure - 4.0 hrs
+
+o	Tested with assertions enabled, fixed issues.
+o	Another round of testing and issue logging.
+o	Shuffled the mystery fluids and mystery planets so that they are not in increasing order.
+o	Published first release candidate.
+
+Acid-Base Solutions - 4.0 hrs
+
+o	Logged issue on their use of 'toFixed'
+o	Did a round of testing and issue logging.
+o	Aided in review, discussed state of code with Chris M and Jonathan O.
+
+Arithmetic - 2.0 hrs
+
+o	Reviewed and discussed quote from MLL.
+
+Estimation - 5.0 hrs
+
+o	Set up repo and basic project structure.
+o	Started on implementation of 1st tab, did simple demo of 2nd tab.
+
+Common Code - 6.0 hrs
+
+o	Set up Sun (UI library) to have a demo that can be easily published.
+o	Moved experimental button code into Sun, created a demo.
+o	Made HStrut and VStrut into lines.
+o	Revised buttons based on feedback from most recent design meeting review, published Sun demo app, solicited input.
+o	Worked with Sam R on using Bower to make it easier to get and set up our code for 3rd parties, ended up using something else.
+o	Reviewed latest buttons with Ariel P.
+
+HTML5 Process Development - 5.0 hrs
+
+o	Developer meetings (3).
+
+Moore Working Meeting - 42.0 hrs
+
+o	Preparation meetings.
+o	Researched NGSS and CC standards.
+o	Read up on iframes, created demo with Build an Atom.
+o	Participated in actual working group meeting.
+o	Filed expense report.
+o	Followed up on setting up a meeting with people from Pearson one integration with PhET sims.
+
+Installer - 1.0 hrs
+
+o	Tested Chinese language version, posted, and sent link to requester.
+
+Web Site - 1.5 hrs
+
+o	Worked with Jonathan O on doing a rip that can be used as a backup if the main web site goes down.
+
+Interviews - 2.0 hrs
+
+o	Prepping for and doing some pair programming with Dave Schmitz.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	Will be taking some vacation time in March.
