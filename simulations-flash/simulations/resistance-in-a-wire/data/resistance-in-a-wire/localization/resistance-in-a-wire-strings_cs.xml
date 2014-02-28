@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_cs.xml created Fri Feb 28 14:14:52 CET 2014 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="odpor="/>
+<string key="ohm" value="ohm"/>
+<string key="simTitle" value="Odpor v drátu"/>
+<string key="translation.credits" value="Jitka Štaberňáková"/>
+</SimStrings>
