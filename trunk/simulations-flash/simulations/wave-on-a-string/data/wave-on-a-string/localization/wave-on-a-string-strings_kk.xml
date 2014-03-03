@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_kk.xml created Sat Mar 01 17:52:45 UZT 2014 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="manual" value="Басшылық"/>
+<string key="resetTimer" value="Тағы баста-"/>
+<string key="damping" value="Damping"/>
+<string key="simTitle" value="Толқын толық тәуелділікте"/>
+<string key="showHelp" value="Көрсетілім көмектеседі"/>
+<string key="pulse" value="Тамыр"/>
+<string key="amplitude" value="Amplitude"/>
+<string key="pausePlay" value="тым-тырыстың ойыны/"/>
+<string key="step" value="адым"/>
+<string key="tension" value="кернеу"/>
+<string key="startTimer" value="тым-тырысты асқындыр-/"/>
+<string key="pulseWidth" value="Ен pulse"/>
+<string key="rulerHelp" value="draggable әмірші"/>
+<string key="high" value="жоғары"/>
+<string key="wiggleWrench" value="Гаечный кілтті қозға-!"/>
+<string key="timer" value="Timer"/>
+<string key="oscillate" value="Айтқанынан қайт-"/>
+<string key="rulers" value="Әміршілер"/>
+<string key="frequency" value="Жиілік"/>
+<string key="wrenchHelp" value="draggable кілт"/>
+<string key="fixedEnd" value="Тіркелген бітеді"/>
+<string key="refLineHelp" value="draggable сілтеменің сызығы"/>
+<string key="hideHelp" value="Жасыр- көмектеседі"/>
+<string key="timerHelp" value="draggable timer"/>
+<string key="looseEnd" value="Еркін біт-"/>
+<string key="noEnd" value="Ештеме бітпейді"/>
+<string key="paused" value="Тоқта-"/>
+<string key="reset" value="Тағы баста-"/>
+<string key="pulse2" value="Тамыр"/>
+<string key="low" value="бәскіл"/>
+</SimStrings>
