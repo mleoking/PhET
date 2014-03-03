@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_cs.xml created Sat Mar 01 18:45:31 CET 2014 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
+<string key="translation.credits" value="Jana Konrádová"/>
+<string key="zoomIn" value="přiblížení"/>
+<string key="intensity" value="Intenzita"/>
+<string key="simTitle" value="Spektrum černého tělesa"/>
+<string key="zoomOut" value="oddálení"/>
+<string key="clear" value="Vymazat"/>
+<string key="sun" value="Slunce"/>
+<string key="save" value="Uložit"/>
+<string key="showRuler" value="Zobrazit pravítko"/>
+<string key="wavelength" value="vlnová délka"/>
+<string key="oven" value="Trouba"/>
+<string key="earth" value="Půda"/>
+<string key="lightBulb" value="Žárovka"/>
+</SimStrings>
