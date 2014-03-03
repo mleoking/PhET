@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_kk.xml created Sat Mar 01 17:59:48 UZT 2014 using: resonance 1.01.00 (54775), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="simSpeed" value="sim жылдамдық"/>
+<string key="sameFrequency" value="осындай жиілік"/>
+<string key="sameSpring" value="осындай көктемнің k"/>
+<string key="slow" value="ақырын"/>
+<string key="mixedMAndK" value="бұлға- m және k"/>
+<string key="numberOfResonators" value="Resonators саны"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="тым-тырыс"/>
+<string key="amplitude" value="amplitude"/>
+<string key="frequencyEqualsXHz" value="жиілік ={0} Hz"/>
+<string key="sloMo" value="Slo-mo"/>
+<string key="step" value="адым"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="ЖҮРГІЗУШІ"/>
+<string key="on" value="on"/>
+<string key="ruler" value="Әмірші"/>
+<string key="resonance.simTitle" value="Resonance"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="көктемнің constant"/>
+<string key="frequency" value="жиілік"/>
+<string key="resetAll" value="Барлықты тағы тағайында-"/>
+<string key="mass" value="ел"/>
+<string key="sameMass" value="осындай бұқаралық m"/>
+<string key="resonator" value="Resonator"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="M/N"/>
+<string key="gravityColon" value="Gravity:"/>
+<string key="play" value="ойна-"/>
+<string key="paused" value="ТОҚТА-"/>
+<string key="off" value="off"/>
+<string key="dampingConstant" value="constant damping"/>
+<string key="normal" value="бір қалыпты"/>
+<string key="selectPreset" value="Алғы қондырғыны таңдап ал-"/>
+</SimStrings>
