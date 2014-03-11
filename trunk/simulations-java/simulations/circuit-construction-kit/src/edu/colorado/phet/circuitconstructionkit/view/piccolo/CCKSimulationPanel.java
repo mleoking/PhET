@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -21,6 +21,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -256,5 +257,21 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
     public void setCCKBackground( Color color ) {
         backgroundNode.setColor( color );
+    }
+
+    //Black box feature for stanford study, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+    public void addBlackBox() {
+        double width = 3.2;
+        PPath path = new PPath( new RoundRectangle2D.Double( 5, 4, width, width, 0.7, 0.7 ) );
+        path.setPaint( Color.black );
+//        path.setPaint( new Color( 0, 0, 0, 128 ) );
+        path.setStroke( new BasicStroke( 0.1f ) );
+        path.setStrokePaint( Color.gray );
+        this.addWorldChild( path );
+    }
+
+    //Make existing elements unpickable for black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+    public void makeCircuitUnpickable() {
+        getCircuitNode().makeElementsUnpickable();
     }
 }

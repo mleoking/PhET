@@ -1,13 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -285,5 +283,23 @@ public class CircuitNode extends PhetPNode {
 
     public void addBranchNodeFactoryListener( BranchNodeFactory.Listener listener ) {
         branchNodeFactory.addListener( listener );
+    }
+
+    //For the black-box feature, make current elements of the circuit unpickable so the user can't drag them
+    public void makeChildrenUnpickable( PNode layer ) {
+        for ( Object node : layer.getChildrenReference() ) {
+            PNode n = (PNode) node;
+            n.setPickable( false );
+            while ( n.getInputEventListeners().length > 0 ) {
+                n.removeInputEventListener( n.getInputEventListeners()[0] );
+            }
+        }
+    }
+
+    //For the black-box feature, make current elements of the circuit unpickable so the user can't drag them
+    public void makeElementsUnpickable() {
+        makeChildrenUnpickable( solderLayer );
+        makeChildrenUnpickable( branchLayer );
+        makeChildrenUnpickable( junctionLayer );
     }
 }

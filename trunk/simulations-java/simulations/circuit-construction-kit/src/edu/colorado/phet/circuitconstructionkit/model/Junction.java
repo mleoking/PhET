@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -24,6 +24,9 @@ public class Junction extends SimpleObservableDebug {
     private double voltage;//voltage relative to reference node.  To be used in computing potential drops, to avoid graph traversal.
     private static int instanceCount = 0;
     private final IUserComponent userComponent = UserComponentChain.chain( CCKSimSharing.UserComponents.junction, instanceCount++ ); // For sim sharing.
+
+    //Make existing elements unpickable for black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+    public boolean fixed = false;
 
     public Junction( double x, double y ) {
         this.x = x;
@@ -126,5 +129,10 @@ public class Junction extends SimpleObservableDebug {
                 return getUserComponentID().toString();
             }
         };
+    }
+
+    //Make existing elements unpickable for black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+    public void setFixed( boolean fixed ) {
+        this.fixed = fixed;
     }
 }

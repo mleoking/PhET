@@ -4,6 +4,7 @@ package edu.colorado.phet.circuitconstructionkit;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.colorado.phet.circuitconstructionkit.controls.CCKControlPanel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -31,6 +32,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 public class CCKModule extends PiccoloModule {
     public static Color BACKGROUND_COLOR = new Color( 100, 160, 255 );
+    public static boolean createUnpickableCircuit = false;
+    private final boolean blackBox;
     private CCKModel model;
     private CCKParameters cckParameters;
     private CCKSimulationPanel cckSimulationPanel;
@@ -63,6 +66,15 @@ public class CCKModule extends PiccoloModule {
 
         if ( CircuitConstructionKitDCApplication.isStanfordStudyA() ) {
             setElectronsVisible( false );
+        }
+
+        //Show the black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+        if ( Arrays.asList( args ).contains( "stanford-black-box" ) ) {
+            this.blackBox = true;
+            cckSimulationPanel.addBlackBox();
+        }
+        else {
+            this.blackBox = false;
         }
     }
 
@@ -135,6 +147,14 @@ public class CCKModule extends PiccoloModule {
 
     public void setCircuit( Circuit circuit ) {
         model.setCircuit( circuit );
+
+        //Make existing elements unpickable for black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+        if ( this.blackBox ) {
+            cckSimulationPanel.makeCircuitUnpickable();
+            for ( int i = 0; i < circuit.getJunctions().length; i++ ) {
+                circuit.getJunctions()[i].setFixed( true );
+            }
+        }
     }
 
     public void setZoom( double zoom ) {

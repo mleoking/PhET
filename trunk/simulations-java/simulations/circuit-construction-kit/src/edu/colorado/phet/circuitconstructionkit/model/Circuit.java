@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -28,11 +28,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChai
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
-import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.connectionBroken;
-import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelActions.junctionFormed;
-import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponentTypes.connection;
 import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponentTypes.junction;
-import static edu.colorado.phet.circuitconstructionkit.CCKSimSharing.ModelComponents.circuit;
 
 /**
  * This is the main class for the CCK model, providing a representation of all the branches and junctions, and a way of updating the physics.
@@ -752,6 +748,14 @@ public class Circuit {
         ArrayList<Junction> potentialMatches = new ArrayList<Junction>();
         potentialMatches.addAll( Arrays.asList( all ) );
         potentialMatches.removeAll( Arrays.asList( draggedJunctions ) );
+
+        //Make internal nodes ungrabbable for black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+        for ( Junction j : all ) {
+            if ( j.fixed && getAdjacentBranches( j ).length > 1 ) {
+                potentialMatches.remove( j );
+            }
+        }
+
         //now we have all the junctions that are moving,
         //and all the junctions that aren't moving, so we can look for a best match.
         Junction[] remaining = potentialMatches.toArray( new Junction[potentialMatches.size()] );
