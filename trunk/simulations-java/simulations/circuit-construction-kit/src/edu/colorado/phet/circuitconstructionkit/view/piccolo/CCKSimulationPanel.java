@@ -262,7 +262,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     //Black box feature for stanford study, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
     public void addBlackBox() {
         double width = 3.2;
-        PPath path = new PPath( new RoundRectangle2D.Double( 5, 4, width, width, 0.7, 0.7 ) );
+        PPath path = new PPath( new RoundRectangle2D.Double( 5, 3.8, width, width, 0.7, 0.7 ) );
         path.setPaint( Color.black );
 //        path.setPaint( new Color( 0, 0, 0, 128 ) );
         path.setStroke( new BasicStroke( 0.1f ) );
