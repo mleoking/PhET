@@ -46,7 +46,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private final CCKBackground backgroundNode;
     public WarningMessageNode warningMessageNode;
 
-    public CCKSimulationPanel( CCKModel model, final CCKModule module, IClock clock ) {
+    public CCKSimulationPanel( CCKModel model, final CCKModule module, IClock clock, boolean blackBox ) {
         super( new Dimension( 10, 10 ) );
         this.model = model;
         this.module = module;
@@ -61,6 +61,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
 
         circuitNode = new CircuitNode( model, model.getCircuit(), this, module, branchNodeFactory, module.getCCKViewState().getReadoutsVisibleProperty(), module.getCCKViewState().getLifelikeProperty() );
         addWorldChild( circuitNode );
+
+        if ( blackBox ) { addBlackBox(); }
 
         measurementToolSetNode = new MeasurementToolSetNode( model, this, module, module.getVoltmeterModel(), clock );
         addWorldChild( measurementToolSetNode );

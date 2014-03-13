@@ -53,7 +53,11 @@ public class CCKModule extends PiccoloModule {
 
         this.model = new CCKModel();
         this.measurementToolSet = new MeasurementToolSet( model );
-        cckSimulationPanel = new CCKSimulationPanel( model, this, getClock() );
+
+        //Show the black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+        this.blackBox = Arrays.asList( args ).contains( "stanford-black-box" );
+
+        cckSimulationPanel = new CCKSimulationPanel( model, this, getClock(), blackBox );
         setSimulationPanel( cckSimulationPanel );
         setControlPanel( new CCKControlPanel( this, this ) );
 
@@ -68,14 +72,6 @@ public class CCKModule extends PiccoloModule {
             setElectronsVisible( false );
         }
 
-        //Show the black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
-        if ( Arrays.asList( args ).contains( "stanford-black-box" ) ) {
-            this.blackBox = true;
-            cckSimulationPanel.addBlackBox();
-        }
-        else {
-            this.blackBox = false;
-        }
     }
 
     public void activate() {
