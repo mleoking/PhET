@@ -467,6 +467,14 @@ public class Circuit {
             Connection red = getConnection( leftTip );
             Connection black = getConnection( rightTip );
 
+            //Ignore wires & components loaded into a black box.
+            if ( red != null && red.getJunction().fixed ) {
+                red = null;
+            }
+            if ( black != null && black.getJunction().fixed ) {
+                black = null;
+            }
+
             if ( red == null || black == null ) {
                 return Double.NaN;
             }
