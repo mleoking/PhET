@@ -9,6 +9,7 @@ import java.util.Arrays;
  * Time: 9:22:23 AM
  */
 public class CCKParameters {
+    private final boolean blackBox;
     private String[] args;
     private boolean virtualLab = false;
     private boolean grabBag = true;
@@ -24,7 +25,8 @@ public class CCKParameters {
     private boolean dynamics = false;
     public static final String VIRTUAL_LAB = "-virtuallab";
 
-    public CCKParameters( CCKModule module, String[] args, boolean ac, boolean virtualLab ) {
+    public CCKParameters( CCKModule module, String[] args, boolean ac, boolean virtualLab, boolean blackBox ) {
+        this.blackBox = blackBox;
         this.args = args;
         if ( ac ) {
             dynamics = true;
@@ -76,6 +78,11 @@ public class CCKParameters {
             useNonContactAmmeter = true;
             hideAllElectrons = false;
         }
+        if ( blackBox ) {
+            allowShowReadouts = false;
+            useAdvancedControlPanel = false;
+            hideAllElectrons = true;
+        }
     }
 
     public boolean isUseVisualControlPanel() {
@@ -121,4 +128,6 @@ public class CCKParameters {
     public boolean getAllowDynamics() {
         return dynamics;
     }
+
+    public boolean allowSizeControls() { return !blackBox; }
 }

@@ -60,6 +60,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
         addScreenChild( toolboxSuite );
 
         circuitNode = new CircuitNode( model, model.getCircuit(), this, module, branchNodeFactory, module.getCCKViewState().getReadoutsVisibleProperty(), module.getCCKViewState().getLifelikeProperty() );
+        circuitNode.setElectronsVisible( !module.getParameters().hideAllElectrons() );
         addWorldChild( circuitNode );
 
         if ( blackBox ) { addBlackBox(); }
