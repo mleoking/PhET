@@ -48,14 +48,14 @@ public class CCKModule extends PiccoloModule {
     public CCKModule( String[] args, boolean ac, boolean virtualLab ) {
         super( "CCK-Piccolo", new SwingClock( delay, dt ) );
 
-        cckParameters = new CCKParameters( this, args, ac, virtualLab );
+        //Show the black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
+        this.blackBox = Arrays.asList( args ).contains( "stanford-black-box" );
+
+        cckParameters = new CCKParameters( this, args, ac, virtualLab, blackBox );
         setModel( new BaseModel() );
 
         this.model = new CCKModel();
         this.measurementToolSet = new MeasurementToolSet( model );
-
-        //Show the black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
-        this.blackBox = Arrays.asList( args ).contains( "stanford-black-box" );
 
         cckSimulationPanel = new CCKSimulationPanel( model, this, getClock(), blackBox );
         setSimulationPanel( cckSimulationPanel );

@@ -92,7 +92,9 @@ public class CCKControlPanel extends ControlPanel {
         if ( !CircuitConstructionKitDCApplication.isStanfordStudy() ) {
             add( makeToolPanel() );
         }
-        add( new SizeControlPanel( module ) );
+        if ( module.getParameters().allowSizeControls() ) {
+            add( new SizeControlPanel( module ) );
+        }
 
         if ( debugging ) {
             JButton testLifelikeSchematic = new JButton( "Test Lifelike/Schematic" );
