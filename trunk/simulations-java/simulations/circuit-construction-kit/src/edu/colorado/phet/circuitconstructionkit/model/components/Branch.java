@@ -99,6 +99,11 @@ public abstract class Branch extends SimpleObservableDebug {
         flameListeners.remove( flameListener );
     }
 
+    //For the black box, the branch shouldn't read out for the non-contact-ammeter, so report it as "fixed" by loading in the black box.
+    public boolean isFixed() {
+        return getStartJunction().fixed && getEndJunction().fixed;
+    }
+
     public static interface FlameListener {
         void flameStarted();
 

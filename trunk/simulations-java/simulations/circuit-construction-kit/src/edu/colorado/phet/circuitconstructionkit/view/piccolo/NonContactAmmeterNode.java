@@ -62,7 +62,8 @@ public class NonContactAmmeterNode extends PhetPNode {
                 super.mousePressed( event );
                 SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.startDrag,
                                                    ParameterSet.parameterSet( ParameterKeys.x, getXOffset() ).
-                                                           with( ParameterKeys.y, getYOffset() ) );
+                                                           with( ParameterKeys.y, getYOffset() )
+                );
             }
 
             public void mouseDragged( PInputEvent event ) {
@@ -71,7 +72,8 @@ public class NonContactAmmeterNode extends PhetPNode {
                     public void run() {
                         SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.drag,
                                                            ParameterSet.parameterSet( ParameterKeys.x, getXOffset() + pt.width ).
-                                                                   with( ParameterKeys.y, getYOffset() + pt.height ) );
+                                                                   with( ParameterKeys.y, getYOffset() + pt.height )
+                        );
                     }
                 } );
 
@@ -84,7 +86,8 @@ public class NonContactAmmeterNode extends PhetPNode {
                 dragRunner.terminate();
                 SimSharingManager.sendUserMessage( CCKSimSharing.UserComponents.nonContactAmmeter, UserComponentTypes.sprite, UserActions.endDrag,
                                                    ParameterSet.parameterSet( ParameterKeys.x, getXOffset() ).
-                                                           with( ParameterKeys.y, getYOffset() ) );
+                                                           with( ParameterKeys.y, getYOffset() )
+                );
             }
         } );
         addInputEventListener( new CursorHandler() );
@@ -141,7 +144,7 @@ public class NonContactAmmeterNode extends PhetPNode {
 
         //check for intersect with circuit.
         Branch branch = circuit.getBranch( target );
-        if ( branch != null ) {
+        if ( branch != null && !branch.isFixed() ) {
             double current = branch.getCurrent();
             DecimalFormat df = new DecimalFormat( "0.00" );
             String amps = df.format( Math.abs( current ) );
