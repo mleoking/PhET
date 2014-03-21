@@ -468,10 +468,10 @@ public class Circuit {
             Connection black = getConnection( rightTip );
 
             //Ignore wires & components loaded into a black box.
-            if ( red != null && red.getJunction().fixed ) {
+            if ( red != null && red.isBlackBox() ) {
                 red = null;
             }
-            if ( black != null && black.getJunction().fixed ) {
+            if ( black != null && black.isBlackBox() ) {
                 black = null;
             }
 

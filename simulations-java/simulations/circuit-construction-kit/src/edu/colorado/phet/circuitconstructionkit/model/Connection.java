@@ -13,6 +13,8 @@ public abstract class Connection {
 
     public abstract double getVoltageAddon();
 
+    public abstract boolean isBlackBox();
+
     public static class JunctionConnection extends Connection {
         Junction junction;
 
@@ -36,6 +38,10 @@ public abstract class Connection {
 
         public double getVoltageAddon() {
             return 0;
+        }
+
+        @Override public boolean isBlackBox() {
+            return junction.fixed;
         }
     }
 
@@ -64,6 +70,12 @@ public abstract class Connection {
             double current = branch.getCurrent();
             double voltage = current * incrementalResistance;//the sign is probably right
             return voltage;
+        }
+
+        //For the black box, don't allow to read the voltage on wires within the black box, but do allow reading voltages
+        //in wires connected to the black box
+        @Override public boolean isBlackBox() {
+            return branch.isFixed();
         }
 
     }
