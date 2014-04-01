@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <circuit>
-    <junction index="0" x="6.6" y="3.5453100158982513"/>
-    <junction index="1" x="6.6" y="4.133545310015898"/>
-    <junction index="2" x="4.753577106518283" y="5.4"/>
-    <junction index="3" x="5.34181240063593" y="5.4"/>
-    <junction index="4" x="6.6" y="7.25"/>
-    <junction index="5" x="6.6" y="6.677265500794912"/>
-    <junction index="6" x="8.457869634340224" y="5.4"/>
-    <junction index="7" x="7.869634340222576" y="5.4"/>
+    <junction index="0" x="6.6" y="3.1"/>
+    <junction index="1" x="6.6" y="3.8"/>
+    <junction index="2" x="4.3" y="5.4"/>
+    <junction index="3" x="5.0" y="5.4"/>
+    <junction index="4" x="6.6" y="7.7"/>
+    <junction index="5" x="6.6" y="7.0"/>
+    <junction index="6" x="8.9" y="5.4"/>
+    <junction index="7" x="8.2" y="5.4"/>
     <junction index="8" x="6.561505663263296" y="4.650814095482584"/>
     <junction index="9" x="7.323578948330343" y="5.441981939992913"/>
     <junction index="10" x="6.541349315986107" y="6.213227071116996"/>
