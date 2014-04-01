@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<circuit>
+    <junction index="0" x="6.571428571428571" y="3.0793650793650795"/>
+    <junction index="1" x="6.555555555555555" y="3.873015873015873"/>
+    <junction index="2" x="4.317460317460317" y="5.412698412698413"/>
+    <junction index="3" x="5.095238095238095" y="5.412698412698413"/>
+    <junction index="4" x="6.603174603174603" y="7.73015873015873"/>
+    <junction index="5" x="6.619047619047619" y="6.9523809523809526"/>
+    <junction index="6" x="8.88888888888889" y="5.380952380952381"/>
+    <junction index="7" x="8.126984126984127" y="5.380952380952381"/>
+    <junction index="8" x="6.604354378835234" y="6.151206837078031"/>
+    <junction index="9" x="5.802861685214626" y="5.4"/>
+    <junction index="10" x="7.388279638744333" y="5.3755532755185635"/>
+    <junction index="11" x="6.6" y="4.610492845786964"/>
+    <branch index="0" type="edu.colorado.phet.circuitconstructionkit.model.components.Wire" startJunction="0" endJunction="1"/>
+    <branch index="1" type="edu.colorado.phet.circuitconstructionkit.model.components.Wire" startJunction="1" endJunction="11"/>
+    <branch index="2" type="edu.colorado.phet.circuitconstructionkit.model.components.Wire" startJunction="2" endJunction="3"/>
+    <branch index="3" type="edu.colorado.phet.circuitconstructionkit.model.components.Wire" startJunction="3" endJunction="9"/>
+    <branch index="4" type="edu.colorado.phet.circuitconstructionkit.model.components.Wire" startJunction="4" endJunction="5"/>
+    <branch index="5" type="edu.colorado.phet.circuitconstructionkit.model.components.Wire" startJunction="5" endJunction="8"/>
+    <branch index="6" type="edu.colorado.phet.circuitconstructionkit.model.components.Wire" startJunction="7" endJunction="6"/>
+    <branch index="7" type="edu.colorado.phet.circuitconstructionkit.model.components.Wire" startJunction="7" endJunction="10"/>
+    <branch index="8" type="edu.colorado.phet.circuitconstructionkit.model.components.Resistor" startJunction="11" endJunction="10"
+            length="1.0985000000000003" height="0.507" resistance="10.0"/>
+    <branch index="9" type="edu.colorado.phet.circuitconstructionkit.model.components.Resistor" startJunction="9" endJunction="8"
+            length="1.0985000000000003" height="0.507" resistance="25.0"/>
+</circuit>
