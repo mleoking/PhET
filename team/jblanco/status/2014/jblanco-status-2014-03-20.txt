@@ -1,0 +1,102 @@
+PhET Progress Report, J. Blanco, 03-20-2014
+
+PhET Weekly Progress Report
+John Blanco
+March 20th, 2014
+
+Time period covered: February 27th through March 19th.  This is a three week period due to canceled status meetings.
+
+Balancing Act - 24.0 hrs
+
+o	Finished adding other non-decimal-denominated masses.
+o	Added credits.
+o	Cleaned up TODOs in the code.
+o	Did initial round of multi-platform testing.
+o	Fixed an issue where background screen would go white on game screen on IE11.
+o	Fixed an issue with initial motion of level selection buttons.
+o	Revised artwork so that none of the masses are scaled to the point that they don't look good.
+o	Fixed an issue where game challenges weren't very random after several rounds of the game.
+o	Set up code review (thanks, JO).
+o	Addressed code review issues, almost complete.
+
+Under Pressure - 4.0 hrs
+
+o	Improved fix for limiting motion of movable elements, gave guidance to MLL.
+o	Published a new release candidate, 1.0.0-rc.2.
+o	Gave MLL the go-ahead to invoice for this sim.
+
+Acid-Base Solutions - 5.0 hrs
+
+o	Worked with CM to categorize tickets and give MLL direction on how to address them.
+o	Reviewed and provided feedback to MLL on some ticket solutions.
+o	Had several discussions on how to get this sim into a state where CM can take over and start making the UI changes.
+
+Arithmetic - 2.5 hrs
+
+o	Set up GitHub repository and basic project structure, let MLL know that it was ready.
+
+Estimation - 8.0 hrs
+
+o	Finished setup of basic project structure.
+o	Created initial "Explore" screen model with basic properties controlled from UI.
+o	Created artwork for icons used on "Explore" screen.
+o	Added controls for the "Explore" screen.
+
+Balancing Chemical Equations - 2.0 hrs
+
+o	Reviewed spec and provided feedback in preparation for sending to MLL.
+o	Sent spec to MLL for quote.  Response received and approved.
+
+Resistance in a Wire - 3.0 hrs
+
+o	Tracked down a report of the simulation not loading in some cases, rebuilt and verified that problem went away.
+
+Common Code - 22.0 hrs
+
+o	Reviewed button appearance in design meeting.
+o	Revised button gradients based on feedback.
+o	Created a generalized underlying model and inheritance hierarchy for buttons.
+o	Revised refresh and return-to-level-select buttons to use new button model.
+o	Created versions of the timer and sound toggle buttons based on the new look and model.
+o	Generalized kit selection node, moved it to common code (from Balancing Act).
+o	Added ability to expand the touch area for the rectangular buttons.
+o	Revised the Sun demo to be more organized and present the latest versions of all buttons.
+
+Build Tools - 2.0 hrs
+
+o	Investigated Bower with SR, worked on an easy method for checking out all simulation code and dependencies.
+
+Developer Meetings - 6.0 hrs
+
+o	Developer meetings (4).
+
+MLL Management - 1.0 hrs
+
+o	Sent email about how to property remove listeners from observable arrays.
+
+Sim Integration API - 3.0 hrs
+
+o	Worked with Oliver and Sam to set up a google group for discussing sim integration with other educational resources.
+o	Met with Pearson Catalytics to discuss sim integration, wrote up and circulated notes.
+
+Web Site - 3.0 hrs
+
+o	Worked with JO on finalizing and verifying a rip of the site that can be used as a backup.
+
+Interviews - 5.0 hrs
+
+o	Interviewed Amy Rouinfar.
+o	Interviewed Amanda McGarry.
+
+Meetings, Email, and Other Administrative Overhead - 8.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	DEPA.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 19.0 hrs
+
+o	3 hrs sick time on 3/12
+o	2 vacation days
+
