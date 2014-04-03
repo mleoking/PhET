@@ -1,0 +1,88 @@
+PhET Progress Report, J. Blanco, 4-3-2014
+
+PhET Weekly Progress Report
+John Blanco
+April 3rd, 2014
+
+Time period covered: March 20th through April 3rd.  This is a two week period due to a canceled status meeting.
+
+Balancing Act - 6.0 hrs
+
+o	Set up test matrix.
+o	Finished addressing all code review comments.
+o	Increased touch area for items in the mass carousel for easier extraction on touch devices.
+o	Published a release candidate.
+o	Fixed several minor UI issues found during initial testing.
+o	Fixed an issue where timer behavior was odd if user switched to a different browser tab and then back while game in progress.
+
+Under Pressure - 6.0 hrs
+
+o	Review and discuss some improvements with Ariel.
+o	Made all pools have meter grid resolution instead of 1/2 meter for some pools.
+o	Bounded grid on left and right edges of pool for pool configurations 2 & 3.
+o	Fixed issue with positioning of text in fluid and gravity controls on Firefox.
+o	Added meter depth labels.
+o	Published new release candidate http://www.colorado.edu/physics/phet/dev/html/under-pressure/1.0.0-rc.4/under-pressure_en.html
+
+Acid-Base Solutions - 0.5 hrs
+
+o	Discussed status with CM.
+
+Arithmetic - 2.0 hrs
+
+o	Gave some early feedback on the first code that was checked in.
+o	Created icons for game level selection based on artwork supplied by BG.
+
+Estimation - 10.0 hrs
+
+o	Worked on model design.
+o	Implemented initial version of line exploration.
+o	Implemented initial version of rectangle exploration.
+o	Discussed some design issues with BG.
+
+Common Code - 12.0 hrs
+
+o	Added a round button that looks more consistent with the rectangular buttons (uses drawn gradients for shading).
+o	Created a new Reset All button based on the new round button.
+o	Fixed an issue with the press behavior identified by SR.
+o	Improved look of refresh and return-to-level-select button based on team feedback.
+o	Prototyped stroke on buttons, reviewed with team, aAdded stroke option to buttons, added ability to 'dim' the stroke when disabled.
+o	Reduced icon movement on buttons.
+o	Tried out some alternative shadings for the pressed in round button.
+o	Published new demo versions in response to various feedback.
+o	Discussed issue with Joist timer with SR.
+o	Modified default reset all button size (new version only) based on input from SR.
+o	Did some refactoring/renaming of the button code based on input from developers.
+o	Fixed some behaviors related to multi-touch and button enable/disable.
+
+Developer Meetings - 3.0 hrs
+
+o	Developer meetings (2).
+
+MLL Management - 0.5 hrs
+
+o	Sent email about using SubSupText instead of HTMLText.
+
+Sim Integration API - 1.0 hrs
+
+o	Wrote up welcome message, had SR review.
+
+Interviews - 0.5 hrs
+
+o	Reviewed and commented on intern coding samples.
+
+Environment - 3.0 hrs
+
+o	Worked with Lenovo support on an issue where my machine would randomly go to sleep after 1 minute of inactivity.
+o	Worked on allowing SSH access to Figaro from outside CU firewall, ultimately decided against doing this based on input from Orrie Gartner.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 32.0 hrs
+
+o	3 days vacation
+o	Traded March 28th (CU holiday) for March 24th.
