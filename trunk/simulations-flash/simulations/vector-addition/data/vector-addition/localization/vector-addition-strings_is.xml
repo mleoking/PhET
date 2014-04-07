@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_is.xml created Thu Apr 03 08:12:04 WET 2014 using: vector-addition 2.02.00 (52287), translation-utility 2.14.00 (69024) okt. 9, 2012--><SimStrings>
+<string key="showSum" value="Sýna summu"/>
+<string key="translation.credits" value="SRG í FB"/>
+<string key="simTitle" value="Samlagning vigra"/>
+<string key="grabOne" value="Taktu vigur"/>
+<string key="clearAll" value="Hreinsa allt"/>
+<string key="componentDisplay" value="Sýna þætti"/>
+<string key="y" value="y"/>
+<string key="style3" value="Gerð 3"/>
+<string key="none" value="Ekkert"/>
+<string key="showGrid" value="Sýna rúður"/>
+<string key="style2" value="Gerð 2"/>
+<string key="x" value="x"/>
+<string key="style1" value="Gerð 1"/>
+</SimStrings>
