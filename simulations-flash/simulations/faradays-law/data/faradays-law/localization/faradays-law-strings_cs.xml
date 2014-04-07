@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_cs.xml created Mon Mar 24 11:16:10 CET 2014 using: faradays-law 2.02.00 (52648), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
+<string key="twoCoils" value="2 cívky "/>
+<string key="n" value="N"/>
+<string key="translation.credits" value="Václav Zahradník"/>
+<string key="noSound" value="Bez zvuku "/>
+<string key="showFieldLines" value="Zobrazit siločáry "/>
+<string key="voltage" value="napětí "/>
+<string key="simTitle" value="Faradayův zákon "/>
+<string key="flipMagnet" value="Otočit magnet"/>
+<string key="oneCoil" value="1 cívka "/>
+<string key="moveMe" value="Pohni se mnou!"/>
+<string key="s" value="S"/>
+</SimStrings>
