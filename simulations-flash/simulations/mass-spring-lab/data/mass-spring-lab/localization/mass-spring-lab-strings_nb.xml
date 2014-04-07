@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_nb.xml created Wed Mar 26 12:32:54 CET 2014 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.14.00 (69024) okt 9, 2012--><SimStrings>
+<string key="pause" value="pause"/>
+<string key="earth" value="Jorda"/>
+<string key="dontBother" value="Ignorer"/>
+<string key="16thTime" value="1/16 tid"/>
+<string key="nothinOK" value="Ingenting! OK?"/>
+<string key="mass1Label" value="50 gram"/>
+<string key="mass3Label" value="250 gram"/>
+<string key="planetX" value="Planet X"/>
+<string key="showEnergyOf" value="Vis energien til "/>
+<string key="hangMe" value="Heng meg!"/>
+<string key="resetTimer" value="nullstill"/>
+<string key="hard" value="hard"/>
+<string key="mass7Label" value="100 gram"/>
+<string key="translation.credits" value="Rune Mathisen / NDLA"/>
+<string key="stopWatch" value="Stoppeklokke"/>
+<string key="none" value="ingen"/>
+<string key="realTime" value="sanntid"/>
+<string key="startTimer" value="start/pause"/>
+<string key="help4" value="flyttbar stoppeklokke"/>
+<string key="help3" value="Dra vekt sideveis for å koble fra fjæra"/>
+<string key="showHelp" value="Vis hjelp"/>
+<string key="lots" value="mye"/>
+<string key="help2" value="flyttbar referanselinje"/>
+<string key="help1" value="flyttbar linjal"/>
+<string key="friction" value="friksjon"/>
+<string key="PEelas" value="PEelas"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Månen"/>
+<string key="energyOf" value="Energien til"/>
+<string key="total" value="Total"/>
+<string key="sound" value="Lyd"/>
+<string key="PEgrav" value="PEgrav"/>
+<string key="mass2Label" value="100 gram"/>
+<string key="thermal" value="Termisk"/>
+<string key="quarterTime" value="1/4 tid"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="Skjul hjelp"/>
+<string key="noHelp" value="Ingen hjelp"/>
+<string key="soft" value="myk"/>
+<string key="softness" value="stivhet fjær 3"/>
+<string key="simTitle" value="Lodd og fjærer"/>
+<string key="totalE" value="total E"/>
+<string key="noShow" value="Ikke vis"/>
+<string key="paused" value="Satt på pause"/>
+</SimStrings>
