@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_sq.xml created Mon Apr 14 18:36:19 CEST 2014 using: arithmetic 2.03.00 (51677), translation-utility 2.14.00 (69024) Oct 9, 2012-->
+<SimStrings>
+<string key="level" value="niveli"/>
+<string key="clickToSelect" value="Kliko në katrorin e duhur"/>
+<string key="correct" value="Saktë !"/>
+<string key="end" value="Fund"/>
+<string key="isWrong" value=" është gabim."/>
+<string key="start" value="Fillo"/>
+<string key="simTitle" value="Aritmetika"/>
+<string key="time" value="Koha(sec)"/>
+<string key="finalTime" value="Koha Finale:"/>
+<string key="multiply" value="Shumëzo"/>
+<string key="tryAgain" value="provo përsëri"/>
+<string key="sound" value="Zëri"/>
+<string key="divide" value="Pjesto"/>
+<string key="factor" value="Faktorizo"/>
+<string key="minute" value="minuta"/>
+<string key="finalScore" value="pikët:"/>
+<string key="nbrRight" value="numri i saktë:"/>
+<string key="mustTypeNbr" value="Duhet të shkruhet\nnjë numër."/>
+<string key="score" value="Pikët"/>
+<string key="scorePer" value="pikët"/>
+<string key="translation.credits" value="Berat Bejtullahu / Gjakovë / Kosovë&#10;berat_bejtullahu@hotmail.com&#10;"/>
+<string key="nbrWrong" value="numri gabim"/>
+<string key="reset" value="Rifillo"/>
+<string key="clock" value="ora"/>
+<string key="title" value="Ushtrime matematikore"/>
+</SimStrings>
