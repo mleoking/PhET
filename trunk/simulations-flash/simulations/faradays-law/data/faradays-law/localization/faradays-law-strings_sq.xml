@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_sq.xml created Mon Apr 14 19:41:41 CEST 2014 using: faradays-law 2.02.00 (52648), translation-utility 2.14.00 (69024) Oct 9, 2012-->
+<SimStrings>
+<string key="twoCoils" value="2 dredhat"/>
+<string key="n" value="N"/>
+<string key="translation.credits" value="Berat Bejtullahu / Gjakovë / Kosovë&#10;berat_bejtullahu@hotmail.com"/>
+<string key="noSound" value="Pa zë"/>
+<string key="showFieldLines" value="Shfaq vijat e fushës"/>
+<string key="voltage" value="tensioni"/>
+<string key="simTitle" value="Ligji i Faradejit"/>
+<string key="flipMagnet" value="Rrotullo magnetin"/>
+<string key="oneCoil" value="1 dredhë"/>
+<string key="moveMe" value="Më lëviz!"/>
+<string key="s" value="S"/>
+</SimStrings>
