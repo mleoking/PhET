@@ -276,5 +276,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
     //Make existing elements unpickable for black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
     public void makeCircuitUnpickable() {
         getCircuitNode().makeElementsUnpickable();
+        getCircuitNode().makeBranchesInvisible();
     }
 }
