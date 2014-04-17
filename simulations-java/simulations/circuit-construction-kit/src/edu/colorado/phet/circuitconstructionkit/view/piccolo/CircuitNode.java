@@ -302,4 +302,17 @@ public class CircuitNode extends PhetPNode {
         makeChildrenUnpickable( branchLayer );
         makeChildrenUnpickable( junctionLayer );
     }
+
+    //Hide the interior branches inside the black box
+    public void makeBranchesInvisible() {
+        for ( int i = 0; i < getNumBranchNodes(); i++ ) {
+            BranchNode branchNode = getBranchNode( i );
+            Branch branch = branchNode.getBranch();
+            Junction start = branch.getStartJunction();
+            Junction end = branch.getEndJunction();
+            int starts = getCircuit().getAdjacentBranches( start ).length;
+            int ends = getCircuit().getAdjacentBranches( end ).length;
+            branchNode.setVisible( starts == 1 || ends == 1 );
+        }
+    }
 }
