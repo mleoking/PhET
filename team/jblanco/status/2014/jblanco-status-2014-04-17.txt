@@ -1,0 +1,64 @@
+PhET Progress Report, J. Blanco, 4-17-2014
+
+PhET Weekly Progress Report
+John Blanco
+April 17th, 2014
+
+Time period covered: April 3rd through April 16th.  This is a two week period due to a canceled status meeting.
+
+Balancing Act - 13.0 hrs
+
+o	Backed out release candidate branch, now back to working on master branch.
+o	Implemented revised carousel controls.
+o	Created new column control selector.
+o	Worked on issue with odd movement in rotating text, solutions are ugly, will discuss deferring with design team.
+o	Fixed an issue with odd z-order layering of draggable masses (#14).
+o	Discovered and logged an issue about touch areas not being clipped.  Requires Scenery fix.
+o	Published a version for Bryce to use in interviews.
+
+Under Pressure - 7.0 hrs
+
+o	Fixed issue related to revealing fluid and density on mystery pool.
+o	Modified layout of pressure gauge.
+o	Added more variation in the fluid density for the mystery pool.
+o	Published to production server.
+
+Acid-Base Solutions - 1.5 hrs
+
+o	Tested release candidate.
+
+Estimation - 22.5 hrs
+
+o	Implemented initial behavior for the lines, rectangles, cubes, and cylinders modes for the 'Exploration' screen.
+o	Removed discrete/continuous choice for lines mode on 'Exploration' screen (design change).
+o	Refactored original fast-track code to be well structured and documented.
+o	Implemented the 'New Object' functionality.
+o	Implemented reset functionality for all exploration modes.
+o	Published initial dev version, see http://www.colorado.edu/physics/phet/dev/html/estimation/1.0.0-dev.1/
+o	Reviewed with Bryce G.
+
+Common Code - 22.0 hrs
+
+o	Collaborated with Sam R to create a 'sticky' toggle button.
+o	Collaborated with Sam R to separate button listener and button model functionality.
+o	Collaborated with Sam R to create a more maintainable and extensible design of the button code.
+o	Tested transparency for buttons (needed for RPAL).
+o	Reviewed with Ariel P and the development team.
+
+Developer Meetings - 6.0 hrs
+
+o	Developer meetings.
+
+Interviews - 1.0 hrs
+
+o	Reviewed and commented on intern coding samples.
+o	Contacted Sam Breed about our hiring interests, sent him link to job description.  No response yet.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
