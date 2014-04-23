@@ -259,6 +259,27 @@
         }
     }
 
+    function file_recurse_copy( $src, $dst ) { 
+        $dir = opendir($src); 
+        print 'here for 1, src = '.$src."\n";
+        if ( !is_dir( $src ) && !file_exists( $dst ) ){
+            print "here for 2\n";
+            mkdir($dst); 
+        }
+        while(false !== ( $file = readdir($dir)) ) { 
+            print "here for 3\n";
+            if (( $file != '.' ) && ( $file != '..' )) { 
+                if ( is_dir($src . '/' . $file) ) { 
+                    file_recurse_copy($src . '/' . $file,$dst . '/' . $file); 
+                } 
+                else { 
+                    copy($src . '/' . $file,$dst . '/' . $file); 
+                } 
+            }
+        }
+        closedir($dir); 
+    }
+
 	function file_dircopy($srcdir, $dstdir, $verbose = false) {
 		if (is_file($srcdir)) {
 			copy($srcdir, $dstdir);
@@ -266,16 +287,21 @@
 			return 1;
 		}
 		else {
+            print "here 1\n";
 			$num = 0;
 			
 			if (!is_dir($dstdir)) {
 				file_mkdirs($dstdir);
 			}
 			if ($curdir = opendir($srcdir)) {
+                print "here 2\n";
 				while($file = readdir($curdir)) {
+                    print "here 3\n";
 					if($file != '.' && $file != '..') {
+                        print "here 4\n";
 						$srcfile = $srcdir.$file;
 						$dstfile = $dstdir.$file;
+                        print "$srcfile\n";
 						
 						if (is_file($srcfile)) {
 							if(is_file($dstfile)) {
