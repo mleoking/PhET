@@ -1,3 +1,5 @@
+# 2.03.00 (73973) Apr 24, 2014
+4/24/14 Fixed minor internationalization issue.
 # 2.03.02 (73971) Apr 24, 2014
 # 2.02.01 (73969) Apr 24, 2014
 4/24/14 Minor bug fix.
