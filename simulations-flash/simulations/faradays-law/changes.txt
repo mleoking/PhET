@@ -1,3 +1,5 @@
+# 2.02.02 (73961) Apr 24, 2014
+4/24/14 Tweeked wiring graphics.
 # 2.02.01 (73958) Apr 24, 2014
 4/24/14 Fixed wiring graphics. 
 # 2.02.00 (52648) Jun 5, 2011
