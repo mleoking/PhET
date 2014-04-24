@@ -1,3 +1,5 @@
+# 2.03.00 (73962) Apr 24, 2014
+4/24/14 Corrected wiring graphics between voltmeter and bulb.
 # 2.02.02 (73961) Apr 24, 2014
 4/24/14 Tweeked wiring graphics.
 # 2.02.01 (73958) Apr 24, 2014
