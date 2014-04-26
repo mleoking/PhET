@@ -33,7 +33,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 public class CCKModule extends PiccoloModule {
     public static Color BACKGROUND_COLOR = new Color( 100, 160, 255 );
     public static boolean createUnpickableCircuit = false;
-    private final boolean blackBox;
+    public final boolean blackBox;
     private CCKModel model;
     private CCKParameters cckParameters;
     private CCKSimulationPanel cckSimulationPanel;
