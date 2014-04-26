@@ -86,7 +86,10 @@ public class CCKControlPanel extends ControlPanel {
         }
 
         add( filePanel );
-        if ( module.getParameters().isUseVisualControlPanel() && !CircuitConstructionKitDCApplication.isStanfordStudy() ) {
+
+        //Show the "lifelike/schematic" visualiaztion panel
+        //Don't show it for the black box scenario, because changing to schematic makes the wires able to be dragged outside the box
+        if ( module.getParameters().isUseVisualControlPanel() && !CircuitConstructionKitDCApplication.isStanfordStudy() && !module.blackBox ) {
             add( makeVisualPanel() );
         }
         if ( !CircuitConstructionKitDCApplication.isStanfordStudy() ) {
