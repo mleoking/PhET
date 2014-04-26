@@ -57,6 +57,35 @@
         file_unlock( LOCK_FILE_STEM_NAME );
     }
 
+    /**
+     * Consolidate any files ripped from the phet-downloads.colorado.edu domain
+     * with the files ripped from phet.colorado.edu by copying the former into
+     * the space where the latter were stored, and then modify any links in the
+     * HTML files.  See Unfuddle #3616 for more information about this.
+     */
+    function consolidate_ripped_files(){
+
+       if ( file_exists( RIPPED_WEBSITE_ROOT.'/phet-downloads.colorado.edu' ) ){
+          flushing_echo( 'Found files phet-downloads.colorado.edu, consolidating with phet.colorado.edu' );
+          file_recurse_copy( RIPPED_WEBSITE_ROOT.'/phet-downloads.colorado.edu', RIPPED_WEBSITE_ROOT.'/phet.colorado.edu' );
+
+          // Replace any references (i.e. links) to files in the phet-downloads dir.
+          $all_html_files = file_list_in_directory( RIPPED_WEBSITE_ROOT, '*.html' );
+          $replacement_count = 0;
+          foreach ( $all_html_files as $file_name ){
+             // Assume that only files in the 'contributions' directories
+             // contain any references.  This speeds this conversion up a lot,
+             // but is brittle, and will break if any other things start being
+             // served from phet-downloads.
+             if ( strpos( $file_name, 'contributions' ) !== false ){
+                file_replace_string_in_file( $file_name, '\.\.\/phet-downloads.colorado.edu\/', '' );
+                $replacement_count++;
+             }
+          }
+          flushing_echo( 'Processed '.$replacement_count.' files in the contributions dir for replacement of phet-downloads domain.' );
+       }
+    }
+
     function perform_build_steps( $rip_config, $output_dir, $rommable_output_dir ){
 
         // Remove previous copy of web site.
@@ -85,6 +114,10 @@
         // Move the individually translated jar files out of the sims directory
         // so that they won't be included in the local mirror installers.
         ripper_move_out_translated_jars();
+
+        // Move any files that were served from the phet-download domain into
+        // the main rip. See Unfuddle ticket #3616 for more info if needed.
+        consolidate_ripped_files();
 
         // Insert the creation time into the marker file.  Note that there is
         // no distribution tag for the standard PhET installers.

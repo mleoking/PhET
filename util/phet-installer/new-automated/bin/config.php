@@ -44,6 +44,7 @@
 
     define("PHET_VERSION",                      "1.0");
     define("PHET_HOSTNAME",                     "phet.colorado.edu");
+    define("PHET_DOWNLOADS_HOSTNAME",           "phet-downloads.colorado.edu");
     define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
     define("PHET_SPONSOR_LIST_URL",             "http://".PHET_HOSTNAME."/en/sponsor-list");
     define("PHET_ENGLISH_WEBSITE_URL",          PHET_ROOT_URL.ENGLISH_LOCALE_STRING."/");
@@ -100,14 +101,19 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, '*all*.jar'));
     define("PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES",
+        CREATE_FILTER_ITEM('+', PHET_DOWNLOADS_HOSTNAME, '*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, '*all*.jar'));
     define("PHET_RIPPER_FILTER_YF",
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
