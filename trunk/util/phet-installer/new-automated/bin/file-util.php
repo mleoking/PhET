@@ -261,13 +261,10 @@
 
     function file_recurse_copy( $src, $dst ) { 
         $dir = opendir($src); 
-        print 'here for 1, src = '.$src."\n";
-        if ( !is_dir( $src ) && !file_exists( $dst ) ){
-            print "here for 2\n";
+        if ( is_dir( $src ) && !file_exists( $dst ) ){
             mkdir($dst); 
         }
         while(false !== ( $file = readdir($dir)) ) { 
-            print "here for 3\n";
             if (( $file != '.' ) && ( $file != '..' )) { 
                 if ( is_dir($src . '/' . $file) ) { 
                     file_recurse_copy($src . '/' . $file,$dst . '/' . $file); 
