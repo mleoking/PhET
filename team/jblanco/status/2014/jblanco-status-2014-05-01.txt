@@ -1,0 +1,86 @@
+PhET Progress Report, J. Blanco, 5-1-2014
+
+PhET Weekly Progress Report
+John Blanco
+May 1st, 2014
+
+Time period covered: April 17th through April 30th.  This is a two week period due to a canceled status meeting.
+
+Balancing Act - 14.0 hrs
+
+o	Created small icons for the nav bar.
+o	Tested fix for clipping of the touch areas.
+o	Made the column control 25% larger.
+o	Implemented fix for "strobing" motion of rotating text (in collaboration with Jonathan O).
+o	Did multi-platform testing of text change.
+o	Published a development version, see http://www.colorado.edu/physics/phet/dev/html/balancing-act/1.0.0-dev.12/balancing-act_en.html.
+
+Under Pressure - 2.0 hrs
+
+o	Fixed issue where faucet could get stuck.
+o	Modified the tap-to-dispense time based on input from design team.
+
+Estimation - 5.0 hrs
+
+o	Made non-square rectangles work as the reference object.
+
+Area - 2.0 hrs
+
+o	Discussed in design meeting.
+
+Build an Atom - 1.5 hrs
+
+o	Improved an icon used in the game, see issue #68.
+o	Reduced the auto increment timer on the number entry boxes in the game based on design team input.
+
+Ohm's Law - 1.0 hrs
+
+o	Duplicated an issue with embedding in iframes in IE with currently published version, verified fixed in latest code.
+
+Common Code - 22.0 hrs
+
+o	Added license files for the Vibe and Vegas repositories.
+o	Worked with Chris M and Sam R on a number of questions and issues identified during review of the new buttons.
+o	Updated collaboration document with some changes to the coding standards.
+o	Revised the timer and sound toggle buttons based on recent input, review with Ariel P and Bryce G.
+o	Published latest version of button demo.
+
+Build Tools - 1.5 hrs
+
+o	Added an output file to the build process that puts the sim in an iframe.
+
+Installer - 12.0
+
+o	Tracked down and fixed an issue where activities were not being included in the installers that are supposed to include them, see Unfuddle #3616.
+o	Did a little bit of preliminary investigation into signing the installer.
+
+Developer Meetings - 8.0 hrs
+
+o	Developer meetings.
+
+MLL Management - 2.0 hrs
+
+o	Let them know about some changes to the coding standards.
+o	Set spec for RPAL.
+o	Pinged them about status of Arithmetic and BCE sims.
+o	Discussed locally some concerns about their estimate for RPAL.
+
+Web Site - 1.0 hrs
+
+o	Did some preliminary investigation on an issue where some zip archives of activities are missing, found when working on installer.
+
+Interviews - 1.0 hrs
+
+o	Reviewed Aaron's GitHub repositories, provided feedback.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Certified revised ePERs.
+o	Complete faculty social climate survey.
+o	Attended webinar on collaboration between Edmodo and CK12.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
