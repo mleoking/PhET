@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
@@ -203,6 +203,9 @@ public class WebsiteTranslationDeployClient {
         catch ( IOException e ) {
             e.printStackTrace();
         }
+
+        // close server connection
+        ScpTo.closeAllSessions();
     }
 
     private void transferFlashHTMLs( File trunk, File localTranslationDir, final String remoteTranslationDirName ) throws IOException {
@@ -290,6 +293,9 @@ public class WebsiteTranslationDeployClient {
 //                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i],  ) ) );
             }
         }
+
+        // close server connection
+        ScpTo.closeAllSessions();
     }
 
 }

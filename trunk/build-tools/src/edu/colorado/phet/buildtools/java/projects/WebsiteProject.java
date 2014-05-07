@@ -90,6 +90,7 @@ public class WebsiteProject extends JavaProject {
 
             System.out.println( "Uploading WAR" );
             ScpTo.uploadFile( getBuildWarFile(), userInfo.getUsername(), host, "/tmp/", userInfo.getPassword() );
+            ScpTo.closeAllSessions();
 
             System.out.println( "Finished uploading, executing undeploy and deploy on Tomcat" );
             success = SshUtils.executeCommands( new String[] {

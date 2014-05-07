@@ -115,6 +115,9 @@ public class StatisticsDeployCommand {
         // set the permissions of the server-side files
         success = success && SshUtils.executeCommand( website, "cd " + website.getOfflineStatisticsPath() + "; chmod ug+x set_permissions; ./set_permissions" );
 
+        // close connection to server
+        ScpTo.closeAllSessions();
+
         return success;
     }
 
