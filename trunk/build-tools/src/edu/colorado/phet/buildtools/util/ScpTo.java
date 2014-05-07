@@ -56,6 +56,7 @@ public class ScpTo {
             // username and password will be given via UserInfo interface.
             UserInfo ui = new MyUserInfo( password );
             session.setUserInfo( ui );
+            session.setConfig( "PreferredAuthentications", "publickey,keyboard-interactive,password" ); // Workaround for a JSch issue, see https://issues.apache.org/bugzilla/show_bug.cgi?id=53437.
             session.connect();
 
             // exec 'scp -t remoteFilePath' remotely

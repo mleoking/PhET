@@ -96,7 +96,7 @@ public class JavaBuildCommand {
             FileUtils.copyRecursive( src, getSoftwareAgreementDir() );
 //            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( getSoftwareAgreementDir().getParentFile(), new String[]{getSoftwareAgreementDir().getName()} );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -110,7 +110,7 @@ public class JavaBuildCommand {
         PhetJarSigner signer = new PhetJarSigner( BuildLocalProperties.getInstance() );
         // Sign the JAR.
 //        boolean success = signer.signJar( outputJar );
-        boolean success = ( project.isSimulationProject() ? signer.createExtraJars( null, outputJar ) : signer.signJar( null,outputJar ) );
+        boolean success = ( project.isSimulationProject() ? signer.createExtraJars( null, outputJar ) : signer.signJar( null, outputJar ) );
         if ( !success ) {
             // Signing failed.  Throw an exception in order to force the build process to stop.
             throw new BuildException( "Signing of JAR file failed." );
@@ -204,7 +204,7 @@ public class JavaBuildCommand {
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
 
-        //if this fails, you may need to add Sun's tools.jar to you working copy (ignored from svn for legal reasons)
+        //if this fails, you may need to add Oracles's tools.jar to your working copy (ignored from svn for legal reasons)
         //see trunk/build-tools/contrib/sun-tools/readme.txt
         antTaskRunner.runTask( javac );
 
@@ -277,7 +277,7 @@ public class JavaBuildCommand {
         try {
             properties.store( new FileOutputStream( file ), JAR_LAUNCHER_PROPERTIES_FILE_HEADER );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
 
@@ -302,7 +302,7 @@ public class JavaBuildCommand {
             try {
                 string += file.getCanonicalPath();
             }
-            catch ( IOException e ) {
+            catch( IOException e ) {
                 e.printStackTrace();
             }
             if ( i < files.length - 1 ) {
