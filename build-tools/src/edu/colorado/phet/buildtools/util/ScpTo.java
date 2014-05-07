@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
@@ -36,6 +37,10 @@ public class ScpTo {
         uploadFile( new File( lfile ), user, host, rfile, password );
     }
 
+    // List of JSch sessions that are currently active, essentially a cache so
+    // that sessions don't have to be reestablished for every transfer.
+    private static ArrayList<Session> sessionList = new ArrayList<Session>();
+
     public static void uploadFile( PhetWebsite website, BuildLocalProperties buildLocalProperties, File localFile, String remoteFilePath ) throws JSchException, IOException {
         AuthenticationInfo credentials = website.getServerAuthenticationInfo( buildLocalProperties );
         uploadFile(
@@ -50,14 +55,25 @@ public class ScpTo {
     public static void uploadFile( File localFile, String user, String host, String remoteFilePath, String password ) throws JSchException, IOException {
         FileInputStream fis = null;
         try {
-            JSch jsch = new JSch();
-            Session session = jsch.getSession( user, host, 22 );
+            // Obtain a previously cached JSch session or, if no matching one exists, create a new one.
+            Session session = null;
+            for ( Session s : sessionList ) {
+                if ( s.getHost().equals( host ) && ( s.getUserName().equals( user ) ) ) {
+                    session = s;
+                }
+            }
+            if ( session == null ) {
+                // No cached session found, create one.
+                JSch jsch = new JSch();
+                session = jsch.getSession( user, host, 22 );
 
-            // username and password will be given via UserInfo interface.
-            UserInfo ui = new MyUserInfo( password );
-            session.setUserInfo( ui );
-            session.setConfig( "PreferredAuthentications", "publickey,keyboard-interactive,password" ); // Workaround for a JSch issue, see https://issues.apache.org/bugzilla/show_bug.cgi?id=53437.
-            session.connect();
+                // username and password will be given via UserInfo interface.
+                UserInfo ui = new MyUserInfo( password );
+                session.setUserInfo( ui );
+                session.setConfig( "PreferredAuthentications", "publickey,keyboard-interactive,password" ); // Workaround for a JSch issue, see https://issues.apache.org/bugzilla/show_bug.cgi?id=53437.
+                session.connect();
+                sessionList.add( session );
+            }
 
             // exec 'scp -t remoteFilePath' remotely
             String command = "scp -p -t " + remoteFilePath;
@@ -80,9 +96,9 @@ public class ScpTo {
              * This code originally used "C0644", but that causes permissions problems
              * when different developers attempted to deploy the same sim.
              */
-            // send "C0664 filesize filename", where filename should not include '/'
-            long filesize = ( localFile ).length();
-            command = "C0664 " + filesize + " ";
+            // send "C0664 fileSize filename", where filename should not include '/'
+            long fileSize = ( localFile ).length();
+            command = "C0664 " + fileSize + " ";
             if ( localFile.getAbsolutePath().lastIndexOf( '/' ) > 0 ) {
                 command += localFile.getAbsolutePath().substring( localFile.getAbsolutePath().lastIndexOf( '/' ) + 1 );
             }
@@ -120,7 +136,6 @@ public class ScpTo {
             out.close();
 
             channel.disconnect();
-            session.disconnect();
 
             System.out.println( "Finished scp (from, to):" + localFile + " " + remoteFilePath );
         }
@@ -160,6 +175,17 @@ public class ScpTo {
             }
         }
         return b;
+    }
+
+    /**
+     * Close any JSch sessions that were created to enable file uploads.
+     */
+    public static void closeAllSessions() {
+        for ( Session session : new ArrayList<Session>( sessionList ) ) {
+            System.out.println( "Closing JSch session with host " + session.getHost() );
+            session.disconnect();
+            sessionList.remove( session );
+        }
     }
 
     public static class MyUserInfo implements UserInfo {

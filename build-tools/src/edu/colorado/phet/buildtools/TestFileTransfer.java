@@ -31,5 +31,6 @@ public class TestFileTransfer {
             ScpTo.uploadFile( fileToUpload, args[0], "figaro.colorado.edu", "/data2/file-upload-test", args[1] );
             System.out.println( "File " + fileName );
         }
+        ScpTo.closeAllSessions();
     }
 }
