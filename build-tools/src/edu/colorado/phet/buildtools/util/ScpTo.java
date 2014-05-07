@@ -20,6 +20,10 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
 
+/**
+ * This file was copied from an on-line example and then modified to suit
+ * PhET's needs.
+ */
 public class ScpTo {
     public static void main( String[] arg ) throws JSchException, IOException {
         if ( arg.length != 3 ) {
@@ -60,6 +64,11 @@ public class ScpTo {
             for ( Session s : sessionList ) {
                 if ( s.getHost().equals( host ) && ( s.getUserName().equals( user ) ) ) {
                     session = s;
+                    if ( !session.isConnected() ) {
+                        System.out.println( "Warning: Cached session was not connected, reconnecting.  Host = " + session.getHost() );
+                        session.connect();
+                    }
+                    break;
                 }
             }
             if ( session == null ) {

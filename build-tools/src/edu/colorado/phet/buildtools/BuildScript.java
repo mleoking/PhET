@@ -115,6 +115,9 @@ public class BuildScript {
         System.out.println( "Opening Browser." );
         PhetWebsite.openBrowser( codeBase );
 
+        // Clean up any connections to the server (used for file transfer).
+        ScpTo.closeAllSessions();
+
         System.out.println( "Finished deploy to: " + server.getHost() );
 
         for ( Listener listener : listeners ) {
@@ -385,6 +388,7 @@ public class BuildScript {
 //                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i],  ) ) );
             }
         }
+        ScpTo.closeAllSessions();
         return true;
     }
 
