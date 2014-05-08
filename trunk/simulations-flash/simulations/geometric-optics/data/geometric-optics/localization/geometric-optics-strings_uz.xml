@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_uz.xml created Sun May 04 20:08:42 UZT 2014 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) Oct 9, 2012--><SimStrings>
+<string key="draggableScreen" value="ko`chma ekran"/>
+<string key="draggableLens" value="ko`chma linzalar"/>
+<string key="screen" value="Ekran"/>
+<string key="draggableRuler" value="ko`chma chizg`iz"/>
+<string key="simTitle" value="Geometrik optika"/>
+<string key="showHelp" value="Ko`makni ko`rsatish"/>
+<string key="moveMe" value="ko`chirmoq"/>
+<string key="showGuides" value="Yo`naltiruvchini ko`rsatish"/>
+<string key="diameter" value="diametr"/>
+<string key="ruler" value="Chizg`ich"/>
+<string key="focalPoint" value="fokal nuqta"/>
+<string key="curvatureRadius" value="egrilik radiusi (m)"/>
+<string key="changeObject" value="Buyumni o`zgartirish"/>
+<string key="principalRays" value="Asosiy nurlar"/>
+<string key="marginalRays" value="Yordamchi nurlar"/>
+<string key="virtualImage" value="Mavhum tasvir"/>
+<string key="noRays" value="nurlarsiz"/>
+<string key="secondSource" value="2-nuqta"/>
+<string key="hideHelp" value="Ko`makni yashirish"/>
+<string key="refractiveIndex" value="sindirish ko`rsatgichi"/>
+<string key="manyRays" value="ko`p nurlar"/>
+</SimStrings>
