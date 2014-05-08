@@ -1,0 +1,58 @@
+PhET Progress Report, J. Blanco, 5-8-2014
+
+PhET Weekly Progress Report
+John Blanco
+May 8th, 2014
+
+Time period covered: May 1st through May 7th.
+
+Balancing Act - 8.0 hrs
+
+o	Created programmatic versions of the icons for controlling columns on/off.
+o	Revised the nav bar icons to look better on IE and Firefox.
+o	Implemented Firefox-specific workaround for issues with rotating text.
+o	Cut over to the new Reset All, Sound Toggle, and Timer Toggle buttons.
+
+Estimation - 2.0 hrs
+
+o	Made non-square cubes work as the reference object.
+o	Discussed several design questions with Bryce G.
+
+Resistance in a Wire - 2.0 hrs
+
+o	Cleaned up abandoned branches in Git
+o	Integrated new Reset All button, made some other minor UI adjustments.
+o	Created a release candidate and test matrix page, requested testing assistance.
+
+Build an Atom - 0.5 hrs
+
+o	Performed a couple more modify-and-review cycles with Emily on one of the icons for the game level selection screen.
+
+Various Sims - 3.0 hrs
+
+o	Cut over to new versions of Reset All and Sound Toggle buttons.
+
+Common Code - 12.0 hrs
+
+o	Discussed new button code with Chris M.
+o	Worked with Sam R on determining optimal sizes for the various icons.
+o	Worked (in collaboration with Sam R) on promoting the new buttons to be the primary buttons.
+o	Added a stroke to round buttons by default.
+o	Worked with Sam R on creating a new play/pause button based on the new button infrastructure.
+
+Build Tools (Java) - 7.5 hrs
+
+o	Worked on an issue that is blocking normal deployment of Java sims to the server.  Implemented a potential solution, still needs review and test, see Unfuddle #3621.
+
+Developer Meetings - 2.0 hrs
+
+o	Developer meeting.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
