@@ -1,3 +1,5 @@
+# 2.04.00 (74004) May 8, 2014
+5/8/14 > Minor graphic changes.
 # 2.03.03 (73989) May 2, 2014
 5/2/14 Trying to fix sharing violation.
 # 2.03.02 (73987) May 2, 2014
