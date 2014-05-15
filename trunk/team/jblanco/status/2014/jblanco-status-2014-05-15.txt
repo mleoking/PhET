@@ -1,0 +1,75 @@
+PhET Progress Report, J. Blanco, 5-15-2014
+
+PhET Weekly Progress Report
+John Blanco
+May 15th, 2014
+
+Time period covered: May 8th through May 14th.
+
+Balancing Act - 5.0 hrs
+
+o	Reviewed with Ariel P and Kathy P.
+o	Reduced size of timer and sound toggle buttons.
+o	Added level indicator to the scoreboard.
+o	Improved layout of the game screen.
+o	Changed scoreboard button to say "Start Over".
+o	Revised font size on scoreboard.
+o	Published a release candidate, set up the test matrix.
+
+Area - 10.0 hrs
+
+o	Set up repository and basic project structure.
+o	Set up project for two screens, created and incorporated temporary icons.
+o	Added "placement boards", buckets, control panel, and first draggable shapes to the "Explore" screen.
+
+Resistance in a Wire - 1.5 hrs
+
+o	Worked with test team to re-test new release candidate.
+o	Published revised version (v1.1.0) to production server.
+
+Energy Skate Park Basics - 2.0 hrs
+
+o	Duplicated and logged issues for things noticed during button testing.
+o	Gathered performance information on iPad 2 for Sam R and Jonathan O.
+
+Various Sims - 0.5 hrs
+
+o	Cut over to new versions of Timer Toggle button.
+
+Common Code - 11.0 hrs
+
+o	Changed default stroke on rectangular buttons to be a thin stroke of darkened base color.
+o	Various discussions with developers (mostly Sam R) on next steps in migration to new buttons.
+o	Looked at an issue with the Reset All button appearing "grainy" in the example sim, seems to be an issue with the outline stroke.
+o	Changed default caption of scoreboard button to be "Start Over", made caption text an option to the Scoreboard type.
+o	Migrated some common code components to use the new buttons.
+o	Revised buttons to take any sort of color specification for the base colors.
+o	Worked with Sam R on some performance issues with the new buttons on iPad.
+o	Tracked down issue with not being able to make text look disabled on the new HTMLPushButton.
+o	Fixed an issue where outline strokes on new buttons didn't look right when buttons were disabled.
+
+Build Tools (Java) - 0.5 hrs
+
+o	Had Sam R and Jonathan O review the changes for file transfer, contacted Oliver N about careful testing of translation deployments, updated ticket, see Unfuddle #3621.
+
+Developer Meetings - 3.0 hrs
+
+o	Developer meeting (x2).
+
+MLL Management - 2.0 hrs
+
+o	Set up and held meeting with Dmitry, Ariel P, Sam R to discuss issues with recent sims and plans moving forward.  Let them know to cease work on all fraction sims except Fraction Matcher, discussed importance of next sims (BCE and Arithmetic).
+
+Installer - 1.5 hrs
+
+o	Helped a user in England figure out how to perform an unattended install on multiple machines.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o	Weekly status report.
+o	Weekly team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o	Various upcoming vacation in June and July.
