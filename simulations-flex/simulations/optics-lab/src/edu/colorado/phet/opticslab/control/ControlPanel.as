@@ -7,6 +7,8 @@
  */
 package edu.colorado.phet.opticslab.control {
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
+import edu.colorado.phet.flashcommon.controls.NiceRadioButton;
+import edu.colorado.phet.flashcommon.controls.NiceRadioButtonGroup;
 import edu.colorado.phet.opticslab.model.OpticsModel;
 import edu.colorado.phet.opticslab.view.MainView;
 
@@ -43,16 +45,17 @@ public class ControlPanel extends Canvas {
 //    private var showLabels_ncb: NiceCheckBox;
 //    private var showGrid_ncb: NiceCheckBox;
 //    private var specialAngles_ncb: NiceCheckBox;
-    private var resetButton: NiceButton2;
+    //private var resetButton: NiceButton2;
 
     //private var showLabelsPanel: HBox;
     //private var showGridPanel: HBox;
 
     //internationalized strings
+
     private var resetAll_str: String;
 
 
-    public function ControlPanel( mainView:MainView, model:TrigModel ) {
+    public function ControlPanel( mainView:MainView, model:OpticsModel ) {
         super();
         this.myMainView = mainView;
         this.myOpticsModel = model;
@@ -105,46 +108,43 @@ public class ControlPanel extends Canvas {
         }
 
         //set up radio buttons
-        this.cosSinTan_nrbg = new NiceRadioButtonGroup();
-        this.cos_nrb = new NiceRadioButton( cos_str,  true );
-        this.sin_nrb = new NiceRadioButton( sin_str,  false );
-        this.tan_nrb = new NiceRadioButton( tan_str,  false );
-        this.initializeNiceRadioButton( cos_nrb );
-        this.initializeNiceRadioButton( sin_nrb );
-        this.initializeNiceRadioButton( tan_nrb );
-        this.cosSinTan_nrbg.setListener( this );
-        this.cosSinTan_nrbg.selectButton( cos_nrb );
+//        this.cosSinTan_nrbg = new NiceRadioButtonGroup();
+//        this.cos_nrb = new NiceRadioButton( cos_str,  true );
+//        this.sin_nrb = new NiceRadioButton( sin_str,  false );
+//        this.tan_nrb = new NiceRadioButton( tan_str,  false );
+//        this.initializeNiceRadioButton( cos_nrb );
+//        this.initializeNiceRadioButton( sin_nrb );
+//        this.initializeNiceRadioButton( tan_nrb );
+//        this.cosSinTan_nrbg.setListener( this );
+//        this.cosSinTan_nrbg.selectButton( cos_nrb );
 
         //set up checkboxes
         //this.showLabelsPanel = new HBox();
-        this.showLabels_ncb = new NiceCheckBox( showLabels_str, 20 );
-        //this.showLabels_cb = new CheckBox();
-        //showLabels_cb.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
-        this.showLabels_ncb.checkBox.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
-        //this.showGridPanel = new HBox();
-        this.showGrid_ncb = new NiceCheckBox( showGrid_str, 20 );
-        this.showGrid_ncb.checkBox.addEventListener( Event.CHANGE, showGridCheckBoxListener );
-        this.specialAngles_ncb = new NiceCheckBox( specialAngles_str, 20 );
-        this.specialAngles_ncb.checkBox.addEventListener( Event.CHANGE, specialAngleCheckBoxListener );
-//        this.showGrid_cb = new CheckBox();
-//        showGrid_cb.addEventListener( Event.CHANGE, showGridCheckBoxListener );
-//        this.showGrid_lbl = new NiceLabel( 20, showGrid_str );
+//        this.showLabels_ncb = new NiceCheckBox( showLabels_str, 20 );
+//
+//        this.showLabels_ncb.checkBox.addEventListener( Event.CHANGE, showLabelsCheckBoxListener );
+//
+//        this.showGrid_ncb = new NiceCheckBox( showGrid_str, 20 );
+//        this.showGrid_ncb.checkBox.addEventListener( Event.CHANGE, showGridCheckBoxListener );
+//        this.specialAngles_ncb = new NiceCheckBox( specialAngles_str, 20 );
+//        this.specialAngles_ncb.checkBox.addEventListener( Event.CHANGE, specialAngleCheckBoxListener );
+
 
         //set up reset button
-        this.resetButton = new NiceButton2( 100, 30, resetAll_str, resetAll );
+        //this.resetButton = new NiceButton2( 100, 30, resetAll_str, resetAll );
 
 
         //layout controls
         this.addChild( background );
-        this.background.addChild( radioButtonPanel );
-        this.background.addChild( checkBoxPanel );
-        this.radioButtonPanel.addChild( new SpriteUIComponent( cos_nrb ) );
-        this.radioButtonPanel.addChild( new SpriteUIComponent( sin_nrb ) );
-        this.radioButtonPanel.addChild( new SpriteUIComponent( tan_nrb ) );
-        this.checkBoxPanel.addChild( showLabels_ncb );
-        this.checkBoxPanel.addChild( showGrid_ncb );
-        this.checkBoxPanel.addChild( specialAngles_ncb );
-        this.background.addChild( new SpriteUIComponent( resetButton, true ));
+//        this.background.addChild( radioButtonPanel );
+//        this.background.addChild( checkBoxPanel );
+//        this.radioButtonPanel.addChild( new SpriteUIComponent( cos_nrb ) );
+//        this.radioButtonPanel.addChild( new SpriteUIComponent( sin_nrb ) );
+//        this.radioButtonPanel.addChild( new SpriteUIComponent( tan_nrb ) );
+//        this.checkBoxPanel.addChild( showLabels_ncb );
+//        this.checkBoxPanel.addChild( showGrid_ncb );
+//        this.checkBoxPanel.addChild( specialAngles_ncb );
+//        this.background.addChild( new SpriteUIComponent( resetButton, true ));
 
         this.resetAll();
 
@@ -153,48 +153,48 @@ public class ControlPanel extends Canvas {
 
 
     private function initializeStrings():void{
-        cos_str = FlexSimStrings.get( "cos", "cos" );
-        sin_str = FlexSimStrings.get( "sin", "sin" );
-        tan_str = FlexSimStrings.get( "tan", "tan" );
-        showLabels_str = FlexSimStrings.get( "labels", "Labels" );
-        showGrid_str = FlexSimStrings.get( "grid", "Grid" );
-        specialAngles_str = FlexSimStrings.get( "specialAngles", "Special Angles" );
-        resetAll_str = FlexSimStrings.get( "resetAll", "Reset All" );
+//        cos_str = FlexSimStrings.get( "cos", "cos" );
+//        sin_str = FlexSimStrings.get( "sin", "sin" );
+//        tan_str = FlexSimStrings.get( "tan", "tan" );
+//        showLabels_str = FlexSimStrings.get( "labels", "Labels" );
+//        showGrid_str = FlexSimStrings.get( "grid", "Grid" );
+//        specialAngles_str = FlexSimStrings.get( "specialAngles", "Special Angles" );
+//        resetAll_str = FlexSimStrings.get( "resetAll", "Reset All" );
     }
+//
+//    private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
+//        nrb.group = cosSinTan_nrbg;
+//        nrb.label.setFontColor( 0x000000 );
+//        nrb.label.setFontSize( 25 );
+//        nrb.setColorsOfDeselectedIcon( 0xbbbbbb, 0xffffff );  // outer rim, center dot
+//        nrb.setColorsOfSelectedIcon( 0xffffff, 0x000000 );
+//        nrb.setLabelColors( 0x000000, 0x000000 );
+//    }
+//
+//    public function niceRadioGroupListener( selectedButtonIndex: int ):void{
+//        var choice:int = selectedButtonIndex;
+//        //0 = cos, 1 = sin, 2 = tan
+//        this.myMainView.myGraphView.selectWhichGraphToShow( choice );
+//        this.myMainView.myReadoutView.setVisibilityOfTrigReadout( choice );
+//        this.myMainView.myUnitCircleView.trigMode = choice;
+//    }//end NiceRadioGroupListener
+//
+//    private function showLabelsCheckBoxListener( evt: Event ):void{
+//        var selected:Boolean = evt.target.selected;
+//        this.myMainView.myUnitCircleView.setLabelsVisibility( selected );
+//    }
+//
+//    private function showGridCheckBoxListener( evt: Event ):void{
+//        var selected:Boolean = evt.target.selected;
+//        this.myMainView.myUnitCircleView.setGridLinesVisibility( selected );
+//    }
 
-    private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
-        nrb.group = cosSinTan_nrbg;
-        nrb.label.setFontColor( 0x000000 );
-        nrb.label.setFontSize( 25 );
-        nrb.setColorsOfDeselectedIcon( 0xbbbbbb, 0xffffff );  // outer rim, center dot
-        nrb.setColorsOfSelectedIcon( 0xffffff, 0x000000 );
-        nrb.setLabelColors( 0x000000, 0x000000 );
-    }
-
-    public function niceRadioGroupListener( selectedButtonIndex: int ):void{
-        var choice:int = selectedButtonIndex;
-        //0 = cos, 1 = sin, 2 = tan
-        this.myMainView.myGraphView.selectWhichGraphToShow( choice );
-        this.myMainView.myReadoutView.setVisibilityOfTrigReadout( choice );
-        this.myMainView.myUnitCircleView.trigMode = choice;
-    }//end NiceRadioGroupListener
-
-    private function showLabelsCheckBoxListener( evt: Event ):void{
-        var selected:Boolean = evt.target.selected;
-        this.myMainView.myUnitCircleView.setLabelsVisibility( selected );
-    }
-
-    private function showGridCheckBoxListener( evt: Event ):void{
-        var selected:Boolean = evt.target.selected;
-        this.myMainView.myUnitCircleView.setGridLinesVisibility( selected );
-    }
 
 
-
-    private function specialAngleCheckBoxListener( evt: Event ):void{
-        var selected:Boolean = evt.target.selected;
-        this.myOpticsModel.specialAnglesMode = selected;
-    }
+//    private function specialAngleCheckBoxListener( evt: Event ):void{
+//        var selected:Boolean = evt.target.selected;
+//        this.myOpticsModel.specialAnglesMode = selected;
+//    }
 
 //    private function cosCheckBoxListener( evt: Event ):void{
 //        var selected:Boolean = evt.target.selected;
@@ -214,17 +214,15 @@ public class ControlPanel extends Canvas {
 
 
     public function resetAll():void{
-        myMainView.myUnitCircleView.setGridLinesVisibility( false );
-        myMainView.myUnitCircleView.setLabelsVisibility( false );
-        myOpticsModel.specialAnglesMode = false;
-        showGrid_ncb.checkBox.selected = false;
-        showLabels_ncb.checkBox.selected = false;
-        specialAngles_ncb.checkBox.selected = false;
-//        showGrid_cb.selected = false;
-//        showLabels_cb.selected = false;
-        myOpticsModel.smallAngle = 0;
-        niceRadioGroupListener( 0 );  //reset readouts to cosine function
-        cosSinTan_nrbg.selectButton( cos_nrb );
+//        myMainView.myUnitCircleView.setGridLinesVisibility( false );
+//        myMainView.myUnitCircleView.setLabelsVisibility( false );
+//        myOpticsModel.specialAnglesMode = false;
+//        showGrid_ncb.checkBox.selected = false;
+//        showLabels_ncb.checkBox.selected = false;
+//        specialAngles_ncb.checkBox.selected = false;
+//        myOpticsModel.smallAngle = 0;
+//        niceRadioGroupListener( 0 );  //reset readouts to cosine function
+//        cosSinTan_nrbg.selectButton( cos_nrb );
     }
 
 

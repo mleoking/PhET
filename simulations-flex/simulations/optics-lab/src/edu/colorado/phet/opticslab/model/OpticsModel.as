@@ -30,6 +30,7 @@ public class OpticsModel {
     public function OpticsModel( myMainView: MainView ) {
         this.myMainView = myMainView;
         this.views_arr = new Array();
+
         this.initialize();
     }//end constructor
 
@@ -38,6 +39,7 @@ public class OpticsModel {
         //this._smallAngle = 0;
         //this.nbrFullTurns = 0;
         //this._totalAngle = 0;
+        trace("OpticsModel.initialize called.")
         this.updateViews();
     }  //end initialize()
 
