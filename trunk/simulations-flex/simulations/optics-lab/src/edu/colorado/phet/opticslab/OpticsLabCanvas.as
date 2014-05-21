@@ -5,11 +5,15 @@
 /**
  * Created by IntelliJ IDEA.
  * User: Dubson
- * Date: 5/31/11
+ * Date: 5/21/2014
  * Time: 2:59 PM
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.opticslab {
+import edu.colorado.phet.flashcommon.CommonButtons;
+import edu.colorado.phet.flashcommon.view.PhetIcon;
+import edu.colorado.phet.flexcommon.FlexCommon;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.opticslab.util.Util;
 import edu.colorado.phet.opticslab.view.MainView;
 

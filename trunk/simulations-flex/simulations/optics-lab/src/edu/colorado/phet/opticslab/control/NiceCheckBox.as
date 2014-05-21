@@ -10,6 +10,9 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.opticslab.control {
+import edu.colorado.phet.flashcommon.controls.NiceLabel;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
+
 import flash.display.Sprite;
 
 import mx.containers.Canvas;
