@@ -6,28 +6,33 @@
 /**
  * Created by IntelliJ IDEA.
  * User: Dubson
- * Date: 6/1/11
+ * Date: 5/21/2014
  * Time: 3:06 PM
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.opticslab.view {
+import edu.colorado.phet.flashcommon.view.PhetIcon;
+import edu.colorado.phet.opticslab.OpticsLabCanvas;
+import edu.colorado.phet.opticslab.control.ControlPanel;
+import edu.colorado.phet.opticslab.model.OpticsModel;
+
 import mx.containers.Canvas;
 
-//main view and communications hub for Trig Lab sim
+//main view and communications hub for Optics Lab sim
 
 public class MainView extends Canvas {
 
-    private var tabBar: TabBar;       //tabBar at top of screen. 2 Tabs: Intro and Game
-    private var intro_str: String;    //labels for tabs
-    private var game_str: String;
-    public var introMode: Boolean;       //true if on intro tab, false if on game tab
+    //private var tabBar: TabBar;       //tabBar at top of screen. In case need multiple tabs
+    //private var intro_str: String;      //labels for tabs
+    //private var game_str: String;
+    //public var introMode: Boolean;       //true if on intro tab, false if on game tab
 
-    public var myTrigModel:TrigModel;
-    public var myUnitCircleView:UnitCircleView;
-    public var myReadoutView: ReadoutView;
-    public var myGraphView:GraphView;
+    public var myOpticsModel:OpticsModel;
+    //public var myUnitCircleView:UnitCircleView;
+    //public var myReadoutView: ReadoutView;
+   // public var myGraphView:GraphView;
     public var myControlPanel:ControlPanel;
-    public var topCanvas:TrigLabCanvas;
+    public var topCanvas:OpticsLabCanvas;
 
     public var phetLogo: PhetIcon;
     public var stageH: Number;
@@ -35,14 +40,14 @@ public class MainView extends Canvas {
 
 
 
-    public function MainView( topCanvas:TrigLabCanvas, stageW: Number, stageH: Number ) {
+    public function MainView( topCanvas:OpticsLabCanvas, stageW: Number, stageH: Number ) {
         //this.topCanvas = topCanvas;   //this line is unnecessary (isn't it?)
 
         percentWidth = 100;
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
-        this.myTrigModel = new TrigModel(this);
+        this.myOpticsModel = new OpticsModel(this);
         this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
         this.myReadoutView = new ReadoutView( this, myTrigModel );
         this.myGraphView = new GraphView(this, myTrigModel );

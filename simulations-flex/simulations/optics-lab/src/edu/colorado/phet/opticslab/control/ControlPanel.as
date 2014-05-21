@@ -1,24 +1,28 @@
 /**
  * Created with IntelliJ IDEA.
  * User: Dubson
- * Date: 6/11/12
+ * Date: 5/21/2014
  * Time: 6:56 PM
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.opticslab.control {
+import edu.colorado.phet.flashcommon.controls.NiceButton2;
+import edu.colorado.phet.opticslab.model.OpticsModel;
+import edu.colorado.phet.opticslab.view.MainView;
+
 import flash.events.Event;
 
 import mx.containers.Canvas;
 import mx.containers.VBox;
 
 /**
- * Control Panel for Trig Lab sim
+ * Control Panel for Optics Lab sim
  * Control panel must be flex canvas to use flex auto-layout
  */
 
 public class ControlPanel extends Canvas {
     private var myMainView: MainView;
-    private var myTrigModel: TrigModel;
+    private var myOpticsModel: OpticsModel;
     private var background: VBox;
     private var radioButtonPanel: VBox;
     private var checkBoxPanel: VBox;
@@ -27,39 +31,31 @@ public class ControlPanel extends Canvas {
 //    private var sin_cb: CheckBox;
 //    private var tan_cb: CheckBox;
 
-    private var cosSinTan_nrbg: NiceRadioButtonGroup;
-    private var cos_nrb: NiceRadioButton;
-    private var sin_nrb: NiceRadioButton;
-    private var tan_nrb: NiceRadioButton;
+//    private var cosSinTan_nrbg: NiceRadioButtonGroup;
+//    private var cos_nrb: NiceRadioButton;
+//    private var sin_nrb: NiceRadioButton;
+//    private var tan_nrb: NiceRadioButton;
 
 //    private var showLabels_cb: CheckBox;
 //    private var showLabels_lbl: NiceLabel;
 //    private var showGrid_cb: CheckBox;
 //    private var showGrid_lbl: NiceLabel;
-    private var showLabels_ncb: NiceCheckBox;
-    private var showGrid_ncb: NiceCheckBox;
-    private var specialAngles_ncb: NiceCheckBox;
+//    private var showLabels_ncb: NiceCheckBox;
+//    private var showGrid_ncb: NiceCheckBox;
+//    private var specialAngles_ncb: NiceCheckBox;
     private var resetButton: NiceButton2;
 
     //private var showLabelsPanel: HBox;
     //private var showGridPanel: HBox;
 
     //internationalized strings
-    private var cos_str: String;
-    private var sin_str: String;
-    private var tan_str: String;
-    private var showLabels_str: String;
-    private  var showGrid_str: String;
-    private var specialAngles_str: String;
     private var resetAll_str: String;
-
-
 
 
     public function ControlPanel( mainView:MainView, model:TrigModel ) {
         super();
         this.myMainView = mainView;
-        this.myTrigModel = model;
+        this.myOpticsModel = model;
         this.init();
     }
 
@@ -197,7 +193,7 @@ public class ControlPanel extends Canvas {
 
     private function specialAngleCheckBoxListener( evt: Event ):void{
         var selected:Boolean = evt.target.selected;
-        this.myTrigModel.specialAnglesMode = selected;
+        this.myOpticsModel.specialAnglesMode = selected;
     }
 
 //    private function cosCheckBoxListener( evt: Event ):void{
@@ -220,13 +216,13 @@ public class ControlPanel extends Canvas {
     public function resetAll():void{
         myMainView.myUnitCircleView.setGridLinesVisibility( false );
         myMainView.myUnitCircleView.setLabelsVisibility( false );
-        myTrigModel.specialAnglesMode = false;
+        myOpticsModel.specialAnglesMode = false;
         showGrid_ncb.checkBox.selected = false;
         showLabels_ncb.checkBox.selected = false;
         specialAngles_ncb.checkBox.selected = false;
 //        showGrid_cb.selected = false;
 //        showLabels_cb.selected = false;
-        myTrigModel.smallAngle = 0;
+        myOpticsModel.smallAngle = 0;
         niceRadioGroupListener( 0 );  //reset readouts to cosine function
         cosSinTan_nrbg.selectButton( cos_nrb );
     }
