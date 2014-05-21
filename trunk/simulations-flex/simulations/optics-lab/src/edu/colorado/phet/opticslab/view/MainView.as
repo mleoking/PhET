@@ -12,13 +12,14 @@
  */
 package edu.colorado.phet.opticslab.view {
 import edu.colorado.phet.flashcommon.view.PhetIcon;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.opticslab.OpticsLabCanvas;
 import edu.colorado.phet.opticslab.control.ControlPanel;
 import edu.colorado.phet.opticslab.model.OpticsModel;
 
 import mx.containers.Canvas;
 
-//main view and communications hub for Optics Lab sim
+//main view and communications hub for Optics Lab sim;  all Views reside on the MainView
 
 public class MainView extends Canvas {
 
@@ -48,22 +49,22 @@ public class MainView extends Canvas {
         this.stageH = stageH;
         this.stageW = stageW;
         this.myOpticsModel = new OpticsModel(this);
-        this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
-        this.myReadoutView = new ReadoutView( this, myTrigModel );
-        this.myGraphView = new GraphView(this, myTrigModel );
-        this.myControlPanel = new ControlPanel( this, this.myTrigModel );
+//        this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
+//        this.myReadoutView = new ReadoutView( this, myTrigModel );
+//        this.myGraphView = new GraphView(this, myTrigModel );
+        this.myControlPanel = new ControlPanel( this, this.myOpticsModel );
 
-        this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
-        this.myUnitCircleView.x = 0.3*stageW;
-        this.myUnitCircleView.y = 0.27*stageW;
-
-        this.addChild( myReadoutView );
-        this.myReadoutView.x = 0.52*stageW;
-        this.myReadoutView.y = 0.05*stageH;
-
-        this.addChild( new SpriteUIComponent( this.myGraphView ));
-        this.myGraphView.x = 0.6*stageW;
-        this.myGraphView.y = 0.8*stageH;
+//        this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
+//        this.myUnitCircleView.x = 0.3*stageW;
+//        this.myUnitCircleView.y = 0.27*stageW;
+//
+//        this.addChild( myReadoutView );
+//        this.myReadoutView.x = 0.52*stageW;
+//        this.myReadoutView.y = 0.05*stageH;
+//
+//        this.addChild( new SpriteUIComponent( this.myGraphView ));
+//        this.myGraphView.x = 0.6*stageW;
+//        this.myGraphView.y = 0.8*stageH;
 
         this.addChild( myControlPanel );
         this.myControlPanel.x = 0.85*stageW;
@@ -78,20 +79,21 @@ public class MainView extends Canvas {
     }//end of constructor
 
     private function initializeStrings(): void {
-        intro_str = FlexSimStrings.get( "intro", "Intro   " );
-        game_str = FlexSimStrings.get( "game", "Game   " );
+//        intro_str = FlexSimStrings.get( "intro", "Intro   " );
+//        game_str = FlexSimStrings.get( "game", "Game   " );
     }
 
-    public function setTabView( tabView:int ):void{
-        if ( tabView == 1 ){
-
-        }else if ( tabView == 2 ){
-
-        }
-    }
+//    public function setTabView( tabView:int ):void{
+//        if ( tabView == 1 ){
+//
+//        }else if ( tabView == 2 ){
+//
+//        }
+//    }
 
     public function initializeAll(): void {
-        myTrigModel.smallAngle = 0;
+        trace("MainView.initializeAll called.")
+        //myTrigModel.smallAngle = 0;
 
     }//end of initializeAll()
 
