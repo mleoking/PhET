@@ -145,6 +145,11 @@ public class NiceLabel extends Sprite {
         trace( "NiceLabel.drawBounds this.width = " + this.width );
     }
 
+    public function tieToComponent( component: UIComponent ):void{
+        this.component = component;
+        this.activateTextField();
+    }
+
     private function activateTextField(): void {
         //trace("this.label_txt = " , this.label_txt);
         //this.label_txt.background.width = this.myButtonWidth;
