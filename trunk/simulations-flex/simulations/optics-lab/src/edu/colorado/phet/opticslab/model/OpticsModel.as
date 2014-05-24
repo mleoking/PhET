@@ -15,6 +15,9 @@ public class OpticsModel {
 
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView; //communications hub for model-view-controller
+    private var sources_arr: Array; //light sources
+    private var opticalComponents: Array;   //lenses, mirrors, masks
+
     //private var _smallAngle: Number;   //angle in radians between -pi and + pi, regardless of how many full revolutions around unit circle
     //private var _totalAngle: Number;   //total angle in radians between -infinity and +infinity
     //private var _x: Number;            //value of x on unit circle: x = cos(angle)
