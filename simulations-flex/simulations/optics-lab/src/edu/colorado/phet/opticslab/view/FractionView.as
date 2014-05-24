@@ -10,6 +10,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.opticslab.view {
+import edu.colorado.phet.flashcommon.controls.NiceLabel;
+
 import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.geom.Rectangle;
