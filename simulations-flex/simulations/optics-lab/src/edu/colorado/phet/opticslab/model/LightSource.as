@@ -7,7 +7,7 @@ package edu.colorado.phet.opticslab.model {
 public class LightSource {
     private var myOpticsModel: OpticsModel;
     private var _x: Number; //x- and y-location of source
-    private var _y: Number;
+    private var _y: Number; //comment
 
     public function LightSource( opticsModel: OpticsModel ) {
         this.myOpticsModel = opticsModel;
@@ -20,6 +20,14 @@ public class LightSource {
         _x = x;
         _y = y;
         myOpticsModel.updateViews();
+    }
+
+    public function get x():Number {
+        return _x;
+    }
+
+    public function get y():Number {
+        return _y;
     }
 }//end class
 }//end package

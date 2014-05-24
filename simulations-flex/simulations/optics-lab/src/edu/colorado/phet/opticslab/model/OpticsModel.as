@@ -7,6 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.opticslab.model {
+import edu.colorado.phet.opticslab.view.LightSourceView;
 import edu.colorado.phet.opticslab.view.MainView;
 
 
@@ -16,7 +17,8 @@ public class OpticsModel {
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView; //communications hub for model-view-controller
     private var sources_arr: Array; //light sources
-    private var opticalComponents: Array;   //lenses, mirrors, masks
+    private var opticalComponents_arr: Array;   //lenses, mirrors, masks
+    public var testSource: LightSource;
 
     //private var _smallAngle: Number;   //angle in radians between -pi and + pi, regardless of how many full revolutions around unit circle
     //private var _totalAngle: Number;   //total angle in radians between -infinity and +infinity
@@ -33,6 +35,9 @@ public class OpticsModel {
     public function OpticsModel( myMainView: MainView ) {
         this.myMainView = myMainView;
         this.views_arr = new Array();
+        this.sources_arr = new Array();
+        this.opticalComponents_arr = new Array();
+        this.testSource = new LightSource( this );
 
         this.initialize();
     }//end constructor
