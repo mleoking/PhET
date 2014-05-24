@@ -26,5 +26,8 @@ public class LayoutView extends Sprite {
         this.myOpticsModel.registerView( this );
         this.myOpticsModel.updateViews();
     }
+    public function update():void{
+
+    }//end of update()
 }  //end of class
 }  //end of package
