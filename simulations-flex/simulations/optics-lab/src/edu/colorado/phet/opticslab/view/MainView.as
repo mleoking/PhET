@@ -28,10 +28,8 @@ public class MainView extends Canvas {
     //private var game_str: String;
     //public var introMode: Boolean;       //true if on intro tab, false if on game tab
 
-    public var myOpticsModel:OpticsModel;
-    //public var myUnitCircleView:UnitCircleView;
-    //public var myReadoutView: ReadoutView;
-   // public var myGraphView:GraphView;
+    public var myOpticsModel:OpticsModel;  //main model
+    public var myLayoutView: LayoutView;   //View of sources and components, main play area
     public var myControlPanel:ControlPanel;
     public var topCanvas:OpticsLabCanvas;
 
@@ -49,10 +47,10 @@ public class MainView extends Canvas {
         this.stageH = stageH;
         this.stageW = stageW;
         this.myOpticsModel = new OpticsModel(this);
-//        this.myUnitCircleView = new UnitCircleView( this, myTrigModel ) ;
-//        this.myReadoutView = new ReadoutView( this, myTrigModel );
-//        this.myGraphView = new GraphView(this, myTrigModel );
+        this.myLayoutView = new LayoutView( this, this.myOpticsModel );
         this.myControlPanel = new ControlPanel( this, this.myOpticsModel );
+
+        this.addChild( new SpriteUIComponent( this.myLayoutView ));
 
 //        this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
 //        this.myUnitCircleView.x = 0.3*stageW;
