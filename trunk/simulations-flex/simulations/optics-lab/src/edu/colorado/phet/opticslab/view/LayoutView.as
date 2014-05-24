@@ -11,6 +11,7 @@
  */
 package edu.colorado.phet.opticslab.view {
 import edu.colorado.phet.opticslab.model.OpticsModel;
+import edu.colorado.phet.opticslab.util.Util;
 
 import flash.display.Sprite;
 
@@ -32,6 +33,8 @@ public class LayoutView extends Sprite {
     private function init():void{
         testSource = new LightSourceView( myOpticsModel );
         this.addChild( testSource );
+        this.testSource.makeGrabbable();
+        //Util.makeClipDraggable( testSource ) ;  //fails! Why?
         testSource.x = testSource.y = 50;
         //testSource.x = 50;
         //testSource.y = 50;
