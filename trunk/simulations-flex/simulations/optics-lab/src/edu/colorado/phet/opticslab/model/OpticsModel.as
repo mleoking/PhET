@@ -36,9 +36,6 @@ public class OpticsModel {
 
 
     private function initialize():void{
-        //this._smallAngle = 0;
-        //this.nbrFullTurns = 0;
-        //this._totalAngle = 0;
         trace("OpticsModel.initialize called.")
         this.updateViews();
     }  //end initialize()

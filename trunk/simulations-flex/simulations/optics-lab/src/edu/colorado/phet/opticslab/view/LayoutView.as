@@ -20,12 +20,23 @@ import flash.display.Sprite;
 public class LayoutView extends Sprite {
     private var myMainView: MainView;
     private var myOpticsModel: OpticsModel;
+    private var testSource: LightSourceView;           //for testing graphics
     public function LayoutView( myMainView: MainView, myOpticsModel: OpticsModel ) {
         this.myMainView = myMainView;
         this.myOpticsModel = myOpticsModel;
         this.myOpticsModel.registerView( this );
         this.myOpticsModel.updateViews();
+        this.init();
     }
+
+    private function init():void{
+        testSource = new LightSourceView( myOpticsModel );
+        this.addChild( testSource );
+        testSource.x = testSource.y = 50;
+        //testSource.x = 50;
+        //testSource.y = 50;
+    }
+
     public function update():void{
 
     }//end of update()
