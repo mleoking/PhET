@@ -9,6 +9,7 @@ import edu.colorado.phet.opticslab.model.OpticsModel;
 import flash.display.Graphics;
 
 import flash.display.Sprite;
+import flash.events.MouseEvent;
 
 public class ComponentDrawer extends Sprite {
     private var myMainView: MainView;
@@ -89,6 +90,11 @@ public class ComponentDrawer extends Sprite {
 
     private function makeCompartmentsActive():void {
         sourceCompartment.buttonMode = true;
+        sourceCompartment.addEventListener( MouseEvent.MOUSE_DOWN, createNewSource );
+
+        function createNewSource():void{
+
+        }
         maskCompartment.buttonMode = true;
     }
 
