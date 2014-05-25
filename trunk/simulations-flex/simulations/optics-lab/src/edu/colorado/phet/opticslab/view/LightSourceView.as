@@ -17,12 +17,14 @@ public class LightSourceView extends Sprite {
     private var myOpticsModel: OpticsModel;
     private var sourceHolder: Sprite;       //like a flashlight, holds a bunch of rays
     private var container: LayoutView;      //parent of this sprite
+    private var pixPerMeter: Number;
     private var sourceNbr:int;      //index of source, this source = myOpticsModel.source_arr[sourceNbr];
 
     public function LightSourceView( opticsModel: OpticsModel, container: LayoutView ) {
         //myMainView = mainView;
         myOpticsModel = opticsModel;
         this.container = container;
+        this.pixPerMeter = container.pixPerMeter;
         this.sourceHolder = new Sprite();
         myOpticsModel.registerView( this );
         init();
@@ -51,36 +53,10 @@ public class LightSourceView extends Sprite {
 
     }//end drawSourceHolder;
     
-    public function makeGrabbable( ):void{
-        //Util.makeClipDraggable( this );   //fails!  Why?
-        this.buttonMode = true;
-        var thisThing = this;
-        var clickOffset: Point;
 
-        thisThing.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
-        thisThing.parent.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-        thisThing.parent.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-
-        function startTargetDrag( evt: MouseEvent ):void{
-            clickOffset = new Point( evt.localX, evt.localY );
-        }
-        function dragTarget( evt: MouseEvent ):void{
-            if( clickOffset != null ){
-               var xNow: Number = thisThing.parent.mouseX - clickOffset.x;
-               var yNow: Number = thisThing.parent.mouseY - clickOffset.y;
-               thisThing.myOpticsModel.testSource.setLocation( xNow, yNow );
-//                thisThing.x = thisThing.parent.mouseX - clickOffset.x;
-//                thisThing.y = thisThing.parent.mouseY - clickOffset.y;
-                evt.updateAfterEvent();
-            }
-        }
-        function stopTargetDrag( evt: MouseEvent ):void{
-            clickOffset = null;
-        }
-    } //end makeGrabbable();
 
     private function makeSourceGrabbable(): void {
-        var pixPerMeter: Number = this.container.pixPerMeter;
+        //var pixPerMeter: Number = this.container.pixPerMeter;
         var thisObject: Object = this;
         this.sourceHolder.buttonMode = true;
         this.sourceHolder.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
@@ -105,15 +81,15 @@ public class LightSourceView extends Sprite {
             var yInPix: Number = thisObject.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
             var xInMeters: Number = xInPix / pixPerMeter;
             var yInMeters: Number = yInPix / pixPerMeter;   //screen coords and cartesian coordinates in sign harmony here
-            thisObject.myOpticsModel.testSource.setLocation( xInPix, yInPix );
+            thisObject.myOpticsModel.testSource.setLocation( xInMeters, yInMeters );
             evt.updateAfterEvent();
         }//end of dragTarget()
 
     }//end makeSourceGrabbable()
 
     public function update():void{
-        this.x = myOpticsModel.testSource.x;
-        this.y = myOpticsModel.testSource.y;
+        this.x = myOpticsModel.testSource.x*pixPerMeter;
+        this.y = myOpticsModel.testSource.y*pixPerMeter;
     }//end update
 }//end class
 }//end package
