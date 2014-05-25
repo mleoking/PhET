@@ -77,7 +77,7 @@ public class MainView extends Canvas {
         this.myControlPanel.y = 0.05*stageH;
 
         this.phetLogo = new PhetIcon();
-        this.phetLogo.setColor( 0x0000ff );
+        this.phetLogo.setColor( 0xffffff );
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
         this.addChild( new SpriteUIComponent( phetLogo ) );
