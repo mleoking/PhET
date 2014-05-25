@@ -21,19 +21,22 @@ import flash.display.Sprite;
 public class LayoutView extends Sprite {
     private var myMainView: MainView;
     private var myOpticsModel: OpticsModel;
+    private var _pixPerMeter: Number;
     private var testSource: LightSourceView;           //for testing graphics
+
     public function LayoutView( myMainView: MainView, myOpticsModel: OpticsModel ) {
         this.myMainView = myMainView;
         this.myOpticsModel = myOpticsModel;
         this.myOpticsModel.registerView( this );
         this.myOpticsModel.updateViews();
+        this._pixPerMeter = 1000;  //play area is approximately 1 meter across
         this.init();
     }
 
     private function init():void{
-        testSource = new LightSourceView( myOpticsModel );
-        this.addChild( testSource );
-        this.testSource.makeGrabbable();
+        testSource = new LightSourceView( myOpticsModel, this );
+        //this.addChild( testSource );
+        //this.testSource.makeGrabbable();
         //Util.makeClipDraggable( testSource ) ;  //fails! Why?
         testSource.x = testSource.y = 50;
         //testSource.x = 50;
@@ -43,5 +46,10 @@ public class LayoutView extends Sprite {
     public function update():void{
 
     }//end of update()
+
+    public function get pixPerMeter():Number {
+        return _pixPerMeter;
+    }
+
 }  //end of class
 }  //end of package

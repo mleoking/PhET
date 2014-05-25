@@ -46,7 +46,7 @@ public class ComponentDrawer extends Sprite {
     //Draw box representing drawer full of components and compartments for each type
     private function drawGraphics():void{
         var cornerRadius: int = 20;
-        var lineColor: uint = 0xff0000;
+        var lineColor: uint = 0xffffff;
         var fillColor: uint  = 0x00ff00;
         var w:Number = 0.8*stageW; //width and height of outer perimeter
         var h:Number = 0.2*stageH;
@@ -87,7 +87,7 @@ public class ComponentDrawer extends Sprite {
 
     }//end drawGraphics()
 
-    private function makeCompartmentsActive(){
+    private function makeCompartmentsActive():void {
         sourceCompartment.buttonMode = true;
         maskCompartment.buttonMode = true;
     }
