@@ -17,6 +17,7 @@ public class OpticsModel {
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView; //communications hub for model-view-controller
     private var sources_arr: Array; //light sources
+    private var nbrSources: int;    //number of light sources on stage
     private var opticalComponents_arr: Array;   //lenses, mirrors, masks
     public var testSource: LightSource;
 
@@ -36,6 +37,7 @@ public class OpticsModel {
         this.myMainView = myMainView;
         this.views_arr = new Array();
         this.sources_arr = new Array();
+        this.nbrSources = 0;
         this.opticalComponents_arr = new Array();
         this.testSource = new LightSource( this );
 
@@ -44,14 +46,28 @@ public class OpticsModel {
 
 
     private function initialize():void{
-        trace("OpticsModel.initialize called.")
+        //trace("OpticsModel.initialize called.")
         this.updateViews();
     }  //end initialize()
 
+    public function registerLightSource( lightSource: LightSource ):void{
+        this.sources_arr.push( lightSource );
+        this.nbrSources += 1;
+    }
 
+    public function unregisterLightSource( lightSource: LightSource ): void{
+        var indexLocation:int = -1;
+        indexLocation = this.sources_arr.indexOf( lightSource );
+        if( indexLocation != -1 ){
+            this.sources_arr.splice( indexLocation, 1 );
+        }
+        this.nbrSources -= 1;
+        if( nbrSources < 0 ){trace("ERROR: OpticsModel.unregisterLightSource.  Nbr of light souces is negative.")}
+    }
 
     public function registerView( view: Object ): void {
         this.views_arr.push( view );
+        //if( ){};
     }
 
     public function unregisterView( view: Object ):void{
