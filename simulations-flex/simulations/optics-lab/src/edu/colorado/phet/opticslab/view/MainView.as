@@ -14,6 +14,7 @@ package edu.colorado.phet.opticslab.view {
 import edu.colorado.phet.flashcommon.view.PhetIcon;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.opticslab.OpticsLabCanvas;
+import edu.colorado.phet.opticslab.control.ComponentDrawer;
 import edu.colorado.phet.opticslab.control.ControlPanel;
 import edu.colorado.phet.opticslab.model.OpticsModel;
 
@@ -30,6 +31,7 @@ public class MainView extends Canvas {
 
     public var myOpticsModel:OpticsModel;  //main model
     public var myLayoutView: LayoutView;   //View of sources and components, main play area
+    public var myComponentDrawer: ComponentDrawer; //Controller/View from which user draws sources, lenses, etc
     public var myControlPanel:ControlPanel;
     public var topCanvas:OpticsLabCanvas;
 
@@ -48,9 +50,15 @@ public class MainView extends Canvas {
         this.stageW = stageW;
         this.myOpticsModel = new OpticsModel(this);
         this.myLayoutView = new LayoutView( this, this.myOpticsModel );
+        this.myComponentDrawer = new ComponentDrawer( this, this.myOpticsModel );
         this.myControlPanel = new ControlPanel( this, this.myOpticsModel );
 
         this.addChild( new SpriteUIComponent( this.myLayoutView ));
+        myLayoutView.x = 0;
+        myLayoutView.y = 0;
+        this.addChild( new SpriteUIComponent( this.myComponentDrawer));
+        myComponentDrawer.x = 0.1*stageW;
+        myComponentDrawer.y = 0.75*stageH;
 
 //        this.addChild( new SpriteUIComponent( this.myUnitCircleView ));
 //        this.myUnitCircleView.x = 0.3*stageW;
