@@ -13,6 +13,7 @@ public class LightSource {
         this.myOpticsModel = opticsModel;
         _x = 0;
         _y = 0;
+        myOpticsModel.registerLightSource( this );
     }
 
 

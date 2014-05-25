@@ -16,6 +16,7 @@ public class LightSourceView extends Sprite {
     //private var myMainView: MainView;
     private var myOpticsModel: OpticsModel;
     private var sourceHolder: Sprite;       //like a flashlight, holds a bunch of rays
+    private var sourceNbr:int;      //index of source, this source = myOpticsModel.source_arr[sourceNbr];
 
     public function LightSourceView( opticsModel: OpticsModel ) {
         //myMainView = mainView;
