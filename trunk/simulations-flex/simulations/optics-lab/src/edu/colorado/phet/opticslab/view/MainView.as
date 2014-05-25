@@ -56,7 +56,7 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( this.myLayoutView ));
         myLayoutView.x = 0;
         myLayoutView.y = 0;
-        this.addChild( new SpriteUIComponent( this.myComponentDrawer));
+        this.addChild( new SpriteUIComponent( this.myComponentDrawer ));
         myComponentDrawer.x = 0.1*stageW;
         myComponentDrawer.y = 0.75*stageH;
 
