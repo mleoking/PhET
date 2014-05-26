@@ -105,8 +105,8 @@ public class ComponentDrawer extends Sprite {
     }
 
     private function createNewLightSource( evt:MouseEvent ):void{
-
-        trace("ComponentDrawer.createNewLightSource called.")
+        trace("ComponentDrawer.createNewLightSource called.");
+        myOpticsModel.createNewLightSource();
     }
 
 }//end class

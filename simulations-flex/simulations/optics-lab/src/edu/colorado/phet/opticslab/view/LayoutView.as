@@ -36,21 +36,19 @@ public class LayoutView extends Sprite {
     }
 
     private function init():void{
-        testSource = new LightSourceView( myOpticsModel, this );
+        //testSource = new LightSourceView( myOpticsModel, this );
         //this.addChild( testSource );
         //this.testSource.makeGrabbable();
         //Util.makeClipDraggable( testSource ) ;  //fails! Why?
-        testSource.x = testSource.y = 50;
+        //testSource.x = testSource.y = 50;
         //testSource.x = 50;
         //testSource.y = 50;
     }
 
-    public function createNewLightSourceView():void{
-        source_arr.push( new LightSourceView( myOpticsModel, this ));
-        var indexOfNewSource: uint = source_arr.length - 1;
-        var sourceView:LightSourceView = source_arr[indexOfNewSource];
-        sourceView.x = Math.random()*200;
-        sourceView.y = Math.random()*200;
+    public function createNewLightSourceView( index: uint ):void{
+        var newSourceView: LightSourceView = new LightSourceView( myOpticsModel, this, index ); //automatically added to LayoutView
+        source_arr.push( newSourceView );
+        //myOpticsModel.source_arr[ index ].view = newSourceView;
     }
 
     public function update():void{
