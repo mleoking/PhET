@@ -4,16 +4,20 @@
  * Part of the model.
  */
 package edu.colorado.phet.opticslab.model {
+import edu.colorado.phet.opticslab.view.LightSourceView;
+
 public class LightSource {
     private var myOpticsModel: OpticsModel;
     private var _x: Number; //x- and y-location of source, in meters
     private var _y: Number; //comment
+    private var _index: uint; //index labeling position of this source in OpticsModel.source_arr
+    private var _view: LightSourceView;  //view of this model of LightSource
 
-    public function LightSource( opticsModel: OpticsModel ) {
+    public function LightSource( opticsModel: OpticsModel, idx: uint ) {
         this.myOpticsModel = opticsModel;
         _x = 0;
         _y = 0;
-        myOpticsModel.registerLightSource( this );
+        _index = idx;
     }
 
 

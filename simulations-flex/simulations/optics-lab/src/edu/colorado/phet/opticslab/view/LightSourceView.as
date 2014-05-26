@@ -3,6 +3,7 @@
  * View of LightSource
  */
 package edu.colorado.phet.opticslab.view {
+import edu.colorado.phet.opticslab.model.LightSource;
 import edu.colorado.phet.opticslab.model.OpticsModel;
 import edu.colorado.phet.opticslab.util.Util;
 
@@ -15,10 +16,12 @@ import flash.geom.Point;
 public class LightSourceView extends Sprite {
     //private var myMainView: MainView;
     private var myOpticsModel: OpticsModel;
+    //private var mySourceModel: LightSource;
     private var sourceHolder: Sprite;       //like a flashlight, holds a bunch of rays
     private var container: LayoutView;      //parent of this sprite
     private var pixPerMeter: Number;
-    private var sourceNbr:int;      //index of source, this source = myOpticsModel.source_arr[sourceNbr];
+    private var isOn: Boolean;      //True if light source is emitting rays. Source not on until dropped onto play area
+    private var sourceNbr:uint;      //index of source, this source = myOpticsModel.source_arr[sourceNbr];
 
     public function LightSourceView( opticsModel: OpticsModel, container: LayoutView ) {
         //myMainView = mainView;
@@ -36,6 +39,7 @@ public class LightSourceView extends Sprite {
         this.addChild( sourceHolder );
         this.container.addChild( this );
         this.makeSourceGrabbable();
+        this.isOn = false;
 
 
     }//end init()
@@ -44,7 +48,7 @@ public class LightSourceView extends Sprite {
         var g: Graphics = sourceHolder.graphics;
         g.clear();
         g.lineStyle( 5, 0xffffff );
-        g.beginFill( 0xff00ff );
+        g.beginFill( 0xff00ff,0 );
         //g.moveTo( 0, 0 );
         //g.lineTo( 50, 50 )
         g.drawCircle( 0, 0, 20 );
@@ -81,15 +85,15 @@ public class LightSourceView extends Sprite {
             var yInPix: Number = thisObject.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
             var xInMeters: Number = xInPix / pixPerMeter;
             var yInMeters: Number = yInPix / pixPerMeter;   //screen coords and cartesian coordinates in sign harmony here
-            thisObject.myOpticsModel.testSource.setLocation( xInMeters, yInMeters );
+            thisObject.myOpticsModel.source_arr[ sourceNbr ].setLocation( xInMeters, yInMeters );
             evt.updateAfterEvent();
         }//end of dragTarget()
 
     }//end makeSourceGrabbable()
 
     public function update():void{
-        this.x = myOpticsModel.testSource.x*pixPerMeter;
-        this.y = myOpticsModel.testSource.y*pixPerMeter;
+        this.x = myOpticsModel.getXYOfSource( sourceNbr ).x*pixPerMeter;
+        this.y = myOpticsModel.getXYOfSource( sourceNbr ).y*pixPerMeter;
     }//end update
 }//end class
 }//end package

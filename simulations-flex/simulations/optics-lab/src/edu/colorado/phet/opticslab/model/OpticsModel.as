@@ -10,16 +10,18 @@ package edu.colorado.phet.opticslab.model {
 import edu.colorado.phet.opticslab.view.LightSourceView;
 import edu.colorado.phet.opticslab.view.MainView;
 
+import flash.geom.Point;
+
 
 //model of Optics Lab sim: sources, lenses, mirrors, masks, etc
 public class OpticsModel {
 
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView; //communications hub for model-view-controller
-    private var sources_arr: Array; //light sources
+    public var source_arr: Array; //light sources
     private var nbrSources: int;    //number of light sources on stage
     private var opticalComponents_arr: Array;   //lenses, mirrors, masks
-    public var testSource: LightSource;
+    //public var testSource: LightSource;
 
     //private var _smallAngle: Number;   //angle in radians between -pi and + pi, regardless of how many full revolutions around unit circle
     //private var _totalAngle: Number;   //total angle in radians between -infinity and +infinity
@@ -36,10 +38,10 @@ public class OpticsModel {
     public function OpticsModel( myMainView: MainView ) {
         this.myMainView = myMainView;
         this.views_arr = new Array();
-        this.sources_arr = new Array();
+        this.source_arr = new Array();
         this.nbrSources = 0;
         this.opticalComponents_arr = new Array();
-        this.testSource = new LightSource( this );
+        //this.testSource = new LightSource( this );
 
         this.initialize();
     }//end constructor
@@ -50,16 +52,27 @@ public class OpticsModel {
         this.updateViews();
     }  //end initialize()
 
-    public function registerLightSource( lightSource: LightSource ):void{
-        this.sources_arr.push( lightSource );
-        this.nbrSources += 1;
+    public function createNewLightSource():void{
+        var newSource: LightSource = new LightSource( this, nbrSources );
+        newSource.setLocation( Math.random()*0.5, Math.random()*0.5 );  //for testing only
+        source_arr[ nbrSources ] = newSource;
+        myMainView.myLayoutView.createNewLightSourceView();
+        nbrSources += 1;
     }
+
+    public function getXYOfSource( idx: uint ):Point{
+        var sourceLocation:Point = new Point();
+        sourceLocation.x = source_arr[ idx ].x;
+        sourceLocation.y = source_arr[ idx ].y;
+        return sourceLocation;
+    }
+
 
     public function unregisterLightSource( lightSource: LightSource ): void{
         var indexLocation:int = -1;
-        indexLocation = this.sources_arr.indexOf( lightSource );
+        indexLocation = this.source_arr.indexOf( lightSource );
         if( indexLocation != -1 ){
-            this.sources_arr.splice( indexLocation, 1 );
+            this.source_arr.splice( indexLocation, 1 );
         }
         this.nbrSources -= 1;
         if( nbrSources < 0 ){trace("ERROR: OpticsModel.unregisterLightSource.  Nbr of light souces is negative.")}
