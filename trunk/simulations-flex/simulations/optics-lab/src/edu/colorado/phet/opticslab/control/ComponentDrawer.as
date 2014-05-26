@@ -88,14 +88,25 @@ public class ComponentDrawer extends Sprite {
 
     }//end drawGraphics()
 
+    /*
+    * Graphic view of component is created when user clicks on component drawer, and graphic
+    * is draggable onto stage. Component is not instantiated unless its graphic is released on
+    * stage. Component views dragged into drawer and released are destroyed.
+    * */
     private function makeCompartmentsActive():void {
         sourceCompartment.buttonMode = true;
-        sourceCompartment.addEventListener( MouseEvent.MOUSE_DOWN, createNewSource );
+        var thisSprite: Object = this;
+        sourceCompartment.addEventListener( MouseEvent.MOUSE_DOWN, createNewLightSource );
 
-        function createNewSource():void{
-
-        }
+//        function createNewLightSource():void{
+//            myOpticsModel.createNewLightSource();
+//        }
         maskCompartment.buttonMode = true;
+    }
+
+    private function createNewLightSource( evt:MouseEvent ):void{
+
+        trace("ComponentDrawer.createNewLightSource called.")
     }
 
 }//end class

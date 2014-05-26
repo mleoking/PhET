@@ -23,6 +23,7 @@ public class LayoutView extends Sprite {
     private var myOpticsModel: OpticsModel;
     private var _pixPerMeter: Number;
     private var testSource: LightSourceView;           //for testing graphics
+    private var source_arr:Array;       //array of light sources
 
     public function LayoutView( myMainView: MainView, myOpticsModel: OpticsModel ) {
         this.myMainView = myMainView;
@@ -30,6 +31,7 @@ public class LayoutView extends Sprite {
         this.myOpticsModel.registerView( this );
         this.myOpticsModel.updateViews();
         this._pixPerMeter = 1000;  //play area is approximately 1 meter across
+        this.source_arr = new Array();
         this.init();
     }
 
@@ -41,6 +43,14 @@ public class LayoutView extends Sprite {
         testSource.x = testSource.y = 50;
         //testSource.x = 50;
         //testSource.y = 50;
+    }
+
+    public function createNewLightSourceView():void{
+        source_arr.push( new LightSourceView( myOpticsModel, this ));
+        var indexOfNewSource: uint = source_arr.length - 1;
+        var sourceView:LightSourceView = source_arr[indexOfNewSource];
+        sourceView.x = Math.random()*200;
+        sourceView.y = Math.random()*200;
     }
 
     public function update():void{
