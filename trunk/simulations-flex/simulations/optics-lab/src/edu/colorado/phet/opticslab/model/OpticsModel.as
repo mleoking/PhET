@@ -21,7 +21,7 @@ public class OpticsModel {
     public var source_arr: Array; //light sources
     private var nbrSources: int;    //number of light sources on stage
     private var opticalComponents_arr: Array;   //lenses, mirrors, masks
-    //public var testSource: LightSource;
+    public var testSource: LightSource;         //for testing only
 
     //private var _smallAngle: Number;   //angle in radians between -pi and + pi, regardless of how many full revolutions around unit circle
     //private var _totalAngle: Number;   //total angle in radians between -infinity and +infinity
@@ -52,11 +52,18 @@ public class OpticsModel {
         this.updateViews();
     }  //end initialize()
 
+    public function testRayTracing():void{
+        this.testSource = new LightSource( this, nbrSources );
+        nbrSources += 1;
+    }
+
     public function createNewLightSource():void{
-        var newSource: LightSource = new LightSource( this, nbrSources );
+        var index: uint = nbrSources;
+        var newSource: LightSource = new LightSource( this, index );
         newSource.setLocation( Math.random()*0.5, Math.random()*0.5 );  //for testing only
-        source_arr[ nbrSources ] = newSource;
-        myMainView.myLayoutView.createNewLightSourceView();
+        source_arr[ index ] = newSource;
+        myMainView.myLayoutView.createNewLightSourceView( index );
+        this.updateViews();
         nbrSources += 1;
     }
 

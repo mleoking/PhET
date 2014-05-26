@@ -22,12 +22,15 @@ public class LightSourceView extends Sprite {
     private var pixPerMeter: Number;
     private var isOn: Boolean;      //True if light source is emitting rays. Source not on until dropped onto play area
     private var sourceNbr:uint;      //index of source, this source = myOpticsModel.source_arr[sourceNbr];
+    private var sourceModel: LightSource;
 
-    public function LightSourceView( opticsModel: OpticsModel, container: LayoutView ) {
+    public function LightSourceView( opticsModel: OpticsModel, container: LayoutView, index: uint ) {
         //myMainView = mainView;
         myOpticsModel = opticsModel;
+        sourceModel = myOpticsModel.source_arr[index];
         this.container = container;
         this.pixPerMeter = container.pixPerMeter;
+        this.sourceNbr = index;
         this.sourceHolder = new Sprite();
         myOpticsModel.registerView( this );
         init();
@@ -92,8 +95,12 @@ public class LightSourceView extends Sprite {
     }//end makeSourceGrabbable()
 
     public function update():void{
-        this.x = myOpticsModel.getXYOfSource( sourceNbr ).x*pixPerMeter;
-        this.y = myOpticsModel.getXYOfSource( sourceNbr ).y*pixPerMeter;
+        //this.x = myOpticsModel.getXYOfSource( sourceNbr ).x*pixPerMeter;
+        //this.y = myOpticsModel.getXYOfSource( sourceNbr ).y*pixPerMeter;
+        //this.x = myOpticsModel.source_arr[ sourceNbr ].x*pixPerMeter;
+        //this.y = myOpticsModel.source_arr[ sourceNbr ].y*pixPerMeter;
+        this.x = sourceModel.x*pixPerMeter;
+        this.y = sourceModel.y*pixPerMeter;
     }//end update
 }//end class
 }//end package

@@ -18,15 +18,15 @@ package edu.colorado.phet.opticslab.model {
  * A Ray belongs to a Source, which is a collection of Rays.
  * */
 public class Ray {
-    private var _x0: Number;    //x-component of initial position of ray
-    private var _y0: Number;    //y-component of initial position of ray
+    private var _source: LightSource;  //every ray belongs to a light source
+    //private var _x0: Number;    //x-component of initial position of ray
+    //private var _y0: Number;    //y-component of initial position of ray
     private var _angle: Number; //angle in radians = direction of ray, measured CCW from +x direction
     private var _length: Number;//length of ray from source to point of interception with first obstacle (a component or border of stage)
 
 
-    public function Ray( x0: Number,  y0: Number,  angle: Number ) {
-        _x0 = x0;
-        _y0 = y0;
+    public function Ray( source: LightSource,  angle: Number ) {
+        _source = source;
         _angle = angle;
 
     } //end of constructor
