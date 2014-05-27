@@ -1,3 +1,7 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created by Dubson on 5/25/2014.
  * View and Controller. "Drawer" from which user can grab light sources and optical components.
@@ -97,7 +101,7 @@ public class ComponentDrawer extends Sprite {
         sourceCompartment.buttonMode = true;
         var thisSprite: Object = this;
         sourceCompartment.addEventListener( MouseEvent.MOUSE_DOWN, createNewLightSource );
-
+        maskCompartment.addEventListener( MouseEvent.MOUSE_DOWN, createNewMask )
 //        function createNewLightSource():void{
 //            myOpticsModel.createNewLightSource();
 //        }
@@ -105,8 +109,12 @@ public class ComponentDrawer extends Sprite {
     }
 
     private function createNewLightSource( evt:MouseEvent ):void{
-        trace("ComponentDrawer.createNewLightSource called.");
+        //trace("ComponentDrawer.createNewLightSource called.");
         myOpticsModel.createNewLightSource();
+    }
+
+    private function createNewMask( evt:MouseEvent ):void{
+        myOpticsModel.createNewMask();
     }
 
 }//end class

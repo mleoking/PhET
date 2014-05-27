@@ -1,3 +1,7 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created by Dubson on 5/24/2014.
  * View of LightSource
@@ -39,7 +43,6 @@ public class LightSourceView extends Sprite {
     }//end constructor
 
     private function init():void{
-        //this.sourceHolder = new Sprite();
         drawSourceHolder();
         this.addChild( sourceHolder );
         drawRays();
@@ -47,8 +50,6 @@ public class LightSourceView extends Sprite {
         this.container.addChild( this );
         this.makeSourceGrabbable();
         this.isOn = false;
-
-
     }//end init()
 
     private function drawSourceHolder():void{

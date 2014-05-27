@@ -19,28 +19,24 @@ public class OpticsModel {
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView; //communications hub for model-view-controller
     public var source_arr: Array; //light sources
-    private var nbrSources: int;    //number of light sources on stage
-    private var opticalComponents_arr: Array;   //lenses, mirrors, masks
+    private var _nbrSources: int;    //number of light sources on stage
+    private var _nbrComponents: int;    //number of components (masks, lenses, mirrors) on stage
+    public var component_arr: Array;   //lenses, mirrors, masks
+    public var newSourceCreated: Boolean;       //true if new source added to play area, sends update to layout view if true
+    public var newMaskCreated: Boolean;         //true if new mask added to play area, sends update to layout view if true
     public var testSource: LightSource;         //for testing only
 
-    //private var _smallAngle: Number;   //angle in radians between -pi and + pi, regardless of how many full revolutions around unit circle
-    //private var _totalAngle: Number;   //total angle in radians between -infinity and +infinity
-    //private var _x: Number;            //value of x on unit circle: x = cos(angle)
-    //private var _y: Number;            //value of y on unit circle: y = sin(angle)
-    //private var previousAngle: Number;
-    //private var nbrFullTurns: Number;  //number of full turns around unit circle, increments at theta = pi (not theta = 0)
-    //private var _cos: Number;        //cosine of angle _theta
-    //private var _sin: Number;
-    //private var _tan: Number;
-    //private var _specialAnglesMode: Boolean;  //true if in special angle mode = only allowed anlges are 0, 30, 45, 60, 90, etc.
 
 
     public function OpticsModel( myMainView: MainView ) {
         this.myMainView = myMainView;
         this.views_arr = new Array();
         this.source_arr = new Array();
-        this.nbrSources = 0;
-        this.opticalComponents_arr = new Array();
+        this._nbrSources = 0;
+        this._nbrComponents = 0;
+        this.newSourceCreated = false;
+        this.newMaskCreated = false;
+        this.component_arr = new Array();
         //this.testSource = new LightSource( this );
 
         this.initialize();
@@ -53,18 +49,32 @@ public class OpticsModel {
     }  //end initialize()
 
     public function testRayTracing():void{
-        this.testSource = new LightSource( this, nbrSources );
-        nbrSources += 1;
+        this.testSource = new LightSource( this, _nbrSources );
+        _nbrSources += 1;
     }
 
     public function createNewLightSource():void{
-        var index: uint = nbrSources;
+        var index: uint = _nbrSources;
         var newSource: LightSource = new LightSource( this, index );
         newSource.setLocation( Math.random()*0.5, Math.random()*0.5 );  //for testing only
         source_arr[ index ] = newSource;
-        myMainView.myLayoutView.createNewLightSourceView( index );   //breaks encapsulation of model, must be a better way
+        this.newSourceCreated = true;
+        //myMainView.myLayoutView.createNewLightSourceView( index );   //breaks encapsulation of model, must be a better way
         this.updateViews();
-        nbrSources += 1;
+        this.newSourceCreated = false;
+        _nbrSources += 1;
+    }
+
+    public function createNewMask():void{
+        var index: uint = _nbrComponents;
+        var newMask: Mask = new Mask( this, index );
+        newMask.setLocation( Math.random()*0.5, Math.random()*0.5 );  //for testing only
+        component_arr[ index ] = newMask;
+        this.newMaskCreated = true;
+        //myMainView.myLayoutView.createNewLightSourceView( index );   //breaks encapsulation of model, must be a better way
+        this.updateViews();
+        this.newMaskCreated = false;
+        _nbrComponents += 1;
     }
 
     public function destroyLightSource( index: uint ):void{
@@ -85,8 +95,8 @@ public class OpticsModel {
         if( indexLocation != -1 ){
             this.source_arr.splice( indexLocation, 1 );
         }
-        this.nbrSources -= 1;
-        if( nbrSources < 0 ){trace("ERROR: OpticsModel.unregisterLightSource.  Nbr of light souces is negative.")}
+        this._nbrSources -= 1;
+        if( _nbrSources < 0 ){trace("ERROR: OpticsModel.unregisterLightSource.  Nbr of light souces is negative.")}
     }
 
     public function registerView( view: Object ): void {
@@ -102,12 +112,20 @@ public class OpticsModel {
         }
     }
 
+    public function get nbrSources(): int {
+        return _nbrSources;
+    }
+
+    public function get nbrComponents(): int {
+        return _nbrComponents;
+    }
 
     public function updateViews(): void {
         for(var i:int = 0; i < this.views_arr.length; i++){
             this.views_arr[ i ].update();
         }
     }//end updateView()
+
 
 
 } //end of class
