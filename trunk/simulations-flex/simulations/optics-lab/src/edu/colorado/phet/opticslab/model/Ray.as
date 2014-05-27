@@ -28,11 +28,20 @@ public class Ray {
     public function Ray( source: LightSource,  angle: Number ) {
         _source = source;
         _angle = angle;
+        _length = 2;    //2 meters by default
 
     } //end of constructor
 
-    public function setLength( length ):void{
-       _length = length;
+    public function get length():Number {
+        return _length;
+    }
+
+    public function set length(value:Number):void {
+        _length = value;
+    }
+
+    public function get angle():Number {
+        return _angle;
     }
 } //end of class
 } //end of package

@@ -62,9 +62,13 @@ public class OpticsModel {
         var newSource: LightSource = new LightSource( this, index );
         newSource.setLocation( Math.random()*0.5, Math.random()*0.5 );  //for testing only
         source_arr[ index ] = newSource;
-        myMainView.myLayoutView.createNewLightSourceView( index );
+        myMainView.myLayoutView.createNewLightSourceView( index );   //breaks encapsulation of model, must be a better way
         this.updateViews();
         nbrSources += 1;
+    }
+
+    public function destroyLightSource( index: uint ):void{
+
     }
 
     public function getXYOfSource( idx: uint ):Point{
