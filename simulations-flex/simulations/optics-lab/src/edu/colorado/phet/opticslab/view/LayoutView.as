@@ -15,7 +15,7 @@ import edu.colorado.phet.opticslab.util.Util;
 
 import flash.display.Sprite;
 
-//View of primary play area on which light sources and lenses, etc are "laid out".
+//View of play area on which light sources and lenses, etc are "laid out".
 //This view acts as the optics bench on which all components are arranged by the user.
 
 public class LayoutView extends Sprite {
@@ -24,6 +24,7 @@ public class LayoutView extends Sprite {
     private var _pixPerMeter: Number;
     private var testSource: LightSourceView;           //for testing graphics
     private var source_arr:Array;       //array of light sources
+    private var component_arr:Array;    //array of optical components: masks, lenses or mirrors
 
     public function LayoutView( myMainView: MainView, myOpticsModel: OpticsModel ) {
         this.myMainView = myMainView;
@@ -32,6 +33,7 @@ public class LayoutView extends Sprite {
         this.myOpticsModel.updateViews();
         this._pixPerMeter = 1000;  //play area is approximately 1 meter across
         this.source_arr = new Array();
+        this.component_arr = new Array();
         this.init();
     }
 
@@ -45,14 +47,26 @@ public class LayoutView extends Sprite {
         //testSource.y = 50;
     }
 
-    public function createNewLightSourceView( index: uint ):void{
+    private function createNewLightSourceView( index: uint ):void{
         var newSourceView: LightSourceView = new LightSourceView( myOpticsModel, this, index ); //automatically added to LayoutView
         source_arr.push( newSourceView );
         //myOpticsModel.source_arr[ index ].view = newSourceView;
     }
 
-    public function update():void{
+    private function createNewMaskView( index: uint ):void{
+        var newMaskView: MaskView = new MaskView( myOpticsModel, this, index ); //automatically added to LayoutView
+        component_arr.push( newMaskView );
+    }
 
+    public function update():void{
+        if( myOpticsModel.newSourceCreated ){
+            var index: uint = myOpticsModel.nbrSources;
+            createNewLightSourceView( index );
+        }
+        if( myOpticsModel.newMaskCreated ){
+            var index: uint = myOpticsModel.nbrComponents;
+            createNewMaskView( index );
+        }
     }//end of update()
 
     public function get pixPerMeter():Number {
