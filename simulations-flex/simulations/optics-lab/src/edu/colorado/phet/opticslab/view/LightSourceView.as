@@ -18,6 +18,7 @@ public class LightSourceView extends Sprite {
     private var myOpticsModel: OpticsModel;
     //private var mySourceModel: LightSource;
     private var sourceHolder: Sprite;       //like a flashlight, holds a bunch of rays
+    private var raysGraphic: Sprite;        //graphic of rays
     private var container: LayoutView;      //parent of this sprite
     private var pixPerMeter: Number;
     private var isOn: Boolean;      //True if light source is emitting rays. Source not on until dropped onto play area
@@ -32,6 +33,7 @@ public class LightSourceView extends Sprite {
         this.pixPerMeter = container.pixPerMeter;
         this.sourceNbr = index;
         this.sourceHolder = new Sprite();
+        this.raysGraphic = new Sprite();
         myOpticsModel.registerView( this );
         init();
     }//end constructor
@@ -40,6 +42,8 @@ public class LightSourceView extends Sprite {
         //this.sourceHolder = new Sprite();
         drawSourceHolder();
         this.addChild( sourceHolder );
+        drawRays();
+        this.addChild( raysGraphic );
         this.container.addChild( this );
         this.makeSourceGrabbable();
         this.isOn = false;
@@ -56,9 +60,23 @@ public class LightSourceView extends Sprite {
         //g.lineTo( 50, 50 )
         g.drawCircle( 0, 0, 20 );
         g.endFill();
-
-
     }//end drawSourceHolder;
+
+    private function drawRays():void{
+        var gR: Graphics = raysGraphic.graphics;
+        var N:uint = sourceModel.nbrRays;
+        var ray_arr:Array = sourceModel.ray_arr;
+        with ( gR ){
+            clear();
+            lineStyle( 1, 0xffffff );
+            for( var j:uint = 0; j < N; j++ ){
+                var length: Number = ray_arr[j].length*pixPerMeter;
+                var angle: Number = ray_arr[j].angle;
+                moveTo( 0, 0 );
+                lineTo( length*Math.cos(angle), length*Math.sin(angle) )
+            }
+        }
+    }//end drawRays()
     
 
 

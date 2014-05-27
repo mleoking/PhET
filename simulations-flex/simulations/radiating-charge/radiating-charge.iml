@@ -6,7 +6,7 @@
   <component name="FlexBuildConfigurationManager" active="radiating-charge">
     <configurations>
       <configuration name="radiating-charge" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../out">
-        <dependencies target-player="11.1">
+        <dependencies target-player="10">
           <entries>
             <entry module-name="flexcommon" build-configuration-name="flexcommon">
               <dependency linkage="Merged" />
@@ -51,7 +51,7 @@
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="flex_sdk_4.6" />
+          <sdk name="flex_sdk_3.4.1.10084A" />
         </dependencies>
         <compiler-options>
           <option name="additionalOptions" value="-use-network" />
@@ -68,7 +68,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_4.6" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084A" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="flexcommon" />
     <orderEntry type="module-library">

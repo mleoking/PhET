@@ -11,7 +11,8 @@ public class LightSource {
     private var _x: Number; //x- and y-location of source, in meters
     private var _y: Number; //comment
     private var _index: uint; //index labeling position of this source in OpticsModel.source_arr
-    private var ray_arr: Array; //array holding light rays eminating from this light source
+    public var ray_arr: Array; //array holding light rays eminating from this light source
+    private var _nbrRays: uint;
     //private var _view: LightSourceView;  //view of this model of LightSource, probably not necessary that this model hold its own view
 
     public function LightSource( opticsModel: OpticsModel, idx: uint ) {
@@ -19,16 +20,18 @@ public class LightSource {
         _x = 0;
         _y = 0;
         _index = idx;
+        _nbrRays = 12;
         ray_arr = new Array();
         createArrayOfRays();
     }
 
     private function createArrayOfRays():void{
-        var nbrRays = 9;                      //fan of N rays uniformly spread over the fullAngle(in rads), facing right
+        //var nbrRays = 9;                      //fan of N rays uniformly spread over the fullAngle(in rads), facing right
         var fullAngle = 60*Math.PI/180;
-        var delAngle = fullAngle/(nbrRays/9);
-        for( var i: int = 0; i < 8; i++ ){
+        var delAngle = fullAngle/(_nbrRays - 1);
+        for( var i: int = 0; i < _nbrRays ; i++ ){
             ray_arr[i] = new Ray( this, -(fullAngle/2)+i*delAngle );
+            //trace("LightSource.createArrayOfRays: "+i+"  angle = "+ray_arr[i].angle)
         }
     }
 
@@ -49,5 +52,9 @@ public class LightSource {
 //    public function set view( value:LightSourceView ):void {
 //        _view = value;
 //    }
+
+    public function get nbrRays():uint {
+        return _nbrRays;
+    }
 }//end class
 }//end package
