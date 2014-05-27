@@ -41,7 +41,7 @@ public abstract class Equation {
         this.reactants = reactants;
         this.products = products;
 
-        //Use description to report changes to the server
+        // report these to the data-collection server
         this.balancedProperty = new Property<Boolean>( false );
         this.balancedAndSimplifiedProperty = new Property<Boolean>( false );
 
