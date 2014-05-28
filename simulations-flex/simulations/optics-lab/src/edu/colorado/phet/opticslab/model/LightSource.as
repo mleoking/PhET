@@ -20,19 +20,20 @@ public class LightSource {
         _x = 0;
         _y = 0;
         _index = idx;
-        _nbrRays = 12;
+        _nbrRays = 1;
         ray_arr = new Array();
         createArrayOfRays();
     }
 
     private function createArrayOfRays():void{
-        //var nbrRays = 9;                      //fan of N rays uniformly spread over the fullAngle(in rads), facing right
-        var fullAngle = 60*Math.PI/180;
-        var delAngle = fullAngle/(_nbrRays - 1);
-        for( var i: int = 0; i < _nbrRays ; i++ ){
-            ray_arr[i] = new Ray( this, -(fullAngle/2)+i*delAngle );
-            //trace("LightSource.createArrayOfRays: "+i+"  angle = "+ray_arr[i].angle)
-        }
+        //fan of N rays uniformly spread over the fullAngle(in rads), facing right
+//        var fullAngle = 60*Math.PI/180;
+//        var delAngle = fullAngle/(_nbrRays - 1);
+//        for( var i: int = 0; i < _nbrRays ; i++ ){
+//            ray_arr[i] = new Ray( this, -(fullAngle/2)+i*delAngle );
+//            //trace("LightSource.createArrayOfRays: "+i+"  angle = "+ray_arr[i].angle)
+//        }
+        ray_arr[0] = new Ray( this, 0 );
     }
 
     public function setLocation( xInMeters: Number, yInMeters: Number ):void{

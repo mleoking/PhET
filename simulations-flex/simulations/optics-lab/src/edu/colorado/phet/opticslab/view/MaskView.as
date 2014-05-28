@@ -94,6 +94,7 @@ public class MaskView extends Sprite {
             var xInMeters: Number = xInPix / pixPerMeter;
             var yInMeters: Number = yInPix / pixPerMeter;   //screen coords and cartesian coordinates in sign harmony here
             thisObject.myOpticsModel.component_arr[ _index ].setLocation( xInMeters, yInMeters );
+            thisObject.myOpticsModel.computeAllRays();
             evt.updateAfterEvent();
         }//end of dragTarget()
 
