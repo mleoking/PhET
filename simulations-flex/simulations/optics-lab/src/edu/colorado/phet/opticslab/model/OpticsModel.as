@@ -20,11 +20,11 @@ public class OpticsModel {
     public var myMainView:MainView; //communications hub for model-view-controller
     public var source_arr: Array; //light sources
     private var _nbrSources: int;    //number of light sources on stage
-    private var _nbrComponents: int;    //number of components (masks, lenses, mirrors) on stage
     public var component_arr: Array;   //lenses, mirrors, masks
+    private var _nbrComponents: int;    //number of components (masks, lenses, mirrors) on stage
     public var newSourceCreated: Boolean;       //true if new source added to play area, sends update to layout view if true
     public var newMaskCreated: Boolean;         //true if new mask added to play area, sends update to layout view if true
-    public var testSource: LightSource;         //for testing only
+    //public var testSource: LightSource;         //for testing only
 
 
 
@@ -48,10 +48,10 @@ public class OpticsModel {
         this.updateViews();
     }  //end initialize()
 
-    public function testRayTracing():void{
-        this.testSource = new LightSource( this, _nbrSources );
-        _nbrSources += 1;
-    }
+//    public function testRayTracing():void{
+//        this.testSource = new LightSource( this, _nbrSources );
+//        _nbrSources += 1;
+//    }
 
     public function createNewLightSource():void{
         var index: uint = _nbrSources;
@@ -119,6 +119,18 @@ public class OpticsModel {
     public function get nbrComponents(): int {
         return _nbrComponents;
     }
+
+    public function computeAllRays():void{
+         //loop thru all pairs of rays (of all light sources) and components
+        for( var i:int = 0; i < _nbrSources; i++ ){
+            for( var j:int = 0; j < source_arr[i].nbrRays; j++ ){
+                for( var k:int = 0; k < _nbrComponents; k++){
+                    //for ray j of source i and component k, check if they intersect
+
+                }//k loop
+            }//j loop
+        }//i loop
+    }//end computeAllRays()
 
     public function updateViews(): void {
         for(var i:int = 0; i < this.views_arr.length; i++){
