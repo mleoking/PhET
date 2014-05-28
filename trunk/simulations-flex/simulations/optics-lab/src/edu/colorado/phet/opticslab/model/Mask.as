@@ -17,7 +17,9 @@ public class Mask {
     private var _index: uint;  //index labeling position of this mask in myOpticsModel.opticalComponents[index];
     private var _x:Number;     //x- and y-coordinates of bottom edge of mask, in meters
     private var _y:Number;
-    private var _angle:Number; //angle of mask, in radians default angle = 0 for vertical mask.  Positive angle = CCW rotation
+    private var _angle:Number; //angle of mask, in radians default angle = 90 degrees for vertical mask.  Positive angle = CCW rotation
+    private var _cosA: Number;   //cosine of angle, stored to avoid re-computing
+    private var _sinA: Number;   //sine of angle, stored to avoid re-computing
     private var _height:Number;//height of mask, in meters
     private static var _type: String; //type of optical component = MASK, so ray-tracer knows how to behave when ray intersects this component
 
@@ -26,7 +28,9 @@ public class Mask {
         _index = idx;
         _type = "MASK";
         _x = _y = 0.5;
-        _angle = 0;
+        _angle = 90*Math.PI/180;
+        _cosA = Math.cos( _angle );
+        _sinA = Math.sin( _angle );
         _height = 0.2;
     }//end constructor
 
@@ -54,6 +58,22 @@ public class Mask {
 
     public function get height(): Number {
         return _height;
+    }
+
+    public function get cosA():Number {
+        return _cosA;
+    }
+
+    public function set cosA(value:Number):void {
+        _cosA = value;
+    }
+
+    public function get sinA():Number {
+        return _sinA;
+    }
+
+    public function set sinA(value:Number):void {
+        _sinA = value;
     }
 }//end class
 }//end package

@@ -22,12 +22,16 @@ public class Ray {
     //private var _x0: Number;    //x-component of initial position of ray
     //private var _y0: Number;    //y-component of initial position of ray
     private var _angle: Number; //angle in radians = direction of ray, measured CCW from +x direction
+    private var _cosA: Number;   //cosine of angle, stored to avoid re-computing
+    private var _sinA: Number;   //sine of angle, stored to avoid re-computing
     private var _length: Number;//length of ray from source to point of interception with first obstacle (a component or border of stage)
 
 
     public function Ray( source: LightSource,  angle: Number ) {
         _source = source;
         _angle = angle;
+        _cosA = Math.cos( _angle );
+        _sinA = Math.sin( _angle );
         _length = 2;    //2 meters by default
 
     } //end of constructor
@@ -42,6 +46,14 @@ public class Ray {
 
     public function get angle():Number {
         return _angle;
+    }
+
+    public function get cosA():Number {
+        return _cosA;
+    }
+
+    public function get sinA():Number {
+        return _sinA;
     }
 } //end of class
 } //end of package

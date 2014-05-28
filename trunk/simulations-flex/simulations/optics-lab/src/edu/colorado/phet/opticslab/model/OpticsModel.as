@@ -122,15 +122,35 @@ public class OpticsModel {
 
     public function computeAllRays():void{
          //loop thru all pairs of rays (of all light sources) and components
+        var point:Point = new Point();
         for( var i:int = 0; i < _nbrSources; i++ ){
             for( var j:int = 0; j < source_arr[i].nbrRays; j++ ){
                 for( var k:int = 0; k < _nbrComponents; k++){
                     //for ray j of source i and component k, check if they intersect
-
+                    point = intersection( i, j, k );
                 }//k loop
             }//j loop
         }//i loop
     }//end computeAllRays()
+
+    //intersection point of ray j of source i and component k
+    private function intersection( i, j, k ):Point{
+        var source: LightSource = source_arr[i];
+        var ray: Ray = source_arr[i].ray_arr[j];
+        var mask: Mask = component_arr[k];
+        var a:Number = ray.cosA;
+        var b:Number = -mask.cosA;
+        var e:Number = ray.sinA;
+        var f:Number = -mask.sinA;
+        var g:Number = mask.x - source.x;
+        var h:Number = mask.y - source.y;
+        var D:Number = a*f - b*e;  //Determinant
+        var s:Number = ( g*f - b*h )/D;
+        var d:Number = ( a*h - g*e )/D;
+        trace("i,j,k = " + i + j  +k + "   s = "+s+"   d = "+ d );
+        //trace("ray.cosA = "+a+"  ray.sinA = "+e+ "  -mask.cosA = "+b+"   -mask.sinA = "+f);
+        return new Point( s, d );
+    }
 
     public function updateViews(): void {
         for(var i:int = 0; i < this.views_arr.length; i++){
