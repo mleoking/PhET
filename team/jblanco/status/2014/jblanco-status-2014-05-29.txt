@@ -1,0 +1,68 @@
+PhET Progress Report, J. Blanco, 5-29-2014
+
+PhET Weekly Progress Report
+John Blanco
+May 29th, 2014
+
+Time period covered: May 15th through May 28th.  This is a two week period due to a canceled statue meeting.
+
+Balancing Act - 4.0 hrs
+
+o	Made last minute tweaks to get latest SW agreement, published to production server.
+o	Fixed a bug that crept in at the last minute, re-published to production server.
+o	Cleaned up some structural issues with usages of Screen and View pointed out by SR.
+
+Area - 33.0 hrs
+
+o	Discussed and reviewed in design meeting (x2).
+o	Created the 2nd, larger board and added new square color for it.
+o	Added ability to drag squares from the bucket and place on board.
+o	Made placement constraints work so that only contiguous shapes can be created.
+o	Got reset working to remove shapes from boards.
+o	Implemented perimeter detection and calculation algorithm for exterior and interior perimeters.
+o	Added readouts for perimeter and area.
+o	Added "composite shape" that depicts the overall shape that the user has created.
+o	Added interior grid to the composite shape.
+o	Added animation.
+
+Arithmetic - 1.5 hrs
+
+o	Did an initial, minimal review of code and provided some feedback to MLL.
+o	Answered questions from MLL about design spec, reusable components, etc.
+
+Gravity Force Lab - 1.0 hrs
+
+o	Tracked down and fixed an issue with labels on the controls that JO found during Scenery testing.
+
+Resistance in a Wire - 1.0 hrs
+
+o	Published revised version (v1.1.1), which incorporates latest software agreement link, to production server.
+
+Common Code - 13.0 hrs
+
+o	Fixed some issues in Vegas pointed out by CM, see recent issue activity.
+o	Moved FaceNodeWithScore to common code, worked with SR to generalize.
+o	Created a slider knob based on the buttons, included in Sun demo.
+o	Implemented a strategy pattern for handling button appearance, implemented a 'flat' strategy, added demos.
+
+Build Tools (Java) - 1.5 hrs
+
+o	Investigated issue with translation publication, now believe this to be unrelated to recent SSH changes.
+
+Developer Meetings - 8.0 hrs
+
+o	Developer meeting (x4).
+
+Customer Support - 1.0 hrs
+
+o	Investigated codes for Turkish Kurdish.
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+o	Weekly status report.
+o	Team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o	Monday May 26th was Memorial Day.
