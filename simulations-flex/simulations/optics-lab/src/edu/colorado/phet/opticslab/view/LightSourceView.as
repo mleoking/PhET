@@ -100,6 +100,7 @@ public class LightSourceView extends Sprite {
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            evt.updateAfterEvent();
         }
 
         function dragTarget( evt: MouseEvent ): void {
@@ -119,6 +120,7 @@ public class LightSourceView extends Sprite {
         //this.y = myOpticsModel.getXYOfSource( sourceNbr ).y*pixPerMeter;
         //this.x = myOpticsModel.source_arr[ sourceNbr ].x*pixPerMeter;
         //this.y = myOpticsModel.source_arr[ sourceNbr ].y*pixPerMeter;
+        this.drawRays();
         this.x = sourceModel.x*pixPerMeter;
         this.y = sourceModel.y*pixPerMeter;
     }//end update
