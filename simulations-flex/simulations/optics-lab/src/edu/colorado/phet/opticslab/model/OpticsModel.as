@@ -127,14 +127,14 @@ public class OpticsModel {
             for( var j:int = 0; j < source_arr[i].nbrRays; j++ ){
                 for( var k:int = 0; k < _nbrComponents; k++){
                     //for ray j of source i and component k, check if they intersect
-                    point = intersection( i, j, k );
+                    processIntersection( i, j, k );
                 }//k loop
             }//j loop
         }//i loop
     }//end computeAllRays()
 
     //intersection point of ray j of source i and component k
-    private function intersection( i, j, k ):Point{
+    private function processIntersection( i, j, k ):void{
         var source: LightSource = source_arr[i];
         var ray: Ray = source_arr[i].ray_arr[j];
         var mask: Mask = component_arr[k];
@@ -149,14 +149,13 @@ public class OpticsModel {
         var s:Number = ( g*f - b*h )/D;  //length of ray from source to intersection
         var d:Number = ( a*h - g*e )/D;
 
-        if( d <= 0 && d >= -ht ){
+        if( s > 0 && d <= 0 && d >= -ht ){
             trace("i,j,k = " + i + j  +k + "   s = "+s+"   d = "+ d );
             //trace("ray.cosA = "+a+"  ray.sinA = "+e+ "  -mask.cosA = "+b+"   -mask.sinA = "+f);
             ray.length = s;
         }else{
             ray.length = 2;
         }
-        return new Point( s, d );
     }//end intersection
 
     public function updateViews(): void {
