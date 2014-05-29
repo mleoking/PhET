@@ -33,7 +33,7 @@ public class LightSource {
 //            ray_arr[i] = new Ray( this, -(fullAngle/2)+i*delAngle );
 //            //trace("LightSource.createArrayOfRays: "+i+"  angle = "+ray_arr[i].angle)
 //        }
-        ray_arr[0] = new Ray( this, 0 );
+        ray_arr[0] = new Ray( this, -0.2 );
     }
 
     public function setLocation( xInMeters: Number, yInMeters: Number ):void{
