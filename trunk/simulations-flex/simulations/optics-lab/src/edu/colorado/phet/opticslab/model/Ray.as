@@ -25,7 +25,7 @@ public class Ray {
     private var _cosA: Number;   //cosine of angle, stored to avoid re-computing
     private var _sinA: Number;   //sine of angle, stored to avoid re-computing
     private var _length: Number;//length of ray from source to point of interception with first obstacle (a component or border of stage)
-
+    private var _changed: Boolean; //true if ray length is changed in last update
 
     public function Ray( source: LightSource,  angle: Number ) {
         _source = source;
@@ -42,6 +42,7 @@ public class Ray {
 
     public function set length(value:Number):void {
         _length = value;
+        _changed = true;
     }
 
     public function get angle():Number {

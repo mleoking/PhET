@@ -138,6 +138,7 @@ public class OpticsModel {
         var source: LightSource = source_arr[i];
         var ray: Ray = source_arr[i].ray_arr[j];
         var mask: Mask = component_arr[k];
+        var ht: Number = mask.height;
         var a:Number = ray.cosA;
         var b:Number = -mask.cosA;
         var e:Number = ray.sinA;
@@ -145,12 +146,18 @@ public class OpticsModel {
         var g:Number = mask.x - source.x;
         var h:Number = mask.y - source.y;
         var D:Number = a*f - b*e;  //Determinant
-        var s:Number = ( g*f - b*h )/D;
+        var s:Number = ( g*f - b*h )/D;  //length of ray from source to intersection
         var d:Number = ( a*h - g*e )/D;
-        trace("i,j,k = " + i + j  +k + "   s = "+s+"   d = "+ d );
-        //trace("ray.cosA = "+a+"  ray.sinA = "+e+ "  -mask.cosA = "+b+"   -mask.sinA = "+f);
+
+        if( d <= 0 && d >= -ht ){
+            trace("i,j,k = " + i + j  +k + "   s = "+s+"   d = "+ d );
+            //trace("ray.cosA = "+a+"  ray.sinA = "+e+ "  -mask.cosA = "+b+"   -mask.sinA = "+f);
+            ray.length = s;
+        }else{
+            ray.length = 2;
+        }
         return new Point( s, d );
-    }
+    }//end intersection
 
     public function updateViews(): void {
         for(var i:int = 0; i < this.views_arr.length; i++){
