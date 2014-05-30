@@ -21,21 +21,20 @@ public class Ray {
     private var _source: LightSource;  //every ray belongs to a light source
     //private var _x0: Number;    //x-component of initial position of ray
     //private var _y0: Number;    //y-component of initial position of ray
-    private var _angle: Number; //angle in radians = direction of ray, measured CCW from +x direction
-    private var _cosA: Number;   //cosine of angle, stored to avoid re-computing
-    private var _sinA: Number;   //sine of angle, stored to avoid re-computing
-    private var _length: Number;//length of ray from source to point of interception with first obstacle (a component or border of stage)
-    private static var _MAXLENGTH: Number;
-    private var _changed: Boolean; //true if ray length is changed in last update
+    private var _angle: Number;   //angle in radians = direction of ray, measured CCW from +x direction
+    private var _cosA: Number;    //cosine of angle, stored to avoid re-computing
+    private var _sinA: Number;    //sine of angle, stored to avoid re-computing
+    private var _length: Number;  //length of ray from source to point of interception with first obstacle (a component or border of stage)
+    private static var _MAXLENGTH: Number;   //default max length of ray, bigger than stage
+    private var _changed: Boolean; //true if ray length is changed in last update (? necessary ?)
 
     public function Ray( source: LightSource,  angle: Number ) {
         _source = source;
         _angle = angle;
         _cosA = Math.cos( _angle );
         _sinA = Math.sin( _angle );
-        _MAXLENGTH = 2;  //2 meters
-        _length = _MAXLENGTH;    //max length of ray is default
-
+        _MAXLENGTH = 2;         //2 meters
+        _length = _MAXLENGTH;   //max length of ray is default
     } //end of constructor
 
     public function get length():Number {
