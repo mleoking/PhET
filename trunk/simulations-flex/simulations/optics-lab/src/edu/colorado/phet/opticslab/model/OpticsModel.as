@@ -122,19 +122,58 @@ public class OpticsModel {
 
     public function computeAllRays():void{
          //loop thru all pairs of rays (of all light sources) and components
-        var point:Point = new Point();
-        for( var i:int = 0; i < _nbrSources; i++ ){
-            for( var j:int = 0; j < source_arr[i].nbrRays; j++ ){
-                for( var k:int = 0; k < _nbrComponents; k++){
+        //var point:Point = new Point();
+        var source: LightSource;
+        var ray: Ray;
+        var shortestS: Number; //length of shortest length of ray, if multiple intersections
+        var mask: Mask;
+        var ht: Number;
+        var a:Number;
+        var b:Number;
+        var e:Number;
+        var f:Number;
+        var g:Number;
+        var h:Number;
+        var D:Number;  //Determinant
+        var s:Number;  //length of ray from source to intersection
+        var d:Number;  //distance from edge of component to intersection
+        for( var i:int = 0; i < _nbrSources; i++ ){   //loop thru sources
+            source = source_arr[i];
+            for( var j:int = 0; j < source_arr[i].nbrRays; j++ ){   //loop thru rays of source
+                ray = source.ray_arr[j];
+                ray.length = ray.MAXLENGTH;
+                shortestS = ray.MAXLENGTH;
+                for( var k:int = 0; k < _nbrComponents; k++){   //loop thru components
                     //for ray j of source i and component k, check if they intersect
-                    processIntersection( i, j, k );
+                    //processIntersection( i, j, k );
+                    mask = component_arr[k];
+                    ht = mask.height;
+                    a = ray.cosA;
+                    b = -mask.cosA;
+                    e = ray.sinA;
+                    f = -mask.sinA;
+                    g = mask.x - source.x;
+                    h = mask.y - source.y;
+                    D = a*f - b*e;  //Determinant
+                    s = ( g*f - b*h )/D;  //length of ray from source to intersection
+                    d = ( a*h - g*e )/D;
+                    if( s > 0 && d <= 0 && d >= -ht ){    //if ray intersects component
+                        trace("i,j,k = " + i + j  +k + "   s = "+s+"   d = "+ d );
+                        //trace("ray.cosA = "+a+"  ray.sinA = "+e+ "  -mask.cosA = "+b+"   -mask.sinA = "+f);
+                        if (s < shortestS ){     //if current intersection is smallest so far
+                            ray.length = s;
+                            shortestS = s;
+                        }
+                    }//else{
+                        //ray.length = ray.MAXLENGTH;
+                    //}
                 }//k loop
             }//j loop
         }//i loop
     }//end computeAllRays()
 
     //intersection point of ray j of source i and component k
-    private function processIntersection( i, j, k ):void{
+    private function processIntersection( i:int, j:int, k:int ):void{
         var source: LightSource = source_arr[i];
         var ray: Ray = source_arr[i].ray_arr[j];
         var mask: Mask = component_arr[k];
@@ -152,7 +191,9 @@ public class OpticsModel {
         if( s > 0 && d <= 0 && d >= -ht ){
             trace("i,j,k = " + i + j  +k + "   s = "+s+"   d = "+ d );
             //trace("ray.cosA = "+a+"  ray.sinA = "+e+ "  -mask.cosA = "+b+"   -mask.sinA = "+f);
-            ray.length = s;
+            if (ray.length > s){
+               ray.length = s;
+            }
         }else{
             ray.length = 2;
         }

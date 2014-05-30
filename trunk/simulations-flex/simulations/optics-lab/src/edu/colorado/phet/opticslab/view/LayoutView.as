@@ -50,12 +50,14 @@ public class LayoutView extends Sprite {
     private function createNewLightSourceView( index: uint ):void{
         var newSourceView: LightSourceView = new LightSourceView( myOpticsModel, this, index ); //automatically added to LayoutView
         source_arr.push( newSourceView );
+        myOpticsModel.computeAllRays();
         //myOpticsModel.source_arr[ index ].view = newSourceView;
     }
 
     private function createNewMaskView( index: uint ):void{
         var newMaskView: MaskView = new MaskView( myOpticsModel, this, index ); //automatically added to LayoutView
         component_arr.push( newMaskView );
+        myOpticsModel.computeAllRays();
     }
 
     public function update():void{

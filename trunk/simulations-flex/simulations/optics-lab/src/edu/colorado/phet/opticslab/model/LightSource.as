@@ -20,7 +20,7 @@ public class LightSource {
         _x = 0;
         _y = 0;
         _index = idx;
-        _nbrRays = 10;
+        _nbrRays = 9;
         ray_arr = new Array();
         createArrayOfRays();
     }
