@@ -162,14 +162,16 @@ public class OpticsModel {
                         if (s < shortestS ){     //if current intersection is smallest so far, adjust ray length
                             ray.length = s;
                             shortestS = s;
-                        }
+                        }//if()
+                        //createDiverted ray
+
                     }//if()
                 }//k loop
             }//j loop
         }//i loop
     }//end computeAllRays()
 
-
+   private function createDivertedRay():void{};
 
     public function updateViews(): void {
         for(var i:int = 0; i < this.views_arr.length; i++){
