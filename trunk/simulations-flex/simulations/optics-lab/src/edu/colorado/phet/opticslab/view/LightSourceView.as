@@ -100,6 +100,7 @@ public class LightSourceView extends Sprite {
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            thisObject.myOpticsModel.computeAllRays();
             evt.updateAfterEvent();
         }
 

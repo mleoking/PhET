@@ -11,8 +11,9 @@ public class LightSource {
     private var _x: Number; //x- and y-location of source, in meters
     private var _y: Number; //comment
     private var _index: uint; //index labeling position of this source in OpticsModel.source_arr
-    public var ray_arr: Array; //array holding light rays eminating from this light source
+    public var ray_arr: Array; //array holding light rays emanating from this light source
     private var _nbrRays: uint;
+    private var type: String;   //light source is either point source or parallel bundle: "POINT" or "Parallel"
     //private var _view: LightSourceView;  //view of this model of LightSource, probably not necessary that this model hold its own view
 
     public function LightSource( opticsModel: OpticsModel, idx: uint ) {

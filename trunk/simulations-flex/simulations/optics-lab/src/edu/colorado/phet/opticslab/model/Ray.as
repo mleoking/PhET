@@ -19,8 +19,8 @@ package edu.colorado.phet.opticslab.model {
  * */
 public class Ray {
     private var _source: LightSource;  //every ray belongs to a light source
-    //private var _x0: Number;    //x-component of initial position of ray
-    //private var _y0: Number;    //y-component of initial position of ray
+    private var _x0: Number;    //x-component of initial position of ray
+    private var _y0: Number;    //y-component of initial position of ray
     private var _angle: Number;   //angle in radians = direction of ray, measured CCW from +x direction
     private var _cosA: Number;    //cosine of angle, stored to avoid re-computing
     private var _sinA: Number;    //sine of angle, stored to avoid re-computing
