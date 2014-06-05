@@ -1,0 +1,49 @@
+PhET Progress Report, J. Blanco, 6-5-2014
+
+PhET Weekly Progress Report
+John Blanco
+June 5th, 2014
+
+Time period covered: May 29th through June 4th.
+
+Area - 21.0 hrs
+
+o	Added orphan handling, including identification, release, and return animation.
+o	Added 'clear' button and associated functionality, including fade out.
+o	Tracked down and fixed some subtle issues that could cause the board to get into odd states.
+o	Posted 1.0.0-dev.2 version for use in early interviews, see http://www.colorado.edu/physics/phet/dev/html/area-builder/1.0.0-dev.2/.
+o	Started adding basic infrastructure for the game screen.
+
+Arithmetic - 4.0 hrs
+
+o	Started "mid-development review", see https://github.com/phetsims/arithmetic/issues/1.
+o	Published dev version for early review.
+o	Reviewed code (partially), logged tickets and added //REVIEW tags.
+
+Common Code - 2.0 hrs
+
+o	Made a 'non-squishy' version of the slider knob with a somewhat etched look.
+
+MLL Management - 1.0 hrs
+
+o	Provided feedback about general comment structure.
+o	Discussed how to set up mid-development review(s) for Arithmetic.
+
+Developer Meetings - 3.0 hrs
+
+o	Developer meeting (x4).
+
+Education - 1.0 hrs
+
+o	Reading articles from Javascript news and CK-12 newsletters
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o	Weekly status report.
+o	Team meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 4.0 hrs
+
+o	4.0 hrs sick leave on Friday, May 30th
+o	Out all or part of Friday, June 6th, and all of Monday June 9th and possibly Tuesday, June 10th.
