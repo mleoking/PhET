@@ -81,14 +81,9 @@ public class ProguardCommand {
 
             bufferedWriter.write( "-outjars '" + config.getOutputJar().getAbsolutePath() + "'" + newline );
 
-            if ( System.getProperty( "os.name" ).toLowerCase().startsWith( "mac os x" ) ) {
-                String macPath = "/System/Library/Frameworks/JavaVM.framework/Classes";
-                bufferedWriter.write( "-libraryjars " + macPath + "/classes.jar" + newline );
-                bufferedWriter.write( "-libraryjars " + macPath + "/ui.jar" + newline );
-            }
-            else {
-                bufferedWriter.write( "-libraryjars <java.home>/lib/rt.jar" + newline ); // Windows, Linux
-            }
+            // all platforms (Java 1.7 required on Mac OS)
+            bufferedWriter.write( "-libraryjars <java.home>/lib/rt.jar" + newline );
+
             for ( int i = 0; i < config.getMainClasses().length; i++ ) {
                 bufferedWriter.write( "-keepclasseswithmembers public class " + config.getMainClasses()[i] + "{" + newline +
                                       "    public static void main(java.lang.String[]);" + newline +
