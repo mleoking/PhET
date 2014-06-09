@@ -1,3 +1,4 @@
+6/9/14 #3634 remove dependency on Apple Java 1.6 from ProguardCommand
 # 00.77.00 (73727) Jan 14, 2014
 # 00.76.00 (73724) Jan 14, 2014
 # 00.75.00 (73723) Jan 14, 2014
