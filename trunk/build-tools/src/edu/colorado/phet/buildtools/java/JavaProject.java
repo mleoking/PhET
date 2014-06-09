@@ -74,10 +74,11 @@ public abstract class JavaProject extends PhetProject {
         new JavaBuildCommand( this, new MyAntTaskRunner(), isShrink(), this.getDefaultDeployJar() ).execute();
         File[] f = getDeployDir().listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
-                return pathname.getName().toLowerCase().endsWith( ".jar" );
+                // exclude the installer JAR from success checks, since it interferes with non-sim deployments
+                return pathname.getName().toLowerCase().endsWith( ".jar" ) && !pathname.getName().endsWith( "_installer.jar" );
             }
         } );
-        return f.length == 2;//success if there are exactly 2 JAR files, one for main site and one for the installer
+        return f.length == 1;
     }
 
     public boolean isShrink() {
