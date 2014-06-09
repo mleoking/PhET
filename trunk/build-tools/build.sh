@@ -31,7 +31,6 @@ if [ "${JAVA_HOME}" = "" ]; then
         exit 1
     fi      
 fi
-exit 1
 
 # Invoke ant
 if [ $# = 0 ]; then
