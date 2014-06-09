@@ -1,3 +1,4 @@
+6/9/14 #3630 add locale ku_TR (Kurdish, Turkey)
 # 2.14.03 (73620) Nov 15, 2013
 11/15/13 #3553, modify preferred fonts for Bengali (bn)
 # 2.14.02 (73366) Jul 18, 2013
