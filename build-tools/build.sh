@@ -24,13 +24,14 @@ cd ${ROOT_DIR}
 # JAVA_HOME can be set automatically on Mac, is required on other platforms
 if [ "${JAVA_HOME}" = "" ]; then
     if [ `uname` = "Darwin" ]; then
-        export JAVA_HOME=/Library/Java/Home
+        export JAVA_HOME=`/usr/libexec/java_home`
         echo "Mac detected, assuming Java home is $JAVA_HOME"
     else
         echo "The environment variable JAVA_HOME must be set to the location of a valid JDK."
         exit 1
     fi      
 fi
+exit 1
 
 # Invoke ant
 if [ $# = 0 ]; then
