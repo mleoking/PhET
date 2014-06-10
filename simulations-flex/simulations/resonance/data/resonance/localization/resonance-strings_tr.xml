@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_tr.xml created Mon Jun 09 15:32:24 FET 2014 using: resonance 1.01.00 (54775), translation-utility 2.14.00 (69024) Eki 9, 2012--><SimStrings>
+<string key="simSpeed" value="benzetim hızı"/>
+<string key="sameFrequency" value="aynı sıklık"/>
+<string key="sameSpring" value="aynı yay (k)"/>
+<string key="slow" value="yavaş"/>
+<string key="mixedMAndK" value="m ve k yı karıştır"/>
+<string key="numberOfResonators" value="Çınlaçların Sayısı"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="durdur"/>
+<string key="amplitude" value="genlik"/>
+<string key="frequencyEqualsXHz" value="sıklık ={0} Hz"/>
+<string key="sloMo" value="yavaş hareket"/>
+<string key="step" value="basamak"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="Sürücü"/>
+<string key="on" value="açık"/>
+<string key="ruler" value="Cetvel"/>
+<string key="resonance.simTitle" value="Rezonans"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="yay sabiti"/>
+<string key="frequency" value="sıklık"/>
+<string key="resetAll" value="Hepsini Sıfırla"/>
+<string key="mass" value="kütle"/>
+<string key="sameMass" value="aynı kütle (m)"/>
+<string key="resonator" value="Çınlaç"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Yerçekimi"/>
+<string key="play" value="oynat"/>
+<string key="paused" value="durduruldu"/>
+<string key="off" value="kapalı"/>
+<string key="dampingConstant" value="sönüm sabiti"/>
+<string key="normal" value="normal"/>
+<string key="selectPreset" value="Şimdi Seç"/>
+</SimStrings>
