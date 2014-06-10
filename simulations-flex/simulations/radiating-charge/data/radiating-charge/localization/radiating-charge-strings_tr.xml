@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_tr.xml created Mon Jun 09 15:20:14 FET 2014 using: radiating-charge 1.03.00 (71951), translation-utility 2.14.00 (69024) Eki 9, 2012--><SimStrings>
+<string key="duration" value="Süre"/>
+<string key="bump" value="Çarpma"/>
+<string key="radiating-charge.simTitle" value="Yük Işınımı"/>
+<string key="stopCharge" value="Yükü Durdur"/>
+<string key="sinusoidal" value="Sinüs Dalgası"/>
+<string key="amplitude" value="Genlik"/>
+<string key="speedOfLight" value="Işık Hızı"/>
+<string key="noFrictionManual" value="Sürtünmesiz"/>
+<string key="frequency" value="Sıklık"/>
+<string key="restart" value="Tekrar Başla"/>
+<string key="showVelocity" value="Hızı Ayarla"/>
+<string key="speed" value="Sürat"/>
+<string key="translation.credits" value="Çeviri Birimleri"/>
+<string key="frictionManual" value="Elle"/>
+<string key="linear" value="Doğrusal"/>
+<string key="paused" value="Durdur"/>
+<string key="reset" value="Sıfırla"/>
+<string key="circular" value="Dairesel"/>
+</SimStrings>
