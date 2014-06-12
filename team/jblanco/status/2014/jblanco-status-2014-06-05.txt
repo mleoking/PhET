@@ -12,6 +12,7 @@ o	Added orphan handling, including identification, release, and return animation
 o	Added 'clear' button and associated functionality, including fade out.
 o	Tracked down and fixed some subtle issues that could cause the board to get into odd states.
 o	Posted 1.0.0-dev.2 version for use in early interviews, see http://www.colorado.edu/physics/phet/dev/html/area-builder/1.0.0-dev.2/.
+o	Posted 1.0.0-dev.2 version for use in early interviews, see http://www.colorado.edu/physics/phet/dev/html/area-builder/1.0.0-dev.2/.
 o	Started adding basic infrastructure for the game screen.
 
 Arithmetic - 4.0 hrs
