@@ -1,0 +1,44 @@
+PhET Progress Report, J. Blanco, 6-12-2014
+
+PhET Weekly Progress Report
+John Blanco
+June 12th, 2014
+
+Time period covered: June 5th through June 11th.
+
+Area Builder - 11.5 hrs
+
+o	Reviewed game sketches, discussed in design meeting.
+o	Worked on game design and infrastructure.
+o	Implemented accordion boxes where title disappears when open for displaying area and perimeter.
+o	Made area and perimeter values only show valid readings when user is not moving shapes.
+o	Implemented what is hopefully the final algorithm for 'orphan release'.
+o	Met with Karina to go over several design questions.
+
+Arithmetic - 4.0 hrs
+
+o	Reviewed code and functionality.
+o	Responded to several implementation questions from MLL.
+
+Common Code - 1.0 hrs
+
+o	Discussed keypad design, specifically backspace keys and keyboard input.
+
+Developer Meetings - 3.0 hrs
+
+o	Developer meeting (x2).
+
+Environment - 0.5 hrs
+
+o	Added Amanda M as a collaborator on the math-related simulations, shared design docs with her.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Team meeting.
+o	Certified ePER.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 16.0 hrs
+
+o	Took June 6th and June 9th as vacation days.
