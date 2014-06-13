@@ -1,3 +1,4 @@
+# 2.15.01 (74074) Jun 13, 2014
 6/13/14 #3638 add locale ar_MA (Arabic, Morocco)
 # 2.15.00 (74060) Jun 9, 2014
 6/9/14 #3553 disable preferred fonts for Bengali (bn) before publishing, since this issue is not resolved and the fonts are incorrect
