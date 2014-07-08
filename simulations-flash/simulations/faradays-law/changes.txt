@@ -1,3 +1,5 @@
+# 2.05.00 (74083) Jul 8, 2014
+7/8/14 Fixed bug in flip magnet response.
 # 2.04.00 (74004) May 8, 2014
 5/8/14 > Minor graphic changes.
 # 2.03.03 (73989) May 2, 2014
