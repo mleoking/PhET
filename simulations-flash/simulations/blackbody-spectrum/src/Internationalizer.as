@@ -45,7 +45,7 @@ class Internationalizer{
 		this.setString(_root.xAxis_mc.xAxisLabel_mc.label_txt, "wavelength", "right");
 		//this.setString(_root.yAxis_mc.yAxisLabel_mc.label_txt, "intensity", "right");
 		//vertical text cannot be handled with setString():
-		//_root.yAxis_mc.yAxisLabel_mc.label_txt = this.simStrings.get("intensity");
+		_root.yAxis_mc.yAxisLabel_mc.label_txt = this.simStrings.get("intensity"); //this line was commented out prior to July 9, 2014
 		if(_level0.common.getLanguage() != "en") {
 			stackString(_root.yAxis_mc.yAxisLabel_mc.label_txt, "intensity");
 		}
