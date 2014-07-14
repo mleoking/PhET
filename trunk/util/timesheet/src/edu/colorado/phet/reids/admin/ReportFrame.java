@@ -1,6 +1,12 @@
 package edu.colorado.phet.reids.admin;
 
-import java.util.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Hashtable;
 
 import javax.swing.*;
 
@@ -56,8 +62,43 @@ public class ReportFrame {
             }
         }
 
+        text += "\n\n-------------------------------\n" +
+                "By day:\n";
+        text += getHoursPerDay( selection );
+
         frame.setContentPane( new JScrollPane( new JTextArea( text ) ) );
         frame.setSize( 800, 600 );
+    }
+
+    private String getHoursPerDay( TimesheetModel selection ) {
+        int minDay = Integer.MAX_VALUE;
+        int maxDay = Integer.MIN_VALUE;
+        Hashtable<Integer, Long> timesPerDay = new Hashtable<Integer, Long>();
+        for ( int i = 0; i < selection.getEntryCount(); i++ ) {
+            Entry entry = selection.getEntry( i );
+            entry.getStartDate();
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime( entry.getStartDate() );
+            int day = cal.get( Calendar.DAY_OF_MONTH );
+            minDay = Math.min( minDay, day );
+            maxDay = Math.max( maxDay, day );
+
+            if ( !timesPerDay.containsKey( day ) ) {
+                timesPerDay.put( day, 0L );
+            }
+            timesPerDay.put( day, timesPerDay.get( day ) + entry.getElapsedSeconds() );
+
+        }
+        if ( minDay < 1 ) {
+            throw new RuntimeException( "Weird day: " + minDay );
+        }
+        String s = "Times per day (reported in hours.hh)\n";
+        for ( int i = 1; i <= maxDay; i++ ) {
+            long seconds = timesPerDay.containsKey( i ) ? timesPerDay.get( i ) : 0;
+            s += "" + i + ":\t" + new DecimalFormat( "0.00" ).format( seconds / 60.0 / 60.0 ) + "\n";
+        }
+        return s;
     }
 
     //Gets the tasks completed in the specified category, sorted by time taken
