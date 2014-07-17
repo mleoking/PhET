@@ -1,0 +1,66 @@
+PhET Progress Report, J. Blanco, 6-19-2014
+
+PhET Weekly Progress Report
+John Blanco
+June 19th, 2014
+
+Time period covered: June 12th through June 18th.
+
+Area Builder - 19.0 hrs
+
+o	Reviewed and discussed in design meeting.
+o	Fixed an issue with orphan release.
+o	Published a version for review by Bryce and Karina, changes approved (at least so far).  Link: http://www.colorado.edu/physics/phet/dev/html/area-builder/1.0.0-dev.4/.
+o	Added shadow under moving squares.
+o	Implemented game infrastructure, including basic flow, scoreboard, level completed dialog, return to level selection, and the shape board.
+
+Arithmetic - 4.5 hrs
+
+o	Let MLL know that number entry from the keyboard is no longer a requirement, updated the spec.
+o	Published version for functional testing, see http://www.colorado.edu/physics/phet/dev/html/arithmetic/1.0.0-dev.3/.
+o	Performed an initial round of functional testing.
+o	Logged, updated, and closed various issues.
+
+Balancing Act - 0.5 hrs
+
+o	Moved score to right side of smiley face due to some recent common code changes.
+
+Under Pressure - 2.0 hrs
+
+o	Added a digit to the English units in the readouts, see issue #56.
+o	Published a release candidate and updated the test matrix.
+
+Gravity Force Lab - 1.0 hrs
+
+o	Published a release candidate and updated the test matrix.
+
+Ohm's Law - 1.0 hrs
+
+o	Published a release candidate and updated the test matrix.
+
+Common Code - 3.0 hrs
+
+o	Created various versions of slider knob prototype.
+o	Reviewed some proposed changes to LevelCompletedNode.
+o	Fixed an issue with Joist timer (in collaboration with Jonathan O).
+
+Developer Meetings - 3.0 hrs
+
+o	Developer meeting (x2).
+
+MLL Management - 1.0 hrs
+
+o	Discussed QA steps, got their agreement on most items, one yet to resolve.
+o	Reminded them about weekly report, Dmitry said he we start sending again.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Team meeting.
+o	re-certified ePER.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o	Will be out Friday, June 27th through Friday, July 4th.
+o	Will be taking some days off during the week of July 28 to move back to Boulder.
