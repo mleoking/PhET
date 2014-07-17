@@ -2,12 +2,7 @@
 
 package edu.colorado.phet.statesofmatter.module;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
@@ -17,8 +12,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -34,8 +28,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * This class displays a phase diagram suitable for inclusion on the control
- * panel of a PhET simulation.
+ * This class displays an interaction potential diagram.
  *
  * @author John Blanco
  */
@@ -290,6 +283,8 @@ public class InteractionPotentialDiagramNode extends PNode {
     public void setLjPotentialParameters( double sigma, double epsilon ) {
 
         // Update the parameters.
+        System.out.println( "sigma = " + sigma );
+        System.out.println( "epsilon = " + epsilon );
         m_sigma = sigma;
         m_epsilon = epsilon;
 
