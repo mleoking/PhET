@@ -1,0 +1,91 @@
+PhET Progress Report, J. Blanco, 7-17-2014
+
+PhET Progress Report
+John Blanco
+July 17th, 2014
+
+Time period covered: June 19th through July 16th.  This is a four week period due to personal vacation and canceled status meetings.
+
+Area Builder - 53.0 hrs
+
+o	Modified the scoreboard based on feedback from design meeting.
+o	Created icons for the game levels.
+o	Implemented "Build it" style challenges for area and area+perimeter.
+o	Implemented dimension labeling feature.
+o	Added support for dragging, dropping, and de-compositing larger shapes.
+o	Implemented most of "Find the Area" style of challenge, about 80% complete at this point.
+
+Arithmetic - 15.0 hrs
+
+o	Had MLL bid on and implement persistent board.
+o	Tested, logged multiple issues.
+o	Worked with design team to modify the color scheme
+o	Modified size of lines on the grid.
+
+States of Matter - 2.0 hrs
+
+o	Worked with Aaron to define a stripped down, proof-of-concept version.
+o	Introduced Aaron to the Java code.
+
+Faraday's Law - 2.0 hrs
+
+o	Collaborated with Bryce G to get the spec in shape to send to MLL.
+o	Sent spec to MLL for quote.
+
+Atomic Interactions - 1.5 hrs
+
+o	Discussed in design meeting.
+o	Supplied YYC with epsilon and sigma values for various atom combinations.
+
+Balancing Act - 0.5 hrs
+
+o	Switched to use fixed Joist timer so that record and playback would work if implemented.
+
+Ohm's Law - 3.0 hrs
+
+o	Fixed an issue with battery display.
+o	Made sliders easier to grab on touch devices.
+o	Republished to production server, now at version 1.1.0.
+
+Gravity Force Lab - 1.0 hrs
+
+o	Redeployed to production server.
+
+Fluid Pressure and Flow - 1.0 hrs
+
+o	Collaborated with Sid from ActualConcepts.
+
+Balancing Chemical Equations - 1.5 hrs
+
+o	Tested and logged a couple of issues.
+
+Energy Skate Park Basics - 2.0 hrs
+
+o	Tested and updated an issue that I'd logged a while back.
+o	Discussed and logged an issue related to skater movement near screen edge on iPad.
+
+Common Code - 3.0 hrs
+
+o	Discussed the future of the 'grimace' face.
+o	Code reviewed various fixes from other developers.
+
+Developer Meetings - 6.0 hrs
+
+o	Developer meeting (several).
+
+MLL Management - 2.0 hrs
+
+o	Told them that they are no going to do RPAL
+o	Sent them spec for Faraday's Law
+
+Meetings, Email, and Other Administrative Overhead - 18.0 hrs
+
+o	Weekly status report.
+o	Team meeting.
+o	Check-in meeting with AP.
+o	Prepared for and met with KP for annual performance review.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 48 hrs
+
+o	5 days of vacation, 1 holiday.
