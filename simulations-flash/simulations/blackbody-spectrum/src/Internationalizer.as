@@ -51,7 +51,7 @@ class Internationalizer{
 		}
 		
 		this.setString(_root.tempSlider_mc.label_txt, "tempInK", "center");
-		
+		this.setString(_root.autoZoomButton_mc.label_txt, "autoScale", "center");
 		//this.setComponentLabel(_root.gui_mc.none_rb, "none");
 				
 		//_root.gui_mc.clearAllButton_mc.buttonLabel = this.simStrings.get("clearAll");
