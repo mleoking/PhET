@@ -33,14 +33,15 @@ class Internationalizer{
 		this.setString(_root.saveButton_mc.label_txt, "save", "center");
 		this.setString(_root.clearButton_mc.label_txt, "clear", "center");
 		
-		this.setString(_root.thermometer_mc.sun_txt, "sun", "left");
-		this.setString(_root.thermometer_mc.lightBulb_txt, "lightBulb", "left");
-		this.setString(_root.thermometer_mc.oven_txt, "oven", "left");
-		this.setString(_root.thermometer_mc.earth_txt, "earth", "left");
+		this.setString(_root.thermometer_mc.sun_txt, "sun", "right");
+		this.setString(_root.thermometer_mc.lightBulb_txt, "lightBulb", "right");
+		this.setString(_root.thermometer_mc.oven_txt, "oven", "right");
+		this.setString(_root.thermometer_mc.earth_txt, "earth", "right");
+		this.setString(_root.thermometer_mc.threeK_txt, "threeK", "right");
 		
 		this.setString(_root.rulerCheckbox_mc.label_txt, "showRuler", "left");
-		this.setString(_root.xAxis_mc.rightArrow.label_txt, "zoomOut", "left");
-		this.setString(_root.xAxis_mc.leftArrow.label_txt, "zoomIn", "right");
+		//this.setString(_root.xAxis_mc.rightArrow.label_txt, "zoomOut", "left");
+		//this.setString(_root.xAxis_mc.leftArrow.label_txt, "zoomIn", "right");
 		
 		this.setString(_root.xAxis_mc.xAxisLabel_mc.label_txt, "wavelength", "right");
 		//this.setString(_root.yAxis_mc.yAxisLabel_mc.label_txt, "intensity", "right");
@@ -50,7 +51,7 @@ class Internationalizer{
 			stackString(_root.yAxis_mc.yAxisLabel_mc.label_txt, "intensity");
 		}
 		
-		this.setString(_root.tempSlider_mc.label_txt, "tempInK", "center");
+		this.setString(_root.thermometer_mc.label_txt, "tempInK", "center");
 		this.setString(_root.autoZoomButton_mc.label_txt, "autoScale", "center");
 		//this.setComponentLabel(_root.gui_mc.none_rb, "none");
 				
