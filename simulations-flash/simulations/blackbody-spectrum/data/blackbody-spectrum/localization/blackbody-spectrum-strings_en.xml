@@ -6,11 +6,12 @@
   <string key="save" value="Save" />
   <string key="clear" value="Clear" />
   <string key="sun" value="Sun" />
-  <string key="lightBulb" value="light bulb" />
+  <string key="lightBulb" value="hot filament" />
   <string key="oven" value="oven" />
   <string key="earth" value="earth" />
   <string key="tempInK" value="T(K)" />
-  <string key="showRuler" value="show ruler" />
+  <string key="threeK" value="3 K" />
+  <string key="showRuler" value="Ruler" />
   <string key="zoomIn" value="zoom \n in" />
   <string key="zoomOut" value="zoom \nout" />
   <string key="wavelength" value="wavelength" />
