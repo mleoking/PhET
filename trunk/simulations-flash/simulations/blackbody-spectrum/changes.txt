@@ -1,3 +1,5 @@
+# 2.02.01 (74102) Jul 21, 2014
+7/21/14 Significant re-design in prep for conversion to HTML
 # 2.02.00 (52705) Jun 6, 2011
 6/6/11 > added new translation credits features
 # 2.01.01 (52607) Jun 2, 2011
