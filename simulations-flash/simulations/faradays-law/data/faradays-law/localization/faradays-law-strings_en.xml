@@ -7,7 +7,7 @@
   <string key="oneCoil" value="1 Coil" />
   <string key="twoCoils" value="2 Coils" />
   <string key="noSound" value="No sound" />
-  <string key="showFieldLines" value="Show field lines" />
+  <string key="showFieldLines" value="Field lines" />
   <string key="flipMagnet" value="Flip magnet" />
   <string key="simTitle" value="Faraday's Law" />
 </SimStrings>
