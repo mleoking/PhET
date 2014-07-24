@@ -1,0 +1,42 @@
+PhET Progress Report, J. Blanco, 7-24-2014
+
+PhET Progress Report
+John Blanco
+July 24th, 2014
+
+Time period covered: July 17th through July 23rd.  This is a four week period due to personal vacation and canceled status meetings.
+
+Area Builder - 25.0 hrs
+
+o	Made 'Find the Area' problems work.
+o	Added challenge with angled lines to test concept.
+o	Modified keypad as decided in last design review.
+o	Prevented preceding zeros in keypad.
+o	Added clear button to game screen.
+o	Added ability to show dimensions on the background shape in the game.
+o	Made dimension labeling work for enclosed spaces.
+o	Implemented "prompt banner" and "solution banner" as depicted in recent mockup changes.
+o	Implemented feature for showing a solution to the build area and build area+perimeter challenges.
+o	Added "Your Solution" feedback window.
+
+Arithmetic - 5.0 hrs
+
+o	Investigated issue where icons are incorrect size, Sam R eventually found root cause and fixed.
+o	Updated open issues, performed more testing.
+
+Faraday's Law - 1.0 hrs
+
+o	Discussed quote from MLL, let MLL know that we will be getting back to them this week.
+
+Developer Meetings - 2.0 hrs
+
+o	Developer meeting (x2).
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o	Weekly status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 4 hrs
+
+o	Took Monday, 7/21/2014, as a vacation day, but worked additional hours during rest of week.
