@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_ca.xml created Mon Jul 28 17:57:14 CEST 2014 using: curve-fitting 2.02.00 (52265), translation-utility 2.16.00 (74075) juny 13, 2014--><SimStrings>
+<string key="cEquals" value="c ="/>
+<string key="clearAll" value="Netejar-ho tot"/>
+<string key="deviations" value="veure desviacions"/>
+<string key="bEquals" value="b ="/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="Quàrtic"/>
+<string key="simTitle" value="Ajust de corbes"/>
+<string key="bestFit" value="Millor ajust"/>
+<string key="quadratic" value="Quadràtic"/>
+<string key="bucketHelp2" value="o guardar-los"/>
+<string key="bucketHelp1" value="Obtenir punts..."/>
+<string key="cubic" value="Cúbic"/>
+<string key="noFit" value="Sense ajust"/>
+<string key="eEquals" value="e ="/>
+<string key="dEquals" value="d ="/>
+<string key="adjustableFit2" value="Ajust regulable:"/>
+<string key="dataPointHelp" value="barres d'error ajustables"/>
+<string key="bestFit2" value="Millor ajust:"/>
+<string key="correlation" value="coeficient de correlació"/>
+<string key="hideHelp" value="Amaga l'ajuda"/>
+<string key="bucketLabel" value="Punts de dades"/>
+<string key="chiSqHelp5" value=": ajust molt bo (barres d'error molt petites)"/>
+<string key="chiSqHelp4" value=": ajust bo (zona verda)"/>
+<string key="chiSqHelp3" value=": ajust dolent (zona vermella)"/>
+<string key="chiSqHelp2" value="N = nombre de punts de dades \n f = nombre de paràmetres en l'ajust \n (f = 4 per a un ajust cúbic)"/>
+<string key="help" value="Ajuda"/>
+<string key="chiSqHelp1" value="L'estadístic de la prova reduïda khi-quadrat és"/>
+<string key="adjustableFit" value="Ajust regulable"/>
+<string key="translation.credits" value="Josep Lluís Pau Roigé"/>
+<string key="linear" value="Lineal"/>
+</SimStrings>
