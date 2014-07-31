@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_ca.xml created Thu Jul 31 10:21:35 CEST 2014 using: vector-addition 2.02.00 (52287), translation-utility 2.16.00 (74075) juny 13, 2014--><SimStrings>
+<string key="showSum" value="Mostra la suma"/>
+<string key="translation.credits" value="Josep Lluís Pau Roigé"/>
+<string key="simTitle" value="Vector suma"/>
+<string key="grabOne" value="Agafa'n un"/>
+<string key="clearAll" value="Netejar-ho tot"/>
+<string key="componentDisplay" value="Mostra  els components"/>
+<string key="y" value="y"/>
+<string key="style3" value="Estil 3"/>
+<string key="none" value="Cap"/>
+<string key="showGrid" value="Quadrícula"/>
+<string key="style2" value="Estil 2"/>
+<string key="x" value="x"/>
+<string key="style1" value="Estil 1"/>
+</SimStrings>
