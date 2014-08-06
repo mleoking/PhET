@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--density-and-buoyancy-strings_bg.xml created Thu May 08 10:08:00 EEST 2014 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
-<string key="buoyancy.tab.intro" value="Интро"/>
+<!--density-and-buoyancy-strings_bg.xml created Tue Jun 24 15:19:53 EEST 2014 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.14.00 (69024) X 9, 2012--><SimStrings>
+<string key="buoyancy.tab.intro" value="Въведение"/>
 <string key="properties.mass" value="Маса"/>
 <string key="controlPanel.showVectorValues" value="Стойности на силите"/>
-<string key="forceArrows.contact" value="Контакт"/>
+<string key="forceArrows.contact" value="Реакция на опората"/>
 <string key="mode.objectsOfSameVolume" value="Еднакъв обем"/>
 <string key="mysteryObject.densityColumnHeader" value="Плътност ({0})"/>
 <string key="material.aluminum" value="Алуминий"/>
@@ -21,16 +21,16 @@
 <string key="material.apple" value="Ябълка"/>
 <string key="material.ice" value="Лед"/>
 <string key="buoyancy.tab.playground" value="Плавателна площ"/>
-<string key="fluid.controls.intro.label" value="Флуид"/>
+<string key="fluid.controls.intro.label" value="Течност"/>
 <string key="material.diamond" value="Диамант"/>
 <string key="mode.title" value="Кубчета"/>
 <string key="material.oliveOil" value="Зехтин"/>
 <string key="material.lead" value="Олово"/>
-<string key="forceArrows.buoyancy" value="Плавателност"/>
+<string key="forceArrows.buoyancy" value="Изтласкваща сила"/>
 <string key="properties.fluidDensity" value="Плътност на течност"/>
 <string key="mysteryObject.densityUnitsKgL" value="kg/l"/>
 <string key="customObject.properties" value="Стойности"/>
-<string key="forceArrows.gravity" value="Гравитация"/>
+<string key="forceArrows.gravity" value="Сила на тежестта"/>
 <string key="mysteryObject.table.title" value="Плътност на някои материали"/>
 <string key="material.brick" value="Тухла"/>
 <string key="mysteryObject.material" value="Материал"/>
@@ -54,7 +54,7 @@
 <string key="mysteryObject.table.showTable" value="Покажи таблица"/>
 <string key="mode.one" value="Едно"/>
 <string key="properties.volume" value="Обем"/>
-<string key="buoyancy.simTitle" value="Плавателност"/>
+<string key="buoyancy.simTitle" value="Плаване"/>
 <string key="properties.kilogramPerLiter" value="kg/l"/>
 <string key="properties.volumeLiter" value="l"/>
 </SimStrings>
