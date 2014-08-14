@@ -1,0 +1,59 @@
+PhET Progress Report, J. Blanco, 8-7-2014
+
+PhET Progress Report
+John Blanco
+August 7th, 2014
+
+Time period covered: July 24th through August 6th.  This is a two week period due to a cancelled status meeting.
+
+Area Builder - 40.0 hrs
+
+o	Reviewed in design meeting (2x).
+o	Finished "Your Solution" window.
+o	Various code refactoring and cleanup.
+o	Added algorithmic generation of area, area+perimeter, area+perimeter+proportions, and find-the-area challenge types.
+o	Made grid off by default for all challenges.
+o	Implemented the shape carousel.
+o	Implemented hide/show of carousel controls.
+o	Worked with Amanda on pre-interview testing.
+o	Discussed interview results with Karina and Amanda.
+o	Implemented two-tone challenges for level 5.
+
+Arithmetic - 5.0 hrs
+
+o	Modified colors.
+o	Tested, logged several issues for MLL.
+o	Sent PhET girl artwork to Amanda so that new icons could be created.
+o	Published dev version for testing, set up a task for the student testers.
+o	Incorporated new icons for home screen, nav bar.
+o	Incorporated new - probably temporary - icons for level selection.
+
+Molecules and Light - 2.0 hrs
+
+o	Responded to some questions in a github issue.
+o	Collaborated with Jesse G on implementation.
+
+Faraday's Law - 1.0 hrs
+
+o	Let MLL know that there is a two week delay on this sim.
+
+Developer Meetings - 2.5 hrs
+
+o	Developer meeting (x2).
+
+Various Sims - 1.0 hrs
+
+o	Reviewed all HTML5 sims for which I was primary author or liaison to make sure we had asset files.
+
+Environment - 4.0 hrs
+
+o	Set up office after move.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status report.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 16 hrs
+
+o	Took 7/31/2014 and 8/1/2014 as vacation days for move back to Boulder from BC.

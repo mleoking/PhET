@@ -4,14 +4,14 @@ PhET Progress Report
 John Blanco
 July 24th, 2014
 
-Time period covered: July 17th through July 23rd.  This is a four week period due to personal vacation and canceled status meetings.
+Time period covered: July 17th through July 23rd.
 
 Area Builder - 25.0 hrs
 
-o	Made 'Find the Area' problems work.
+o	Made 'Find the Area' problems work correctly.
 o	Added challenge with angled lines to test concept.
 o	Modified keypad as decided in last design review.
-o	Prevented preceding zeros in keypad.
+o	Prevented preceding zeroes in keypad.
 o	Added clear button to game screen.
 o	Added ability to show dimensions on the background shape in the game.
 o	Made dimension labeling work for enclosed spaces.
@@ -40,3 +40,4 @@ o	Normal email and administrative overhead.
 Vacation, Holidays, and Sick Time - 4 hrs
 
 o	Took Monday, 7/21/2014, as a vacation day, but worked additional hours during rest of week.
+o	Will be packing and moving next week, out probably Wed July 31 – Mon August 4
