@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_ku_TR.xml created Fri Jun 20 23:09:02 EEST 2014 using: charges-and-fields 2.04.00 (52655), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="directionOnly" value="tenê araste"/>
+<string key="grid" value="çarçik"/>
+<string key="clearAll" value="Hemûyê Paqij Bike"/>
+<string key="simTitle" value="Barge û Navend"/>
+<string key="distanceUnit" value=" m"/>
+<string key="showNumbers" value="Jimareyan bibîne"/>
+<string key="voltageUnit" value=" V"/>
+<string key="oneMeter" value="1 mêtre"/>
+<string key="showEField" value="Navenda Kareba"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="Nîşandana pir-dij V"/>
+<string key="EFieldSensors" value="Diyarkerê Navenda Kareba"/>
+<string key="eFieldUnit" value=" V/m"/>
+<string key="clear" value="paqij bike"/>
+<string key="plot" value="nîşan"/>
+<string key="equipotential" value="şiyana hevseng"/>
+<string key="angleUnit" value=" pîle"/>
+<string key="translation.credits" value="O. Ensarî"/>
+<string key="showLoRes" value="Nîşandana kêm-dij V"/>
+<string key="moreSpeedLessRes" value="leztir/kêm dijberî"/>
+<string key="tapeMeasure" value="pîvêr"/>
+<string key="voltage" value="voltaj"/>
+</SimStrings>
