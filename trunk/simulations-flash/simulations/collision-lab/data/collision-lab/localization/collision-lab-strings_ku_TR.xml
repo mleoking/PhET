@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_ku_TR.xml created Fri Jun 20 23:20:12 EEST 2014 using: collision-lab 2.01.00 (69163), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="ShowValues.velocityCaption" value="Lez (m/s)"/>
+<string key="ControlPanel.showValues" value="Nirxan Bibîne"/>
+<string key="PlayPauseButtons.step" value="Gav"/>
+<string key="DataTable.velocity" value="Lez"/>
+<string key="MomentumView.total" value="sercem"/>
+<string key="DataTable.positionWithUnits" value="Cih (m)"/>
+<string key="ShowValues.speedReadout" value="| v | = {0}"/>
+<string key="ControlPanel.sound" value="Deng"/>
+<string key="ControlPanel.showMomentumVectors" value="Arastedarên Tewjimê"/>
+<string key="ShowValues.speedCaption" value="Lez (m/s)"/>
+<string key="ControlPanel.oneHundredPercent" value="Cîr"/>
+<string key="DataTable.lessData" value="Kêmtir Dana"/>
+<string key="DataTable.momentumWithUnits" value="Tewjim (kg m/s)"/>
+<string key="translation.credits" value="O. Ensarî"/>
+<string key="MomentumView.momenta" value="Tewjim"/>
+<string key="DataTable.units.kilogramMetersPerSecond" value="kg m/s"/>
+<string key="ControlPanel.elasticityReadout" value="Cîrî {0}%"/>
+<string key="DataTable.ball" value="Top"/>
+<string key="TableView.kineticEnergy" value="Wizeya Kînetîk = {0} J"/>
+<string key="advancedTab" value="Pêşketî"/>
+<string key="ControlPanel.showVelocities" value="Arastedarên Lezê"/>
+<string key="ControlPanel.showPaths" value="Rêçan Bibîne"/>
+<string key="DataTable.mass" value="Bariste"/>
+<string key="DataTable.addBall" value="Top Lêzêde Bike"/>
+<string key="DataTable.position" value="Cih"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="DataTable.units.kilograms" value="kg"/>
+<string key="DataTable.units.metersPerSecond" value="m/s"/>
+<string key="ShowValues.momentumReadout" value="p = {0}"/>
+<string key="PlayPauseButtons.pause" value="Sekine"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.reflectingBorder" value="Sînora Awêne"/>
+<string key="ControlPanel.2d" value="2 Dorî"/>
+<string key="DataTable.moreData" value="Zêdetir Dana"/>
+<string key="DataTable.removeBall" value="Top Rake"/>
+<string key="DataTable.momentum" value="Tewjim"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.x" value="x"/>
+<string key="ShowValues.momentumCaption" value="Tewjim (kg m/s)"/>
+<string key="ControlPanel.resetAll" value="Vegere Serî"/>
+<string key="ControlPanel.momentaDiagram" value="Diyagrama Tewjim"/>
+<string key="ControlPanel.elasticity" value="Cîrî"/>
+<string key="DataTable.units.meters" value="m"/>
+<string key="ControlPanel.showCenterOfMass" value="Nîvenda Bariste"/>
+<string key="ControlPanel.zeroPercent" value="Necîrî"/>
+<string key="DataTable.velocityWithUnits" value="Lez (m/s)"/>
+<string key="ShowValues.absoluteMomentumReadout" value="| p | = {0}"/>
+<string key="TableView.returnBalls" value="Topan Bîne"/>
+<string key="DataTable.massWithUnits" value="Bariste (kg)"/>
+<string key="introductionTab" value="Destpêk"/>
+<string key="TableView.timeRate" value="Leza Sîmê"/>
+<string key="simTitle" value="Ezmûngeha Lihevketinê"/>
+<string key="ShowValues.velocityReadout" value="v = {0}"/>
+<string key="PlayPauseButtons.play" value="Lêde"/>
+<string key="ControlPanel.kineticEnergy" value="Wizeya Kînetîk"/>
+<string key="MomentumView.tipToTail" value="lê-hev-zêdekirî"/>
+<string key="PlayPauseButtons.back" value="Paşve"/>
+<string key="TableView.time" value="Dem = {0} s"/>
+<string key="ControlPanel.1d" value="1 Dorî"/>
+<string key="PlayPauseButtons.rewind" value="Rake Serî"/>
+</SimStrings>
