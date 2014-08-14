@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_ku_TR.xml created Sun Jun 22 20:23:52 EEST 2014 using: my-solar-system 2.04.00 (72347), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="slingshot" value="Kevkanî"/>
+<string key="binaryStarPlanet" value="Stêrka duwane, hesare"/>
+<string key="sunAndPlanet" value="Hetav û hesare"/>
+<string key="body4" value="hêmana 4em"/>
+<string key="numberOfBodies" value="hejmara hêmanan"/>
+<string key="body3" value="hêmana 3em"/>
+<string key="body2" value="hêmana 2em"/>
+<string key="body1" value="hêmana 1em"/>
+<string key="velocity" value="lez"/>
+<string key="doubleDouble" value="Cot cot"/>
+<string key="xVel" value="x"/>
+<string key="translation.credits" value="O. Ensarî"/>
+<string key="massEquals" value="bariste ="/>
+<string key="yEquals" value="y ="/>
+<string key="hyperbolics" value="Hîperbolîk"/>
+<string key="xEquals" value="x ="/>
+<string key="help9" value="Mafê jibergirtinê ya Projeya PhET û Zanîngeha Colorado li Boulder e."/>
+<string key="stop" value="Sekine"/>
+<string key="help0" value="Şêwekara Pergala Hetavî a min"/>
+<string key="doubleSlingshot" value="Cot kevkanî"/>
+<string key="vYEquals" value="v y ="/>
+<string key="systemCentered" value="Pergal Nîvendî"/>
+<string key="vXEquals" value="v x ="/>
+<string key="start" value="Lêde"/>
+<string key="showTraces" value="Şopan Bibîne"/>
+<string key="back" value="vegere"/>
+<string key="xPos" value="x"/>
+<string key="tapeMeasure" value="Pîver"/>
+<string key="accurate" value="rastîn"/>
+<string key="help" value="Alîkarî"/>
+<string key="selectPreset" value="Pergalekî Hilbijêre"/>
+<string key="showGrid" value="Çarçikî Bibîne"/>
+<string key="yVel" value="y"/>
+<string key="timeEquals" value="dem ="/>
+<string key="ellipses" value="Hêkayî"/>
+<string key="trojanAsteroids" value="Hesarok"/>
+<string key="fourStarBallet" value="Çar stêrk"/>
+<string key="position" value="Cî"/>
+<string key="reset" value="Nûkirin"/>
+<string key="mass" value="bariste"/>
+<string key="fast" value="bilez"/>
+<string key="simTitle" value="Pergala Hetavî ya Min"/>
+<string key="sunPlanetMoon" value="Hetav, hesare, heyv"/>
+<string key="initialSettings" value="Mîhengên Destpêkê:"/>
+<string key="yPos" value="y"/>
+<string key="sunPlanetComet" value="Hetav, hesare, dûvstêrk"/>
+</SimStrings>
