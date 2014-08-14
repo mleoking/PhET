@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_ku_TR.xml created Sun Jun 22 20:28:00 EEST 2014 using: ohms-law 2.03.00 (51206), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="currentEq" value="tezû ="/>
+<string key="resistance" value="bergirî"/>
+<string key="simTitle" value="Yasaya Ohm"/>
+<string key="sound" value="deng"/>
+<string key="translation.credits" value="O. Ensarî"/>
+<string key="voltage" value="voltaj"/>
+</SimStrings>
