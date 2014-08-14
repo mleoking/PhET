@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_ku_TR.xml created Sun Jun 22 20:02:40 EEST 2014 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="pause" value="sekine"/>
+<string key="earth" value="Dinya"/>
+<string key="dontBother" value="Guh Nedê"/>
+<string key="16thTime" value="1/16 ê demê"/>
+<string key="nothinOK" value="Tune! Temam?"/>
+<string key="mass1Label" value="50 gram"/>
+<string key="mass3Label" value="250 gram"/>
+<string key="planetX" value="Hesareya X"/>
+<string key="showEnergyOf" value="Nîşandana Wize"/>
+<string key="hangMe" value="Min Hilawîse!"/>
+<string key="resetTimer" value="nûke"/>
+<string key="hard" value="şid"/>
+<string key="mass7Label" value="100 gram"/>
+<string key="translation.credits" value="O.Ensarî"/>
+<string key="stopWatch" value="Dempîv"/>
+<string key="none" value="tune"/>
+<string key="realTime" value="demê rasteqîn"/>
+<string key="startTimer" value="lêde/sekine"/>
+<string key="help4" value="ciyê dempîvê biguherîne"/>
+<string key="help3" value="Baristê bi rexê ve bikêşe ku jê veqetînî"/>
+<string key="showHelp" value="Alîkariyê Bibîne"/>
+<string key="lots" value="pir"/>
+<string key="help2" value="ciyê xêza jêder biguherîne"/>
+<string key="help1" value="ciyê rastekê biguherîne"/>
+<string key="friction" value="lêkxişan"/>
+<string key="PEelas" value="PEcîrî"/>
+<string key="jupiter" value="Jupîter"/>
+<string key="moon" value="Heyv"/>
+<string key="energyOf" value="Wizeya"/>
+<string key="total" value="Sercem"/>
+<string key="sound" value="Deng"/>
+<string key="PEgrav" value="PErakêşan"/>
+<string key="mass2Label" value="100 gram"/>
+<string key="thermal" value="Germî"/>
+<string key="quarterTime" value="1/4 ê demê"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="Alîkariyê Veşêre"/>
+<string key="noHelp" value="Alîkarî Tune"/>
+<string key="soft" value="nerm"/>
+<string key="softness" value="nermiya kevana 3em"/>
+<string key="simTitle" value="Bariste &amp; Kevan"/>
+<string key="totalE" value="sercema E"/>
+<string key="noShow" value="Nede nîşandan"/>
+<string key="paused" value="Hate Sekinandin"/>
+</SimStrings>
