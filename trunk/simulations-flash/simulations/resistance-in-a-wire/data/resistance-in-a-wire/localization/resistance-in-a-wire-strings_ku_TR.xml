@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_ku_TR.xml created Sun Jun 22 21:06:01 EEST 2014 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="bergirî ="/>
+<string key="ohm" value="ohm"/>
+<string key="simTitle" value="Bergiriya di Têlê de"/>
+<string key="translation.credits" value="O. Ensarî"/>
+</SimStrings>
