@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_ku_TR.xml created Sun Jun 22 21:09:04 EEST 2014 using: resonance 1.01.00 (54775), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="simSpeed" value="leza şêwekarê"/>
+<string key="sameFrequency" value="lereya wekhev"/>
+<string key="sameSpring" value="kevana wekhev k"/>
+<string key="slow" value="hêdî"/>
+<string key="mixedMAndK" value="m û k tevlihev"/>
+<string key="numberOfResonators" value="Hejmara Dengvedêran"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="sekine"/>
+<string key="amplitude" value="firehî"/>
+<string key="frequencyEqualsXHz" value="lere = {0} Hz"/>
+<string key="sloMo" value="LIV-HÊDÎ"/>
+<string key="step" value="gav"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="AJOKER"/>
+<string key="on" value="vekirî"/>
+<string key="ruler" value="Rastek"/>
+<string key="resonance.simTitle" value="Dengvedan"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="qatjimêra kevanê"/>
+<string key="frequency" value="lere"/>
+<string key="resetAll" value="Vegere Serî"/>
+<string key="mass" value="bariste"/>
+<string key="sameMass" value="baristeya wekhev m"/>
+<string key="resonator" value="Dengvedêr"/>
+<string key="translation.credits" value="O. Ensarî"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Rakêşan:"/>
+<string key="play" value="lêde"/>
+<string key="paused" value="SEKINÎ"/>
+<string key="off" value="girtî"/>
+<string key="dampingConstant" value="neguherê tewifînê"/>
+<string key="normal" value="asayî"/>
+<string key="selectPreset" value="Hilbijêre"/>
+</SimStrings>
