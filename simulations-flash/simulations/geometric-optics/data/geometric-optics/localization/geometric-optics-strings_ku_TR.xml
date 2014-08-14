@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_ku_TR.xml created Sat Jun 21 23:59:57 EEST 2014 using: geometric-optics 2.05.00 (52650), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="draggableScreen" value="ciyê dîmenê biguherîne"/>
+<string key="draggableLens" value="ciyê hawêneyê biguherîne"/>
+<string key="screen" value="Perde"/>
+<string key="draggableRuler" value="ciyê rastekê biguherîne"/>
+<string key="simTitle" value="Ronakzaniya Endazeyî"/>
+<string key="showHelp" value="Alîkarî"/>
+<string key="moveMe" value="Min biguhezîne!"/>
+<string key="showGuides" value="Rêberê Bibîne"/>
+<string key="diameter" value="eşkêl(m)"/>
+<string key="ruler" value="Rastek"/>
+<string key="focalPoint" value="xalî sûzan"/>
+<string key="curvatureRadius" value="tewîniya nîv-eşkêlê (m)"/>
+<string key="changeObject" value="Hêmanê Biguherîne"/>
+<string key="principalRays" value="Tîrêjên Bingeh"/>
+<string key="marginalRays" value="Tîrêjên Serekî"/>
+<string key="virtualImage" value="Dîmena Resen"/>
+<string key="noRays" value="Tîrêj Tune"/>
+<string key="secondSource" value="Xala 2em"/>
+<string key="hideHelp" value="Alîkariyê Veşêre"/>
+<string key="refractiveIndex" value="hewkêrê şikandinê"/>
+<string key="translation.credits" value="O. Ensarî"/>
+<string key="manyRays" value="Pir tîrêj"/>
+</SimStrings>
