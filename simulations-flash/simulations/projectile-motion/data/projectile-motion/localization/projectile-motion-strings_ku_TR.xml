@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_ku_TR.xml created Sun Jun 22 20:49:55 EEST 2014 using: projectile-motion 2.03.00 (52266), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="dragLabel" value="qatjimêrê biguherîne"/>
+<string key="userChoice" value="hilbijêre"/>
+<string key="altitudeLabel" value="bilindahî(m)"/>
+<string key="football" value="fotbol"/>
+<string key="golfball" value="golf"/>
+<string key="simTitle" value="Livîna Pêkandinê"/>
+<string key="collision" value="Lihevketin"/>
+<string key="adultHuman" value="mirovî peya"/>
+<string key="time" value="dem(s)"/>
+<string key="buick" value="Trîmbol"/>
+<string key="diameter" value="eşkêl(m)"/>
+<string key="initSpeed" value="leza destpêkê(m/s)"/>
+<string key="bowlingball" value="bowling"/>
+<string key="piano" value="piyano"/>
+<string key="sound" value="Deng"/>
+<string key="range" value="dûrahî(m)"/>
+<string key="height" value="bilindahî(m)"/>
+<string key="mass" value="bariste(kg)"/>
+<string key="pumpkin" value="kundir"/>
+<string key="score" value="Her Bijî!"/>
+<string key="translation.credits" value="O. Ensarî"/>
+<string key="angle" value="goşe(pîle)"/>
+<string key="baseball" value="beyzbol"/>
+<string key="airResistance" value="Bergiriya Hewayê"/>
+<string key="fire" value="Bavêje"/>
+<string key="erase" value="Jê Bibe"/>
+<string key="tankshell" value="top tankê"/>
+</SimStrings>
