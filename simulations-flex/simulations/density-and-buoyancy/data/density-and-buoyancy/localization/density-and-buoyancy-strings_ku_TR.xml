@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_ku_TR.xml created Sat Jun 21 21:43:39 EEST 2014 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="buoyancy.tab.intro" value="Destpêk"/>
+<string key="properties.mass" value="Bariste"/>
+<string key="controlPanel.showVectorValues" value="Nirxên Hêzê"/>
+<string key="forceArrows.contact" value="Têkilî"/>
+<string key="mode.objectsOfSameVolume" value="Qebareyên Wekhev"/>
+<string key="mysteryObject.densityColumnHeader" value="Tîrî ({0})"/>
+<string key="material.aluminum" value="Elûmînyum"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Hewa"/>
+<string key="material.custom" value="Hêmana Min"/>
+<string key="material.gasoline" value="Benzîn"/>
+<string key="customObject.material" value="Kerese"/>
+<string key="mode.mysteryObjects" value="Nepenî"/>
+<string key="customObject.custom" value="Hêmana Min"/>
+<string key="material.wood" value="Dar"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="Du"/>
+<string key="material.styrofoam" value="Kefik"/>
+<string key="material.honey" value="Hingîvîn"/>
+<string key="material.apple" value="Sêv"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Cemed"/>
+<string key="translation.credits" value="O. Ensarî"/>
+<string key="buoyancy.tab.playground" value="Qada Ceribandinê"/>
+<string key="fluid.controls.intro.label" value="Herkoyî"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Elmas"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Hêman"/>
+<string key="material.oliveOil" value="Rûnê Zeytûnê"/>
+<string key="material.lead" value="Zirîç"/>
+<string key="forceArrows.buoyancy" value="Seravêketin"/>
+<string key="properties.fluidDensity" value="Tîratiya Herkoyî"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="Taybetî"/>
+<string key="forceArrows.gravity" value="Rakêşan"/>
+<string key="material.brick" value="Xişt"/>
+<string key="mysteryObject.material" value="Kerese"/>
+<string key="mysteryObject.table.title" value="Tîratiyên Kereseyên Curbecur"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="Rûn"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
+<string key="mode.objectsOfSameDensity" value="Tîratiyên Wekhev"/>
+<string key="density.simTitle" value="Tîrî"/>
+<string key="controlPanel.readouts" value="Xwendin"/>
+<string key="properties.volumeMilliLiterValue" value="{0} mL"/>
+<string key="mode.customObject" value="Taybet"/>
+<string key="mode.objectsOfSameMass" value="Baristeyên Wekhev"/>
+<string key="application.resetAll" value="Vegere Serî"/>
+<string key="material.gold" value="Zêr"/>
+<string key="properties.densityValue" value="{0} kg/L"/>
+<string key="forceArrowControlPanelTitle" value="Hêzan Bibîne"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="nav"/>
+<string key="controlPanel.showMasses" value="Bariste"/>
+<string key="material.water" value="Av"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Tîratî"/>
+<string key="material.waterBalloon" value="Pifdanika Avê"/>
+<string key="mysteryObject.table.showTable" value="Tabloyê Bibîne"/>
+<string key="mode.one" value="Yek"/>
+<string key="properties.volume" value="Qebare"/>
+<string key="buoyancy.simTitle" value="Seravêketin"/>
+<string key="properties.kilogramPerLiter" value="kg/L"/>
+<string key="properties.volumeLiter" value="L"/>
+</SimStrings>
