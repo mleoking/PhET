@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_ku_TR.xml created Sun Jun 22 20:37:08 EEST 2014 using: pendulum-lab 2.03.00 (52288), translation-utility 2.15.00 (74060) Haz 10, 2014--><SimStrings>
+<string key="resetStopwatch" value="Nûkirin"/>
+<string key="earth" value="Dinya"/>
+<string key="showPhotoGateTimer" value="dewrpîv"/>
+<string key="planetX" value="Hesareya X"/>
+<string key="acceleration" value="lezandin"/>
+<string key="showEnergyOf" value="Nîşan bide wizeya:"/>
+<string key="PE" value="PE"/>
+<string key="velocity" value="lez"/>
+<string key="translation.credits" value="Omer Ensari"/>
+<string key="realTime" value="demê rasteqîn"/>
+<string key="length" value="dirêjahî"/>
+<string key="lots" value="pir"/>
+<string key="friction" value="lêkxişan"/>
+<string key="showSecondPendulum" value="Dardaroka 2em bibîne"/>
+<string key="start" value="Lêde"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jupîter"/>
+<string key="moon" value="Heyv"/>
+<string key="energyOf" value="wizeya"/>
+<string key="period" value="dewr:"/>
+<string key="simStrings" value="Ezmûngeha Dardarokê"/>
+<string key="noneFriction" value="tune"/>
+<string key="total" value="sercem"/>
+<string key="mass2" value="baristeya 2em:"/>
+<string key="pendulum" value="Dardarok:"/>
+<string key="startPauseStopwatch" value="lêde/sekine"/>
+<string key="show" value="Nîşan Bide:"/>
+<string key="length2" value="dirêjahiya 2em:"/>
+<string key="photoGateTimer" value="dewrpîv"/>
+<string key="thermal" value="germî"/>
+<string key="pausePlay" value="sekine/lêde"/>
+<string key="reset" value="Nûkirin"/>
+<string key="mass" value="bariste"/>
+<string key="quarterTime" value="1/4 ê demê"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="ne yek jî"/>
+<string key="simTitle" value="Ezmûngeha Dardarokê"/>
+<string key="otherTools" value="amûrên din"/>
+<string key="angleUnit" value="pîle"/>
+<string key="paused" value="hate sekinandin"/>
+<string key="sixteenthTime" value="1/6 ê demê"/>
+</SimStrings>
