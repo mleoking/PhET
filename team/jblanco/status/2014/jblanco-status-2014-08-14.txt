@@ -1,0 +1,66 @@
+PhET Progress Report, J. Blanco, 8-14-2014
+
+PhET Progress Report
+John Blanco
+August 14th, 2014
+
+Time period covered: August 7th through August 13th.
+
+Area Builder - 21.5 hrs
+
+o	Reviewed in design meeting.
+o	Changed carousel button look and behavior based on input from design team.
+o	Changed carousel to scroll one group at a time instead of individual items.
+o	Changed backspace based on input from design team.
+o	Added ability to present the fractions created as feedback for the proportional challenges.
+o	Made the "You Built" dialog appear after 2nd check instead of waiting for user to press 'show correct answer'.
+o	Changed goal window, challenge banner, and solution banner to present the area+proportions challenge as one line.
+o	Added a feature where the user can start trying again without pressing the button, i.e. this state transition now happens automatically if the user starts trying a new solution.
+o	Added disabling of "Check" button if the user hasn't entered anything.
+o	Added more fraction possibilities to the proportional challenges (level 5).
+o	Made the grid come on for the 'find the area' challenges if/when the solution is presented.
+o	Publish a version for interviews (x2).
+
+Arithmetic - 6.0 hrs
+
+o	Reviewed in design meeting.
+o	Worked with Ariel on plan to get this sim finished and published.
+o	More testing and issue logging.
+o	Updated backspace icon.
+o	Fixed issues with the multiplication symbol.
+o	Worked on code review with Sam R.
+
+Molecules and Light - 2.0 hrs
+
+o	Collaborated with Jesse G on implementation of the molecule class, specifically on getting individual atoms to appear in the view at the correct locations.
+
+Faraday's Law - 1.0 hrs
+
+o	Reviewed some mockups with Ariel P.
+
+Under Pressure - 1.0 hrs
+
+o	Looked at Sam's proposal for ActualConcepts doing some cleanup on this and provided feedback.
+
+Developer Meetings - 2.5 hrs
+
+o	Developer meeting (x2).
+
+Installer - 1.0 hrs
+
+o	Responded to some emails where a guy is having problems installing PhET sims on a Linux machine.
+
+Environment - 1.0 hrs
+
+o	Set up voice mail on new system.
+o	Updated list of github user names.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Weekly status meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o	Nothing on the immediate horizon.
