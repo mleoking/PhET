@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_cs.xml created Sat Aug 16 10:46:46 CEST 2014 using: collision-lab 2.01.00 (69163), translation-utility 2.16.00 (74075) VI 13, 2014--><SimStrings>
+<string key="ShowValues.velocityCaption" value="Rychlost (m/s)"/>
+<string key="ControlPanel.showValues" value="Ukázat hodnoty"/>
+<string key="PlayPauseButtons.step" value="Krok"/>
+<string key="DataTable.velocity" value="Rychlost"/>
+<string key="MomentumView.total" value="Celk."/>
+<string key="DataTable.positionWithUnits" value="Poloha (m)"/>
+<string key="ShowValues.speedReadout" value="| v | = {0}"/>
+<string key="ControlPanel.sound" value="Zvuk"/>
+<string key="ControlPanel.showMomentumVectors" value="Vektory hybnosti"/>
+<string key="ShowValues.speedCaption" value="Velikost rychlosti (m/s)"/>
+<string key="ControlPanel.oneHundredPercent" value="Pružné"/>
+<string key="DataTable.lessData" value="Méně údajů"/>
+<string key="DataTable.momentumWithUnits" value="Hybnost (kg m/s)"/>
+<string key="translation.credits" value="&lt;HTML&gt;&#10;&lt;B&gt;Jiri Masopust&lt;/B&gt;&lt;BR&gt;&#10;Ceske Budejovice&lt;BR&gt;&#10;Czech Republic&lt;BR&gt;&#10;&lt;BR&gt;&#10;&lt;/HTML&gt;"/>
+<string key="MomentumView.momenta" value="Hybnosti"/>
+<string key="DataTable.units.kilogramMetersPerSecond" value="kg m/s"/>
+<string key="ControlPanel.elasticityReadout" value="Pružnost {0}%"/>
+<string key="DataTable.ball" value="Míč"/>
+<string key="TableView.kineticEnergy" value="Kinetická energie = {0} J"/>
+<string key="advancedTab" value="Rozšíření"/>
+<string key="ControlPanel.showVelocities" value="Vektory rychlosti"/>
+<string key="ControlPanel.showPaths" value="Ukázat cesty"/>
+<string key="DataTable.mass" value="Hmotnost"/>
+<string key="DataTable.addBall" value="Přidat míč"/>
+<string key="DataTable.position" value="Poloha"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="DataTable.units.kilograms" value="kg"/>
+<string key="DataTable.units.metersPerSecond" value="m/s"/>
+<string key="ShowValues.momentumReadout" value="p = {0}"/>
+<string key="PlayPauseButtons.pause" value="Pauza"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.reflectingBorder" value="Odrazný okraj"/>
+<string key="ControlPanel.2d" value="2 rozměry"/>
+<string key="DataTable.moreData" value="Více údajů"/>
+<string key="DataTable.removeBall" value="Odstranit míč"/>
+<string key="DataTable.momentum" value="Hybnost"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.x" value="x"/>
+<string key="ShowValues.momentumCaption" value="Hybnost (kg m/s)"/>
+<string key="ControlPanel.resetAll" value="Výchozí hodnoty"/>
+<string key="ControlPanel.momentaDiagram" value="Graf hybností"/>
+<string key="ControlPanel.elasticity" value="Pružnost"/>
+<string key="DataTable.units.meters" value="m"/>
+<string key="ControlPanel.showCenterOfMass" value="Hmotný střed"/>
+<string key="ControlPanel.zeroPercent" value="Tuhé"/>
+<string key="DataTable.velocityWithUnits" value="Rychlost (m/s)"/>
+<string key="ShowValues.absoluteMomentumReadout" value="| p | = {0}"/>
+<string key="TableView.returnBalls" value="Vrátit míče"/>
+<string key="DataTable.massWithUnits" value="Hmotnost (kg)"/>
+<string key="introductionTab" value="Úvod"/>
+<string key="TableView.timeRate" value="Rychlost simulace"/>
+<string key="simTitle" value="Srážky"/>
+<string key="ShowValues.velocityReadout" value="v = {0}"/>
+<string key="PlayPauseButtons.play" value="Start"/>
+<string key="ControlPanel.kineticEnergy" value="Kinet. energie"/>
+<string key="MomentumView.tipToTail" value="Součet vektorů"/>
+<string key="PlayPauseButtons.back" value="Zpět"/>
+<string key="TableView.time" value="Čas = {0} s"/>
+<string key="ControlPanel.1d" value="1 rozměr"/>
+<string key="PlayPauseButtons.rewind" value="Restart"/>
+</SimStrings>
