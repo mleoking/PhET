@@ -4,7 +4,7 @@ public abstract class OldPhetServer {
     /* Dano on Feb 2, 2009
      * Consolidated many of the hardcoded strings to make it easier to change
      * the deploy destinations.
-     * 
+     *
      * Options (null if not relevant):
      * serverHost - host of the server as accessed by SSH (ex: tigercat.colorado.edu)
      * webHost - host of the server as accessed by HTTP (ex: phet.colorado.edu)
@@ -13,7 +13,7 @@ public abstract class OldPhetServer {
      * cacheClearUrl - full URI to clear the cache (ex: http://phet.colorado.edu/admin/cache-clear.php?cache=all)
      * cacheClearFile - simple filename used to clear the cache (ex: cache-clear.php)
      * localizationCommand - command to execute to generate the localized JAR files, including command line options (if any) (ex: /web/htdocs/phet/cl_utils/create-localized-jars.py --verbose)
-     * 
+     *
      * Guidelines:  For paths DO include leading slashes '/', DO NOT include trailing slashes '/'
      *   Ex:  Yes: "/web/htdocs/phet"
      *        No:  "/web/htdocs/phet/"
@@ -102,9 +102,12 @@ public abstract class OldPhetServer {
             null
     );
 
-    public static OldPhetServer JON_DEV = new PhetProdServer(
-            "127.0.0.1",
-            "127.0.0.1",
+    // use this instance of the buildLocalProperties to get the IP address for the local VM web-server from build-local.properties
+    public static BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
+
+    public static OldPhetServer LOCAL_SERVER = new PhetProdServer(
+            buildLocalProperties.getLocalServerIP(),
+            buildLocalProperties.getLocalServerIP(),
             "/var/phet/staging/sims",
             "/sims",
             null,
@@ -114,9 +117,9 @@ public abstract class OldPhetServer {
             "/var/phet/staging/sims",
             "/var/phet"
     );
-    public static OldPhetServer JON_DEV_DEV = new PhetDevServer(
-            "127.0.0.1", // Server host
-            "127.0.0.1",  // Web host
+    public static OldPhetServer LOCAL_SERVER_DEV = new PhetDevServer(
+            buildLocalProperties.getLocalServerIP(), // Server host
+            buildLocalProperties.getLocalServerIP(),  // Web host
             "/var/phet/dev", // Deploy path on server
             "/dev", // Deploy path on web host
             null, // Cache clear full URL
@@ -127,7 +130,7 @@ public abstract class OldPhetServer {
     );
     /* Dano's test machine
     public static OldPhetServer SPOT =
-        new PhetDevServer( 
+        new PhetDevServer(
                 "192.168.42.102", // Server host
                 "192.168.42.102:80",  // Web host
                 "/var/www/dev/phet/dev", // Deploy path on server

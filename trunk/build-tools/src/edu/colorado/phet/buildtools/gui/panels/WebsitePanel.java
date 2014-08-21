@@ -6,18 +6,15 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
-import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
@@ -57,16 +54,16 @@ public class WebsitePanel extends JPanel {
             }
         } );
 
-        for ( final PhetWebsite website : new PhetWebsite[]{ PhetWebsite.JON_DEV, PhetWebsite.PHET_SERVER, PhetWebsite.SIMIAN, PhetWebsite.FIGARO } ){
+        for ( final PhetWebsite website : new PhetWebsite[]{ PhetWebsite.LOCAL_SERVER, PhetWebsite.PHET_SERVER, PhetWebsite.SIMIAN, PhetWebsite.FIGARO } ){
             JPanel deployLocalPanel = new VerticalLayoutPanel();
             deployLocalPanel.setBorder( BorderFactory.createTitledBorder( "Deploy" ) );
 
-            JButton jonDevButton = new JButton( website.getName() );
-            deployLocalPanel.add( jonDevButton );
+            JButton localServerButton = new JButton( website.getName() );
+            deployLocalPanel.add( localServerButton );
 
             controlPanel.add( deployLocalPanel );
 
-            jonDevButton.addActionListener( new ActionListener() {
+            localServerButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent actionEvent ) {
                     doDeploy( website );
                 }
