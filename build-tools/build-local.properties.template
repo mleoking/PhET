@@ -2,7 +2,19 @@
 figaro.username=
 figaro.password=
 
-# spot credentials (will be removed )
+# Figaro Tomcat Manager credentials
+figaro.tomcatmanager.username=
+figaro.tomcatmanager.password=
+
+# Simian SSH credentials (should be your Identikey)
+simian.username=
+simian.password=
+
+# Simian Tomcat Manager credentials
+simian.tomcatmanager.username=
+simian.tomcatmanager.password=
+
+# spot credentials (will be removed)
 dev.username=
 dev.password=
 
@@ -30,13 +42,6 @@ mac.trunk.volume=Macintosh HD
 # Path to Flex SDK
 flex=/home/jon/dev/flex-3.4.1.10084
 
-
-### Properties used for deploying website code
-
-# Figaro Tomcat Manager credentials
-figaro.tomcatmanager.username=
-figaro.tomcatmanager.password=
-
 # Phet-server SSH Credentials
 phet-server.username=
 phet-server.password=
@@ -45,15 +50,19 @@ phet-server.password=
 phet-server.tomcatmanager.username=
 phet-server.tomcatmanager.password=
 
-
-### Properties mostly used by Jon
+### Properties mostly used by Jon and Aaron
 
 # wine flag and trunk (LINUX ONLY)
 #wine=true
 #wine.trunk=C:\\svn\\trunk
 
 # Local website development credentials
-jondev.username=
-jondev.password=
-jondev.tomcatmanager.username=
-jondev.tomcatmanager.password=
+local-server.username=
+local-server.password=
+
+# Local website Tomcat Manager credentials
+local-server.tomcatmanager.username=
+local-server.tomcatmanager.password=
+
+# Local website IP address
+local-server.ip=

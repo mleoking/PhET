@@ -351,10 +351,10 @@ public abstract class PhetWebsite {
         }
     };
 
-    public static PhetWebsite JON_DEV = new PhetWebsite() {
+    public static PhetWebsite LOCAL_SERVER = new PhetWebsite() {
         @Override
         public String getName() {
-            return "jondev";
+            return "local-server";
         }
 
         @Override
@@ -364,23 +364,21 @@ public abstract class PhetWebsite {
 
         @Override
         public OldPhetServer getOldProductionServer() {
-            return OldPhetServer.JON_DEV;
+            return OldPhetServer.LOCAL_SERVER;
         }
 
         @Override
         public OldPhetServer getOldDevelopmentServer() {
-            return OldPhetServer.JON_DEV_DEV;
+            return OldPhetServer.LOCAL_SERVER_DEV;
         }
 
         @Override
         public String getServerHost() {
-            return "192.168.0.11";
+            return BuildLocalProperties.getInstance().getLocalServerIP();
         }
 
         @Override
-        public String getWebHost() {
-            return "192.168.0.11";
-        }
+        public String getWebHost() { return BuildLocalProperties.getInstance().getLocalServerIP(); }
 
         @Override
         public String getBuildLocalPropertiesLocation() {
@@ -395,7 +393,7 @@ public abstract class PhetWebsite {
 
     public static PhetWebsite DEFAULT_PRODUCTION_WEBSITE = FIGARO;
 
-    private static final PhetWebsite[] websites = new PhetWebsite[] { FIGARO, JON_DEV, PHET_SERVER };
+    private static final PhetWebsite[] websites = new PhetWebsite[] { FIGARO, LOCAL_SERVER, PHET_SERVER };
 
     /**
      * Find one of the websites with the specified name

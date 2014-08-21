@@ -26,6 +26,7 @@ public class BuildLocalProperties {
     private static final String JARSIGNER_ALIAS_KEY = "jarsigner.alias";
     private static final String JARSIGNER_TSA_URL_KEY = "jarsigner.tsa-url";
     private static final String GIT_ROOT = "git.root";
+    private static final String LOCAL_SERVER_IP = "local-server.ip";
     private static final String GUI_PROMPT_USER_FOR_CHANGE_MESSAGE = "gui.prompt-user-for-change-message";//see BuildLocalProperties.isPromptUserForChangeMessage
 
     /* singleton */
@@ -153,6 +154,15 @@ public class BuildLocalProperties {
                properties.getProperty( JARSIGNER_KEYSTORE_KEY ) != null &&
                properties.getProperty( JARSIGNER_PASSWORD_KEY ) != null &&
                properties.getProperty( JARSIGNER_TSA_URL_KEY ) != null;
+    }
+
+    /**
+     * For use in running the website from a local VM. You need to configure build-local.properties with the IP address of the VM.
+     *
+     * @return the ip address in build-local.properties under key "local-server.ip"
+     */
+    public String getLocalServerIP() {
+        return properties.getProperty( LOCAL_SERVER_IP );
     }
 
     /**
