@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_th.xml created Wed Aug 27 00:11:14 ICT 2014 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.16.00 (74075) Jun 14, 2014--><SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="ค่าความต้านทาน ="/>
+<string key="ohm" value="โอห์ม"/>
+<string key="simTitle" value="ความต้านทานในเส้นลวด"/>
+<string key="translation.credits" value="&lt;html&gt;ธรรมรัตน์ พรหมพิงค์&lt;br&gt;emmergv@hotmail.com&lt;/html&gt;"/>
+</SimStrings>
