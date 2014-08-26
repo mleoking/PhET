@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_th.xml created Tue Aug 26 23:28:28 ICT 2014 using: ohms-law 2.03.00 (51206), translation-utility 2.16.00 (74075) Jun 14, 2014--><SimStrings>
+<string key="currentEq" value="กระแสไฟฟ้า ="/>
+<string key="resistance" value="ความต้านทาน"/>
+<string key="simTitle" value="กฎของโอห์ม"/>
+<string key="sound" value="เสียง"/>
+<string key="translation.credits" value="&lt;html&gt;ธรรมรัตน์ พรหมพิงค์&lt;br&gt;emmergv@hotmail.com&lt;/html&gt;"/>
+<string key="voltage" value="ความต่างศักย์"/>
+</SimStrings>
