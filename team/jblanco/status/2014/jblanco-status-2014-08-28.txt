@@ -1,0 +1,69 @@
+PhET Progress Report, J. Blanco, 8-28-2014
+
+PhET Progress Report
+John Blanco
+August 28th, 2014
+
+Time period covered: August 14th through August 28th.  This is a two week period due to a canceled status meeting.
+
+Area Builder - 37 hrs
+
+o	Reviewed in design meeting (x2).
+o	Implemented feature that limits the number of pieces available to add to board for some challenges.
+o	Mod: Dimensions and grid stay on between individual challenges, reset for each new level.
+o	Internal code cleanup.
+o	Added 'You Entered' window for the 'Find the Area' challenges.
+o	Made the 'You Built' and 'You Entered' windows show up when user gets answer correct.
+o	Made the shape carousel and keypad disappear when not usable.
+o	Added feature where the user can continue to interact with the 'Built It' challenges after they get two incorrect answers.
+o	Worked with Amanda M to adjust colors used for the challenge and solution banners.
+o	Made fractions have the numbers be over and under rather than in line (e.g. 2/3).
+o	Made dimensions come on when showing solution for challenges that include perimeter.
+o	Implemented random colors for the background shapes.
+o	Published version for use in interviews, see http://www.colorado.edu/physics/phet/dev/html/area-builder/1.0.0-dev.15/.
+o	Various other user interface tweaks for the game screen.
+
+Arithmetic - 8.0 hrs
+
+o	Worked on code review (in collaboration with SR), still in progress.
+
+Faraday's Law - 2.0 hrs
+
+o	Set up the repository and added basic project structure.
+o	Added initial artwork, including asset files.
+
+Friction - 4.0 hrs
+
+o	Fixed an issue with the positioning of the magnifier window on the books, see #24.
+o	Created a release candidate, set up a test matrix, and created a task for the QA team.
+o	Discussed a modification to the UI with Trish and Ariel.
+
+Common Code - 4.0 hrs
+
+o	Added error checking to Joist timer code.
+o	Cleaned up GameAudioPlayer to use new conventions for prototype functions.
+o	Worked on issue where audio isn't playing in Firefox.
+
+Developer Meetings - 5.5 hrs
+
+o	Developer meeting (x3).
+
+Installer - 1.5 hrs
+
+o	Continued email exchange with user who was having issues with Linux.  Problem is solved, and an Unfuddle ticket is logged for future reference.
+
+Environment - 3.0 hrs
+
+o	Installed Adobe Illustrator CS6, worked with Oliver N to investigate getting it for Chris M.
+o	Coordinated Jesse and Aaron for getting Jesse set up to navigate Java projects with IntelliJ.
+
+Meetings, Email, and Other Administrative Overhead - 12.0 hrs
+
+o	Weekly status report.
+o	Weekly status meeting.
+o	Meeting with Hewlett foundation representatives.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 3 hrs
+
+o	Left early on Wed 8/28
