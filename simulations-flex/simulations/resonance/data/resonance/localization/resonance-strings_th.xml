@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_th.xml created Thu Aug 28 22:42:48 ICT 2014 using: resonance 1.01.00 (54775), translation-utility 2.16.00 (74075) Jun 14, 2014--><SimStrings>
+<string key="simSpeed" value="ความเร็วการจำลอง"/>
+<string key="sameFrequency" value="ความถี่เท่ากัน"/>
+<string key="sameSpring" value="ค่าคงที่ของสปริงเท่ากัน"/>
+<string key="slow" value="ช้า"/>
+<string key="mixedMAndK" value="แบบผสม"/>
+<string key="numberOfResonators" value="จำนวนตัวสั่นพ้อง"/>
+<string key="pause" value="หยุด"/>
+<string key="amplitude" value="แอมปลิจูด"/>
+<string key="frequencyEqualsXHz" value="ความถี่ = {0} Hz"/>
+<string key="sloMo" value="ภาพสโลว์"/>
+<string key="step" value="ถัดไป"/>
+<string key="driver" value="เครื่องกำเนิด"/>
+<string key="on" value="เปิด"/>
+<string key="ruler" value="ไม้บรรทัด"/>
+<string key="resonance.simTitle" value="การสั่นพ้อง"/>
+<string key="springConstant" value="ค่าคงที่ของสปริง"/>
+<string key="resetAll" value="เริ่มใหม่"/>
+<string key="frequency" value="ความถี่"/>
+<string key="mass" value="มวล"/>
+<string key="sameMass" value="มวลเท่ากัน"/>
+<string key="resonator" value="ตัวสั่นพ้อง"/>
+<string key="translation.credits" value="&lt;html&gt;ธรรมรัตน์ พรหมพิงค์&lt;br&gt;emmergv@hotmail.com&lt;/html&gt;"/>
+<string key="play" value="เล่น"/>
+<string key="gravityColon" value="แรงโน้มถ่วง:"/>
+<string key="paused" value="หยุด"/>
+<string key="off" value="ปิด"/>
+<string key="dampingConstant" value="ค่าคงที่ความหน่วง"/>
+<string key="normal" value="ปกติ"/>
+<string key="selectPreset" value="เลือกตั้งค่า"/>
+</SimStrings>
