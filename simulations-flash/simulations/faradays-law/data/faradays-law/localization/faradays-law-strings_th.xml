@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_th.xml created Fri Aug 29 02:44:55 ICT 2014 using: faradays-law 2.05.00 (74083), translation-utility 2.16.00 (74075) Jun 14, 2014--><SimStrings>
+<string key="twoCoils" value="ขดลวด 2 ขด"/>
+<string key="n" value="เหนือ(N)"/>
+<string key="translation.credits" value="&lt;html&gt;ธรรมรัตน์ พรหมพิงค์&lt;br&gt;emmergv@hotmail.com&lt;/html&gt;"/>
+<string key="noSound" value="ไม่มีเสียง"/>
+<string key="showFieldLines" value="แสดงเส้นแรงแม่เหล็ก"/>
+<string key="voltage" value="โวลต์"/>
+<string key="simTitle" value="กฎของฟาราเดย์"/>
+<string key="flipMagnet" value="กลับขั้วแม่เหล็ก"/>
+<string key="oneCoil" value="ขดลวด 1 ขด"/>
+<string key="moveMe" value="ขยับแม่เหล็ก"/>
+<string key="s" value="ใต้(S)"/>
+</SimStrings>
