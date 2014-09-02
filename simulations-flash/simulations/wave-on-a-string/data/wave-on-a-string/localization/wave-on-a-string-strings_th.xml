@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_th.xml created Thu Aug 28 21:53:55 ICT 2014 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.16.00 (74075) Jun 14, 2014--><SimStrings>
+<string key="manual" value="ด้วยตนเอง"/>
+<string key="resetTimer" value="รีเซ็ต"/>
+<string key="damping" value="ความหมาดของเชือก"/>
+<string key="simTitle" value="คลื่นในเส้นเชือก"/>
+<string key="showHelp" value="แสดงคำอธิบาย"/>
+<string key="pulse" value="คลื่นดล"/>
+<string key="amplitude" value="แอมปลิจูด"/>
+<string key="pausePlay" value="หยุด/เล่น"/>
+<string key="step" value="ถัดไป"/>
+<string key="tension" value="แรงตึงเชือก"/>
+<string key="startTimer" value="เริ่ม/หยุด"/>
+<string key="pulseWidth" value="ความยาวคลื่น"/>
+<string key="rulerHelp" value="สามารถปรับเลื่อนไม้บรรทัดได้"/>
+<string key="high" value="สูง"/>
+<string key="wiggleWrench" value="ขยับประแจ"/>
+<string key="timer" value="นาฬิกา"/>
+<string key="oscillate" value="คลื่นต่อเนื่อง"/>
+<string key="rulers" value="ไม้บรรทัด"/>
+<string key="frequency" value="ความถี่"/>
+<string key="wrenchHelp" value="ขยับประแจ"/>
+<string key="fixedEnd" value="ปลายเชือกตรึง"/>
+<string key="hideHelp" value="ซ่อนคำอธฺบาย"/>
+<string key="refLineHelp" value="สามารถปรับเลื่อนเส้นอ้างอิงได้"/>
+<string key="translation.credits" value="&lt;html&gt;ธรรมรัตน์ พรหมพิงค์&lt;br&gt;emmergv@hotmail.com&lt;/html&gt;"/>
+<string key="timerHelp" value="สามารถปรับเลื่อนนาฬิกาได้"/>
+<string key="looseEnd" value="ปลายเชือกหลวม"/>
+<string key="noEnd" value="ไม่มีปลายเชือก"/>
+<string key="paused" value="หยุด"/>
+<string key="reset" value="เริ่มใหม่"/>
+<string key="pulse2" value="คลื่นดล"/>
+<string key="low" value="ต่ำ"/>
+</SimStrings>
