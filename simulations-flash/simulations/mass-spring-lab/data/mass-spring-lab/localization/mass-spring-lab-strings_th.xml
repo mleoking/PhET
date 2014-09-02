@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_th.xml created Fri Aug 29 02:40:22 ICT 2014 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.16.00 (74075) Jun 14, 2014--><SimStrings>
+<string key="pause" value="หยุด"/>
+<string key="earth" value="โลก (g=9.8)"/>
+<string key="16thTime" value="1/16 ของเวลา"/>
+<string key="mass1Label" value="50 กรัม"/>
+<string key="mass3Label" value="250 กรัม"/>
+<string key="planetX" value="ดาว X"/>
+<string key="showEnergyOf" value="แสดงค่าพลังงานของ"/>
+<string key="hangMe" value="แขวนมวล"/>
+<string key="hard" value="แข็ง"/>
+<string key="mass7Label" value="100 กรัม"/>
+<string key="translation.credits" value="&lt;html&gt;ธรรมรัตน์ พรหมพิงค์&lt;br&gt;emmergv@hotmail.com&lt;/html&gt;"/>
+<string key="stopWatch" value="นาฬิกา"/>
+<string key="none" value="ไม่มี"/>
+<string key="realTime" value="เวลาจริง"/>
+<string key="startTimer" value="เริ่ม/หยุด"/>
+<string key="help4" value="เลื่อนนาฬิกาได้"/>
+<string key="help3" value="ดึงมวลออกด้านข้างเพื่อนำออกจากสปริง"/>
+<string key="showHelp" value="แสดงคำอธิบาย"/>
+<string key="lots" value="มาก"/>
+<string key="help2" value="เลื่อนเส้นอ้างอิงได้"/>
+<string key="help1" value="เลื่อนไม้บรรทัดได้"/>
+<string key="friction" value="ความเสียดทาน"/>
+<string key="jupiter" value="ดาวพฤหัส(g=24.8)"/>
+<string key="moon" value="ดวงจันทร์(g=1.6)"/>
+<string key="energyOf" value="พลงงานของ"/>
+<string key="total" value="รวม"/>
+<string key="sound" value="เสียง"/>
+<string key="mass2Label" value="100 กรัม"/>
+<string key="thermal" value="อณหภม"/>
+<string key="quarterTime" value="1/4 ของเวลา"/>
+<string key="hideHelp" value="ซ่อนคำอธิบาย"/>
+<string key="noHelp" value="ซ่อนคำอธิบาย"/>
+<string key="soft" value="อ่อน"/>
+<string key="softness" value="สปริง 3"/>
+<string key="simTitle" value="มวล &amp; สปริง"/>
+<string key="totalE" value="พลังงานรวม"/>
+<string key="noShow" value="ไม่แสดง"/>
+<string key="paused" value="หยุด"/>
+</SimStrings>
