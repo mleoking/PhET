@@ -25,7 +25,7 @@ public class CCKParameters {
     private boolean dynamics = false;
     public static final String VIRTUAL_LAB = "-virtuallab";
 
-    public CCKParameters( CCKModule module, String[] args, boolean ac, boolean virtualLab, boolean blackBox ) {
+    public CCKParameters( CCKModule module, String[] args, boolean ac, boolean virtualLab, boolean blackBox, boolean blackBoxWithElectrons ) {
         this.blackBox = blackBox;
         this.args = args;
         if ( ac ) {
@@ -82,6 +82,11 @@ public class CCKParameters {
             allowShowReadouts = false;
             useAdvancedControlPanel = false;
             hideAllElectrons = true;
+        }
+        if ( blackBoxWithElectrons ) {
+            allowShowReadouts = false;
+            useAdvancedControlPanel = false;
+            hideAllElectrons = false;
         }
     }
 

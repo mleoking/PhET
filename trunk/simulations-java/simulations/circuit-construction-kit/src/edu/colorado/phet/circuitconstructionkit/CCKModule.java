@@ -50,8 +50,9 @@ public class CCKModule extends PiccoloModule {
 
         //Show the black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
         this.blackBox = Arrays.asList( args ).contains( "stanford-black-box" );
+        boolean blackBoxWithElectrons = Arrays.asList( args ).contains( "stanford-black-box-with-electrons" );
 
-        cckParameters = new CCKParameters( this, args, ac, virtualLab, blackBox );
+        cckParameters = new CCKParameters( this, args, ac, virtualLab, blackBox, blackBoxWithElectrons );
         setModel( new BaseModel() );
 
         this.model = new CCKModel();
