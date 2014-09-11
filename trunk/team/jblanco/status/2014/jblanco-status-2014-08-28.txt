@@ -4,7 +4,7 @@ PhET Progress Report
 John Blanco
 August 28th, 2014
 
-Time period covered: August 14th through August 28th.  This is a two week period due to a canceled status meeting.
+Time period covered: August 14th through August 27th.  This is a two week period due to a canceled status meeting.
 
 Area Builder - 37 hrs
 
