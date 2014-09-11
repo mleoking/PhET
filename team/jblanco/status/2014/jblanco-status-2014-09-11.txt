@@ -1,0 +1,73 @@
+PhET Progress Report, J. Blanco, 9-11-2014
+
+PhET Progress Report
+John Blanco
+September 11th, 2014
+
+Time period covered: September 4th through September 10th.
+
+Area Builder - 13.0 hrs
+
+o	Published dev version for functional completeness testing (dev.17).
+o	Test, log issues.
+o	Implemented refinements to the behavior for game level 5.
+o	Separated controls and scoreboard in game.
+o	Improved the algorithm for determining the 'uniqueness' of challenges.
+o	Improved the algorithm for selecting random colors so that colors are not repeated twice in a row for any challenge.
+o	Fixed issue where shapes could be made to overlap if dragged in rapidly.
+o	Fixed issue where shapes would become non-interactive after switching modes in the 'Explore' screen.
+o	Published version for review, see http://www.colorado.edu/physics/phet/dev/html/area-builder/1.0.0-dev.18/area-builder_en.html.
+
+Arithmetic - 4.0 hrs
+
+o	Code review and cleanup.
+
+Faraday's Law - 6.0 hrs
+
+o	Implemented a set of visual improvements requested by Mike D, see https://github.com/phetsims/faradays-law/issues/10.
+o	Reviewed changes with Mike D.
+o	Converted the body of the light bulb to be drawn rather than an image so that better 'light up' behavior could be implemented.
+o	Logged bug on drag behavior, discussed history with Ariel P.
+o	Published a version for interviews.
+
+Fluid Pressure and Flow - 2.0 hrs
+
+o	Worked with Sam R on code review.
+
+Friction - 1.0 hrs
+
+o	Published updated version to main web site.
+
+Neuron - 2.0 hrs
+
+o	Collaborated with Sam R and Ashraf to get started on port.
+
+Common Code - 1.0 hrs
+
+o	Reviewed code changes for AccordionBox, tested in multiple simulations.
+
+Business Development - 2.0 hrs
+
+o	Met with Go Labs and Ariel Paul to discuss integration of PhET simulations into their 'Inquiry Learning Spaces'.
+o	Discussed a math simulation concept with Beth S.
+
+Developer Meetings - 2.5 hrs
+
+o	Developer meeting (x2).
+
+Environment - 1.0 hrs
+
+o	Worked on organizing the shared office with Trish L.
+o	Updated docs with some coding standard changes discussed at developer meetings.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status report.
+o	Weekly status meeting.
+o	Reported demographic data to NSF.
+o	Certified latest ePER.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o	Nothing on immediate horizon.

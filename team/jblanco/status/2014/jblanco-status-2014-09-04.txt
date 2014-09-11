@@ -1,0 +1,55 @@
+PhET Progress Report, J. Blanco, 9-4-2014
+
+PhET Progress Report
+John Blanco
+September 4th, 2014
+
+Time period covered: August 28th through September 3rd.
+
+Area Builder - 16 hrs
+
+o	Reviewed in design meeting.
+o	Made dimension icon match color of shape being shown.
+o	Made eraser button disappear in all cases where the shape carousel isn't present.
+o	Changed alignment of titles in Challenge Prompt and Solution banners.
+o	Changed spacing in fraction prompts.
+o	Changed caption of "Show Solution" to "Solution".
+o	Performance optimizations for "Show Solution" for "build the area" style of challenges (in collaboration with JO).
+o	Performance optimizations for basic shape dragging on the first screen (in collaboration with JO).
+o	Code cleanup.
+o	Published a version for functional review and testing by QA team, see http://www.colorado.edu/physics/phet/dev/html/area-builder/1.0.0-dev.17/area-builder_en.html.
+
+Atomic Interactions - 2.0 hrs
+
+o	Discussed in design meeting.
+o	Worked with YYC to extract parameter values used in Java version to inform design of HTML5 version.
+
+Faraday's Law - 1.5 hrs
+
+o	Communicated to MLL that we would like to review the model early in the project.
+o	Published a dev version, did some testing, set up testing my Mike D.
+
+Friction - 4.0 hrs
+
+o	Added arrow icons.
+o	Cleaned up magnifier code.
+o	Published 1.1.0-rc.2
+
+Common Code - 0.5 hrs
+
+o	Removed vestigial clock artwork.
+o	Consulted briefly on changes to AccordionBox.
+
+Developer Meetings - 2.5 hrs
+
+o	Developer meeting (x2).
+
+Meetings, Email, and Other Administrative Overhead - 5.5 hrs
+
+o	Weekly status report.
+o	Weekly status meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8 hrs
+
+o	Monday September 1st was a holiday (Labor Day).
