@@ -1,0 +1,53 @@
+PhET Progress Report, J. Blanco, 9-25-2014
+
+PhET Progress Report
+John Blanco
+September 25th, 2014
+
+Time period covered: September 18th through September 24th.
+
+Area Builder - 24.0 hrs
+
+o	Code cleanup in preparation for code review.
+o	Code cleanup in response to comments and issues logged during code review (thanks Chris!).
+o	Post-cleanup regression testing.
+o	Published a release candidate.
+o	Fixed several issues found in first release candidate.
+
+Balancing Act - 2.5 hrs
+
+o	Created branch and started adding data collection for Ido's study (in collaboration with Sam R).
+
+Arithmetic - 2.0 hrs
+
+o	Reviewed and commented on responses to previously logged issues.
+
+Neuron - 1.5 hrs
+
+o	Reviewed code and discussed future development with Ashraf and Sam R.
+
+Energy Forms and Changes - 1.0 hrs
+
+o	Discussed estimate from Actual Concepts with Ariel P.
+
+Pendulum Lab - 0.5 hrs
+
+o	Set up the repository.
+
+Developer Meetings - 2.5 hrs
+
+o	Developer meeting (x2).
+
+Miscellaneous - 1.5 hrs
+
+o	Looked at simulations published by CK-12.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Weekly status meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o	Nothing on immediate horizon.
