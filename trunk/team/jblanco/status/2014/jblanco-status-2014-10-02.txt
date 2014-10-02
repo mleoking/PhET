@@ -1,0 +1,49 @@
+PhET Progress Report, J. Blanco, 10-02-2014
+
+PhET Progress Report
+John Blanco
+October 2nd, 2014
+
+Time period covered: September 25th through October 1st.
+
+Area Builder - 17.0 hrs
+
+o	Fixed or otherwise resolved all issues found during testing of release candidates rc2, rc3, and rc4.
+o	Supported QA team during testing.
+o	Had several discussions with sim designers on relatively minor feature changes.
+o	Published version 1.0 to the production web site.
+
+Balancing Act HTML5 Data Collection - 6.0 hrs
+
+o	Modified the arch branch of Axon to support renaming of property IDs and IDs for property sets.
+o	Turned off notification in common code for several events that the UBC team is unlikely to need.
+o	Added IDs to the masses.
+o	Turned of a number of events related to mass movement and handling that the UBC team is unlikely to need.
+o	Set up a meeting to review the progress so far and clarify the future direction.
+
+Energy Forms and Changes HTML5 - 5.0 hrs
+
+o	Worked with Martin V. to get him set up in IntelliJ for both the HTML5 and Java code bases (got help from Sam R for parts of Java setup).
+o	Worked with Martin V. on basic project setup.
+
+Developer Meetings - 2.5 hrs
+
+o	Developer meeting (x2).
+
+Miscellaneous - 2.5 hrs
+
+o	Tracked down a metrics plugin for IntelliJ, installed it, counted lines of Java code for EFAC, FPAF, CCK, and SOMB and sent out email containing this information.
+
+Education - 1.0 hrs
+
+o	Started reading up on WebGL.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status report.
+o	Weekly status meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 2.0 hrs
+
+o	Took some vacation time on Wed morn 10/1.
