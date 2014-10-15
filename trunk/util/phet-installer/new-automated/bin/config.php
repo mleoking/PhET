@@ -96,6 +96,7 @@
     // customer.  So far, that generally means getting it for a particular language.
     define("PHET_RIPPER_FILTER_PHET",
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/video/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
@@ -106,6 +107,7 @@
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, '*all*.jar'));
     define("PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES",
         CREATE_FILTER_ITEM('+', PHET_DOWNLOADS_HOSTNAME, '*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/video/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
