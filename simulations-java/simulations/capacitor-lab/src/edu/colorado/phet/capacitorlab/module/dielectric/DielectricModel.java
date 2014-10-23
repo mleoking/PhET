@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  * </p>
  * This model is somewhat similar to  with MultipleCapacitorsModel, but was developed much earlier,
  * and is parametrized differently (with a large number of parameters).
- * I attempted to force some of the common bits into the base class, but it because messy and less readable.
+ * I attempted to force some of the common bits into the base class, but it became messy and less readable.
  * So I decided that a bit of duplication is preferable here.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
