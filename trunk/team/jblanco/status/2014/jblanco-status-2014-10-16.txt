@@ -1,0 +1,77 @@
+PhET Progress Report, J. Blanco, 10-16-2014
+
+PhET Progress Report
+John Blanco
+October 16th, 2014
+
+Time period covered: October 9th through October 15th.
+
+Balancing Act HTML5 Data Collection - 10.0 hrs
+
+o	Met with UBC team to review progress.  Notes available here: https://docs.google.com/a/colorado.edu/document/d/1SgrKKyBD_BOqWdf5FBSaBnrDXvHK9eM6faboV-S-tEE/edit
+o	Rolled in the changes requested by the UBC team and published a new version.
+o	Set up meeting for Thu Oct 16 at 3pm.
+o	Started working on testing of data collection using Simian.
+
+Arithmetic HTML5 - 5.0 hrs
+
+o	Published 1.0.0-dev.8, set up a task for testing.
+o	Reviewed, tested, and commented on issues worked on by MLL.
+o	Published 1.0.0-dev.9, communicated directly with developers to get them to test.
+o	Let MLL know that they may consider their work complete on this sim.
+
+Energy Forms and Changes HTML5 - 4.0 hrs
+
+o	Worked with Martin V. on the port of this simulation.
+
+Neuron HTML5 - 1.5 hrs
+
+o	Met with Ashraf and reviewed the code, discussed optimizations and approaches (with Sam R).
+
+Atomic Interactions HTML5 - 1.0 hrs
+
+o	Reviewed the spec, responded to comments in the doc from YYC.
+o	Added "Implementation Notes" section to the spec.
+o	Set up repo in GitHub.
+
+Area Builder HTML5 v2 - 1.0 hrs
+
+o	Reviewed at design meeting.
+
+Data Collection - 0.5 hrs
+
+o	Discussed in design meeting.
+
+Common Code - 3.0 hrs
+
+o	Looked at an issue in Joist where time values of 0 are being sent to the step function.
+o	Cleaned up the kit carousels to use the new buttons.
+o	Modified clock based on previous review input, will discuss in status meeting.
+o	Created a prototype version of the LevelStartButton that uses the new buttons, will discuss in status meeting.
+
+Installers - 4.0 hrs
+
+o	Tracked down issues with last week's automatic build.  Appears to be due to addition of the video files, which are now excluded from the rip.
+o	Worked on an issue with running of HTML5 simulations from the installed version, not yet resolved.
+
+Developer Meetings - 2.5 hrs
+
+o	Developer meeting (x2).
+
+Environment - 1.0 hrs
+
+o	Worked with Amanda to figure out where to put teacher tips for Area Builder.
+
+Education - 0.5 hrs
+
+o	Reading on JavaScript subtleties.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status report.
+o	Weekly status meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	Nothing on immediate horizon.

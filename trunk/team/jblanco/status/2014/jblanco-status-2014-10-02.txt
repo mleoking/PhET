@@ -8,6 +8,7 @@ Time period covered: September 25th through October 1st.
 
 Area Builder - 17.0 hrs
 
+
 o	Fixed or otherwise resolved all issues found during testing of release candidates rc2, rc3, and rc4.
 o	Supported QA team during testing.
 o	Had several discussions with sim designers on relatively minor feature changes.

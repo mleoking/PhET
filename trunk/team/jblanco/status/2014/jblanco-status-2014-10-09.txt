@@ -1,0 +1,71 @@
+PhET Progress Report, J. Blanco, 10-09-2014
+
+PhET Progress Report
+John Blanco
+October 9th, 2014
+
+Time period covered: October 2nd through October 8th.
+
+Balancing Act HTML5 Data Collection - 10.0 hrs
+
+o	Met with Ido and Lauren to discuss initial version and get their input.  Notes available here: https://docs.google.com/a/colorado.edu/document/d/1SgrKKyBD_BOqWdf5FBSaBnrDXvHK9eM6faboV-S-tEE/edit
+o	Added most of the additional data output that was discussed with Ido, will review again today (Oct 9).
+o	Published a version for review.
+
+Energy Forms and Changes HTML5 - 4.0 hrs
+
+o	Worked with Martin V. to help him understand the Java code and how to translate to JavaScript.
+o	Discussed revisions in design meeting.
+
+Molecules and Light HTML5 - 2.0 hrs
+
+o	Published a version for Kathy P to reference in a grant report.
+o	Worked with Jesse G on getting lint and building working.
+o	Worked with Jesse G on an issue with vibration animation on iPad.
+
+Neuron HTML5 - 1.5 hrs
+
+o	Reviewed the state of the sim and some of the code with Sam R.
+o	Set up a review meeting with Ashraf.
+
+Area Builder - 1.5 hrs
+
+o	Discussed V2 in design meeting.
+
+Arithmetic HTML5 - 5.0 hrs
+
+o	Completed the code review.
+
+Faraday's Law HTML5 - 1.0 hrs
+
+o	Discussed remaining steps with Ariel and Jonathan.
+
+Atomic Interactions HTML5 - 1.0 hrs
+
+o	Reviewed spec and provided comments.
+
+Estimation HTML5 - 1.0 hrs
+
+o	Reviewed latest, published the latest version to dev for Kathy P to reference in a grant report.
+
+Developer Meetings - 2.5 hrs
+
+o	Developer meeting (x2).
+
+Miscellaneous - 0.5 hrs
+
+o	Discussed query parameters and their application to the QA process with Oliver N.
+
+Environment - 1.0 hrs
+
+o	Worked with Amanda to figure out where to put teacher tips for Area Builder.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status report.
+o	Weekly status meeting.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o	Will most likely be out Friday, 10/10.
