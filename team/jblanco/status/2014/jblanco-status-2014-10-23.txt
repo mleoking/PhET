@@ -1,0 +1,72 @@
+PhET Progress Report, J. Blanco, 10-23-2014
+
+PhET Progress Report
+John Blanco
+October 23rd, 2014
+
+Time period covered: October 16th through October 22nd.
+
+Balancing Act HTML5 Data Collection - 9.5 hrs
+
+o  Met with UBC team twice to review versions, discuss modifications, finalize start page prompt text, and run remote testing.
+o  Met with Sam to learn about how to set up a launch page for the data collection testing.
+o  Modified data collection version to output the elapsed game time at each change of game state.
+o  Created the launch page, made it reject 8-digit strings, tested it with UBC team.
+
+Energy Forms and Changes HTML5 - 5.0 hrs
+
+o  Worked with Martin V. on the port of this simulation.
+
+Atomic Interactions HTML5 - 1.0 hrs
+
+o  Modified the spec to better describe the behavior for alternate color schemes, referenced MoleculeShapes as an example.
+o  Checked in graphics needed for development.
+
+Isotopes and Atomic Mass - 1.0 hrs
+
+o  Set up repo in GitHub.
+
+Circuit Construction Kit - 0.5 hrs
+
+o  Discussed with Steele, set him up with an Unfuddle account so that he can review existing tickets.
+
+Common Code - 2.0 hrs
+
+o  Fixed some issues with the sizing of the level start buttons (in collaboration with Chris).
+
+Installers - 1.0 hrs
+
+o  Verified that sizes looked good for this week's automated build.
+o  Worked on an issue with running of HTML5 simulations from the installed version, not yet resolved.
+
+Translation - 1.0 hrs
+
+o  Meeting to discuss requirements.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Project Management - 3.0 hrs
+
+o  Discussed how to get Neuron as well as Molecules and Light through the final development stages with Ariel and Sam.
+o  Looked at port of Wave Interference sim that Kathy P forwarded, discussed with her.
+o  Met with Marco and Paola to discuss PhET's development processes.
+
+Environment - 1.0 hrs
+
+o  My computer required some driver and other updates.
+
+Education - 1.0 hrs
+
+o  Attended colloquium on 10/22.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o  Took Friday Oct 17th as a sick day.
