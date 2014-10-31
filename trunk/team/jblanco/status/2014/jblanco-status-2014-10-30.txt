@@ -1,0 +1,79 @@
+PhET Progress Report, J. Blanco, 10-30-2014
+
+PhET Progress Report
+John Blanco
+October 30th, 2014
+
+Time period covered: October 23rd through October 30th.
+
+Neuron HTML5 - 6.0 hrs
+
+o  Reviewed functionality and code, logged a number of issues (done partially in collaboration with Sam R).
+
+Balancing Act HTML5 Data Collection - 3.0 hrs
+
+o  Met with UBC team to finalize revisions, discuss plan for coming week when data collection will begin (pilots happening Thu Oct 30th, assignment goes live Fri Oct 31).
+o  Restarted server, cleared out old data, ran some basic tests to make sure things were ready for data collection.
+o  Updated start page based on feedback from PhET team and from Ido.
+
+Least Squares Regression - 4.0 hrs
+
+o  Set up the repository.
+o  Worked with Martin V. on the design and implementation plan for this sim.
+
+Area Builder - 3.0 hrs
+
+o  Resolved an issue that was found during classroom use where invisible squares could be dragged, published a maintenance release.
+o  Updated issues in GitHub.
+
+States of Matter - 2.0 hrs
+
+o  Added implementation details to spec.
+o  Set up repository.  There are now three repos in place: states-of-matter, states-of-matter-basics, and atomic-interactions.
+o  Moved code that Aaron created into a directly named 'experimental' so that it can be easily referenced and reused but is not in the way of new development.
+
+Arithmetic - 3.0 hrs
+
+o  Logged the outstanding enhancement requests, discussed details with Amanda and Ariel.
+o  Started design and plan for the "Try Again" feature.
+
+Energy Skate Park Basics HTML5 - 1.0 hrs
+
+o  Worked with Sam R to try to duplicate an issue, updated the issue in GitHub.
+
+Atomic Interactions - 0.5 hrs
+
+o  Updated spec based on Sam R's feedback.
+
+Installers - 7.0 hrs
+
+o  Worked on the issue of HTML5 simulations not running.  May have a solution, testing is still in progress (thanks JO for brainstorming on this).
+o  Discussed a user-reported issue with the version information reported on the start page with Oliver N.
+o  Discussed a user request for a Chinese language version with Oliver N.  Oliver is going to find out if it is widely distributed.
+o  Got started on porting installer builder code from PHP to JavaScript.
+
+Translation - 1.0 hrs
+
+o  Meeting to discuss requirements and user scenarios.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Miscellaneous - 1.5 hrs
+
+o  Met with OpenStax people about possible collaboration in the porting of PhET sims.
+
+Education - 1.0 hrs
+
+o  WebGL reading.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Nothing on immediate horizon
