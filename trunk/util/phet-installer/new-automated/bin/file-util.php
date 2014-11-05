@@ -259,6 +259,7 @@
         }
     }
 
+    // Recursively copy source to destination, can be used to copy directories.
     function file_recurse_copy( $src, $dst ) { 
         $dir = opendir($src); 
         if ( is_dir( $src ) && !file_exists( $dst ) ){
@@ -276,74 +277,6 @@
         }
         closedir($dir); 
     }
-
-	function file_dircopy($srcdir, $dstdir, $verbose = false) {
-		if (is_file($srcdir)) {
-			copy($srcdir, $dstdir);
-			
-			return 1;
-		}
-		else {
-            print "here 1\n";
-			$num = 0;
-			
-			if (!is_dir($dstdir)) {
-				file_mkdirs($dstdir);
-			}
-			if ($curdir = opendir($srcdir)) {
-                print "here 2\n";
-				while($file = readdir($curdir)) {
-                    print "here 3\n";
-					if($file != '.' && $file != '..') {
-                        print "here 4\n";
-						$srcfile = $srcdir.$file;
-						$dstfile = $dstdir.$file;
-                        print "$srcfile\n";
-						
-						if (is_file($srcfile)) {
-							if(is_file($dstfile)) {
-								$ow = filemtime($srcfile) - filemtime($dstfile);
-							} 
-							else {
-								$ow = 1;
-							}
-							
-							if ($ow > 0) {
-								if ($verbose) {
-									echo "Copying '$srcfile' to '$dstfile'...";
-								}
-								if (copy($srcfile, $dstfile)) {
-                                    // Commenting out this touch operation for
-                                    // now, since it seems to cause issues
-                                    // when other users try to run this
-                                    // routine.  Remove permanently if this
-                                    // doesn't introduce any other problems.
-                                    // JP Blanco, May 5 2009.
-									// touch($dstfile, filemtime($srcfile)); 
-									
-									$num++;
-									
-									if ($verbose) {
-										echo "OK\n";
-									}
-								}
-								else {
-									echo "Error: File '$srcfile' could not be copied!\n";
-								}
-							}                   
-						}
-						else if (is_dir($srcfile)) {
-							$num += file_dircopy($srcfile, $dstfile, $verbose);
-						}
-					}
-				}
-				
-				closedir($curdir);
-			}
-			
-			return $num;
-		}
-	}
 
     function file_chmod_recursive($path, $filePerm=0644, $dirPerm=0755) {
 

@@ -33,7 +33,7 @@
 
     //--------------------------------------------------------------------------
     // Function for ripping the main site, meaning that it traverses each link
-    // and downloads the HTML files, images, etc that comprise the site.
+    // and downloads the HTML files, images, etc. that comprise the site.
     //--------------------------------------------------------------------------
     function ripper_rip_website($config) {
 
@@ -224,7 +224,6 @@
         flushing_echo("Checking if a previously ripped copy of the web site exists...");
         if (file_exists( RIPPED_WEBSITE_ROOT )){
             flushing_echo("Removing existing copy of the web site from ".RIPPED_WEBSITE_ROOT);
-            $remove_cmd = "'/bin/ls -r ".RIPPED_WEBSITE_ROOT."'";
             system('rm -rf '.RIPPED_WEBSITE_ROOT);
         }
         else{
@@ -260,7 +259,6 @@
         flushing_echo("Found ".count($jnlp_files)." JNLP files");
 
         foreach ($jnlp_files as $jnlp_filename => $jnlp) {
-            flushing_echo("Processing JNLP file $file_num of ".count($jnlp_files)."...");
 
             $codebase = jnlp_get_codebase($jnlp);
 
@@ -409,6 +407,60 @@
     }
 
     //--------------------------------------------------------------------------
+    // Download the HTML5 simulations.  These were already captured during the
+    // initial rip, but that rip mangles the sims since it tries to process
+    // its links, so they need to be re-ripped with different options.  See
+    // Unfuddle issue #3650 for more information.
+    //
+    // NOTE: This is pretty specific to the way HTML5 sims are used in the
+    // website as of Nov 2014 and will probably need to change as the web site
+    // evolves.
+    //--------------------------------------------------------------------------
+    function ripper_download_html5_sims() {
+        if (file_exists( HTML5_SIMS_TEMP_DIR )){
+            flushing_echo("Removing existing copy of the HTML5 sims from ".HTML5_SIMS_TEMP_DIR);
+            system('rm -rf '.HTML5_SIMS_TEMP_DIR);
+        }
+        else{
+            flushing_echo("No existing copy of HTML5 sims found...moving on.");
+        }
+        flushing_echo("Performing a shallow rip of HTML5 sim are to get list of sims...");
+        $rip_command = RIPPER_EXE.' "'.PHET_ROOT_URL.PATH_TO_HTML5_SIMS.'" -O "'.HTML5_SIMS_TEMP_DIR.'" -F '.RIPPER_USER_AGENT_PHET.' -%e0 -r2 -s0 -D -%P0 -A10000000000 --disable-security-limits';
+        flushing_echo("Command for ripping HTML sim directory: ".$rip_command);
+        $result = exec($rip_command);
+        flushing_echo($result);
+        
+        // Because the web site uses a 'latest' link to each of the sims, and
+        // since this link isn't visible from the indexes, we need to
+        // explicitly rip the latest version of each HTML5 sim.
+        flushing_echo("Ripping latest versions of each of the HTML5 sims");
+
+        // Create a list of all HTML5 sims by examining the rip that was just done.
+        $html5_sim_names = array();
+        foreach (glob(HTML5_SIMS_TEMP_DIR.PHET_HOSTNAME.'/'.PATH_TO_HTML5_SIMS.'*') as $file_name) {
+            if (is_dir($file_name)){
+                // Extract sim name from full path.
+                $last_slash_pos = strripos($file_name, "/");
+                $sim_name = substr($file_name, $last_slash_pos + 1);
+                array_push($html5_sim_names, $sim_name);
+            }
+        }
+        flushing_echo("List of HTML5 sims detected:");
+        print_r($html5_sim_names);
+
+        // Rip the latest version of each as a separate rip operation.
+        foreach($html5_sim_names as $html5_sim_name){
+            flushing_echo("Ripping latest version of HTML5 sim ".$html5_sim_name);
+            $rip_command = RIPPER_EXE.' "'.PHET_ROOT_URL.PATH_TO_HTML5_SIMS.$html5_sim_name.'/latest/"'.' -O "'.HTML5_SIMS_TEMP_DIR.'" '.' -F '.RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS_FOR_HTML5_SIMS;
+            flushing_echo("Command for rip: ".$rip_command);
+            $result = exec($rip_command);
+            flushing_echo($result);
+            flushing_echo("Copying non-mangled HTML5 sim into main rip.");
+            file_recurse_copy(HTML5_SIMS_TEMP_DIR.PHET_HOSTNAME.'/'.PATH_TO_HTML5_SIMS.$html5_sim_name, RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/'.PATH_TO_HTML5_SIMS.$html5_sim_name);
+        }
+    }
+
+    //--------------------------------------------------------------------------
     // Ripping the web site obtains some of the files needed for running the
     // sims, but not all of them, since some files are not directly referenced
     // by the main web site.  This function obtains the other required
@@ -418,6 +470,10 @@
 
         // Get the resources for the Java sims.
         ripper_download_java_rsrcs( RIPPED_WEBSITE_SIMS_PARENT_DIR );
+
+        // Re-rip the HTML5 sims with a different set of options, since they
+        // get mangled by the normal rip.
+        ripper_download_html5_sims();
 
         // Add the marker file, needed for sim usage tracking.
         installer_create_marker_file();
