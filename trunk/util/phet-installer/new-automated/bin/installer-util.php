@@ -515,17 +515,12 @@
     function installer_build_rommable_distribution($source_dir, $output_file_dest) {
         flushing_echo("Creating rommable distribution ".$output_file_dest);
 
-        // Make the autorun file for Windows
-        autorun_create_autorun_file($output_file_dest, basename(BITROCK_DIST_SRC_WINNT));
-
-        // Now make ROM bundle:
+        // Make ROM bundle:
         file_native_zip(
             array(
                 $source_dir.BITROCK_DISTNAME_WINNT,
                 installer_get_zipped_mac_bundle_name($source_dir.BITROCK_DISTNAME_Mac),
-                $source_dir.BITROCK_DISTNAME_Linux,
-                $source_dir.AUTORUN_ICON_NAME,
-                $source_dir.AUTORUN_FILE_NAME
+                $source_dir.BITROCK_DISTNAME_Linux
             ),
             $output_file_dest
         );
