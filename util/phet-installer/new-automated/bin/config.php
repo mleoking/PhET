@@ -20,6 +20,10 @@
     define("INSTALLERS_WITH_ACTIVITIES_DIR",  file_cleanup_local_filename(OUTPUT_DIR."installers-with-activities/"));
     define("DEPLOY_DIR",                      "/data/web/htdocs/phetsims/installer/");
     define("TRANSLATED_JAR_TEMP_DIR",         file_cleanup_local_filename(TEMP_DIR."translated-jar-tmp/"));
+    define("HTML5_SIMS_TEMP_DIR",             file_cleanup_local_filename(TEMP_DIR."html5-sims-tmp/"));
+
+    // path from root of website or rip to the html5 simulations
+    define("PATH_TO_HTML5_SIMS",             file_cleanup_local_filename("sims/html/"));
 
     function GET_OS_BOUND_REL_PATH($constantPrefix) {
         return file_cleanup_local_filename(ROOT_DIR."${constantPrefix}/".PHP_OS."/");
@@ -246,9 +250,11 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
 
     // Command-line args for the ripper.
-    define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0 -A10000000000 --disable-security-limits ");
+    define("RIPPER_OPTIONS", " -%e0 -r10 -s0 -A10000000000 --disable-security-limits ");
+    define("RIPPER_OPTIONS_FOR_HTML5_SIMS", " -D -%P0".RIPPER_OPTIONS);
     define("RIPPER_ARGS_PHET", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
     define("RIPPER_ARGS_PHET_WITH_ACTIVITIES", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
+    define("RIPPER_ARGS_HTML5_SIMS", '"'.PHET_ROOT_URL.PATH_TO_HTML5_SIMS.'" -O "'.HTML5_SIMS_TEMP_DIR.'" '." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS_FOR_HTML5_SIMS);
     define("RIPPER_ARGS_MULTI_LANGUAGE", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET." -F ".RIPPER_USER_AGENT_MULTI_LANGUAGE.RIPPER_OPTIONS);
     define("RIPPER_ARGS_YF", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_YF." -F ".RIPPER_USER_AGENT_YF.RIPPER_OPTIONS);
     define("RIPPER_ARGS_KSU_LOCAL_INSTALLER", '"'.PHET_ARABIC_WEBSITE_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU_LOCAL_INSTALLER." -F ".RIPPER_USER_AGENT_KSU_LOCAL.RIPPER_OPTIONS);

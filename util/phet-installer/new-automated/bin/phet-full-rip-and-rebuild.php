@@ -130,6 +130,10 @@
         // Build the rommable distribution, which contains all of the installers
         // installers and is suitable for burning on CD.
         installer_build_rommable_distribution( $output_dir, $rommable_output_dir );
+
+        // Log the time at which the build completed.
+        $build_finish_time = exec( "date" );
+        flushing_echo( "Build for config $rip_config completed at time $build_finish_time" );
     }
 
     //--------------------------------------------------------------------------
