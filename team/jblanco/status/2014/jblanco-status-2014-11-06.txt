@@ -1,0 +1,74 @@
+PhET Progress Report, J. Blanco, 11-6-2014
+
+PhET Progress Report
+John Blanco
+November 6th, 2014
+
+Time period covered: October 31st through November 5th.
+
+Neuron HTML5 - 4.0 hrs
+
+o  Continued functional testing and issue logging, as well as code review.
+
+Balancing Act HTML5 Data Collection - 9.0 hrs
+
+o  Made some last revisions to the wording of the start page.
+o  Worked with them to figure out why data was missing from their pilot study.  Conclusion: Firewall blocking ports.
+o  Revived phet-server by cleaning it out, setting it on its side and mucking with the fan on the graphics card.  Seems stable for now, but it seem precarious.
+o  Sent data files collected so far to Ido, backed them up on my machine.
+o  Discussed replacement graphics card for phet-server with JR Raith.
+
+Least Squares Regression - 4.0 hrs
+
+o  Worked with Martin V. on the design and implementation, good progress made.
+
+States of Matter - 2.5 hrs
+
+o  Discussed getting Actual Concepts started using Slater (with Sam).
+o  Set up project structure and distributed the output from Slater into the correct locations within the repo.  Not seeing any action yet.
+
+Arithmetic - 0.5 hrs
+
+o  Discussed behavior changes with Amanda.
+
+Common Code - 3.0 hrs
+
+o  Added the ability to dynamically set the base color.
+
+Installers - 10.0 hrs
+
+o  Changed the installer builder code to rip the HTML5 sims separately once the "normal" rip has completed to prevent them from being mangled.
+o  Iterated several times on testing and fixing.
+o  Manually worked around an issue where the limits of the zip file format have been reached for the DVD version.  Workaround was to remove Linux installer, need to decide on a long term plan.
+
+Translation - 1.0 hrs
+
+o  Meeting to discuss requirements and user scenarios.
+
+Data Collection - 0.5 hrs
+
+o  Discussed upcoming study with YYC.
+o  Discussed various approaches to data collection that is not as likely to be blocked.
+
+Developer Meetings - 1.0 hrs
+
+o  Developer meeting.
+
+Miscellaneous - 1.0 hrs
+
+o  Got the Tech Award to Paul Beale, who said he'd take care of displaying it in a better place than my office.
+
+Education - 0.5 hrs
+
+o  WebGL reading.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  CU transportation survey.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Nothing on immediate horizon

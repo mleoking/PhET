@@ -4,7 +4,7 @@ PhET Progress Report
 John Blanco
 October 30th, 2014
 
-Time period covered: October 23rd through October 30th.
+Time period covered: October 23rd through October 29th.
 
 Neuron HTML5 - 6.0 hrs
 
