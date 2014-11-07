@@ -128,7 +128,7 @@
         installer_build_local_mirror_installers( BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, $output_dir );
 
         // Build the rommable distribution, which contains all of the installers
-        // installers and is suitable for burning on CD.
+        // and is suitable for burning on CD or DVD.
         installer_build_rommable_distribution( $output_dir, $rommable_output_dir );
 
         // Log the time at which the build completed.
