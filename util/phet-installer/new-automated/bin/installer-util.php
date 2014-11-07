@@ -515,18 +515,23 @@
     function installer_build_rommable_distribution($source_dir, $output_file_dest) {
         flushing_echo("Creating rommable distribution ".$output_file_dest);
 
-        // Make ROM bundle:
-        file_native_zip(
-            array(
-                $source_dir.BITROCK_DISTNAME_WINNT,
-                installer_get_zipped_mac_bundle_name($source_dir.BITROCK_DISTNAME_Mac),
-                $source_dir.BITROCK_DISTNAME_Linux
-            ),
-            $output_file_dest
+        // As of early November 2014, the total size of all installers with
+        // activities was greater than 4GB, which is past the limit of the zip
+        // file format, so this function was failing.  As a medium-term
+        // workaround, it was decided to exclude the Linux installer from the
+        // rommable distribution.  See Unfuddle #3655 for more information.
+        $files_to_zip = array( 
+            $source_dir.BITROCK_DISTNAME_WINNT,
+            installer_get_zipped_mac_bundle_name($source_dir.BITROCK_DISTNAME_Mac)
         );
+        if ( $source_dir != INSTALLERS_WITH_ACTIVITIES_DIR ){
+            array_push( $files_to_zip, $source_dir.BITROCK_DISTNAME_Linux );
+        }
+        flushing_echo("Bundling these files into the zip file: ");
+        print_r( $files_to_zip );
 
-        // Clean up autorun files
-        autorun_cleanup_files($output_file_dest);
+        // Make ROM bundle:
+        file_native_zip($files_to_zip, $output_file_dest);
 
         flushing_echo("\nDone building rommable distribution.");
     }
