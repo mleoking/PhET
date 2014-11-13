@@ -29,6 +29,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/chemical-reactions/chemical-reactions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/chemical-reactions/chemical-reactions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/circuit-construction-kit/circuit-construction-kit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/circuit-construction-kit/circuit-construction-kit.iml" />
+      <module fileurl="file://C:/civcomm2/civcomm2.iml" filepath="C:/civcomm2/civcomm2.iml" />
       <module fileurl="file://$PROJECT_DIR$/team/cmalley/java/cmalley.iml" filepath="$PROJECT_DIR$/team/cmalley/java/cmalley.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/collision/collision.iml" filepath="$PROJECT_DIR$/simulations-java/common/collision/collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/color-vision/color-vision.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/color-vision/color-vision.iml" />
@@ -87,6 +88,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/lwjgl/lwjgl.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/lwjgl/lwjgl.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/lwjgl-phet/lwjgl-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/lwjgl-phet/lwjgl-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/maze-game/maze-game.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/maze-game/maze-game.iml" />
+      <module fileurl="file://C:/mccray/mccray.iml" filepath="C:/mccray/mccray.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" filepath="$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/microwaves/microwaves.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/microwaves/microwaves.iml" />
@@ -117,6 +119,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/photon-absorption/photon-absorption.iml" filepath="$PROJECT_DIR$/simulations-java/common/photon-absorption/photon-absorption.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" />
+      <module fileurl="file://C:/planetfinder/planetfinder.iml" filepath="C:/planetfinder/planetfinder.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/plate-tectonics/plate-tectonics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/plate-tectonics/plate-tectonics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/poly2tri-core/poly2tri-core.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/poly2tri-core/poly2tri-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" filepath="$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" />
@@ -158,6 +161,8 @@
       <module fileurl="file://$PROJECT_DIR$/util/unfuddle/unfuddle.iml" filepath="$PROJECT_DIR$/util/unfuddle/unfuddle.iml" />
       <module fileurl="file://$PROJECT_DIR$/team/jolson/utilities/utilities.iml" filepath="$PROJECT_DIR$/team/jolson/utilities/utilities.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" />
+      <module fileurl="file://C:/git/website/ide/intellij/website.iml" filepath="C:/git/website/ide/intellij/website.iml" />
+      <module fileurl="file://C:/git/website/ide/intellij/website-test.iml" filepath="C:/git/website/ide/intellij/website-test.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/work-energy/work-energy.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/work-energy/work-energy.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/xstream/xstream.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/xstream/xstream.iml" />
     </modules>
