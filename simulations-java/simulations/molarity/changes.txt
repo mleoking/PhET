@@ -1,3 +1,4 @@
+# 1.02.01 (74213) Nov 13, 2014
 11/13/14 #3654 dev version of Molarity, to test preferred font for Sinhalese (si)
 10/7/12 #3423, replace AbstractMolarityCanvas base class with CenteredStageCanvas from piccolo-phet
 # 1.02.00 (63629) Apr 19, 2012
