@@ -1,5 +1,6 @@
+11/17/14 #3654 change preferred font for Sinhalese (si)
 # 2.16.01 (74210) Nov 13, 2014
-11/13/14 add preferred font for Sinhalese (si)
+11/13/14 #3654 add preferred font for Sinhalese (si)
 # 2.16.00 (74075) Jun 13, 2014
 # 2.15.01 (74074) Jun 13, 2014
 6/13/14 #3638 add locale ar_MA (Arabic, Morocco)
