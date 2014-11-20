@@ -1,0 +1,79 @@
+PhET Progress Report, J. Blanco, 11-13-2014
+
+PhET Progress Report
+John Blanco
+November 13th, 2014
+
+Time period covered: November 6th through November 12th.
+
+Neuron HTML5 - 3.0 hrs
+
+o  Continued functional testing and issue logging, as well as code review.
+o  Converted strings from Java version.
+o  Discussed credits, added first cut.
+
+Balancing Act HTML5 Data Collection - 2.0 hrs
+
+o  Sent final data to Ido.
+o  Inquired about next data collection effort, Ido says nothing on immediate horizon.
+
+Isotopes and Atomic Mass - 3.0 hrs
+
+o  Examined Java project structure and made recommendation for how to share code with Build an Atom.
+o  Set up repo for common code for these sims.
+
+Least Squares Regression - 5.0 hrs
+
+o  Worked with Martin V. on the design and implementation, good progress made.
+
+Arithmetic - 1.0 hrs
+
+o  Started design of new features.
+
+Common Code - 6.0 hrs
+
+o  Got settable base color reviewed, made some minor final changes.
+o  Reviewed accordion box changes.
+o  Resolved an issue where sims were unable to play sound on some versions of Firefox.
+o  Performed code review for a handful of issues.
+
+Molecules and Light - 1.0 hrs
+
+o  Participated in code review.
+
+Installers - 5.0 hrs
+
+o  Changed code to exclude the Linux installer.
+o  Tested weekly build (with Oliver N).
+o  Set up a private repo for port of installer builder code from PHP to JavaScript.
+o  Started on PHP to JavaScript port.
+o  Discussed creating a Chinese installer with Oliver, sounds like we should do it.
+
+Data Collection - 2.0 hrs
+
+o  Logged issue about using different ports.
+o  Discussed port translation for data collection with OIT.
+o  Discussed future approach to server-side data collection with Ariel, set up ticket to investigate external providers.
+
+Environment - 3.0 hrs
+
+o  Got a replacement video card for phet-server.
+o  Pulled out old graphics card, got phet-server up and running again.
+
+Miscellaneous - 1.0 hrs
+
+o  Sent out updated versions of sims to RSC.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Nothing on immediate horizon

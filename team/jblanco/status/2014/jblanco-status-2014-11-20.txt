@@ -1,0 +1,67 @@
+PhET Progress Report, J. Blanco, 11-20-2014
+
+PhET Progress Report
+John Blanco
+November 20th, 2014
+
+Time period covered: November 13th through November 19th.
+
+Arithmetic HTML5 - 8.0 hrs
+
+o  Added sliding screen transitions.
+o  Added initial cut at animation for answers (from equation to the multiplication table).
+
+Neuron HTML5 - 5.0 hrs
+
+o  Followed up on several issues initially identified by Ashraf.
+o  Investigated an issue with opacity of the ions during playback.
+o  Logged issue on behavior of concentration indicators.
+
+Least Squares Regression - 3.0 hrs
+
+o  Published a version for review.
+o  Worked with Martin on design and implementation.
+
+Installers - 10.0 hrs
+
+o  Built a version that includes simplified Chinese, sent to the user that requested it.
+o  Got node installed on figaro and figaro-dev.
+o  Set up the ripper program (HTTrack) to run on Windows.
+o  Continued the port to JavaScript, got to where it can do basic web site rips.
+
+Data Collection - 2.5 hrs
+
+o  Worked with Oliver to investigate using Amazon or Google to host a data collection server, met with Amazon reps to discuss.
+
+Sonification - 2.5 hrs
+
+o  Discussed with Ariel.
+o  Met with Colin Clark and Ariel Paul to discuss some prototyping and planning.
+o  Sent Colin thoughts about how and where to insert sonification into Faraday's Law sim.
+o  Discussed CLA for Colin with Sam and Ariel.
+
+Translation - 1.5 hrs
+
+o  Weekly meeting, continued discussion of requirements and design.
+
+Environment - 0.5 hrs
+
+o  Shut down phet-server.
+
+Miscellaneous - 1.0 hrs
+
+o  Looked at simulations developed by Chris Bruce of Nerd Island Studios.  He is asking if we could use some help.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Will be out next Wednesday, Nov 26th.
