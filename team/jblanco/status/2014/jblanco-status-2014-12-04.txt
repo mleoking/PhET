@@ -1,0 +1,70 @@
+PhET Progress Report, J. Blanco, 12-4-2014
+
+PhET Progress Report
+John Blanco
+December 4th, 2014
+
+Time period covered: November 20th through December 3rd.  This is a two week period due to the Thanksgiving holiday.
+
+Arithmetic HTML5 - 16.0 hrs
+
+o  Discussed in design meeting.
+o  Overhauled the state machine behavior so that future modifications will be easier.
+o  Added state transitions for displaying correct answer and displaying incorrect answer feedback.
+o  Added initial cut at "Try Again" feature behavior for the multiply screen.
+
+Neuron HTML5 - 12.0 hrs
+
+o  Performed a fair amount of functional testing, logged several issues.
+o  Updated credits.
+o  Code review.
+
+Gene Expression Basics - 1.0 hrs
+
+o  Counted lines of code and supplied to Ariel for bid comparison.
+
+Common Code - 2.0 hrs
+
+o  Supported Martin on various questions related to the common measuring tape component.
+
+Installers - 1.0 hrs
+
+o  Tested latest for improved update message.
+
+Installer Port to JavaScript - 10.0 hrs
+
+o  Added logging facility.
+o  Added parsing and interpretation of command line options.
+o  Factored out command line interpretation and build configuration.
+
+Translation - 1.5 hrs
+
+o  Weekly meeting, continued discussion of requirements and design.
+o  Discussed idea of editing strings from GitHub interface with Sam and Ariel.
+o  Did some investigation of the Intl global JavaScript object, which is used for number formatting.
+
+Customer Support - 2.0 hrs
+
+o  Provided OpenStax with some help and ideas for porting the Flash simulations (met with Mike D to discuss).
+
+Miscellaneous - 1.0 hrs
+
+o  Looked at simulations developed by Chris Bruce of Nerd Island Studios.  He is asking if we could use some help.
+
+Environment - 0.5 hrs
+
+o  Helped Chris with tracking down an issue with Lombok in Java projects.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 24 hrs
+
+o  Two holidays (Thanksgiving) plus one vacation day.

@@ -25,7 +25,7 @@ o  Worked with Martin on design and implementation.
 Installers - 10.0 hrs
 
 o  Built a version that includes simplified Chinese, sent to the user that requested it.
-o  Got node installed on figaro and figaro-dev.
+o  Got node installed on figaro and figarow-dev.
 o  Set up the ripper program (HTTrack) to run on Windows.
 o  Continued the port to JavaScript, got to where it can do basic web site rips.
 
