@@ -1,0 +1,71 @@
+PhET Progress Report, J. Blanco, 12-18-2014
+
+PhET Progress Report
+John Blanco
+December 18th, 2014
+
+Time period covered: December 4th through December 17th.  This is a two week period due to a canceled status meeting.
+
+Arithmetic HTML5 - 21.0 hrs
+
+o  Discussed in design meeting.
+o  Completed overhaul of state behavior, got it working for all screens.
+o  Implemented "Try Again" behavior for Factor and Divide screens.
+o  Added the "not equal" sign for use during the "Try Again" state.
+o  Integrated new icons.
+o  Implemented different button colors for level selection buttons.
+
+Neuron HTML5 - 16.0 hrs
+
+o  Updated credits.
+o  Completed code review.
+o  Followed up on issues with Ashraf, including one where there was no WebGL fallback for iOS7.  Ashraf says should be done by end of week.
+
+Least Squares Regression - 3.0 hrs
+
+o  Supported Martin with work on static data types, etc.
+o  Published dev version.
+
+States of Matter - 2.0 hrs
+
+o  Published snapshot, did some initial testing.
+
+Blackbody Spectrum HTML5 - 0.5 hrs
+
+o  Set up initial repo.
+
+Common Code - 2.0 hrs
+
+o  Tested new Thermometer, discussed with Ariel.
+o  Discussed common code issues with other developers.
+
+Installers - 5.0 hrs
+
+o  Logged an issue on removing Java from Windows installer, followed up with Kathy P.
+o  Fixed issue with front page carousel.
+o  Re-ran installers after a bad batch showed up, cleaned up disk usage.
+o  Tested build against new home page, worked with Aaron to resolve issue.
+
+Installer Port to JavaScript - 4.0 hrs
+
+o  Started adding wrapper for BitRock installer builder.
+
+Translation - 3.0 hrs
+
+o  Weekly meeting (x2), continued discussion of requirements and design.
+o  Experimented with JavaScript number formatting.
+
+Developer Meetings - 4.0 hrs
+
+o  Developer meeting (x4).
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 12.0 hrs
+
+o  1.5 sick days.
+o  Will be taking multiple vacation days over the next two weeks.
