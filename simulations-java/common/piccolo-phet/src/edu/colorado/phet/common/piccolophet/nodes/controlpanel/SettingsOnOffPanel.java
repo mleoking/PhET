@@ -37,7 +37,7 @@ public class SettingsOnOffPanel extends PNode {
     public static final PhetFont FONT = new PhetFont( 20, true );
 
     //Class that encapsulates the information for a settings feature (such as audio on/off).
-    public static final @Data class Feature {
+    public static final class Feature {
 
         //The icon to show when the feature is off
         public final PNode off;
@@ -50,6 +50,13 @@ public class SettingsOnOffPanel extends PNode {
 
         //Sim sharing component
         public final IUserComponent component;
+
+        public Feature( PNode off, PNode on, BooleanProperty onProperty, IUserComponent component ) {
+            this.off = off;
+            this.on = on;
+            this.onProperty = onProperty;
+            this.component = component;
+        }
     }
 
     public SettingsOnOffPanel( final List<Feature> icons ) {
