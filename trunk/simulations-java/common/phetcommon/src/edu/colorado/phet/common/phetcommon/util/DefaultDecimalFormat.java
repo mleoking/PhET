@@ -15,6 +15,9 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 /**
  * This formatter never returns zero-values with a minus sign prefix, and rounds to nearest neighbor.
  * See main for examples.
+ * <p>
+ * WARNING! Do not use this for scientific notation, it's broken on Java >= 1.7.  See Unfuddle #3664.
+ * </p>
  */
 public class DefaultDecimalFormat extends DecimalFormat {
 
