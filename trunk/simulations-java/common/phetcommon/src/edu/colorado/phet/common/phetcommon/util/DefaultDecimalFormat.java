@@ -34,7 +34,6 @@ public class DefaultDecimalFormat extends DecimalFormat {
     }
 
     public DefaultDecimalFormat( NumberFormat decimalFormat ) {
-        System.out.println( "pattern" );
         this.decimalFormat = decimalFormat;
         // #3303, When we move to Java 1.6, replace roundNearestNeighbor with this.decimalFormat.setRoundingMode( RoundingMode.HALF_UP );
     }
