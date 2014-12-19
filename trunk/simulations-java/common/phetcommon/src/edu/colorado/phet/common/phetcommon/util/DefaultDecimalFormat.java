@@ -23,14 +23,18 @@ public class DefaultDecimalFormat extends DecimalFormat {
 
     private NumberFormat decimalFormat;
 
-    public DefaultDecimalFormat( String str ) {
+    public DefaultDecimalFormat( String pattern ) {
         this( DecimalFormat.getNumberInstance( PhetResources.readLocale() ) );
+        if ( pattern.contains( "E" ) ) {
+            throw new IllegalArgumentException( "scientific notation is not supported, see Unfuddle #3664: " + pattern );
+        }
         if ( decimalFormat instanceof DecimalFormat ) {
-            ( (DecimalFormat) decimalFormat ).applyPattern( str );
+            ( (DecimalFormat) decimalFormat ).applyPattern( pattern );
         }
     }
 
     public DefaultDecimalFormat( NumberFormat decimalFormat ) {
+        System.out.println( "pattern" );
         this.decimalFormat = decimalFormat;
         // #3303, When we move to Java 1.6, replace roundNearestNeighbor with this.decimalFormat.setRoundingMode( RoundingMode.HALF_UP );
     }
@@ -92,7 +96,7 @@ public class DefaultDecimalFormat extends DecimalFormat {
     public static void main( String[] args ) {
 
         // various values with a large integer component
-        assert ( new DefaultDecimalFormat( "0.0" ).format( 1200.0 ).equals( "1200.0" ) );
+        assert ( new DefaultDecimalFormat( "0.0E0" ).format( 1200.0 ).equals( "1200.0" ) );
         assert ( new DefaultDecimalFormat( "0.0" ).format( 999 ).equals( "999.0" ) );
         assert ( new DefaultDecimalFormat( "0.0" ).format( 1001 ).equals( "1001.0" ) );
         assert ( new DefaultDecimalFormat( "0.0" ).format( 999.9 ).equals( "999.9" ) );
