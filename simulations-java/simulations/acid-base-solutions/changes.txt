@@ -1,3 +1,4 @@
+> fix crash on Java 1.8 due to number formatting
 # 1.02.09 (74240) Dec 19, 2014
 12/19/14 pick up fix for TimesTenNumberFormat #3664
 4/12/12 delete study flavor from build.properties
