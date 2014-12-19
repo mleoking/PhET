@@ -38,6 +38,7 @@ public class DefaultDecimalFormat extends DecimalFormat {
         // #3303, When we move to Java 1.6, replace roundNearestNeighbor with this.decimalFormat.setRoundingMode( RoundingMode.HALF_UP );
     }
 
+    //TODO #3664 this is buggy on java >= 1.7
     // #3303, Java 1.5 workaround for "nearest neighbor" rounding.
     private double roundNearestNeighbor( double number ) {
 
