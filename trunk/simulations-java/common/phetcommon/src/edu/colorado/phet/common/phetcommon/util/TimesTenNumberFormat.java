@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.util;
 
+import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -27,7 +28,7 @@ public class TimesTenNumberFormat extends NumberFormat {
     private static final String FORMAT = "<html>{0} x 10<sup style=\"font-size:{2}%\"> {1}</sup></html>";
     private static final int DEFAULT_EXPONENT_SCALE = 100; // percent
 
-    private final DefaultDecimalFormat _decimalFormat;
+    private final DecimalFormat _decimalFormat, _zeroFormat;
     private boolean _simpleZeroFormat;
     private final int _exponentScale;
 
@@ -39,9 +40,11 @@ public class TimesTenNumberFormat extends NumberFormat {
      * Constructor.
      *
      * @param mantissaFormat format of the mantissa, specified using DecimalFormat's syntax
+     * @param exponentScale size of the exponent font, relative to the mantissa
      */
     public TimesTenNumberFormat( String mantissaFormat, int exponentScale ) {
-        _decimalFormat = new DefaultDecimalFormat( mantissaFormat + "E0" );
+        _decimalFormat = new DecimalFormat( mantissaFormat + "E0" );
+        _zeroFormat = new DecimalFormat( mantissaFormat );
         _simpleZeroFormat = true;
         _exponentScale = exponentScale;
     }
@@ -51,7 +54,7 @@ public class TimesTenNumberFormat extends NumberFormat {
      * If true, display zero as "0"; this is the default.
      * If false, display zero in the same format as other values.
      *
-     * @param b
+     * @param b true = display zero as "0", false = use scientific notation
      */
     public void setSimpleZeroFormat( boolean b ) {
         _simpleZeroFormat = b;
@@ -70,8 +73,11 @@ public class TimesTenNumberFormat extends NumberFormat {
      * TODO: handle the pos argument
      */
     public StringBuffer format( double number, StringBuffer toAppendTo, FieldPosition pos ) {
-        String valueString = "0";
-        if ( number != 0 || !_simpleZeroFormat ) {
+        String valueString;
+        if ( number == 0 ) {
+           valueString = _simpleZeroFormat ? "0" : _zeroFormat.format( 0 );
+        }
+        else {
             // use a DecimalFormat to format in scientific notation, like 4.73E-7
             String scientificString = _decimalFormat.format( number );
             // parse out the mantissa and exponent on either side of the 'E'
