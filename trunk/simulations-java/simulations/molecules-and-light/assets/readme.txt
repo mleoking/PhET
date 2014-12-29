@@ -1,0 +1,2 @@
+This simulation (Molecules and Light) is a derivative of the Greenhouse simulation.  The files that contain the
+original versions of the artwork used in Molecules and Light can be found in the assets directory of the Greenhouse sim.
