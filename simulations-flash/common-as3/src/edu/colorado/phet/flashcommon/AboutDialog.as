@@ -1,9 +1,5 @@
 package edu.colorado.phet.flashcommon {
 
-import flash.events.MouseEvent;
-import flash.events.TextEvent;
-import flash.system.Capabilities;
-
 import org.aswing.CenterLayout;
 import org.aswing.FlowLayout;
 import org.aswing.Insets;
@@ -37,7 +33,7 @@ public class AboutDialog extends CommonDialog {
         // construct the string of text to show
         var str: String = "";
         str += "<b>PhET Interactive Simulations</b>\n";
-        str += "Copyright \u00A9 2004-2014 University of Colorado.\n";
+        str += "Copyright \u00A9 2004-2015 University of Colorado.\n";
         str += "Some rights reserved.\n";
         str += "Visit <a href='event:http://" + FlashCommon.getMainServer() + "'>http://" + FlashCommon.getMainServer() + "</a>\n\n";
 
