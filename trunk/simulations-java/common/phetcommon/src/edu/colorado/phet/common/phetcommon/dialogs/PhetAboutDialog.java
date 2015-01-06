@@ -2,23 +2,13 @@
 
 package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.HeadlessException;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
@@ -44,7 +34,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
     private static final String COPYRIGHT_HTML_FRAGMENT =
             "<b>PhET Interactive Simulations</b><br>" +
-            "Copyright &copy; 2004-2014 University of Colorado.<br>" +
+            "Copyright &copy; 2004-2015 University of Colorado.<br>" +
             "<a href=" + PhetCommonConstants.PHET_LICENSE_URL + ">Some rights reserved.</a><br>" +
             "Visit " + HTMLUtils.getPhetHomeHref();
 
