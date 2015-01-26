@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_ku.xml created Sun Nov 16 09:23:02 AST 2014 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.16.00 (74075) يون 14, 2014--><SimStrings>
+<string key="pause" value="وه‌ستاندن"/>
+<string key="earth" value="زه‌وی"/>
+<string key="dontBother" value="توڕه‌م مه‌كه‌"/>
+<string key="16thTime" value="1/16 كات"/>
+<string key="nothinOK" value="هیچ شتێ؟ باشه‌"/>
+<string key="mass1Label" value="50 گرام"/>
+<string key="mass3Label" value="250 گرام"/>
+<string key="planetX" value="X هه‌ساره‌"/>
+<string key="showEnergyOf" value="پیشاندانی ووزه‌ی "/>
+<string key="hangMe" value="به‌رزمكه‌وه‌"/>
+<string key="resetTimer" value="ده‌ستپێكردنه‌وه‌"/>
+<string key="hard" value="زیاد"/>
+<string key="mass7Label" value="100 گرام"/>
+<string key="translation.credits" value="Hawre Muhamad"/>
+<string key="stopWatch" value="كات ڕاگرتن"/>
+<string key="none" value="نه‌بوون"/>
+<string key="realTime" value="كاتی ڕاستی"/>
+<string key="startTimer" value="ده‌ستپێكردن/وه‌ستاندن"/>
+<string key="help4" value="كاتگره‌وه‌ ڕاكێشه‌"/>
+<string key="showHelp" value="پیشاندانی یارمه‌تی"/>
+<string key="lots" value="زۆر"/>
+<string key="help2" value="هێڵه‌كه‌ ڕاكێشه‌"/>
+<string key="help1" value="ڕاسته‌كه‌ ڕاكێشه‌"/>
+<string key="friction" value="هێزی لێكخشاندن"/>
+<string key="jupiter" value="جوپته‌ر"/>
+<string key="moon" value="مانگ"/>
+<string key="energyOf" value="ووزه‌ی"/>
+<string key="total" value="گشتی"/>
+<string key="sound" value="ده‌نگ"/>
+<string key="mass2Label" value="100 گرام"/>
+<string key="thermal" value="گه‌رمی"/>
+<string key="quarterTime" value="1/4 كات"/>
+<string key="KE" value="KE"/>
+<string key="hideHelp" value="(شاردنه‌وه‌ی (یارمه‌تی"/>
+<string key="noHelp" value="بێ یارمه‌تی"/>
+<string key="soft" value="كه‌م"/>
+<string key="softness" value="جیڕی سپرینگ 3"/>
+<string key="simTitle" value="بارستایی &amp; سپرینگ"/>
+<string key="totalE" value="E گشتی"/>
+<string key="noShow" value="پیشان نه‌دان"/>
+<string key="paused" value="وه‌ستێنراو"/>
+</SimStrings>
