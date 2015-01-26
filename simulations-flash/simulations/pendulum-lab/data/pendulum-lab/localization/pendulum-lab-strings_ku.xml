@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_ku.xml created Sun Nov 16 09:38:27 AST 2014 using: pendulum-lab 2.03.00 (52288), translation-utility 2.16.00 (74075) يون 14, 2014--><SimStrings>
+<string key="resetStopwatch" value="دووبارە گرتنەوە"/>
+<string key="earth" value="زه‌وی"/>
+<string key="showPhotoGateTimer" value="كاتگره‌وه‌"/>
+<string key="planetX" value="X هه‌ساره‌"/>
+<string key="acceleration" value="تاودان"/>
+<string key="showEnergyOf" value="پیشاندانی ووزه‌ی"/>
+<string key="velocity" value="خێرایی"/>
+<string key="translation.credits" value="Hawre Muhamad"/>
+<string key="realTime" value="كاتی ڕاستی"/>
+<string key="length" value="درێژی"/>
+<string key="lots" value="زۆر"/>
+<string key="friction" value="لێكخشان"/>
+<string key="showSecondPendulum" value="پیشاندانی په‌ندۆڵی 2"/>
+<string key="start" value="ده‌ستپێكردن"/>
+<string key="jupiter" value="جوپته‌ر"/>
+<string key="moon" value="مانگ"/>
+<string key="energyOf" value="ووزه‌ی"/>
+<string key="period" value="ماوه‌"/>
+<string key="simStrings" value="په‌ندۆڵی ساده‌"/>
+<string key="noneFriction" value="بێ لێكخشان"/>
+<string key="total" value="گشتی"/>
+<string key="mass2" value="بارستایی2"/>
+<string key="pendulum" value="په‌ندۆڵ"/>
+<string key="startPauseStopwatch" value="ده‌ستپێكردن/ وه‌ستان"/>
+<string key="show" value="پیشاندان"/>
+<string key="length2" value="درێژی2"/>
+<string key="thermal" value="گه‌رمی"/>
+<string key="pausePlay" value="وه‌ستان/ده‌سپێكردن"/>
+<string key="reset" value="دووبارە گرتنەوە"/>
+<string key="mass" value="بارستایی"/>
+<string key="quarterTime" value="1/4 كات"/>
+<string key="noneEnergy" value="بێ ووزه‌"/>
+<string key="simTitle" value="په‌ندۆڵی ساده‌ هاوڕێ محمد"/>
+<string key="otherTools" value="ئامرازی تر"/>
+<string key="paused" value="وه‌ستێنراو"/>
+<string key="angleUnit" value="پله‌"/>
+<string key="sixteenthTime" value="1/16 كات"/>
+</SimStrings>
