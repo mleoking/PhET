@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_es_ES.xml created Thu Nov 13 22:38:14 CET 2014 using: my-solar-system 2.04.00 (72347), translation-utility 2.16.00 (74075) jun 13, 2014--><SimStrings>
+<string key="slingshot" value="Honda"/>
+<string key="binaryStarPlanet" value="Estrella binaria y planeta"/>
+<string key="sunAndPlanet" value="Sol y planeta"/>
+<string key="body4" value="cuerpo 4"/>
+<string key="numberOfBodies" value="número\n de cuerpos"/>
+<string key="body3" value="cuerpo 3"/>
+<string key="body2" value="cuerpo 2"/>
+<string key="body1" value="cuerpo 1"/>
+<string key="velocity" value="velocidad"/>
+<string key="doubleDouble" value="Doble doble"/>
+<string key="xVel" value="x"/>
+<string key="translation.credits" value="Traducción por: Diego&#10;dieguete1112@gmail.com"/>
+<string key="massEquals" value="masa ="/>
+<string key="yEquals" value="y = "/>
+<string key="hyperbolics" value="Hiperbólicas"/>
+<string key="xEquals" value="x ="/>
+<string key="help9" value="Copyright Proyecto PhET de la Universidad de Colorado en Boulder."/>
+<string key="help8" value="El algorritmo de Verlet conserva la energía en sistemas oscilatorios, produciendo órbitas estables, no como el algorritmo de Runge-Kutta. El Verlet produce resultados no acordes con la Física cuando los cuerpos se acercan mucho entre ellos y las aceleraciones resultantes son muy grandes. Para prevenir esto, los cuerpos que se ponen muy cerca son fusionados en una colisión."/>
+<string key="help6" value="La simulación usa el algorritmo de Verlet para integrar trayectorias:"/>
+<string key="stop" value="Parar"/>
+<string key="help5" value="Cuando se clica en Sistema Centrado, el movimiento del centro de la masa del sistema se elimina."/>
+<string key="help4" value="Para averiguar la posición y velocidad actuales, presiona Parar y pon la flecha sobre el cuerpo."/>
+<string key="help3" value="Mantén las masas a menos de unos pocos miles o puede haber resultados extraños."/>
+<string key="help2" value="Las distancias, masas y tiempo son unidades arbitrarias. ¡Inventa la tuya propia!"/>
+<string key="help1" value="Crea tu propio sistema solar arrastrando cuerpos y cambiando el símbolo V (V de velocidad) \nor escribiendo en la tabla de Configuración Inicial"/>
+<string key="help0" value="Simulador de órbitas 'Mi Sistema Solar'"/>
+<string key="doubleSlingshot" value="Doble honda"/>
+<string key="vYEquals" value="v y ="/>
+<string key="systemCentered" value="Sistema centrado"/>
+<string key="vXEquals" value="v x ="/>
+<string key="start" value="Iniciar"/>
+<string key="showTraces" value="Enseñar las trayectorias"/>
+<string key="back" value="atrás"/>
+<string key="xPos" value="x"/>
+<string key="help" value="Ayuda"/>
+<string key="accurate" value="preciso"/>
+<string key="tapeMeasure" value="Regla "/>
+<string key="showGrid" value="Poner cuadrícula"/>
+<string key="selectPreset" value="Seleccionar sistemas preestablecidos"/>
+<string key="yVel" value="y"/>
+<string key="timeEquals" value="tiempo ="/>
+<string key="ellipses" value="Elipses"/>
+<string key="trojanAsteroids" value="Asteroides troyanos"/>
+<string key="fourStarBallet" value="Ballet de cuatro estrellas"/>
+<string key="position" value="posición"/>
+<string key="reset" value="Reiniciar"/>
+<string key="mass" value="masa"/>
+<string key="fast" value="rápido"/>
+<string key="simTitle" value="Mi Sistema Solar"/>
+<string key="sunPlanetMoon" value="Sol, planeta y luna"/>
+<string key="initialSettings" value="Configuración Inicial:"/>
+<string key="yPos" value="y"/>
+<string key="sunPlanetComet" value="Sol, planeta y cometa"/>
+</SimStrings>
