@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resonance-strings_zh_TW.xml created Tue Jul 26 10:03:37 CST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) 二月 9, 2011-->
-<SimStrings>
+<!--resonance-strings_zh_TW.xml created Sat Nov 29 20:16:27 CST 2014 using: resonance 1.01.00 (54775), translation-utility 2.16.00 (74075) 六月 14, 2014--><SimStrings>
 <string key="simSpeed" value="模擬速度"/>
 <string key="sameFrequency" value="振動頻率相同"/>
 <string key="sameSpring" value="彈簧相同"/>
@@ -18,15 +17,19 @@
 <string key="on" value="開啟"/>
 <string key="ruler" value="量尺"/>
 <string key="resonance.simTitle" value="共振"/>
+<string key="NperMperS" value="N/(m/s)"/>
 <string key="springConstant" value="彈性係數"/>
 <string key="frequency" value="頻率"/>
 <string key="resetAll" value="重置"/>
 <string key="mass" value="質量"/>
 <string key="sameMass" value="物體質量相同"/>
 <string key="resonator" value="共鳴器"/>
-<string key="translation.credits" value="Amber Chang"/>
+<string key="translation.credits" value="Amber Chang&#10;2014 陳昭成 &#10;(Chen,Chao-Chang)"/>
 <string key="hz" value="頻率(Hz)"/>
+<string key="NperM" value="N/m  "/>
 <string key="gravityColon" value="重力"/>
+<string key="play" value="開始!"/>
+<string key="paused" value="暫停!"/>
 <string key="off" value="關閉"/>
 <string key="dampingConstant" value="阻尼係數"/>
 <string key="normal" value="正常"/>
