@@ -1,0 +1,74 @@
+PhET Progress Report, J. Blanco, 1-8-2015
+
+PhET Progress Report
+John Blanco
+January 8th, 2015
+
+Time period covered: December 18th through January 8th.  This is a three week period due to holidays.
+
+Neuron HTML5 - 16.0 hrs
+
+o  Worked on solutions to issues with the step back behavior that existed in the Java version, decided on a plan with Ashraf, tested the resulting modifications.
+o  Qualified performance on iPad, found it to be somewhat lacking, see https://github.com/phetsims/neuron/issues/55.
+o  Implemented UI improvements, including better layout, better control panel colors and borders, delineation of zoom are, etc.
+o  Met with Ariel P and Amanda M (separately) to review UI changes and to made additional improvements.
+o  Published latest dev version, see http://www.colorado.edu/physics/phet/dev/html/neuron/1.0.0-dev.6/neuron_en.html.
+
+Arithmetic HTML5 - 3.0 hrs
+
+o  Modified equation to make it clearer which element or elements are interactive.
+o  Started on integration of new icons.
+o  Started on implementation of answer animation.
+
+Least Squares Regression - 3.0 hrs
+
+o  Helped Martin with an issue on scaling of dialogs and PhetMenu.
+o  Published dev version, see http://www.colorado.edu/physics/phet/dev/html/least-squares-regression/1.0.0-dev.4/least-squares-regression_en.html.
+
+Plinko Probability - 1.0 hrs
+
+o  Helped Martin with some design decisions.
+
+Curve Fitting HTML5 - 1.0 hrs
+
+o  Set up initial repo and basic project structure, let MLL know.
+
+Projectile Motion HTML5 - 1.0 hrs
+
+o  Set up initial repo and basic project structure, let MLL know.
+
+Installer Port to JavaScript - 10.0 hrs
+
+o  Finished initial wrapper for BitRock installer builder, including ability to modify XML project file.
+o  Reached milestone where a simple rip and installer build can be completed (includes home page only).
+
+Installers - 2.0 hrs
+
+o  Tested build of installers with new home page, including a multi-language, and it seems to be working fine.
+
+Translation - 4.5 hrs
+
+o  Meetings (x2), continued discussion of requirements and design.
+o  Set up a Node.js-based server on phet-server, created a very rudimentary demo page.
+o  Set up the "babel" repository.
+
+Developer Meetings - 3.0 hrs
+
+o  Developer meeting (x2).
+
+Miscellaneous - 2.0 hrs
+
+o  Met with Chris M to discuss some things that he'd learned about profiling.
+o  Deployed ph-scale and acid-base-solutions for Chris M.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o  Met with Ariel to discuss priorities and plans.
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 66.0 hrs
+
+o  2 hrs sick leave.
+o  4 holidays, 4 vacation days.

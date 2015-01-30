@@ -1,0 +1,86 @@
+PhET Progress Report, J. Blanco, 1-29-2015
+
+PhET Progress Report
+John Blanco
+January 29th, 2015
+
+Time period covered: January 9th through January 28th.  This is a three week period due to canceled status meetings.
+
+Sonficiation Prototype - 16 hrs
+
+o  Created an initial version, reviewed with IRDC, Sam, Ariel, and Emily.
+o  Wrote up description of sounds used and why for discussion with IDRC.
+o  Modified based on feedback, reviewed again with same group.
+o  Next steps are to look at other simulations.
+
+Neuron HTML5 - 16.0 hrs
+
+o  Improved layout based on feedback from Ariel.
+
+Arithmetic HTML5 - 3.0 hrs
+
+o  Implemented the animation feature.
+o  Implemented 'double touch' behavior for the factor screen.
+o  Reviewed in design meeting.
+
+States of Matter - 1.0 hrs
+
+o  Did a light review of behavior and a quick look at the code, gave Actual Concepts the go-ahead to invoice for the next 25%.
+
+Least Squares Regression - 3.0 hrs
+
+o  Published dev versions, supported Martin.
+
+Curve Fitting HTML5 - 1.0 hrs
+
+o  Cleaned up some issues with project structure.
+
+Charges and Fields
+
+o  Worked with Martin on design, avoiding memory leaks.
+
+Projectile Motion HTML5 - 1.0 hrs
+
+o  Design meeting (x2).
+
+Molecules and Light
+
+o  Published a version, tested, worked with Amy to log some issues, published and updated version.  Oliver has set up testing task.
+
+Common Code
+
+o  Tested on Scenery 0.2, logged issues.
+o  Supported Martin in some of his work on the measuring tape.
+
+Translation - 4.5 hrs
+
+o  Set up Node server on figaro-dev and on local machine.
+o  Implemented pull of English strings from GitHub.
+o  Implemented prototype translation that allows test of translated versions using query parameters.
+o  Moved prototype code into GitHub (Rosetta), got it working on Windows (much better dev environment).
+
+Installers - 2.0 hrs
+
+o  Built a new version with two different Chinese versions based on a request from China (or Taiwan).
+
+Developer Meetings - 3.0 hrs
+
+o  Developer meeting (several).
+
+Environment
+
+o  Upgraded to IntelliJ 14, reformatted simulations to work with new version.
+o  Let external developers know about upgrade to IntelliJ 14.
+o  Set up zoom account.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Certified EPR.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 10.0 hrs
+
+o  2 hrs sick leave.
+o  Monday, Jan 19th was MLK day
