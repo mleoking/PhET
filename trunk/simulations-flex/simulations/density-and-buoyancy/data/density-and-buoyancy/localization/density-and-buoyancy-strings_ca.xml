@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_ca.xml created Mon Dec 22 12:22:20 CET 2014 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.17.00 (74235) dic 17, 2014--><SimStrings>
+<string key="buoyancy.tab.intro" value="entrar"/>
+<string key="properties.mass" value="Massa"/>
+<string key="controlPanel.showVectorValues" value="Valors de la força"/>
+<string key="forceArrows.contact" value="Contacte"/>
+<string key="mode.objectsOfSameVolume" value="El mateix volum"/>
+<string key="material.aluminum" value="Alumini"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Aire"/>
+<string key="material.custom" value="El meu bloc"/>
+<string key="material.gasoline" value="Gasolina"/>
+<string key="customObject.material" value="Material"/>
+<string key="mode.mysteryObjects" value="Desconegut"/>
+<string key="customObject.custom" value="El meu bloc"/>
+<string key="material.wood" value="Fusta"/>
+<string key="mode.two" value="Dos"/>
+<string key="material.styrofoam" value="Escuma de poliestiré"/>
+<string key="material.honey" value="Mel"/>
+<string key="material.apple" value="Poma"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Gel"/>
+<string key="fluid.controls.intro.label" value="Fluïd"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Diamant"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Blocs"/>
+<string key="material.oliveOil" value="Oli d'oliva"/>
+<string key="material.lead" value="Plom"/>
+<string key="forceArrows.buoyancy" value="Flotació"/>
+<string key="properties.fluidDensity" value="Densitat del fluïd"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="Propietats"/>
+<string key="forceArrows.gravity" value="Gravetat"/>
+<string key="material.brick" value="Maó"/>
+<string key="mysteryObject.material" value="Material"/>
+<string key="mysteryObject.table.title" value="Densitat de diferents materials"/>
+<string key="material.oil" value="Oli"/>
+<string key="mode.objectsOfSameDensity" value="La mateixa densitat"/>
+<string key="density.simTitle" value="Densitat"/>
+<string key="controlPanel.readouts" value="Lectures"/>
+<string key="mode.customObject" value="A mida"/>
+<string key="mode.objectsOfSameMass" value="La mnateixa massa"/>
+<string key="application.resetAll" value="Reinicia tot"/>
+<string key="material.gold" value="Or"/>
+<string key="forceArrowControlPanelTitle" value="Mostra les forces"/>
+<string key="customObject.name" value="Nom"/>
+<string key="controlPanel.showMasses" value="Masses"/>
+<string key="material.water" value="Aigua"/>
+<string key="properties.density" value="Densitat"/>
+<string key="material.waterBalloon" value="Globus d'aigua"/>
+<string key="mysteryObject.table.showTable" value="Mostra la taula"/>
+<string key="mode.one" value="Un"/>
+<string key="properties.volume" value="Volum"/>
+<string key="buoyancy.simTitle" value="Flotabilitat"/>
+<string key="properties.kilogramPerLiter" value="kg/L"/>
+<string key="properties.volumeLiter" value="L"/>
+</SimStrings>
