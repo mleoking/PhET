@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_cs.xml created Wed Dec 31 20:19:05 CET 2014 using: calculus-grapher 2.08.00 (55025), translation-utility 2.17.00 (74235) XII 17, 2014--><SimStrings>
+<string key="integral" value="Integrál"/>
+<string key="grid" value="Mřížka"/>
+<string key="dragMe" value="Táhni (mě)!"/>
+<string key="hill" value="Kopec"/>
+<string key="cursor" value="Kurzor"/>
+<string key="offset" value="Posunout"/>
+<string key="freeform" value="Vlastní tvar"/>
+<string key="pedestal" value="Pravoúhlý signál"/>
+<string key="line" value="Trojúhelníkový signál"/>
+<string key="drawingTools" value="Kreslítka"/>
+<string key="zero" value="Nula"/>
+<string key="view" value="Pohled"/>
+<string key="sine" value="Sinusovka"/>
+<string key="smooth" value="Vyhladit"/>
+<string key="tilt" value="Naklonit"/>
+<string key="parabola" value="Parabola"/>
+<string key="translation.credits" value="Martin Slavík (KCH FP TUL)"/>
+<string key="derivative" value="Derivace"/>
+<string key="undo" value="Zpět"/>
+</SimStrings>
