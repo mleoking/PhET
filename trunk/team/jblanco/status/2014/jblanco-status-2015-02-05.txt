@@ -1,0 +1,77 @@
+PhET Progress Report, J. Blanco, 2-5-2015
+
+PhET Progress Report
+John Blanco
+February 5th, 2015
+
+Time period covered: January 29th through February 4th.
+
+Neuron HTML5 - 8.0 hrs
+
+o  Worked on a number of issues that are currently blocking publication.
+o  Met with Ashraf to discuss details of an issue with playback and concentration values.
+
+Arithmetic HTML5 - 5.0 hrs
+
+o  Worked through all recently logged issues that resulted from QA team testing, prioritized and dispositioned them.
+o  Fixed a number of issues.
+
+States of Matter - 1.0 hrs
+
+o  Published a dev version, set up a test task for QA team.
+
+Faraday's Law HTML5 - 2.0 hours
+
+o  Cleaned up the directory structure to meet PhET's guidelines.
+o  Fixed an issue where the voltage never settles back to zero once the magnet is moved.
+
+Molecules and Light HTML - 1.5 hrs
+
+o  Reviewed in design meeting, brainstormed changes to make it easier for students to turn on photon sources.
+o  Worked on getting Jesse set up on Spot so that he can do dev deployments.
+
+Balancing Act HTML5 - 2.0 hrs
+
+o  Fixed an issue with dependencies on the 1.0 branch that was causing issues with outside users getting stable code.
+
+Sonification Prototype - 1.5 hrs
+
+o  Met with Emily M to discuss next steps, which will include posting variations of Faraday's Law and doing a prototype for Concentration.
+
+Common Code - 2.0 hrs
+
+o  Performed code review on the Lightbulb repository, which is used for the graph in Neuron.
+
+Translation - 2.5 hrs
+
+o  Got demo working to the point where translated strings can be sent to sim in query param, only works from localhost since string feature not widely deployed.
+o  Meeting to evaluate progress and continue planning.
+
+Installer Builder Port - 1.0 hrs
+
+o  Worked with OIT to get BitRock InstallBuilder set up on figaro and figaro-dev.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Interviews - 3.0 hrs
+
+o  Attended presentation with and conducted interview of Amy Hansen, a candidate for a design position.
+
+Environment - 1.0 hrs
+
+o  Set up a new monitor.
+
+Education - 2.0 hrs
+
+o  Working through a Lynda.com class on Express JS.
+o  Attended a colloquium.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
