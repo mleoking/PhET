@@ -1,0 +1,70 @@
+PhET Progress Report, J. Blanco, 2-12-2015
+
+PhET Progress Report
+John Blanco
+February 12th, 2015
+
+Time period covered: February 5th through February 11th.
+
+Neuron HTML5 - 4.0 hrs
+
+o  Worked with Sam and Jonathan on moving WebGL to Scenery 0.2.
+o  Worked on WebGL ramp up.
+
+Arithmetic HTML5 - 5.0 hrs
+
+o  Fixed issue where face appear too briefly in some cases.
+o  Fixed issue where user could get multiple points for the same answer.
+o  Fixed issue where timer and sound were not globally controlled.
+
+States of Matter - 2.0 hrs
+
+o  Sorted through the issues and assigned as appropriate.
+
+Molecules and Light HTML - 1.5 hrs
+
+o  Met with Jesse to show him how to deploy sims and to discuss a few issues on the implementation.
+o  Provided feedback on documentation.
+
+Balancing Act - 1.0 hrs
+
+o  Republished and updated documentation in support of a user who is trying to get stable code.  Doesn't seem to have resolved the issue.
+
+Area Builder - 0.5 hrs
+
+o  Worked with Oliver to calculate total hours spent to create sim and report it to Kathy.
+
+Sonification Prototype - 1.5 hrs
+
+o  Created a sonification branch for Concentration, sonified about half of the functionality.
+o  Met with Emily and Sam R to review and plan.
+
+Common Code - 4.0 hrs
+
+o  Review and comment on readme files.
+o  Updated some common code issues that were languishing, brought to my attention by CM.
+
+Translation - 10.0 hrs
+
+o  Made it work with sims published on dev for test translation.
+o  Worked with Aaron on a way to get the login information from the main web site to the translation utility.  Almost completed.
+o  Added code to extract email from cookies.
+o  Fixed up several pieces of the HTML templates to use loops, since I know understand the template language better.
+o  Met with Israeli group on possible collaboration.
+
+Developer Meetings - 2.5 hrs
+
+o  Developer meeting (x2).
+
+Interviews - 3.5 hrs
+
+o  Attended presentation by and conducted interview of a candidate for a design position.
+o  Wrote up and sent feedback on the candidate.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
