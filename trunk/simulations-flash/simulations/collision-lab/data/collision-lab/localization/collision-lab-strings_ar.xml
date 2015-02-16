@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_ar.xml created Thu Jan 08 21:23:17 CET 2015 using: collision-lab 2.01.00 (69163), translation-utility 2.17.00 (74235) déc. 17, 2014--><SimStrings>
+<string key="ShowValues.velocityCaption" value="سرعة (م/ثا)ـ"/>
+<string key="ControlPanel.showValues" value="أظهر القيم"/>
+<string key="PlayPauseButtons.step" value="مرحلة"/>
+<string key="DataTable.velocity" value="سرعة"/>
+<string key="MomentumView.total" value="كل"/>
+<string key="DataTable.positionWithUnits" value="موضع (م)"/>
+<string key="ShowValues.speedReadout" value="| v | = {0}"/>
+<string key="ControlPanel.sound" value="صوت"/>
+<string key="ControlPanel.showMomentumVectors" value="أشعة كمية الحركة"/>
+<string key="ShowValues.speedCaption" value="سرعة (م/ثا)ـ"/>
+<string key="ControlPanel.oneHundredPercent" value="مرن"/>
+<string key="DataTable.lessData" value="معلومات أقل"/>
+<string key="DataTable.momentumWithUnits" value="عزم (كغ.م/ثا)"/>
+<string key="MomentumView.momenta" value="كميات الحركة"/>
+<string key="DataTable.units.kilogramMetersPerSecond" value="كغ.م/ثا"/>
+<string key="ControlPanel.elasticityReadout" value="مرونة {0}%"/>
+<string key="DataTable.ball" value="كرة"/>
+<string key="TableView.kineticEnergy" value="طاقة حركية = {0} جول"/>
+<string key="advancedTab" value="خيارات متقدمة"/>
+<string key="ControlPanel.showVelocities" value="أشعة السرعة"/>
+<string key="ControlPanel.showPaths" value="أظهر المسار"/>
+<string key="DataTable.mass" value="كتلة"/>
+<string key="DataTable.addBall" value="أضف كرة"/>
+<string key="DataTable.position" value="موضع"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="DataTable.units.kilograms" value="كغ"/>
+<string key="DataTable.units.metersPerSecond" value="م/ثا"/>
+<string key="ShowValues.momentumReadout" value="p = {0}"/>
+<string key="PlayPauseButtons.pause" value="استراحة"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="بعدين"/>
+<string key="DataTable.moreData" value="معلومات أكثر"/>
+<string key="ControlPanel.reflectingBorder" value="حافة عاكسة"/>
+<string key="DataTable.removeBall" value="احذف كرة"/>
+<string key="DataTable.momentum" value="كمية الحركة"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.x" value="x"/>
+<string key="ShowValues.momentumCaption" value="كمية الحركة (كغ.م/ثا)ـ"/>
+<string key="ControlPanel.resetAll" value="امسح الكلّ"/>
+<string key="ControlPanel.momentaDiagram" value="بيان كمية الحركة"/>
+<string key="ControlPanel.elasticity" value="مرونة"/>
+<string key="DataTable.units.meters" value="م"/>
+<string key="ControlPanel.showCenterOfMass" value="مركز الكتلة"/>
+<string key="ControlPanel.zeroPercent" value="غير مرن"/>
+<string key="DataTable.velocityWithUnits" value="سرعة (م/ثا)"/>
+<string key="ShowValues.absoluteMomentumReadout" value="| p | = {0}"/>
+<string key="TableView.returnBalls" value="أعد الكرات"/>
+<string key="DataTable.massWithUnits" value="كتلة (كغ)"/>
+<string key="introductionTab" value="مقدمة"/>
+<string key="TableView.timeRate" value="سرعة المحاكات"/>
+<string key="simTitle" value="مخبر التصادم"/>
+<string key="ShowValues.velocityReadout" value="v = {0}"/>
+<string key="PlayPauseButtons.play" value="تشغيل"/>
+<string key="ControlPanel.kineticEnergy" value="طاقة حركية"/>
+<string key="MomentumView.tipToTail" value="طرف إلى طرف"/>
+<string key="PlayPauseButtons.back" value="رجوع"/>
+<string key="TableView.time" value="الزمن = {0} ثا"/>
+<string key="ControlPanel.1d" value="بعد"/>
+<string key="PlayPauseButtons.rewind" value="إعادة"/>
+</SimStrings>
