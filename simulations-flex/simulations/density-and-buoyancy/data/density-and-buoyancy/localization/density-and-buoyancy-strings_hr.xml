@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_hr.xml created Wed Jan 07 15:30:07 CET 2015 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.17.00 (74235) pro 17, 2014--><SimStrings>
+<string key="buoyancy.tab.intro" value="Uvod"/>
+<string key="properties.mass" value="Masa"/>
+<string key="controlPanel.showVectorValues" value="Vrijednosti sila"/>
+<string key="forceArrows.contact" value="Kontakt"/>
+<string key="mode.objectsOfSameVolume" value="Jednakog obujma"/>
+<string key="mysteryObject.densityColumnHeader" value="Gustoća ({0})"/>
+<string key="material.aluminum" value="Aluminij"/>
+<string key="material.air" value="Zrak"/>
+<string key="material.gasoline" value="Benzin"/>
+<string key="customObject.material" value="Materijal"/>
+<string key="mode.mysteryObjects" value="Nepoznato"/>
+<string key="customObject.custom" value="Moja kocka"/>
+<string key="material.wood" value="Drvo"/>
+<string key="mode.two" value="Dva"/>
+<string key="material.styrofoam" value="Stiropor"/>
+<string key="material.honey" value="Med"/>
+<string key="material.apple" value="Jabuka"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Led"/>
+<string key="translation.credits" value="ždmateljan"/>
+<string key="fluid.controls.intro.label" value="Tekućina"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Dijamant"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Kocke"/>
+<string key="material.oliveOil" value="Maslinovo ulje"/>
+<string key="material.lead" value="Olovo"/>
+<string key="properties.fluidDensity" value="Gustoća tekućine"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/l"/>
+<string key="forceArrows.gravity" value="Gravitacija"/>
+<string key="material.brick" value="Cigla"/>
+<string key="mysteryObject.material" value="Materijal"/>
+<string key="mysteryObject.table.title" value="Gustoće različitih materijala"/>
+<string key="material.oil" value="Ulje"/>
+<string key="properties.volumeLiterValue" value="{0} l"/>
+<string key="mode.objectsOfSameDensity" value="Jednake gustoće"/>
+<string key="density.simTitle" value="Gustoća"/>
+<string key="properties.volumeMilliLiterValue" value="{0} ml"/>
+<string key="mode.customObject" value="Po želji"/>
+<string key="mode.objectsOfSameMass" value="Jednake mase"/>
+<string key="application.resetAll" value="Vrati na početak"/>
+<string key="material.gold" value="Zlato"/>
+<string key="properties.densityValue" value="{0} kg/l"/>
+<string key="forceArrowControlPanelTitle" value="Pokaži sile"/>
+<string key="controlPanel.showMasses" value="Mase"/>
+<string key="material.water" value="Voda"/>
+<string key="properties.density" value="Gustoća"/>
+<string key="material.waterBalloon" value="Vodeni balon"/>
+<string key="mysteryObject.table.showTable" value="Pokaži tablicu"/>
+<string key="mode.one" value="Jedan"/>
+<string key="properties.volume" value="Obujam"/>
+<string key="properties.kilogramPerLiter" value="kg/l"/>
+<string key="properties.volumeLiter" value="l"/>
+</SimStrings>
