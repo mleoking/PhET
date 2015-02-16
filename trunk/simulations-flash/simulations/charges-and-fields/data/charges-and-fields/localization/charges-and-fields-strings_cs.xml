@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_cs.xml created Sat Feb 14 23:29:20 CET 2015 using: charges-and-fields 2.04.00 (52655), translation-utility 2.17.00 (74235) XII 17, 2014--><SimStrings>
+<string key="directionOnly" value="jen směr"/>
+<string key="grid" value="mřížka"/>
+<string key="clearAll" value="Vypnout vše"/>
+<string key="simTitle" value="Náboj a pole"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="hodnoty"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 metr"/>
+<string key="showEField" value="zobrazit pole"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="jemné úrovně"/>
+<string key="EFieldSensors" value="ukazatel"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="skryj"/>
+<string key="plot" value="ukaž"/>
+<string key="equipotential" value="ekvipotenciál"/>
+<string key="angleUnit" value=" deg"/>
+<string key="translation.credits" value="DžejPý"/>
+<string key="showLoRes" value="hrubé úrovně"/>
+<string key="moreSpeedLessRes" value="rychlejší"/>
+<string key="tapeMeasure" value="měření - metr"/>
+<string key="voltage" value="napětí"/>
+</SimStrings>
