@@ -102,8 +102,14 @@ public class FourierSoundPlayer implements Runnable {
         AudioFormat audioFormat = new AudioFormat( ENCODING, SAMPLE_RATE, SAMPLE_SIZE, CHANNELS, FRAME_SIZE, FRAME_RATE, false );
         _oscillator = new FourierOscillator( DEFAULT_VOLUME, audioFormat, STREAM_LENGTH );
         DataLine.Info info = new DataLine.Info( SourceDataLine.class, audioFormat );
-        _sourceDataLine = (SourceDataLine) AudioSystem.getLine( info );
-        _sourceDataLine.open( audioFormat, DEVICE_BUFFER_SIZE );
+
+        try {
+            _sourceDataLine = (SourceDataLine) AudioSystem.getLine( info );
+            _sourceDataLine.open( audioFormat, DEVICE_BUFFER_SIZE );
+        }
+        catch( IllegalArgumentException e ) {
+            throw new LineUnavailableException();
+        }
     }
 
     //----------------------------------------------------------------------------

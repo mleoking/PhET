@@ -64,7 +64,9 @@ public class SoundModuleAudio {
 
     private void updateFrequency() {
 //        System.out.println( "getPrimaryFrequency() = " + getPrimaryFrequency() );
-        fourierSoundPlayer.setFrequency( getPrimaryFrequency() * FREQ_SCALE );
+        if ( fourierSoundPlayer != null ) {
+            fourierSoundPlayer.setFrequency( getPrimaryFrequency() * FREQ_SCALE );
+        }
     }
 
     private double getPrimaryFrequency() {
@@ -107,7 +109,9 @@ public class SoundModuleAudio {
     }
 
     public void setActive( boolean active ) {
-        fourierSoundPlayer.setActive( active );
+        if ( fourierSoundPlayer != null ) {
+            fourierSoundPlayer.setActive( active );
+        }
     }
 
     public void reset() {
@@ -116,7 +120,7 @@ public class SoundModuleAudio {
     }
 
     public boolean isAudioEnabled() {
-        return fourierSoundPlayer.isEnabled();
+        return fourierSoundPlayer != null && fourierSoundPlayer.isEnabled();
     }
 
     public double getVolume() {
