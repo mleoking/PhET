@@ -1,3 +1,4 @@
+# 1.10.03 (74319) Feb 19, 2015
 # 1.10.02 (74318) Feb 19, 2015
 # 1.10.01 (74317) Feb 19, 2015
 2/19/15 > Graceful fail when audio system is not detected
