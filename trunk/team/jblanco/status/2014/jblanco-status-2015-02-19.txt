@@ -1,0 +1,54 @@
+PhET Progress Report, J. Blanco, 2-19-2015
+
+PhET Progress Report
+John Blanco
+February 19th, 2015
+
+Time period covered: February 12th through February 18th.
+
+Neuron HTML5 - 12.0 hrs
+
+o  Get the Canvas fallback working on Scenery 0.2 (there were some issues with clipping).
+o  Cleaned up some unneeded code discovered in the process of implementing the WebGL support.
+o  Worked on WebGL Scenery support, got to where a set of particle-like shapes can be rendered in the correct area.
+
+Least Squares Regression & Plinko Probability - 1.5 hrs
+
+o  Supported Martin on a couple of design and implementation issues.
+
+Area Builder - 2.0 hrs
+
+o  Worked on issues that were found through fuzz mouse testing and are blocking 'green light' on automated testing.
+
+Gas Properties - 1.0 hrs
+
+o  Initial design meeting.
+
+Common Code - 1.0 hrs
+
+o  Renamed lightbulb repository to griddle.
+
+Translation - 8.0 hrs
+
+o  Weekly meeting.
+o  Worked on design and implementation plan.
+o  Finished initial work on retrieval of session data from the main server (in collaboration with Aaron).
+o  Modularized routes for better maintainability and to make the code look more like 'idiomatic' ExpressJS.
+
+Developer Meetings - 2.5 hrs
+
+o  Developer meeting (x2).
+
+Customer Support - 1.0 hrs
+
+o  Worked on issue (with Sam) where a user is trying to follow our instructions for getting a stable version of code.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o  Took Monday, Feb 16th as a vacation day.
