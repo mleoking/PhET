@@ -1,0 +1,166 @@
+> Feedback on Glaciers Sim Design (version 2) 
+> Chris Malley (Oct 31, 2007)
+
+Responses to Chris' feedback
+Archie Paulson (Oct 31, 2007)
+
+> Map view should be the same image as the Main view -- an image of the
+> entire valley, from the perspective shown in the Main view.  The Map
+> view shows the entire image and the Main view shows one "zoomed in"
+> section of it.   The Little Box in the Map view can only be dragged
+> left-right. Having a birds-eye Map view just makes it harder to use
+> and harder to implement.
+>
+> This interface relies heavily on the ability of the user to figure out
+> how to use the Map view.  This type of interface control is very
+> advanced; will users know what to do?
+
+After discussion with Chris, it looks like the map view can be
+replaced by a long zoomed-out view of the entire glacier valley.
+I will work this into the mockup so we can talk about it.
+
+> The font used in "View" and "Climate Controls" panels is small. I
+> guarantee that I'll be asked to increase it at some point during
+> development.  If this happens, we'll lose vertical space for the Map
+> and Main views.  Do we want to see what this interface looks like with
+> a more typical font size?
+
+I'll increase the font size.  I think the toolbox can be made smaller,
+and the map view at the top should be smaller once the change above is
+made, so that should buy us some space.
+
+> Is toolbox movable?  If so, it will not be movable outside the play
+> area.  In order to drag stuff from the toolbox to the glaciers, the
+> toolbox must be part of the play area. (I can provide more technical
+> details if this isn't clear.)
+
+No, the toolbox does not need to move.
+
+> Which valley floor option is being shown? Is it linear, or is there a
+> bump somewhere further down the valley?
+> Removing the option to change the shape of the valley floor (slide 3,
+> bullet 1) removes a very significant cost. This is good if you really
+> don't need this option. But if you think you might want this option
+> (as hinted at in Slide 24, bullet 3) then it should be included from
+> the beginning.  There are lots of nice simplfications we can make if
+> the floor is linear (no space for a control needed, no need to curve
+> fit with valley floor, no need to orient ruler with slope, etc).  But
+> these simplifications will be devastating if we later decide that we
+> need to change the floor shape.
+
+The valley shown is linear, and I think we can stick with the linear
+shape, but I'll check with the glacier expert to make sure we don't
+need other shapes. It would be nice to be able to change the value of
+the linear slope, but that does not require much change at all (only
+values on the coordinates and some effect in the equations of motion).
+
+> "Reset All" is placed between "Restart" and "Pause".  "Reset All" is
+> not a time control, and all interface elements related to time should
+> be grouped together (maybe put a box around them).  Move "Reset All"
+> button to left of "Help" button and I think you're OK.
+
+Will do.
+
+> Placing the control panel at the bottom adds development cost.  Ditto
+> for the non-standard "Reset All" and "Set Glacier to Equilibrium"
+> buttons.  We won't be able to use phetcommon facilities that handle
+> standard simulation layout, and future changes/enhancements to the
+> standard layout won't be applied to this simulation.  I don't see that
+> we have any other choice here, but wanted everyone to be aware of the
+> implications.
+
+I think we need the horizontal layout to maximize the amount of
+glacier that is visible.  The 'set glacier to eq' button is not really
+translatable to other sims, so there is no help from phetcommon there.
+
+> Slide #10 indicates that the controls for "snow fall and temperature"
+> are shown on the previous slide.  But the previous slide now has "mass
+> balance" selected.  (Slide #11 shows the controls, but you still might
+> want to list them explicitly here.)
+
+Typo corrected.
+
+> Slide #10 (last bullet) still refers to "the button next to Set
+> glacier to equilibrium state".  This is now a labeled button and is no
+> longer in the Climate Control panel. If this button is relevant to the
+> climate controls, then you should reconsider your decision to move the
+> button elsewhere.  Was the motivation for this decision solely space
+> constraints?
+
+This button is not really a climate control, so I don't think it
+should be in that box. It is more of a reset-type button.
+
+> I don't understand the climate controls that control rate of change of
+> parameters. (Slides 11, 12, 13)  And I'm not confident that users know
+> how to interpret these controls.  Please elaborate, maybe with some
+> examples.
+
+I could use some better ideas here.  The intent is to be able to set
+both (1) the climate at the present time and (2) how the climate will
+evolve, if at all.  The defaults should be set to zero change, so that
+the glacier responds directly to the user's manipulation of the
+controls.  The user should also be able to, for example, go from the
+climate at the Last Glacial Maximum (a period about 12000 years ago)
+to the present-day conditions while watching the glacier's response.
+The 'change' options could be hidden under and 'advanced options'
+button, perhaps.  Or there could be a radio button that is set to
+either 'constant climate' or 'change climate to...', where the
+controls for climate change are greyed out if the first radio button
+is selected. I have been struggling with how to offer this feature,
+and could use any ideas (thanks to Sam M for what's there now).
+
+> Slide 14 bullet 8 says that the "ruler can be used to measure down-
+> slope distance".  How are we going to get the ruler aligned with the
+> slope? Or is the slope the same for the entire valley, in which case
+> we can set the ruler at a fixed slope? If you decide you want the
+> "change floor shape" feature, how will this affect the ruler?
+
+I anticipate the valley floor being a simple linear slope. The ruler,
+then, will only be measuring the distance down that slope.
+
+> Slide #20, regarding the toolbox... In addition to the Trash can, I
+> think we should also allow users to remove tools by dragging them back
+> to where they got them.
+
+Good idea.
+
+> Where did you get these images? If you didn't make them, which of them
+> have licensing issues? (I need to know which images I can safely lift
+> from the design document without violating copyrights.)
+> - thermometer
+> - snowfall gauge
+> - ice thickness tool
+> - trash can
+> - borehole drill
+
+Once the map view is changed (as per first point, above), there will
+be no proprietary images.  I drew everything from scratch except for
+the trashcan and the drill, which were taken from www.openclipart.org
+(and everything there is strictly under 'Public Domain').
+
+> How do I get rid of all instances of a particular tool? For example,
+> I've placed 20 marker flags and I want to remove them all.
+
+Hm, I don't know.  Any ideas from the group?
+
+> Describe what happens when the user resizes the simulation's window.
+> Typically, everything in the play area scales up or down, but I don't
+> think you want the typical behavior. Relevant questions: If the window
+> is resized, do you want the Toolbox to change size or  stay constant?
+> If the window is resized, do you want the Map view to change size or
+> stay constant?  If the entire Map view is visible at 1024x768, what do
+> we see when  the window is resized to 1600x768?  Does the Main view
+> change scale when the window is resized, or does  the scale remain
+> constant and the size of the Little Box in the Main  view change?
+
+After some discussion with Chris, the following solution seems
+reasonable. First, there will be no accomodations for a window size
+smaller than 1024x768; the view will just be clipped. For increased
+horizontal window size, the map-view will not change -- it will just
+stay in the middle of the screen with grey area on the left and right.
+The main view will show more of the valley when the window gets wider
+(this may lead to part of the glacier going off-screen below or above
+the view area, but the user will easily be able the pan the main view
+to see those parts if s/he so desires). Increased window height will
+only show more empty underground earth or empty sky.
+

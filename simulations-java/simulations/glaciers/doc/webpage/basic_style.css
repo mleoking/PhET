@@ -1,0 +1,7 @@
+a:link    {text-decoration: none; color: #000099; }      /* new link      */
+a:visited {text-decoration: none; color: #800080; }      /* visited link  */
+a:hover   {text-decoration: underline; color: #505050; } /* over link     */
+a:active  {color: #A52A2A; }                             /* clicking link */
+.comment {color: rgb(0,170,0); font-weight: bold}
+.indent1  { margin-left: 50px; }
+.indent2  { margin-left: 100px; }

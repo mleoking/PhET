@@ -1,0 +1,28 @@
+Current Learning goals:
+
+1. Describe how glaciers form, grow, and shrink -- specify what environmental
+   conditions lead to each.
+    a. Identify where net ablation (~melting>snowfall) and accumulation
+       (~melting<snowfall) occur in relation to the Equilibrium Line Altitude
+       (ELA).
+    b. Explain or illustrate how glaciers form. 
+    c. Describe the most important controls on mass balance in a glacier.
+    d. Analyze the relationship between temperature and the likelihood of snow
+       vs. rain at given parts of a glacier.
+2. Explain how ice moves within a glacier (describe and illustrate the mass
+   balance of a glacier).
+    a. Describe and illustrate how glacial ice moves.
+    b. Qualitatively describe the relationship between the speed of ice flow
+       and ice thickness, and predict where ice is oldest.
+3. Describe why and how valley glaciers "advance" or "retreat". 
+    a. Compare and contrast motion of ice when a glacier is (1) at equilibrium,
+       (2) advancing, and (3) retreating.
+    b. Compare and contrast climatic conditions leading to glacial (1)
+       equilibrium, (2) advance, and (3) retreat. 
+4. Determine how multiple advance-retreat cycles affect the record of glacial
+   moraines (end moraines).
+    a. Describe how end moraines form.
+    b. Discuss how more recent, large advances can impact moraines left by
+       older, smaller advances.
+    c. Given an illustration of 3-4 end moraines, determine the most likely
+       order of their formation and justify your ordering.
