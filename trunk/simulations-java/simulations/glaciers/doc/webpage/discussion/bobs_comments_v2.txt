@@ -1,0 +1,47 @@
+######################################################
+# Mon Nov 5 2007
+
+######################################################
+# comments from Bob Anderson
+
+Andrea and I spoke to Bob Anderson today for some much-needed
+glaciologist input.
+
+Bob was keen on getting some more controls for climate change.  We now
+think we will include an option for the climate to follow the Earth's
+historical climate of the last 750,000 years. We'd also like a
+slightly more sophisticated climate change control (allowing, for
+example, the climate to change and then remain constant, and for a
+periodic climate). The large number of controls mean we should
+probably go to a two-tab format, with the climate change controls
+under an 'advanced' tab.
+
+Bob also would like the sim to provide plots of various quantities
+versus time, such as glacier length, a climate proxy (perhaps the
+equilibrium line altitude), and temperature.
+
+Bob considered erosion-modelling to be too problematic to implement in
+the sim.  However, the valley floor should at least have some
+parabolic shape.
+
+######################################################
+# notes
+
+- physics model needs short timestep (eg, 1 week)
+- climate controls:
+    - no altitude setting (would have to include tidewater glaciers)
+    - want epochs LGM, modern, future (ICCC, ~2050)
+    - follow dO18 record (750 kyr record)
+    - have pure periodic climate
+    - ramp control with end to see (measure?) time delay of glacier response to
+      climate
+- show plots (vs time) of 
+    - climate proxy (eg ELA or dO18)
+    - glacier length (with morain deposits?)
+    - temp
+- top of glacier should have 'feather' shape
+- valley floor shape
+    - typical erosion rate is mm/yr, but can be 10^4 times greater under glacier
+    - let's have a realistic (parabolic) floor shape
+    - let's not have erosion changing the floor shape
+

@@ -1,0 +1,130 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+    <title>Glacier Sim Design</title>
+    <link rel="stylesheet" type="text/css" href="basic_style.css" />
+    <link rel="shortcut icon" href="glacier_icon.ico" />
+</head>
+<body>
+
+<a href="http://phet.colorado.edu">
+<img SRC="http://phet.colorado.edu/new/images/phet-logo.gif"  align=right ></a>
+
+<h1> Glacier Sim Design </h1> 
+
+<!-- #################################################################### -->
+<hr/> 
+
+<!-- #################################################################### -->
+<h2> Design Document </h2>
+    <blockquote>
+        <a href="http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/doc/glaciers-design.pdf?view=log">SVN directory</a> 
+    </blockquote>
+    <ul>
+    <!-- ######################### -->
+        <li> Version 3 <br/>
+            Important changes include use of two tabs, and changed climate
+            controls.
+            <ul>
+                <li> <a href="design_documents/glacier_sim_design_v3.pdf">glacier_sim_design_v3.pdf</a> (pdf - recommended) </li>
+                <li> <a href="design_documents/glacier_sim_design_v3.odt">glacier_sim_design_v3.odt</a> (OpenOffice document -- recommended) </li>
+                <li> <a href="design_documents/glacier_sim_design_v3.doc">glacier_sim_design_v3.doc</a> (Microsoft Word document -- may have formatting irregularities)
+                </li>
+            </ul> </li>
+
+    <!-- ######################### -->
+        <li> Version 2 <br/>
+            Many changes, primarily in the new 3-panel interface for the
+            zoom-view and the time-dependent climate controls.
+            <ul>
+                <li> <a href="design_documents/glacier_sim_design_v2.pdf">glacier_sim_design_v2.pdf</a> (pdf) </li>
+                <li> <a href="design_documents/glacier_sim_design_v2.odp">glacier_sim_design_v2.odp</a> (OpenOffice Presentation) </li>
+                <li> <a href="design_documents/glacier_sim_design_v2.ppt">glacier_sim_design_v2.ppt</a> (Microsoft PowerPoint)
+                </li>
+            </ul> </li>
+
+    <!-- ######################### -->
+        <li> Version 1 
+            <ul>
+                <li> <a href="design_documents/glacier_sim_design_v1.pdf">glacier_sim_design_v1.pdf</a> (pdf) </li>
+            </ul>
+        </li>
+    </ul>
+
+<!-- #################################################################### -->
+<h2> Discussion </h2>
+    <blockquote> <a href="http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/doc/glaciers-discussion.doc?view=log">SVN directory</a> </blockquote>
+
+    <ul>
+
+        <li> Bob Anderson's comments on version 2 (Nov 5, 2007):
+                <a href="discussion/bobs_comments_v2.txt">bobs_comments_v2.txt</a> </li>
+
+        <li> Chris' comments on version 2 (Oct 31, 2007):
+                <a href="discussion/comments_v2.txt">comments_v2.txt</a> </li>
+
+        <li> Andrea's comments on version 1 (Oct 25, 2007):
+                <a href="discussion/glaciers_discussion_10_25_AB.doc">glaciers_discussion_10_25_AB.doc</a> </li> 
+
+        <li> Chris' comments on version 1 (Oct 24, 2007):
+            <a href="discussion/glaciers_discussion.doc">glaciers_discussion.doc</a> </li> 
+
+        </ul> 
+
+<!-- #################################################################### -->
+<h2> Existing Glacier Visualizations </h2>
+    <ul>
+        
+        <li> Flash animation of glacier in steady state, advance and reatreat: <br/>
+        <a href="http://www2.wwnorton.com/college/geo/egeo/flash/18_1.swf">http://www2.wwnorton.com/college/geo/egeo/flash/18_1.swf</a> </li>
+
+        <li> Extensive flash slide show (with animations) for an introduction to glaciology -- basic glacier vocabulary, dymanics, environment, etc:<br/>
+        <a href="http://www.uky.edu/AS/Geology/howell/goodies/elearning/module13swf.swf">http://www.uky.edu/AS/Geology/howell/goodies/elearning/module13swf.swf</a> </li>
+
+        <li> Flash animation of glacier growth and retreat:<br/>
+        <a href="http://highered.mcgraw-hill.com/olcweb/cgi/pluginpop.cgi?it=swf::640::480::/sites/dl/free/0072402466/30425/12_06.swf::Fig.%2012.6%20-%20Glacier%20Basics">http://highered.mcgraw-hill.com/olcweb/cgi/pluginpop.cgi?it=swf::640::480::/sites/dl/free/0072402466/30425/12_06.swf::Fig.%2012.6%20-%20Glacier%20Basics</a> </li>
+
+        <li> Flash animation of ice flow (borehole deformation):<br/>
+        <a href="http://highered.mcgraw-hill.com/olcweb/cgi/pluginpop.cgi?it=swf::640::480::/sites/dl/free/0072402466/30425/12_08.swf::Fig.%2012.8%20-%20Ice%20Flow%20in%20a%20Glacier">http://highered.mcgraw-hill.com/olcweb/cgi/pluginpop.cgi?it=swf::640::480::/sites/dl/free/0072402466/30425/12_08.swf::Fig.%2012.8%20-%20Ice%20Flow%20in%20a%20Glacier</a> </li>
+
+    </ul>
+
+<!-- #################################################################### -->
+<h2> Glaciology Papers </h2>
+    <ul>
+
+        <li> <a href="glaciology_papers/KesslerAnderdon_etal_2006.pdf">Modeling topographic and climatic control of east-west asymmetry in Sierra Nevada glacier length during the Last Glacial Maximum</a> (Mark Kessler, et al., Journal of Geophysical Research, 2006) This paper has models for the ice velocity and precipitation.  </li>
+
+        <li> <a href="glaciology_papers/BobAnderson_etal_2006.pdf">Features of glacial valley profiles simply explained</a> (Bob Anderson, et al., Journal of Geophysical Research, 2006) This paper describes the equilibrium shape of glaciers.  </li>
+
+        <li> <a href="glaciology_papers/Chapter_7_glacier_t&f_aug07.pdf">Chapter 7 of Bob Anderson's Geology Book</a> 
+        This is a good resource for some of the basic ideas in glaciology. It has models for the viscous deformation of ice (part of the ice velocity model).  </li>
+
+    </ul>
+
+<!-- #################################################################### -->
+<h2> Supplemental Stuff </h2>
+
+<ul> 
+
+    <li> Glacier Sim mockup -- a vector illustration (svg) created with 
+              <a href="http://www.inkscape.org/">Inkscape</a>
+        <ul>
+            <li> <a href="pics/mockup_v3.svg">mockup_v3.svg</a> </li>
+            <li> <a href="pics/mockup_v2.svg">mockup_v2.svg</a> </li>
+        </ul> </li>
+
+        <li> Physical Model (describes the physics behind the sim):
+         <a href="design_documents/glacier_model.pdf">glacier_model.pdf</a> </li>
+
+</ul>
+
+<!-- #################################################################### -->
+<hr/>
+<address>
+Last modified:
+Mon Dec 17 16:48:05 MST 2007
+</address>
+
+</body>
+</html>
