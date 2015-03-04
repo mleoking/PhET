@@ -21,6 +21,7 @@ Papers include:
 
 The files in this directory are:
 
+webpage/ : a deep copy of http://www.colorado.edu/physics/phet/dev/glaciers/webpage/
 glaciers-model.pdf : model description, may be out of date (don't know where the editable version of this is)
 model.txt : pseudo code model implementation, used as the basis of the Java implementation, kept in sync with Java implementation
 glaciers-design.pdf : first design doc, probably out of date
