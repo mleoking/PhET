@@ -1,0 +1,58 @@
+PhET Progress Report, J. Blanco, 3-5-2015
+
+PhET Progress Report
+John Blanco
+March 5th, 2015
+
+Time period covered: February 26th through March 4th.
+
+States of Matter HTML5 Suite - 14.0 hrs
+
+o  Lots of ticket reviews, updates, and discussions.
+o  Published several version, tested, logged issues.
+o  Currently at 71 open issues between all three repositories (SOM, SOMB, AI), 24 currently assigned to Actual Concepts.
+
+Neuron HTML5 - 4.0 hrs
+
+o  Worked on making WebGL portions work on Scenery 0.2, currently close to having texture-based rendering working.
+
+Molecules and Light HTML5 - 2.0 hrs
+
+o  Met with Jesse, worked on profiling and optimization.
+
+Energy Forms and Changes HTML5 - 0.5 hrs
+
+o  Met with Jesse, discussed the general approach, showed him the Connexions/OpenStax repository.
+
+Gas Properties HTML5 - 1.5 hrs
+
+o  Discussed in design meeting.
+o  Discussed piston idea with Amy.
+
+Build an Atom HTML5 - 0.5 hrs
+
+o  Fixed an issue with dependencies.
+
+Common Code - 0.5 hrs
+
+o  Fixed a minor issue with dependencies in griddle.
+o  Commented on framework issue related to screen initialization.
+
+Translation - 2.0 hrs
+
+o  Weekly meeting.
+o  Worked on architecture and use cases, documented in the Google doc, see https://docs.google.com/document/d/1YzO_sCKg_ndXqMBMuiVXj_H1So4FUGhZ0bTaIJFMpPg/edit?usp=sharing.
+
+Developer Meetings - 2.5 hrs
+
+o  Developer meeting (x2).
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o  Took Fri Feb 27th as a vacation day (and the skiing was awesome).

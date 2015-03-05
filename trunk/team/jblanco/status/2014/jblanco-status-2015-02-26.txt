@@ -1,0 +1,62 @@
+PhET Progress Report, J. Blanco, 2-26-2015
+
+PhET Progress Report
+John Blanco
+February 26th, 2015
+
+Time period covered: February 19th through February 25th.
+
+Sonification - 11.5 hrs
+
+o  Fixed up branches of Faraday's Law and Beer's Law/Concentration to be compatible with changes made to libraries.
+o  Added more realistic sounds to Concentration for water running, solution injection, shaker.
+o  Added tones for solute selection in Concentration.
+o  Created a web page with descriptions of and links to a number of the sonfication prototypes, see http://www.colorado.edu/physics/phet/dev/sonification/sonification-links.html.
+o  This effort is on the back burner now while we await funding and more information from collaborators.
+
+States of Matter HTML5 - 8.0 hrs
+
+o  Published current versions of SOM, SOMB, and AI.
+o  Created tickets and assigned designers to review versions against design spec.
+o  Tested latest versions, logged several tickets.
+o  Set up code review ticket.
+
+Neuron HTML5 - 5.0 hrs
+
+o  Worked on making WebGL portions work on Scenery 0.2, reached the point where particles are shown as simple shapes with correct colors and opacities.
+
+Molecules and Light HTML5 - 1.0 hrs
+
+o  Met with Jesse, discussed several issues, talked about process and plan for release.
+
+Gas Properties HTML5 - 1.0 hrs
+
+o  Discussed in design meeting.
+
+Common Code - 3.0 hrs
+
+o  Fixed an issue with controlling strokes of buttons, see https://github.com/phetsims/sun/issues/157.
+o  Started looking at moving press-and-hold behavior into common code for push buttons, see https://github.com/phetsims/scenery-phet/issues/71.
+o  Discussed issue involving the check out of branches which is a bit incompatible with some recent code reorganization, see https://github.com/phetsims/chipper/issues/109.
+
+Translation - 1.0 hrs
+
+o  Weekly meeting.
+
+Developer Meetings - 2.5 hrs
+
+o  Developer meeting (x2).
+
+Customer Support - 2.0 hrs
+
+o  Figured out customer-reported issue related to obtaining stable code, see https://github.com/phetsims/balancing-act/issues/40 for details.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be out tomorrow, Fri Feb 27th, for vacation.
