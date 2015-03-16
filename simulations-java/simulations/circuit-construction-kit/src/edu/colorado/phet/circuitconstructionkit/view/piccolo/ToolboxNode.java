@@ -261,8 +261,6 @@ public class ToolboxNode extends PhetPNode {
         private Battery createBattery() {
             double L = 1.6 * batteryScale;
 
-            //For Fred Goldberg, provide a version that uses default battery internal resistance as 1.0 Ohms, in July 2012
-            //Will probably be removed soon
             return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 1.8, 1E-4, true );
         }
     }
