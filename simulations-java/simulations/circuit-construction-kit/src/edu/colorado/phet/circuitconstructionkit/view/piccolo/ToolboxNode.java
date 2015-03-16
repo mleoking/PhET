@@ -45,8 +45,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.circuitconstructionkit.CircuitConstructionKitDCGoldbergApplication.GOLDBERG;
-
 /**
  * User: Sam Reid
  * Date: Sep 14, 2006
@@ -265,7 +263,7 @@ public class ToolboxNode extends PhetPNode {
 
             //For Fred Goldberg, provide a version that uses default battery internal resistance as 1.0 Ohms, in July 2012
             //Will probably be removed soon
-            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 1.8, GOLDBERG ? 1.0 : 1E-4, true );
+            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 1.8, 1E-4, true );
         }
     }
 
