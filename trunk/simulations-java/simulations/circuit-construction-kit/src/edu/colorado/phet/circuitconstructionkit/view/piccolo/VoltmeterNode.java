@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 
 import javax.swing.*;
 
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -90,6 +91,7 @@ public class VoltmeterNode extends PhetPNode {
         private PText textNode;
         public static DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private final String UNKNOWN_VOLTS = CCKResources.getString( "VoltmeterGraphic.UnknownVolts" );
+        private double randomness = 0;
 
         public UnitNode( final VoltmeterModel voltmeterModel ) {
             this.voltmeterModel = voltmeterModel;
@@ -117,15 +119,26 @@ public class VoltmeterNode extends PhetPNode {
             } );
             addInputEventListener( new CursorHandler() );
             update();
+
+            CCKModule.fluctuateRandomly( new Runnable() {
+                @Override public void run() {
+                    randomness = CCKModule.random.nextGaussian() * 0.1;
+                    update();
+                }
+            } );
         }
 
         private void update() {
             setOffset( voltmeterModel.getUnitModel().getLocation() );
-            if ( Double.isNaN( voltmeterModel.getVoltage() ) ) {
+            double voltage = voltmeterModel.getVoltage();
+            if ( Double.isNaN( voltage ) ) {
                 textNode.setText( UNKNOWN_VOLTS );
             }
             else {
-                textNode.setText( decimalFormat.format( voltmeterModel.getVoltage() ) + " V" );
+                if ( CCKModule.randomFluctuations ) {
+                    voltage = voltage * ( 1 + randomness );
+                }
+                textNode.setText( decimalFormat.format( voltage ) + " V" );
             }
         }
     }
