@@ -16,6 +16,7 @@ public class CircuitConstructionKitACVirtualLabApplication extends CircuitConstr
     }
 
     public static void main( String[] args ) {
+        CircuitConstructionKitDCApplication.args = args;
         new PhetApplicationLauncher().launchSim( new CircuitConstructionKitApplicationConfig( args, "circuit-construction-kit", "circuit-construction-kit-ac-virtual-lab" ), new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new CircuitConstructionKitACVirtualLabApplication( config );
