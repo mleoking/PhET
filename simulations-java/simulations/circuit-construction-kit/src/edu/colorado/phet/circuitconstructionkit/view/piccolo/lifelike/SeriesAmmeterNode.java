@@ -46,7 +46,6 @@ public class SeriesAmmeterNode extends ComponentNode {
     private Font font = new PhetFont( Font.BOLD, 17 );
     private Shape shape;
     private String text = CCKResources.getString( "SeriesAmmeterGraphic.Ammeter" );
-    private String fixedMessage;
     private SimpleObserver simpleObserver;
     private CircuitSolutionListener circuitSolutionListener;
     private int numWindows = 3;
@@ -58,6 +57,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private PText textGraphic;
     private Area area;
     private final DelayedRunner runner = new DelayedRunner();
+    private double randomness = 0;
 
     public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, final CCKModule module ) {
         super( module.getCCKModel(), component, parent, module );
@@ -70,13 +70,29 @@ public class SeriesAmmeterNode extends ComponentNode {
             }
         };
         component.addObserver( simpleObserver );
-        circuitSolutionListener = new CircuitSolutionListener() {
-            public void circuitSolverFinished() {
-                String form = DF.format( Math.abs( component.getCurrent() ) );
+
+        final Runnable update = new Runnable() {
+            @Override public void run() {
+                double current = component.getCurrent();
+                if ( CCKModule.randomFluctuations ) {
+                    current = current * ( 1 + randomness );
+                }
+                String form = DF.format( Math.abs( current ) );
                 text = "" + form + " " + CCKResources.getString( "SeriesAmmeterGraphic.Amps" );
                 changed();
             }
         };
+        circuitSolutionListener = new CircuitSolutionListener() {
+            public void circuitSolverFinished() {
+                update.run();
+            }
+        };
+        CCKModule.fluctuateRandomly( new Runnable() {
+            @Override public void run() {
+                randomness = CCKModule.random.nextGaussian() * 0.1;
+                update.run();
+            }
+        } );
         module.getCCKModel().getCircuitSolver().addSolutionListener( circuitSolutionListener );
         blackGraphic = new PhetPPath( new Area(), stroke, Color.black );
 
@@ -148,9 +164,6 @@ public class SeriesAmmeterNode extends ComponentNode {
         textLoc = dir.getInstanceOfMagnitude( 2 * SCALE ).getDestination( textLoc );
 
         String msg = text;
-        if ( fixedMessage != null ) {
-            msg = fixedMessage;
-        }
         textGraphic.setTransform( new AffineTransform() );
         textGraphic.setText( msg );
         textGraphic.scale( SCALE );
