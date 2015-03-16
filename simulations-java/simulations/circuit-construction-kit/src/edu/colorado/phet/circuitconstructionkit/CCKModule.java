@@ -2,9 +2,14 @@
 package edu.colorado.phet.circuitconstructionkit;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+
+import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.controls.CCKControlPanel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -33,6 +38,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 public class CCKModule extends PiccoloModule {
     public static Color BACKGROUND_COLOR = new Color( 100, 160, 255 );
     public static boolean createUnpickableCircuit = false;
+    public static boolean randomFluctuations = false;
+    public static final Random random = new Random();
     public final boolean blackBox;
     private CCKModel model;
     private CCKParameters cckParameters;
@@ -51,6 +58,8 @@ public class CCKModule extends PiccoloModule {
         //Show the black box, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3602
         this.blackBox = Arrays.asList( args ).contains( "stanford-black-box" );
         boolean blackBoxWithElectrons = Arrays.asList( args ).contains( "stanford-black-box-with-electrons" );
+
+        randomFluctuations = Arrays.asList( args ).contains( "randomFluctuations" );
 
         cckParameters = new CCKParameters( this, args, ac, virtualLab, blackBox, blackBoxWithElectrons );
         setModel( new BaseModel() );
@@ -271,5 +280,29 @@ public class CCKModule extends PiccoloModule {
     //Adds a listener that will be notified when this module is reset
     public void addResetListener( VoidFunction0 voidFunction0 ) {
         resetListeners.add( voidFunction0 );
+    }
+
+    // Methods to support random fluctuations, see #3682
+    public static double getTimeToNextRandomFluctuation() {
+        double maxDelay = 3000;
+        final double minDelay = 200;
+        final double range = ( maxDelay - minDelay );
+        return Math.random() * range + minDelay;
+    }
+
+    public static void fluctuateRandomly( final Runnable runnable ) {
+        if ( CCKModule.randomFluctuations ) {
+            final double[] timeToNextRandom = {CCKModule.getTimeToNextRandomFluctuation()};
+            final double[] lastRandomUpdateTime = {System.currentTimeMillis()};
+            new Timer( 100, new ActionListener() {
+                @Override public void actionPerformed( ActionEvent e ) {
+                    if ( System.currentTimeMillis() - lastRandomUpdateTime[0] > timeToNextRandom[0] ) {
+                        runnable.run();
+                        timeToNextRandom[0] = CCKModule.getTimeToNextRandomFluctuation();
+                        lastRandomUpdateTime[0] = System.currentTimeMillis();
+                    }
+                }
+            } ).start();
+        }
     }
 }

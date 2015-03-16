@@ -42,6 +42,7 @@ public class NonContactAmmeterNode extends PhetPNode {
     DelayedRunner dragRunner = new DelayedRunner();
     DelayedRunner valueRunner = new DelayedRunner();
     private boolean constructor = true;
+    private double randomness = 0;
 
     public NonContactAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
         this( new TargetReadoutToolNode(), panel, circuit, module );
@@ -133,6 +134,13 @@ public class NonContactAmmeterNode extends PhetPNode {
         } );
         update();
         constructor = false;
+
+        CCKModule.fluctuateRandomly( new Runnable() {
+            @Override public void run() {
+                randomness = CCKModule.random.nextGaussian() * 0.1;
+                update();
+            }
+        } );
     }
 
     public void update() {
@@ -146,6 +154,9 @@ public class NonContactAmmeterNode extends PhetPNode {
         Branch branch = circuit.getBranch( target );
         if ( branch != null && !branch.isFixed() ) {
             double current = branch.getCurrent();
+            if ( CCKModule.randomFluctuations ) {
+                current = current * ( 1 + randomness );
+            }
             DecimalFormat df = new DecimalFormat( "0.00" );
             String amps = df.format( Math.abs( current ) );
             targetReadoutToolNode.setText( amps + " " + CCKResources.getString( "VirtualAmmeter.Amps" ) );
