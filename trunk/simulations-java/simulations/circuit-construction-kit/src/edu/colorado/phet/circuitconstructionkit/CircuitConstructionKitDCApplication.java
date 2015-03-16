@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
  * Apr 12, 2007, 11:48:01 PM
  */
 public class CircuitConstructionKitDCApplication extends CircuitConstructionKitApplication {
-    private static String[] args;
+    public static String[] args;
 
     public CircuitConstructionKitDCApplication( PhetApplicationConfig config ) {
         super( config, false, false );
