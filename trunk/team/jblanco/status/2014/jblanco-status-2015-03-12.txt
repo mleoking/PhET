@@ -1,0 +1,65 @@
+PhET Progress Report, J. Blanco, 3-12-2015
+
+PhET Progress Report
+John Blanco
+March 12th, 2015
+
+Time period covered: March 5th through March 11th.
+
+States of Matter HTML5 Suite - 18.0 hrs
+
+o  Lots of ticket reviews, updates, and discussions.
+o  Published several versions, tested, logged issues.
+o  Refactored code so that the Atomic Interactions code is in the states-of-matter repository.
+o  Integrated new icons from Amy.
+o  Fixed issue with 'disembodied hand'
+o  Currently at 58 open issues between all three repositories (SOM, SOMB, AI), 13 currently assigned to Actual Concepts.
+
+Neuron HTML5 - 4.0 hrs
+
+o  Worked on making texture-based WebGL rendering for particles work on Scenery 0.2.  Texture based particles are now appearing.
+o  Updated colors to use the "color blind friendly" version of red.
+
+Molecules and Light HTML5 - 3.0 hrs
+
+o  Met with Jesse, worked on profiling and optimization, particularly on iPad.
+o  Logged a set of issues based on the testing done with Jesse.
+
+Charges and Fields - 1.5 hrs
+
+o  Worked with Martin on some code refactoring and optimization issues.
+
+Least Squares Regression - 2.5 hrs
+
+o  Brought Martin up to speed on the release process.
+o  Worked with Martin to create 1.0 branch and to set up the test matrix.
+
+Energy Forms and Changes HTML5 - 0.5 hrs
+
+o  Met with Jesse, discussed architecture and development plan.
+
+Isotopes and Atomic Mass HTML5 - 0.5 hrs
+
+o  Met with Jesse and discussed how James is doing.
+
+Translation - 3.0 hrs
+
+o  Weekly meeting.
+o  Worked with Aaron to set up some tasks in GitHub for he and Brian to make more progress on this effort.
+o  Evaluated and provided work on a utility for extracting list of used strings from published simulations.
+o  Worked on architecture and use cases.
+
+Developer Meetings - 2.5 hrs
+
+o  Developer meeting (x2).
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Worked with Oliver N to track down some issues that people were seeing with reporting of vacation and sick leave.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be out the week of Spring Break (March 23-27) and on April 3rd.

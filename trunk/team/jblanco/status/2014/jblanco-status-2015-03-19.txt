@@ -1,0 +1,84 @@
+PhET Progress Report, J. Blanco, 3-19-2015
+
+PhET Progress Report
+John Blanco
+March 19th, 2015
+
+Time period covered: March 12th through March 18th.
+
+Molecules and Light HTML5 - 18.0 hrs
+
+o  Met with Jonathan and Jesse to plan out next round of optimizations.
+o  Worked with Jesse and independently on various performance improvements.
+o  Tracked down where complex opacity tree was coming from (answer: RadioButtonGroup, but performance impact was negligible).
+o  Set up a task for gathering hard data on performance.
+o  Tracked down and resolved an issue where photons were getting inappropriate motion updates, see https://github.com/phetsims/molecules-and-light/issues/97.
+o  Added back the 'halo' effect, but removed opacity for better performance.
+o  Worked with Jonathan on a "trick" for reducing time to create the chirp node, reduced iPad 3 load time by ~10 sec.
+o  Reviewed performance with Ariel.
+o  Various other issue resolution and code cleanup.
+
+States of Matter HTML5 Suite - 2.0 hrs
+
+o  Fixed issue with color of Oxygen.
+o  Worked in icons with Amy.
+o  Published new versions for testing.
+o  Started on code review.
+
+Neuron HTML5 - 2.0 hrs
+
+o  Got transparency working on rendered textures.
+o  Experimented with different texture sizes.
+
+Least Squares Regression - 1.0 hrs
+
+o  Helped Martin to create and merge branches in order to test some performance options.
+
+Energy Forms and Changes HTML5 - 0.5 hrs
+
+o  Met with Jesse, discussed progress.
+
+Common Code - 2.0 hrs
+
+o  Made the content of common buttons non-pickable to reduce hit testing and thus increase performance.
+o  Made some edits to the readme.md file for all sims.
+
+Translation - 2.0 hrs
+
+o  Weekly meeting.
+o  Responded to question about using MongoDB for sim data - we've decided to keep it simple and use a flat file for now.
+o  Refined requirements and added implementation decisions and diagrams to the document, see https://docs.google.com/document/d/1YzO_sCKg_ndXqMBMuiVXj_H1So4FUGhZ0bTaIJFMpPg/edit?usp=sharing.
+
+Data Collection - 1.5 hrs
+
+o  Reviewed the instrumentation of Faraday's Law with Sam.
+o  Discussed approach for setting IDs with Sam.
+
+Project Documentation - 1.5 hrs
+
+o  Changed the example sim used in the PhET Development Overview document to be Area Builder instead of Acid Base Solutions, since the team felt it would be a better example.
+o  Consolidated the Google Doc code review checklist with the one in GitHub.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Customer Support - 1.0 hrs
+
+o  Helped a Linux user in China get set up and running.
+o  Worked with Oliver to start some improvements to the documentation for using the installer on Linux.
+
+Environment - 1.0 hrs
+
+o  Worked on an issue where the latest version of IntelliJ won't open the SVN project.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Attended meeting on changes to CU's retirement plan.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be out the week of Spring Break (March 23-27) and on April 3rd.
