@@ -1,0 +1,57 @@
+PhET Progress Report, J. Blanco, 4-2-2015
+
+PhET Progress Report
+John Blanco
+April 2nd, 2015
+
+Time period covered: March 19th through April 1st.  This is a two week period due to vacation.
+
+Molecules and Light HTML5 - 10.0 hrs
+
+o  Tried alternative approaches for the 'glow' effect, tested performance on iPads, ultimately found a combination with acceptable performance.
+o  Used mipmapping (better image scaling) for the photon emitter selection icons.
+o  Worked with Jonathan on an issue where photons disappear when iPad is rotated.
+o  Fixed an issue where the spectrum diagram could get into a state where it couldn't be made visible.
+o  Trained Jesse on the release candidate process, published first release candidate for this sim.
+
+States of Matter HTML5 Suite - 9.0 hrs
+
+o  Worked on issue related to scaling of text for i18n.
+o  Reviewed issues and updated, reassigned, and closed as appropriate.
+o  Ran various tests, including fuzz testing.
+o  Code review and issue logging.
+
+Common Code - 2.0 hrs
+
+o  Cleaned up obsolete branches that were brought to the developers' attention by Chris M.
+
+Translation - 1.5 hrs
+
+o  Weekly meeting.
+o  Logged notes and requirements from the meeting.
+
+Data Collection - 7.0 hrs
+
+o  Participated in meeting with ETS to discuss plan and requirements.
+o  Started regular meetings with Sam to discuss design and implementation, and to work on instrumenting the simulations.
+o  Discussions with Sam and Chris on how to associate data and identifiers.
+o  Spent some time looking at code, reading through email archive in an effort to ramp up on this.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Environment - 1.0 hrs
+
+o  Worked on an issue where the latest version of IntelliJ won't open the SVN project.  Still not resolved.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o  Weekly status report.
+o  Team breakfast at The Buff (thanks!).
+o  Attended meeting on changes to CU's retirement plan.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 40.0 hrs
+
+o  Took March 23-26 as vacation, March 27th was a university holiday..
