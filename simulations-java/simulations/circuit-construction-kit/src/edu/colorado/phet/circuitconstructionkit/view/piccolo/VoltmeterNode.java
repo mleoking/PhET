@@ -14,6 +14,7 @@ import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
+import edu.colorado.phet.circuitconstructionkit.model.NoiseGenerator;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
@@ -49,6 +50,8 @@ public class VoltmeterNode extends PhetPNode {
     private CableNode redCable;
     private CableNode blackCable;
     private static final double SCALE = 1.0 / 80.0 * 1.2 * 0.725;
+    private double noise = 0;
+    private boolean noiseDirty = true;
 
     public VoltmeterNode( final VoltmeterModel voltmeterModel ) {
         this.voltmeterModel = voltmeterModel;
@@ -92,6 +95,8 @@ public class VoltmeterNode extends PhetPNode {
         public static DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private final String UNKNOWN_VOLTS = CCKResources.getString( "VoltmeterGraphic.UnknownVolts" );
         private double randomness = 0;
+        private double noise = 0;
+        private boolean noiseDirty = true;
 
         public UnitNode( final VoltmeterModel voltmeterModel ) {
             this.voltmeterModel = voltmeterModel;
@@ -122,7 +127,7 @@ public class VoltmeterNode extends PhetPNode {
 
             CCKModule.fluctuateRandomly( new Runnable() {
                 @Override public void run() {
-                    randomness = CCKModule.random.nextGaussian() * 0.1;
+                    noiseDirty = true;
                     update();
                 }
             } );
@@ -135,8 +140,13 @@ public class VoltmeterNode extends PhetPNode {
                 textNode.setText( UNKNOWN_VOLTS );
             }
             else {
+                if ( CCKModule.randomFluctuations && noiseDirty ) {
+                    double readout = NoiseGenerator.getReadout( voltage );
+                    noise = readout - voltage;
+                    noiseDirty = false;
+                }
                 if ( CCKModule.randomFluctuations ) {
-                    voltage = voltage * ( 1 + randomness );
+                    voltage = voltage + noise;
                 }
                 textNode.setText( decimalFormat.format( voltage ) + " V" );
             }

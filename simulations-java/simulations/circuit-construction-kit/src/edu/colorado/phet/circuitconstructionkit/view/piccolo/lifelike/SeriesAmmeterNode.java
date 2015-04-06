@@ -12,6 +12,7 @@ import javax.swing.*;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
+import edu.colorado.phet.circuitconstructionkit.model.NoiseGenerator;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
@@ -58,6 +59,8 @@ public class SeriesAmmeterNode extends ComponentNode {
     private Area area;
     private final DelayedRunner runner = new DelayedRunner();
     private double randomness = 0;
+    private boolean noiseDirty = true;
+    private double noise = 0;
 
     public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, final CCKModule module ) {
         super( module.getCCKModel(), component, parent, module );
@@ -74,8 +77,13 @@ public class SeriesAmmeterNode extends ComponentNode {
         final Runnable update = new Runnable() {
             @Override public void run() {
                 double current = component.getCurrent();
+                if ( CCKModule.randomFluctuations && noiseDirty ) {
+                    double readout = NoiseGenerator.getReadout( current );
+                    noise = readout - current;
+                    noiseDirty = false;
+                }
                 if ( CCKModule.randomFluctuations ) {
-                    current = current * ( 1 + randomness );
+                    current = current + noise;
                 }
                 String form = DF.format( Math.abs( current ) );
                 text = "" + form + " " + CCKResources.getString( "SeriesAmmeterGraphic.Amps" );
@@ -89,7 +97,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         };
         CCKModule.fluctuateRandomly( new Runnable() {
             @Override public void run() {
-                randomness = CCKModule.random.nextGaussian() * 0.1;
+                noiseDirty = true;
                 update.run();
             }
         } );
