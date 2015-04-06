@@ -1,14 +1,15 @@
-package edu.colorado.phet.circuitconstructionkit.model.tests;
+package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.util.Random;
 
 /**
+ * 
  * Created by samreid on 4/2/15.
  */
-public class TestNoise {
+public class NoiseGenerator {
     static final Random random = new Random();
 
-    static double getReadout( double trueVoltage ) {
+    public static double getReadout( double trueVoltage ) {
 
         double maxVoltage = 10.0; // This parameter is freely chosen.
 
