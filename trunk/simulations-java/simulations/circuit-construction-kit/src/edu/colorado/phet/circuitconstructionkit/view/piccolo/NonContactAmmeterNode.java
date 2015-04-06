@@ -11,6 +11,7 @@ import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.circuitconstructionkit.model.NoiseGenerator;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -42,7 +43,8 @@ public class NonContactAmmeterNode extends PhetPNode {
     DelayedRunner dragRunner = new DelayedRunner();
     DelayedRunner valueRunner = new DelayedRunner();
     private boolean constructor = true;
-    private double randomness = 0;
+    private boolean noiseDirty = true;
+    private double noise = 0.0;
 
     public NonContactAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
         this( new TargetReadoutToolNode(), panel, circuit, module );
@@ -137,7 +139,7 @@ public class NonContactAmmeterNode extends PhetPNode {
 
         CCKModule.fluctuateRandomly( new Runnable() {
             @Override public void run() {
-                randomness = CCKModule.random.nextGaussian() * 0.1;
+                noiseDirty = true;
                 update();
             }
         } );
@@ -154,8 +156,13 @@ public class NonContactAmmeterNode extends PhetPNode {
         Branch branch = circuit.getBranch( target );
         if ( branch != null && !branch.isFixed() ) {
             double current = branch.getCurrent();
+            if ( CCKModule.randomFluctuations && noiseDirty ) {
+                double readout = NoiseGenerator.getReadout( current );
+                noise = readout - current;
+                noiseDirty = false;
+            }
             if ( CCKModule.randomFluctuations ) {
-                current = current * ( 1 + randomness );
+                current = current + noise;
             }
             DecimalFormat df = new DecimalFormat( "0.00" );
             String amps = df.format( Math.abs( current ) );
