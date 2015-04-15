@@ -1,0 +1,55 @@
+PhET Progress Report, J. Blanco, 4-8-2015
+
+PhET Progress Report
+John Blanco
+April 8th, 2015
+
+Time period covered: April 2nd through April 8th.
+
+Molecules and Light HTML5 - 4.0 hrs
+
+o  Resolved an issue related to the interaction between rotation and photon emission.
+o  Trained Jesse on the publication procedure.
+o  Published the sim (with Jesse).
+
+States of Matter HTML5 Suite - 9.0 hrs
+
+o  Code review and issue logging.
+
+Charges and Fields - 2.0 hrs
+
+o  Helped Martin with some issues relating to the control panel from which the tools can be added.
+
+Data Collection - 8.0 hrs
+
+o  Collaborated with Sam on instrumenting BAA (mostly as an exercise),
+o  Met (twice) with Kathy and Sam to work on clarifying our understanding of the deliverables and deadlines for this effort.
+o  Reviewed ETS's document that describes their priorities.
+o  Worked with Sam on integration with the "Metacog Wrapper".
+o  Worked with Sam on integration with the "Metacog Wrapper".
+o  Attended meeting with Sam and Hiroki, the guy from Berkeley who is integrating data collection into their "Wise" system.
+
+Common Code - 1.0 hrs
+
+o  Did a bit more branch cleanup.
+o  Chimed in on an issue about consistent handling of disabled states in UI components.
+
+Developer Meetings - 2.5 hrs
+
+o  Developer meeting (x2).
+
+Environment - 2.0 hrs
+
+o  Updated sim_deployment.md, which lists the steps for deploying/publishing sims.
+o  Worked on an issue where some headsets are not working well for remote meetings (Skype and Zoom).
+o  Logged issue with OIT to get Jesse set up with accounts on figaro and figaro-dev.
+
+Meetings, Email, and Other Administrative Overhead - 3.5 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o  Was out on Friday, April 3rd.

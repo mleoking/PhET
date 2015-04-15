@@ -1,0 +1,56 @@
+PhET Progress Report, J. Blanco, 4-15-2015
+
+PhET Progress Report
+John Blanco
+April 15th, 2015
+
+Time period covered: April 9th through April 15th.
+
+Data Collection (together.js) - 14.0 hrs
+
+o  Collaborated with Sam on a number of implementation details, refactorings, issue fixes.
+o  Participated in design discussions with SR and JO.
+o  Attended meeting with ETS to discuss progress.
+o  Implemented animation sequence in the simplified concentration sim "beaker".
+o  Added tweaker buttons and updated layout of "beaker".
+o  Modified readouts and sim internals to use integer values for solute and solvent targets.
+
+States of Matter HTML5 Suite - 13.0 hrs
+
+o  Code review and issue logging.
+o  Published version of Atomic Interactions for YYC to use in testing fixes.
+
+Gene Expression Basics - 1.0 hrs
+
+o  Set up repository and basic project structure.
+
+Molecules and Light - 1.0 hrs
+
+o  Trained Jesse on how to do a maintenance release, did a release to update credits.
+o  Added "published" version of readme file.
+
+Energy Forms and Changes - 0.5 hrs
+
+o  Discussed various questions with Jesse.
+
+Charges and Fields - 1.0 hrs
+
+o  Helped Martin with some issues relating to adding and removing charges.
+
+Translation - 3.0 hrs
+
+o  Put together rough plan for "minimal version".
+o  Weekly meeting, wrote up notes.
+o  Design and planning.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2).
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
