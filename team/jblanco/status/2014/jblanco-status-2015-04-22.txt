@@ -1,0 +1,51 @@
+PhET Progress Report, J. Blanco, 4-22-2015
+
+PhET Progress Report
+John Blanco
+April 22nd, 2015
+
+Time period covered: April 16th through April 22nd.
+
+Data Collection (together.js) - 25.0 hrs
+
+o  Collaborated with Sam on the following:
+   - Implemented events in together.js
+   - Published a demo for ETS
+   - Published a snapshot for Metacog that includes Faraday's Law and Concentration
+o  Met with ETS
+o  Met with Metacog, following up with examples of sim configuration and link to snapshot
+o  Beaker: Added concentration readout, including ability to change units.
+o  Beaker: Made controls disabled during trial animation.
+o  Worked on changing Together instrumentation over to new "Tandem" style in Concentration and Faraday's Law.
+
+States of Matter HTML5 Suite - 1.0 hrs
+
+o  Code review and issue logging.
+
+Energy Forms and Changes - 0.5 hrs
+
+o  Discussion with Jesse on moving StoveNode from SOM to common code for use in this sim, various other questions.
+
+Common Code - 1.0 hrs
+
+o  Discussed contentAppearanceStrategy with CM in support of mods to CheckBox.
+
+Translation - 2.0 hrs
+
+o  Worked with Aaron to set up next round of implementation tasks.
+
+Customer Support - 1.0 hr
+
+o  Responded to Swedish guy who is modifying Build an Atom, no response yet.
+
+Developer Meetings - 4.0 hrs
+
+o  Developer meeting (x2), including one with Kathy where data collection was discussed.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
