@@ -15,7 +15,8 @@ o  Implemented animation sequence in the simplified concentration sim "beaker".
 o  Added tweaker buttons and updated layout of "beaker".
 o  Modified readouts and sim internals to use integer values for solute and solvent targets.
 
-States of Matter HTML5 Suite - 13.0 hrs
+States of Matter HTML5 Suite -
+ 13.0 hrs
 
 o  Code review and issue logging.
 o  Published version of Atomic Interactions for YYC to use in testing fixes.
