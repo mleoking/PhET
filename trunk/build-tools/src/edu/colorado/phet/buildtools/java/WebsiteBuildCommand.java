@@ -148,6 +148,17 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-donation-banner-rotation.js" ) ) ).append( "\n" );
                 jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "expandable-text-v1.js" ) ) ).append( "\n" );
 
+                // this try catch block will be removed after merging the new sim pages into master.
+                // right now there are new js files on that branch but not on master
+                try {
+                    jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "jquery.lightbox_me.js" ) ) ).append( "\n" );
+                    jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-login-form.js" ) ) ).append( "\n" );
+                    jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "contribution-edit.js" ) ) ).append( "\n" );
+                }
+                catch( Exception e ) {
+                    System.out.println( "Exception throw when adding login form js" );
+                }
+
                 System.out.println( "compressing js" );
                 ToolErrorReporter reporter = new ToolErrorReporter( false );
                 JavaScriptCompressor jsCompressor = new JavaScriptCompressor( new StringReader( jsBuilder.toString() ), reporter );
