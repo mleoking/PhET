@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_ar_SA.xml created Sun Mar 01 11:07:52 GST 2015 using: resonance 1.01.00 (54775), translation-utility 2.17.00 (74235) ديس 17, 2014--><SimStrings>
+<string key="simSpeed" value="سرعة المحاكاة"/>
+<string key="sameFrequency" value="نفس التردد"/>
+<string key="sameSpring" value="نفس ثابت النابض k"/>
+<string key="slow" value="بطئ"/>
+<string key="mixedMAndK" value="مخلوط M و k"/>
+<string key="numberOfResonators" value="عدد النوابض ("/>
+<string key="kg" value="kg"/>
+<string key="pause" value="إيقاف مؤقت"/>
+<string key="amplitude" value="السعة"/>
+<string key="frequencyEqualsXHz" value="التردد={0}Hz"/>
+<string key="sloMo" value="حركة بطيئة"/>
+<string key="step" value="خطوة "/>
+<string key="cm" value="cm"/>
+<string key="driver" value="السائق"/>
+<string key="on" value="تشغيل"/>
+<string key="ruler" value="المسطرة"/>
+<string key="resonance.simTitle" value="الرنين الميكانيكي"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="ثابت النابض"/>
+<string key="frequency" value="التردد"/>
+<string key="resetAll" value="أعد الضبط للجميع"/>
+<string key="mass" value="كتلة"/>
+<string key="sameMass" value="نفس الكتلة m"/>
+<string key="resonator" value="النابض"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="الجاذبية"/>
+<string key="play" value="تشغيل"/>
+<string key="paused" value="تم الإيقاف"/>
+<string key="off" value="إيقاف"/>
+<string key="dampingConstant" value="ثابت التضاؤل"/>
+<string key="normal" value="طبيعي"/>
+<string key="selectPreset" value="اختر إعادة الضبط"/>
+</SimStrings>
