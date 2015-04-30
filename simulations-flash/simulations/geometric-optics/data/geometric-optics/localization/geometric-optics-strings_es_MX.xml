@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_es_MX.xml created Mon Apr 27 17:38:37 CDT 2015 using: geometric-optics 2.05.00 (52650), translation-utility 2.17.00 (74235) dic 16, 2014--><SimStrings>
+<string key="draggableScreen" value="Arrastre la pantalla"/>
+<string key="draggableLens" value="Arrastre la lente"/>
+<string key="screen" value="Pantalla"/>
+<string key="draggableRuler" value="Arrastre la regla"/>
+<string key="simTitle" value="Geometría óptica"/>
+<string key="showHelp" value="Muestra la ayuda"/>
+<string key="moveMe" value="Muéveme"/>
+<string key="showGuides" value="Muestra las guías"/>
+<string key="diameter" value="Diámetro (m)"/>
+<string key="ruler" value="Regla"/>
+<string key="focalPoint" value="Punto focal"/>
+<string key="curvatureRadius" value="Radio de curvatura (m)"/>
+<string key="changeObject" value="Cambiar objeto"/>
+<string key="principalRays" value="Rayo principal"/>
+<string key="marginalRays" value="Rayo marginal"/>
+<string key="virtualImage" value="Imágen virtual"/>
+<string key="noRays" value="Sin rayos"/>
+<string key="secondSource" value="2do Punto"/>
+<string key="hideHelp" value="Ocultar la ayuda"/>
+<string key="refractiveIndex" value="Índice de refracción"/>
+<string key="translation.credits" value="Julio César Perrotin Medina, Colegio de Bachilleres planel 8 Cuajimalpa, México, D.F."/>
+<string key="manyRays" value="Varios rayos"/>
+</SimStrings>
