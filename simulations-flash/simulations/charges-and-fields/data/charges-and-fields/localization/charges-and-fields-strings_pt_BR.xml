@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--charges-and-fields-strings_pt_BR.xml created Tue Dec 04 07:55:11 BRST 2012 using: charges-and-fields 2.04.00 (52655), translation-utility 2.14.00 (69024) Out 9, 2012-->
-<SimStrings>
+<!--charges-and-fields-strings_pt_BR.xml created Mon Apr 06 19:35:39 BRT 2015 using: charges-and-fields 2.04.00 (52655), translation-utility 2.17.00 (74235) Dez 16, 2014--><SimStrings>
 <string key="directionOnly" value="Apenas direção"/>
-<string key="grid" value="Grade"/>
-<string key="clearAll" value="Limpar tudo"/>
-<string key="simTitle" value="Taxas e Campos"/>
+<string key="grid" value="grade"/>
+<string key="clearAll" value="Limpar"/>
+<string key="simTitle" value="Cargas e Campos"/>
 <string key="distanceUnit" value="m"/>
-<string key="showNumbers" value="Mostrar números"/>
+<string key="showNumbers" value="Mostrar medidas"/>
 <string key="voltageUnit" value="V"/>
 <string key="oneMeter" value="1 metro"/>
-<string key="showEField" value="Mostrar campo - E"/>
+<string key="showEField" value="Ver C-EL"/>
 <string key="oneNanoC" value="1nC"/>
-<string key="showHiRes" value="Maior res. V"/>
-<string key="EFieldSensors" value="Sensores do campo - E"/>
+<string key="showHiRes" value="Resolução maior"/>
+<string key="EFieldSensors" value="Sensores do C-EL"/>
 <string key="eFieldUnit" value="V/m"/>
-<string key="clear" value="Limpar"/>
-<string key="plot" value="Plotar"/>
-<string key="equipotential" value="Equipotencial"/>
-<string key="angleUnit" value="deg"/>
-<string key="translation.credits" value="Renan Siqueira da Silva"/>
-<string key="showLoRes" value="Menor res. V"/>
-<string key="moreSpeedLessRes" value="Mais velocidade\menos res"/>
-<string key="tapeMeasure" value="Fita de medida"/>
-<string key="voltage" value="Voltagem"/>
+<string key="clear" value="ocultar"/>
+<string key="plot" value="mostrar"/>
+<string key="equipotential" value="equipotencial"/>
+<string key="angleUnit" value="º"/>
+<string key="translation.credits" value="Alexandre R. Soares"/>
+<string key="showLoRes" value="Resolução menor"/>
+<string key="moreSpeedLessRes" value="Rapidez x Qualidade"/>
+<string key="tapeMeasure" value="fita métrica"/>
+<string key="voltage" value="potencial elétrico"/>
 </SimStrings>
