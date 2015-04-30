@@ -1,4 +1,3 @@
-# 2.05.02 (74358) Apr 30, 2015
 4/30/15 #3690 republish with new code-signing certificate
 # 2.05.01 (74357) Apr 29, 2015
 4/29/15 #3690 update sponsor URL
