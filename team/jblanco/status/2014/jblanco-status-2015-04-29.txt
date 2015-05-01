@@ -1,0 +1,60 @@
+PhET Progress Report, J. Blanco, 4-30-2015
+
+PhET Progress Report
+John Blanco
+April 30th, 2015
+
+Time period covered: April 23rd through April 29th.
+
+Data Collection (together.js) - 15.5 hrs
+
+o  Worked on modifying build tools to add the preload files needed by together.js (finished by CM).
+o  Met with Metacog to review latest status and discuss next steps.
+o  Published latest version of Concentration and Faraday's Law with Metacog's wrapper.
+o  Worked on instrumenting Color Vision (with SR)
+o  Met with ETS to review latest status and discuss next steps.
+
+Beaker - 10.0 hrs
+
+o  Implemented a number of requested from ETS, including
+   - Beaker clears out after a trial when slider values changed
+   - Removed tick marks from beaker
+   - Decreased beaker volume
+o  Modified the wrapper to show trial results in a table
+o  Tested, modified, and got working in the "mirror test"
+o  Worked on removing unused code left over from Concentration.
+o  Set up a task for QA testing, trained QA tester on how to use.
+
+States of Matter HTML5 Suite - 3.0 hrs
+
+o  Code review and issue logging - finished going through the code review checklist.
+o  Fixed some build issues found by CM.
+o  Addressed some code cleanup issues.
+
+Energy Forms and Changes - 0.5 hrs
+
+o  Met with Jesse to discuss progress and next steps.
+
+Translation - 1.5 hrs
+
+o  Weekly meeting
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting
+
+Common Code - 2.0 hrs
+
+o  Various code reviews for issues.
+
+Environment - 1.5 hrs
+
+o  Worked with Ariel to create a template "Implementation Details" section for specs.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
