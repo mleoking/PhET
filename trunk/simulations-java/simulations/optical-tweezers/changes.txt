@@ -1,6 +1,9 @@
 # 2.08.00 (74374) May 4, 2015
+failed to deploy, trying
 # 2.07.00 (74373) May 4, 2015
+failed to deploy, trying
 # 2.06.00 (74372) May 4, 2015
+failed to deploy, trying
 # 2.05.02 (74361) Apr 30, 2015
 4/30/15 #3690 republish with new code-signing certificate
 # 2.05.01 (74357) Apr 29, 2015
