@@ -1,0 +1,60 @@
+PhET Progress Report, J. Blanco, 5-7-2015
+
+PhET Progress Report
+John Blanco
+May 7th, 2015
+
+Time period covered: April 30th through May 6th.
+
+Data Collection (together.js) - 14.0 hrs
+
+o  Set up testing of concentration running inside of Megacog data collection wrapper.
+o  Worked with Kathy and Trish to set up testing of Metacog wrapper + concentration in Trish's classroom.
+o  Tracked down an issue with playback of a particular file collected by Metacog, turned out to be a missing initial state message.
+o  Discussed documentation plan with Ariel, planning preliminary docs by May 17th.
+o  Added photons on 2nd screen of Color Vision to the state data.
+o  Put together bundle release 0.0.3 for Metacog.
+o  Met with Metacog to discuss current status and next steps.
+
+Beaker - 14.0 hrs
+
+o  Added saturation property and made it available in data stream.
+o  Added color of solution, concentration, and precipitate to the end-of-trial message.
+o  Met with ETS to review progress and discuss next steps.
+o  Added ability to alter various slider settings through together parameters.
+o  Published latest version of beaker and wrapper for ETS, let them know about it.
+
+Charges and Fields - 1.0 hrs
+
+o  Helped MV with various questions as he prepped the code for review.
+
+Common Code - 1.0 hrs
+
+o  Various code reviews for issues.
+o  Modified chipper to replace -dev with -together for together builds.
+
+Java Support - 2.0 hrs
+
+o  Worked on tracking down a couple of issues with Java sims being unsigned or signed with old certificate.
+o  Checked on expiration date of latest certificate.  It expires in January of 2017.
+
+Miscellaneous - 1.0 hrs
+
+o  Helped Jerry P with some SSH and remote access issues.
+
+Translation - 1.0 hrs
+
+o  Weekly meeting.
+o  Set up a github team for the Israeli group that is interested in helping with translation.
+
+Developer Meetings - 1.5 hrs
+
+o  Developer meeting
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
