@@ -1,0 +1,63 @@
+PhET Progress Report, J. Blanco, 5-14-2015
+
+PhET Progress Report
+John Blanco
+May 14th, 2015
+
+Time period covered: May 7th through May 13th.
+
+Data Collection (together.js) - 11.0 hrs
+
+o  Discussed some past data collection sims with Dan Schwartz and Kathy P (via email), made them available to him for possible use.
+o  Worked with Metacog on an issue where they were seeing out-of-order frames, issue seems to be on their side.
+o  Weekly review meeting with Metacog.
+o  Worked on issue related to static vs. instance based state conversion methods.
+
+Beaker/ETS - 11.0 hrs
+
+o  Added the ability to control the visibility of the Run Trial button through the API, created demo for ETS.
+o  Weekly review meeting with ETS.
+o  Supported ETS by answering email questions about API and data stream.
+o  Fixed some issues with setting state across the IFrame API, created a demo of this capability.
+o  Created a demo of screen capture using the IFrame API.
+o  Put together a release with new features and fixes requested by ETS, will be published shortly at http://www.colorado.edu/physics/phet/dev/html/beaker/1.0.0-together.4/.
+
+Atomic Interactions - 1.0 hrs
+
+o  Reviewed current open issues with YY Carpenter, discussed plan for updating.
+
+States of Matter – 1.0 hrs
+
+o  Issue review and updates
+
+Estimation - 1.0 hrs
+
+o  Cleaned up class names, see https://github.com/phetsims/estimation/issues/4
+
+Common Code - 2.5 hrs
+
+o  Removed Vibe dependency on base64binary.js, and removed the library and licensing info from Sherpa.
+
+Miscellaneous - 2.0 hrs
+
+o  Reviewed and commented on job posting for JavaScript developer focused on accessibility.
+o  Answered questions from Martin and Mike as Mike works to ramp up on HTML5.
+
+Translation - 1.0 hrs
+
+o  Weekly meeting.
+
+Developer Meetings - 1.5 hrs
+
+o  Developer meeting (x2)
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report.
+o  Weekly status meeting.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 4.0 hrs
+
+o  Took part of the afternoon of Monday, May 11th, off.
+
