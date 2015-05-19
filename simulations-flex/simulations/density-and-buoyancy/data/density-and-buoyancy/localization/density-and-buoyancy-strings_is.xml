@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_is.xml created Wed May 13 15:26:36 GMT 2015 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.17.00 (74235) des. 16, 2014-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Kynning"/>
+<string key="properties.mass" value="Massi"/>
+<string key="controlPanel.showVectorValues" value="Kraftgildi"/>
+<string key="forceArrows.contact" value="Þverkraftur (snerting)"/>
+<string key="mode.objectsOfSameVolume" value="Sama rúmmál"/>
+<string key="mysteryObject.densityColumnHeader" value="Þettleiki ({0})"/>
+<string key="material.aluminum" value="Ál"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Loft"/>
+<string key="material.custom" value="Kubburinn minn"/>
+<string key="material.gasoline" value="Bensín"/>
+<string key="customObject.material" value="Efni"/>
+<string key="mode.mysteryObjects" value="Ráðgáta"/>
+<string key="customObject.custom" value="Minn kubbur"/>
+<string key="material.wood" value="Viður"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="Tveir"/>
+<string key="material.styrofoam" value="Frauðplast"/>
+<string key="material.honey" value="Hunang"/>
+<string key="material.apple" value="Epli"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Ís"/>
+<string key="translation.credits" value="Martin Swift"/>
+<string key="buoyancy.tab.playground" value="Leiksvæði flotkrafts"/>
+<string key="fluid.controls.intro.label" value="Vökvi"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Demantur"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Kubbar"/>
+<string key="material.oliveOil" value="Ólífuolía"/>
+<string key="material.lead" value="Blý"/>
+<string key="forceArrows.buoyancy" value="Flotkraftur"/>
+<string key="properties.fluidDensity" value="Þettleiki vökva"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="Eiginleiki"/>
+<string key="forceArrows.gravity" value="Þyngdarkraftur"/>
+<string key="material.brick" value="Múrsteinn"/>
+<string key="mysteryObject.material" value="Efni"/>
+<string key="mysteryObject.table.title" value="Þéttleikar ýmissa efna"/>
+<string key="properties.weightPoundValue" value="{0} lbs"/>
+<string key="material.oil" value="Olía"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
+<string key="mode.objectsOfSameDensity" value="Sami þéttleiki"/>
+<string key="density.simTitle" value="Þéttleiki"/>
+<string key="controlPanel.readouts" value="Aflestur"/>
+<string key="properties.volumeMilliLiterValue" value="{0} mL"/>
+<string key="mode.customObject" value="Eigið val"/>
+<string key="mode.objectsOfSameMass" value="Sami massi"/>
+<string key="application.resetAll" value="Endursetja allt"/>
+<string key="material.gold" value="Gull"/>
+<string key="properties.densityValue" value="{0} kg/L"/>
+<string key="forceArrowControlPanelTitle" value="Sýna krafta"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="nafn"/>
+<string key="controlPanel.showMasses" value="Massar"/>
+<string key="material.water" value="Vatn"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Þéttleiki"/>
+<string key="material.waterBalloon" value="Vatnsblaðra"/>
+<string key="mysteryObject.table.showTable" value="Sýna töflu"/>
+<string key="mode.one" value="Einn"/>
+<string key="properties.volume" value="Rúmmál"/>
+<string key="buoyancy.simTitle" value="Flotkraftur"/>
+<string key="properties.kilogramPerLiter" value="kg/L"/>
+<string key="properties.volumeLiter" value="L"/>
+</SimStrings>
