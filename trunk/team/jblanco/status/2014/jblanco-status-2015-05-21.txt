@@ -1,0 +1,62 @@
+PhET Progress Report, J. Blanco, 5-21-2015
+
+PhET Progress Report
+John Blanco
+May 21st, 2015
+
+Time period covered: May 14th through May 20th.
+
+Data Collection (together.js) - 14.0 hrs
+
+o  Fixed issue with extra parameters in data stream.
+o  Fixed issue with the handling of "falsy" query parameters.
+o  Fixed issue with sim messages when not embedded in an IFrame.
+o  Met with Metacog, wrote up and circulated notes from meeting.
+o  Added messages to slider for click in track, sending initial value at drag end.
+
+Beaker/ETS - 3.0 hrs
+
+o  Published v1.0.0-together.4 with associated demos, sent notification with release notes to ETS.
+o  Customer support - answered questions about use of IFrame API and query parameters.
+o  Improved API names.
+o  Started on v1.0.0-together.5 release, will go out today.
+
+Molecules and Light - 5.5 hrs
+
+o  Continued work on instrumenting, currently about 95% complete.
+
+Atomic Interactions - 1.0 hrs
+
+o  Published a version for testing.
+o  Assigned a number of issues to Steele D for testing, supported him throughout.
+
+States of Matter – 7.0 hrs
+
+o  Reviewed and updated all issues resolved by or still assigned to Actual Concepts.  Many were resolved, some were assigned back to Actual Concepts.
+o  Assigned a number of issues to Steele D for testing, supported him throughout.
+
+Common Code - 1.0 hrs
+
+o  Code reviews of fixes by other developers.
+
+Developer Meetings - 1.5 hrs
+
+o  Developer meeting (x2)
+
+Supporting Mike D - 3.0 hrs
+
+o  Supported Mike D as he ramps up on HTML5.
+
+Customer Support - 1.0 hrs
+
+o  Responded to private email from Swedish developer who is working on creating a customized, accessible version of Build an Atom.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o  Weekly status report.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  No vacation on immediate horizon.
+
