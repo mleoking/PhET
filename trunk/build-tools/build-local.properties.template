@@ -25,6 +25,9 @@ repository.password=
 # browser executable
 browser=firefox
 
+# git root - where all phet git repos live, including website. Deploying to the website will not work without this!
+git.root=
+
 # JAR signing info
 jarsigner.path=
 jarsigner.keystore=
