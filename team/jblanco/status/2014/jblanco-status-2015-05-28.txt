@@ -1,0 +1,62 @@
+PhET Progress Report, J. Blanco, 5-28-2015
+
+PhET Progress Report
+John Blanco
+May 28th, 2015
+
+Time period covered: May 21st through May 27th
+
+Data Collection General (together.js) - 4.0 hrs
+
+o  Discussed various architectural issues with Sam R.
+o  Addressed a number of GitHub issues.
+
+Data Collection Metacog - 8.0 hrs
+
+o  Supported them on some questions about Color Vision's behavior.
+o  Finished instrumenting Molecules and Light, delivered in bundle 0.0.4.
+o  Rebuilt other instrumented sims and delivered in bundle 0.0.4.
+
+Data Collection Beaker/ETS - 5.0 hrs
+
+o  Met with ETS to review progress, plan next steps.
+o  Improved together IDs in API such that they are more consistent.
+o  Fixed some issues with messages sent when clicking in slider track.
+
+Energy Forms and Changes - 1.0 hrs
+
+o  Met with Jesse to discuss implementation progress.
+
+Common Code - 1.0 hrs
+
+o  Worked with JO on changes to the way the popup dialogs function so that they are more compatible with together.js.
+o  Fixed some issues related to the "Adapted from PhET" branding.
+o  Discussed behavior of the Scenery node's maxWidth and maxHeight attributes with JO.
+o  Updated various GitHub issues.
+
+Developer Meetings - 2.0 hrs
+
+o  Developer meeting (x2)
+
+Supporting Mike D - 3.0 hrs
+
+o  Continued supporting Mike D as he ramps up on HTML5.
+
+Customer Support - 2.0 hrs
+
+o  Continued email dialog with Swedish developer who is working on creating a customized, accessible version of Build an Atom.
+o  Worked with Oliver N to respond to a question from developers in Russia who are working to build the Java sims.
+
+Miscellaneous - 1.0 hrs
+
+o  Put up a GitHub picture.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o  Weekly status report.
+o  Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o  Monday May 25th was Memorial Day.
+
