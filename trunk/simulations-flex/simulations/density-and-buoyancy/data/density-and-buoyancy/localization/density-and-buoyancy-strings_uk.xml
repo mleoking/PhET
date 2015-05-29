@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_uk.xml created Thu May 21 22:44:38 CEST 2015 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.17.00 (74235) dec. 17, 2014--><SimStrings>
+<string key="buoyancy.tab.intro" value="Вступ"/>
+<string key="properties.mass" value="Маса"/>
+<string key="controlPanel.showVectorValues" value="Сила"/>
+<string key="forceArrows.contact" value="Контакт"/>
+<string key="mode.objectsOfSameVolume" value="Такого об'єму"/>
+<string key="mysteryObject.densityColumnHeader" value="Густина({0})"/>
+<string key="material.aluminum" value="Алюміній"/>
+<string key="properties.massKilogram" value="кг"/>
+<string key="material.air" value="Повітря"/>
+<string key="material.custom" value="Мій блок"/>
+<string key="material.gasoline" value="Газ"/>
+<string key="customObject.material" value="Матеріал "/>
+<string key="mode.mysteryObjects" value="Таємниця"/>
+<string key="customObject.custom" value="Мій блок"/>
+<string key="material.wood" value="Дерево"/>
+<string key="properties.massKilogramValue" value="{0} кг"/>
+<string key="mode.two" value="Два"/>
+<string key="material.styrofoam" value="Пінополістирол"/>
+<string key="material.honey" value="Мед"/>
+<string key="material.apple" value="Яблуко"/>
+<string key="blockName.b" value="Б"/>
+<string key="blockName.a" value="А"/>
+<string key="material.ice" value="Лід"/>
+<string key="buoyancy.tab.playground" value="Пощина плавучості"/>
+<string key="fluid.controls.intro.label" value="Рідина"/>
+<string key="mode.mysteryObjects.E" value="Д"/>
+<string key="mode.mysteryObjects.D" value="Г"/>
+<string key="mode.mysteryObjects.C" value="В"/>
+<string key="mode.mysteryObjects.B" value="Б"/>
+<string key="material.diamond" value="Алмаз"/>
+<string key="mode.mysteryObjects.A" value="А"/>
+<string key="mode.title" value="Блоки"/>
+<string key="material.oliveOil" value="Оливкова олія"/>
+<string key="material.lead" value="Свинець"/>
+<string key="forceArrows.buoyancy" value="Плавучість"/>
+<string key="properties.fluidDensity" value="Густина рідини"/>
+<string key="mysteryObject.densityUnitsKgL" value="кг/л"/>
+<string key="customObject.properties" value="Властивості"/>
+<string key="forceArrows.gravity" value="Гравітація"/>
+<string key="material.brick" value="Цегла"/>
+<string key="mysteryObject.material" value="Матеріал"/>
+<string key="mysteryObject.table.title" value="Густина різних матеріалів"/>
+<string key="properties.weightPoundValue" value="{0} фунт"/>
+<string key="material.oil" value="Олія"/>
+<string key="properties.volumeLiterValue" value="{0} л"/>
+<string key="mode.objectsOfSameDensity" value="Такої густини"/>
+<string key="density.simTitle" value="Густина"/>
+<string key="controlPanel.readouts" value="Зчитування показів"/>
+<string key="properties.volumeMilliLiterValue" value="{0} мл"/>
+<string key="mode.customObject" value="Звичайний"/>
+<string key="mode.objectsOfSameMass" value="Такої маси"/>
+<string key="application.resetAll" value="Скинути все"/>
+<string key="material.gold" value="Золото"/>
+<string key="properties.densityValue" value="{0} кг/л"/>
+<string key="forceArrowControlPanelTitle" value="Показати силу "/>
+<string key="properties.weightNewtonValue" value="{0} Н"/>
+<string key="customObject.name" value="назва"/>
+<string key="controlPanel.showMasses" value="Маса"/>
+<string key="material.water" value="Вода"/>
+<string key="properties.massGramValue" value="{0} г"/>
+<string key="properties.density" value="Густина"/>
+<string key="material.waterBalloon" value="Водяний балон"/>
+<string key="mysteryObject.table.showTable" value="Покзати таблицю"/>
+<string key="mode.one" value="Один"/>
+<string key="properties.volume" value="Об'єм"/>
+<string key="buoyancy.simTitle" value="Плавучість"/>
+<string key="properties.kilogramPerLiter" value="кг/л"/>
+<string key="properties.volumeLiter" value="л"/>
+</SimStrings>
