@@ -1,0 +1,77 @@
+PhET Progress Report, J. Blanco, 6-4-2015
+
+PhET Progress Report
+John Blanco
+June 4th, 2015
+
+Time period covered: May 28th through June 3rd
+
+Data Collection General (together.js) - 3.0 hrs
+
+o  Replaced FormatForEventStream with toStateObject throughout the together code.
+o  Worked on modifications to slider behavior (with Chris M).
+
+Data Collection Metacog - 1.0 hrs
+
+o  Met, discussed progress, how to limit data flow, licensing enforcement.
+
+Data Collection Beaker/ETS - 14.0 hrs
+
+o  Worked with ETS to refine requirements for zero solvent case.
+o  Implemented new handling for concentration for the zero solvent case.
+o  Implemented support for messages when the disabled "Run Trial" button is pressed.
+o  Implemented override of solute visibility, name, and formula.
+o  Organized testing of latest version v1.0.0-together.6
+o  Created and published a "release bundle", including latest sim and demonstrations of much of the requested functionality.
+
+Molecules and Light - 2.0 hrs
+
+o  Added position options for molecules as part of post-instrumentation cleanup
+
+Bonding - 1.0 hrs
+
+o  Design meeting
+
+Capacitor Lab - 1.0 hrs
+
+o  Met with Jesse to discuss questions
+
+CCK Data Collection - 1.5 hrs
+
+o  Supported one of Ido's grad students in figuring out how to build and just the instrumented Java version of CCK.
+
+Common Code - 4.0 hrs
+
+o  Investigated an issue where models could be stepped with dt values of zero.
+o  Investigated an issue where sims are crashing on iOS 7.0.4.
+o  Discussed implementation of HSlider with Chris M.
+
+Supporting Mike D on HTML5 ramp up - 3.0 hrs
+
+o  Helped Mike to add trig-lab to active repos and active sims.
+o  Worked on general and specific questions from Mike about how to create sims in HTML5.
+
+Translation - 1.0 hrs
+
+o  Updated various GitHub issues.
+
+Developer Meetings - 1.5 hrs
+
+o  Developer meeting
+
+Customer Support - 0.5 hrs
+
+o  Continued email dialog with Swedish developer who is working on creating a customized, accessible version of Build an Atom.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Re-certified ePER
+o  May vacation/sick leave reporting
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Planning two weeks sometime in July
+
