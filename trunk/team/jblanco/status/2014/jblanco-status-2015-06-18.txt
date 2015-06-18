@@ -1,0 +1,69 @@
+PhET Progress Report, J. Blanco, 6-18-2015
+
+PhET Progress Report
+John Blanco
+June 18th, 2015
+
+Time period covered: June 11th through June 17th
+
+Data Collection General (together.js) - 4.0 hrs
+
+o  Worked on issues with how wrapped types (e.g. Property.<Color>) handle serialization.
+o  Addressed, reviewed, and closed several issues.
+
+Data Collection Metacog - 2.0 hrs
+
+o  Met, discussed progress, including how to support their licensing needs.
+o  Logged an issue for implementing additional field to identify sim provider (implemented by SR).
+
+Data Collection Beaker/ETS - 1.0 hrs
+
+o  Met with ETS, discussed their usage of the beaker sim in their environment.
+
+Bonding - 1.0 hrs
+
+o  Design meeting.
+o  Discussed design thoughts via email.
+
+Capacitor Lab - 1.0 hrs
+
+o  Met with Jesse to discuss questions.
+
+Molecules and Light - 1.0 hrs
+
+o  Fixed an issue with the behavior of photons after returning to the sim.
+
+Common Code - 6.0 hrs
+
+o  Worked with JO on tracking down iOS7 crash issue.
+o  Addressed, reviewed, and closed issues marked with the "Summer 2015 redeploy" label.
+
+Supporting Mike D on HTML5 ramp up - 3.0 hrs
+
+o  Supported Mike D in the development of the Trig Lab HTML5 simulation.
+
+Installer - 12.0 hrs
+
+o  Worked on tracking down issues with missing JNLP files, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3696.  This may be close to resolution.
+
+Translation - 1.0 hrs
+
+o  Weekly meeting
+
+Developer Meetings - 1.0 hrs
+
+o  Developer meeting
+
+Customer Support - 1.0 hrs
+
+o  Continued email dialog with Swedish developer who is working on creating a customized, accessible version of Build an Atom.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Planning two weeks sometime in July
