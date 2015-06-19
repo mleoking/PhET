@@ -108,6 +108,7 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*download-servlet').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*.jar').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, '*all*.jar'));
     define("PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES",
