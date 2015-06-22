@@ -72,6 +72,8 @@
         $result = exec(RIPPER_EXE." ".$ripper_args);
 
         flushing_echo($result);
+        $rip_finish_time = exec( "date" );
+        flushing_echo("Initial rip finished at ".$rip_finish_time);
     }
 
     //-------------------------------------------------------------------------

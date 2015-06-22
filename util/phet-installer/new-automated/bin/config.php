@@ -47,7 +47,7 @@
     // PhET Website Configuration
 
     define("PHET_VERSION",                      "1.0");
-    define("PHET_HOSTNAME",                     "phet.colorado.edu");
+    define("PHET_HOSTNAME",                     "phet-dev.colorado.edu"); // Tweaked for phet-dev - DO NOT CHECK IN TO SVN!!!
     define("PHET_DOWNLOADS_HOSTNAME",           "phet-downloads.colorado.edu");
     define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
     define("PHET_SPONSOR_LIST_URL",             "http://".PHET_HOSTNAME."/en/sponsor-list");
