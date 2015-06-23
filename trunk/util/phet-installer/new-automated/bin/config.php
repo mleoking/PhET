@@ -106,8 +106,8 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/manage-activities').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*download-servlet').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*.jar').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, '*all*.jar'));
@@ -118,8 +118,8 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/manage-activities').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*.jar').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, '*all*.jar'));
     define("PHET_RIPPER_FILTER_YF",
@@ -128,8 +128,8 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/manage-activities'));
     define("PHET_RIPPER_FILTER_KSU_LOCAL_INSTALLER",
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*').' '.
@@ -141,8 +141,8 @@
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/subscribe').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/submit-activity').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/manage-activities'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/teaching-resources/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/teaching-resources/manage-activities'));
     define("PHET_RIPPER_FILTER_KSU_WEB_INSTALLER",
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/*').' '.
@@ -153,8 +153,8 @@
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/subscribe').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/submit-activity').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/manage-activities'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/teaching-resources/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/teaching-resources/manage-activities'));
 
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
@@ -248,8 +248,8 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/manage-activities'));
 
     // Command-line args for the ripper.
     define("RIPPER_OPTIONS", " -%e0 -r10 -s0 -A10000000000 --disable-security-limits ");
