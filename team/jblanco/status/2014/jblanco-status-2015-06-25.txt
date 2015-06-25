@@ -1,0 +1,67 @@
+PhET Progress Report, J. Blanco, 6-25-2015
+
+PhET Progress Report
+John Blanco
+June 25th, 2015
+
+Time period covered: June 18th through June 24th
+
+Installer Builder - 11.0 hrs
+
+o  Worked with Aaron to resolve issues related to linking to or obtaining activities for the installer, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3701.
+o  Tested solution for issue with missing JNLP files, appears to be fixed, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3696.
+o  Worked on reducing the size of the installers, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3700.
+o  Worked with Oliver N to test several versions of the installer.
+o  Identified potential issue with size of the installers once HTML5 translation is supported.
+
+Issues Blocking Summer Redeploy - 9.0 hrs
+
+o  Worked on several of the issues identified as blocking summer redeployment, including
+   -  press-and-hold feature in buttons
+   -  translatability of common code ruler
+   -  removal of svg renderer directives
+   -  updated rounding functions to use proper versions
+
+Data Collection General (together.js) - 2.0 hrs
+
+o  Discussed plan with Kathy and Ariel, including review of an email offer to collaborate on "Simulations as a Service".
+o  Met with Kathy to discuss Metacog licensing possibilities.
+
+Bonding - 1.0 hrs
+
+o  Design meeting.
+
+Capacitor Lab - 0.5 hrs
+
+o  Met with Jesse to discuss questions.
+
+Supporting Mike D on HTML5 ramp up - 2.0 hrs
+
+o  Supported Mike D in the development of the Trig Lab HTML5 simulation.
+
+Developer Meetings (x2) - 3.5 hrs
+
+o  Developer meeting
+
+Customer Support - 1.0 hrs
+
+o  Continued email dialog with Swedish developer who is working on creating a customized, accessible version of Build an Atom.
+
+Environment - 1.0 hrs
+
+o  Got mobile email app working the new email service.
+
+Miscellaneous - 0.5 hrs
+
+o  Supplied previously created music files for videos to Emily M.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 3.0 hrs
+
+o  Sick leave 3.0 hrs
+o  Out tomorrow, Friday June 26th (vacation)
