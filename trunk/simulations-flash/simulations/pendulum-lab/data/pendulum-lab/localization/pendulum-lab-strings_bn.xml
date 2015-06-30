@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_bn.xml created Sat Jul 20 15:53:13 BDT 2013 using: pendulum-lab 2.03.00 (52288), translation-utility 2.14.02 (73366) Jul 19, 2013--><SimStrings>
+<!--pendulum-lab-strings_bn.xml created Mon Jun 22 13:29:34 PDT 2015 using: pendulum-lab 2.03.00 (52288), translation-utility 2.18.00 (74383) May 28, 2015--><SimStrings>
 <string key="resetStopwatch" value="রিসেট কর"/>
 <string key="earth" value="পৃথিবী"/>
 <string key="showPhotoGateTimer" value="ফটোগেট ঘড়ি দেখ"/>
 <string key="planetX" value="অজানা গ্রহ"/>
 <string key="acceleration" value="ত্বরণ"/>
 <string key="showEnergyOf" value="এর শক্তি দেখ"/>
-<string key="PE" value="PE"/>
+<string key="PE" value="বিভব শক্তি "/>
 <string key="velocity" value="বেগ"/>
-<string key="translation.credits" value="pritom bose &amp; bigganschool.org"/>
+<string key="translation.credits" value="নয়ন দেব "/>
 <string key="realTime" value="প্রকৃত সময়"/>
 <string key="length" value="দৈর্ঘ্য"/>
 <string key="lots" value="অনেক বেশি"/>
@@ -34,7 +34,7 @@
 <string key="reset" value="রিসেট কর"/>
 <string key="mass" value="ভর"/>
 <string key="quarterTime" value="সময়ের ১/৪ অংশ"/>
-<string key="KE" value="KE"/>
+<string key="KE" value="তি শক্তি"/>
 <string key="gEqZero" value="অভিকর্ষজ ত্বরণ, g=0"/>
 <string key="length_unit" value="মিটার"/>
 <string key="noneEnergy" value="কোনটির না"/>
