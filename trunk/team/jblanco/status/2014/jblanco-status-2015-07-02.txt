@@ -1,0 +1,54 @@
+PhET Progress Report, J. Blanco, 7-2-2015
+
+PhET Progress Report
+John Blanco
+July 2nd, 2015
+
+Time period covered: June 25th through July 24th
+
+Installer Builder - 7.0 hrs
+
+o  Tracked down the cause for some additional files in the rip that are unneeded.
+o  Worked with Aaron to resolve some issues with the web site that are causing issues for the installer.
+o  Created an ran various debug scripts in an effort to figure out why the activiites installers are sometimes not building.
+
+Issues Blocking Summer Redeploy - 6.0 hrs
+
+o  Worked on several of the issues identified as blocking summer redeployment, including:
+   -  translatability of common code ruler
+   -  moving fire-on-hold code into the buttons
+   -  handling of right-to-left strings
+   -  completing the instrumentation of Joist
+
+Other Common Code - 3.0 hrs
+
+o  Reviewed, commented on, and in some cases closed issues assigned to me.
+
+Capacitor Lab & Energy Forms and Changes - 0.5 hrs
+
+o  Met briefly with Jesse to discuss progress and questions.
+
+Meetings with Potential Collaborators - 4.0 hrs
+
+o  Met with Concord Consortium to discuss data collection (a.k.a. "interoperability") using simulations
+o  Met with Carl W's research group to brief them on the state of the interoperability effort
+
+Supporting Mike D on HTML5 ramp up - 2.0 hrs
+
+o  Helped ramp up on branches in support of some changes to Wave on a String
+o  Fielded questions and discussed design for Optics Lab
+
+Developer Meetings (x2) - 2.5 hrs
+
+o  Developer meeting
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Filled out annual evaluation form and met with Kathy for annual review
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o  Took Friday, June 26th as a vacation day
