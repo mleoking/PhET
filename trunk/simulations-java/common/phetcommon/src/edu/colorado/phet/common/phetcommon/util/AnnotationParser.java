@@ -99,7 +99,7 @@ public class AnnotationParser {
         throw new RuntimeException( "No key found" );
     }
 
-    public static void visit( File file ) {
+    public static void visit( File file ) throws IOException {
         if ( file.isDirectory() ) {
             File[] fileList = file.listFiles();
             for ( File file1 : fileList ) {
@@ -129,6 +129,8 @@ public class AnnotationParser {
                     e.printStackTrace();
                 }
                 newFile = newFile + "\n}";
+                FileUtils.writeString( file, newFile );
+                System.exit( 0 );
 //                System.out.println( "******\n" + newFile + "\n*******" );
             }
         }
@@ -150,13 +152,14 @@ public class AnnotationParser {
         }
 
         @Override public String toString() {
-            return "\"" + id + "\": {\n" +
-                   "  \"text\": [\n" +
-                   text +
-                   "  ],\n" +
-                   "  \"projectURL\": \"" + projectURL + "\",\n" +
-                   "  \"license\": \"" + license + "\",\n" +
-                   "  \"notes\" : \"" + notes + "\"\n}";
+            return "  \"" + id + "\": {\n" +
+                   "    \"text\": [\n" +
+                   "  " + text +
+                   "    ],\n" +
+                   "    \"projectURL\": \"" + projectURL + "\",\n" +
+                   "    \"license\": \"" + license + "\",\n" +
+                   "    \"notes\": \"" + notes + "\"\n" +
+                   "  }";
         }
     }
 
@@ -164,12 +167,6 @@ public class AnnotationParser {
         String id = a.id;
         String projectURL = a.get( "source" );
         String notes = a.get( "notes" );
-        if ( notes == null || notes.equals( "" ) ) {
-
-        }
-        else {
-            notes = "Created by " + notes;
-        }
         String license = a.get( "license" );
         String author = a.get( "author" );
         if ( a.map.containsKey( "Author" ) ) { author = a.get( "Author" ); }
@@ -177,22 +174,35 @@ public class AnnotationParser {
             throw new RuntimeException( "Two authors" );
         }
 
+        if ( projectURL == null ) {
+            projectURL = "";
+        }
+        if ( notes == null ) {
+            notes = "";
+        }
+        if ( license == null ) {
+            license = "";
+        }
+        if ( author == null ) {
+            author = "";
+        }
+
         boolean switchToPhET = false;
-        if ( author != null && author.equals( "Ron Le Master" ) ) {
+        if ( author.equals( "" ) && author.equals( "Ron Le Master" ) ) {
             switchToPhET = true;
-            notes = "by Ron Le Master" + ( notes == null ? "" : ", " + notes );
+            notes = "by Ron Le Master" + ( notes.equals( "" ) ? "" : ", " + notes );
         }
-        if ( author != null && author.equals( "Emily Randall" ) ) {
+        if ( author.equals( "" ) && author.equals( "Emily Randall" ) ) {
             switchToPhET = true;
-            notes = "by Emily Randall" + ( notes == null ? "" : ", " + notes );
+            notes = "by Emily Randall" + ( notes.equals( "" ) ? "" : ", " + notes );
         }
-        if ( author != null && author.equals( "Yuen-ying Carpenter" ) ) {
+        if ( author.equals( "" ) && author.equals( "Yuen-ying Carpenter" ) ) {
             switchToPhET = true;
-            notes = "by Yuen-ying Carpenter" + ( notes == null ? "" : ", " + notes );
+            notes = "by Yuen-ying Carpenter" + ( notes.equals( "" ) ? "" : ", " + notes );
         }
-        if ( author != null && author.equals( "Bryce" ) ) {
+        if ( author.equals( "" ) && author.equals( "Bryce" ) ) {
             switchToPhET = true;
-            notes = "by Bryce" + ( notes == null ? "" : ", " + notes );
+            notes = "by Bryce" + ( notes.equals( "" ) ? "" : ", " + notes );
         }
 
         Set set = a.map.keySet();
@@ -206,9 +216,18 @@ public class AnnotationParser {
             }
         }
         if ( line.toLowerCase().contains( "=phet" ) || switchToPhET ) {
-            notes = notes + ", " + author;
+            if ( notes.equals( "" ) ) {
+                notes = author;
+            }
+            else if ( !author.equals( "" ) ) {
+                notes = notes + ", " + author;
+            }
+            else {
+                notes = "";
+            }
             author = "University of Colorado Boulder";
             projectURL = "http://phet.colorado.edu";
+            license = "contact phethelp@colorado.edu";
         }
         String text = "    \"Copyright 2002-2015 " + author + "\"\n";
         if ( line.toLowerCase().contains( "public domain" ) ) {
@@ -221,7 +240,7 @@ public class AnnotationParser {
         return outputText;
     }
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
         Annotation a = AnnotationParser.parse( "test-id name=my name age=3 timestamp=dec 13, 2008" );
         System.out.println( "a = " + a );
 
