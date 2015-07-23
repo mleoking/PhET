@@ -221,9 +221,6 @@ public class AnnotationParser {
             else if ( !author.equals( "" ) ) {
                 notes = notes + ", " + author;
             }
-            else {
-                notes = "";
-            }
             author = "University of Colorado Boulder";
             projectURL = "http://phet.colorado.edu";
             license = "contact phethelp@colorado.edu";
