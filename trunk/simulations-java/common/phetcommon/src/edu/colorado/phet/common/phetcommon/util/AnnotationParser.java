@@ -130,7 +130,6 @@ public class AnnotationParser {
                 }
                 newFile = newFile + "\n}";
                 FileUtils.writeString( file, newFile );
-                System.exit( 0 );
 //                System.out.println( "******\n" + newFile + "\n*******" );
             }
         }
