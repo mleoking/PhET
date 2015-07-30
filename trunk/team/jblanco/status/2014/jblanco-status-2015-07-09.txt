@@ -1,0 +1,56 @@
+PhET Progress Report, J. Blanco, 7-9-2015
+
+PhET Progress Report
+John Blanco
+July 9th, 2015
+
+Time period covered: July 2nd through July 8th
+
+Installer Builder - 7.0 hrs
+
+o  Met with Michael K to discuss how BitRock builder works, as well as other questions about the port to Node.js.
+o  Worked on tracking down an issue with the build of the version of the installers that includes activities, not yet resolved.
+
+Interoperability - 7.0 hrs
+
+o  Changed licensing comment in the HTML5 simulations delivered to Metacog and ETS to reflect current wording, notified customers that they should update.
+o  Worked on finishing the instrumentation of Joist.
+
+Other Common Code - 7.0 hrs
+
+o  Worked on issues with long start for off-line sims in IE with JO.
+o  Discussed Scenery SVG/WebGL layer splitting with JO.
+o  Finished implementation and verification of issue related to translatability of the ruler.
+o  Normalized all audio files used in the games, made the compression consistent, minimized file size.
+o  Verified code that inserts unicode chars for indication of right-to-left (RTL) strings.
+
+Capacitor Lab & Energy Forms and Changes - 0.5 hrs
+
+o  Met with Jesse to discuss progress and questions, such as transform behavior, the use of the "Tween" library.
+
+Translation - 3.5 hrs
+
+o  Tested right-to-left (RTL) language behavior, logged several issues, verified once Aaron implemented them.
+o  Worked with Amy to establish correct behavior for RTL languages.
+
+Supporting Mike D on HTML5 ramp up - 1.5 hrs
+
+o  Answered various questions, helped with a redeployment
+
+Developer Meetings (x2) - 3.0 hrs
+
+o  Developer meeting
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Filled out annual evaluation form and met with Kathy for annual review
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o  Friday, July 3rd was a university holiday
+o  Will be out for vacation most of the next two weeks, Monday July 13th through Thursday July 23rd
+
+
