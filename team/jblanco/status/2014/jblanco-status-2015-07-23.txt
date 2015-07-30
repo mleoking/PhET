@@ -1,0 +1,38 @@
+PhET Progress Report, J. Blanco, 7-23-2015
+
+PhET Progress Report
+John Blanco
+July 23rd, 2015
+
+Time period covered: July 9th through July 22nd.  This is a two-week period due to vacation.
+
+Installer Builder - 5.0 hrs
+
+o  Tested removal of zip archive of activities from activities version of installer, may have fixed issue, more testing will be done shortly.
+o  Met with Aaron to work on a couple improvements to the installer-builder that required changes to the web site.
+o  Posted the latest versions, which appears to correct issues with missing activities and bad version for OSX.
+
+Interoperability - 6.0 hrs
+
+o  Worked on finishing the phase I instrumentation of Joist so that summer redeploy can proceed from a stable platform.
+o  Updated Sam on the status so that he could review and possibly continue instrumentation of Joist.
+
+Other Common Code - 2.0 hrs
+
+o  Removed the "Howler" audio library, which is no longer used.
+
+Developer Meeting - 1.0 hrs
+
+o  Developer meeting
+
+Meetings, Email, and Other Administrative Overhead - 2.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 64.0 hrs
+
+o  Was on vacation from July 13th through July 22nd.
+
+

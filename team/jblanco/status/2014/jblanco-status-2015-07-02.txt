@@ -4,7 +4,7 @@ PhET Progress Report
 John Blanco
 July 2nd, 2015
 
-Time period covered: June 25th through July 24th
+Time period covered: June 25th through July 1st
 
 Installer Builder - 7.0 hrs
 

@@ -1,0 +1,63 @@
+PhET Progress Report, J. Blanco, 7-30-2015
+
+PhET Progress Report
+John Blanco
+July 30th, 2015
+
+Time period covered: July 23rd through July 29th.
+
+Neuron - 6.0 hrs
+
+o  Worked on getting WebGL rendering working on Scenery 0.2.  Basic behavior is working, zoom and correct fade still need to be finished.
+
+Bonding - 1.5 hrs
+
+o  Design meeting.
+
+Build an Atom - 2.0 hrs
+
+o  Fixed issue with aspect ratio of nav bar icons.
+
+Balancing Act - 1.0 hrs
+
+o  Fixed issue with aspect ratio of nav bar icons.
+o  Added an unused mass (blue bucket) to the tilt prediction and balance challenges.
+
+Area Builder - 1.0 hrs
+
+o  Fixed issue with aspect ratio of nav bar icons.
+o  Fixed issue with usage of LayoutBox.
+
+Faraday's Law - 5.0 hrs
+
+o  Fixed an issue with the direction of deflection for the voltmeter needle, did a maintenance release.
+
+Common Code - 9.0 hrs
+
+o  Resolved an issue with long strings in panels causing recursion, see https://github.com/phetsims/molecule-shapes/issues/130.
+o  Made Vibe demo be a full PhET app so that it will succeed in automated build testing and be easier to maintain.
+
+Installer Builder - 5.0 hrs
+
+o  Met with Michael K to answer questions, discuss plan.
+o  Turned cron job back on.
+o  Tested auto-built versions.  The DVD with activities has issues again.  Will restore previous versions and track down the problems.
+
+Accessibility - 2.0 hrs
+
+o  Participated in task-scoping meeting.
+
+Developer Meeting - 1.5 hrs
+
+o  Developer meeting
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Discussion with KP to get caught up on events while I was away
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be on vacation from 12:30 Thu July 30th and all of July 31st.
