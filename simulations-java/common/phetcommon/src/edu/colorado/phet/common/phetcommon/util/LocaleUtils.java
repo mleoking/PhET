@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.util;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 
@@ -78,6 +81,29 @@ public class LocaleUtils {
         assert ( locale != null );
         return locale.getLanguage() + ( locale.getCountry().length() > 0 ? "-" + locale.getCountry() : "" );
     }
+
+    // following code for isTextTRL from: http://stackoverflow.com/questions/20814564/how-to-find-out-locale-dependent-text-orientation-in-java
+    private static final Set<String> RTL;
+
+    static {
+        Set<String> lang = new HashSet<String>();
+        lang.add( "ar" );
+        lang.add( "dv" );
+        lang.add( "fa" );
+        lang.add( "ha" );
+        lang.add( "he" );
+        lang.add( "iw" );
+        lang.add( "ji" );
+        lang.add( "ps" );
+        lang.add( "ur" );
+        lang.add( "yi" );
+        RTL = Collections.unmodifiableSet( lang );
+    }
+
+    public static boolean isTextRTL( Locale locale ) {
+        return RTL.contains( locale.getLanguage() );
+    }
+
 
     // tests
     public static void main( String[] args ) {
