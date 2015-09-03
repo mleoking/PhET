@@ -1,0 +1,65 @@
+PhET Progress Report, J. Blanco, 8-27-2015
+
+PhET Progress Report
+John Blanco
+August 27th, 2015
+
+Time period covered: August 20th through August 26th.
+
+States of Matter - 12 hrs
+
+o  Incorporated latest artwork for solid, liquid, and gas icons.
+o  Made icons programmatically generated or constructed from individual images.
+o  Tackled a number of "low hanging fruit" issues logged for the SOM suite.
+
+Neuron - 8.0 hrs
+
+o  Finished creating a particle canvas that uses a single image for each particle and uses scaling and transparency to create zoom and fade in/out.
+o  Worked with JO to resolve an issue related to particles becoming white-ish as opacity is set.
+o  Various code cleanup.
+
+Area Builder - 4.0 hrs
+
+o  Finished fixing issues revealed by fuzz testing.
+
+Arithmetic - 2.0 hrs
+
+o  Resolved issues revealed by fuzz test.
+
+Molecules and Light - 1.0 hrs
+
+o  Helped Jesse put together a new release candidate that incorporates recent Joist changes.
+
+Common Code - 2.0 hrs
+
+o  Changed version identifiers for PhET-iO versions to include "-phet-io" instead of "-together".
+o  Various issue reviews.
+
+Installer Builder - 2.0 hrs
+
+o  Tested results of Wed auto-build, and unfortunately the issue is still not fully resolved.
+o  Reviewed and provided input on Oliver's redesign of the installer download page.
+
+Interoperability - 1.5 hrs
+
+o  Participated in meeting to discuss requirements, plans, tradeoffs.
+
+Translation - 1.5 hrs
+
+o  Set up a test for sims that get most of their strings from other repositories.
+o  Removed some bogus files from Babel that came about as a result of testing.
+
+Developer Meeting (x2) - 3.0 hrs
+
+o  Developer meetings on Thu and Tue
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Met with Ariel to discuss priorities
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Nothing on the immediate horizon.
