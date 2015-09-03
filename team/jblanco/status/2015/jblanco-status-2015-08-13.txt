@@ -1,0 +1,57 @@
+PhET Progress Report, J. Blanco, 8-13-2015
+
+PhET Progress Report
+John Blanco
+August 13th, 2015
+
+Time period covered: August 6th through August 12th.
+
+Neuron - 16.0 hrs
+
+o  Optimization of model and WebGL-based particle rendering.
+o  With the exception of zooming in and out, it's pretty close to being acceptable in my opinion.
+o  Did some code and branch cleanup.
+
+Molecules and Light - 1.0 hrs
+
+o  Finished code review of a refactoring, did some cleanup in the process.
+o  Worked with Jesse to publish a release candidate.
+
+Common Code - 5.0 hrs
+
+o  Addressed 20+ number of open issues.
+
+Data Collection - 1.0 hrs
+
+o  Attended ETS meeting where some findings were presented that had used instrumented sims to capture raw data.
+
+Installer Builder - 3.0 hrs
+
+o  Met with Michael K for knowledge transfer about the state of the port to Node.js.
+o  Ran tests with verbose data collection turned on.
+
+Optics Lab and Trig Lab (now Trig Tour) - 2.0 hrs
+
+o  Worked with Mike on architecture, bug fixes, and renaming Trig Lab to Trig Tour.
+
+Developer Meeting (x2) - 3.5 hrs
+
+o  Developer meetings on Thu and Tue
+
+Accessibility - 2.5 hrs
+
+o  Meeting to discuss goals and action plan.
+
+Miscellaneous - 1.0 hrs
+
+o  Discussed frame rate, installer, and several other topics with Amy H.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Nothing on the immediate horizon.

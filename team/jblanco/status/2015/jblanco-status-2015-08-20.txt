@@ -1,0 +1,61 @@
+PhET Progress Report, J. Blanco, 8-20-2015
+
+PhET Progress Report
+John Blanco
+August 20th, 2015
+
+Time period covered: August 13th through August 19th.
+
+Area Builder - 13.0 hrs
+
+o  Worked on issues found by fuzz testing, fixed 4 issues, one remains.
+
+Neuron - 7.0 hrs
+
+o  Did more optimization.
+o  Created a new particle canvas that will eventually render particles from a single, non-zoomed image.
+
+Common Code - 1.0 hrs
+
+o  Looked at a Vibe issue.
+
+Concentration - 2.0 hrs
+
+o  Created a demo version for Ariel that allows the shaker label to be overridden through a query parameter.
+
+Optics Lab and Trig Lab (now Trig Tour) - 2.0 hrs
+
+o  Worked with Mike on IntelliJ and GitHub issues, finished renaming Trig Lab to Trig Tour.
+
+Installer Builder - 4.0 hrs
+
+o  Continued testing and experimenting to solve issue with activities.  The problem may be solved, and looks as though it was caused by a single activities file with an odd name, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3697 for details.
+o  Set up Arnab to test results of various builds
+o  Auto-build is back on and the results will be tested next Wednesday
+
+Interoperability - 1.5 hrs
+
+o  Meeting to discuss goals and action plan
+
+Translation - 1.5 hrs
+
+o  Discussed testing approach and various specific behaviors with Steele as he worked on testing.
+
+Developer Meeting (x2) - 3.0 hrs
+
+o  Developer meetings on Thu and Tue
+
+Miscellaneous - 1.0 hrs
+
+o  Wrote a bio for the new PhET people page.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Met with Ariel to discuss priorities, how to do demos of interoperability feature at conference
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Nothing on the immediate horizon.

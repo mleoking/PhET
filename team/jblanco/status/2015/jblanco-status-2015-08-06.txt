@@ -1,0 +1,54 @@
+PhET Progress Report, J. Blanco, 8-6-2015
+
+PhET Progress Report
+John Blanco
+August 6th, 2015
+
+Time period covered: July 30th through August 5th.
+
+Neuron - 14.0 hrs
+
+o  Got WebGL rendering of particles working, including zoom and opacity.  Performance is great on laptop, needs improvement on tablets.
+o  Fixed issue with clipping (or appearance thereof) for WebGL-rendered particles.
+o  Fixed issue with pause/play.
+o  Lots of code cleanup.
+
+Molecules and Light - 3.0 hrs
+
+o  Worked with Jesse to prioritize and plan to address open issues in preparation for redeploy.
+o  Worked on issue related to code simplification.
+o  Updated and closed several other outstanding issues.
+
+Common Code - 5.0 hrs
+
+o  Followed up on and closed 14 issues, am working to process ~7 per day.
+
+Installer Builder - 4.0 hrs
+
+o  Met with Michael K about the port to Node.js to discuss status and go over a few questions.
+o  Turned off deployment and email for the auto-build but let it run, and am able to duplicate issue with activities version.
+o  Ran several tests and updated the Unfuddle ticket with the results, see https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3697.
+o  Contacted BitRock for some help in tracking down the cause of the failures.
+o  Restored manually generated activities version, had Oliver N test and it looks good.  Will leave this in place until auto-build issues worked out.
+
+Supporting Mike D - 1.5 hrs
+
+o  Worked with Mike on layout questions, dynamic creation of control panels, and other questions/issues.
+
+Developer Meeting - 1.5 hrs
+
+o  Developer meeting
+
+Miscellaneous - 1.0 hrs
+
+o  Supported Amanda with some issues with updating and PhetTest.
+o  Added Amy H to the "Designers" team in GitHub.
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o  Weekly status report
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 12.0 hrs
+
+o  Took off a half day on July 30th and all of July 31st.
