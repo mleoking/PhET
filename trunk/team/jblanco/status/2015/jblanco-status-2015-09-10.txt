@@ -1,0 +1,55 @@
+PhET Progress Report, J. Blanco, 9-10-2015
+
+PhET Progress Report
+John Blanco
+September 10th, 2015
+
+Time period covered: September 3rd through September 9th.
+
+Neuron - 9.0 hrs
+
+o  Met with JO to work on performance improvement.
+o  Added some sim-specific profiling code to help with gathering info about iPad performance.
+o  Made several changes intended to improve performance on iPad.  Improvements so far have been marginal.
+
+Gene Expression Basics - 2.0 hrs
+
+o  Worked on resolving issues with fuzz test failures, ultimately deferred this to Ashraf.
+o  Set up a time to meet with Ashraf and discuss status.
+
+Common Code - 1.0 hrs
+
+o  Participated in discussion about design of the close button on dialogs.
+o  Updated Sun button demo to use default layout bounds and have improved overall layout.
+
+Build Tools - 2.0 hrs
+
+o  Set up a machine that I can use to run build server.
+o  Worked with CM on some issues related to running the build server from any directory.
+
+Installer Builder - 1.0 hrs
+
+o  Verified that weekly build, including activities version, succeeded.
+
+Translation - 2.0 hrs
+
+o  Set up task for testing of locales that required preferred fonts in Java simulations, supported Steele on testing.
+
+Interoperability - 1.5 hrs
+
+o  Manually inserted PhET-iO logo into the files shared to Metacog.
+
+Developer Meeting (x2) - 3.0 hrs
+
+o  Developer meetings on Thursday and Tuesday
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Met with Ariel to discuss move to new offices
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 16 hrs
+
+o  Took Friday September 4th as a vacation day, Monday September 7th was Labor Day.
