@@ -1,0 +1,53 @@
+PhET Progress Report, J. Blanco, 9-3-2015
+
+PhET Progress Report
+John Blanco
+September 3rd, 2015
+
+Time period covered: August 27th through September 2nd.
+
+Neuron - 10.0 hrs
+
+o  Fixed the issue with flicking particles at low resolutions by getting WebGL mipmapping to work property.
+o  Improved filtering used by particle texture, looking pretty decent at this point.
+o  Tested performance on iPad 2.  Not quite acceptable yet.
+o  Continued profiling and making optimizations.
+o  Did a major code cleanup of much of the WebGL experiments.
+
+States of Matter - 4.0 hrs
+
+o  Worked on button appearance and behavior with Amy H.
+
+Molecules and Light - 1.0 hrs
+
+o  Worked with Jesse on details of new release candidate.
+
+Installer Builder - 9.0 hrs
+
+o  Examined all activities files to determine if correctly UTF-8 encoded.
+o  Renamed all of the activities in a particular group (Greek activites for CCK DC) such that they used only ASCII character.  This seems to have enabled the auto-build to succeed.
+
+Translation - 4.0 hrs
+
+o  Coordinated testing of a sim that draws the bulk of its strings from elsewhere.
+o  Removed some string files from Babel that were a result of testing.
+o  Contributed to discussions about what needs to be done in order to roll this out for beta testing with trusted translators.
+
+Interoperability - 1.0 hrs
+
+o  Participated in meeting to discuss requirements, plans, tradeoffs.
+
+Developer Meeting (x2) - 3.0 hrs
+
+o  Developer meetings on Thu and Tue
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Met with Ariel to discuss move to new offices
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Out Friday September 4th.
