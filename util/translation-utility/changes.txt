@@ -1,3 +1,5 @@
+# 2.18.01 (74417) Sep 17, 2015
+9/17/15 preferred font added for Tigrinya (ti) in #3704 
 # 2.18.00 (74383) May 28, 2015
 5/28/15 add es_CR to phetcommon-locales.properties
 # 2.17.00 (74235) Dec 16, 2014
