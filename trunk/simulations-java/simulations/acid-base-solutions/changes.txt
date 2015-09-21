@@ -1,3 +1,5 @@
+# 1.03.01 (74421) Sep 21, 2015
+9/21/15 #3704 test preferred font for Tigrinya
 # 1.03.00 (74246) Dec 22, 2014
 > fix crash on Java 1.8 due to number formatting
 # 1.02.09 (74240) Dec 19, 2014
