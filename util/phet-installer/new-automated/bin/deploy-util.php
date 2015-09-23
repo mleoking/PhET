@@ -62,36 +62,45 @@
             flushing_echo("Found the installer files.");
         }
 
-        // Copy the files to the distribution directory.
+        // Copy the non-activity installer files to the distribution directory.
         if ( copy( OUTPUT_DIR.LINUX_INSTALLER_FILE_NAME, DEPLOY_DIR.LINUX_INSTALLER_FILE_NAME ) ){
-            flushing_echo( "Linux installer successfully copied to: ".DEPLOY_DIR );
+            flushing_echo( "Linux installer without activities successfully copied to: ".DEPLOY_DIR );
         }
         else {
-            flushing_echo( "Error: Unable to successfully copy linux installer to: ".DEPLOY_DIR );
+            flushing_echo( "Error: Unable to successfully copy linux installer without activities to: ".DEPLOY_DIR );
         }
         if ( copy( OUTPUT_DIR.WINDOWS_INSTALLER_FILE_NAME, DEPLOY_DIR.WINDOWS_INSTALLER_FILE_NAME) ){
-            flushing_echo( "Windows installer successfully copied to: ".DEPLOY_DIR );
+            flushing_echo( "Windows installer without activities successfully copied to: ".DEPLOY_DIR );
         }
         else {
-            flushing_echo( "Error: Unable to successfully copy windows installer to: ".DEPLOY_DIR );
+            flushing_echo( "Error: Unable to successfully copy windows installer without activities to: ".DEPLOY_DIR );
         }
         if ( copy( OUTPUT_DIR.OSX_INSTALLER_FILE_NAME, DEPLOY_DIR.OSX_INSTALLER_FILE_NAME ) ){
-            flushing_echo( "OSX installer successfully copied to: ".DEPLOY_DIR );
+            flushing_echo( "OSX installer without activities successfully copied to: ".DEPLOY_DIR );
         }
         else {
-            flushing_echo( "Error: Unable to successfully copy OSX installer to: ".DEPLOY_DIR );
+            flushing_echo( "Error: Unable to successfully copy OSX installer without activities to: ".DEPLOY_DIR );
         }
-        if ( copy( OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME, DEPLOY_DIR.CD_ROM_INSTALLER_FILE_NAME ) ){
-            flushing_echo( "CD ROM installer successfully copied to: ".DEPLOY_DIR );
-        }
-        else {
-            flushing_echo( "Error: Unable to successfully copy CD ROM installer to: ".DEPLOY_DIR );
-        }
-        if ( copy( OUTPUT_DIR.DVD_ROM_INSTALLER_FILE_NAME, DEPLOY_DIR.DVD_ROM_INSTALLER_FILE_NAME ) ){
-            flushing_echo( "DVD ROM installer successfully copied to: ".DEPLOY_DIR );
+
+
+        // Copy the with-activity installer files to the distribution directory.
+        if ( copy( INSTALLERS_WITH_ACTIVITIES_DIR.LINUX_INSTALLER_FILE_NAME, DEPLOY_DIR.LINUX_INSTALLER_WITH_ACTIVITIES_FILE_NAME ) ){
+            flushing_echo( "Linux installer with activities successfully copied to: ".DEPLOY_DIR );
         }
         else {
-            flushing_echo( "Error: Unable to successfully copy DVD ROM installer to: ".DEPLOY_DIR );
+            flushing_echo( "Error: Unable to successfully copy linux installer with activities to: ".DEPLOY_DIR );
+        }
+        if ( copy( INSTALLERS_WITH_ACTIVITIES_DIR.WINDOWS_INSTALLER_FILE_NAME, DEPLOY_DIR.WINDOWS_INSTALLER_WITH_ACTIVITIES_FILE_NAME ) ){
+            flushing_echo( "Windows installer with activities successfully copied to: ".DEPLOY_DIR );
+        }
+        else {
+            flushing_echo( "Error: Unable to successfully copy windows installer with activities to: ".DEPLOY_DIR );
+        }
+        if ( copy( INSTALLERS_WITH_ACTIVITIES_DIR.OSX_INSTALLER_FILE_NAME, DEPLOY_DIR.OSX_INSTALLER_WITH_ACTIVITIES_FILE_NAME ) ){
+            flushing_echo( "OSX installer with activities successfully copied to: ".DEPLOY_DIR );
+        }
+        else {
+            flushing_echo( "Error: Unable to successfully copy OSX installer with activities to: ".DEPLOY_DIR );
         }
     }
 
@@ -121,7 +130,8 @@
 
     //--------------------------------------------------------------------------
     // Function to copy the currently deployed installers to a back up
-    // directory.
+    // directory. !!NOTE!! - Do to limited disk space, the versions of the
+    // installers that include activities are not currently backed up.
     //--------------------------------------------------------------------------
     function deploy_back_up_current_installers(){
 
