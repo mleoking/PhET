@@ -39,10 +39,10 @@
         flushing_echo( "Starting full rip and rebuild of PhET installers at time $start_time" );
 
         // Build installers without activities.
-        perform_build_steps( "PHET", OUTPUT_DIR, OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME  );
+        perform_build_steps( "PHET", OUTPUT_DIR  );
 
         // Build installers with activities.
-        perform_build_steps( "PHET_WITH_ACTIVITIES", INSTALLERS_WITH_ACTIVITIES_DIR, OUTPUT_DIR.DVD_ROM_INSTALLER_FILE_NAME );
+        perform_build_steps( "PHET_WITH_ACTIVITIES", INSTALLERS_WITH_ACTIVITIES_DIR );
 
         // If specified, deploy the installers to the production web site.
         if ( $args->flag( 'deploy' ) ){
@@ -86,7 +86,7 @@
        }
     }
 
-    function perform_build_steps( $rip_config, $output_dir, $rommable_output_dir ){
+    function perform_build_steps( $rip_config, $output_dir ){
 
         // Remove previous copy of web site.
         ripper_remove_website_copy();
@@ -126,10 +126,6 @@
         // Build the local installers, meaning installers that can be used to
         // install a local mirror of the PhET web site.
         installer_build_local_mirror_installers( BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, $output_dir );
-
-        // Build the rommable distribution, which contains all of the installers
-        // and is suitable for burning on CD or DVD.
-        installer_build_rommable_distribution( $output_dir, $rommable_output_dir );
 
         // Log the time at which the build completed.
         $build_finish_time = exec( "date" );
