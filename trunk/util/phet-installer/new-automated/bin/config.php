@@ -351,6 +351,9 @@
     define("LINUX_INSTALLER_FILE_NAME", "PhET-Installer_linux.bin");
     define("WINDOWS_INSTALLER_FILE_NAME", "PhET-Installer_windows.exe");
     define("OSX_INSTALLER_FILE_NAME", "PhET-Installer_osx.zip");
+    define("LINUX_INSTALLER_WITH_ACTIVITIES_FILE_NAME", "PhET-Installer-with-activities_linux.bin");
+    define("WINDOWS_INSTALLER_WITH_ACTIVITIES_FILE_NAME", "PhET-Installer-with-activities_windows.exe");
+    define("OSX_INSTALLER_WITH_ACTIVITIES_FILE_NAME", "PhET-Installer-with-activities_osx.zip");
     define("INSTALLER_RESOURCES_DIR", file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path"));
 
     // *****************************************************************************
