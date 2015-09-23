@@ -173,7 +173,6 @@
         back_up_file( DEPLOY_DIR.WINDOWS_INSTALLER_FILE_NAME, $backup_dir_name.WINDOWS_INSTALLER_FILE_NAME );
         back_up_file( DEPLOY_DIR.OSX_INSTALLER_FILE_NAME, $backup_dir_name.OSX_INSTALLER_FILE_NAME );
         back_up_file( DEPLOY_DIR.LINUX_INSTALLER_FILE_NAME, $backup_dir_name.LINUX_INSTALLER_FILE_NAME );
-        back_up_file( DEPLOY_DIR.CD_ROM_INSTALLER_FILE_NAME, $backup_dir_name.CD_ROM_INSTALLER_FILE_NAME );
 
         // Copy the version file over too.
         back_up_file( DEPLOY_DIR.VERSION_INFO_FILE_NAME, $backup_dir_name.VERSION_INFO_FILE_NAME );

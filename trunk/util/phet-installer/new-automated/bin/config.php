@@ -64,9 +64,6 @@
     define("AUTORUN_ICON_NAME",    'phet-icon.ico');
     define("AUTORUN_ICON_SRC",     file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
 
-    define("CD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_cdrom.zip");
-    define("DVD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_dvdrom.zip");
-
     // *****************************************************************************
     // Website Ripper Configuration
 
