@@ -1,0 +1,68 @@
+
+PhET Progress Report, J. Blanco, 9-24-2015
+
+PhET Progress Report
+John Blanco
+September 24th, 2015
+
+Time period covered: September 17th through September 23rd.
+
+Neuron - 10.0 hrs
+
+o  Collaborated with JO to plan next round of optimizations, implemented a layer split that improved performance significantly
+o  Made the chart line into a canvas node in order to further improve performance
+o  Fixed a number of issues with UI layout and code formatting
+o  Fixed problems with zoom when paused
+o  Reviewed current performance on iPad 2 with AP
+
+States of Matter - 2.0 hrs
+
+o  Addressed some code structure issues.
+
+Gene Expression Basics - 1.5 hrs
+
+o  Met with Ashraf to discuss progress and review code
+
+Acid Base Solutions - 1.0 hrs
+
+o  Built and deployed Java dev version in support of some preferred font work being done by CM
+
+Molecules and Light - 0.5 hrs
+
+o  Supported SD in testing the update feature
+
+Common Code - 2.5 hrs
+
+o  Performed code review on a couple of issues
+
+Installer Builder - 3.0 hrs
+
+o  Manually updated the activities-included versions on web site
+o  Modified the PHP code to automatically deploy activities-included versions, will verify after next automatic build
+
+Interoperability - 5.0 hrs
+
+o  Weekly requirements/design meeting
+o  Responded to ETS about some issues involving sims in iframes
+o  Filled out reference form for Metacog
+o  Attended meeting with ETS to discuss a change request and the iframe issue
+o  Added a screenshot to the "NewSchools" demo, request by KP for a talk
+
+Developer Meeting - 4.0 hrs
+
+o  Developer meetings on Tuesday and Thursday
+
+Miscellaneous - 5.0 hrs
+
+o  Moved to new office.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Worked a bit on move planning
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Likely out on Monday, September 28th
