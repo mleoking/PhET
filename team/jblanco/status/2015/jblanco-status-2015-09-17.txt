@@ -1,0 +1,57 @@
+
+PhET Progress Report, J. Blanco, 9-17-2015
+
+PhET Progress Report
+John Blanco
+September 17th, 2015
+
+Time period covered: September 10th through September 16th.
+
+Neuron - 19.0 hrs
+
+o  Revised clock handling method, gained about 6 FPS on iPad 2.
+o  Modified graph to update less often, gained about 2 PFS on iPad 2.
+o  Experimented with removing various components to see what was most costly on iPad, seems that the chart is implicated.
+o  Changed charge symbols so that they are scaled rather than redrawn every frame.
+o  Fixed an issue with charge symbols getting cut off (with help from JO).
+o  Worked on optimizations with JO.
+
+States of Matter - 3.0 hrs
+
+o  Fixed some UI issues.
+
+Gene Expression Basics - 2.0 hrs
+
+o  Met with Ashraf to discuss status, set up a regular meeting time.
+
+Gravity and Orbits - 0.5 hrs
+
+o  Discussed profiling and optimization with AD.
+
+Bending Light - 0.5 hrs
+
+o  Briefly looked at some mouse area issues with SR.
+
+Installer Builder - 3.0 hrs
+
+o  Worked with AD on plan to mod the web site to present all installers as a separate download instead of only offering the activities-included version as a bundle.
+o  Worked with ON on contacting person whose activities got renamed, discussed renaming all activities to ASCII-only names.
+o  Verified the this week's build succeeded.
+
+Interoperability - 2.0 hrs
+
+o  Responded to some ETS questions about some UI issues, discussed possible actions with SR, still owe them a response.
+
+Developer Meeting - 2.5 hrs
+
+o  Developer meeting on Thursday
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Worked a bit on move planning
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0 hrs
+
+o  Likely out on Monday, September 28th
