@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_sw.xml created Wed Sep 23 23:40:56 PDT 2015 using: arithmetic 2.03.00 (51677), translation-utility 2.18.00 (74383) May 28, 2015--><SimStrings>
+<string key="level" value="hatua"/>
+<string key="typeAnswer" value="Andika Jibu, \nBonyeza Kuruhusu  "/>
+<string key="clickToSelect" value="Bonyeza Kuchagua \n Mraba Sahihi"/>
+<string key="correct" value="Sahihi!"/>
+<string key="end" value="Hitimisha"/>
+<string key="isWrong" value="Umekosea."/>
+<string key="start" value="Anza"/>
+<string key="simTitle" value="Hesabu"/>
+<string key="time" value="Muda(sek.)"/>
+<string key="finalTime" value="Muda wa mwisho:"/>
+<string key="multiply" value="Zidisha"/>
+<string key="tryAgain" value="Jaribu Tena"/>
+<string key="sound" value="Sauti"/>
+<string key="divide" value="Gawanya"/>
+<string key="factor" value="Kigawo"/>
+<string key="minute" value="Dakika"/>
+<string key="finalScore" value="matokeo Ya Mwisho:"/>
+<string key="nbrRight" value="Majibu Sawa:"/>
+<string key="mustTypeNbr" value="Lazima Uandike \na Namba"/>
+<string key="score" value="Matokeo:"/>
+<string key="scorePer" value="Matokeo:"/>
+<string key="nbrWrong" value="Majibu Yasiyosawa:"/>
+<string key="reset" value="Rudisha"/>
+<string key="clock" value="Saa"/>
+<string key="title" value="Kazi katika Hesabu"/>
+</SimStrings>
