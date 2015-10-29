@@ -1,0 +1,78 @@
+
+PhET Progress Report, J. Blanco, 10-15-2015
+
+PhET Progress Report
+John Blanco
+October 15th, 2015
+
+Time period covered: October 8th through October 14th.
+
+Neuron - 6.0 hrs
+
+o  Finished working through code checklist
+o  Published a dev version and set up a task for dev testing.  Sim was tested for ~3hrs, 4 issues were logged.
+o  Did a round of internal testing, logged three new issues as a result
+o  Fixed an issue where play/pause state wasn’t being correctly set if paused when reset
+o  Ran multiple hours of fuzz testing
+
+States of Matter - 2.5 hrs
+
+o  Changed base of pump to look more reasonable
+
+Arithmetic - 6.0 hrs
+
+o  Fixed issue with icon sizes
+o  Changed keypad to remove "Enter" key, added "Check" button for submitting answers, modified layout to accommodate
+o  Fixed issue with responsiveness of grid to hover for the "Factor" screen
+o  Addressed issue where hitting the "Enter" key multiple times could lead to odd behavior
+
+Faraday's Law - 4.0 hrs
+
+o  Fixed issue where model was not being clocked at animation frame rate
+o  Fixed issue where coils didn't look good on some browsers
+o  Propagated fix for needle deflection direction from last release branch to master
+o  Tested and updated several open issues that are now resolved
+
+Friction - 1.5 hrs
+
+o  Fixed issue where top book could be dragged outside of magnification area
+
+Gene Expression Basics - 0.5 hrs
+
+o  Had a brief discussion with Ashraf, GEB is still on hold while Making Tens is finished up
+
+Common Code - 3.0 hrs
+
+o  Created a string for use in RTL testing in integrated into chipper code that CM had created
+o  Consolidated the Keypad used in Area Builder and Arithmetic into common code (scenery-phet)
+
+Interoperability - 1.5 hrs
+
+o  Weekly requirements/design meeting
+
+Developer Meeting - 4.0 hrs
+
+o  Participated in developer meetings on Tuesday and Thursday
+
+Environment - 4.0 hrs
+
+o  Mostly finished setting up an older machine for use as a test server
+o  Updated node, grunt, and git on my main dev machine, resolved issues with deploy-dev
+o  Discussed plan for sim redeployment in support of translation with CM, AP.
+o  Worked towards purchase of a new computer
+
+Miscellaneous - 1.0 hrs
+
+o  Let Ashraf know about the CRLF issue with some of the code that he has committed.
+o  Set up pair programming session with potential new intern
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Normal email and administrative overhead
+o  Filled out ePER and DEPA
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will likely take a partial vacation day on Friday, October 16th

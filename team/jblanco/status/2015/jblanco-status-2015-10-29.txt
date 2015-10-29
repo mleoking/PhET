@@ -1,0 +1,74 @@
+
+PhET Progress Report, J. Blanco, 10-29-2015
+
+PhET Progress Report
+John Blanco
+October 29th, 2015
+
+Time period covered: October 22nd through October 28th.
+
+Arithmetic - 8.0 hrs
+
+o  Fixed issues revealed by fuzz testing
+o  Improved appearance of icons
+o  Added a feature that fills in most of the board to save time in testing
+o  Fixed issue where a filled-in board was being cleared when level was restarted
+
+Beaker - 7.0 hrs
+
+o  Published a new release with a fix for the iframe issue and with a feature that allows minor ticks to be hidden on the sliders
+o  Merged fix for a Scenery change into master
+
+Faraday's Law - 3.0 hrs
+
+o  Fixed issue where magnet had some see-through portions
+o  Fixed issue with the appearance of the light bulb base
+o  Supported Steele and Elise in testing of release candidate
+
+States of Matter - 3.0 hrs
+
+o  Fixed issue with updates of non-canvas nodes in a CanvasNode.paintCanvas() method
+
+Isotopes and Atomic Mass - 3.0 hrs
+
+o  Met with Amy H to discuss design questions
+o  Did several pair programming sessions with Aadish on this sim
+
+Gravity Force Lab - 2.5 hrs
+
+o  Fixed issues with the handling of long strings
+o  Tested, logged issue that occurs only on iPad 3 and iOS 9 (so far)
+
+Bending Light - 1.0 hrs
+
+o  Worked with Sam R on a rendering issue that only showed up on Windows
+
+Friction - 0.5 hrs
+
+o  Published version 1.2.0
+
+Gene Expression Basics - 0.5 hrs
+
+o  Had a brief discussion with Ashraf, GEB is still on hold while Making Tens is finished up
+
+Interoperability - 1.5 hrs
+
+o  Weekly requirements/design meeting
+o  Looked at conditional inclusion of scripts in order to enable testing of phet-io features without requiring a unique HTML file
+
+Developer Meeting - 2.5 hrs
+
+o  Participated in developer meetings on Tuesday and Thursday
+
+Environment - 3.0 hrs
+
+o  Worked with Aadish to get him set up with tools, accounts, and information necessary to do sim development
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be taking some time off during Thanksgiving week
