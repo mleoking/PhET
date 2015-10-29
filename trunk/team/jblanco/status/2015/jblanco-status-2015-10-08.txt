@@ -1,0 +1,72 @@
+
+PhET Progress Report, J. Blanco, 10-8-2015
+
+PhET Progress Report
+John Blanco
+October 8th, 2015
+
+Time period covered: October 1st through October 7th.
+
+Neuron - 9.0 hrs
+
+o  Implemented optimization of the traveling action potential, improved iPad 2 performance 30-40%
+o  Fixed an issue with traveling action potential found during fuzz testing
+o  Continued working through code review checklist
+
+Beaker - 1.0 hrs
+
+o  Tested in iframe to verify recent changes made to the in-iframe mouse behavior
+
+States of Matter - 5.0 hrs
+
+o  Completed integration with nitroglycerin repository
+
+Gene Expression Basics - 0.5 hrs
+
+o  Brief discussion with Ashraf, basically this is taking a back seat to Making Tens for a while
+
+Balancing Act - 0.5 hrs
+
+o  Provided feedback on revised artwork
+
+Common Code - 3.0 hrs
+
+o  Finished (hopefully) work on buttons with some rounded corners, primarily in support of carousel buttons.
+o  Logged issue about potential removal of Ogg Vorbis versions of the sound effects
+
+Installer Builder - 0.5 hrs
+
+o  Verified that the activities-included versions are being correctly backed up
+
+Interoperability - 1.5 hrs
+
+o  Weekly requirements/design meeting
+o  Tried out some of the proposals for namespacing
+
+Developer Meeting - 4.0 hrs
+
+o  Participated in developer meetings on Tuesday and Thursday
+
+Translation - 3.0 hrs
+
+o  Worked with Steele on testing simultaneous commits and logging issues for what was found
+o  Worked with Aaron on testing the crash monitor
+
+Environment - 2.0 hrs
+
+o  Set up ESLint within IntelliJ
+o  Started setting up an older machine for use as a test server
+
+Education - 1.0 hrs
+
+o  Attended this week's colloquium
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Normal email and administrative overhead
+o  Filled out ePER and DEPA
+
+Vacation, Holidays, and Sick Time - 1.0 hrs
+
+o  Will likely take a vacation day on Friday, October 16th

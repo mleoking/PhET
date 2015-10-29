@@ -1,0 +1,81 @@
+
+PhET Progress Report, J. Blanco, 10-22-2015
+
+PhET Progress Report
+John Blanco
+October 22nd, 2015
+
+Time period covered: October 15th through October 21st.
+
+States of Matter - 0.5 hrs
+
+o  Fixed some last issues with appearance of the bicycle pump
+
+Arithmetic - 2.0 hrs
+
+o  Fixed issue with max number of digits that can be entered
+o  Fixed issue where smile face could appear when it shouldn't
+o  Started working to track down some fuzz test errors
+
+Faraday's Law - 2.5 hrs
+
+o  Fixed issues with handling of long strings
+o  Created a release candidate using a previously identified set of stable SHAs for common code
+
+Friction - 4.5 hrs
+
+o  Created a release candidate using a previously identified set of stable SHAs for common code
+o  Worked with JO to track down issues identified by first release candidate
+o  Created a second release candidate using previously identified SHAs plus fixed version of Scenery
+
+Neuron - 4.0 hrs
+
+o  Fixed issue where membrane channels were not resetting correctly if reset occurred during action potential
+
+Gene Expression Basics - 0.5 hrs
+
+o  Had a brief discussion with Ashraf, GEB is still on hold while Making Tens is finished up
+
+Common Code - 0.5 hrs
+
+o  Updated all license files so that they have a valid SPDX identifier for GPL-3.0
+
+Installer - 2.0 hrs
+
+o  Posted backup versions when it was observed that the activities-included installers were too small to include the activities
+o  Worked with AD to get issue resolved and test the fix
+
+Translation - 1.0 hrs
+
+o  Made a list of possible items for an outside developer to work on
+
+Build Tools - 1.0 hrs
+
+o  Discussed potential issue with SR where "HEAD" is being recorded as branch for releases instead of "master", which was done previously.
+
+Interoperability - 1.5 hrs
+
+o  Weekly requirements/design meeting
+
+Developer Meeting - 3.0 hrs
+
+o  Participated in developer meetings on Tuesday and Thursday
+
+Environment - 1.5 hrs
+
+o  Discussed issue with the Java code signing certificate with SR, updated issue note for when we need to renew certificate
+o  Worked with Oliver on getting a new main development computer
+
+Interviews - 1.5 hrs
+
+o  Did a pair programming session with Aadish Gupta, a candidate for a development intern position
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Normal email and administrative overhead
+o  Filled out ePER and DEPA
+
+Vacation, Holidays, and Sick Time - 8.0 hrs
+
+o  Took Friday, October 16th as a vacation day

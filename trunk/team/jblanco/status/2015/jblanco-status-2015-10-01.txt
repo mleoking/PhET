@@ -1,0 +1,73 @@
+
+PhET Progress Report, J. Blanco, 10-1-2015
+
+PhET Progress Report
+John Blanco
+October 1st, 2015
+
+Time period covered: September 24th through September 30th.
+
+Neuron - 1.5 hrs
+
+o  Updated credits
+o  Fixed an issue revealed by fuzz testing
+
+States of Matter - 3.0 hrs
+
+o  Updated atom colors to have more contrast and work better for color blind individuals
+o  Integrated with nitroglycerin repository
+
+Gene Expression Basics - 1.5 hrs
+
+o  Met with Ashraf and Safi to discuss progress and review code
+
+Area Builder - 1.0 hrs
+
+o  Integrated new common code carousel
+
+Isotopes and Atomic Mass - 1.0 hrs
+
+o  Met with Amy H to discuss some design questions
+
+Balancing Act - 0.5 hrs
+
+o  Provided feedback on revised artwork
+
+Beaker - 1.0 hrs
+
+o  Fixed an issue with tweaker behavior
+
+Common Code - 1.5 hrs
+
+o  Started on provided the ability to set radii of corners independently
+
+Installer Builder - 3.0 hrs
+
+o  Verified that activities-included versions are now being automatically deployed
+o  Added activities-included versions to the rotating backup
+
+Interoperability - 1.5 hrs
+
+o  Weekly requirements/design meeting
+
+Developer Meeting - 5.5 hrs
+
+o  Participated in developer meetings on Tuesday and Thursday
+
+Translation - 10.0 hrs
+
+o  Performed code review of Rosetta, logged a number of issues
+o  Met with Aaron to discuss several questions and thoughts on Rosetta
+
+Miscellaneous - 1.0 hrs
+
+o  Looked through sims for which I was liaison or primary developer and ranked them in terms of amount of work to prepare for redeployment
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o  Weekly status report
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 4.0 hrs
+
+o  Took a half day of vacation on Monday, September 28th
