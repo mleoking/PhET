@@ -7,5 +7,5 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  * @author Sam Reid
  */
 public enum SystemComponents implements ISystemComponent {
-    simsharingManager, application, phetFrame, sponsorDialog, resetAllConfirmationDialog, loadTester, invalidValueDialog
+    simsharingManager, application, phetFrame, sponsorDialog, askDialog, resetAllConfirmationDialog, loadTester, invalidValueDialog
 }

@@ -6,11 +6,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JSpinner;
-import javax.swing.JWindow;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.sponsorship.AskDialog;
 import edu.colorado.phet.common.phetcommon.sponsorship.SponsorDialog;
 import edu.colorado.phet.common.phetcommon.sponsorship.SponsorMenuItem;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
@@ -135,19 +134,39 @@ public class PhetApplicationLauncher {
                             }
                         };
 
-                        // Display KSU Credits window, followed by Sponsor dialog (both optional)
-                        if ( KSUCreditsWindow.shouldShow( config ) ) {
-                            JWindow window = KSUCreditsWindow.show( app.getPhetFrame() );
-                            // wait until KSU Credits window is closed before calling sponsor function
-                            window.addWindowListener( new WindowAdapter() {
-                                @Override public void windowClosed( WindowEvent e ) {
+                        final VoidFunction0 ksuFunction = new VoidFunction0() {
+                            public void apply() {
+                                // Display KSU Credits window, followed by Sponsor dialog (both optional)
+                                if ( KSUCreditsWindow.shouldShow( config ) ) {
+                                    JWindow window = KSUCreditsWindow.show( app.getPhetFrame() );
+                                    // wait until KSU Credits window is closed before calling sponsor function
+                                    window.addWindowListener( new WindowAdapter() {
+                                        @Override public void windowClosed( WindowEvent e ) {
+                                            sponsorFunction.apply();
+                                        }
+                                    } );
+                                }
+                                else {
+                                    // No KSU Credits window, call sponsor function
                                     sponsorFunction.apply();
+                                }
+                            }
+                        };
+
+
+                        // Display ask dialog, followed by KSU Credits window, followed by Sponsor dialog (all optional)
+                        if ( AskDialog.shouldShow( config ) ) {
+                            JDialog dialog = AskDialog.show( config, app.getPhetFrame(), true );
+                            // wait until ask dialog is closed before calling KSU Credits window function
+                            dialog.addWindowListener( new WindowAdapter() {
+                                @Override public void windowClosed( WindowEvent e ) {
+                                    ksuFunction.apply();
                                 }
                             } );
                         }
                         else {
-                            // No KSU Credits window, call sponsor function
-                            sponsorFunction.apply();
+                            // No ask dialog, call KSU window function
+                            ksuFunction.apply();
                         }
 
                         //Ignore statistics and updates for sims that are still under development
