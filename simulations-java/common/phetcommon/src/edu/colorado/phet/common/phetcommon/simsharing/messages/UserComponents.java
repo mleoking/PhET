@@ -6,7 +6,7 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  */
 public enum UserComponents implements IUserComponent {
     playPauseButton, tab, stepButton, stepBackButton, rewindButton,
-    sponsorDialog, dataCollectionLogMenuItem,
+    sponsorDialog, askDialog, dataCollectionLogMenuItem,
     resetAllConfirmationDialogYesButton, resetAllConfirmationDialogNoButton,
     nextButton, previousButton,
 

@@ -216,6 +216,10 @@ public class PhetApplicationConfig implements ISimInfo {
         return !hasCommandLineArg( "-sponsor-off" );
     }
 
+    public boolean isAskFeatureEnabled() {
+        return hasCommandLineArg( "-show-ask" );
+    }
+
     /**
      * Project JAR file is named <project>_all.jar
      */
