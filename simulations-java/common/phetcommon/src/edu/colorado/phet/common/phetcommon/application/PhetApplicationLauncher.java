@@ -153,20 +153,27 @@ public class PhetApplicationLauncher {
                             }
                         };
 
-                        // Display "Ask" dialog, followed by KSU Credits window, followed by Sponsor dialog (all optional)
-                        if ( AskDialog.shouldShow( config ) ) {
-                            JDialog dialog = AskDialog.show( config, app.getPhetFrame(), true );
-                            // wait until ask dialog is closed before calling KSU Credits window function
-                            dialog.addWindowListener( new WindowAdapter() {
-                                @Override public void windowClosed( WindowEvent e ) {
+                        final VoidFunction0 askFunction = new VoidFunction0() {
+                            public void apply() {
+                                // Display "Ask" dialog, followed by KSU Credits window (both optional)
+                                if ( AskDialog.shouldShow( config ) ) {
+                                    JDialog dialog = AskDialog.show( config, app.getPhetFrame(), true );
+                                    // wait until "Ask" dialog is closed before calling KSU Credits window function
+                                    dialog.addWindowListener( new WindowAdapter() {
+                                        @Override public void windowClosed( WindowEvent e ) {
+                                            ksuFunction.apply();
+                                        }
+                                    } );
+                                }
+                                else {
+                                    // No "Ask" dialog, call KSU function
                                     ksuFunction.apply();
                                 }
-                            } );
-                        }
-                        else {
-                            // No ask dialog, call KSU window function
-                            ksuFunction.apply();
-                        }
+                            }
+                        };
+
+                        // Start with "Ask" dialog
+                        askFunction.apply();
 
                         //Ignore statistics and updates for sims that are still under development
                         if ( app.getSimInfo().getVersion().getMajorAsInt() >= 1 ) {
