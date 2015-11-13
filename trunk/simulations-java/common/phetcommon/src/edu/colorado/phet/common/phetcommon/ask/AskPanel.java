@@ -15,8 +15,6 @@ import javax.swing.border.LineBorder;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
