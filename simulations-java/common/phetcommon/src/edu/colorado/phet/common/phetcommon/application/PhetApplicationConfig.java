@@ -217,7 +217,7 @@ public class PhetApplicationConfig implements ISimInfo {
     }
 
     public boolean isAskFeatureEnabled() {
-        return hasCommandLineArg( "-show-ask" );
+        return hasCommandLineArg( "-ask" );
     }
 
     /**
