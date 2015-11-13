@@ -134,6 +134,7 @@ public class PhetApplicationLauncher {
                             }
                         };
 
+                        // Function for displaying KSU Credits window
                         final VoidFunction0 ksuFunction = new VoidFunction0() {
                             public void apply() {
                                 // Display KSU Credits window, followed by Sponsor dialog (both optional)
@@ -153,6 +154,7 @@ public class PhetApplicationLauncher {
                             }
                         };
 
+                        // Function for displaying "Ask" dialog (asks for a donation)
                         final VoidFunction0 askFunction = new VoidFunction0() {
                             public void apply() {
                                 // Display "Ask" dialog, followed by KSU Credits window (both optional)
