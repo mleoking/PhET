@@ -159,7 +159,7 @@ public class PhetApplicationLauncher {
                             public void apply() {
                                 // Display "Ask" dialog, followed by KSU Credits window (both optional)
                                 if ( AskDialog.shouldShow( config ) ) {
-                                    JDialog dialog = AskDialog.show( config, app.getPhetFrame() );
+                                    JDialog dialog = AskDialog.show( app.getPhetFrame() );
                                     // wait until "Ask" dialog is closed before calling KSU Credits window function
                                     dialog.addWindowListener( new WindowAdapter() {
                                         @Override public void windowClosed( WindowEvent e ) {

@@ -11,7 +11,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -26,7 +25,7 @@ class AskPanel extends GridPanel {
 
     private static final String DONATE_URL = "https://donatenow.networkforgood.org/1437859";
 
-    public AskPanel( PhetApplicationConfig config, final Dialog dialog ) {
+    public AskPanel( final Dialog dialog ) {
 
         // layout components, some of which are optional
         int xMargin = 40;
