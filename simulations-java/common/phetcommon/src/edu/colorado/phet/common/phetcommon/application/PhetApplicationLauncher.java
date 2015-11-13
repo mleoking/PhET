@@ -153,8 +153,7 @@ public class PhetApplicationLauncher {
                             }
                         };
 
-
-                        // Display ask dialog, followed by KSU Credits window, followed by Sponsor dialog (all optional)
+                        // Display "Ask" dialog, followed by KSU Credits window, followed by Sponsor dialog (all optional)
                         if ( AskDialog.shouldShow( config ) ) {
                             JDialog dialog = AskDialog.show( config, app.getPhetFrame(), true );
                             // wait until ask dialog is closed before calling KSU Credits window function

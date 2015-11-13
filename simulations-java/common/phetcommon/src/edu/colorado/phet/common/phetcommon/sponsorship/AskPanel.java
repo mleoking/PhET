@@ -54,7 +54,6 @@ public class AskPanel extends GridPanel {
         }} );
 
         add( Box.createVerticalStrut( 15 ) );
-//        add( createInteractiveHTMLPane( donateURL, visibleURL, new PhetFont( 14 ) ) );
         JButton donateButton = new JButton( "Make a Donation!" );
         donateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -71,11 +70,5 @@ public class AskPanel extends GridPanel {
         } );
         add( noThanksButton );
         add( Box.createVerticalStrut( 15 ) );
-    }
-
-    private static InteractiveHTMLPane createInteractiveHTMLPane( String actualURL, String visibleURL, Font font ) {
-        return new InteractiveHTMLPane( HTMLUtils.createStyledHTMLFromFragment( "<a href=\"" + actualURL + "\" target=\"_blank\">" + visibleURL, font ) ) {{
-            setOpaque( false );
-        }};
     }
 }
