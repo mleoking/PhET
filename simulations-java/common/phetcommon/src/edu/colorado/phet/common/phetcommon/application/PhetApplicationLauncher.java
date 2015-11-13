@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.sponsorship.AskDialog;
+import edu.colorado.phet.common.phetcommon.ask.AskDialog;
 import edu.colorado.phet.common.phetcommon.sponsorship.SponsorDialog;
 import edu.colorado.phet.common.phetcommon.sponsorship.SponsorMenuItem;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
