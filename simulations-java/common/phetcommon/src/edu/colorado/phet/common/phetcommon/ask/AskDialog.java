@@ -27,8 +27,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
  */
 public class AskDialog extends JDialog {
 
-    private static final int DISPLAY_TIME = 10; // seconds
-
     // Constructor is private, creation and display is handled by static methods.
     private AskDialog( PhetApplicationConfig config, Frame parent ) {
         super( parent );
