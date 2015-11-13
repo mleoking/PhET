@@ -1,4 +1,5 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2015, University of Colorado Boulder
+
 package edu.colorado.phet.common.phetcommon.ask;
 
 import java.awt.*;
