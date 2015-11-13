@@ -54,21 +54,35 @@ public class AskPanel extends GridPanel {
         }} );
 
         add( Box.createVerticalStrut( 15 ) );
+
+        // Opens a web browser and closes the dialog
         JButton donateButton = new JButton( "Make a Donation!" );
         donateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 PhetServiceManager.showWebPage( donateURL );
+                dialog.dispose();
             }
         } );
         add( donateButton );
 
-        JButton noThanksButton = new JButton( "No Thanks" );
-        noThanksButton.addActionListener( new ActionListener() {
+        // Closes the dialog
+        JButton maybeLaterButton = new JButton( "Maybe later" );
+        maybeLaterButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dialog.dispose();
             }
         } );
-        add( noThanksButton );
+        add( maybeLaterButton );
+
+        // Closes the dialog
+        JButton playButton = new JButton( "Play" );
+        playButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dialog.dispose();
+            }
+        } );
+        add( playButton );
+
         add( Box.createVerticalStrut( 15 ) );
     }
 }
