@@ -3,15 +3,12 @@
 package edu.colorado.phet.common.phetcommon.ask;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -31,17 +28,8 @@ public class AskDialog extends JDialog {
         super( parent );
         setResizable( false );
         setContentPane( new AskPanel( this ) );
-        SwingUtils.setBackgroundDeep( this, Color.WHITE ); // color expected by sponsors
+        SwingUtils.setBackgroundDeep( this, Color.WHITE );
         pack();
-
-        // click on the dialog to make it go away
-        addMouseListener( new MouseAdapter() {
-            @Override
-            public void mousePressed( MouseEvent event ) {
-                SimSharingManager.sendUserMessage( askDialog, UserComponentTypes.dialog, UserActions.pressed );
-                dispose();
-            }
-        } );
     }
 
     // Show the dialog, centered in the parent frame.
