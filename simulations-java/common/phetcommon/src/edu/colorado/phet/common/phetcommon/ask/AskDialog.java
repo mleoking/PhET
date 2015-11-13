@@ -28,10 +28,10 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
 public class AskDialog extends JDialog {
 
     // Constructor is private, creation and display is handled by static methods.
-    private AskDialog( PhetApplicationConfig config, Frame parent ) {
+    private AskDialog( Frame parent ) {
         super( parent );
         setResizable( false );
-        setContentPane( new AskPanel( config, this ) );
+        setContentPane( new AskPanel( this ) );
         SwingUtils.setBackgroundDeep( this, Color.WHITE ); // color expected by sponsors
         pack();
 
@@ -46,9 +46,9 @@ public class AskDialog extends JDialog {
     }
 
     // Show the dialog, centered in the parent frame.
-    public static JDialog show( PhetApplicationConfig config, Frame parent ) {
+    public static JDialog show( Frame parent ) {
 
-        final JDialog dialog = new AskDialog( config, parent );
+        final JDialog dialog = new AskDialog( parent );
         dialog.addWindowListener( new WindowAdapter() {
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
