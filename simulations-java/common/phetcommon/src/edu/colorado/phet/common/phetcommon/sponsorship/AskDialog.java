@@ -25,8 +25,9 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.askDialog;
 
 /**
- * Dialog that displays a simulation's sponsor.
+ * Dialog that asks for a donation.
  *
+ * @author Aaron Davis
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class AskDialog extends JDialog {
