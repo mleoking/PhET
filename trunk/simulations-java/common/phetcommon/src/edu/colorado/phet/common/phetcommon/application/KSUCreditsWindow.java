@@ -41,7 +41,7 @@ public class KSUCreditsWindow extends JWindow {
         JLabel label = new JLabel( TRANSLATED_BY );
         label.setFont( new PhetFont( 18 ) );
 
-        JLabel logo = new JLabel( new ImageIcon( PhetCommonResources.getImage( ( "logos/ECSME-KSU-logos.jpg" ) ) ) );
+        JLabel logo = new JLabel( new ImageIcon( PhetCommonResources.getImage( "logos/ECSME-KSU-logos.jpg" ) ) );
 
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
         int margin = 12;
