@@ -53,7 +53,7 @@ public class AskDialog extends JDialog {
     }
 
     // Show the dialog, centered in the parent frame.
-    public static JDialog show( PhetApplicationConfig config, Frame parent, boolean startDisposeTimer ) {
+    public static JDialog show( PhetApplicationConfig config, Frame parent ) {
 
         final JDialog dialog = new AskDialog( config, parent );
         dialog.addWindowListener( new WindowAdapter() {
@@ -65,25 +65,6 @@ public class AskDialog extends JDialog {
         } );
         SwingUtils.centerInParent( dialog );
         dialog.setVisible( true );
-
-        if ( startDisposeTimer ) {
-            // Dispose of the dialog after DISPLAY_TIME seconds. Take care to call dispose in the Swing thread.
-            final Timer timer = new Timer( DISPLAY_TIME * 1000, new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if ( dialog.isDisplayable() ) {
-                        SimSharingManager.sendSystemMessage( SystemComponents.askDialog, SystemComponentTypes.dialog, SystemActions.windowClosed );
-                        dialog.dispose();
-                    }
-                }
-            } );
-            timer.setRepeats( false );
-            dialog.addWindowListener( new WindowAdapter() {
-                @Override public void windowClosed( WindowEvent e ) {
-                    timer.stop();
-                }
-            } );
-            timer.start();
-        }
         return dialog;
     }
 
