@@ -10,7 +10,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -59,10 +58,5 @@ public class AskDialog extends JDialog {
         SwingUtils.centerInParent( dialog );
         dialog.setVisible( true );
         return dialog;
-    }
-
-    // Should the dialog be displayed?
-    public static boolean shouldShow( PhetApplicationConfig config ) {
-        return config.isAskFeatureEnabled();
     }
 }
