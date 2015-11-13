@@ -5,8 +5,6 @@ package edu.colorado.phet.common.phetcommon.ask;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -14,9 +12,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Panel that asks for a donation.
@@ -24,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * @author Aaron Davis
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AskPanel extends GridPanel {
+class AskPanel extends GridPanel {
 
     private static final String DONATE_URL = "https://donatenow.networkforgood.org/1437859";
 
@@ -36,13 +34,11 @@ public class AskPanel extends GridPanel {
         setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( yMargin, xMargin, yMargin, xMargin ) ) );
         setGridX( 0 ); // vertical
         setAnchor( Anchor.CENTER );
-        add( new JLabel( "Donate to PhET!" ) {{
-            setFont( new PhetFont( 18 ) );
-        }} );
+
         add( Box.createVerticalStrut( 15 ) );
 
         // image
-        add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( "phet-girl-donate_experienced.png" ) ) ) );
+        add( new JLabel( new ImageIcon( PhetCommonResources.getImage( "ask/ask.png" ) ) ) );
 
         add( Box.createVerticalStrut( 15 ) );
 
