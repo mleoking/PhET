@@ -26,10 +26,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class AskPanel extends GridPanel {
 
-    public AskPanel( PhetApplicationConfig config, final Dialog dialog ) {
+    private static final String DONATE_URL = "https://donatenow.networkforgood.org/1437859";
 
-        final String donateURL = "https://donatenow.networkforgood.org/1437859";
-        String visibleURL = "Make a Donation!";
+    public AskPanel( PhetApplicationConfig config, final Dialog dialog ) {
 
         // layout components, some of which are optional
         int xMargin = 40;
@@ -43,14 +42,7 @@ public class AskPanel extends GridPanel {
         add( Box.createVerticalStrut( 15 ) );
 
         // image
-        add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( "phet-girl-donate_experienced.png" ) ) ) {{
-            // #3364, clicking on the image opens a web browser to the URL
-            addMouseListener( new MouseAdapter() {
-                @Override public void mousePressed( MouseEvent e ) {
-                    PhetServiceManager.showWebPage( donateURL );
-                }
-            } );
-        }} );
+        add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( "phet-girl-donate_experienced.png" ) ) ) );
 
         add( Box.createVerticalStrut( 15 ) );
 
@@ -58,7 +50,7 @@ public class AskPanel extends GridPanel {
         JButton donateButton = new JButton( "Make a Donation!" );
         donateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetServiceManager.showWebPage( donateURL );
+                PhetServiceManager.showWebPage( DONATE_URL );
                 dialog.dispose();
             }
         } );
