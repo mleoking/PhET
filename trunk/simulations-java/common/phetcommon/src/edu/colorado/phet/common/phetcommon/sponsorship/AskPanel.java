@@ -20,8 +20,9 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPa
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
- * Panel that displays sponsor information.
+ * Panel that asks for a donation.
  *
+ * @author Aaron Davis
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class AskPanel extends GridPanel {
