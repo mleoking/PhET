@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
@@ -9,7 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.ask.AskDialog;
 import edu.colorado.phet.common.phetcommon.sponsorship.SponsorDialog;
 import edu.colorado.phet.common.phetcommon.sponsorship.SponsorMenuItem;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
@@ -154,28 +153,8 @@ public class PhetApplicationLauncher {
                             }
                         };
 
-                        // Function for displaying "Ask" dialog (asks for a donation)
-                        final VoidFunction0 askFunction = new VoidFunction0() {
-                            public void apply() {
-                                // Display "Ask" dialog, followed by KSU Credits window (both optional)
-                                if ( config.isAskFeatureEnabled() ) {
-                                    JDialog dialog = AskDialog.show( app.getPhetFrame() );
-                                    // wait until "Ask" dialog is closed before calling KSU Credits window function
-                                    dialog.addWindowListener( new WindowAdapter() {
-                                        @Override public void windowClosed( WindowEvent e ) {
-                                            ksuFunction.apply();
-                                        }
-                                    } );
-                                }
-                                else {
-                                    // No "Ask" dialog, call KSU function
-                                    ksuFunction.apply();
-                                }
-                            }
-                        };
-
-                        // Start with "Ask" dialog
-                        askFunction.apply();
+                        // Start with "KSU" window
+                        ksuFunction.apply();
 
                         //Ignore statistics and updates for sims that are still under development
                         if ( app.getSimInfo().getVersion().getMajorAsInt() >= 1 ) {
