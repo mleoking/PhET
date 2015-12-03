@@ -1,0 +1,75 @@
+PhET Progress Report, J. Blanco, 11-19-2015
+
+PhET Progress Report
+John Blanco
+November 19th, 2015
+
+Time period covered: November 12th through November 18th.
+
+Arithmetic - 7.0 hrs
+
+o  Completed startup time optimizations
+o  Implemented some color changes for dialogs, buttons, control panel
+o  Discussed factor screen behavior with Amanda, implemented a change
+
+Isotopes and Atomic Mass - 5.0 hrs
+
+o  Worked with Aadish to integrate new scale, debug neutron extraction, create the pie chart, integrate the symbol
+o  Resized the icons
+
+Neuron - 3.0 hrs
+
+o  Fixed issue with clearing the chart and then rewinding the simulation
+o  Integrated new common code version of close button
+o  Worked on issue with rewind of sim to start, then clearing chart, then continuing forward
+
+Expression Exchange - 1.0 hrs
+
+o  Participated in design meeting
+
+Build an Atom - 4.0 hrs
+
+o  Fixed strings to match new pattern, updated string names to be more consistent with current conventions
+
+Gene Expression Basics - 2.0 hrs
+
+o  Updated the strings to match the new standard
+o  Had a brief discussion with Ashraf, GEB is still on hold while Making Tens is completed
+
+Common Code - 5.0 hrs
+
+o  Added visibility annotations to sun, vegas
+o  Fixed an issue in vibe (sound library) where attempting to play sounds before fully loaded would cause problems
+o  Code clean up in vibe
+
+Build Tools - 1.0 hrs
+
+o  Worked with Aaron on an issue with redeployment of sims
+
+Interoperability - 1.0 hrs
+
+o  Participated in weekly meeting
+
+Installer - 0.5 hrs
+
+o  Checked sizes, build dates, and log to verify that it was correctly built.  Did not test actual installation.
+
+Developer Meeting - 3.5 hrs
+
+o  Participated in developer meetings on Tuesday and Thursday
+
+Environment - 1.0 hrs
+
+o  Finished getting old Dell computer set up to run test server
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Filled out NSF demographic reporting
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 2.0 hrs
+
+o  Took two hours of sick time
+o  Will be off Tuesday through Friday of next week

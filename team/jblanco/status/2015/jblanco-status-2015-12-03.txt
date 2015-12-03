@@ -1,0 +1,78 @@
+PhET Progress Report, J. Blanco, 12-3-2015
+
+PhET Progress Report
+John Blanco
+December 3rd, 2015
+
+Time period covered: November 19th through December 2nd, which is a two-week period due to the Thanksgiving holiday
+
+Arithmetic - 8.0 hrs
+
+o  Published a version for dev testing
+o  Worked on improving maintainability of code
+o  Reviewed, verified, and updated several open issues
+
+Isotopes and Atomic Mass - 7.0 hrs
+
+o  Worked with Aadish on pie chart, periodic table appearance, popup buttons from periodic table, and the Mix Isotopes screen
+o  Various design discussions with Amy H
+
+Build an Atom - 3.0 hrs
+
+o  Fixed some duplicate strings that resulted from recent cleanup effort
+o  Supported a user who wants to make the sim have a configurable number of particles (on Google Group)
+
+Function Builder - 0.5 hrs
+
+o  Discussed interactive creator nodes with Chris
+
+Common Code - 8.0 hrs
+
+o  Finished visibility annotations for Sun
+o  Started adding namespacing in Sun
+o  Fixed automated test failure in Griddle (graphing library)
+
+Translation - 5.0 hrs
+
+o  Worked with Aaron to transition various credentials from him to me
+o  Tracked down an issue with handling of push failures and email notifications
+o  Fixed an issue with error logging
+o  Checked status several times to make sure it's running, pushes are working, and translated sims are being published
+
+Build Tools - 2.0 hrs
+
+o  Worked with Aaron to get credentials cut over to me and to review various aspects of operation
+o  Started setting up PostgreSQL on my local machine as a test environment for the build server
+
+Interoperability - 1.0 hrs
+
+o  Participated in weekly meeting
+
+Installer - 0.5 hrs
+
+o  Checked sizes, build dates, and log to verify that they were correctly built.
+
+Developer Meeting - 3.5 hrs
+
+o  Participated in developer meetings
+
+Environment - 1.0 hrs
+
+o  Worked with Oliver and Arnab on the setup of my new computer
+
+Customer Support - 0.5 hrs
+
+o  Responded to question about silent installations on Windows
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Discussed priorities with Ariel
+o  Weekly status report
+o  Weekly status meeting
+o  Filled out NSF demographic reporting (again, for a different grant)
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 32.0 hrs
+
+o  Took Tuesday Nov 24th and Wednesday Nov 25th as vacation days
+o  Thursday Nov 25th and Friday Nov 26th were university holidays
