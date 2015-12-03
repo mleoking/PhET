@@ -1,0 +1,72 @@
+
+PhET Progress Report, J. Blanco, 11-05-2015
+
+PhET Progress Report
+John Blanco
+November 29th, 2015
+
+Time period covered: October 29th through November 4th.
+
+Arithmetic - 10.0 hrs
+
+o  Fixed issues with changes to the "workkspace" when returning to the Level Selection state
+o  Added pre-completion of the Divide and Factor screens to aid in testing
+o  Fixed issues with level completion behavior for the Divide and Factor screens
+o  Gathered performance data on several platforms, have started work on improving startup time
+
+Isotopes and Atomic Mass - 8.0 hrs
+
+o  Worked with Aadish on the first screen, made good progress
+o  Added the new artwork for the scale
+
+Faraday's Law - 2.0 hrs
+
+o  Rolled a new release candidate to incorporate a handful of fixes resulting from first round of RC testing.
+o  Published version 1.1.0 to production server
+o  We already have 3 translations!
+
+Area Builder - 1.0 hrs
+
+o  Fixed a maintenance issue with carousel setup identified by Chris M
+
+Friction - 0.5 hrs
+
+o  Rolled a maintenance release - version 1.2.0 - to add QA credits
+
+Gravity Force Lab - 1.0 hrs
+
+o  Retested "spontaneous expansion" issue on iPad 3 after upgrading to iOS 9.1, still exists
+
+Gravity and Orbits - 0.5 hrs
+
+o  Discussed optimizations with Aaron D.
+
+Gene Expression Basics - 0.5 hrs
+
+o  Had a brief discussion with Ashraf, GEB is still on hold while Making Tens is completed
+
+Common Code - 4.0 hrs
+
+o  Fixed some issues and renamed the new NumberKeypad component
+o  Commented on API design for the ProbeNode
+o  Added fire-and-hold behavior to StepBackButton
+o  Updated some other open issues assigned to me
+
+Interoperability - 2.5 hrs
+
+o  Met with Deirdre K of ETS to go over questions and issues with their data collection
+o  Discussed the "escaped quotes" issue with Sam R
+
+Developer Meeting - 3.0 hrs
+
+o  Participated in developer meetings on Tuesday and Thursday
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  October vacations and sick leave report
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be taking some time off during Thanksgiving week

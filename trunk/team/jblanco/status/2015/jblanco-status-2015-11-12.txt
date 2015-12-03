@@ -1,0 +1,66 @@
+
+PhET Progress Report, J. Blanco, 11-12-2015
+
+PhET Progress Report
+John Blanco
+November 12th, 2015
+
+Time period covered: November 5th through November 11th.
+
+Arithmetic - 14.0 hrs
+
+o  Worked on decreasing startup time, down from 15+ seconds on iPad 2 and 3 to <10 seconds
+o  Implemented other minor UI changes
+
+Isotopes and Atomic Mass - 7.0 hrs
+
+o  Worked with Aadish on scale, icons, nucleus behavior, pie chart, and symbol
+o  Worked with Amy H on scale and icons
+o  Participated in design meeting
+
+Expression Exchange - 1.0 hrs
+
+o  Participated in design meeting
+
+Gene Expression Basics - 0.25 hrs
+
+o  Had a brief discussion with Ashraf, GEB is still on hold while Making Tens is completed
+
+Common Code - 3.0 hrs
+
+o  Worked with various team members to try to nail down an issue with layout on Chromebooks, looks like it was an OS issue that is now resolved
+
+Build Tools - 0.5 hrs
+
+o  Helped Sam test out the copyright script
+
+Translation - 3.0 hrs
+
+o  Worked with Aaron to resolve issue where maintenance releases were making previous translation unreachable
+
+Interoperability - 2.0 hrs
+
+o  Introduced Howard Palmer to Metacog
+o  Participated in meeting with Howard Palmer to discuss data logging for games and simulations
+
+Installer - 0.5 hrs
+
+o  Checked sizes, build dates, and log to verify that it was correctly built.  Did not test actual installation.
+
+Developer Meeting - 3.5 hrs
+
+o  Participated in developer meetings on Tuesday and Thursday
+
+Environment - 1.5 hrs
+
+o  Worked with Aadish on setting up live templates, copyright header, etc. in IntelliJ
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be taking some time off during Thanksgiving week
