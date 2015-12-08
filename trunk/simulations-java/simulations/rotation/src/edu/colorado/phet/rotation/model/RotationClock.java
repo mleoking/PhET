@@ -21,8 +21,8 @@ public class RotationClock extends ConstantDtClock {
 
     private static ArrayList clocks = new ArrayList();
 
-    public RotationClock() {
-        super( DELAY, DEFAULT_CLOCK_DT );
+    public RotationClock( double scaleFactor ) {
+        super( DELAY, DEFAULT_CLOCK_DT*scaleFactor );
         clocks.add( this );
         addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
