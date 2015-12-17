@@ -1,0 +1,65 @@
+PhET Progress Report, J. Blanco, 12-10-2015
+
+PhET Progress Report
+John Blanco
+December 10th, 2015
+
+Time period covered: December 3rd through December 9th
+
+Arithmetic - 19.0 hrs
+
+o  Fixed all outstanding issues with sim behavior
+o  Fixed some issues with handling of long, short, and RTL strings
+o  Did lots of code cleanup, refactoring, and documentation improvement in an effort to make the sim more maintainable
+o  Added visibility annotations
+o  Addressed all TODOs in the code
+o  Verified that the "auto answer" feature is disabled in released code (i.e. code without a dash in the version number)
+o  Set up issue with code review checklist, am almost done going through it
+
+Isotopes and Atomic Mass - 6.0 hrs
+
+o  Reviewed in design meeting
+o  Worked with Aadish on modified periodic table, pie chart modifications, layout changes, label positioning
+o  Got Aadish set up on spot and did a dev release to test the process
+
+Build an Atom - 0.5 hrs
+
+o  Provided contact information for Kathy D to developer who was working on configurable version
+
+Common Code - 3.0 hrs
+
+o  Finished namespacing sun
+o  Added vibe to phetmarks examples
+
+Translation - 1.5 hrs
+
+o  Checked that modifications for preventing unprintable characters from going into the log worked
+o  Verified that improvements to the notification emails worked
+o  Followed up on another PUSH FAILED email (and everything is fine)
+
+Interoperability - 1.0 hrs
+
+o  Discussed instrumentation of BAA game with Sam
+
+Installer Builder - 0.5 hrs
+
+o  Checked sizes, build dates, and log to verify that installers were correctly built
+
+Developer Meeting - 3.5 hrs
+
+o  Participated in developer meetings
+
+Environment - 1.5 hrs
+
+o  Worked with Oliver and Arnab on the setup of my new computer
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  November leave report
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be taking some time off around Christmas and New Year's, details TBD

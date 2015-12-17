@@ -1,0 +1,65 @@
+PhET Progress Report, J. Blanco, 12-17-2015
+
+PhET Progress Report
+John Blanco
+December 17th, 2015
+
+Time period covered: December 10th through December 16th
+
+Arithmetic - 18.0 hrs
+
+o  Went through code review checklist
+o  Profiled for memory leaks, looks good
+o  Published release candidate 1.0.0-rc.1 for testing, set up test matrix and task
+o  Added title to scoreboard
+o  Fixed issues with sound playing on retries for the factor screen
+o  Finalized credits
+o  Fixed issue with feedback face timer not being reset on quick answers
+o  Published release candidate 1.0.0-rc.2 for testing, set up test matrix and task
+
+Neuron - 12.0 hrs
+
+o  Fixed issues related to rewinding, then clearing the chart (which clears the recorded data)
+o  Made concentration readouts track more closely to membrane edge
+o  Cut over to new way of event emission
+o  Worked on issue with playback not respecting the speed setting
+
+Function Builder - 1.0 hrs
+
+o  Discussed ShapeCreatorNode with Chris for possible reuse or leveraging
+
+Isotopes and Atomic Mass - 0.0 hrs
+
+o  On hold this week while Aadish concentrates on finals
+
+Gene Expression Basics - 0.0 hrs
+
+o  On hold while Ashraf recovers from flooding and finishes Making Tens
+
+Interoperability - 1.0 hrs
+
+o  Weekly meeting
+
+Installer Builder - 0.5 hrs
+
+o  Checked sizes, build dates, and log to verify that installers were correctly built
+
+Developer Meeting - 1.5 hrs
+
+o  Participated in developer meeting on Thursday
+
+Environment - 1.5 hrs
+
+o  Worked on setup of new computer
+o  Set up a new gmail account for using with PhET - jbphet@gmail.com
+
+Meetings, Email, and Other Administrative Overhead - 3.0 hrs
+
+o  Weekly status report
+o  Weekly status meeting
+o  Rescued Mike D from being locked in restroom
+o  Normal email and administrative overhead
+
+Vacation, Holidays, and Sick Time - 0.0 hrs
+
+o  Will be taking Dec 23rd, 29th and 30th as vacation days
