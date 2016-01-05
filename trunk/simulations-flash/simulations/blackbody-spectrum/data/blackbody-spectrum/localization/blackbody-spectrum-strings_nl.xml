@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--blackbody-spectrum-strings_nl.xml created Fri Nov 14 18:50:53 GMT+01:00 2008 using: blackbody-spectrum 1.00.00 (22386), translation-utility 1.08.00 (25822)-->
-<SimStrings>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_nl.xml created Tue Sep 29 20:57:39 CEST 2015 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.18.00 (74383) mei 28, 2015--><SimStrings>
 <string key="r" value="R"/>
-<string key="zoomIn" value="zoem \n in"/>
+<string key="zoomIn" value="zoom \n in"/>
 <string key="intensity" value="intensiteit"/>
-<string key="zoomOut" value="zoem \n uit"/>
+<string key="simTitle" value="zwarte straler"/>
+<string key="zoomOut" value="zoom \n uit"/>
 <string key="clear" value="wis"/>
 <string key="g" value="G"/>
 <string key="sun" value="zon"/>
