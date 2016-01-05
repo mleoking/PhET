@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_az.xml created Thu Oct 01 15:59:26 AZST 2015 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.18.00 (74383) May 28, 2015--><SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="müqavimət "/>
+<string key="ohm" value="om"/>
+<string key="simTitle" value="Naqildə olan Müqavimət"/>
+<string key="translation.credits" value="Camil Aliyev"/>
+</SimStrings>
