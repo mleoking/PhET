@@ -23,6 +23,44 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.mkString;
  * @author Sam Reid
  */
 public class PropertiesToRequireJSI18n {
+
+    public static class All {
+        static final ArrayList<String> alreadyDone = new ArrayList<String>();
+
+        public static void main( String[] args ) throws IOException {
+            File root = new File( "/Users/samreid/phet-svn-trunk/simulations-java" );
+
+            visit( root );
+        }
+
+        private static void visit( File f ) throws IOException {
+            if ( f.isDirectory() ) {
+                File[] files = f.listFiles();
+                for ( int i = 0; i < files.length; i++ ) {
+                    File file = files[i];
+                    visit( file );
+                }
+            }
+            else {
+                if ( f.getAbsolutePath().endsWith( ".properties" ) &&
+                     f.getParentFile().getName().equals( "localization" ) &&
+                     f.getAbsolutePath().contains( "-strings_" ) ) {
+                    System.out.println( "Found Properties file: " + f.getAbsolutePath() );
+                    String projectName = f.getParentFile().getParentFile().getName();
+
+                    String localizationDir = f.getParentFile().getAbsolutePath();
+                    if ( !alreadyDone.contains( localizationDir ) ) {
+                        File file = new File( "/Users/samreid/github/babel/autoport/" + projectName );
+                        file.mkdirs();
+
+                        PropertiesToRequireJSI18n.main( new String[]{localizationDir, file.getAbsolutePath()} );
+                        alreadyDone.add( localizationDir );
+                    }
+                }
+            }
+        }
+    }
+
     public static void main( final String[] args ) throws IOException {
 
         // First command-line argument is the localization directory, such as "C:\workingcopy\phet\svn-1.7\trunk\simulations-java\simulations\energy-skate-park\data\energy-skate-park\localization"
@@ -50,10 +88,22 @@ public class PropertiesToRequireJSI18n {
                 load( new FileInputStream( file ) );
             }};
 
-            String data = mkString( map( p.keySet(), new Function1<Object, String>() {
+            Set<Object> keySet = p.keySet();
+            ArrayList<Object> reducedKeySet = new ArrayList<Object>();
+            for ( Object k : keySet ) {
+
+                // skip anything that seems like it might have HTML
+                if ( !p.get(k).toString().contains( "<" ) ) {
+                    reducedKeySet.add( k );
+                }
+            }
+
+            String data = mkString( map( reducedKeySet, new Function1<Object, String>() {
                 public String apply( Object keyObject ) {
-                    return "  \"" + escapeDoubleQuoteJS( keyObject.toString() ) + "\": {\n" +
-                           "    \"value\": \"" + escapeDoubleQuoteJS( p.get( keyObject ).toString() ) + "\"\n" +
+                    String keyString = keyObject.toString();
+                    String valueString = p.get( keyObject ).toString();
+                    return "  \"" + escapeDoubleQuoteJS( keyString ) + "\": {\n" +
+                           "    \"value\": \"" + escapeDoubleQuoteJS( valueString ) + "\"\n" +
                            "  }";
                 }
             } ), ",\n" );
