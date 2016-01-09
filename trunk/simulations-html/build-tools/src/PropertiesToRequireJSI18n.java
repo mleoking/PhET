@@ -51,6 +51,9 @@ public class PropertiesToRequireJSI18n {
                     String localizationDir = f.getParentFile().getAbsolutePath();
                     if ( !alreadyDone.contains( localizationDir ) ) {
                         File file = new File( "/Users/samreid/github/babel/autoport/" + projectName );
+                        if ( file.exists() ) {
+                            System.err.println( "Danger!  Directory already existed, there may be a collision: " + file.getAbsolutePath() );
+                        }
                         file.mkdirs();
 
                         PropertiesToRequireJSI18n.main( new String[]{localizationDir, file.getAbsolutePath()} );
@@ -93,7 +96,7 @@ public class PropertiesToRequireJSI18n {
             for ( Object k : keySet ) {
 
                 // skip anything that seems like it might have HTML
-                if ( !p.get(k).toString().contains( "<" ) ) {
+                if ( !p.get( k ).toString().contains( "<" ) ) {
                     reducedKeySet.add( k );
                 }
             }
