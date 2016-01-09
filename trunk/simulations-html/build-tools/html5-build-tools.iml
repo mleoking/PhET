@@ -7,11 +7,10 @@
       <sourceFolder url="file://$MODULE_DIR$/contrib/Java-WebSocket/src/main/example" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/Java-WebSocket/src/main/java" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="functionaljava" />
     <orderEntry type="module" module-name="translation-utility" />
   </component>
 </module>
-
