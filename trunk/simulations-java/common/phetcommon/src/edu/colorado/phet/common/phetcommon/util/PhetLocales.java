@@ -94,4 +94,8 @@ public class PhetLocales implements Serializable {
         Collections.sort( list );
         return (String[]) list.toArray( new String[list.size()] );
     }
+
+    public List<Locale> getLocaleList() {
+        return new ArrayList<Locale>( _localeToNameMap.keySet() );
+    }
 }
