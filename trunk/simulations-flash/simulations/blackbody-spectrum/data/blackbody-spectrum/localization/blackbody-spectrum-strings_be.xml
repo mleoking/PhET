@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_be.xml created Tue Jan 26 19:39:15 MSK 2016 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="zoomIn" value="Павял."/>
+<string key="intensity" value="Інтэнсіўнасць"/>
+<string key="simTitle" value="Спектр абсалютна чорнага цела"/>
+<string key="zoomOut" value="Паменш."/>
+<string key="clear" value="Ачысціць"/>
+<string key="sun" value="Сонца"/>
+<string key="save" value="Захаваць"/>
+<string key="showRuler" value="Паказаць лінейку"/>
+<string key="wavelength" value="Даўжыня хвалі"/>
+<string key="oven" value="Печ"/>
+<string key="earth" value="Зямля"/>
+<string key="lightBulb" value="Лямпачкі напальвання"/>
+</SimStrings>
