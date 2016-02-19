@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_be.xml created Sun Jan 31 12:08:11 MSK 2016 using: ohms-law 2.03.00 (51206), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="currentEq" value="І ="/>
+<string key="resistance" value="R"/>
+<string key="simTitle" value="Закон Ома"/>
+<string key="sound" value="Гук"/>
+<string key="voltage" value="U"/>
+</SimStrings>
