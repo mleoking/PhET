@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--32_geometric-optics-strings_th.xml created Fri Jul 03 16:07:28 ICT 2015 using: geometric-optics 2.05.00 (52650), translation-utility 2.18.00 (74383) May 29, 2015--><SimStrings>
+<string key="draggableScreen" value="ฉากรับ"/>
+<string key="draggableLens" value="เลนส์"/>
+<string key="screen" value="ฉากรับ"/>
+<string key="draggableRuler" value="ไม้บรรทัด"/>
+<string key="simTitle" value="ทัศนศาสตร์เชิงเรขาคณิต"/>
+<string key="showHelp" value="แสดงตัวช่วย"/>
+<string key="moveMe" value="ย้ายฉันสิ!"/>
+<string key="showGuides" value="แสดงเส้นทาง"/>
+<string key="diameter" value="เส้นผ่านศูนย์กลาง(m)"/>
+<string key="ruler" value="ไม้บรรทัด"/>
+<string key="focalPoint" value="จุดโฟกัส"/>
+<string key="curvatureRadius" value="รัศมีความโ้ค้ง(m)"/>
+<string key="changeObject" value="เปลี่ยนวัตถุ"/>
+<string key="principalRays" value="หลักการของรังสี"/>
+<string key="marginalRays" value="แนวรังสีที่ขอบ"/>
+<string key="virtualImage" value="ภาพเสมือน"/>
+<string key="noRays" value="ไม่มีรังสี"/>
+<string key="secondSource" value="แหล่งกำเนิดที่ 2"/>
+<string key="hideHelp" value="ซ่อนตัวช่วย"/>
+<string key="refractiveIndex" value="ดัชนีหักเห"/>
+<string key="translation.credits" value="ผศ.ดร.นิวัฒน์  ศรีสวัสดิ์ และทีม TBLOS"/>
+<string key="manyRays" value="รังสีจำนวนมาก"/>
+</SimStrings>
