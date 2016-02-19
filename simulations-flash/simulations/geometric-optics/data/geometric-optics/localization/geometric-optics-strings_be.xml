@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_be.xml created Thu Jan 28 19:10:57 MSK 2016 using: geometric-optics 2.05.00 (52650), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="draggableScreen" value="перамяшчаемы экран"/>
+<string key="draggableLens" value="перамяшчаемая лінза"/>
+<string key="screen" value="Экран"/>
+<string key="draggableRuler" value="перамяшчаемая лінейка"/>
+<string key="simTitle" value="Геаметрычная оптыка"/>
+<string key="showHelp" value="Дапамога"/>
+<string key="moveMe" value="Перасунь мяне"/>
+<string key="showGuides" value="Паказаць Guides"/>
+<string key="diameter" value="дыяметр(м)"/>
+<string key="ruler" value="Лінейка"/>
+<string key="focalPoint" value="фокус"/>
+<string key="curvatureRadius" value="радыус крывізны"/>
+<string key="changeObject" value="Змяніць аб'ект"/>
+<string key="principalRays" value="Асноўныя прамяні"/>
+<string key="marginalRays" value="Прамяні з краю"/>
+<string key="virtualImage" value="Уяўны відарыс"/>
+<string key="noRays" value="Без прамянёў"/>
+<string key="secondSource" value="Іншы пункт"/>
+<string key="hideHelp" value="Без дапамогі"/>
+<string key="refractiveIndex" value="паказчык праламлення"/>
+<string key="manyRays" value="Шмат прамянёў"/>
+</SimStrings>
