@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--09_blackbody-spectrum-strings_th.xml created Thu Jul 09 16:51:47 ICT 2015 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.18.00 (74383) May 29, 2015--><SimStrings>
+<string key="r" value="R"/>
+<string key="translation.credits" value="ผศ.ดร.นิวัฒน์ ศรีสวัสดิ์ และทีมTBLOS"/>
+<string key="zoomIn" value="ซูม \n เข้า"/>
+<string key="intensity" value="ความเข้มแสง"/>
+<string key="simTitle" value="การแผ่รังสีของวัตถุดำ"/>
+<string key="zoomOut" value="ซูม \n ออก"/>
+<string key="clear" value="ลบ"/>
+<string key="g" value="G"/>
+<string key="sun" value="ดวงอาทิตย์"/>
+<string key="tempInK" value="T(K)"/>
+<string key="save" value="บันทึก"/>
+<string key="showRuler" value="แสดง ไม้บรรทัด"/>
+<string key="wavelength" value="ความยาวคลื่น"/>
+<string key="b" value="B"/>
+<string key="oven" value="เตาอบ"/>
+<string key="earth" value="โลก"/>
+<string key="lightBulb" value="หลอดไฟฟ้า"/>
+</SimStrings>
