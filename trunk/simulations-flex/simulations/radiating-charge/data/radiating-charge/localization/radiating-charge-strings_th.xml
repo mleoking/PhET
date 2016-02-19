@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--64_radiating-charge-strings_th.xml created Wed Jul 15 03:12:18 ICT 2015 using: radiating-charge 1.03.00 (71951), translation-utility 2.18.00 (74383) May 29, 2015--><SimStrings>
+<string key="duration" value="ช่วงเวลา"/>
+<string key="bump" value="กระเพื้อม"/>
+<string key="radiating-charge.simTitle" value="การแผ่รังสีของประจุ"/>
+<string key="stopCharge" value="หยุดประจุ"/>
+<string key="sinusoidal" value="เคลื่อนที่ขึ้น-ลง"/>
+<string key="amplitude" value="แอมพลิจูด"/>
+<string key="speedOfLight" value="c"/>
+<string key="noFrictionManual" value="ไม่มีแรงเสียดทาน"/>
+<string key="frequency" value="ความถี่"/>
+<string key="restart" value="เริ่มใหม่"/>
+<string key="showVelocity" value="แสดงอัตราเร็ว"/>
+<string key="speed" value="ความเร็ว"/>
+<string key="translation.credits" value="ผศ.ดร.นิวัฒน์ ศรีสวัสดิ์ และทีม TBLOS"/>
+<string key="frictionManual" value="บังคับด้วยมือ"/>
+<string key="linear" value="เคลื่อนเป็นเส้นตรง"/>
+<string key="paused" value="หยุดชั่วคราว"/>
+<string key="reset" value="เริ่มใหม่"/>
+<string key="circular" value="เคลื่อนเป็นวงกลม"/>
+</SimStrings>
