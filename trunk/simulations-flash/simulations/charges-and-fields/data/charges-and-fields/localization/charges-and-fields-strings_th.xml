@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--12_charges-and-fields-strings_th.xml created Fri Jul 03 15:19:24 ICT 2015 using: charges-and-fields 2.04.00 (52655), translation-utility 2.18.00 (74383) May 29, 2015--><SimStrings>
+<string key="directionOnly" value="ทิศทาง"/>
+<string key="grid" value="ตาราง"/>
+<string key="clearAll" value="ลบทั้งหมด"/>
+<string key="simTitle" value="ประจุและสนามไฟฟ้า"/>
+<string key="distanceUnit" value=" m"/>
+<string key="showNumbers" value="แสดงตัวเลข"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 เมตร"/>
+<string key="showEField" value="แสดงสนามไฟฟ้า"/>
+<string key="oneNanoC" value="1 นาโนคูลอมบ์"/>
+<string key="showHiRes" value="แสดง V ความละเอียดสูง"/>
+<string key="EFieldSensors" value="เซ็นเซอร์สนามไฟฟ้า"/>
+<string key="eFieldUnit" value=" V/m"/>
+<string key="clear" value="ลบ"/>
+<string key="plot" value="พลอต"/>
+<string key="equipotential" value="จุดสมศักย์"/>
+<string key="angleUnit" value="องศา"/>
+<string key="translation.credits" value="ผศ.ดร.นิวัฒน์ ศรีสวัสดิ์ และทีมTBLOS"/>
+<string key="showLoRes" value="แสดง V ความละเอียดต่ำ"/>
+<string key="moreSpeedLessRes" value="ความเร็วสูง/ความคมชัดต่ำ"/>
+<string key="tapeMeasure" value="ตลับเมตร"/>
+<string key="voltage" value="โวลต์"/>
+</SimStrings>
