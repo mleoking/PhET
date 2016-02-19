@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--58_pendulum-lab-strings_th.xml created Wed Jul 01 15:12:52 ICT 2015 using: pendulum-lab 2.03.00 (52288), translation-utility 2.18.00 (74383) พ.ค. 29, 2558--><SimStrings>
+<string key="resetStopwatch" value="เริ่มใหม่"/>
+<string key="earth" value="โลก"/>
+<string key="showPhotoGateTimer" value="เครื่องมือจับเวลา"/>
+<string key="planetX" value="ดาวเคราะห์ X"/>
+<string key="acceleration" value="ความเร่ง"/>
+<string key="showEnergyOf" value="แสดงพลังงานของ:"/>
+<string key="PE" value="KE"/>
+<string key="velocity" value="ความเร็ว"/>
+<string key="translation.credits" value="ผศ.ดร.นิวัฒน์ ศรีสวัสดิ์ และ TBLOS"/>
+<string key="realTime" value="เวลาจริง"/>
+<string key="length" value="ความยาว"/>
+<string key="lots" value="มาก"/>
+<string key="friction" value="แรงเสียดทาน"/>
+<string key="showSecondPendulum" value="แสดงลุกตุ้มนาฬิกาตัวที่ 2"/>
+<string key="start" value="เริ่ม"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="ดาวพฤหัสบดี"/>
+<string key="moon" value="ดวงจันทร์"/>
+<string key="energyOf" value="พลังงานของ"/>
+<string key="period" value="คาบ:"/>
+<string key="simStrings" value="การทดลองการแกว่งของลูกตุ้มนาฬิกา"/>
+<string key="noneFriction" value="ไม่มี"/>
+<string key="total" value="ผลรวม"/>
+<string key="mass2" value="มวล 2:"/>
+<string key="pendulum" value="การแกว่งของลูกตุ้มนาฬิกา:"/>
+<string key="startPauseStopwatch" value="เริ่ม/พัก"/>
+<string key="show" value="แสดง:"/>
+<string key="length2" value="ความยาว 2:"/>
+<string key="photoGateTimer" value="เครื่องมือจับเวลา"/>
+<string key="thermal" value="ความร้อน"/>
+<string key="pausePlay" value="พัก/เล่น"/>
+<string key="reset" value="เริ่มใหม่"/>
+<string key="mass" value="มวล"/>
+<string key="quarterTime" value="1/4 ของเวลา"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="ไม่มี"/>
+<string key="simTitle" value="การทดลองการแกว่งของลูกตุ้มนาฬิกา"/>
+<string key="otherTools" value="เครื่องมืออื่นๆ"/>
+<string key="angleUnit" value=" องศา"/>
+<string key="paused" value="พัก"/>
+<string key="sixteenthTime" value="1/16 ของเวลา"/>
+</SimStrings>
