@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_be.xml created Wed Feb 03 07:28:33 MSK 2016 using: collision-lab 2.01.00 (69163), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="ShowValues.velocityCaption" value="Скорасць (м/с)"/>
+<string key="ControlPanel.showValues" value="Паказаць значэнні"/>
+<string key="PlayPauseButtons.step" value="Крок"/>
+<string key="DataTable.velocity" value="Скорасць"/>
+<string key="MomentumView.total" value="сума"/>
+<string key="DataTable.positionWithUnits" value="Становішча (м)"/>
+<string key="ControlPanel.sound" value="Гук"/>
+<string key="ControlPanel.showMomentumVectors" value="Вектары імпульсаў"/>
+<string key="ShowValues.speedCaption" value="Скорасць (м/с)"/>
+<string key="ControlPanel.oneHundredPercent" value="Абс.пругкі"/>
+<string key="DataTable.lessData" value="Меней дадзеных"/>
+<string key="DataTable.momentumWithUnits" value="Імпульс (кг*м/с)"/>
+<string key="MomentumView.momenta" value="Імпульсы"/>
+<string key="DataTable.units.kilogramMetersPerSecond" value="кг*м/с"/>
+<string key="ControlPanel.elasticityReadout" value="Пругкасць {0}%"/>
+<string key="DataTable.ball" value="Шар"/>
+<string key="TableView.kineticEnergy" value="Кінет. эн. = {0} Дж"/>
+<string key="advancedTab" value="Сутыкненні"/>
+<string key="ControlPanel.showVelocities" value="Вектары скарасцей"/>
+<string key="ControlPanel.showPaths" value="Паказаць траекторыі"/>
+<string key="DataTable.mass" value="Маса"/>
+<string key="DataTable.addBall" value="Дабавіць шар"/>
+<string key="DataTable.position" value="Становішча"/>
+<string key="DataTable.units.kilograms" value="кг"/>
+<string key="DataTable.units.metersPerSecond" value="м/с"/>
+<string key="PlayPauseButtons.pause" value="Паўза"/>
+<string key="ControlPanel.2d" value="На плоскасці"/>
+<string key="DataTable.moreData" value="Болей дадзеных"/>
+<string key="ControlPanel.reflectingBorder" value="Адбівальная сценка"/>
+<string key="DataTable.momentum" value="Імпульс"/>
+<string key="DataTable.removeBall" value="Зняць шар"/>
+<string key="ShowValues.momentumCaption" value="Імпульс (кг*м/с)"/>
+<string key="ControlPanel.resetAll" value="Скінуць усё"/>
+<string key="ControlPanel.momentaDiagram" value="Дыяграма импульсаў"/>
+<string key="ControlPanel.elasticity" value="Пругкасць"/>
+<string key="DataTable.units.meters" value="м"/>
+<string key="ControlPanel.showCenterOfMass" value="Цэнтр мас"/>
+<string key="ControlPanel.zeroPercent" value="Няпругкі"/>
+<string key="DataTable.velocityWithUnits" value="Скорасць (м/с)"/>
+<string key="TableView.returnBalls" value="Вярнуць шары"/>
+<string key="DataTable.massWithUnits" value="Маса (кг)"/>
+<string key="introductionTab" value="Уводзіны"/>
+<string key="TableView.timeRate" value="Тэмп"/>
+<string key="simTitle" value="Лабараторыя сутыкненняў"/>
+<string key="PlayPauseButtons.play" value="Пуск"/>
+<string key="MomentumView.tipToTail" value="Сабраць вектары"/>
+<string key="ControlPanel.kineticEnergy" value="Кінетычная энергія"/>
+<string key="PlayPauseButtons.back" value="Назад"/>
+<string key="TableView.time" value="Час = {0} с"/>
+<string key="ControlPanel.1d" value="Уздоўж прамой"/>
+<string key="PlayPauseButtons.rewind" value="У пачатак"/>
+</SimStrings>
