@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_be.xml created Mon Feb 01 08:25:11 MSK 2016 using: friction 2.03.00 (51676), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="rubYellowAtoms" value="Патрыце жоўтыя атамы аб зялёныя"/>
+<string key="physics" value="Фізіка"/>
+<string key="reset" value="Скінуць"/>
+<string key="simTitle" value="Трэнне"/>
+<string key="chemistry" value="Хімія"/>
+</SimStrings>
