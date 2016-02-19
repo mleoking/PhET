@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--54_normal-modes-strings_th.xml created Wed Jul 01 16:15:16 ICT 2015 using: normal-modes 1.01.00 (66456), translation-utility 2.18.00 (74383) May 29, 2015--><SimStrings>
+<string key="simSpeed" value="ความเร็วของสถานการณ์จำลอง"/>
+<string key="vertical" value="แนวดิ่ง"/>
+<string key="slow" value="ช้า"/>
+<string key="modeSpectrumDisplay" value="การแสดงผลสเปกตรัมของโหมด"/>
+<string key="phase:" value="เฟส:"/>
+<string key="zeroPositions" value="ตำแหน่งที่ศูนย์"/>
+<string key="start" value="เริ่ม"/>
+<string key="step" value="ไปทีละขั้น"/>
+<string key="modeNumbersXY" value="จำนวนโหมด x,y."/>
+<string key="polarization:" value="ควบคุม&lt;br&gt;ทิศทางการสั่น:"/>
+<string key="amplitude:" value="แอมพลิจูด:"/>
+<string key="modeSpectrum" value="สเปกตรัมของโหมดปกติ"/>
+<string key="frequency:" value="ความถี่:"/>
+<string key="normalModes" value="โหมดปกติ"/>
+<string key="showPhases" value="แสดงเฟส"/>
+<string key="normal-modes.simTitle" value="โหมดปกติ"/>
+<string key="showSprings" value="แสดงสปริง"/>
+<string key="stop" value="หยุด"/>
+<string key="resetPositions" value="ตำแหน่งเริ่มต้น"/>
+<string key="normalMode:" value="โหมดปกติ:"/>
+<string key="translation.credits" value="ผศ.ดร.นิวัฒน์ ศรีสวัสดิ์ และทีม TBLOS"/>
+<string key="horizontal" value="แนวราบ"/>
+<string key="paused" value="หยุดชั่วคราว"/>
+<string key="numberOfMasses" value="จำนวนของมวล"/>
+<string key="normal" value="ปกติ"/>
+</SimStrings>
