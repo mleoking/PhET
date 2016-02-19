@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_be.xml created Mon Feb 01 16:18:52 MSK 2016 using: pendulum-lab 2.03.00 (52288), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="resetStopwatch" value="скінуць"/>
+<string key="earth" value="Зямля"/>
+<string key="showPhotoGateTimer" value="вымяральнік перыяду"/>
+<string key="planetX" value="Планета Х"/>
+<string key="acceleration" value="паскарэнне"/>
+<string key="showEnergyOf" value="Паказаць энергію:"/>
+<string key="PE" value="ПЭ"/>
+<string key="velocity" value="скорасць"/>
+<string key="realTime" value="рэальны час"/>
+<string key="length" value="даўжыня"/>
+<string key="lots" value="значнае"/>
+<string key="friction" value="трэнне"/>
+<string key="showSecondPendulum" value="Паказаць 2 маятніка"/>
+<string key="start" value="Пуск"/>
+<string key="mass_unit" value="кг"/>
+<string key="jupiter" value="Юпітэр"/>
+<string key="moon" value="Месяц"/>
+<string key="energyOf" value="энергія"/>
+<string key="period" value="перыяд:"/>
+<string key="simStrings" value="Лабараторыя маятнікаў"/>
+<string key="noneFriction" value="адсутнічае"/>
+<string key="total" value="Поўная"/>
+<string key="mass2" value="маса 2"/>
+<string key="pendulum" value="Маятнік:"/>
+<string key="startPauseStopwatch" value="пуск/стоп"/>
+<string key="show" value="Паказаць:"/>
+<string key="length2" value="даўжыня 2"/>
+<string key="photoGateTimer" value="Вымяральнік перыяду"/>
+<string key="thermal" value="Павял. УЭ"/>
+<string key="pausePlay" value="Паўза/Пуск"/>
+<string key="reset" value="Скінуць"/>
+<string key="mass" value="маса"/>
+<string key="quarterTime" value="1/4 часу"/>
+<string key="KE" value="КЭ"/>
+<string key="length_unit" value="м"/>
+<string key="noneEnergy" value="Не паказваць"/>
+<string key="simTitle" value="Лабараторыя маятнікаў"/>
+<string key="otherTools" value="іншыя інструменты"/>
+<string key="angleUnit" value="град"/>
+<string key="paused" value="прыпынена"/>
+<string key="sixteenthTime" value="1/16 часу"/>
+</SimStrings>
