@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_be.xml created Fri Feb 05 17:34:30 MSK 2016 using: my-solar-system 2.04.00 (72347), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="slingshot" value="Рагатка"/>
+<string key="binaryStarPlanet" value="Падвойная зорка"/>
+<string key="sunAndPlanet" value="Сонца і планеты"/>
+<string key="body4" value="цела 4"/>
+<string key="numberOfBodies" value="колькасць\n цел"/>
+<string key="body3" value="цела 3"/>
+<string key="body2" value="цела 2"/>
+<string key="body1" value="цела 1"/>
+<string key="velocity" value="скорасць"/>
+<string key="doubleDouble" value="Двойчы падвойныя"/>
+<string key="massEquals" value="маса ="/>
+<string key="hyperbolics" value="Гіпербалы"/>
+<string key="help9" value="Аўтарскія правы абаронены Праект PhET і Універсітэтам Каларада (Боулдер)."/>
+<string key="help8" value="У адрозненне ад Рунге-Кутта, алгарытм Верле захоўвае энергію ў вагальных сістэмах для атрымання стабільных арбіт. Як і ў любым фіксаваным час-крок алгарытме Верле атрымлівае нефізічныя вынікі, калі целы знаходзяцца вельмі блізка і ў выніку паскарэння занадта вялікія. Каб пазбегнуць гэтага, целы, якія занадта блізка размешчаны зліваюцца пры захаванні імпульсу сутыкнення."/>
+<string key="help6" value="У гэтым мадэліраванні выкарыстоўваецца фіксаваны часавы КРОК-скорасць-алгарытм Верле, каб разлічыць траекторыі:"/>
+<string key="stop" value="Прыпыніць"/>
+<string key="help5" value="Калі сістэма з цэнтрам праверана, цэнтр масы сістэмы выдаляецца."/>
+<string key="help4" value="Для вызначння бягучага становішча і скорасці, націсніце Прыпыніць і змясціце курсор на целе."/>
+<string key="help3" value="Пакідайце масы меншыя, чым некалькі тысяч інакш можаце атрымаць не рэальныя вынікі."/>
+<string key="help2" value="Адлегласці, масы і час - ва ўмоўных адзінках. Прыдумайце свае ўласныя!"/>
+<string key="help1" value="Зрабіце сваю ўласную сонечную сістэму, перацягваючы целы і задаўшы значэнні V (V скорасць) \ або, увёўшы ў табліцу пачатковых умоў іх параметры."/>
+<string key="help0" value="Мадэліраванне арбіт маёй сонечнай сістэмы"/>
+<string key="doubleSlingshot" value="Падвойная рагатка"/>
+<string key="systemCentered" value="Цэнтрысцкая сістэма"/>
+<string key="start" value="Старт"/>
+<string key="showTraces" value="Паказаць траекторыі"/>
+<string key="back" value="назад"/>
+<string key="tapeMeasure" value="Вымяральная стужка"/>
+<string key="accurate" value="дакладна"/>
+<string key="help" value="Дапамога"/>
+<string key="selectPreset" value="Выбраць "/>
+<string key="showGrid" value="Паказаць сетку"/>
+<string key="timeEquals" value="час ="/>
+<string key="ellipses" value="Эліпсы"/>
+<string key="trojanAsteroids" value="Траянскі астэроід"/>
+<string key="fourStarBallet" value="&quot;Танец&quot; чатырох зорак"/>
+<string key="position" value="Становішча"/>
+<string key="reset" value="Перазапусціць"/>
+<string key="mass" value="маса"/>
+<string key="fast" value="хутка"/>
+<string key="simTitle" value="Мая Сонечная сістэма"/>
+<string key="sunPlanetMoon" value="Сонца, планеты, месяц"/>
+<string key="initialSettings" value="Пачатковыя ўмовы"/>
+<string key="sunPlanetComet" value="Сонца, планеты, каметы"/>
+</SimStrings>
