@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--50_my-solar-system-strings_th.xml created Wed Jul 01 03:38:05 ICT 2015 using: my-solar-system 2.04.00 (72347), translation-utility 2.18.00 (74383) พ.ค. 29, 2558--><SimStrings>
+<string key="binaryStarPlanet" value="ระบบดาวคู่, ดาวเคราะห์"/>
+<string key="sunAndPlanet" value="ดวงอาทิตย์และดาวเคราะห์"/>
+<string key="body4" value="ดวงดาว 4"/>
+<string key="numberOfBodies" value="จำนวนของ\n ดวงดาว"/>
+<string key="body3" value="ดวงดาว 3"/>
+<string key="body2" value="ดวงดาว 2"/>
+<string key="body1" value="ดวงดาว 1"/>
+<string key="velocity" value="ความเร็ว"/>
+<string key="doubleDouble" value="ดาวเคราะห์คู่ 2 คู่"/>
+<string key="xVel" value="x "/>
+<string key="translation.credits" value="ผศ.ดร.นิวัฒน์ ศรีสวัสดิ์ และ TBLOS"/>
+<string key="massEquals" value="มวล ="/>
+<string key="yEquals" value="y ="/>
+<string key="hyperbolics" value="ไฮเพอร์โบลิก"/>
+<string key="xEquals" value="x ="/>
+<string key="help9" value="Copyright Project PhET and the Univerisity of Colorado at Boulder."/>
+<string key="help8" value="ซึ่งแตกต่างจาก Runge-Kutta, อัลกอริทึม Verlet นั้นอนุรักษ์พลังงานในระบบการแกว่ง การสร้างวงโคจรที่มีเสถียรภาพ เช่นเดียวกับอัลกอริทึมแบบ fixed timestep อัลกอริทึม Verlet ที่ก่อให้เกิดผลลัพธ์ที่เป็นรูปธรรม เมื่อตัวดาวเคราะห์ได้ใกล้ชิดเกินไปและความเร่งที่เกิดขึ้นมีขนาดใหญ่เกินไป เพื่อป้องกันสิ่งที่จะเกิดขึ้น ตัวดาวเคาระห์ที่อยู่ใกล้เกินไป จะเกิดการปะะทะกันที่เป็นไปตามกฎอนุรักษ์โมเมนตัม"/>
+<string key="help6" value="สถานการณ์จำลองนี้จะใช้อัลกอริทึมแบบ fixed-timestep velocity-Verlet เพื่อบูรณาการวิถีโคจร:"/>
+<string key="stop" value="หยุด"/>
+<string key="help5" value="เมื่อระบบศูนย์กลางมีการตรวจสอบ ศูนย์มวลของระบบการเคลื่อนไหวจะถูกลบออก"/>
+<string key="help4" value="หากต้องการทราบตำแหน่งปัจจุบันและความเร็วให้กดปุ่ม Stop และวางเม้าส์ไว้เหนือตัวดาวเคราะห์"/>
+<string key="help3" value="รักษามวลให้อยู่ในระดับที่น้อยกว่า 1000-2000 หรืออยู่ในระดับเตือนผลที่ผิดปกติ"/>
+<string key="help2" value="สามารถกำหนดระยะทาง มวล และเวลาได้เอง"/>
+<string key="help1" value="สร้างระบบสุริยะ โดยการลากดาวเคราะห์ต่างๆ และสัญลักษณ์รูปตัว V (ความเร็ว) หรือพิมพ์ลงในตารางตั้งต่าเบื้องต้น"/>
+<string key="help0" value="แบบจำลองวงโคจรของระบบสุริยะ"/>
+<string key="vYEquals" value="v y ="/>
+<string key="vXEquals" value="v x ="/>
+<string key="start" value="เริ่ม"/>
+<string key="showTraces" value="แสดงเส้นทาง"/>
+<string key="back" value="กลับ"/>
+<string key="xPos" value="x"/>
+<string key="tapeMeasure" value="ตลับเมตร"/>
+<string key="accurate" value="การโคจรจริง"/>
+<string key="help" value="ช่วยเหลือ"/>
+<string key="showGrid" value="แสดงตาราง"/>
+<string key="selectPreset" value="เลือกการตั้งค่า"/>
+<string key="yVel" value="y "/>
+<string key="timeEquals" value="เวลา = "/>
+<string key="ellipses" value="เคลื่อนที่เป็นวงรี"/>
+<string key="trojanAsteroids" value="ดาวเคราะห์น้อย"/>
+<string key="fourStarBallet" value="ดาวเคราะห์ 4 ดวง"/>
+<string key="position" value="ตำแหน่ง"/>
+<string key="reset" value="เริมใหม่"/>
+<string key="mass" value="มวล"/>
+<string key="fast" value="เร็ว"/>
+<string key="simTitle" value="ระบบสุริยะ"/>
+<string key="sunPlanetMoon" value="ดวงอาทิตย์,ดาวเคราะห์,ดวงจันทร์"/>
+<string key="initialSettings" value="ตั้งค่าเริ่มต้น:"/>
+<string key="yPos" value="y"/>
+<string key="sunPlanetComet" value="ดวงอาทิตย์,ดาวเคราะห์,ดาวหาง"/>
+</SimStrings>
