@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_be.xml created Tue Jan 26 07:19:56 MSK 2016 using: calculus-grapher 2.08.00 (55025), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="integral" value="Інтэграл"/>
+<string key="grid" value="сетка"/>
+<string key="dragMe" value="Зацягні мяне!"/>
+<string key="hill" value="пагорак"/>
+<string key="cursor" value="курсор"/>
+<string key="simTitle" value="падлік графічнага"/>
+<string key="offset" value="зрух"/>
+<string key="freeform" value="свабоднае"/>
+<string key="pedestal" value="п'едэстал"/>
+<string key="line" value="лінія"/>
+<string key="drawingTools" value="інструменты малявання"/>
+<string key="zero" value="нуля"/>
+<string key="view" value="выгляд"/>
+<string key="sine" value="сінус"/>
+<string key="smooth" value="гладкі"/>
+<string key="tilt" value="тэнт"/>
+<string key="parabola" value="парабалу"/>
+<string key="derivative" value="вытворная"/>
+<string key="undo" value="ануляваць"/>
+</SimStrings>
