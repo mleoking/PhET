@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_be.xml created Sat Jan 30 15:17:36 MSK 2016 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="pause" value="пауза"/>
+<string key="earth" value="Зямля"/>
+<string key="dontBother" value="Не турбаваць"/>
+<string key="16thTime" value="1/16 часу"/>
+<string key="nothinOK" value="Нічога! ОК?"/>
+<string key="mass1Label" value="50 грам"/>
+<string key="mass3Label" value="250 грам"/>
+<string key="planetX" value="Планета Х"/>
+<string key="showEnergyOf" value="Паказваць энергію"/>
+<string key="hangMe" value="Падвесьце мяне :)"/>
+<string key="resetTimer" value="Скінуць"/>
+<string key="hard" value="жорсткая"/>
+<string key="mass7Label" value="100 грам"/>
+<string key="stopWatch" value="Секундамер"/>
+<string key="none" value="няма"/>
+<string key="realTime" value="рэальны час"/>
+<string key="startTimer" value="Старт/паўза"/>
+<string key="help4" value="перацягніце таймер"/>
+<string key="help3" value="Адцягніце груз, каб зняць са спружыны"/>
+<string key="showHelp" value="Дапамога"/>
+<string key="lots" value="высокае"/>
+<string key="help2" value="перацягніце зыходную лінію"/>
+<string key="help1" value="перацягніце лінейку"/>
+<string key="friction" value="трэнне"/>
+<string key="PEelas" value="ПЭ спр"/>
+<string key="jupiter" value="Юпітэр"/>
+<string key="moon" value="Месяц"/>
+<string key="energyOf" value="Энергія"/>
+<string key="total" value="Поўная"/>
+<string key="sound" value="Гук"/>
+<string key="PEgrav" value="ПЭ гр"/>
+<string key="mass2Label" value="100 грам"/>
+<string key="thermal" value="Пав. УЭ"/>
+<string key="quarterTime" value="1/4 часу"/>
+<string key="KE" value="КЭ"/>
+<string key="hideHelp" value="Схаваць"/>
+<string key="noHelp" value="-"/>
+<string key="soft" value="мяккая"/>
+<string key="softness" value="спружына"/>
+<string key="simTitle" value="Грузы і спружыны"/>
+<string key="totalE" value="Поўная энергія"/>
+<string key="noShow" value="Не паказваць"/>
+<string key="paused" value="Прыпынена"/>
+</SimStrings>
