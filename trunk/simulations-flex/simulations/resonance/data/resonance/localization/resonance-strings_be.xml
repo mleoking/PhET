@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_be.xml created Sat Feb 06 07:25:51 MSK 2016 using: resonance 1.01.00 (54775), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="simSpeed" value="хуткасць прайгравання"/>
+<string key="sameFrequency" value="аднолькавая m i k"/>
+<string key="sameSpring" value="аднолькавая жорсткасць k"/>
+<string key="slow" value="павольна"/>
+<string key="mixedMAndK" value="Вызн. разм. m і k"/>
+<string key="numberOfResonators" value="Лік рэзанатараў"/>
+<string key="kg" value="кг"/>
+<string key="pause" value="паўза"/>
+<string key="amplitude" value="амплітуда"/>
+<string key="frequencyEqualsXHz" value="частата = {0} Гц"/>
+<string key="sloMo" value="запаволены рух"/>
+<string key="step" value="крок"/>
+<string key="cm" value="см"/>
+<string key="driver" value="ГЕНЕРАТАР"/>
+<string key="on" value="Укл."/>
+<string key="ruler" value="Лінейка"/>
+<string key="resonance.simTitle" value="Рэзананс"/>
+<string key="NperMperS" value="Н/(м/с)"/>
+<string key="springConstant" value="жорсткасць"/>
+<string key="frequency" value="частата"/>
+<string key="resetAll" value="Скінуць усё"/>
+<string key="mass" value="маса"/>
+<string key="sameMass" value="аднолькавая маса m"/>
+<string key="resonator" value="Рэзанатар"/>
+<string key="hz" value="Гц"/>
+<string key="NperM" value="Н/м"/>
+<string key="gravityColon" value="Гравітацыя:"/>
+<string key="play" value="Узнаўляць"/>
+<string key="paused" value="Паўза"/>
+<string key="off" value="Выкл."/>
+<string key="dampingConstant" value="лагарыфмічны декремент затухання"/>
+<string key="normal" value="нармальны"/>
+<string key="selectPreset" value="Устанавіць m i k"/>
+</SimStrings>
