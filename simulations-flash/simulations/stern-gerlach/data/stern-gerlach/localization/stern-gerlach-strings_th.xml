@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--77_stern-gerlach-strings_th.xml created Sat Jul 11 02:51:04 ICT 2015 using: stern-gerlach 2.02.00 (52653), translation-utility 2.18.00 (74383) May 29, 2015--><SimStrings>
+<string key="+z" value="+z"/>
+<string key="+x" value="+x"/>
+<string key="angle3" value="มุม 3"/>
+<string key="angle2" value="มุม 2"/>
+<string key="slow" value="ช้า"/>
+<string key="randomXZ" value="สุ่ม xz"/>
+<string key="simTitle" value="การทดลองของสเติร์น-เกอร์แลค"/>
+<string key="sternGerlachExperiment" value="การทดลองของสเติร์น-เกอร์แลค"/>
+<string key="spinOrientation" value="ทิศทาง \nการสปิน"/>
+<string key="on" value="เปิด"/>
+<string key="up" value="บน"/>
+<string key="down" value="ล่าง"/>
+<string key="sound" value="เสียง"/>
+<string key="fast" value="เร็ว"/>
+<string key="numberOfMagnets" value="จำนวนของ \nแม่เหล็ก"/>
+<string key="-z" value="-z"/>
+<string key="translation.credits" value="ผศ.ดร.นิวัฒน์ ศรีสวัสดิ์ และTBLOS"/>
+<string key="autoFire" value="ยิงอัตโนมัติ"/>
+<string key="fireAtom" value="ยิงอะตอม"/>
+<string key="angle" value="มุม"/>
+<string key="reset" value="เริ่มใหม่"/>
+<string key="resetCount" value="เริ่มนับใหม่"/>
+<string key="off" value="ปิด"/>
+</SimStrings>
