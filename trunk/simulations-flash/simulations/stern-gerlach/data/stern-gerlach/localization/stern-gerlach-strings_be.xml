@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_be.xml created Sat Jan 30 17:26:40 MSK 2016 using: stern-gerlach 2.02.00 (52653), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="angle3" value="вугал 3"/>
+<string key="angle2" value="вугал 2"/>
+<string key="slow" value="павольна"/>
+<string key="randomXZ" value="выпадковае хz"/>
+<string key="simTitle" value="Эксперымент Штэрна-Герлаха"/>
+<string key="sternGerlachExperiment" value="Эксперымент Штэрна-Герлаха"/>
+<string key="spinOrientation" value="спін \арыентацыя"/>
+<string key="on" value="УКЛ."/>
+<string key="up" value="уверх"/>
+<string key="down" value="уніз"/>
+<string key="sound" value="Гук"/>
+<string key="fast" value="хутка"/>
+<string key="numberOfMagnets" value="Колькасць магнітаў"/>
+<string key="fireAtom" value="Выстрал атамам"/>
+<string key="autoFire" value="аўтаматычна"/>
+<string key="angle" value="вугал 1"/>
+<string key="reset" value="Cкінуць"/>
+<string key="resetCount" value="Cкінуць лічыльнік"/>
+<string key="off" value="ВЫКЛ."/>
+</SimStrings>
