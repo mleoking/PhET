@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_be.xml created Tue Feb 02 18:55:49 MSK 2016 using: charges-and-fields 2.04.00 (52655), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="directionOnly" value="Толькі напрамак"/>
+<string key="grid" value="Сетка"/>
+<string key="clearAll" value="Ачысціць усё"/>
+<string key="simTitle" value="Зарады і электрычныя палі"/>
+<string key="distanceUnit" value="м"/>
+<string key="showNumbers" value="Паказаць лікі"/>
+<string key="voltageUnit" value="В"/>
+<string key="oneMeter" value="1 метр"/>
+<string key="showEField" value="Паказаць эл. поле"/>
+<string key="oneNanoC" value="1 пКл"/>
+<string key="showHiRes" value="У высокім адрозніванні"/>
+<string key="EFieldSensors" value="Датчыкі электрычнага поля"/>
+<string key="eFieldUnit" value="В/м"/>
+<string key="clear" value="Выдаліць"/>
+<string key="plot" value="Паказаць"/>
+<string key="equipotential" value="Эквіпатэнц. паверхня"/>
+<string key="angleUnit" value="град."/>
+<string key="showLoRes" value="У нізкім адрозніванні"/>
+<string key="moreSpeedLessRes" value="павыс. скорасць/знізіць адрознів."/>
+<string key="tapeMeasure" value="Вымярэнні рулеткай"/>
+<string key="voltage" value="Напружанне"/>
+</SimStrings>
