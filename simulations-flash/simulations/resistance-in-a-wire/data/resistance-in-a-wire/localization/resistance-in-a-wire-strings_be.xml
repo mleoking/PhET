@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_be.xml created Sat Feb 06 06:30:10 MSK 2016 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="cm" value="см"/>
+<string key="resistanceEq" value="супраціўленне ="/>
+<string key="ohm" value="Ом"/>
+<string key="simTitle" value="Супраціўленне правадніка"/>
+</SimStrings>
