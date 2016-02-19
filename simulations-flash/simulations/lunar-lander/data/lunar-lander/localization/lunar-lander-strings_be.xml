@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_be.xml created Fri Jan 29 17:54:10 MSK 2016 using: lunar-lander 2.04.00 (53815), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="hardLanding" value="Аварыйная пасадка"/>
+<string key="score" value="адзнака:"/>
+<string key="unpause" value="Аднавіць"/>
+<string key="range" value="дыяпазон(м)"/>
+<string key="fuel" value="паліва(кг)"/>
+<string key="altitude" value="вышыня(м)"/>
+<string key="help3" value="Паўза"/>
+<string key="help2" value="Cкінуць"/>
+<string key="help1" value="Клавіятура кіравання:"/>
+<string key="hitBoulder" value="Удар аб паверхню\Пашкоджаны ногі\ Няма паліва."/>
+<string key="start" value="Старт"/>
+<string key="hardLandingsColon" value="аварыйныя пасадкі:"/>
+<string key="vY" value="v_y(м/с)"/>
+<string key="vX" value="v_x(м/с)"/>
+<string key="help" value="Дапамога/Паўза"/>
+<string key="sound" value="Гук"/>
+<string key="vectors" value="Вектары"/>
+<string key="reset" value="Скінуць"/>
+<string key="longHelp" value="Зямля, як шмат розных плоскіх зон, як вы можаце, перш чым ваша паліва скончыцца. \ П ~ Пасля прызямлення, зняць шляхам павелічэння цягі. \ П ~ Няма крэдытныя для пасадкі ў той жа зоне больш, чым адзін раз. \ П ~ Больш балаў за пасадка ў невялікіх або больш складана ў цяжкадаступных зонах :. \ п Лёгка вялікія зоны = 5 балаў забойцу цяжкадаступных зон = 50 ачкоў \ п ~ 10 дадатковых балаў за мяккай пасадкі (v &lt;2 м / с) \ п ~ Гульня скончана калі вы дакранаецеся камень. (Вы не можаце прызямліцца на валунах!) \ П ~ Гульня скончана, калі вы аварыі зямлі (V&gt; 12 м / с)."/>
+<string key="accVector" value="Вектар паскарэння"/>
+<string key="softLanding" value="Мяккая пасадка."/>
+<string key="thrust" value="цяга(N)"/>
+<string key="simTitle" value="Месяцавы спускаемы апарат"/>
+<string key="label7" value="Колькі плоскім зоны вы можаце закрануць, перш чым паліва з? \ NEXTRA кропкі для мяккіх пасадак (V &lt;2 м / с). \ Гульня скончана, калі вы патрапілі валун або crashland (v&gt; 6 м / сек)."/>
+<string key="label6" value="Уключэнне поўнай цягі  (прабел)"/>
+<string key="label5" value="Нахіл направа"/>
+<string key="crash2" value="Аварыйн. пасадка, экіпаж загінуў."/>
+<string key="label4" value="Менш цягі"/>
+<string key="crash1" value="Аварыйная пасадка, ногі пашкоджаны."/>
+<string key="softLandingsColon" value="мяккіх пасадак:"/>
+<string key="label3" value="Нахіл налева"/>
+<string key="paused" value="прыпынена"/>
+<string key="label2" value="Больш цягі"/>
+<string key="label1" value="Кіраванне спускаем. апаратам "/>
+<string key="landingSpeedEq" value="Пасадачная скорасць = "/>
+<string key="velVector" value="Вектар скорасці"/>
+</SimStrings>
