@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_be.xml created Mon Feb 01 18:00:49 MSK 2016 using: projectile-motion 2.03.00 (52266), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="dragLabel" value="каэфіцыент трэння"/>
+<string key="userChoice" value="Ваш выбар"/>
+<string key="altitudeLabel" value="вышыня(м)"/>
+<string key="football" value="футбольны мяч"/>
+<string key="golfball" value="мяч для гольфа"/>
+<string key="simTitle" value="Балістычных рух"/>
+<string key="collision" value="Сутыкненне"/>
+<string key="adultHuman" value="дарослы чалавек"/>
+<string key="time" value="час(с)"/>
+<string key="buick" value="б'юік"/>
+<string key="diameter" value="дыяметр (м)"/>
+<string key="initSpeed" value="пачатковая скорасць(м/с)"/>
+<string key="bowlingball" value="шар для боўлінга"/>
+<string key="piano" value="піяніна"/>
+<string key="sound" value="Гук"/>
+<string key="range" value="адлегласць(м)"/>
+<string key="mass" value="маса(кг)"/>
+<string key="height" value="вышыня (м)"/>
+<string key="pumpkin" value="гарбуз"/>
+<string key="score" value="Вынік!"/>
+<string key="angle" value="вугал"/>
+<string key="baseball" value="баскетбольны мяч"/>
+<string key="airResistance" value="супраціўленне паветра"/>
+<string key="fire" value="Выстрал"/>
+<string key="erase" value="Ачысціць"/>
+<string key="tankshell" value="снарад"/>
+</SimStrings>
