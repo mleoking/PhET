@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_be.xml created Thu Jan 28 18:40:05 MSK 2016 using: faradays-law 2.05.00 (74083), translation-utility 2.18.00 (74383) май 28, 2015--><SimStrings>
+<string key="showFieldLines" value="Паказаць сілавыя лініі"/>
+<string key="oneCoil" value="Адна шпуля"/>
+<string key="noSound" value="Без гуку"/>
+<string key="moveMe" value="Перамяшчайце!"/>
+<string key="flipMagnet" value="Змяніць палярнасць"/>
+<string key="simTitle" value="Закон Фарадэя"/>
+<string key="twoCoils" value="Дзве шпулі"/>
+<string key="voltage" value="напружанне"/>
+</SimStrings>
