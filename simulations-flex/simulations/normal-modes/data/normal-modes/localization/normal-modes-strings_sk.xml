@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_sk.xml created Thu Mar 03 11:20:05 CET 2016 using: normal-modes 1.01.00 (66456), translation-utility 2.18.00 (74383) máj 28, 2015--><SimStrings>
+<string key="simSpeed" value="rýchlosť simulácie"/>
+<string key="vertical" value="Zvislo"/>
+<string key="slow" value="pomaly"/>
+<string key="modeSpectrumDisplay" value="Spektrum módov"/>
+<string key="phase:" value="Fáza:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="Nulovať pozície"/>
+<string key="start" value="Štart"/>
+<string key="step" value="krok"/>
+<string key="modeNumbersXY" value="Čísla módov x, y"/>
+<string key="polarization:" value="Polarizácia&lt;br&gt;(prepínač)"/>
+<string key="amplitude:" value="Amplitúda:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="Spektrum normálnych vibračných módov"/>
+<string key="frequency:" value="Frekvencia:"/>
+<string key="normalModes" value="Normálne módy"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="Zobraziť fázu     "/>
+<string key="normal-modes.simTitle" value="Normálne vibračné módy"/>
+<string key="showSprings" value="Zobraziť pružinu"/>
+<string key="stop" value="Stop"/>
+<string key="resetPositions" value="Úvodné pozície"/>
+<string key="normalMode:" value="Číslo módu:"/>
+<string key="translation.credits" value="RNDr. Ľubomír Červený"/>
+<string key="horizontal" value="Vodorovne"/>
+<string key="paused" value="PAUZA"/>
+<string key="numberOfMasses" value="Počet bodov"/>
+<string key="normal" value="normálne"/>
+</SimStrings>
