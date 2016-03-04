@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<SimStrings>
+<!--mass-spring-lab-strings_it.xml created Thu Mar 03 20:12:50 CET 2016 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.18.00 (74383) mag 28, 2015--><SimStrings>
 <string key="pause" value="pausa"/>
 <string key="earth" value="Terra"/>
 <string key="dontBother" value="Lascia stare"/>
@@ -10,37 +10,38 @@
 <string key="planetX" value="Pianeta X"/>
 <string key="showEnergyOf" value="Mostra l'energia di"/>
 <string key="hangMe" value="Agganciami!"/>
-<string key="resetTimer" value="reset"/>
+<string key="resetTimer" value="Azzera"/>
 <string key="hard" value="rigida"/>
 <string key="mass7Label" value="100 grammi"/>
 <string key="stopWatch" value="Cronometro"/>
-<string key="none" value="nessuno"/>
+<string key="none" value="nullo"/>
 <string key="realTime" value="tempo reale"/>
 <string key="startTimer" value="Avvio/pausa"/>
 <string key="help4" value="cronometro mobile"/>
-<string key="help3" value="Muovi la massa a lato per staccarla"/>
-<string key="showHelp" value="Mostra Help"/>
-<string key="lots" value="molto"/>
+<string key="help3" value="Muovi la massa di lato per staccarla"/>
+<string key="showHelp" value="Mostra aiuto"/>
+<string key="lots" value="massimo"/>
 <string key="help2" value="linea di riferimento mobile"/>
 <string key="help1" value="righello mobile"/>
 <string key="friction" value="attrito"/>
-<string key="PEelas" value="Epe"/>
+<string key="PEelas" value="Ep el"/>
 <string key="jupiter" value="Giove"/>
 <string key="moon" value="Luna"/>
 <string key="energyOf" value="Energia di"/>
 <string key="total" value="Totale"/>
 <string key="sound" value="Suono"/>
-<string key="PEgrav" value="Epg"/>
+<string key="PEgrav" value="Ep grav"/>
 <string key="mass2Label" value="100 grammi"/>
-<string key="thermal" value="Eterm"/>
+<string key="thermal" value="E termica"/>
 <string key="quarterTime" value="1/4 tempo"/>
 <string key="KE" value="Ec"/>
 <string key="gEqZero" value="g = 0"/>
-<string key="hideHelp" value="Nascondi Help"/>
-<string key="noHelp" value="No Help"/>
+<string key="hideHelp" value="Nascondi Aiuto"/>
+<string key="noHelp" value="Niente aiuto"/>
 <string key="soft" value="elastica"/>
 <string key="softness" value="elasticità molla 3"/>
-<string key="totalE" value="Etot"/>
+<string key="simTitle" value="Masse e molle"/>
+<string key="totalE" value="E totale"/>
 <string key="noShow" value="Non mostrare"/>
 <string key="paused" value="In pausa"/>
 </SimStrings>
