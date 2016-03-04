@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--radiating-charge-strings_sk.xml created Thu Mar 03 08:54:07 CET 2016 using: radiating-charge 1.03.00 (71951), translation-utility 2.18.00 (74383) máj 28, 2015--><SimStrings>
+<string key="duration" value="Trvanie"/>
+<string key="bump" value="Kmit"/>
+<string key="radiating-charge.simTitle" value="Žiarenie náboja"/>
+<string key="stopCharge" value="Zastaviť náboj"/>
+<string key="sinusoidal" value="Sínusovo"/>
+<string key="amplitude" value="Amplitúda"/>
+<string key="speedOfLight" value="c"/>
+<string key="noFrictionManual" value="Bez trenia"/>
+<string key="frequency" value="Frekvencia"/>
+<string key="restart" value="Reštart"/>
+<string key="showVelocity" value="Ukázať rýchlosť"/>
+<string key="speed" value="Rýchlosť"/>
+<string key="translation.credits" value="RNDr. Ľubomír Červený"/>
+<string key="frictionManual" value="Ručne"/>
+<string key="linear" value="Priamočiaro"/>
+<string key="paused" value="Pauza"/>
+<string key="reset" value="Obnoviť"/>
+<string key="circular" value="Kruhovo"/>
+</SimStrings>
