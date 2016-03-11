@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_mr.xml created Tue Jul 30 20:27:59 IST 2013 using: lunar-lander 2.04.00 (53815), translation-utility 2.14.00 (69024) Oct 10, 2012--><SimStrings>
+<string key="help2" value="मुळ स्थिती"/>
+<string key="landingSpeedEq" value="आरोहणाचा वेग ="/>
+<string key="help1" value="किबोर्ड नियंत्रण :"/>
+<string key="label6" value="स्पेस बार = जास्तीत जास्त रेटा"/>
+<string key="label5" value="उजवीकडे कल"/>
+<string key="label4" value="कमी रेटा"/>
+<string key="label3" value="डावीकडे  कल"/>
+<string key="start" value="सुरु"/>
+<string key="unpause" value="स्तब्ध रद्द"/>
+<string key="velVector" value="गती सदिश"/>
+<string key="simTitle" value="चंदावरोहण"/>
+<string key="label2" value="जास्त रेटा"/>
+<string key="accVector" value="त्वरण सदिश"/>
+<string key="label1" value="किबोर्डच्या मदतीने आरोहक नियंत्रित करा."/>
+<string key="vectors" value="सदिश"/>
+<string key="hitBoulder" value="दगडावर आपटले. \nपाय मोडले. \nइंधन नष्ट."/>
+<string key="full" value="पुर्ण"/>
+<string key="altitude" value="उंची(मि)"/>
+<string key="softLanding" value="योग्य आरोहण"/>
+<string key="sound" value="आवाज"/>
+<string key="range" value="मर्यादा(m)"/>
+<string key="hardLandingsColon" value="कठोर अवतरण :"/>
+<string key="help" value="मदत/ स्तब्ध"/>
+<string key="longHelp" value="~ इंधन संपायच्या आत शक्य तेवढ्या सपाट जागेवर आरोहण करा..\n~ आरोहण केल्यावर रेटा वाढवून अवरोहाण करा.\n~एकाच जागी परत आरोहण केल्यास गूण मिळणार नाही..\n~लहान किंवा कठीण जागी आरोहण केल्यास जास्त गुण..\n~ जमिनिवर आपल्यावर बाद (v &gt; 12 m/s)."/>
+<string key="score" value="गुण :"/>
+<string key="thrust" value="रेटा(N)"/>
+<string key="crash2" value="अपघाती अवतरण, सर्व ठार"/>
+<string key="softLandingsColon" value="योग्य आरोहण :"/>
+<string key="crash1" value="अपघाती अवतरण, पाय मोडले"/>
+<string key="paused" value="स्तब्ध"/>
+<string key="reset" value="मुळ स्थिती"/>
+<string key="hardLanding" value="कठोर अवतरण"/>
+<string key="help3" value="स्तब्ध"/>
+<string key="fuel" value="इंधन (किलो)"/>
+</SimStrings>
