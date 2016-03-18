@@ -105,6 +105,8 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/manage-activities').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/html/*/*/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/html/*/latest/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*download-servlet').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*.jar').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*audio!*').' '.
@@ -121,6 +123,8 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/teaching-resources/manage-activities').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/html/*/*/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/html/*/latest/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*audio!*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*image!*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*mipmap!*').' '.
