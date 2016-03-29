@@ -85,9 +85,6 @@
                             <origin>$RIP_BASE_DIR$/files</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/font-awesome-4.4.0</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/images</origin>
                         </distributionDirectory>
                         <distributionDirectory>
