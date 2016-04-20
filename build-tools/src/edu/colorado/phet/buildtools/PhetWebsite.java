@@ -317,7 +317,7 @@ public abstract class PhetWebsite {
 
         @Override
         public String getDescription() {
-            return "The development website phet-server.colorado.edu";
+            return "The development website phet-server.int.colorado.edu";
         }
 
         @Override
@@ -332,22 +332,22 @@ public abstract class PhetWebsite {
 
         @Override
         public String getServerHost() {
-            return "phet-server.colorado.edu";
+            return "phet-server.int.colorado.edu";
         }
 
         @Override
         public String getWebHost() {
-            return "phet-server.colorado.edu";
+            return "phet-new.colorado.edu";
         }
 
         @Override
         public String getBuildLocalPropertiesLocation() {
-            return "/home/phet/apache-tomcat-6.0.24/conf/build-local.properties";
+            return "/etc/tomcat/build-local.properties";
         }
 
         @Override
         public String getDocumentRoot() {
-            return "/var/www/wicket";
+            return "/data/web/htdocs/phetsims";
         }
     };
 
