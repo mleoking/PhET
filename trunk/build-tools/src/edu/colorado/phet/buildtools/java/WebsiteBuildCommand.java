@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Properties;
+import java.util.Arrays;
 
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Jar;
@@ -117,13 +118,18 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
                 *----------------------------------------------------------------------------*/
 
                 StringBuilder cssBuilder = new StringBuilder();
-                for ( File cssFile : cssDir.listFiles( new FilenameFilter() {
+		File[] fileArray = cssDir.listFiles( new FilenameFilter() {
                     public boolean accept( File dir, String name ) {
                         // exclude preview and IE-only CSS
                         return !name.startsWith( "preview" ) && !name.startsWith( "ie" ) && name.endsWith( ".css" );
                     }
-                } ) ) {
-                    cssBuilder.append( FileUtils.loadFileAsString( cssFile ) ).append( "\n" );
+                } );
+
+		Arrays.sort( fileArray );
+
+                for ( File cssFile : fileArray ) {
+               	     System.out.println( cssFile.getName() );
+		     cssBuilder.append( FileUtils.loadFileAsString( cssFile ) ).append( "\n" );
                 }
 
                 System.out.println( "compressing css" );

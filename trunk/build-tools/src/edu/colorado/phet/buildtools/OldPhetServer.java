@@ -79,26 +79,26 @@ public abstract class OldPhetServer {
     );
 
     public static OldPhetServer PHET_SERVER = new PhetProdServer(
-            "phet-server.colorado.edu",
-            "phet-server.colorado.edu",
-            "/var/www/wicket/staging/sims",
+            "phet-server.int.colorado.edu",
+            "phet-new.colorado.edu",
+            "/data/web/static/phetsims/staging/sims",
             "/sims",
             null,
             null,
             null,
-            "/etc/tomcat6/build-local.properties",
-            "/var/www/wicket/staging/sims",
-            "/var/www/wicket"
+            "/etc/tomcat/build-local.properties",
+            "/data/web/static/phetsims/staging/sims",
+            "/data/web/static/phetsims/"
     );
     public static OldPhetServer PHET_SERVER_DEV = new PhetDevServer(
-            "phet-server.colorado.edu", // Server host
-            "phet-server.colorado.edu",  // Web host
-            "/var/www/wicket/dev", // Deploy path on server
-            "/dev", // Deploy path on web host
+	    "phet-server.int.colorado.edu", // Server host
+            "phet-new.colorado.edu",  // Web host
+            "/data/web/static/phetsims/files/dev", // Deploy path on server
+            "/files/dev", // Deploy path on web host
             null, // Cache clear full URL
             null, // Cache clear file
             null, // Localization generation command
-            "/etc/tomcat6/build-local.properties",
+            "/etc/tomcat/build-local.properties",
             null
     );
 
