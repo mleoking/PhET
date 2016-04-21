@@ -132,21 +132,21 @@ public abstract class PhetWebsite {
      * @return The URL where the front page (base) of the website can be accessed
      */
     public String getWebBaseURL() {
-        return "http://" + getWebHost();
+        return "https://" + getWebHost();
     }
 
     public String getProjectDevUrl( PhetProject project ) {
         // TODO: simplify path locations so we don't duplicate them in URL and Path queries
-        return "http://" + getWebHost() + "/dev/" + project.getName() + "/" + project.getDevDirectoryBasename();
+        return "https://" + getWebHost() + "/dev/" + project.getName() + "/" + project.getDevDirectoryBasename();
     }
 
     public String getProjectBaseUrl( PhetProject project ) {
         String projectPath = project.getProdServerDeployPath();
         if ( projectPath == null ) {
             // is null if the project is a simulation
-            return "http://" + getWebHost() + "/sims/" + project.getName();
+            return "https://" + getWebHost() + "/sims/" + project.getName();
         }
-        return "http://" + getWebHost() + projectPath;
+        return "https://" + getWebHost() + projectPath;
     }
 
     /*---------------------------------------------------------------------------*
@@ -347,7 +347,7 @@ public abstract class PhetWebsite {
 
         @Override
         public String getDocumentRoot() {
-            return "/data/web/htdocs/phetsims";
+            return "/data/web/static/phetsims";
         }
     };
 
@@ -391,7 +391,7 @@ public abstract class PhetWebsite {
         }
     };
 
-    public static PhetWebsite DEFAULT_PRODUCTION_WEBSITE = FIGARO;
+    public static PhetWebsite DEFAULT_PRODUCTION_WEBSITE = PHET_SERVER;
 
     private static final PhetWebsite[] websites = new PhetWebsite[] { FIGARO, LOCAL_SERVER, PHET_SERVER };
 

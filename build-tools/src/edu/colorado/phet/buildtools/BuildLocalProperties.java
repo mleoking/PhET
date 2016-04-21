@@ -342,6 +342,10 @@ public class BuildLocalProperties {
     }
 
 
+    public String getServerToken() {
+        return getRequiredString( "server-token", "Server-client token for deployment" );
+    }
+
     /*
     * Gets a boolean value.
     */
