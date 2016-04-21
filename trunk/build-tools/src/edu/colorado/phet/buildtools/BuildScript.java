@@ -528,7 +528,7 @@ public class BuildScript {
                         SshUtils.executeCommand( productionSite, "chmod -R a+rw " + productionSite.getSimsStagingPath() + "/" + project.getName() );
                         if ( project.isSimulationProject() ) {
                             // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
-                            String deployCommand = "curl '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
+                            String deployCommand = "curl -u token:" + buildLocalProperties.getServerToken() + " '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
                             SshUtils.executeCommand( productionSite, deployCommand );
                         }
 

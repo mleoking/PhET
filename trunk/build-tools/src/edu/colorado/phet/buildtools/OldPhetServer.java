@@ -228,7 +228,7 @@ public abstract class OldPhetServer {
         }
 
         public String getCodebase( PhetProject project ) {
-            return "http://" + getWebHost() + getWebDeployPath() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
+            return "https://" + getWebHost() + getWebDeployPath() + "/" + project.getName() + "/" + project.getDevDirectoryBasename();
         }
 
         public String getServerDeployPath( PhetProject project ) {
@@ -250,7 +250,7 @@ public abstract class OldPhetServer {
         }
 
         public String getCodebase( PhetProject project ) {
-            return "http://" + getWebHost() + getWebDeployPath() + "/" + project.getName();
+            return "https://" + getWebHost() + getWebDeployPath() + "/" + project.getName();
         }
 
         //TODO: refactor getting server side path, should be specified in PhetProject
