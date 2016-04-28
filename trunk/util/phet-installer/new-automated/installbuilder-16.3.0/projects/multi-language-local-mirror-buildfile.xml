@@ -73,9 +73,6 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>$RIP_BASE_DIR$/blog</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/en</origin>
                         </distributionDirectory>
                         <distributionDirectory>
