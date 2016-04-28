@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4. Variables</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s03.html" title="3. Architecture" /><link rel="next" href="ar01s05.html" title="5. Components" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4. Variables</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s03.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s05.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="variables"></a>4. Variables</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_basic_syntax"></a>4.1. Basic Syntax</h3></div></div></div><p>Installer variables are an important concept in InstallBuilder. They allow you to store user input, temporary values, establish flags and use
+that information at different points during the build and installation processes. There are a number of built-in variables and you are also able
+to create them directly. The basic way of creating or changing the value of a variable in InstallBuilder is using the <a class="link" href="apa.html#setInstallerVariable"><code class="literal">&lt;setInstallerVariable&gt;</code></a> action:</p><p><a id="snip6011105"></a></p><pre class="programlisting"> &lt;setInstallerVariable name="foo" value="bar"/&gt;</pre><p>The action above will store the value <code class="literal">bar</code> in the variable <code class="literal">foo</code>. Once you have defined the variable, its value can be accessed in any other part of the project as <code class="literal">${foo}</code>. If you require a variable that you are creating at install time to be also available in the uninstallation steps, you have to set the optional <code class="literal">persist</code> attribute to <code class="literal">1</code>:</p><p><a id="snip8652473"></a></p><pre class="programlisting"> &lt;setInstallerVariable name="foo" value="bar" persist="1"/&gt;</pre><p>At uninstallation time, this variables will contain the value of the last assignment using the <code class="literal">persist</code> property.</p><p>Variable names must not contain characters other than digits, letters, dashes and underscores. There is only one exception to this rule: it is possible
+to use a variable as part of the name of another variable (as long as it is a valid one).</p><p>For example, if you have a variable <code class="literal">foo</code> with a value of <code class="literal">bar</code>, then:</p><p><a id="snip2123152"></a></p><pre class="programlisting"> &lt;setInstallerVariable name="${foo}" value="Hello"/&gt;</pre><p>will be equivalent to:</p><p><a id="snip3826776"></a></p><pre class="programlisting"> &lt;setInstallerVariable name="bar" value="Hello"/&gt;</pre><p>In addition to regular variables, <a class="link" href="ar01s07.html#parameters" title="7.1. Parameters">parameters</a> can also be accessed as variables. One good example is the well-known <code class="literal">installdir</code> variable
+which is in reality a <a class="link" href="apc.html#directoryParameter"><code class="literal">&lt;directoryParameter&gt;</code></a>:</p><pre class="literallayout">&lt;runProgram program="${installdir}/myApplication.run" programArguments="--install"/&gt;</pre><p>Some additional information to take into account when working with variables is:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Curly brackets are mandatory: Although the syntax is similar to the notation used in Unix bash-like shells to access variables, it is not the same. If <code class="literal">$foo</code> is used instead of <code class="literal">${foo}</code>, it will not be resolved but treated as a literal string.
+</li><li class="listitem">
+Accessing an undefined variable will not throw an error. Instead, if the variable name was <code class="literal">bar</code>, the value will be set to <code class="literal">***unknown variable bar***</code>
+</li><li class="listitem">
+Variables are not case sensitive. This means that you can use any of the following variants, <code class="literal">${variablename},</code>
+<code class="literal">${VariableName}</code> or <code class="literal">${VARIABLENAME}</code> and obtain the same value in all cases.
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="modifier_suffixes"></a>4.2. Modifier Suffixes</h3></div></div></div><p>When accessing a variable, some operations can be specified through the usage of special suffixes:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">${installdir.dos}</code>: If the variable contains a path, this modifier returns the DOS-style name for it. This will only take effect if the file exists and the platform is Windows. This is particularly useful when the value of the variable may contain spaces and you need to pass it as an argument to a program. Using the <code class="literal">.dos</code> suffix will remove the need of quoting the path as spaces will be removed. Take into account that using <code class="literal">.dos</code> over a path with forward slashes won’t convert them to backslashes.
+</li><li class="listitem">
+<code class="literal">${installdir.unix}</code>: If the variable contains a path, it will be converted to a Unix-style path and all of the backslashes will be translated into forward slashes. This will only take effect if the platform is Windows.
+</li><li class="listitem">
+<code class="literal">${myPassword.password}</code>: The .password suffix is used to mark a variable as a password to be hidden in the logs. This way, you can use a password as an argument in a <a class="link" href="apa.html#runProgram"><code class="literal">&lt;runProgram&gt;</code></a> action and log the execution without showing the plain text password. For example, the following action:
+</li></ul></div><p><a id="snip6635965"></a></p><pre class="programlisting">     &lt;setInstallerVariable name="pass" value="myhiddenpassword!"/&gt;
+     &lt;runProgram&gt;
+         &lt;program&gt;mysql&lt;/program&gt;
+         &lt;programArguments&gt;-u root --password=${pass.password}&lt;/programArguments&gt;
+     &lt;/runProgram&gt;</pre><p>will be logged as:</p><pre class="screen">Executing mysql -u root --password=****
+Script exit code: 0</pre><p>Please note this suffix is only considered when resolving variables that will be used when writing to the installation log or in the error messages thrown by the <a class="link" href="apa.html#runProgram"><code class="literal">&lt;runProgram&gt;</code></a> and <a class="link" href="apa.html#setInstallerVariableFromScriptOutput"><code class="literal">&lt;setInstallerVariableFromScriptOutput&gt;</code></a> actions. For example, <a class="link" href="apa.html#logMessage"><code class="literal">&lt;logMessage&gt;</code></a> will interpret the suffix when logging its information but <a class="link" href="apa.html#writeFile"><code class="literal">&lt;writeFile&gt;</code></a> will ignore it.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">${myVariable.escape_backslashes}</code>: This will escape all of the backslashes in the text stored in the variable. It is especially useful for substitution of values in Java property files.
+</li><li class="listitem">
+<code class="literal">${installdir.dos.unix.escape_backslashes}</code>: The modifiers can be combined.
+</li></ul></div><p>The below table summarizes all the suffixes:</p><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; "><colgroup><col class="col_1" /><col class="col_2" /><col class="col_3" /></colgroup><tbody><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">Original value</code></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">Modifier</code></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">Resolved value</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">alongfilename.txt</code></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal"><code class="literal">${installdir.dos}</code></code></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">ALONGF~1.TXT</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">c:\Program Files\myFile.exe</code></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal"><code class="literal">${installdir.unix}</code></code></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">c:/Program Files/myFile.exe</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">c:\Program Files\myFile.exe</code></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">${myVariable.escape_backslashes}</code></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">c:\\Program Files\\myFile.exe</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">c:\Program Files\myLongFile.exe</code></p></td><td style="border-right: 1px solid #527bbd; " align="center" valign="middle"><p><code class="literal">${installdir.dos.unix}</code></p></td><td style="" align="center" valign="middle"><p><code class="literal">C:/PROGRA~1/MYLONG~1.EXE</code></p></td></tr></tbody></table></div><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Convert forward slashes to backslashes"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Convert forward slashes to backslashes</th></tr><tr><td align="left" valign="top"><p>InstallBuilder does not have a modifier suffix to convert forward slashes to backslashes the same way as the <code class="literal">.unix</code> suffix does. To achieve the same result you just have to use a <a class="link" href="apa.html#setInstallerVariableFromRegEx"><code class="literal">&lt;setInstallerVariableFromRegEx&gt;</code></a> action:</p><p><a id="snip677611"></a></p><pre class="programlisting"> &lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;backslash_path&lt;/name&gt;
+    &lt;pattern&gt;/&lt;/pattern&gt;
+    &lt;substitution&gt;\&lt;/substitution&gt;
+    &lt;text&gt;${forwardslash_path}&lt;/text&gt;
+ &lt;/setInstallerVariableFromRegEx&gt;</pre><p>The above will store the backslash-version of the Unix-like <code class="literal">${forwardslash_path}</code> in the <code class="literal">backslash_path</code> variable.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_accessing_environment_variables"></a>4.3. Accessing Environment Variables</h3></div></div></div><p>It is possible to access any environment variable using the <code class="literal">${env(varname)}</code> construct, where
+varname is the name of an environment variable. For example, on Windows you can refer to the system drive with
+<code class="literal">${env(SYSTEMDRIVE)}</code> and, on Linux, Mac OS X and other Unix systems to the user home directory with
+<code class="literal">${env(HOME)}</code></p><p>To get a list of the environment variables on your system that will be available to the installer you can execute:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+On Windows Systems: Open a command window and execute: <code class="literal">set</code>
+</li><li class="listitem">
+On Unix Systems: Open a console and execute: <code class="literal">env</code>
+</li></ul></div><p>Both commands will print a list of the defined environment variables. However, you must take into account that some of these variables could vary from one machine to another.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="advanced_syntax"></a>4.4. Advanced syntax</h3></div></div></div><p>Almost all of the elements of an InstallBuilder project can be accessed and modified as variables. This makes InstallBuilder a very versatile tool because it allows
+installers to customize themselves at runtime, based on the environment or on end user feedback. The three basic elements which can be accessed are:</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_project_properties"></a>Project properties</h4></div></div></div><p>All of the project properties such as <a class="link" href="apd.html#version"><code class="literal">&lt;version&gt;</code></a>, <a class="link" href="apd.html#shortName"><code class="literal">&lt;shortName&gt;</code></a>, <a class="link" href="apd.html#installerFilename"><code class="literal">&lt;installerFilename&gt;</code></a> and so on, can be referenced using the notation <code class="literal">${project.property}</code>. For example, <code class="literal">${project.shortName}</code> for the <a class="link" href="apd.html#shortName"><code class="literal">&lt;shortName&gt;</code></a>. Similarly to regular variables, you can use any capitalization when referencing an element. Using <code class="literal">${PrOjEct.InstallerFilename}</code> is equivalent to using <code class="literal">${project.installerFilename}</code>.</p><p>The below example changes the <a class="link" href="apd.html#installationType"><code class="literal">&lt;installationType&gt;</code></a> at runtime to perform an upgrade if the previous installed version, stored in an environment variable, is lower than the current one:</p><p><a id="snip8609473"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;shortName&gt;myProduct&lt;/shortName&gt;
+   &lt;installationType&gt;normal&lt;/installationType&gt;
+   ...
+   &lt;initializationActionList&gt;
+     &lt;setInstallerVariable&gt;
+       &lt;name&gt;project.installationType&lt;/name&gt;
+       &lt;value&gt;upgrade&lt;/value&gt;
+       &lt;ruleList&gt;
+         &lt;!-- Check that the env variable exists --&gt;
+         &lt;compareText&gt;
+            &lt;text&gt;${env(MYPRODUCT_VERSION)}&lt;/text&gt;
+            &lt;logic&gt;does_not_equal&lt;/logic&gt;
+            &lt;value&gt;&lt;/value&gt;
+         &lt;/compareText&gt;
+         &lt;!-- Compare the versions --&gt;
+         &lt;compareVersions&gt;
+            &lt;version1&gt;${project.version}&lt;/version1&gt;
+            &lt;logic&gt;greater&lt;/logic&gt;
+            &lt;version2&gt;${env(MYPRODUCT_VERSION)}&lt;/version2&gt;
+         &lt;/compareVersions&gt;
+       &lt;/ruleList&gt;
+     &lt;/setInstallerVariable&gt;
+   &lt;/initializationActionList&gt;
+   ...
+&lt;/project&gt;</pre><p>You can refer to the <a class="link" href="">Project Properties</a> appendix for the complete list of properties.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_components"></a>Components</h4></div></div></div><p>Using this notation you can also modify component settings:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">${project.component(default).selected}</code>
+</li><li class="listitem">
+<code class="literal">${project.component(mysql).show}</code>
+</li></ul></div><p>This allows, for example, disabling components at runtime when the user does not provide a license key:</p><p><a id="snip9426040"></a></p><pre class="programlisting">&lt;stringParameter&gt;
+  &lt;name&gt;licenseKey&lt;/name&gt;
+  &lt;description&gt;Please provide a license key. If you leave the field empty
+  you just will be able to test the basic functionality&lt;/description&gt;
+  &lt;insertBefore&gt;components&lt;/insertBefore&gt;
+  &lt;postShowPageActionList&gt;
+    &lt;actionGroup&gt;
+      &lt;actionList&gt;
+        &lt;setInstallerVariable&gt;
+          &lt;name&gt;project.component(premiumComponent).selected&lt;/name&gt;
+          &lt;value&gt;0&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;setInstallerVariable&gt;
+          &lt;name&gt;project.component(premiumComponent).canBeEdited&lt;/name&gt;
+          &lt;value&gt;0&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+      &lt;/actionList&gt;
+      &lt;ruleList&gt;
+        &lt;compareText&gt;
+          &lt;text&gt;${licenseKey}&lt;/text&gt;
+          &lt;logic&gt;equals&lt;/logic&gt;
+          &lt;value&gt;&lt;/value&gt;
+        &lt;/compareText&gt;
+      &lt;/ruleList&gt;
+    &lt;/actionGroup&gt;
+  &lt;/postShowPageActionList&gt;
+&lt;/stringParameter&gt;</pre><p>You can refer to the <a class="link" href="ape.html" title="E. Component and Folder Properties and Lists">Components</a> appendix for the complete list of properties.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_parameters"></a>Parameters</h4></div></div></div><p>Using the advanced syntax on parameters will allow you to modify not only their values but their entire set of properties such as <a class="link" href="apc.html#parameter.description"><code class="literal">&lt;description&gt;</code></a>, <a class="link" href="apc.html#parameter.explanation"><code class="literal">&lt;explanation&gt;</code></a> and the especially useful <a class="link" href="apc.html#parameter.ask"><code class="literal">&lt;ask&gt;</code></a>. The basic usage is:</p><p><code class="literal">${project.parameter(nameOfTheParameter).propertyName}</code></p><p>For example:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">${project.parameter(installdir).value}</code>
+</li><li class="listitem">
+<code class="literal">${project.parameter(tomcat).description}</code>
+</li><li class="listitem">
+<code class="literal">${project.parameter(mySQL).default}</code>
+</li></ul></div><p>If the parameter to access is a child of a <a class="link" href="apc.html#parameterGroup"><code class="literal">&lt;parameterGroup&gt;</code></a>, the parent must also be specified. For example, the <code class="literal">port</code> parameter in the below code:</p><p><a id="snip3470512"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;parameterList&gt;
+    &lt;parameterGroup&gt;
+      &lt;name&gt;mysqlConfiguration&lt;/name&gt;
+      &lt;parameterList&gt;
+        &lt;stringParameter name="port" description="MySQL port" value="3306"/&gt;
+        &lt;passwordParameter name="password" description="MySQL root password" value=""/&gt;
+        ...
+      &lt;/parameterList&gt;
+    &lt;/parameterGroup&gt;
+  &lt;/parameterList&gt;
+  ...
+&lt;/project&gt;</pre><p>Can be accessed using:</p><pre class="literallayout">${project.parameter(mysqlConfiguration).parameter(port).value}</pre><p>If the parameters are also included inside a component, instead of directly under the <code class="literal">&lt;project&gt;</code> <a class="link" href="apd.html#parameterList"><code class="literal">&lt;parameterList&gt;</code></a>, it must be also specified. For example, reusing the above example:</p><p><a id="snip8897557"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;mySQL&lt;/name&gt;
+      &lt;parameterList&gt;
+        &lt;parameterGroup&gt;
+          &lt;name&gt;mysqlConfiguration&lt;/name&gt;
+          &lt;parameterList&gt;
+            &lt;stringParameter name="port" description="MySQL port" value="3306"/&gt;
+            &lt;passwordParameter name="password" description="MySQL root password" value=""/&gt;
+            ...
+          &lt;/parameterList&gt;
+        &lt;/parameterGroup&gt;
+      &lt;/parameterList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>The parameter should now be accessed using:</p><pre class="literallayout">${project.component(mysql).parameter(mysqlConfiguration).parameter(port).value}</pre><p>You can use this functionality to disable pages or parameters at runtime based on the user input:</p><p><a id="snip1250628"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+   &lt;component&gt;
+     &lt;name&gt;mySQL&lt;/name&gt;
+     &lt;parameterList&gt;
+       &lt;booleanParameter&gt;
+         &lt;name&gt;enableAdvanced&lt;/name&gt;
+         &lt;description&gt;Do you want to enable the advanced configuration?&lt;/description&gt;
+         &lt;postShowPageActionList&gt;
+           &lt;!-- Enable the page, which is disabled by default --&gt;
+           &lt;setInstallerVariable&gt;
+             &lt;name&gt;project.component(mySQL).parameter(mysqlAdvanced).ask&lt;/name&gt;
+             &lt;value&gt;1&lt;/value&gt;
+             &lt;ruleList&gt;
+                &lt;isTrue value="${project.component(mySQL).parameter(enableAdvanced).value}"/&gt;
+             &lt;/ruleList&gt;
+           &lt;/setInstallerVariable&gt;
+         &lt;/postShowPageActionList&gt;
+       &lt;/booleanParameter&gt;
+       &lt;parameterGroup&gt;
+          &lt;name&gt;mysqlAdvanced&lt;/name&gt;
+          &lt;parameterList&gt;
+             &lt;stringParameter name="mysqlPort" description="MySQL port" value="3306"/&gt;
+             &lt;passwordParameter name="mysqlPassword" description="MySQL root password" value=""/&gt;
+             ...
+          &lt;/parameterList&gt;
+       &lt;/parameterGroup&gt;
+     &lt;/parameterList&gt;
+   &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>Parameters are also handy when you want to preserve variables defined at build time. Accessing a variable defined in the <a class="link" href="apd.html#preBuildActionList"><code class="literal">&lt;preBuildActionList&gt;</code></a> at runtime will result in an <code class="literal">***unknown variable varName***</code> error. To workaround this issue, you could use a hidden parameter (setting <code class="literal">ask="0"</code>), that won’t be displayed in the help menu nor the installer pages. For example, to pass a random generated key for each of the built installers you could use the below code:</p><p><a id="snip9309425"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;parameterList&gt;
+    ...
+    &lt;stringParameter name="build_identifier" value="" ask="0"/&gt;
+    ...
+  &lt;/parameterList&gt;
+  &lt;preBuildActionList&gt;
+     &lt;!-- Create random identifier for the build --&gt;
+     &lt;generateRandomValue&gt;
+       &lt;variable&gt;build_identifier&lt;/variable&gt;
+     &lt;/generateRandomValue&gt;
+     &lt;!-- Date of the build --&gt;
+     &lt;createTimeStamp&gt;
+        &lt;variable&gt;timestamp&lt;/variable&gt;
+     &lt;/createTimeStamp&gt;
+     &lt;!-- Register the build information in a local file --&gt;
+     &lt;addTextToFile&gt;
+        &lt;file&gt;${build_project_directory}/builds&lt;/file&gt;
+        &lt;text&gt;${build_identifier} - Product Version: ${project.version} - IB Version: ${installer_builder_version} - Built On: ${timestamp}&lt;/text&gt;
+     &lt;/addTextToFile&gt;
+  &lt;/preBuildActionList&gt;
+  ...
+&lt;/project&gt;</pre><p>As you are using a hidden parameter, the <code class="literal">${build_identifier}</code> will be available at runtime and you could, for example, send it to your server using an <a class="link" href="apa.html#httpPost"><code class="literal">&lt;httpPost&gt;</code></a> action to register the installations for each release:</p><p><a id="snip3513562"></a></p><pre class="programlisting">  &lt;postInstallationActionList&gt;
+     ...
+     &lt;httpPost url="http://www.example.com/register.php" filename="${installdir}/activationUrl"&gt;
+        &lt;queryParameterList&gt;
+           &lt;queryParameter name="build_identifier" value="${build_identifier}"/&gt;
+           &lt;queryParameter name="version" value="${project.version}"/&gt;
+        &lt;/queryParameterList&gt;
+     &lt;/httpPost&gt;
+  &lt;/postInstallationActionList&gt;</pre><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Accessing a parameter as a regular variable"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Accessing a parameter as a regular variable</th></tr><tr><td align="left" valign="top"><p>If you try to access a parameter as if it were a regular variable, it will give you its value. That is, using <code class="literal">${installdir}</code> or <code class="literal">${project.parameter(installdir).value}</code> will return the same result.</p><p>The advantage of using the long notation is that it provides a very descriptive path to the element you are modifying. For example, if you are working with a very big project that is maintained by multiple developers and divided into multiple files using the <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directive, locating where the below values are located could be troublesome (they could be parameters or regular variables, located in any of the included files or the main project):</p><p><a id="snip2451265"></a></p><pre class="programlisting">   &lt;throwError text="You have selected strict password checking and your password is too short" &gt;
+     &lt;ruleList&gt;
+       &lt;isTrue value="${enableStrictChecking}"/&gt;
+       &lt;compareTextLength&gt;
+         &lt;text&gt;${password}&lt;/text&gt;
+         &lt;logic&gt;less&lt;/logic&gt;
+         &lt;length&gt;${minLength}&lt;/length&gt;
+       &lt;/compareTextLength&gt;
+     &lt;/ruleList&gt;
+   &lt;/throwError&gt;</pre><p>Where using the long location will point you directly to where they are defined (assuming the included files are named according to the component names, for example):</p><p><a id="snip8417805"></a></p><pre class="programlisting">   &lt;throwError text="You have selected strict password checking and your password is too short" &gt;
+     &lt;ruleList&gt;
+       &lt;isTrue value="${project.component(settings).parameter(basicConfiguration).parameter(enableStrictChecking).value}"/&gt;
+       &lt;compareTextLength&gt;
+         &lt;text&gt;${password}&lt;/text&gt;
+         &lt;logic&gt;less&lt;/logic&gt;
+         &lt;length&gt;${project.component(settings).parameter(defaultPasswordSettings).parameter(minLength).value}&lt;/length&gt;
+       &lt;/compareTextLength&gt;
+     &lt;/ruleList&gt;
+   &lt;/throwError&gt;</pre></td></tr></table></div><p>In addition to the above-mentioned elements, any other tag in the XML project with a unique identifier can be referenced. For example, is possible to reference a folder in a component to get its destination:</p><pre class="literallayout">`&lt;showInfo text="${project.component(mysql).folder(mysqlConfig).destination}"/&gt;`</pre><p>But not a file in its <a class="link" href="ape.html#distributionFileList"><code class="literal">&lt;distributionFileList&gt;</code></a> because files do not have a unique name.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_accessing_language_strings"></a>4.5. Accessing Language Strings</h3></div></div></div><p>You can also access language strings, either built-in or user-defined (check the <a class="link" href="ar01s12.html#languages" title="12.1. Languages">Languages</a> section for more details), using the special notation <code class="literal">${msg(stringKey)}</code>. It will be resolved to the localized string identified by the key <code class="literal">stringKey</code> in the current installation language:</p><p><a id="snip8050347"></a></p><pre class="programlisting">   &lt;showInfo text="${msg(hello.world)}"/&gt;</pre><p>If you have defined the <code class="literal">hello.world</code> localized string in the <a class="link" href="apd.html#customLanguageFileList"><code class="literal">&lt;customLanguageFileList&gt;</code></a>, depending on the installation language you will get results such as <code class="literal">Hello world!</code>, <code class="literal">Hola Mundo!</code> or <code class="literal">Hallo Welt</code>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_escaping_variables"></a>4.6. Escaping Variables</h3></div></div></div><p>In some cases, for example when modifying shell scripts programmatically, you may need a literal <code class="literal">${foo}</code> instead of the contents of the <code class="literal">foo</code> variable (which may result in an <code class="literal">***unknown variable foo***</code>). For these cases, InstallBuilder implements a special notation to specify that you want the text treated literally, without trying to be resolved: <code class="literal">${'${variableName}'}</code>.</p><p>For example, <code class="literal">${'${foo}'}</code> will be resolved to: <code class="literal">${foo}</code>. More complex text can be escaped as shown in the snippet below:</p><p><a id="snip2197484"></a></p><pre class="programlisting">     &lt;writeFile&gt;
+       &lt;path&gt;~/.bashrc&lt;/path&gt;
+        &lt;text&gt;${'
+PATH=${PATH}:/some/path
+Foo=${bar}
+'}&lt;/text&gt;
+     &lt;/writeFile&gt;</pre><p>It will write:</p><pre class="screen">PATH=${PATH}:/some/path
+Foo=${bar}</pre><p>As shown in the example, it accepts line breaks in the text to escape. The only limitation is that it cannot contain the characters <code class="literal">'}</code> in the text to escape or it will be interpreted as the end of the escaped reference.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_nested_variables"></a>4.7. Nested Variables</h3></div></div></div><p>Nested variables are also allowed. They will be evaluated from the most inner reference:</p><p><a id="snip3125448"></a></p><pre class="programlisting">     &lt;showInfo&gt;
+       &lt;text&gt;${text_${foo-${i}}_${bar}}&lt;/text&gt;
+     &lt;/showInfo&gt;</pre><p>This feature is especially useful when iterating using a <a class="link" href="apa.html#foreach"><code class="literal">&lt;foreach&gt;</code></a> action. For example, if you have a list of component names and you want to create a list with those that are selected:</p><p><a id="snip9413226"></a></p><pre class="programlisting">&lt;setInstallerVariable name="selectedComponents" value=""/&gt;
+&lt;foreach variables="component" values="componentA componentB componentC componentD"&gt;
+   &lt;actionList&gt;
+      &lt;setInstallerVariable name="slectedComponents" value="${selectedComponents} ${component}" &gt;
+         &lt;ruleList&gt;
+            &lt;isTrue value="${project.component(${component}).selected"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/setInstallerVariable&gt;
+  &lt;/actionList&gt;
+&lt;/foreach&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="built_in_variables"></a>4.8. Built-in variables</h3></div></div></div><p>InstallBuilder also provides a list of built-in variables containing information about the installer or the environment in which it is executed:</p><div class="itemizedlist"><a id="installer_http_code"></a><p class="title"><strong>HTTP</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_http_code</strong></span>: Contains the HTTP status code of the last httpGet or httpPost action.
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 200, 404, 500
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="java_autodetected"></a><p class="title"><strong>Java</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>java_autodetected</strong></span>: Whether or not a valid Java was autodetected
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 0, 1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>java_bitness</strong></span>: Autodetected Java bitness
+</p><div class="variablelist"><a id="java_bitness"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 32, 64
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>java_executable</strong></span>: Location of the autodetected Java executable
+</p><div class="variablelist"><a id="java_executable"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /usr/bin/java, c:/Program Files/Java/jre1.6.0_10/bin/java.exe
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>java_vendor</strong></span>: Autodetected Java vendor
+</p><div class="variablelist"><a id="java_vendor"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ Any, IBM, Sun
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>java_version</strong></span>: Autodetected Java version
+</p><div class="variablelist"><a id="java_version"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 1.6.0, 1.5.0
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>java_version_full</strong></span>: Autodetected Java full version
+</p><div class="variablelist"><a id="java_version_full"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 1.6.0_07, 1.5.0_11
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>java_version_major</strong></span>: Autodetected Java major version
+</p><div class="variablelist"><a id="java_version_major"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 1.6, 1.5
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>javaw_executable</strong></span>: Autodetected javaw executable path
+</p><div class="variablelist"><a id="javaw_executable"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /usr/bin/java, c:/Program Files/Java/jre1.6.0_10/bin/java.exe
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>javaws_executable</strong></span>: Location of the autodetected Java Web Start executable
+</p><div class="variablelist"><a id="javaws_executable"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /usr/bin/javaws, c:/Program Files/Java/jre1.6.0_10/bin/javaws.exe
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="installer_interactivity"></a><p class="title"><strong>User Interface</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_interactivity</strong></span>: The level of interactivity of the installation mode
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ none, normal, minimalWithDialogs, minimal
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_ui</strong></span>: The mode in which the installer is run
+</p><div class="variablelist"><a id="installer_ui"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ unattended, gui, text
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_ui_detail</strong></span>: The detailed mode in which the installer is run
+</p><div class="variablelist"><a id="installer_ui_detail"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ unattended, xwindow, qt, text, osx, gtk, win32
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="dotnet_autodetected"></a><p class="title"><strong>.NET Framework</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>dotnet_autodetected</strong></span>: Whether or not a valid .NET framework was autodetected
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 0, 1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>dotnet_framework_type</strong></span>: .NET framework type
+</p><div class="variablelist"><a id="dotnet_framework_type"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ , full, client
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>dotnet_version</strong></span>: .NET framework version
+</p><div class="variablelist"><a id="dotnet_version"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 2.0, 3.5, 4.0, 4.5
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="installation_aborted_by_user"></a><p class="title"><strong>Installer</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installation_aborted_by_user</strong></span>: Whether or not installation was manually aborted by user
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 0, 1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installation_finished</strong></span>: Whether or not the installation finished successfully
+</p><div class="variablelist"><a id="installation_finished"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 0, 1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installation_guid</strong></span>: Unique installation ID
+</p><div class="variablelist"><a id="installation_guid"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ b1dcd352-3907-4ede-79fc-fdbd95e8a47f
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installation_language_code</strong></span>: Language code of the installation
+</p><div class="variablelist"><a id="installation_language_code"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ es, lt, sv, ro, et, lv, ko, eu, az, cy, pt, it, id, da, tr, sk, va, sl, ru, fa, pt_BR, fr, el, de, bg, zh_CN, es_AR, hr, nl, ja, en, ar, zh_TW, th, pl, sq, ca, sr, no, hu, he, kk, cs, vi, tk, fi
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_builder_timestamp</strong></span>: Timestamp of the InstallBuilder used to build the installer
+</p><div class="variablelist"><a id="installer_builder_timestamp"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 201001220702
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_builder_version</strong></span>: Version of InstallBuilder used to build the installer
+</p><div class="variablelist"><a id="installer_builder_version"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 6.2.7
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_command_line_arguments</strong></span>: Command line arguments as passed to installer
+</p><div class="variablelist"><a id="installer_command_line_arguments"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ --mode gtk, --installdir /opt/app-1.0
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_error_message</strong></span>: Contains the error of the last failed action, possibly masked by its &lt;customErrorMessage&gt;
+</p><div class="variablelist"><a id="installer_error_message"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ Unknown error installing MySQL
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_error_message_original</strong></span>: Contains the original error of the last failed action
+</p><div class="variablelist"><a id="installer_error_message_original"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ Unknown error executing action
+</dd></dl></div></li><li class="listitem">
+<span class="strong"><strong>installer_exit_code</strong></span>: Installer Exit Code value. It is equal 0 by default and set to 0 if there was an error executing an action.
+</li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_installation_log</strong></span>: The location of the installer log
+</p><div class="variablelist"><a id="installer_installation_log"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /tmp/bitrock_install.log, C:\Documents and Settings\user\Local Settings\Temp
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_is_root_install</strong></span>: Whether or not the current user has root privileges
+</p><div class="variablelist"><a id="installer_is_root_install"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 0, 1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_package_format</strong></span>: Type of installer
+</p><div class="variablelist"><a id="installer_package_format"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ executable
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_pid</strong></span>: PID of the running installer or uninstaller
+</p><div class="variablelist"><a id="installer_pid"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 53008
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>program_exit_code</strong></span>: Exit code from program; set by runProgram and setInstallerVariableFromScriptOutput actions
+</p><div class="variablelist"><a id="program_exit_code"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 0, 1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>program_stderr</strong></span>: Program’s error output; set by runProgram and setInstallerVariableFromScriptOutput actions
+</p><div class="variablelist"><a id="program_stderr"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd></dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>program_stdout</strong></span>: Program’s output; set by runProgram and setInstallerVariableFromScriptOutput actions
+</p><div class="variablelist"><a id="program_stdout"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd></dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>required_diskspace</strong></span>: Required disk space to install the application in Kilobytes
+</p><div class="variablelist"><a id="required_diskspace"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 10000, 25000
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="windows_folder_program_files"></a><p class="title"><strong>Windows Folders</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_program_files</strong></span>: Directory for program files
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Program Files
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_program_files_common</strong></span>: Directory for components shared across applications
+</p><div class="variablelist"><a id="windows_folder_program_files_common"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Program Files\Common Files
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_system</strong></span>: Windows system directory
+</p><div class="variablelist"><a id="windows_folder_system"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Windows\system32
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_systemroot</strong></span>: Windows root directory
+</p><div class="variablelist"><a id="windows_folder_systemroot"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Windows
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_windows</strong></span>: Windows root directory
+</p><div class="variablelist"><a id="windows_folder_windows"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Windows
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="windows_folder_common_admintools"></a><p class="title"><strong>Windows Folders - System Scope</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_admintools</strong></span>: Directory that stores administrator tools for all users
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_appdata</strong></span>: Directory that stores common application-specific data
+</p><div class="variablelist"><a id="windows_folder_common_appdata"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\ProgramData
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_desktopdirectory</strong></span>: Directory that stores common desktop files
+</p><div class="variablelist"><a id="windows_folder_common_desktopdirectory"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Public\Desktop
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_documents</strong></span>: Directory that stores common document files
+</p><div class="variablelist"><a id="windows_folder_common_documents"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Public\Documents
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_favorites</strong></span>: Directory that stores common favorite items
+</p><div class="variablelist"><a id="windows_folder_common_favorites"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\Favorites
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_music</strong></span>: Directory that stores common music files
+</p><div class="variablelist"><a id="windows_folder_common_music"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Public\Music
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_pictures</strong></span>: Directory that stores common picture files
+</p><div class="variablelist"><a id="windows_folder_common_pictures"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Public\Pictures
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_programs</strong></span>: Directory that stores common program groups in start menu
+</p><div class="variablelist"><a id="windows_folder_common_programs"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\ProgramData\Microsoft\Windows\Start Menu\Programs
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_startmenu</strong></span>: Directory that stores common start menu items
+</p><div class="variablelist"><a id="windows_folder_common_startmenu"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\ProgramData\Microsoft\Windows\Start Menu
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_startup</strong></span>: Directory that stores common Startup program group
+</p><div class="variablelist"><a id="windows_folder_common_startup"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_templates</strong></span>: Directory that stores common templates
+</p><div class="variablelist"><a id="windows_folder_common_templates"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\ProgramData\Microsoft\Windows\Templates
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_common_video</strong></span>: Directory that stores common video files
+</p><div class="variablelist"><a id="windows_folder_common_video"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Public\Videos
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="installdir"></a><p class="title"><strong>Cross-platform Folders</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installdir</strong></span>: The installation directory
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/user/programx, C:\Program Files\programx
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_directory</strong></span>: The directory location of the installer binary
+</p><div class="variablelist"><a id="installer_directory"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/user/example, C:\example
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installer_pathname</strong></span>: The full path of the installer binary
+</p><div class="variablelist"><a id="installer_pathname"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/user/example/installer.bin, C:\example\installer.exe
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>platform_install_prefix</strong></span>: The platform specific default installation path
+</p><div class="variablelist"><a id="platform_install_prefix"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/user, C:\Program Files, /Applications
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>system_temp_directory</strong></span>: Path to the system’s temporary directory
+</p><div class="variablelist"><a id="system_temp_directory"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /tmp, C:\Documents and Settings\Username\Local Settings\Temp
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>user_home_directory</strong></span>: Path to the home directory of the user who is running the installer
+</p><div class="variablelist"><a id="user_home_directory"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/username, C:\Documents and Settings\Username
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="build_project_directory"></a><p class="title"><strong>Build-time Variables</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>build_project_directory</strong></span>: Directory containing the XML project used to generate the installer.
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/username/installbuilder-7.0.0/projects, C:\Program Files\Bitrock InstallBuilder for Windows 7.0.0\projects
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installbuilder_install_root</strong></span>: Installation directory of InstallBuilder. This variable is available only at build time, as it does not make sense to access this information at runtime
+</p><div class="variablelist"><a id="installbuilder_install_root"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/username/installbuilder-7.0.0, C:\Program Files\Bitrock InstallBuilder for Windows 7.0.0
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installbuilder_output_directory</strong></span>: InstallBuilder output directory. This variable is available only at build time, as it does not make sense to access this information at runtime
+</p><div class="variablelist"><a id="installbuilder_output_directory"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/username/installbuilder-7.0.0/output, C:\Program Files\Bitrock InstallBuilder for Windows 7.0.0\output
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installbuilder_output_filename</strong></span>: Location of the generated installer. This variable is available only at build time, as it does not make sense to access this information at runtime
+</p><div class="variablelist"><a id="installbuilder_output_filename"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ /home/username/installbuilder-7.0.0/output/sample-1.0-linux-installer.run, C:\Program Files\Bitrock InstallBuilder for Windows 7.0.0\output\sample-1.0-window-installer.exe
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>installbuilder_ui</strong></span>: The mode in which the builder is run
+</p><div class="variablelist"><a id="installbuilder_ui"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ gui, text
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="windows_folder_admintools"></a><p class="title"><strong>Windows Folders - User Scope</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_admintools</strong></span>: Directory that stores administrator tools for individual user
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Administrative Tools
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_appdata</strong></span>: Directory that stores user application-specific data
+</p><div class="variablelist"><a id="windows_folder_appdata"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_cookies</strong></span>: Directory that stores user cookies
+</p><div class="variablelist"><a id="windows_folder_cookies"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Cookies
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_desktopdirectory</strong></span>: Directory that stores user desktop files
+</p><div class="variablelist"><a id="windows_folder_desktopdirectory"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\Desktop
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_favorites</strong></span>: Directory that stores user favorite items
+</p><div class="variablelist"><a id="windows_folder_favorites"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\Favorites
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_history</strong></span>: Directory that stores user Internet history items
+</p><div class="variablelist"><a id="windows_folder_history"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Local\Microsoft\Windows\History
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_internet_cache</strong></span>: Directory that stores user temporary internet files
+</p><div class="variablelist"><a id="windows_folder_internet_cache"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Local\Microsoft\Windows\Temporary Internet Files
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_local_appdata</strong></span>: Directory that stores user local (non-roaming) repository for application-specific data
+</p><div class="variablelist"><a id="windows_folder_local_appdata"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Local
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_mymusic</strong></span>: Directory that stores user music files
+</p><div class="variablelist"><a id="windows_folder_mymusic"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\Music
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_mypictures</strong></span>: Directory that stores user picture files
+</p><div class="variablelist"><a id="windows_folder_mypictures"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\Pictures
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_myvideo</strong></span>: Directory that stores user video files
+</p><div class="variablelist"><a id="windows_folder_myvideo"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\Videos
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_nethood</strong></span>: Directory that stores user network shortcuts
+</p><div class="variablelist"><a id="windows_folder_nethood"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Network Shortcuts
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_personal</strong></span>: Directory that stores user document files
+</p><div class="variablelist"><a id="windows_folder_personal"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\Documents
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_printhood</strong></span>: Directory that stores printer shortcuts
+</p><div class="variablelist"><a id="windows_folder_printhood"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Printer Shortcuts
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_profile</strong></span>: Directory that stores user profile
+</p><div class="variablelist"><a id="windows_folder_profile"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_programs</strong></span>: Directory that stores user program groups in start menu
+</p><div class="variablelist"><a id="windows_folder_programs"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_recent</strong></span>: Directory that stores shortcuts to user’s recently used documents
+</p><div class="variablelist"><a id="windows_folder_recent"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Recent
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_sendto</strong></span>: Directory that stores user Send To menu items
+</p><div class="variablelist"><a id="windows_folder_sendto"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\SendTo
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_startmenu</strong></span>: Directory that stores user start menu items
+</p><div class="variablelist"><a id="windows_folder_startmenu"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_startup</strong></span>: Directory that stores user Startup program group
+</p><div class="variablelist"><a id="windows_folder_startup"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_folder_templates</strong></span>: Directory that stores user templates
+</p><div class="variablelist"><a id="windows_folder_templates"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Templates
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="linux_distribution"></a><p class="title"><strong>Linux Specific</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>linux_distribution</strong></span>: Type of Linux distribution
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ gentoo, suse, redhat, redflag, slackware, fedora, arch, amazon, mandrake, debian
+</dd></dl></div></li><li class="listitem">
+<span class="strong"><strong>linux_distribution_codename</strong></span>: Linux distribution code name (based on Linux Standard Base tool: lsb_release)
+</li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>linux_distribution_description</strong></span>: Linux distribution description (based on Linux Standard Base tool: lsb_release)
+</p><div class="variablelist"><a id="linux_distribution_description"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ Debian, GNU/Linux
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>linux_distribution_fullname</strong></span>: Linux distribution fullname
+</p><div class="variablelist"><a id="linux_distribution_fullname"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ Suse, Scientific Linux, Fedora, Core, Flag, openSUSE, Red, Mandrake, Red Hat Linux, Red Hat Enterprise Linux, Debian, Gentoo, CentOS, SME Server Linux, Slackware, Arch
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>linux_distribution_id</strong></span>: Linux distribution distributor’s ID (based on Linux Standard Base tool: lsb_release)
+</p><div class="variablelist"><a id="linux_distribution_id"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ Debian
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>linux_distribution_release</strong></span>: Linux distribution release number(based on Linux Standard Base tool: lsb_release)
+</p><div class="variablelist"><a id="linux_distribution_release"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 3.1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>linux_distribution_shortname</strong></span>: Linux distribution shortname
+</p><div class="variablelist"><a id="linux_distribution_shortname"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ gentoo, suse, redflag, slackware, fedora, arch, amazon, rh, mandrake, debian, rhel
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>linux_distribution_version</strong></span>: Linux distribution mayor version
+</p><div class="variablelist"><a id="linux_distribution_version"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 5.0
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="osx_major_version"></a><p class="title"><strong>OSX Specific</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>osx_major_version</strong></span>: OSX major version number
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 10.3, 10.5
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>osx_version</strong></span>: OSX version number
+</p><div class="variablelist"><a id="osx_version"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 10.3.9, 10.5.7
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="windows_os_family"></a><p class="title"><strong>Windows Specific</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_os_family</strong></span>: Type of Windows OS
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ Windows NT, Windows 95
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_os_family_shortname</strong></span>: Windows OS family shortname
+</p><div class="variablelist"><a id="windows_os_family_shortname"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ winnt, win9x
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_os_flavor</strong></span>: Flavor of Windows OS
+</p><div class="variablelist"><a id="windows_os_flavor"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ Home Premium, Enterprise, Home, Standard, Home Basic, Storage Server Workgroup, Ultimate, Foundation, Server, Web Edition, Data Center, Business, Workstation, Storage Server Standard, Advanced Server, Professional, Starter
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_os_name</strong></span>: Windows OS name
+</p><div class="variablelist"><a id="windows_os_name"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ Windows 2012, Windows 7, Windows 8.1, Windows 8, Windows 2012 R2, Windows 2000, Windows 2003, Windows 95, Windows 2008 R2, Windows Vista, Windows XP, Windows 7 WSLK, Windows 10, Windows 98, Windows 2008
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_os_service_pack</strong></span>: Windows OS Service Pack version number
+</p><div class="variablelist"><a id="windows_os_service_pack"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 1, 2, 3
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_os_uac_enabled</strong></span>: Whether or not UAC is enabled
+</p><div class="variablelist"><a id="windows_os_uac_enabled"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 0, 1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>windows_os_version_number</strong></span>: Windows OS version number
+</p><div class="variablelist"><a id="windows_os_version_number"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 6.0, 5.1, 7.0, 6.1, 5.2, 4.0, 5.0, 4.1
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="machine_cpu_count"></a><p class="title"><strong>System Configuration</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>machine_cpu_count</strong></span>: Number of CPUs in the machine
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 1, 2
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>machine_cpu_speed</strong></span>: The  machine’s CPU speed in MHZ
+</p><div class="variablelist"><a id="machine_cpu_speed"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 1500
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>machine_fqdn</strong></span>: The machine’s fully qualified domain name
+</p><div class="variablelist"><a id="machine_fqdn"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ bitrock-desktop.mydomain.com
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>machine_hostname</strong></span>: The machine’s hostname
+</p><div class="variablelist"><a id="machine_hostname"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ example.com
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>machine_ipaddr</strong></span>: The machine’s IP address
+</p><div class="variablelist"><a id="machine_ipaddr"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 10.0.0.2
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>machine_swap_memory</strong></span>: The  machine’s swap memory in MB
+</p><div class="variablelist"><a id="machine_swap_memory"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 512
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>machine_total_memory</strong></span>: The  machine’s total physical memory in MB
+</p><div class="variablelist"><a id="machine_total_memory"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ 512
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>platform_exec_suffix</strong></span>: The platform specific binary suffix
+</p><div class="variablelist"><a id="platform_exec_suffix"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ app, run, exe
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>platform_has_smp</strong></span>: Whether or not the machine has multiple processors
+</p><div class="variablelist"><a id="platform_has_smp"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ 0, 1
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>platform_name</strong></span>: At build-time, it contains the target build platform. At runtime, the platform in which the installer is running
+</p><div class="variablelist"><a id="platform_name"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ linux, osx, windows
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>platform_path_separator</strong></span>: The platform specific path separator
+</p><div class="variablelist"><a id="platform_path_separator"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ \, /
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>system_locale</strong></span>: Current system locale
+</p><div class="variablelist"><a id="system_locale"></a><dl class="variablelist"><dt><span class="term">
+Possible values: 
+</span></dt><dd>
+ es, lt, sv, ro, et, lv, ko, eu, az, cy, pt, it, id, da, tr, sk, va, sl, ru, fa, pt_BR, fr, el, de, bg, zh_CN, es_AR, hr, nl, ja, en, ar, zh_TW, th, pl, sq, ca, sr, no, hu, he, kk, cs, vi, tk, fi
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>system_username</strong></span>: Name of the user who is running the installer
+</p><div class="variablelist"><a id="system_username"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ root, Administrator, guest
+</dd></dl></div></li></ul></div><div class="itemizedlist"><a id="back_page"></a><p class="title"><strong>Installer Page Order Control</strong></p><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>back_page</strong></span>: The previous page to show
+</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ installdir, welcome, installation, installationFinished
+</dd></dl></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>next_page</strong></span>: The next page to show
+</p><div class="variablelist"><a id="next_page"></a><dl class="variablelist"><dt><span class="term">
+Example values: 
+</span></dt><dd>
+ installdir, welcome, installation, installationFinished
+</dd></dl></div></li></ul></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s03.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s05.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">3. Architecture </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 5. Components</td></tr></table></div></body></html>

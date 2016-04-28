@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>19. Regular expressions</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s18.html" title="18. Java" /><link rel="next" href="ar01s20.html" title="20. Rollback" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">19. Regular expressions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s18.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s20.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_regular_expressions"></a>19. Regular expressions</h2></div></div></div><p>InstallBuilder supports using regular expressions for processing text.
+It can be used for a large number of tasks such as checking if a text matches specified pattern or extracting text from a command output.</p><p>InstallBuilder supports extended regular expressions. This is the most commonly used syntax for regular expressions and is similar to the used in most programming languages.</p><p>Regular expressions can be used by the <a class="link" href="apb.html#regExMatch"><code class="literal">&lt;regExMatch&gt;</code></a> rule to verify if a text matches a pattern.
+It can also be used by <a class="link" href="apa.html#setInstallerVariableFromRegEx"><code class="literal">&lt;setInstallerVariableFromRegEx&gt;</code></a> to replace or extract a part of a match a part of a given text or in the <a class="link" href="apa.html#substitute"><code class="literal">&lt;substitute&gt;</code></a> action to replace texts matching regular expression within a file.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_basics_of_regular_expressions"></a>19.1. Basics of regular expressions</h3></div></div></div><p>Regular expressions allow defining a substring in a text through a pattern. This pattern can be as simple as a literal string, for example to check if some program stdout contains "success":</p><p><a id="snip6106369"></a></p><pre class="programlisting">  &lt;regExMatch&gt;
+    &lt;logic&gt;matches&lt;/logic&gt;
+    &lt;pattern&gt;success&lt;/pattern&gt;
+    &lt;text&gt;${program_stdout}&lt;/text&gt;
+  &lt;/regExMatch&gt;</pre><p>Or complex enough to allow extracting a port number from a configuration file:</p><p><a id="snip9749808"></a></p><pre class="programlisting">  &lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;port&lt;/name&gt;
+    &lt;pattern&gt;.*\n\s*Listen\s+(\d+).*&lt;/pattern&gt;
+    &lt;substitution&gt;\1&lt;/substitution&gt;
+    &lt;text&gt;${httpdConf}&lt;/text&gt;
+  &lt;/setInstallerVariableFromRegEx&gt;</pre><p>A pattern can be constructed from one or more branches (sub patters), separated by the <code class="literal">|</code> character, meaning that if the text matches any of the branches, it matches the full pattern. For example the pattern <code class="literal">success|done|started</code> matches either "success", "done" or "started".</p><p>Each character, a group of characters or a potential match is called an atom. For example <code class="literal">done</code> consists of 4 atoms - <code class="literal">d</code>, <code class="literal">o</code>, <code class="literal">n</code> and <code class="literal">e</code>. The pattern <code class="literal">ok|yes</code> consists of two branches, one with <code class="literal">o</code> and <code class="literal">k</code> atoms and another with <code class="literal">y</code>, <code class="literal">e</code> and <code class="literal">s</code> atoms.</p><p>Regular expressions can also use special characters:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">^</code> - Means the start of a line or the text. The pattern <code class="literal">^yes</code> specifies that the text must start with the <code class="literal">yes</code> string to match the regular expression.
+</li><li class="listitem">
+<code class="literal">$</code> - Means end of line or text. The pattern <code class="literal">yes$</code> specifies that the text must end with the <code class="literal">yes</code> string to match the regular expression.
+</li><li class="listitem">
+<code class="literal">.</code> - Means any character. For example <code class="literal">te.t</code> will match both "text" and "test".
+</li></ul></div><p>If you need to specify one of those characters as a literal, you can escape them using a backslash (<code class="literal">\</code>) character. For example <code class="literal">done.</code> will match any text that has the word "done", followed by any character but the expression <code class="literal">done\.</code> will only match the literal "done.".</p><p>Certain characters preceded by a backslash also have a special meaning:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">\e</code> - indicates the <code class="literal">ESC</code> character, which has an ascii value of 27
+</li><li class="listitem">
+<code class="literal">\r</code> - carriage return character, which has an ascii value of 13
+</li><li class="listitem">
+<code class="literal">\n</code> - newline character, which has an ascii value of 10
+</li><li class="listitem">
+<code class="literal">\t</code> - horizontal tab character, which has an ascii value of 9
+</li><li class="listitem">
+<code class="literal">\v</code> - vertical tab character, which has an ascii value of 11
+</li><li class="listitem">
+<code class="literal">\uABCD</code> - where ABCD are exactly four hexadecimal digits, specifies unicode character <code class="literal">U+ABCD</code>; for example <code class="literal">\u0041</code> maps to <code class="literal">A</code> character
+</li><li class="listitem">
+<code class="literal">\B</code> - synonym for <code class="literal">\</code> that can be used to reduce backslash doubling - for example <code class="literal">\\\n</code> and <code class="literal">\B\n</code> are synonyms, but the latter is more readable
+</li><li class="listitem">
+<code class="literal">\s</code> - Matches any blank character (new lines, tabs or spaces).
+</li></ul></div><p>Regular expressions also accept quantifiers, which specify how many times a preceeding atom should be matched:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">?</code> - Specifies that the preceeding atom should match 0 or 1 times - for example <code class="literal">colou?r</code> matches both "color" and "colour"
+</li><li class="listitem">
+<code class="literal">*</code> - Specifies that the preceeding atom should match 0 or more times - for example <code class="literal">\s*</code> matches an empty string or any number of spaces
+</li><li class="listitem">
+<code class="literal">+</code> - Specifies that the preceeding atom should match 1 or more times - for example <code class="literal">/+</code> matches any number of consecutive slash characters
+</li><li class="listitem">
+<code class="literal">{m}</code> - Specifies that the preceeding atom should match exactly <code class="literal">m</code> times - for example <code class="literal">-{20}</code> matches a series of 20 consecutive hyphen characters
+</li><li class="listitem">
+<code class="literal">{m,}</code> - Specifies that the preceeding atom should match at least <code class="literal">m</code> times - for example <code class="literal">\s{1,}</code> matches a series of at least 1 space.
+</li><li class="listitem">
+<code class="literal">{m,n}</code> - Specifies that the preceeding atom should match between <code class="literal">m</code> and <code class="literal">n</code> times
+</li></ul></div><p>Unlike branches and <code class="literal">|</code>, quantifiers only operate on the last atom. A pattern <code class="literal">colou?r</code> means that only the <code class="literal">u</code> character (the atom preceding the <code class="literal">?</code> quantifier), not the entire <code class="literal">colou</code> expression will be affecter by the quantifier.</p><p>Grouping and bracket expressions, which are described later, can be used along quantifiers in more complex scenarios.</p><p>The <code class="literal">*</code> and <code class="literal">+</code> quantifiers are greedy by default. This means that they will match the longest substring if the remaining part of expression also matches.
+In the case of the expression <code class="literal">^.*-A</code>, it will match the longest substring that ends with <code class="literal">-A</code>. For the string <code class="literal">test1-A-test2-A-test3-B</code>, it will match to <code class="literal">test1-A-test2-A</code>.</p><p>In many cases a shortest match is more useful. In this case, a non-greedy counterparts <code class="literal">*?</code> and <code class="literal">+?</code> can be used. They work the same, except that shortest substring matching the pattern will be captured (<code class="literal">test1-A</code> in the previous example). This is commonly used when extracting a part of text.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_bracket_expressions"></a>19.2. Bracket expressions</h3></div></div></div><p>Regular expressions can specify a subset of characters to match, specified within square brackets. For example the following will match both "disk drive" and "disc drive":</p><p><a id="snip5038697"></a></p><pre class="programlisting">  &lt;regExMatch&gt;
+    &lt;logic&gt;matches&lt;/logic&gt;
+    &lt;pattern&gt;dis[ck] drive&lt;/pattern&gt;
+    &lt;text&gt;${program_stdout}&lt;/text&gt;
+  &lt;/regExMatch&gt;</pre><p>Please note that in the example just one character will match as it is not including any quantifier (<code class="literal">diskc</code> wont match)</p><p>It is also possible to specify a range of characters in the format of <code class="literal">a-b</code> where <code class="literal">a</code> is the first character and <code class="literal">b</code> is the last character to match.
+For example <code class="literal">[A-Z]</code> specifies any of upper case letters. Multiple ranges can be used such as <code class="literal">[A-Za-z0-9]</code> specifying upper and lower case letters and all digits.</p><p>The following will match between 8 and 20 characters, consisting of letters and digits only:</p><p><a id="snip5394960"></a></p><pre class="programlisting">  &lt;regExMatch&gt;
+    &lt;logic&gt;matches&lt;/logic&gt;
+    &lt;pattern&gt;^[A-Za-z0-9]{8,20}$&lt;/pattern&gt;
+    &lt;text&gt;${program_stdout}&lt;/text&gt;
+  &lt;/regExMatch&gt;</pre><p>In the example above, the bracket expression is considered a single atom, therefore the <code class="literal">{8,20}</code> quantifier applies to the whole <code class="literal">[A-Za-z0-9]</code> expression.
+The <code class="literal">^</code> and <code class="literal">$</code> characters cause the expression to only match if the entire text matches the expression.</p><p>If you need to include the literal <code class="literal">-</code> in the matching characters, it must be specified as the last character in the bracket expression: <code class="literal">[A-Za-z0-9-]</code>.</p><p>Regular expressions also support specifying a character class, which can be used to as shorthand for commonly used sets of characters:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">[[:alpha:]]</code> - A letter
+</li><li class="listitem">
+<code class="literal">[[:upper:]]</code> - An upper-case letter
+</li><li class="listitem">
+<code class="literal">[[:lower:]]</code> - A lower-case letter
+</li><li class="listitem">
+<code class="literal">[[:digit:]]</code> - A decimal digit
+</li><li class="listitem">
+<code class="literal">[[:xdigit:]]</code> - A hexadecimal digit
+</li><li class="listitem">
+<code class="literal">[[:alnum:]]</code> - An alphanumeric (letter or digit)
+</li><li class="listitem">
+<code class="literal">[[:print:]]</code> - An alphanumeric (same as alnum)
+</li><li class="listitem">
+<code class="literal">[[:blank:]]</code> - A space or tab character
+</li><li class="listitem">
+<code class="literal">[[:space:]]</code> - A character producing white space in the text
+</li><li class="listitem">
+<code class="literal">[[:punct:]]</code> - A punctuation character
+</li><li class="listitem">
+<code class="literal">[[:graph:]]</code> - A character with a visible representation
+</li><li class="listitem">
+<code class="literal">[[:cntrl:]]</code> - A control character
+</li></ul></div><p>The following is an equivalent of previous example, using character classes:</p><p><a id="snip3096506"></a></p><pre class="programlisting">  &lt;regExMatch&gt;
+    &lt;logic&gt;matches&lt;/logic&gt;
+    &lt;pattern&gt;^[[:alnum:]]{8,20}$&lt;/pattern&gt;
+    &lt;text&gt;${program_stdout}&lt;/text&gt;
+  &lt;/regExMatch&gt;</pre><p>The following are also abbreviations for some of character classes:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">\d</code> is equivalent of <code class="literal">[[:digit:]]</code>
+</li><li class="listitem">
+<code class="literal">\s</code> is equivalent of <code class="literal">[[:space:]]</code>
+</li><li class="listitem">
+<code class="literal">\w</code> is equivalent of <code class="literal">[[:alnum:]]</code>
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_grouping"></a>19.3. Grouping</h3></div></div></div><p>Atoms in regular expressions can also be grouped by using round brackets. Grouping can be used along with branches.
+The following example will match if a version begins with <code class="literal">9.</code> or <code class="literal">10.</code>:</p><p><a id="snip2980506"></a></p><pre class="programlisting">  &lt;regExMatch&gt;
+    &lt;logic&gt;matches&lt;/logic&gt;
+    &lt;pattern&gt;^(9|10)\.&lt;/pattern&gt;
+    &lt;text&gt;${versionstring}&lt;/text&gt;
+  &lt;/regExMatch&gt;</pre><p>The <code class="literal">|</code> character inside a group will only match substrings inside the group.</p><p>It is also possible to group one or more characters and use quantifiers for the entire group. A pattern <code class="literal">I am (very\s+)*happy</code>
+will match "I am happy", "I am very happy", "I am very very happy"…</p><p>The <code class="literal">very\s+</code> pattern will match the text "very" followed by at least 1 white space. Then, the <code class="literal">*</code> quantifier is applied to the entire <code class="literal">(very\s+)</code> group, which means 0 or more occurrences of "very" followed by at least 1 white space.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_substituting_text_in_regular_expression"></a>19.4. Substituting text in regular expression</h3></div></div></div><p>The <a class="link" href="apa.html#setInstallerVariableFromRegEx"><code class="literal">&lt;setInstallerVariableFromRegEx&gt;</code></a> action can be used to do regular expression substitution in a text.</p><p>The example below will replace any number of white spaces with a single space in the <code class="literal">${text}</code> variable:</p><p><a id="snip3379487"></a></p><pre class="programlisting">  &lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;result&lt;/name&gt;
+    &lt;pattern&gt;[[:space:]]+&lt;/pattern&gt;
+    &lt;substitution&gt; &lt;/substitution&gt;
+    &lt;text&gt;${text}&lt;/text&gt;
+  &lt;/setInstallerVariableFromRegEx&gt;</pre><p>Grouping can also be used to match certain values, which can be used for replacing a text as well as extracting a part of text.
+All items that are grouped can be used in the <a class="link" href="apa.html#setInstallerVariableFromRegEx.substitution"><code class="literal">&lt;substitution&gt;</code></a> tag by specifying
+<code class="literal">\n</code>, where <code class="literal">n</code> is a number between 1 and 9 corresponding to the number of the matched group.</p><p>For example the following can be used to extract an extension from a filename:</p><p><a id="snip9049844"></a></p><pre class="programlisting">  &lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;extension&lt;/name&gt;
+    &lt;pattern&gt;.*\.([^\.]+)$&lt;/pattern&gt;
+    &lt;substitution&gt;\1&lt;/substitution&gt;
+    &lt;text&gt;${filename}&lt;/text&gt;
+  &lt;/setInstallerVariableFromRegEx&gt;</pre><p>Since <code class="literal">([^\.]+)</code> is the first grouping used in the expression, the \1 in <a class="link" href="apa.html#setInstallerVariableFromRegEx.substitution"><code class="literal">&lt;substitution&gt;</code></a> tag will reference characters matched by it.</p><p>In order to extract individual values from a hyphen-separated text such as <code class="literal">1234-5678-ABCD</code>, we can use the following:</p><p><a id="snip735402"></a></p><pre class="programlisting">  &lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;value1&lt;/name&gt;
+    &lt;pattern&gt;^(.*?)-(.*?)-(.*?)$&lt;/pattern&gt;
+    &lt;substitution&gt;\1&lt;/substitution&gt;
+    &lt;text&gt;${value}&lt;/text&gt;
+  &lt;/setInstallerVariableFromRegEx&gt;
+  &lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;value2&lt;/name&gt;
+    &lt;pattern&gt;^(.*?)-(.*?)-(.*?)$&lt;/pattern&gt;
+    &lt;substitution&gt;\2&lt;/substitution&gt;
+    &lt;text&gt;${value}&lt;/text&gt;
+  &lt;/setInstallerVariableFromRegEx&gt;
+  &lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;value3&lt;/name&gt;
+    &lt;pattern&gt;^(.*?)-(.*?)-(.*?)$&lt;/pattern&gt;
+    &lt;substitution&gt;\3&lt;/substitution&gt;
+    &lt;text&gt;${value}&lt;/text&gt;
+  &lt;/setInstallerVariableFromRegEx&gt;</pre><p>It can be used to get <code class="literal">1234</code> as <code class="literal">value1</code>, <code class="literal">5678</code> as <code class="literal">value2</code> and <code class="literal">ABCD</code> as <code class="literal">value3</code>.</p><p>This can be used in combination with <a class="link" href="apb.html#regExMatch"><code class="literal">&lt;regExMatch&gt;</code></a> to validate the input such as:</p><p><a id="snip9917387"></a></p><pre class="programlisting">  &lt;throwError&gt;
+    &lt;text&gt;Invalid value for field: ${value}&lt;/text&gt;
+    &lt;ruleList&gt;
+      &lt;regExMatch&gt;
+        &lt;logic&gt;does_not_match&lt;/logic&gt;
+        &lt;text&gt;${value}&lt;/text&gt;
+        &lt;pattern&gt;^(.*?)-(.*?)-(.*?)$&lt;/pattern&gt;
+      &lt;/regExMatch&gt;
+    &lt;/ruleList&gt;
+  &lt;/throwError&gt;</pre><p>In certain cases, grouping is used for matching more complex patterns, but should not be used for referencing. In this case, the grouping has to start with <code class="literal">?:</code>.</p><p>The following example will match the string separated by either <code class="literal">-</code> or a text " hyphen ", whereas the separator will not be matched, even though it is grouped:</p><p><a id="snip1537525"></a></p><pre class="programlisting">  &lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;value1&lt;/name&gt;
+    &lt;pattern&gt;^(.*?)(?:-| hyphen )(.*?)(?:-| hyphen )(.*?)$&lt;/pattern&gt;
+    &lt;substitution&gt;\1&lt;/substitution&gt;
+    &lt;text&gt;${value}&lt;/text&gt;
+  &lt;/setInstallerVariableFromRegEx&gt;</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s18.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s20.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">18. Java </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 20. Rollback</td></tr></table></div></body></html>

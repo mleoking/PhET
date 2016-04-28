@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>6. Working with Files and Folders</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s05.html" title="5. Components" /><link rel="next" href="ar01s07.html" title="7. User Input" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6. Working with Files and Folders</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s05.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s07.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="folders"></a>6. Working with Files and Folders</h2></div></div></div><p>The installation resources (files and directories) are grouped into <code class="literal">&lt;folder&gt;</code> elements.</p><p><a id="snip4531647"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;componentList&gt;
+       &lt;component&gt;
+          &lt;name&gt;myComponent&lt;/name&gt;
+          ...
+          &lt;folderList&gt;
+              &lt;folder&gt;
+                 &lt;name&gt;documents&lt;/name&gt;
+                 &lt;destination&gt;${installdir}/docs&lt;/destination&gt;
+                 &lt;platforms&gt;linux windows&lt;/platforms&gt;
+                 &lt;distributionFileList&gt;
+                     &lt;distributionDirectory origin="/home/johndoe/docs"/&gt;
+                     &lt;distributionFile origin="/home/johndoe/README"/&gt;
+                 &lt;/distributionFileList&gt;
+                 &lt;shortcutList&gt;
+                     ...
+                     &lt;shortcut/&gt;
+                     ...
+                 &lt;/shortcutList&gt;
+                 &lt;actionList&gt;
+                     &lt;addTextToFile file="${installdir}/docs/README" text="some text"/&gt;
+                 &lt;/actionList&gt;
+              &lt;/folder&gt;
+          &lt;/folderList&gt;
+       &lt;/component&gt;
+    &lt;/componentList&gt;
+&lt;/project&gt;</pre><p>The most important tags in a folder element are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<a class="link" href="ape.html#distributionFileList"><code class="literal">&lt;distributionFileList&gt;</code></a>: Contains the list of packed files. A directory (and its contents) is defined as a <a class="link" href="ape.html#distributionDirectory"><code class="literal">&lt;distributionDirectory&gt;</code></a> while a file is represented through a <a class="link" href="ape.html#distributionFile"><code class="literal">&lt;distributionFile&gt;</code></a>. All of the defined elements will be packed and unpacked at runtime. Both the <a class="link" href="ape.html#distributionDirectory"><code class="literal">&lt;distributionDirectory&gt;</code></a> and <a class="link" href="ape.html#distributionFile"><code class="literal">&lt;distributionFile&gt;</code></a> elements support the below tags:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+<a class="link" href="ape.html#distributionDirectory.origin"><code class="literal">&lt;origin&gt;</code></a>: Path to the file or directory to pack in the build machine. If the path is relative, it will be absolutized when building using the project file parent directory as a reference.
+</li><li class="listitem">
+<a class="link" href="ape.html#distributionDirectory.allowWildcards"><code class="literal">&lt;allowWildcards&gt;</code></a>: Configures whether or not the path configured in the <a class="link" href="ape.html#distributionDirectory.origin"><code class="literal">&lt;origin&gt;</code></a> tag must be considered a pattern (thus being resolved using global matching) or a literal location.
+</li><li class="listitem">
+<a class="link" href="ape.html#distributionDirectory.excludeFiles"><code class="literal">&lt;excludeFiles&gt;</code></a>: When enabling <a class="link" href="ape.html#distributionDirectory.allowWildcards"><code class="literal">&lt;allowWildcards&gt;</code></a>, the list of files matching this pattern will be ignored. If <a class="link" href="ape.html#distributionDirectory.allowWildcards"><code class="literal">&lt;allowWildcards&gt;</code></a> is set to false, this pattern is ignored. See the <a class="link" href="ar01s06.html#packing_filters" title="6.3. Filters">Filters</a> section for more information.
+</li><li class="listitem">
+<a class="link" href="ape.html#distributionDirectory.includeFiles"><code class="literal">&lt;includeFiles&gt;</code></a>: When enabling <a class="link" href="ape.html#distributionDirectory.allowWildcards"><code class="literal">&lt;allowWildcards&gt;</code></a>, only the list of files matching this pattern will be considered. If <a class="link" href="ape.html#distributionDirectory.allowWildcards"><code class="literal">&lt;allowWildcards&gt;</code></a> is set to false, this pattern is ignored. See the <a class="link" href="ar01s06.html#packing_filters" title="6.3. Filters">Filters</a> section for more information.
+</li></ul></div></li></ul></div><p><a id="snip3405870"></a></p><pre class="programlisting">&lt;folder&gt;
+   ...
+   &lt;distributionFileList&gt;
+       &lt;distributionFile&gt;
+          &lt;origin&gt;${build_project_directory}/license.txt&lt;/origin&gt;
+       &lt;/distributionFile&gt;
+       &lt;distributionDirectory allowWildcards="1"&gt;
+          &lt;origin&gt;${build_project_directory}/readmeFiles/*.txt&lt;/origin&gt;
+          &lt;includeFiles&gt;*/README-*.txt&lt;/includeFiles&gt;
+          &lt;excludeFiles&gt;*/README-template.txt&lt;/excludeFiles&gt;
+       &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+&lt;/folder&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="ape.html#platforms"><code class="literal">&lt;platforms&gt;</code></a>: This tag defines a space-separated list of platforms for which the files will be packed. This is evaluated at build time and matched against the specified build target. It allows a single project to define a multiplatform installer. The special platform identifier <code class="literal">all</code> can be used and represents all platforms. The full list of supported values in the tag is summarized in the table below:
+</li></ul></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="40%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="left" valign="middle">Supported Platforms</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><span class="strong"><strong>Platform Identifier</strong></span></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="middle"><p><span class="strong"><strong>Platform Description</strong></span></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>all</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>All Platforms</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>linux</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Linux</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>linux-x64</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Linux x86 64 bits</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>linux-ia64</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Linux IA64</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>windows</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Windows</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>osx</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Mac OS X</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>solaris-sparc</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Solaris Sparc</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>solaris-intel</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Solaris Intel</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>linux-ppc</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Linux PPC</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>linux-s390</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Linux s390</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>linux-s390x</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>Linux s390x</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>freebsd</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>FreeBSD 5</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>freebsd4</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>FreeBSD 4</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>freebsd6</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>FreeBSD 6</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>freebsd6-x64</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>FreeBSD 6 64 bits</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>freebsd7</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>FreeBSD 7/8</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>freebsd7-x64</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>FreeBSD 7/8 64 bits</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>openbsd3</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>OpenBSD x86</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>hpux</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>HP-UX</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>aix</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="middle"><p>AIX, OS/400</p></td></tr><tr><td style="border-right: 1px solid #527bbd; " align="left" valign="middle"><p>irix-n32</p></td><td style="" align="left" valign="middle"><p>IRIX</p></td></tr></tbody></table></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="ape.html#destination"><code class="literal">&lt;destination&gt;</code></a>: The destination directory in which all the bundled files in the folder will be unpacked.
+</li><li class="listitem">
+<a class="link" href="ape.html#shortcutList"><code class="literal">&lt;shortcutList&gt;</code></a>: Along with the files, a folder can define a list of shortcuts to create. You can find a detailed reference in the <a class="link" href="ar01s11.html" title="11. Menus and Shortcuts">shortcuts</a> section.
+</li><li class="listitem">
+<a class="link" href="ape.html#actionList"><code class="literal">&lt;actionList&gt;</code></a>: Actions executed right after the files of the folder are unpacked.
+</li></ul></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_conditionally_packing_a_folder"></a>6.1. Conditionally Packing a Folder</h3></div></div></div><p>Although the <a class="link" href="ape.html#platforms"><code class="literal">&lt;platforms&gt;</code></a> tag provides a built-in mechanism to avoid packing folders for different platforms, there are scenarios in which you need a more complex condition than just the target platform. This can be achieved using the <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a>:</p><p><a id="snip2459603"></a></p><pre class="programlisting">  &lt;folder&gt;
+    &lt;name&gt;documents&lt;/name&gt;
+    &lt;destination&gt;${installdir}/docs&lt;/destination&gt;
+    &lt;platforms&gt;linux&lt;/platforms&gt;
+    &lt;distributionFileList&gt;
+       &lt;distributionDirectory origin="/home/johndoe/docs"/&gt;
+       &lt;distributionFile origin="/home/johndoe/README"/&gt;
+    &lt;/distributionFileList&gt;
+    &lt;shouldPackRuleEvaluationLogic&gt;and&lt;/shouldPackRuleEvaluationLogic&gt;
+    &lt;shouldPackRuleList&gt;
+       &lt;fileExists path="/home/johndoe/docs"/&gt;
+       &lt;fileExists path="/home/johndoe/README"/&gt;
+    &lt;/shouldPackRuleList&gt;
+  &lt;/folder&gt;</pre><p>The above folder will only be packed if the target platform is <code class="literal">linux</code> and the files exist. The evaluation logic of the rules can be modified through the <a class="link" href="ape.html#shouldPackRuleEvaluationLogic"><code class="literal">&lt;shouldPackRuleEvaluationLogic&gt;</code></a> property.</p><p>This is also helpful when you are developing the installer and do not need all of the files that will be included in the final version (that can greatly increase the build time) to be packed. For example, you could create an environment variable (<code class="literal">DEMO_BUILD</code>) to indicate to the builder you do not need an official build:</p><p><a id="snip8560529"></a></p><pre class="programlisting">  &lt;folder&gt;
+    &lt;name&gt;optionalFiles&lt;/name&gt;
+    &lt;destination&gt;${installdir}&lt;/destination&gt;
+    &lt;platforms&gt;linux&lt;/platforms&gt;
+    &lt;distributionFileList&gt;
+       &lt;distributionDirectory origin="videos"/&gt;
+       &lt;distributionDirectory origin="images"/&gt;
+       &lt;distributionDirectory origin="documentation"/&gt;
+    &lt;/distributionFileList&gt;
+    &lt;shouldPackRuleList&gt;
+       &lt;!-- Check if the variable is defined --&gt;
+       &lt;compareText text="${env(DEMO_BUILD)}" logic="equals" value=""/&gt;
+    &lt;/shouldPackRuleList&gt;
+  &lt;/folder&gt;</pre><p>You can find a more complex example in the <a class="link" href="ar01s25.html#custom_build_targets" title="25.4. Creating Custom Builds">"Custom Build Targets"</a> section.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Do not confuse &lt;shouldPackRuleList&gt; with &lt;ruleList&gt;"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Do not confuse <code class="literal">&lt;shouldPackRuleList&gt;</code> with <code class="literal">&lt;ruleList&gt;</code></th></tr><tr><td align="left" valign="top"><p>Rules inside a <code class="literal">&lt;ruleList&gt;</code> are evaluated at runtime while rules within a <code class="literal">&lt;shouldPackRuleList&gt;</code> are evaluated at build time.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_conditionally_unpacking_a_folder"></a>6.2. Conditionally Unpacking a Folder</h3></div></div></div><p>By default, folders will be unpacked if they were packed (as described in the previous section) and if the <a class="link" href="ape.html" title="E. Component and Folder Properties and Lists"><code class="literal">&lt;component&gt;</code></a> in which they are bundled was selected. However, you can add additional logic to discern if it should be unpacked by attaching rules to its <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a>:</p><p><a id="snip6822977"></a></p><pre class="programlisting">  &lt;folder&gt;
+    &lt;name&gt;documents&lt;/name&gt;
+    &lt;destination&gt;${installdir}/docs&lt;/destination&gt;
+    &lt;platforms&gt;windows&lt;/platforms&gt;
+    &lt;distributionFileList&gt;
+       &lt;distributionDirectory origin="/home/johndoe/docs"/&gt;
+       &lt;distributionFile origin="/home/johndoe/README"/&gt;
+    &lt;/distributionFileList&gt;
+    &lt;ruleEvaluationLogic&gt;and&lt;/ruleEvaluationLogic&gt;
+    &lt;ruleList&gt;
+       &lt;platformTest type="windows-xp"/&gt;
+    &lt;/ruleList&gt;
+  &lt;/folder&gt;</pre><p>The above folder will be packed for any Windows target but will only be unpacked if the platform in which the installer is executing is Windows XP.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="packing_filters"></a>6.3. Filters</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_basic_filters"></a>Basic Filters</h4></div></div></div><p>InstallBuilder implements a basic filtering mechanism for folders. This functionality will allow you to pack the contents of a folder instead of including
+the folder itself and to apply filters to include or exclude specific files. For example, if you have a folder named "documentation" and you want to pack a
+subset of its contents and unpack it to <code class="literal">${installdir}/myDocs</code>, you just need to use the snippet below:</p><p><a id="snip3787263"></a></p><pre class="programlisting">&lt;folder&gt;
+   &lt;description&gt;Documentation Files&lt;/description&gt;
+   &lt;destination&gt;${installdir}/myDocs&lt;/destination&gt;
+   &lt;name&gt;documentation&lt;/name&gt;
+   &lt;platforms&gt;all&lt;/platforms&gt;
+   &lt;distributionFileList&gt;
+       &lt;distributionDirectory allowWildcards="1"&gt;
+          &lt;origin&gt;/some/path/to/documentation/*&lt;/origin&gt;
+          &lt;includeFiles&gt;*/project-1-*.txt&lt;/includeFiles&gt;
+          &lt;excludeFiles&gt;*/project-1-secret.txt&lt;/excludeFiles&gt;
+       &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+&lt;/folder&gt;</pre><p>In the above example, all of the .txt files related to "project-1" will be packaged, with the exception of "project-1-secret.txt"</p><p>The following are the filtering-related tags that you can use:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="ape.html#allowWildcards"><code class="literal">&lt;allowWildcards&gt;</code></a> : This tag determines the behavior of the filtering mechanism. If it is set to "0" (the default), there will not be any global pattern interpretation and patterns will be taken as literal strings. For example, if you define <code class="literal">&lt;origin&gt;/some/path/to/documentation/*&lt;/origin&gt;</code>, the installer will look for a folder named <code class="literal">"*"</code> inside the <code class="literal">/some/path/to/documentation/</code> directory. In addition, the includeFiles and excludeFiles tags will be ignored.
+</li></ul></div><p>However, if allowWildcards is set to <code class="literal">"1"</code>, the <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> will be expanded and the installer will generate a list of matching files.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="ape.html#includeFiles"><code class="literal">&lt;includeFiles&gt;</code></a> : This tag allows you to select files over the matches produced by the <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> tag when wildcards are enabled. The default value of the <code class="literal">&lt;includeFiles&gt;</code> tag is <code class="literal">"*"</code> so all the files matched by the <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> tag will be packed.
+</li><li class="listitem">
+<a class="link" href="ape.html#excludeFiles"><code class="literal">&lt;excludeFiles&gt;</code></a> : Once the list of files has been filtered with the <code class="literal">&lt;includeFiles&gt;</code> pattern, the <code class="literal">&lt;excludeFiles&gt;</code> filter will be applied over the result. The default value of this tag is empty so no filter is applied. This tag is ignored if wildcards are disabled. Only files directly returned by the evaluation of the <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> pattern can be excluded, the builder won’t try to recursively exclude files at deeper hierarchy levels in the packed directories.
+</li></ul></div><p>The pattern interpretation in the <code class="literal">&lt;origin&gt;</code>, <code class="literal">&lt;includeFiles&gt;</code> and <code class="literal">&lt;excludeFiles&gt;</code> does not follow the same rules. The <code class="literal">&lt;origin&gt;</code> pattern is expanded over the existing files, like a <code class="literal">"dir c:\Program Files\*txt"</code> on Windows or <code class="literal">"ls ~/*txt"</code> on Unix. Forward and backwards slashes are normalized according to the platform. However, the patterns in the <code class="literal">&lt;includeFiles&gt;</code> and <code class="literal">&lt;excludeFiles&gt;</code> tags follow a stricter format:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Forward slashes are used as path separators, which let us escape special characters using backslashes. For example, to match .txt files, you must use <code class="literal">*/*.txt</code> files in both Windows and Unix systems.
+</li><li class="listitem">
+The pattern is applied over the full path of the files and a string comparison is performed: <code class="literal">&lt;includeFiles&gt;my.txt&lt;includeFiles&gt;</code> will not work because it will compare <code class="literal">"/some/path/to/my.txt"</code> with <code class="literal">"my.txt"</code>. <code class="literal">*/my.txt</code> has to be used instead.
+</li><li class="listitem">
+Multiple patterns can be included and must be separated by <code class="literal">;</code> or <code class="literal">\n</code> characters:
+</li></ul></div><p><a id="snip2539733"></a></p><pre class="programlisting">   &lt;distributionDirectory allowWildcards="1"&gt;
+       &lt;origin&gt;/some/path/*&lt;/origin&gt;
+       &lt;includeFiles&gt;*/*.txt;*/*.jpg;*/*.bmp&lt;/includeFiles&gt;
+       &lt;excludeFiles&gt;*/*secret*.txt;*/myImage.bmp&lt;/excludeFiles&gt;
+    &lt;/distributionDirectory&gt;</pre><p>The special characters used in all of the patterns are listed below:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">?</code> : Matches any single character.
+</li><li class="listitem">
+<code class="literal">*</code> : Matches any sequence of zero or more characters.
+</li><li class="listitem">
+<code class="literal">[chars]</code> : Matches any single character in <code class="literal">chars</code>. If <code class="literal">chars</code> contains a sequence of the form <code class="literal">a-b</code> then any character between <code class="literal">a</code> and <code class="literal">b</code> (inclusive) will match.
+</li><li class="listitem">
+<code class="literal">{a,b,...}</code> : Matches any of the strings a, b, etc.
+</li></ul></div><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Basic filters do not operate recursively"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Basic filters do not operate recursively</th></tr><tr><td align="left" valign="top"><p>The basic filters mechanism is not intended to recursively skip packing files in the directory provided in the <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> tag. Just the results returned by the evaluation of the <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> pattern can be filtered. For example, if you are packing a directory <code class="literal">images</code> and want to exclude the file <code class="literal">demo.png</code>, the below won’t work:</p><p><a id="snip5294603"></a></p><pre class="programlisting">&lt;folder&gt;
+   ...
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   ...
+   &lt;distributionFileList&gt;
+       &lt;distributionDirectory allowWildcards="1"&gt;
+          &lt;origin&gt;images&lt;/origin&gt;
+          &lt;excludeFiles&gt;*/demo.png&lt;/excludeFiles&gt;
+       &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+&lt;/folder&gt;</pre><p>The reason is that the <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> pattern will only return <code class="literal">images</code> as matching file, which does not match the exclusion pattern <code class="literal">*/demo.png</code>.</p><p>If <code class="literal">demo.png</code> is packed directly under <code class="literal">images</code> you could use:</p><p><a id="snip6393639"></a></p><pre class="programlisting">&lt;folder&gt;
+   ...
+   &lt;destination&gt;${installdir}/images&lt;/destination&gt;
+   ...
+   &lt;distributionFileList&gt;
+       &lt;distributionDirectory allowWildcards="1"&gt;
+          &lt;origin&gt;images/*&lt;/origin&gt;
+          &lt;excludeFiles&gt;*/demo.png&lt;/excludeFiles&gt;
+       &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+&lt;/folder&gt;</pre><p>In this case, evaluating <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> will return all the contained images (<code class="literal">sample-01.png</code>, <code class="literal">left-image.jpg</code>, <code class="literal">details.gif</code>, <span class="strong"><strong>demo.png</strong></span>, …), and the exclusion pattern will be able to match <code class="literal">demo.png</code>.</p><p>If you want to filter certain files at any level of the hierarchy in the packed directory, you should use the <a class="link" href="ar01s06.html#advanced_files_section" title="Advanced Filters">Advanced Filters</a>  instead, which operate recursively.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="advanced_files_section"></a>Advanced Filters</h4></div></div></div><p>In addition to the basic filters, which allow providing a pattern to the <a class="link" href="ape.html#origin"><code class="literal">&lt;origin&gt;</code></a> tag while excluding some of the results returned, InstallBuilder also includes a more complex filtering mechanism that allows excluding files located at any level in the folder hierarchy of the <a class="link" href="ape.html#distributionDirectory"><code class="literal">&lt;distributionDirectory&gt;</code></a>.</p><p>Note that you have to define filters that will decide if the file will be packed or not. Currently, just filters based on the file path are allowed: <a class="link" href="ape.html#fileNameFilter"><code class="literal">&lt;fileNameFilter&gt;</code></a>. These are the basic tags in the <a class="link" href="ape.html#fileNameFilter"><code class="literal">&lt;fileNameFilter&gt;</code></a>:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">&lt;pattern&gt;</code>: Pattern to match against the path of the file
+</li><li class="listitem">
+<code class="literal">&lt;patternType&gt;</code>: Whether to use glob or regular expressions matching
+</li><li class="listitem">
+<code class="literal">&lt;logic&gt;</code>: Whether or not the pattern must match to pass the filter.
+</li></ul></div><p>These filters are grouped into the <code class="literal">&lt;onPackingFilterList&gt;</code>. If the file in consideration matches the expressed conditions in this list, it will be packed, if not, it will be skipped.</p><p>For example, if you want to pack a folder <code class="literal">dist-files</code>:</p><pre class="screen">dist-files/
+|-- bin
+|   `-- productA
+|       `-- data
+|           |-- info.ini
+|           `-- info.ini~
+|-- docs
+|   `-- reference
+|       |-- README.tct~
+|       |-- reference.html
+|       |-- reference.html~
+|       |-- reference.pdf
+|       `-- reference.pdf~
+`-- libraries
+    |-- lib1.so
+    |-- .#lib2.so
+    `-- lib2.so</pre><p>To exclude all of the temporary files (files ending in <code class="literal">~</code>), you could use:</p><p><a id="snip7899850"></a></p><pre class="programlisting"> &lt;folder&gt;
+   &lt;description&gt;Program Files&lt;/description&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;programfiles&lt;/name&gt;
+   &lt;platforms&gt;all&lt;/platforms&gt;
+   &lt;distributionFileList&gt;
+     &lt;distributionDirectory&gt;
+       &lt;origin&gt;dist-files&lt;/origin&gt;
+       &lt;onPackingFilterList&gt;
+          &lt;fileNameFilter pattern="*~" logic="does_not_match" patternType="glob"/&gt;
+       &lt;/onPackingFilterList&gt;
+     &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+ &lt;/folder&gt;</pre><p>After the installation, you will find the <code class="literal">dist-files</code> directory clean of temporary files:</p><pre class="screen">sample-1.0
+|-- dist-files
+|   |-- bin
+|   |   `-- productA
+|   |       `-- data
+|   |           `-- info.ini
+|   |-- docs
+|   |   `-- reference
+|   |       |-- reference.html
+|   |       `-- reference.pdf
+|   `-- libraries
+|       |-- lib1.so
+|       |-- .#lib2.so
+|       `-- lib2.so
+|-- uninstall
+`-- Uninstall Sample Project.desktop</pre><p>If you also want to exclude files starting with <code class="literal">.#</code>, you just need to add another filter to the <code class="literal">&lt;onPackingFilterList&gt;</code>:</p><p><a id="snip2792655"></a></p><pre class="programlisting"> &lt;folder&gt;
+   &lt;description&gt;Program Files&lt;/description&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;programfiles&lt;/name&gt;
+   &lt;platforms&gt;all&lt;/platforms&gt;
+   &lt;distributionFileList&gt;
+     &lt;distributionDirectory&gt;
+       &lt;origin&gt;dist-files&lt;/origin&gt;
+       &lt;filterEvaluationLogic&gt;and&lt;/filterEvaluationLogic&gt;
+       &lt;onPackingFilterList&gt;
+          &lt;fileNameFilter pattern="*~" logic="does_not_match" patternType="glob"/&gt;
+          &lt;fileNameFilter pattern="*/.#*" logic="does_not_match" patternType="glob"/&gt;
+       &lt;/onPackingFilterList&gt;
+     &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+ &lt;/folder&gt;</pre><p>The default <a class="link" href="ape.html#filterEvaluationLogic"><code class="literal">&lt;filterEvaluationLogic&gt;</code></a> is <code class="literal">and</code> but you can also set it to <code class="literal">or</code>. A file will be packed if its full path in the build machine matches all the filters when using <code class="literal">and</code> logic or when matching any of them when using <code class="literal">or</code>.</p><p>For example, if you want to pack just <code class="literal">.png</code> and <code class="literal">.jpg</code> files, you could rewrite the code with <code class="literal">or</code> logic:</p><p><a id="snip6167813"></a></p><pre class="programlisting"> &lt;folder&gt;
+   &lt;description&gt;Program Files&lt;/description&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;programfiles&lt;/name&gt;
+   &lt;platforms&gt;all&lt;/platforms&gt;
+   &lt;distributionFileList&gt;
+     &lt;distributionDirectory&gt;
+       &lt;origin&gt;dist-files&lt;/origin&gt;
+       &lt;filterEvaluationLogic&gt;or&lt;/filterEvaluationLogic&gt;
+       &lt;onPackingFilterList&gt;
+          &lt;fileNameFilter pattern="*.png" logic="matches" patternType="glob"/&gt;
+          &lt;fileNameFilter pattern="*.jpg" logic="matches" patternType="glob"/&gt;
+       &lt;/onPackingFilterList&gt;
+     &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+ &lt;/folder&gt;</pre><p>The filters can also include more complex patterns if instead of using the <code class="literal">glob</code> <a class="link" href="ape.html#patternType"><code class="literal">&lt;patternType&gt;</code></a> you set it to <code class="literal">regexp</code>. For example, you can exclude <code class="literal">.txt</code> files that start with a number and contain <code class="literal">temp</code> in their paths and <code class="literal">.png</code> files that start with three capital letters using a single filter:</p><p><a id="snip2440641"></a></p><pre class="programlisting"> &lt;folder&gt;
+   &lt;description&gt;Program Files&lt;/description&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;programfiles&lt;/name&gt;
+   &lt;platforms&gt;all&lt;/platforms&gt;
+   &lt;distributionFileList&gt;
+     &lt;distributionDirectory&gt;
+       &lt;origin&gt;dist-files&lt;/origin&gt;
+       &lt;onPackingFilterList&gt;
+          &lt;fileNameFilter pattern="/([A-Z]{3}[^/]*\.png|[0-9]+[^/]*temp[^/]*\.txt)$" logic="does_not_match" patternType="regexp"/&gt;
+       &lt;/onPackingFilterList&gt;
+     &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+ &lt;/folder&gt;</pre><p>Both <code class="literal">regexp</code> and <code class="literal">glob</code> pattern types allow providing a semicolon-separated list of sub patterns. If any of the sub patterns in the list evaluates to true, the full pattern will also evaluate to true. For example, to pack all of the <code class="literal">.png</code> and <code class="literal">.jpg</code> files in a directory, you could use any of the below snippets:</p><p><a id="snip9860990"></a></p><pre class="programlisting"> &lt;folder&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;programfiles&lt;/name&gt;
+   &lt;distributionFileList&gt;
+     &lt;distributionDirectory&gt;
+       &lt;origin&gt;dist-files&lt;/origin&gt;
+       &lt;onPackingFilterList&gt;
+          &lt;fileNameFilter pattern="*.png;*.jpg" logic="matches" patternType="glob"/&gt;
+       &lt;/onPackingFilterList&gt;
+     &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+ &lt;/folder&gt;</pre><p><a id="snip3667552"></a></p><pre class="programlisting"> &lt;folder&gt;
+   &lt;description&gt;Program Files&lt;/description&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;programfiles&lt;/name&gt;
+   &lt;platforms&gt;all&lt;/platforms&gt;
+   &lt;distributionFileList&gt;
+     &lt;distributionDirectory&gt;
+       &lt;origin&gt;dist-files&lt;/origin&gt;
+       &lt;filterEvaluationLogic&gt;or&lt;/filterEvaluationLogic&gt;
+       &lt;onPackingFilterList&gt;
+          &lt;fileNameFilter pattern="*.jpg" logic="matches" patternType="glob"/&gt;
+          &lt;fileNameFilter pattern="*.png" logic="matches" patternType="glob"/&gt;
+       &lt;/onPackingFilterList&gt;
+     &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+ &lt;/folder&gt;</pre><p><a id="snip560829"></a></p><pre class="programlisting"> &lt;folder&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;programfiles&lt;/name&gt;
+   &lt;distributionFileList&gt;
+     &lt;distributionDirectory&gt;
+       &lt;origin&gt;dist-files&lt;/origin&gt;
+       &lt;filterEvaluationLogic&gt;and&lt;/filterEvaluationLogic&gt;
+       &lt;onPackingFilterList&gt;
+          &lt;fileNameFilter pattern=".*\.(png|jpg)$" logic="matches" patternType="regexp"/&gt;
+       &lt;/onPackingFilterList&gt;
+     &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+ &lt;/folder&gt;</pre><p>Even more complex conditions can be expressed using a <code class="literal">&lt;filterGroup&gt;</code>. This special type of filter allows grouping a set of filters with a configurable <a class="link" href="ape.html#filterEvaluationLogic"><code class="literal">&lt;filterEvaluationLogic&gt;</code></a>. For example, you can exclude all of the <code class="literal">.txt</code> files except for those in the <code class="literal">readme</code> folder and exclude all of the <code class="literal">.png</code> and <code class="literal">.jpg</code> files that are not under the <code class="literal">images</code> folder:</p><p><a id="snip5855145"></a></p><pre class="programlisting"> &lt;folder&gt;
+   &lt;description&gt;Program Files&lt;/description&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;programfiles&lt;/name&gt;
+   &lt;platforms&gt;all&lt;/platforms&gt;
+   &lt;distributionFileList&gt;
+     &lt;distributionDirectory&gt;
+       &lt;origin&gt;dist-files&lt;/origin&gt;
+       &lt;filterEvaluationLogic&gt;and&lt;/filterEvaluationLogic&gt;
+       &lt;onPackingFilterList&gt;
+          &lt;!-- Include files that do not end in .txt or if they are located in the readme dir --&gt;
+          &lt;filterGroup&gt;
+             &lt;filterEvaluationLogic&gt;or&lt;/filterEvaluationLogic&gt;
+             &lt;onPackingFilterList&gt;
+               &lt;fileNameFilter pattern="*.txt" logic="does_not_match" patternType="glob"/&gt;
+               &lt;fileNameFilter pattern="*/readme/*" logic="matches" patternType="glob"/&gt;
+             &lt;/onPackingFilterList&gt;
+          &lt;/filterGroup&gt;
+          &lt;!-- Include files that do not end in .png or .jpg or if they are located in the images dir --&gt;
+          &lt;filterGroup&gt;
+             &lt;filterEvaluationLogic&gt;or&lt;/filterEvaluationLogic&gt;
+             &lt;onPackingFilterList&gt;
+               &lt;fileNameFilter pattern=".*\.png;.*\.jpg" logic="does_not_match" patternType="regexp"/&gt;
+               &lt;fileNameFilter pattern="*/images/*" logic="matches" patternType="glob"/&gt;
+             &lt;/onPackingFilterList&gt;
+          &lt;/filterGroup&gt;
+       &lt;/onPackingFilterList&gt;
+     &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+ &lt;/folder&gt;</pre><p>Filter groups can also be nested as needed.</p><p>Take into account that all of the files in the <a class="link" href="ape.html#distributionDirectory"><code class="literal">&lt;distributionDirectory&gt;</code></a> will be matched against the filter, so using a lot of very complex files could slightly increase the build time (the performance at runtime will not be affected at all).</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: The pattern is applied to the full path of the file"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">The pattern is applied to the full path of the file</th></tr><tr><td align="left" valign="top"><p>Because of the pattern is applied to the full path of the file to be packed, when trying to match files ending in an specific suffix, you should always prefix it with <span class="emphasis"><em>*</em></span> (when using <code class="literal">glob</code> <code class="literal">&lt;patternType&gt;</code>) or <code class="literal">.*</code> (when using <code class="literal">regexp</code> <code class="literal">&lt;patternType&gt;</code>).</p><p>For example, specifying:</p><pre class="literallayout">&lt;fileNameFilter pattern="images/*.png" logic="matches" patternType="glob"/&gt;</pre><p>Wont work because it will be matched against the full path, for example: <code class="literal">/home/bitrock/demo/files/images/foo.png</code></p><p>To make it independent to the location, it should be rewritten to:</p><pre class="literallayout">&lt;fileNameFilter pattern="*/images/*.png" logic="matches" patternType="glob"/&gt;</pre><p>Or</p><pre class="literallayout">&lt;fileNameFilter pattern="${build_project_directory}/files/images/*.png" logic="matches" patternType="glob"/&gt;</pre></td></tr></table></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_unix_permissions"></a>6.4. Unix Permissions</h3></div></div></div><p>InstallBuilder preserves the permissions of bundled files. It also includes two convenient tags: <a class="link" href="apd.html#defaultUnixGroup"><code class="literal">&lt;defaultUnixGroup&gt;</code></a> and <a class="link" href="apd.html#defaultUnixOwner"><code class="literal">&lt;defaultUnixOwner&gt;</code></a>. If a value is specified for those tags, the owner and group of the unpacked files will be modified at runtime:</p><p><a id="snip7428132"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;defaultUnixGroup&gt;wheel&lt;/defaultUnixGroup&gt;
+   &lt;defaultUnixOwner&gt;root&lt;/defaultUnixOwner&gt;
+   ...
+&lt;/project&gt;</pre><p>Please take into account that the specified group and owner must exist in the target machine. If not, you can always create them before the installation phase:</p><p><a id="snip4627376"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;defaultUnixGroup&gt;coolUsers&lt;/defaultUnixGroup&gt;
+   &lt;defaultUnixOwner&gt;john&lt;/defaultUnixOwner&gt;
+   ...
+   &lt;readyToInstallActionList&gt;
+      &lt;addUser username="john"/&gt;
+      &lt;addGroup groupname="coolUsers"/&gt;
+   &lt;/readyToInstallActionList&gt;
+   ...
+&lt;/project&gt;</pre><p>Despite the permissions being preserved, in some situations they must be fixed. The most convenient way of fixing them is to use the <a class="link" href="ape.html#actionList"><code class="literal">&lt;actionList&gt;</code></a> of the folder containing the files and set the appropriate rights:</p><p><a id="snip2321826"></a></p><pre class="programlisting">&lt;folder&gt;
+   &lt;description&gt;Binary Files&lt;/description&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;name&gt;executables&lt;/name&gt;
+   &lt;platforms&gt;all&lt;/platforms&gt;
+   &lt;distributionFileList&gt;
+       &lt;distributionDirectory&gt;
+          &lt;origin&gt;/some/path/executables&lt;/origin&gt;
+       &lt;/distributionDirectory&gt;
+   &lt;/distributionFileList&gt;
+   &lt;actionList&gt;
+       &lt;changePermissions permissions="0755" files="${installdir}/executables/*"/&gt;
+   &lt;/actionList&gt;
+&lt;/folder&gt;</pre><p>A common scenario in which permissions must be fixed is when you are building a Linux installer on Windows. In that case, you could either manually fix the permissions as explained in the latest snippet or define the default permissions:</p><p><a id="snip2940881"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;defaultUnixFilePermissions&gt;644&lt;/defaultUnixFilePermissions&gt;
+   &lt;defaultUnixDirectoryPermissions&gt;755&lt;/defaultUnixDirectoryPermissions&gt;
+   ...
+&lt;/project&gt;</pre><p>Please take into account that, contrary to the owner and group tags, the default Unix permissions are only applied when building on Windows. This way, if the installer is created on Unix, the configured values will be ignored.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Files packed on Windows lose their executable permissions"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Files packed on Windows lose their executable permissions</th></tr><tr><td align="left" valign="top"><p>Windows does not understand Unix permissions, so Unix installers created on Windows will be unpacked without executable permissions and must be manually fixed. It is recommended that you use Unix machines to build the installers as they do not present any limitation.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_symbolic_links"></a>6.5. Symbolic Links</h3></div></div></div><p>When a symbolic link is specified as a <a class="link" href="ape.html#distributionFile"><code class="literal">&lt;distributionFile&gt;</code></a>, InstallBuilder does not follow the link to pack its target. Depending on the build type, it will either pack the link (deb, rpm) or it will be registered and recreated at runtime.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_unpacking_before_installation_time"></a>6.6. Unpacking Before Installation Time</h3></div></div></div><p>It is common to have a separate tool or program that must be bundled with and run from the installer but before the file copying phase of the installation process has completed. A common example would be a license validation program. Typically, all files bundled within an installer are unpacked and then any tools are run. In the case of a license validation tool, that is less than ideal because the user may end up waiting for the files to be unpacked only to find that the license is not valid. The user would then have to wait for the installation to be rolled back.</p><p>InstallBuilder provides you with actions to deal with these situations. The most important are <a class="link" href="apa.html#unpackFile"><code class="literal">&lt;unpackFile&gt;</code></a> and <a class="link" href="apa.html#unpackDirectory"><code class="literal">&lt;unpackDirectory&gt;</code></a>:</p><p><a id="snip7401639"></a></p><pre class="programlisting">&lt;unpackDirectory&gt;
+   &lt;destination&gt;${installdir}&lt;/destination&gt;
+   &lt;component&gt;tools&lt;/component&gt;
+   &lt;folder&gt;license&lt;/folder&gt;
+   &lt;origin&gt;management&lt;/origin&gt;
+&lt;/unpackDirectory&gt;</pre><p><a id="snip9351811"></a></p><pre class="programlisting">&lt;unpackFile&gt;
+   &lt;destination&gt;${system_temp_directory}&lt;/destination&gt;
+   &lt;component&gt;tools&lt;/component&gt;
+   &lt;folder&gt;license&lt;/folder&gt;
+   &lt;origin&gt;management/validator.exe&lt;/origin&gt;
+&lt;/unpackFile&gt;</pre><p>The <a class="link" href="apa.html#unpackDirectory"><code class="literal">&lt;unpackDirectory&gt;</code></a> action is intended to unpack a directory and its contents while the <a class="link" href="apa.html#unpackFile"><code class="literal">&lt;unpackFile&gt;</code></a> action operates over files. Trying to unpack the wrong type in those actions will generate an error at runtime.</p><p>The configuration options for these actions specify the folder and component bundling the files, the path relative to the packed element, and the destination directory to unpack them.</p><p>The structure in Figure 33 (also represented in XML code) should help you understand how to reference internal files:</p><div class="figure"><a id="idm140427933447504"></a><p class="title"><strong>Figure 33. Internal Files Structure</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/packed-files-table.png" align="middle" alt="Internal Files Structure" /></div></div></div><br class="figure-break" /><p><a id="snip5888006"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+     &lt;component&gt;
+       &lt;name&gt;componentA&lt;/name&gt;
+       &lt;description&gt;Component A&lt;/description&gt;
+       &lt;folderList&gt;
+         &lt;folder&gt;
+           &lt;name&gt;folder1&lt;/name&gt;
+           &lt;description&gt;Folder 1&lt;/description&gt;
+           &lt;distributionFileList&gt;
+              &lt;distributionDirectory&gt;
+                &lt;!-- someDirectory contains: readme.txt,
+                logo.jpg and directory1 --&gt;
+                &lt;origin&gt;/path/to/someDirectory&lt;/origin&gt;
+              &lt;/distributionDirectory&gt;
+              &lt;distributionFile&gt;
+                &lt;origin&gt;/path/to/someFile&lt;/origin&gt;
+              &lt;/distributionFile&gt;
+              &lt;distributionFile&gt;
+                &lt;origin&gt;/path/to/someOtherFile&lt;/origin&gt;
+              &lt;/distributionFile&gt;
+           &lt;/distributionFileList&gt;
+         &lt;/folder&gt;
+       &lt;/folderList&gt;
+     &lt;/component&gt;
+     &lt;component&gt;
+       &lt;name&gt;componentB&lt;/name&gt;
+       &lt;description&gt;Component B&lt;/description&gt;
+       &lt;folderList&gt;
+         &lt;folder&gt;
+           &lt;name&gt;folder2&lt;/name&gt;
+           &lt;description&gt;Folder 2&lt;/description&gt;
+           &lt;distributionFileList&gt;
+              &lt;distributionDirectory&gt;
+                &lt;!-- someDirectory contains: movie.avi and
+                installer.exe --&gt;
+                &lt;origin&gt;/path/to/someOtherDirectory&lt;/origin&gt;
+              &lt;/distributionDirectory&gt;
+           &lt;/distributionFileList&gt;
+         &lt;/folder&gt;
+       &lt;/folderList&gt;
+     &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>To reference <code class="literal">logo.jpg</code>:</p><p><a id="snip9726480"></a></p><pre class="programlisting">&lt;unpackFile&gt;
+  &lt;component&gt;componentA&lt;/component&gt;
+  &lt;folder&gt;folder1&lt;/folder&gt;
+  &lt;origin&gt;someDirectory/logo.jpg&lt;/origin&gt;
+  &lt;destination&gt;${installdir}&lt;/destination&gt;
+&lt;/unpackFile&gt;</pre><p>You could also unpack <code class="literal">directory1</code>:</p><p><a id="snip2960450"></a></p><pre class="programlisting">&lt;unpackDirectory&gt;
+  &lt;component&gt;componentA&lt;/component&gt;
+  &lt;folder&gt;folder1&lt;/folder&gt;
+  &lt;origin&gt;someDirectory/directory1&lt;/origin&gt;
+  &lt;destination&gt;${installdir}&lt;/destination&gt;
+&lt;/unpackDirectory&gt;</pre><p>Please note the <a class="link" href="ape.html#distributionDirectory.origin"><code class="literal">&lt;origin&gt;</code></a> is always provided as the relative path to the file or directory to unpack, relative to the <a class="link" href="ape.html#folder"><code class="literal">&lt;folder&gt;</code></a> containing it. It does not matter where the file was originally located in the building machine, just the path inside the installer:</p><p><a id="snip6299328"></a></p><pre class="programlisting">&lt;component name="componentA"&gt;
+   &lt;folderList&gt;
+     &lt;folder&gt;
+       &lt;name&gt;folder1&lt;/name&gt;
+       &lt;distributionFileList&gt;
+         &lt;distributionDirectory&gt;
+            &lt;origin&gt;/some/long/path/in/the/building/machine/someDirectory&lt;/origin&gt;
+         &lt;/distributionDirectory&gt;
+       &lt;/distributionFileList&gt;
+     &lt;/folder&gt;
+   &lt;/folderList&gt;
+&lt;/component&gt;</pre><p>The example below details a real scenario, in which the installer unpacks a license validator and checks the provided key in the <a class="link" href="apc.html#parameter.validationActionList"><code class="literal">&lt;validationActionList&gt;</code></a> of the page:</p><p><a id="snip2822075"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+    &lt;name&gt;tools&lt;/name&gt;
+       &lt;folderList&gt;
+          &lt;folder&gt;
+             &lt;name&gt;license&lt;/name&gt;
+             &lt;destination&gt;${installdir}&lt;/destination&gt;
+             &lt;distributionFileList&gt;
+                &lt;!-- The management directory contains a lot of
+                tools, one of the our validator.exe --&gt;
+                &lt;distributionDirectory origin="/path/to/dir/to/management"/&gt;
+             &lt;/distributionFileList&gt;
+          &lt;/folder&gt;
+       &lt;/folderList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  &lt;parameterList&gt;
+    &lt;stringParameter&gt;
+       &lt;name&gt;licenseCheck&lt;/name&gt;
+       &lt;description&gt;Introduce your license key&lt;/description&gt;
+       &lt;value&gt;&lt;/value&gt;
+       &lt;validationActionList&gt;
+         &lt;unpackFile&gt;
+            &lt;component&gt;tools&lt;/component&gt;
+            &lt;folder&gt;license&lt;/folder&gt;
+            &lt;!-- Relative path from the packed folder 'management' --&gt;
+            &lt;origin&gt;management/validator.exe&lt;/origin&gt;
+            &lt;destination&gt;${system_temp_directory}&lt;/destination&gt;
+         &lt;/unpackFile&gt;
+         &lt;runProgram&gt;
+           &lt;program&gt;${system_temp_directory}/validator.exe&lt;/program&gt;
+           &lt;programArguments&gt;${project.parameter(licenseCheck).value}&lt;/programArguments&gt;
+         &lt;/runProgram&gt;
+         &lt;throwError text="Wrong license key, please enter a valid one"&gt;
+           &lt;ruleList&gt;
+             &lt;compareText text="${program_stdout}" logic="equals" value="1"/&gt;
+           &lt;/ruleList&gt;
+         &lt;/throwError&gt;
+       &lt;/validationActionList&gt;
+    &lt;/stringParameter&gt;
+  &lt;/parameterList&gt;
+    ...
+&lt;/project&gt;</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s05.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s07.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">5. Components </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 7. User Input</td></tr></table></div></body></html>

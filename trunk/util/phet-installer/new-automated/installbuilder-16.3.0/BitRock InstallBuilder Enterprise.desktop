@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=0.9.4
+Name=BitRock InstallBuilder Enterprise
+Comment=BitRock InstallBuilder Enterprise
+Icon=/home/jblanco/installbuilder-16.3.0/bin/logo.png
+Exec=/home/jblanco/installbuilder-16.3.0/bin/builder
+Terminal=false

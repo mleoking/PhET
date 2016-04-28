@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>11. Menus and Shortcuts</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s10.html" title="10. User Interface" /><link rel="next" href="ar01s12.html" title="12. Installer Customization" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11. Menus and Shortcuts</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s10.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s12.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="menus_and_shortcuts"></a>11. Menus and Shortcuts</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_defining_shortcuts_at_build_time"></a>11.1. Defining Shortcuts at Build Time</h3></div></div></div><p>If you are distributing a GUI program that runs on Windows, KDE or Gnome, you can place a shortcut for your executable on the Desktop or in a folder and the associated icon will be displayed. When the user clicks on the icon, the associated program, document or URL will be launched. Figure 53 shows the prompt you get when adding an Application shortcut to your product installer. It has the following fields:</p><p><span class="strong"><strong>Common</strong></span></p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Shortcut text</strong></span>: Shortcut text
+</li><li class="listitem">
+<span class="strong"><strong>Tooltip</strong></span>: Tooltip text for the shortcut
+</li><li class="listitem">
+<span class="strong"><strong>Platforms</strong></span>: Platforms in which the shortcut will be created
+</li></ul></div><p><span class="strong"><strong>Unix settings</strong></span></p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Unix Icon</strong></span>: GIF or PNG Image to use for the shortcut
+</li><li class="listitem">
+<span class="strong"><strong>Program to execute</strong></span>: Program to execute, including command line arguments
+</li><li class="listitem">
+<span class="strong"><strong>Working directory</strong></span>: Working directory for the program being executed
+</li></ul></div><p><span class="strong"><strong>Windows settings</strong></span></p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Windows Icon</strong></span>: File containing .ico image
+</li><li class="listitem">
+<span class="strong"><strong>Program to execute</strong></span>: Program to execute
+</li><li class="listitem">
+<span class="strong"><strong>Working directory</strong></span>: Working directory for the program being executed
+</li></ul></div><p>Note that the target program to execute must have been installed with your product, so the value for <span class="strong"><strong>Program to execute</strong></span> should include a reference to the installation directory and look similar to: <code class="literal">${installdir}/foo/bar/program</code>  where <code class="literal">foo/bar/program</code> is the path to your program relative to the installation directory. At installation time, <code class="literal">${installdir}</code> will be substituted by the appropriate value. This also applies to Icons referenced by the shortcut.</p><p>It is also possible to create shortcuts that point to directories, documents or URLs. Select the "Document" or "URL" option when creating a shortcut.</p><p>On Windows, <code class="literal">Start Menu</code> and <code class="literal">Desktop</code> shortcuts are by default created for all users, or for the current user in case there are not sufficient privileges.
+InstallBuilder allows modifying this behavior via the project property <a class="link" href="apd.html#installationScope"><code class="literal">&lt;installationScope&gt;</code></a>, which can be
+set to <code class="literal">"auto"</code> (default), <code class="literal">"user"</code> or <code class="literal">"allusers"</code>.</p><div class="figure"><a id="idm140427928872496"></a><p class="title"><strong>Figure 58. Adding a shortcut</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/shortcut.png" align="middle" alt="Adding a shortcut" /></div></div></div><br class="figure-break" /><p>Alternatively, you can also add shortcuts by manually editing the XML project, as in the following example:</p><p><a id="snip2611100"></a></p><pre class="programlisting">&lt;componentList&gt;
+  &lt;component&gt;
+    &lt;name&gt;default&lt;/name&gt;
+    &lt;startMenuShortcutList&gt;
+       &lt;startMenuShortcut&gt;
+          &lt;comment&gt;Uninstall ${project.fullName}&lt;/comment&gt;
+          &lt;name&gt;Uninstall ${project.fullName}&lt;/name&gt;
+          &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+          &lt;windowsExec&gt;${installdir}/${project.uninstallerName}.exe&lt;/windowsExec&gt;
+          &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+          &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+          &lt;windowsPath&gt;${installdir}/&lt;/windowsPath&gt;
+       &lt;/startMenuShortcut&gt;
+    &lt;/startMenuShortcutList&gt;
+    &lt;desktopShortcutList&gt;
+       &lt;shortcut&gt;
+          &lt;comment&gt;Launch ${project.fullName}&lt;/comment&gt;
+          &lt;name&gt;Launch ${project.fullName}&lt;/name&gt;
+          &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+          &lt;windowsExec&gt;${installdir}/myApplication.exe&lt;/windowsExec&gt;
+          &lt;windowsPath&gt;${installdir}/&lt;/windowsPath&gt;
+       &lt;/shortcut&gt;
+    &lt;/desktopShortcutList&gt;
+    &lt;folderList&gt;
+       &lt;folder&gt;
+          &lt;name&gt;programfiles&lt;/name&gt;
+          &lt;platforms&gt;all&lt;/platforms&gt;
+          &lt;destination&gt;${installdir}&lt;/destination&gt;
+          &lt;shortcutList&gt;
+             &lt;shortcut&gt;
+               &lt;comment&gt;Uninstall&lt;/comment&gt;
+               &lt;exec&gt;${installdir}/${project.uninstallerName}&lt;/exec&gt;
+               &lt;name&gt;Uninstall ${project.fullName}&lt;/name&gt;
+               &lt;path&gt;${installdir}&lt;/path&gt;
+               &lt;platforms&gt;all&lt;/platforms&gt;
+               &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+               &lt;windowsExec&gt;${installdir}/${project.uninstallerName}.exe&lt;/windowsExec&gt;
+               &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+               &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+               &lt;windowsPath&gt;${installdir}&lt;/windowsPath&gt;
+             &lt;/shortcut&gt;
+          &lt;/shortcutList&gt;
+       &lt;/folder&gt;
+    &lt;/folderList&gt;
+  &lt;/component&gt;
+&lt;/componentList&gt;</pre><p>You can control where these shortcuts will be created by placing them in one <code class="literal">shorcutList</code> or another. For example, shortcuts inside the folders <a class="link" href="ape.html#shortcutList"><code class="literal">&lt;shortcutList&gt;</code></a> will be created in the defined <a class="link" href="ape.html#destination"><code class="literal">&lt;destination&gt;</code></a>. If instead of the folder <a class="link" href="ape.html#shortcutList"><code class="literal">&lt;shortcutList&gt;</code></a>, you use the <a class="link" href="ape.html#startMenuShortcutList"><code class="literal">&lt;startMenuShortcutList&gt;</code></a> or the <a class="link" href="ape.html#desktopShortcutList"><code class="literal">&lt;desktopShortcutList&gt;</code></a>, they will be created in the <code class="literal">Start Menu</code> (Windows only) or the <code class="literal">Desktop</code> respectively.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: The start menu entry is always created by default"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">The start menu entry is always created by default</th></tr><tr><td align="left" valign="top"><p>Even if no shortcuts are created, an entry will be automatically added. To disable this behavior, you just have to set the <a class="link" href="apd.html#startMenuGroupName"><code class="literal">&lt;startMenuGroupName&gt;</code></a> to empty:
+<a id="snip4761529"></a></p><pre class="programlisting">   &lt;project&gt;
+      &lt;startMenuGroupName&gt;&lt;/startMenuGroupName&gt;
+   &lt;/project&gt;</pre></td></tr></table></div><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: The paths in the shortcut tags refer to paths at installation time"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">The paths in the shortcut tags refer to paths at installation time</th></tr><tr><td align="left" valign="top"><p>Contrary to other resource paths such as the <a class="link" href="apd.html#licenseFile"><code class="literal">&lt;licenseFile&gt;</code></a> or the <a class="link" href="apd.html#readmeFile"><code class="literal">&lt;readmeFile&gt;</code></a>, which refers to paths in the build machine, the paths in the shortcut tags refer to the installation machine:
+<a id="snip7027746"></a></p><pre class="programlisting">   &lt;project&gt;
+      ...
+      &lt;!-- ${build_project_directory} resolves to the XML project parent directory --&gt;
+      &lt;readmeFile&gt;${build_project_directory}/readme.txt&lt;/readmeFile&gt;
+      ...
+      &lt;componentList&gt;
+         &lt;component&gt;
+           &lt;name&gt;default&lt;/name&gt;
+           ...
+           &lt;startMenuShortcutList&gt;
+              &lt;startMenuShortcut&gt;
+                &lt;comment&gt;Uninstall ${project.fullName}&lt;/comment&gt;
+                &lt;name&gt;Uninstall ${project.fullName}&lt;/name&gt;
+                &lt;windowsExec&gt;${installdir}/${project.uninstallerName}.exe&lt;/windowsExec&gt;
+                &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+                &lt;windowsIcon&gt;${installdir}/icons/uninstallerShortcutIcon.ico&lt;/windowsIcon&gt;
+              &lt;/startMenuShortcut&gt;
+           &lt;/startMenuShortcutList&gt;
+           ...
+         &lt;/component&gt;
+      &lt;/componentList&gt;
+      ...
+   &lt;/project&gt;</pre></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_shortcut_folder_structure"></a>11.2. Shortcut Folder Structure</h3></div></div></div><p>Start Menu Shortcuts can be grouped using the <a class="link" href="apf.html#startMenuFolder"><code class="literal">&lt;startMenuFolder&gt;</code></a> special shortcut:</p><p><a id="snip5341811"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+   &lt;component&gt;
+    &lt;name&gt;default&lt;/name&gt;
+    ...
+    &lt;startMenuShortcutList&gt;
+      &lt;startMenuFolder&gt;
+        &lt;name&gt;Application Management&lt;/name&gt;
+        &lt;platforms&gt;windows&lt;/platforms&gt;
+        &lt;startMenuShortcutList&gt;
+          &lt;startMenuShortcut&gt;
+            &lt;comment&gt;Start ${project.fullName}&lt;/comment&gt;
+            &lt;name&gt;Start ${project.fullName}&lt;/name&gt;
+            &lt;windowsExec&gt;${installdir}/bin/server.exe&lt;/windowsExec&gt;
+            &lt;windowsExecArgs&gt;start&lt;/windowsExecArgs&gt;
+            &lt;windowsIcon&gt;${installdir}/icons/start.ico&lt;/windowsIcon&gt;
+          &lt;/startMenuShortcut&gt;
+          &lt;startMenuShortcut&gt;
+            &lt;comment&gt;Stop ${project.fullName}&lt;/comment&gt;
+            &lt;name&gt;Stop ${project.fullName}&lt;/name&gt;
+            &lt;windowsExec&gt;${installdir}/bin/server.exe&lt;/windowsExec&gt;
+            &lt;windowsExecArgs&gt;stop&lt;/windowsExecArgs&gt;
+            &lt;windowsIcon&gt;${installdir}/icons/stop.ico&lt;/windowsIcon&gt;
+          &lt;/startMenuShortcut&gt;
+        &lt;/startMenuShortcutList&gt;
+      &lt;/startMenuFolder&gt;
+    &lt;/startMenuShortcutList&gt;
+   &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>It is also possible to create a deeper hierarchy of shortcuts in the Windows Start Menu by using nested <a class="link" href="apf.html#startMenuFolder"><code class="literal">&lt;startMenuFolder&gt;</code></a> entries:</p><p><a id="snip9829702"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+       &lt;name&gt;default&lt;/name&gt;
+         ...
+         &lt;startMenuShortcutList&gt;
+           &lt;startMenuFolder&gt;
+             &lt;name&gt;Demo Application&lt;/name&gt;
+             &lt;platforms&gt;windows&lt;/platforms&gt;
+             &lt;startMenuShortcutList&gt;
+                  &lt;startMenuFolder&gt;
+                      &lt;name&gt;Documentation&lt;/name&gt;
+                      &lt;platforms&gt;windows&lt;/platforms&gt;
+                      &lt;startMenuShortcutList&gt;
+                          &lt;startMenuFolder&gt;
+                             &lt;name&gt;Videos&lt;/name&gt;
+                             &lt;platforms&gt;windows&lt;/platforms&gt;
+                             &lt;startMenuShortcutList&gt;
+                                 ...
+                             &lt;/startMenuShortcutList&gt;
+                          &lt;/startMenuFolder&gt;
+                          &lt;startMenuFolder&gt;
+                             &lt;name&gt;PDFs&lt;/name&gt;
+                             &lt;platforms&gt;windows&lt;/platforms&gt;
+                             &lt;startMenuShortcutList&gt;
+                                 ...
+                             &lt;/startMenuShortcutList&gt;
+                          &lt;/startMenuFolder&gt;
+                      &lt;/startMenuShortcutList&gt;
+                  &lt;/startMenuFolder&gt;
+                  &lt;startMenuFolder&gt;
+                      &lt;name&gt;Management&lt;/name&gt;
+                      &lt;platforms&gt;windows&lt;/platforms&gt;
+                      &lt;startMenuShortcutList&gt;
+                          ...
+                      &lt;/startMenuShortcutList&gt;
+                  &lt;/startMenuFolder&gt;
+             &lt;/startMenuShortcutList&gt;
+         &lt;/startMenuFolder&gt;
+       &lt;/startMenuShortcutList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_creating_shortcuts_on_demand_at_runtime"></a>11.3. Creating Shortcuts on Demand at Runtime</h3></div></div></div><p>There are scenarios in which it is more convenient to imperatively create shortcuts at runtime rather than declaratively define them as resources inside <a class="link" href="ape.html#folder"><code class="literal">&lt;folder&gt;</code></a> elements, possibly based on user input. To do so, you can use the <a class="link" href="apa.html#createShortcuts"><code class="literal">&lt;createShortcuts&gt;</code></a> action.</p><p>For example, you can ask your users whether or not to create shortcuts to your application in the final page of the installer:</p><p><a id="snip7815758"></a></p><pre class="programlisting">&lt;finalPageActionList&gt;
+  &lt;createShortcuts&gt;
+    &lt;progressText&gt;Do you want to create a shortcut in the Desktop?&lt;/progressText&gt;
+    &lt;destination&gt;${windows_folder_desktopdirectory}&lt;/destination&gt;
+    &lt;shortcutList&gt;
+      &lt;shortcut&gt;
+        &lt;comment&gt;Launches ${project.fullName}&lt;/comment&gt;
+        &lt;name&gt;Launch ${project.fullName}&lt;/name&gt;
+        &lt;runAsAdmin&gt;0&lt;/runAsAdmin&gt;
+        &lt;windowsExec&gt;${installdir}/myApp.exe&lt;/windowsExec&gt;
+        &lt;windowsExecArgs&gt;--log ${installdir}/debug.log&lt;/windowsExecArgs&gt;
+      &lt;/shortcut&gt;
+    &lt;/shortcutList&gt;
+  &lt;/createShortcuts&gt;
+  &lt;createShortcuts&gt;
+    &lt;progressText&gt;Do you want to create a quick launch toolbar?&lt;/progressText&gt;
+    &lt;destination&gt;${windows_folder_appdata}/Microsoft/Internet Explorer/Quick Launch&lt;/destination&gt;
+    &lt;shortcutList&gt;
+      &lt;shortcut&gt;
+        &lt;comment&gt;Launches ${project.fullName}&lt;/comment&gt;
+        &lt;name&gt;Launch ${project.fullName}&lt;/name&gt;
+        &lt;runAsAdmin&gt;0&lt;/runAsAdmin&gt;
+        &lt;windowsExec&gt;${installdir}/myApp.exe&lt;/windowsExec&gt;
+        &lt;windowsExecArgs&gt;--log ${installdir}/debug.log&lt;/windowsExecArgs&gt;
+      &lt;/shortcut&gt;
+    &lt;/shortcutList&gt;
+  &lt;/createShortcuts&gt;
+&lt;/finalPageActionList&gt;</pre><p>Please note you can add as many shortcuts as you want inside the <a class="link" href="apa.html#createShortcuts.shortcutList"><code class="literal">&lt;shortcutList&gt;</code></a> but they will share the same <a class="link" href="apa.html#createShortcuts.destination"><code class="literal">&lt;destination&gt;</code></a>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_shortcuts_aliases_on_os_x"></a>11.4. Shortcuts/Aliases on OS X</h3></div></div></div><p>An Alias is the OS X equivalent of a Windows shortcut. Aliases are typically created by users through the Finder interface and Apple discourages any other methods to create them programatically. However, you can achieve the same result creating a symbolic link to your application bundle (.app file), as shown below:</p><p><a id="snip9459936"></a></p><pre class="programlisting">&lt;postInstallationActionList&gt;
+   &lt;createSymLink target="${installdir}/MyApplication.app" linkName="~/Desktop/MyShortcutName"/&gt;
+&lt;/postInstallationActionList&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_shortcuts_on_linux"></a>11.5. Shortcuts on Linux</h3></div></div></div><p>InstallBuilder follows the <code class="literal">Desktop Entry</code> Specification from <a class="ulink" href="http://standards.freedesktop.org/desktop-entry-spec/latest/" target="_top">freedesktop.org</a> to create shortcuts on Linux. This specification is compatible with most graphical desktop environments currently in use such as KDE, Gnome and XFCE.</p><p>In this specification, shortcuts are plain text files with a special syntax and <code class="literal">.desktop</code> extensions. They contain information about how to display the shortcut and which actions to execute when it is double-clicked. The text below is an example of a <code class="literal">.desktop</code> file created using any of the methods supported by InstallBuilder:</p><pre class="screen">[Desktop Entry]
+Type=Application
+Version=0.9.4
+Name=BitRock InstallBuilder for Qt
+Comment=BitRock InstallBuilder for Qt
+Icon=/home/bitrock/installbuilder-6.5.4/bin/logo.png
+Exec=/home/bitrock/installbuilder-6.5.4/bin/builder
+Terminal=false</pre><p>Because it uses an INI-style syntax, if you need to further customize a shortcut at runtime, you can modify it using an <a class="link" href="apa.html#iniFileSet"><code class="literal">&lt;iniFileSet&gt;</code></a> action:</p><p><a id="snip3158191"></a></p><pre class="programlisting">  &lt;iniFileSet&gt;
+    &lt;file&gt;${installdir}/BitRock InstallBuilder for Qt.desktop&lt;/file&gt;
+    &lt;section&gt;Desktop Entry&lt;/section&gt;
+    &lt;key&gt;Name&lt;/key&gt;
+    &lt;value&gt;New Name To Display&lt;/value&gt;
+  &lt;/iniFileSet&gt;</pre><p>You can find additional information at <a class="ulink" href="http://standards.freedesktop.org/desktop-entry-spec/latest/" target="_top">freedesktop.org</a></p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s10.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s12.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">10. User Interface </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 12. Installer Customization</td></tr></table></div></body></html>

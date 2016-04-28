@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>5. Components</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s04.html" title="4. Variables" /><link rel="next" href="ar01s06.html" title="6. Working with Files and Folders" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5. Components</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s04.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s06.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="components"></a>5. Components</h2></div></div></div><p>Depending on the complexity of your software, you may need to split your project into several components. Components are a bundle of <a class="link" href="ar01s06.html" title="6. Working with Files and Folders">folders</a> and associated installation logic.</p><p>They are able to execute actions (include <a class="link" href="ar01s08.html#actionlist" title="8.2. Action Lists">Action Lists</a>), copy files and prompt the user for data (display <a class="link" href="ar01s07.html#parameters" title="7.1. Parameters">Parameters</a>), as the project does:</p><p><a id="snip8102839"></a></p><pre class="programlisting">&lt;component&gt;
+    &lt;name&gt;component&lt;/name&gt;
+    &lt;description&gt;component&lt;/description&gt;
+    &lt;detailedDescription&gt;This is a component&lt;/detailedDescription&gt;
+    &lt;initializationActionList&gt;
+        &lt;setInstallerVariable name="my_variable" value="1" /&gt;
+    &lt;/initializationActionList&gt;
+    &lt;parameterList&gt;
+        &lt;booleanParameter&gt;
+            &lt;name&gt;boolean_question&lt;/name&gt;
+            &lt;title&gt;Boolean Question&lt;/title&gt;
+            &lt;description&gt;Please answer yes or no&lt;/description&gt;
+        &lt;/booleanParameter&gt;
+    &lt;/parameterList&gt;
+    &lt;folderList&gt;
+        &lt;folder&gt;
+            &lt;description&gt;Program Files&lt;/description&gt;
+            &lt;destination&gt;${installdir}&lt;/destination&gt;
+            &lt;name&gt;programfiles&lt;/name&gt;
+            &lt;platforms&gt;all&lt;/platforms&gt;
+            &lt;distributionFileList&gt;
+                &lt;distributionDirectory origin="program" /&gt;
+            &lt;/distributionFileList&gt;
+        &lt;/folder&gt;
+    &lt;/folderList&gt;
+&lt;/component&gt;</pre><p>The ability to enable / disable components at build time and runtime allows your installer to provide as many setup combinations as you need.</p><p>The basic properties you should configure when adding a component are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="ape.html#name"><code class="literal">&lt;name&gt;</code></a>: Name of the Component. This name must be unique and just contain alphanumeric characters and underscores.
+</li><li class="listitem">
+<a class="link" href="apd.html#description"><code class="literal">&lt;description&gt;</code></a>: Description of the Component. This description will be included in the list of the visible components presented to the user.
+</li><li class="listitem">
+<a class="link" href="ape.html#detailedDescription"><code class="literal">&lt;detailedDescription&gt;</code></a>: A detailed description of the component. This detailed description will be displayed when clicking in the component description in the component selection page.
+</li><li class="listitem">
+<a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a>: Whether or not the component is selected. If the component is not selected, its action lists won’t be executed and its folders won’t be unpacked.
+</li><li class="listitem">
+<a class="link" href="ape.html#show"><code class="literal">&lt;show&gt;</code></a>: Whether or not the component is visible in the component selection page.
+</li><li class="listitem">
+<a class="link" href="ape.html#canBeEdited"><code class="literal">&lt;canBeEdited&gt;</code></a>: Whether or not the component can be edited in the component selection page.
+</li><li class="listitem">
+<a class="link" href="ape.html#requiredSize"><code class="literal">&lt;requiredSize&gt;</code></a>: Required disk space in the target system. If 0, then it will automatically be calculated based on the size of the packed files. The sum of the sizes of all of the installed components can be later accessed through the built-in variable <code class="literal">${required_diskspace}</code>.
+</li></ul></div><p>Components are defined in the project <a class="link" href="apd.html#componentList"><code class="literal">&lt;componentList&gt;</code></a> and presented to the end user as in the Figure 23:</p><div class="figure"><a id="idm140427934095616"></a><p class="title"><strong>Figure 23. Component Selection Page</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/component-selection.png" align="middle" alt="Component Selection Page" /></div></div></div><br class="figure-break" /><p>As mentioned above, depending on the value of <a class="link" href="ape.html#show"><code class="literal">&lt;show&gt;</code></a>, the component will be visible or not, and if so, the <a class="link" href="ape.html#canBeEdited"><code class="literal">&lt;canBeEdited&gt;</code></a> property will decide if the user will be able to select and deselect it.</p><p>The example below illustrates some of the possible combinations when including components:</p><p><a id="snip4420498"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;!-- Shows the component selection page --&gt;
+    &lt;allowComponentSelection&gt;1&lt;/allowComponentSelection&gt;
+    ...
+    &lt;componentList&gt;
+        &lt;!-- Main base component, it must be always
+        installed. We hide it  --&gt;
+        &lt;component&gt;
+            ...
+            &lt;name&gt;main&lt;/name&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;0&lt;/show&gt;
+            ...
+        &lt;/component&gt;
+        ...
+        &lt;!-- Important required component. We show it
+        in the component selection but made it mandatory
+        to install --&gt;
+        &lt;component&gt;
+            ...
+            &lt;name&gt;core&lt;/name&gt;
+            &lt;description&gt;Core product&lt;/description&gt;
+            &lt;detailedDescription&gt;This is the base of the application.&lt;/detailedDescription&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;canBeEdited&gt;0&lt;/canBeEdited&gt;
+            ...
+        &lt;/component&gt;
+        ...
+        &lt;!-- Optional Useful Component. We allow deselecting it but we suggest it
+        by default setting show=1 --&gt;
+        &lt;component&gt;
+            ...
+            &lt;name&gt;docs&lt;/name&gt;
+            &lt;description&gt;Documentation&lt;/description&gt;
+            &lt;detailedDescription&gt;Documentation of the product&lt;/detailedDescription&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+            ...
+        &lt;/component&gt;
+
+        &lt;!-- Additional Optional Component. It is not very important so
+        we do not include it by default (show=0)  --&gt;
+        &lt;component&gt;
+            ...
+            &lt;name&gt;extra&lt;/name&gt;
+            &lt;description&gt;Extra files&lt;/description&gt;
+            &lt;detailedDescription&gt;Extra files including images
+            and translation files&lt;/detailedDescription&gt;
+            &lt;selected&gt;0&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+            ...
+        &lt;/component&gt;
+    &lt;/componentList&gt;
+    ...
+&lt;/project&gt;</pre><p>Please note that the code also enables <code class="literal">&lt;allowComponentSelection&gt;1&lt;/allowComponentSelection&gt;</code>. This setting makes the component selection page (which is hidden by default) visible to the end user.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_enabling_and_disabling_components"></a>5.1. Enabling and disabling components</h3></div></div></div><p>The easiest way of configuring if a component will be selected or not is by modifying its <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> property:</p><p><a id="snip5317347"></a></p><pre class="programlisting">&lt;componentList&gt;
+   &lt;!-- This component is selected --&gt;
+   &lt;component&gt;
+     ...
+     &lt;name&gt;component1&lt;/name&gt;
+     ...
+     &lt;selected&gt;1&lt;/selected&gt;
+     ...
+   &lt;/component&gt;
+   &lt;!-- This component is not selected --&gt;
+   &lt;component&gt;
+     ...
+     &lt;name&gt;component2&lt;/name&gt;
+     ...
+     &lt;selected&gt;0&lt;/selected&gt;
+     ...
+   &lt;/component&gt;
+&lt;/componentList&gt;</pre><p>However, in most of the cases you will need to decide whether to select or not components at runtime, based on certain conditions. For this purpose, InstallBuilder includes a <a class="link" href="apa.html#componentSelection"><code class="literal">&lt;componentSelection&gt;</code></a> action. For example, if you detect and existing installation of your product, you may want to deselect your <code class="literal">core</code> component and select the <code class="literal">update</code> component:</p><p><a id="snip8662628"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;core&lt;/name&gt;
+      ...
+      &lt;selected&gt;1&lt;/selected&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;update&lt;/name&gt;
+      ...
+      &lt;selected&gt;0&lt;/selected&gt;
+      ...
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  &lt;readyToInstallActionList&gt;
+     &lt;componentSelection&gt;
+        &lt;deselect&gt;core&lt;/deselect&gt;
+        &lt;select&gt;update&lt;/select&gt;
+        &lt;ruleList&gt;
+           &lt;fileExists path="${installdir}/wellKnown/file"/&gt;
+        &lt;/ruleList&gt;
+     &lt;/componentSelection&gt;
+  &lt;/readyToInstallActionList&gt;
+  ...
+&lt;/project&gt;</pre><p>The <a class="link" href="apa.html#componentSelection"><code class="literal">&lt;componentSelection&gt;</code></a> action also accepts multiple components to select or deselect, separated by commas, in its <a class="link" href="apa.html#componentSelection.deselect"><code class="literal">&lt;deselect&gt;</code></a> and <a class="link" href="apa.html#componentSelection.select"><code class="literal">&lt;select&gt;</code></a> tags. This way you can change the behavior of the installer with a single action.</p><p>The code below explains how to prompt the user to select between a <code class="literal">minimal</code> (core components), <code class="literal">standard</code> (core and useful components)  and <code class="literal">full</code> installation (also include documentation and videos):</p><p><a id="snip2793334"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;allowComponentSelection&gt;0&lt;/allowComponentSelection&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;core&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;xmlEditor&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;debugger&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;documentation&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+    &lt;component&gt;
+      &lt;name&gt;videos&lt;/name&gt;
+      ...
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+  &lt;parameterList&gt;
+     &lt;choiceParameter&gt;
+        &lt;name&gt;installationMode&lt;/name&gt;
+        &lt;ask&gt;1&lt;/ask&gt;
+        &lt;default&gt;normal&lt;/default&gt;
+        &lt;description&gt;Please select the installation mode&lt;/description&gt;
+        &lt;title&gt;Installation Mode&lt;/title&gt;
+        &lt;optionList&gt;
+           &lt;option&gt;
+             &lt;value&gt;minimal&lt;/value&gt;
+             &lt;text&gt;Minimal&lt;/text&gt;
+           &lt;/option&gt;
+           &lt;option&gt;
+             &lt;value&gt;standard&lt;/value&gt;
+             &lt;text&gt;Standard&lt;/text&gt;
+           &lt;/option&gt;
+           &lt;option&gt;
+             &lt;value&gt;full&lt;/value&gt;
+             &lt;text&gt;Full&lt;/text&gt;
+           &lt;/option&gt;
+        &lt;/optionList&gt;
+        &lt;postShowPageActionList&gt;
+           &lt;componentSelection&gt;
+              &lt;deselect&gt;xmlEditor,debugger,documentation,videos&lt;/deselect&gt;
+              &lt;select&gt;core&lt;/select&gt;
+              &lt;ruleList&gt;
+                 &lt;compareText&gt;
+                   &lt;text&gt;${installationMode}&lt;/text&gt;
+                   &lt;logic&gt;equals&lt;/logic&gt;
+                   &lt;value&gt;minimal&lt;/value&gt;
+                 &lt;/compareText&gt;
+              &lt;/ruleList&gt;
+           &lt;/componentSelection&gt;
+           &lt;componentSelection&gt;
+              &lt;deselect&gt;documentation,videos&lt;/deselect&gt;
+              &lt;select&gt;core,xmlEditor,debugger&lt;/select&gt;
+              &lt;ruleList&gt;
+                 &lt;compareText&gt;
+                   &lt;text&gt;${installationMode}&lt;/text&gt;
+                   &lt;logic&gt;equals&lt;/logic&gt;
+                   &lt;value&gt;standard&lt;/value&gt;
+                 &lt;/compareText&gt;
+              &lt;/ruleList&gt;
+           &lt;/componentSelection&gt;
+           &lt;componentSelection&gt;
+              &lt;deselect&gt;&lt;/deselect&gt;
+              &lt;select&gt;core,xmlEditor,debugger,documentation,videos&lt;/select&gt;
+              &lt;ruleList&gt;
+                 &lt;compareText&gt;
+                   &lt;text&gt;${installationMode}&lt;/text&gt;
+                   &lt;logic&gt;equals&lt;/logic&gt;
+                   &lt;value&gt;full&lt;/value&gt;
+                 &lt;/compareText&gt;
+              &lt;/ruleList&gt;
+           &lt;/componentSelection&gt;
+        &lt;/postShowPageActionList&gt;
+     &lt;/choiceParameter&gt;
+  &lt;/parameterList&gt;
+  ...
+&lt;/project&gt;</pre><p>You can also check the state of a component using the <a class="link" href="apb.html#componentTest"><code class="literal">&lt;componentTest&gt;</code></a> rule:</p><p><a id="snip7580459"></a></p><pre class="programlisting">&lt;throwError&gt;
+  &lt;text&gt;You cannot install 'Component A' and 'Component B' at the same time!&lt;/text&gt;
+  &lt;ruleList&gt;
+     &lt;componentTest name="componentA" logic="selected"/&gt;
+     &lt;componentTest name="componentB" logic="selected"/&gt;
+  &lt;/ruleList&gt;
+&lt;/throwError&gt;</pre><p>Another way of selecting or deselecting a component is to directly modify the <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> property using the <a class="link" href="apa.html#setInstallerVariable"><code class="literal">&lt;setInstallerVariable&gt;</code></a> action as explained in the <a class="link" href="ar01s04.html#advanced_syntax" title="4.4. Advanced syntax">Advanced Syntax</a> section:</p><p><a id="snip4789445"></a></p><pre class="programlisting">  &lt;setInstallerVariable name="project.component(core).selected" value="0"/&gt;</pre><p>The same way, you can check if a component is selected (or any other of its properties):</p><p><a id="snip6209974"></a></p><pre class="programlisting">&lt;directoryParameter&gt;
+   &lt;name&gt;installdir&lt;/name&gt;
+   &lt;validationActionList&gt;
+      &lt;actionGroup&gt;
+         &lt;actionList&gt;
+            &lt;getFreeDiskSpace path="${installdir}" units="KB" variable="diskSpace"/&gt;
+            &lt;throwError&gt;
+              &lt;text&gt;You don't have enough disk space to install
+              ${project.component(bigComponent).description}&lt;/text&gt;
+              &lt;ruleList&gt;
+                &lt;compareValues&gt;
+                  &lt;value1&gt;${project.component(bigComponent).requiredSize}&lt;/value1&gt;
+                  &lt;logic&gt;greater&lt;/logic&gt;
+                  &lt;value2&gt;${diskSpace}&lt;/value2&gt;
+                &lt;/compareValues&gt;
+              &lt;/ruleList&gt;
+            &lt;/throwError&gt;
+         &lt;/actionList&gt;
+         &lt;ruleList&gt;
+           &lt;isTrue value="${project.component(bigComponent).selected}"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/actionGroup&gt;
+   &lt;/validationActionList&gt;
+&lt;/directoryParameter&gt;</pre><p>Finally, visible and editable components can also be selected and deselected using the command line:</p><pre class="programlisting">$&gt; /path/to/installer --disable-components windowsdata,unixdata --enable-components osxdata</pre><p>Where <code class="literal">--disable-components</code> and <code class="literal">--enable-components</code> accept a comma-separated list of components. Only visible components (<code class="literal">&lt;show&gt;1&lt;/show&gt;</code>) will be displayed in the help menu and only those which are also editable (<code class="literal">&lt;canBeEdited&gt;1&lt;/canBeEdited&gt;</code>) will be configurable using these flags. For example, if your project has the component list below:</p><p><a id="snip1049427"></a></p><pre class="programlisting"> &lt;componentList&gt;
+    &lt;!-- Main base component, it must be always
+    installed. We hide it  --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;main&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;0&lt;/show&gt;
+       ...
+    &lt;/component&gt;
+    ...
+    &lt;!-- Important required component. We show it
+    in the component selection but made it mandatory
+    to install --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;core&lt;/name&gt;
+       &lt;description&gt;Core product&lt;/description&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;1&lt;/show&gt;
+       &lt;canBeEdited&gt;0&lt;/canBeEdited&gt;
+       ...
+    &lt;/component&gt;
+    ...
+    &lt;!-- Optional Useful Component. We allow deselecting it but we suggest it
+    by default setting show=1 --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;docs&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;1&lt;/show&gt;
+       &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+       ...
+    &lt;/component&gt;
+    &lt;!-- Additional Optional Component. It is not very important so
+    we do not include it by default (show=0)  --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;extra&lt;/name&gt;
+       &lt;selected&gt;0&lt;/selected&gt;
+       &lt;show&gt;1&lt;/show&gt;
+       &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+       ...
+    &lt;/component&gt;
+ &lt;/componentList&gt;</pre><p>The output in the help menu will be:</p><pre class="screen"> --enable-components &lt;enable-components&gt; Comma-separated list of components
+                                Default: core,docs
+                                Allowed: docs extra
+
+ --disable-components &lt;disable-components&gt; Comma-separated list of components
+                                Default: extra
+                                Allowed: docs extra</pre><p>In this output, <code class="literal">main</code> is not mentioned, as it was configured as hidden, and just <code class="literal">docs</code> and <code class="literal">extra</code> are allowed values, as <code class="literal">core</code> was configured as a non-editable component and always selected.</p><p>These command line options are only available if <a class="link" href="apd.html#allowComponentSelection"><code class="literal">&lt;allowComponentSelection&gt;</code></a> is enabled.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Only the hardcoded state of the components is considered when displaying the help menu."><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Only the hardcoded state of the components is considered when displaying the help menu.</th></tr><tr><td align="left" valign="top"><p>As the help menu is completely independent from regular action lists, even if you are changing the components properties in the <a class="link" href="apd.html#initializationActionList"><code class="literal">&lt;initializationActionList&gt;</code></a> using a <a class="link" href="apa.html#setInstallerVariable"><code class="literal">&lt;setInstallerVariable&gt;</code></a> action, the changes won’t be visible when displaying the help. For example:</p><p><a id="snip7729440"></a></p><pre class="programlisting"> &lt;componentList&gt;
+    &lt;!-- Main base component, it must be always
+    installed. We hide it  --&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;A&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;0&lt;/show&gt;
+       ...
+    &lt;/component&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;B&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;0&lt;/show&gt;
+       ...
+    &lt;/component&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;C&lt;/name&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;0&lt;/show&gt;
+       ...
+    &lt;/component&gt;
+ &lt;/componentList&gt;
+ &lt;initializationActionList&gt;
+   &lt;setInstallerVariable name="component(A).show" value="1"/&gt;
+   &lt;setInstallerVariable name="component(B).show" value="1"/&gt;
+   &lt;setInstallerVariable name="component(C).show" value="1"/&gt;
+ &lt;/initializationActionList&gt;</pre><p>Will result in an empty list of components in the help menu:</p><pre class="screen"> --enable-components &lt;enable-components&gt; Comma-separated list of components
+                                Default:
+
+ --disable-components &lt;disable-components&gt; Comma-separated list of components
+                                Default:</pre><p>But all of them will be visible and editable in the graphical component selection.</p></td></tr></table></div><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: The &lt;selected&gt; property cannot contain variables"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">The <code class="literal">&lt;selected&gt;</code> property cannot contain variables</th></tr><tr><td align="left" valign="top"><p>The component <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> tag cannot contain variables. The below component will always be deselected, regardless of the value of the variable:</p><p><a id="snip8709424"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+       ...
+       &lt;name&gt;documentation&lt;/name&gt;
+       ...
+       &lt;!-- The variable won't be resolved, so it will
+       be considered false --&gt;
+       &lt;selected&gt;${installDocumentation}&lt;/selected&gt;
+       ...
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>If you need to bind a boolean variable to the <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> tag, you should modify the property using a <a class="link" href="apa.html#setInstallerVariable"><code class="literal">&lt;setInstallerVariable&gt;</code></a> instead:</p><p><a id="snip9298835"></a></p><pre class="programlisting">&lt;booleanParameter&gt;
+    &lt;name&gt;installDocumentation&lt;/name&gt;
+    &lt;title&gt;Documentation&lt;/title&gt;
+    &lt;description&gt;Would you like to install the documentation files?&lt;/description&gt;
+    &lt;postShowPageActionList&gt;
+       &lt;setInstallerVariable&gt;
+          &lt;name&gt;project.component(documentation).selected&lt;/name&gt;
+          &lt;value&gt;${installDocumentation}&lt;/value&gt;
+       &lt;/setInstallerVariable&gt;
+    &lt;/postShowPageActionList&gt;
+&lt;/booleanParameter&gt;</pre></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_component_action_lists"></a>5.2. Component Action Lists</h3></div></div></div><p>Components can include all of the <a class="link" href="ar01s08.html#actionlist" title="8.2. Action Lists">Action Lists</a> available for the main <a class="link" href="apd.html" title="D. Project Properties and Lists"><code class="literal">project</code></a> with the exception of the <code class="literal">&lt;preShowHelpActionList&gt;</code> and the <code class="literal">&lt;finalPageActionList</code>.</p><p>In addition, components include a few new action lists:</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_component_selection_validation_actions"></a>Component Selection Validation Actions</h4></div></div></div><p>The <a class="link" href="ape.html#componentSelectionValidationActionList"><code class="literal">&lt;componentSelectionValidationActionList&gt;</code></a> is executed right after clicking Next in the component selection page and allows checking if the provided component configuration is valid. It works the same way as the <code class="literal">&lt;validationActionList&gt;</code>; if an error is thrown inside it, instead of aborting the installation, the error message is displayed and the page redrawn.</p><p>This is really useful when implementing dependencies between components:</p><p><a id="snip5523455"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;allowComponentSelection&gt;1&lt;/allowComponentSelection&gt;
+    ...
+    &lt;componentList&gt;
+      &lt;component&gt;
+        ...
+        &lt;name&gt;A&lt;/name&gt;
+        ...
+      &lt;/component&gt;
+      &lt;component&gt;
+        ...
+        &lt;name&gt;B&lt;/name&gt;
+        ...
+      &lt;/component&gt;
+      &lt;component&gt;
+        &lt;name&gt;C&lt;/name&gt;
+        &lt;description&gt;Component C&lt;/description&gt;
+        &lt;detailedDescription&gt;This component depends on 'A' and 'B'&lt;/detailedDescription&gt;
+        ...
+        &lt;componentSelectionValidationActionList&gt;
+          &lt;throwError&gt;
+            &lt;text&gt;Component 'C' cannot be installed if you have not selected both 'A' and 'B'.&lt;/text&gt;
+            &lt;ruleList&gt;
+              &lt;isFalse value="${component(A).selected}"/&gt;
+              &lt;isFalse value="${component(B).selected}" /&gt;
+            &lt;/ruleList&gt;
+          &lt;/throwError&gt;
+        &lt;/componentSelectionValidationActionList&gt;
+        ...
+      &lt;/component&gt;
+      ...
+    &lt;/componentList&gt;
+    ...
+&lt;/project&gt;</pre><p>The <a class="link" href="ape.html#componentSelectionValidationActionList"><code class="literal">&lt;componentSelectionValidationActionList&gt;</code></a> is only executed when the component selection page is displayed and the component defining the validation is selected (regardless of whether or not it is visible). This could be an issue if, for example, you need to validate that at least one of two optional components are selected and if the user deselects them, none of the validations will be executed. In these cases, you can use a hidden component, just used to validate the others:</p><p>How to establish dependencies between components</p><p><a id="snip2719709"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;allowComponentSelection&gt;1&lt;/allowComponentSelection&gt;
+    ...
+    &lt;componentList&gt;
+      &lt;component&gt;
+        ...
+        &lt;name&gt;A&lt;/name&gt;
+        ...
+      &lt;/component&gt;
+      &lt;component&gt;
+        ...
+        &lt;name&gt;B&lt;/name&gt;
+        ...
+      &lt;/component&gt;
+      &lt;component&gt;
+        &lt;name&gt;validatorComponent&lt;/name&gt;
+        &lt;selected&gt;1&lt;/selected&gt;
+        &lt;show&gt;0&lt;/show&gt;
+        ...
+        &lt;componentSelectionValidationActionList&gt;
+          &lt;throwError&gt;
+            &lt;text&gt;You have to select at least one component.&lt;/text&gt;
+            &lt;ruleList&gt;
+              &lt;isFalse value="${component(A).selected}"/&gt;
+              &lt;isFalse value="${component(B).selected}" /&gt;
+            &lt;/ruleList&gt;
+          &lt;/throwError&gt;
+        &lt;/componentSelectionValidationActionList&gt;
+        ...
+      &lt;/component&gt;
+      ...
+    &lt;/componentList&gt;
+    ...
+&lt;/project&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_on_download_error_actions"></a>On Download Error Actions</h4></div></div></div><p>If the component was marked as <code class="literal">&lt;downloadable&gt;</code> and the installer was built accordingly (check the Downloadable components section for more details), the <code class="literal">&lt;onDownloadErrorActionList&gt;</code> allows providing a set of of actions to execute if the download process fails and the user decides to ignore it.</p><p>This allows properly recovering from the error, for example, deselecting other components that depend on it.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_adding_files_and_directories"></a>5.3. Adding files and directories</h3></div></div></div><p>Components can also contain a list of <a class="link" href="ape.html#folder"><code class="literal">&lt;folder&gt;</code></a> elements, which are mainly used to define files to pack:</p><p><a id="snip162529"></a></p><pre class="programlisting">&lt;component&gt;
+   ...
+   &lt;name&gt;default&lt;/name&gt;
+   ...
+   &lt;folderList&gt;
+     &lt;!-- The installation directory --&gt;
+     &lt;folder&gt;
+        &lt;name&gt;programfiles&lt;/name&gt;
+        &lt;description&gt;Program Files&lt;/description&gt;
+        &lt;destination&gt;${installdir}&lt;/destination&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;distributionFileList&gt;
+          &lt;distributionFile&gt;
+            &lt;origin&gt;/path/to/file.txt&lt;/origin&gt;
+          &lt;/distributionFile&gt;
+          ...
+          &lt;distributionDirectory&gt;
+            &lt;origin&gt;/path/to/directory&lt;/origin&gt;
+          &lt;/distributionDirectory&gt;
+          ...
+        &lt;/distributionFileList&gt;
+     &lt;/folder&gt;
+
+     &lt;!-- Configuration files that should be installed inside
+     /etc, and for linux only --&gt;
+     &lt;folder&gt;
+        &lt;name&gt;linuxconfigfiles&lt;/name&gt;
+        &lt;description&gt;Linux Configuration Files&lt;/description&gt;
+        &lt;destination&gt;/etc&lt;/destination&gt;
+        &lt;platforms&gt;linux&lt;/platforms&gt;
+        &lt;distributionFileList&gt;
+           ...
+        &lt;/distributionFileList&gt;
+     &lt;/folder&gt;
+   &lt;/folderList&gt;
+   ...
+&lt;/component&gt;</pre><p>The <a class="link" href="ar01s06.html" title="6. Working with Files and Folders">next</a> section explains in detail how to work with folders.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_adding_shortcuts_to_the_components"></a>5.4. Adding shortcuts to the components</h3></div></div></div><p>Each component has three shortcut lists which can be used to create shortcuts:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="ape.html#desktopShortcutList"><code class="literal">&lt;desktopShortcutList&gt;</code></a>: Shortcuts to be placed in the Desktop. Its available shortcuts are: <a class="link" href="apf.html#shortcut"><code class="literal">&lt;shortcut&gt;</code></a>, <a class="link" href="apf.html#linkShortcut"><code class="literal">&lt;linkShortcut&gt;</code></a> and <a class="link" href="apf.html#fileShortcut"><code class="literal">&lt;fileShortcut&gt;</code></a>
+</li></ul></div><p><a id="snip1636097"></a></p><pre class="programlisting"> &lt;component&gt;
+   &lt;name&gt;default&lt;/name&gt;
+   ...
+   &lt;desktopShortcutList&gt;
+     &lt;!-- Intended to launch an application --&gt;
+     &lt;shortcut&gt;
+        &lt;comment&gt;Launch My Program&lt;/comment&gt;
+        &lt;exec&gt;${installdir}/bin/myprogram&lt;/exec&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program&lt;/name&gt;
+        &lt;path&gt;${installdir}/bin&lt;/path&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsExec&gt;${installdir}/bin/myprogram.exe&lt;/windowsExec&gt;
+        &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+        &lt;windowsPath&gt;${installdir}/bin&lt;/windowsPath&gt;
+     &lt;/shortcut&gt;
+
+     &lt;!-- Intended to launch a web browser pointing to a specific url --&gt;
+     &lt;linkShortcut&gt;
+        &lt;comment&gt;Launch a web browser pointing to My Program website&lt;/comment&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;Visit My Program website&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;url&gt;http://www.example.com/myprogram&lt;/url&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/linkShortcut&gt;
+
+     &lt;!-- Intended to launch a viewer for a specific file --&gt;
+     &lt;fileShortcut&gt;
+        &lt;comment&gt;Check the user guide&lt;/comment&gt;
+        &lt;filePath&gt;${installdir}/doc/userguide.pdf&lt;/filePath&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program User Guide&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/fileShortcut&gt;
+     ...
+   &lt;/desktopShortcutList&gt;
+   ...
+ &lt;/component&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="ape.html#startMenuShortcutList"><code class="literal">&lt;startMenuShortcutList&gt;</code></a>: Link to applications, documents or URL for the Windows Start menu. Its available shortcuts are: <a class="link" href="apf.html#startMenuShortcut"><code class="literal">&lt;startMenuShortcut&gt;</code></a>, <a class="link" href="apf.html#startMenuLinkShortcut"><code class="literal">&lt;startMenuLinkShortcut&gt;</code></a> and <a class="link" href="apf.html#startMenuFileShortcut"><code class="literal">&lt;startMenuFileShortcut&gt;</code></a>:
+</li></ul></div><p><a id="snip7888051"></a></p><pre class="programlisting"> &lt;component&gt;
+   &lt;name&gt;default&lt;/name&gt;
+   ...
+   &lt;startMenuShortcutList&gt;
+     &lt;!-- Intended to launch an application --&gt;
+     &lt;startMenuShortcut&gt;
+        &lt;comment&gt;Launch My Program&lt;/comment&gt;
+        &lt;exec&gt;${installdir}/bin/myprogram&lt;/exec&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program&lt;/name&gt;
+        &lt;path&gt;${installdir}/bin&lt;/path&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsExec&gt;${installdir}/bin/myprogram.exe&lt;/windowsExec&gt;
+        &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+        &lt;windowsPath&gt;${installdir}/bin&lt;/windowsPath&gt;
+     &lt;/startMenuShortcut&gt;
+
+     &lt;!-- Intended to launch a web browser pointing to a specific url --&gt;
+     &lt;startMenuLinkShortcut&gt;
+        &lt;comment&gt;Launch a web browser pointing to My Program website&lt;/comment&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;Visit My Program website&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;url&gt;http://www.example.com/myprogram&lt;/url&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/startMenuLinkShortcut&gt;
+
+     &lt;!-- Intended to launch a viewer for a specific file --&gt;
+     &lt;startMenuFileShortcut&gt;
+        &lt;comment&gt;Check the user guide&lt;/comment&gt;
+        &lt;filePath&gt;${installdir}/doc/userguide.pdf&lt;/filePath&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program User Guide&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/startMenuFileShortcut&gt;
+     ...
+   &lt;/startMenuShortcutList&gt;
+   ...
+ &lt;/component&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="ape.html#quickLaunchShortcutList"><code class="literal">&lt;quickLaunchShortcutList&gt;</code></a>: Shortcuts to be placed in the Windows Quick Launch toolbar. Its available shortcuts are: <a class="link" href="apf.html#startMenuShortcut"><code class="literal">&lt;startMenuShortcut&gt;</code></a>, <a class="link" href="apf.html#startMenuLinkShortcut"><code class="literal">&lt;startMenuLinkShortcut&gt;</code></a> and <a class="link" href="apf.html#startMenuFileShortcut"><code class="literal">&lt;startMenuFileShortcut&gt;</code></a>:
+</li></ul></div><p><a id="snip4484668"></a></p><pre class="programlisting"> &lt;component&gt;
+   &lt;name&gt;default&lt;/name&gt;
+   ...
+   &lt;quickLaunchShortcutList&gt;
+     &lt;!-- Intended to launch an application --&gt;
+     &lt;quickLaunchShortcut&gt;
+        &lt;comment&gt;Launch My Program&lt;/comment&gt;
+        &lt;exec&gt;${installdir}/bin/myprogram&lt;/exec&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program&lt;/name&gt;
+        &lt;path&gt;${installdir}/bin&lt;/path&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsExec&gt;${installdir}/bin/myprogram.exe&lt;/windowsExec&gt;
+        &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+        &lt;windowsPath&gt;${installdir}/bin&lt;/windowsPath&gt;
+     &lt;/quickLaunchShortcut&gt;
+
+     &lt;!-- Intended to launch a web browser pointing to a specific url --&gt;
+     &lt;quickLaunchLinkShortcut&gt;
+        &lt;comment&gt;Launch a web browser pointing to My Program website&lt;/comment&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;Visit My Program website&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;url&gt;http://www.example.com/myprogram&lt;/url&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/quickLaunchLinkShortcut&gt;
+
+     &lt;!-- Intended to launch a viewer for a specific file --&gt;
+     &lt;quickLaunchFileShortcut&gt;
+        &lt;comment&gt;Check the user guide&lt;/comment&gt;
+        &lt;filePath&gt;${installdir}/doc/userguide.pdf&lt;/filePath&gt;
+        &lt;icon&gt;&lt;/icon&gt;
+        &lt;name&gt;My Program User Guide&lt;/name&gt;
+        &lt;platforms&gt;all&lt;/platforms&gt;
+        &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+        &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+     &lt;/quickLaunchFileShortcut&gt;
+     ...
+   &lt;/quickLaunchShortcutList&gt;
+   ...
+ &lt;/component&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="adding_components_from_external_files"></a>5.5. Adding components from external files</h3></div></div></div><p>Components can also be extracted to a different file, making them usable as modules between different projects. These external files can be later inserted in the <a class="link" href="apd.html#componentList"><code class="literal">&lt;componentList&gt;</code></a> using the <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directive as seen in the code below:</p><pre class="programlisting">&lt;componentList&gt;
+    &lt;include file="my_external_component.xml" /&gt;
+&lt;/componentList&gt;</pre><p>Of course, you can mix external and internal components in the project file</p><pre class="programlisting">&lt;componentList&gt;
+    &lt;component&gt;
+        &lt;name&gt;internal&lt;/name&gt;
+    &lt;/component&gt;
+    &lt;include file="my_external_component.xml" /&gt;
+&lt;/componentList&gt;</pre><p>In fact, the <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directive can be used to include any external piece of XML code in any place of the project if some conditions are met:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+The parent XML node is a <code class="literal">&lt;*List&gt;</code> tag: <a class="link" href="ape.html#actionList"><code class="literal">&lt;actionList&gt;</code></a>, <a class="link" href="apd.html#parameterList"><code class="literal">&lt;parameterList&gt;</code></a>, <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a>…
+</li><li class="listitem">
+The inserted code is valid in the insertion point. For example, trying to include a file containing a <a class="link" href="apa.html#showInfo"><code class="literal">&lt;showInfo&gt;</code></a> action in a <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> will fail.
+</li><li class="listitem">
+The inserted XML code is grouped in a single element. For example, inserting a code containing two <a class="link" href="apa.html#runProgram"><code class="literal">&lt;runProgram&gt;</code></a> actions will fail but inserting an <a class="link" href="apa.html#actionGroup"><code class="literal">&lt;actionGroup&gt;</code></a> with multiple actions on it will work.
+</li></ul></div><pre class="programlisting">&lt;project&gt;
+    &lt;shortName&gt;sample&lt;/shortName&gt;
+    &lt;fullName&gt;Sample Project&lt;/fullName&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;enableRollback&gt;1&lt;/enableRollback&gt;
+    &lt;enableTimestamp&gt;1&lt;/enableTimestamp&gt;
+    &lt;componentList&gt;
+        &lt;!-- component.xml contains a component --&gt;
+        &lt;include file="path/to/component.xml"/&gt;
+        &lt;component&gt;
+            &lt;name&gt;default&lt;/name&gt;
+            &lt;description&gt;Default Component&lt;/description&gt;
+            &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;folderList&gt;
+              &lt;!-- folder.xml contains a folder --&gt;
+              &lt;include file="path/to/folder.xml"/&gt;
+            &lt;/folderList&gt;
+        &lt;/component&gt;
+    &lt;/componentList&gt;
+    &lt;parameterList&gt;
+        &lt;!-- installdir.xml contains a directory parameter --&gt;
+        &lt;include file="path/to/installdir.xml"/&gt;
+        &lt;booleanParameter&gt;
+            &lt;name&gt;boolean_question&lt;/name&gt;
+            &lt;title&gt;Boolean Question&lt;/title&gt;
+            &lt;description&gt;Please answer yes or no&lt;/description&gt;
+            &lt;validationActionList&gt;
+               &lt;!-- validationActions.xml contains an actionGroup --&gt;
+               &lt;include file="path/to/validationActions.xml"/&gt;
+               &lt;throwError text="You must click yes!" &gt;
+                  &lt;ruleList&gt;
+                     &lt;!-- isTrue.xml contains a set of rules in a ruleGroup --&gt;
+                     &lt;include file="path/to/isTrue.xml"/&gt;
+                  &lt;/ruleList&gt;
+               &lt;/throwError&gt;
+            &lt;/validationActionList&gt;
+        &lt;/booleanParameter&gt;
+       ...
+    &lt;/parameterList&gt;
+    ...
+&lt;/project&gt;</pre><p>It is not possible to configure whether or not an <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> should be inserted. The <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directives are evaluated when loading the project so they cannot contain variables or rules.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_excluding_components_at_build_time"></a>5.6. Excluding components at build time</h3></div></div></div><p>Although a component can be disabled and hidden at runtime by modifying its <a class="link" href="ape.html#selected"><code class="literal">&lt;selected&gt;</code></a> and <a class="link" href="ape.html#show"><code class="literal">&lt;show&gt;</code></a> properties, sometimes it is desirable to do not bundle them at all. In these situations, you can use the <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a>. This set of rules is evaluated at build time and will decide whether or not the component containing them will be packed. For example, to just pack a component when building for OS X:</p><p><a id="snip3815215"></a></p><pre class="programlisting">   &lt;component&gt;
+       &lt;name&gt;osxComponent&lt;/name&gt;
+       &lt;description&gt;OS X Component&lt;/description&gt;
+       &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+       &lt;selected&gt;1&lt;/selected&gt;
+       &lt;show&gt;1&lt;/show&gt;
+       ...
+       &lt;shouldPackRuleEvaluationLogic&gt;and&lt;/shouldPackRuleEvaluationLogic&gt;
+       &lt;shouldPackRuleList&gt;
+           &lt;compareText&gt;
+               &lt;logic&gt;equals&lt;/logic&gt;
+               &lt;text&gt;${platform_name}&lt;/text&gt;
+               &lt;value&gt;osx&lt;/value&gt;
+           &lt;/compareText&gt;
+       &lt;/shouldPackRuleList&gt;
+   &lt;/component&gt;</pre><p>Please note the usage of the <a class="link" href="ar01s04.html#built_in_variables" title="4.8. Built-in variables">built-in variable</a> <code class="literal">${platform_name}</code>, which contains the build target at build time. In this case, using a <a class="link" href="apb.html#platformTest"><code class="literal">&lt;platformTest&gt;</code></a> will not work because it would evaluate the platform in which the builder is running and not the platform for which the installer is being built.</p><p>The same way as a <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a>, the <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a> can contain <a class="link" href="apb.html#ruleGroup"><code class="literal">&lt;ruleGroup&gt;</code></a> rules to create complex conditions. You can also configure its rule evaluation logic using the <a class="link" href="ape.html#shouldPackRuleEvaluationLogic"><code class="literal">&lt;shouldPackRuleEvaluationLogic&gt;</code></a> property.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="component_groups"></a>5.7. Component Groups</h3></div></div></div><p>A <code class="literal">&lt;componentGroup&gt;</code> is a special type of <a class="link" href="ape.html" title="E. Component and Folder Properties and Lists"><code class="literal">&lt;component&gt;</code></a> that can contains other components in its <code class="literal">&lt;componentList&gt;</code>:</p><p><a id="snip2320521"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;componentList&gt;
+
+        &lt;!-- componentGroup, a component with sub-components --&gt;
+        &lt;componentGroup&gt;
+            &lt;name&gt;application1&lt;/name&gt;
+            &lt;description&gt;Application 1&lt;/description&gt;
+            ...
+            &lt;folderList&gt;
+                ...
+            &lt;/folderList&gt;
+            &lt;componentList&gt;
+                &lt;component&gt;
+                    &lt;name&gt;feature1&lt;/name&gt;
+                    &lt;description&gt;Optional feature 1&lt;/description&gt;
+                    &lt;folderList&gt;
+                        ...
+                    &lt;/folderList&gt;
+                &lt;/component&gt;
+                &lt;component&gt;
+                    &lt;name&gt;feature2&lt;/name&gt;
+                    &lt;description&gt;Optional feature 2&lt;/description&gt;
+                    &lt;folderList&gt;
+                        ...
+                    &lt;/folderList&gt;
+                &lt;/component&gt;
+
+                &lt;!-- embedding a group inside a group --&gt;
+                &lt;componentGroup&gt;
+                    &lt;name&gt;feature3&lt;/name&gt;
+                    &lt;description&gt;Optional feature 3&lt;/description&gt;
+                    &lt;componentList&gt;
+                        &lt;component&gt;
+                            &lt;name&gt;feature4&lt;/name&gt;
+                            &lt;description&gt;Optional feature 4&lt;/description&gt;
+                            &lt;folderList&gt;
+                                ...
+                            &lt;/folderList&gt;
+                        &lt;/component&gt;
+                    &lt;/componentList&gt;
+                    &lt;folderList&gt;
+                        ...
+                    &lt;/folderList&gt;
+                &lt;/componentGroup&gt;
+            &lt;/componentList&gt;
+        &lt;/componentGroup&gt;
+
+        &lt;component&gt;
+            &lt;name&gt;application2&lt;/name&gt;
+            &lt;description&gt;Application 2&lt;/description&gt;
+            &lt;folderList&gt;
+                ...
+            &lt;/folderList&gt;
+        &lt;/component&gt;
+
+        &lt;!-- component group that is always selected and cannot be edited --&gt;
+        &lt;componentGroup&gt;
+            &lt;name&gt;application3&lt;/name&gt;
+            &lt;description&gt;Application 3&lt;/description&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;canBeEdited&gt;0&lt;/canBeEdited&gt;
+            &lt;folderList&gt;
+                ...
+            &lt;/folderList&gt;
+            &lt;componentList&gt;
+                &lt;component&gt;
+                    &lt;name&gt;feature5&lt;/name&gt;
+                    &lt;description&gt;Optional feature 5&lt;/description&gt;
+                    &lt;folderList&gt;
+                        ...
+                    &lt;/folderList&gt;
+                &lt;/component&gt;
+            &lt;/componentList&gt;
+        &lt;/componentGroup&gt;
+    &lt;/componentList&gt;
+    ...
+&lt;/project&gt;</pre><p>Component groups are displayed as a tree in the component selection page, where the user may choose to install any subset of its sub-components.</p><p>The following image shows the component selection screen for the example above:</p><div class="figure"><a id="idm140427933905248"></a><p class="title"><strong>Figure 24. Component selection screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/hiercomponents-selection.png" align="middle" alt="Component selection screen" /></div></div></div><br class="figure-break" /><p>As with a regular component, a component group can include its own files (in its <a class="link" href="ape.html#folderList"><code class="literal">&lt;folderList&gt;</code></a>) and actions.</p><p>Component groups may also be nested, creating multiple levels. This can be done by embedding a <code class="literal">&lt;componentGroup&gt;</code> in the <code class="literal">&lt;componentList&gt;</code> of another <code class="literal">&lt;componentGroup&gt;</code>. The <code class="literal">feature4</code> component is an example of this - it is inside the <code class="literal">feature3</code> <code class="literal">&lt;componentGroup&gt;</code>, which is a sub-component of <code class="literal">application1</code>.</p><p>A child component will be installed only if it is selected and all of its parent component groups are selected as well. For example, if <code class="literal">application1</code> is not selected, then regardless of whether or not <code class="literal">feature1</code> was previously selected, it will not be installed. In the GUI component selection, this behavior is represented by visually deselecting all of the child components when deselecting a parent. For example, the following shows that when <code class="literal">application1</code> is deselected, all of its child components are automatically deselected and cannot be edited:</p><div class="figure"><a id="idm140427933893232"></a><p class="title"><strong>Figure 25. Component selection screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/hiercomponents-selection-noediting.png" align="middle" alt="Component selection screen" /></div></div></div><br class="figure-break" /><p>Selecting a child component for installation requires enabling its parent components. In the example, in order to install <code class="literal">feature1</code>, the user first has to select <code class="literal">application1</code> by clicking on the checkbox next to it. This will allow editing of the children of <code class="literal">application1</code>. Similarly, to enable <code class="literal">feature4</code>, the user needs to select both the <code class="literal">application1</code> and <code class="literal">feature3</code> component groups.</p><p>Specifying which components to enable from the command line differs in behavior. Whenever the user specifies <code class="literal">--enable-components</code>, all parents of specified components are also automatically selected. For example, if the user specifies that <code class="literal">feature4</code> should be enabled, <code class="literal">feature3</code> and <code class="literal">application1</code> are automatically selected.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_installing_in_text_mode"></a>Installing in text mode</h4></div></div></div><p>When running an installer in text mode, sub-components can only be chosen if a parent has been chosen. For example:</p><pre class="programlisting"> $&gt; /path/to/installer --mode text
+
+...
+
+Select the components you want to install; clear the components you do not want
+to install. Click Next when you are ready to continue.
+
+Application 1 [Y/n] :y
+
+Application 1 - Optional feature 1 [Y/n] :y
+
+Application 1 - Optional feature 2 [Y/n] :y
+
+Application 1 - Optional feature 3 [Y/n] :n
+
+Application 2 [Y/n] :y
+
+Application 3 : Y (Cannot be edited)
+
+Application 3 - Optional feature 5 [Y/n] :n
+
+...</pre><p>Please note that the user was not asked about <code class="literal">feature4</code> since the <code class="literal">feature3</code> component group was not selected.</p><p>As a regular parameter group, a <code class="literal">&lt;componentGroup&gt;</code> with its <code class="literal">&lt;show&gt;</code> property set to <code class="literal">false</code> won’t be visible, hidden its child as well.</p><p>If a <code class="literal">&lt;componentGroup&gt;</code> has its <code class="literal">&lt;canBeEdited&gt;</code> set to <code class="literal">false</code> but is selected by default, its sub-components can be still edited (if they individually allow it). However, in the case of a deselected component group that cannot be edited, their child won’t allow any user interaction, regardless of their individual configurations.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="downloadable_components"></a>5.8. Downloadable components</h3></div></div></div><p>InstallBuilder provides the ability to configure some or all of the available components to be separate, downloadable content instead of being embedded in the installer. This means that elements of the application that are not always used can be made downloadable to decrease an installer’s size.</p><p>Each downloadable component is built as a separate file for each platform. After building a project, its components should be copied to a web server or file hosting service so that users can download it.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_how_to_create_downloadable_components"></a>How to create downloadable components</h4></div></div></div><p>Any existing or new project can be configured to have its components downloadable as separate files.</p><p>To do so, enable the <code class="literal">&lt;downloadable&gt;</code> tag for any <code class="literal">&lt;component&gt;</code> in the project that should be made downloadable.</p><p>In addition, the <code class="literal">&lt;componentsUrl&gt;</code> should be a URL that points to the directory where all files are to be placed.</p><p>For example, the following is a complete project, including the URL where the components will be copied:</p><p><a id="snip1012256"></a></p><pre class="programlisting">&lt;project&gt;
+  &lt;shortName&gt;downloadabledemo&lt;/shortName&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+  &lt;componentsUrl&gt;http://example.com/installer/components/&lt;/componentsUrl&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;!-- component that should be embedded in the installer --&gt;
+    &lt;component&gt;
+      &lt;name&gt;core&lt;/name&gt;
+      &lt;description&gt;Core features&lt;/description&gt;
+      ...
+    &lt;/component&gt;
+
+    &lt;!-- another component that should be embedded in the installer, specified explicitly --&gt;
+    &lt;component&gt;
+      &lt;name&gt;osintegration&lt;/name&gt;
+      &lt;downloadable&gt;0&lt;/downloadable&gt;
+      &lt;description&gt;Integration with operating system&lt;/description&gt;
+      ...
+    &lt;/component&gt;
+
+    &lt;!-- another component that should be built as downloadable component --&gt;
+    &lt;component&gt;
+      &lt;name&gt;optional&lt;/name&gt;
+      &lt;downloadable&gt;1&lt;/downloadable&gt;
+      &lt;description&gt;Optional content&lt;/description&gt;
+      ...
+    &lt;/component&gt;
+
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>In order to build the project with downloadable components enabled, the <code class="literal">--downloadable-components</code> flag should be passed to the CLI.</p><pre class="programlisting"> $&gt; path/to/bin/builder build project.xml linux --downloadable-components</pre><p>When using the GUI, the <code class="literal">downloadable components</code> checkbox should be enabled in the <code class="literal">Build</code> section before building the project.</p><p>After building the project for Linux, an additional directory <code class="literal">downloadabledemo-1.0-components</code> will be created with an <code class="literal">optional-1.0-linux.pak</code> file inside.
+When a project contains more components or is built for other platforms, additional files will be created in this directory.</p><p>After building the project, all contents of this directory should be uploaded to a web server so that they are available at <code class="literal">&lt;componentsUrl&gt;</code>.
+For the example above, the full URL should be <code class="literal">http://example.com/installer/components/optional-1.0-linux.pak</code>.</p><p>Some components may be available under different URLs. In this case, it is possible to specify the location using the <code class="literal">&lt;url&gt;</code> tag.
+The example below shows how optional content can be placed at a different URL:</p><p><a id="snip2988418"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;!-- another component that should be built as downloadable component --&gt;
+    &lt;component&gt;
+      &lt;name&gt;optional3rdparty&lt;/name&gt;
+      &lt;downloadable&gt;1&lt;/downloadable&gt;
+      &lt;description&gt;Optional content, provided by other vendor&lt;/description&gt;
+      &lt;url&gt;http://example.net/downloads/optional3rdparty-1.0-${platform_name}.pak&lt;/url&gt;
+      ...
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>The component above will be downloaded from a different website using different platform names.</p><p>It is also possible to configure the directory for outputting the components using the <code class="literal">&lt;componentsDirectory&gt;</code> tag.
+This can be specified relatively. In this case it is relative to <code class="literal">&lt;outputDirectory&gt;</code>.</p><p>For example, to copy all component files into the same directory as <code class="literal">&lt;outputDirectory&gt;</code>, do the following:</p><p><a id="snip6355605"></a></p><pre class="programlisting">&lt;project&gt;
+  &lt;componentsDirectory&gt;.&lt;/componentsDirectory&gt;
+  ...
+&lt;/project&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_running_the_installers_with_downloadable_components"></a>Running the installers with downloadable components</h4></div></div></div><p>The behavior for installers with one or more downloadable components is the same as it is with regular installers.</p><p>The component selection page shows the downloadable file size for each component available for download:</p><div class="figure"><a id="idm140427933842752"></a><p class="title"><strong>Figure 26. Component selection with downloadable component</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/downloadable-componentselection.png" align="middle" alt="Component selection with downloadable component" /></div></div></div><br class="figure-break" /><p>If a user does not select any downloadable component, the installer does not perform any download or show any additional information related to downloading components.</p><p>If a user does want to install a downloadable component, after the Ready To Install page is shown, the user is presented with a proxy configuration page:</p><div class="figure"><a id="idm140427933838736"></a><p class="title"><strong>Figure 27. Proxy server configuration</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/downloadable-proxy.png" align="middle" alt="Proxy server configuration" /></div></div></div><br class="figure-break" /><p>After the user configures or skips the proxy server configuration, the installer starts downloading the specified components:</p><div class="figure"><a id="idm140427933835312"></a><p class="title"><strong>Figure 28. Download progress</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/downloadable-progress.png" align="middle" alt="Download progress" /></div></div></div><br class="figure-break" /><p>If no error occurs, the installation proceeds when all components are downloaded and no user interaction is required.</p><p>In the event of an error, the user is prompted with three options:</p><div class="figure"><a id="idm140427933831440"></a><p class="title"><strong>Figure 29. Download error</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/downloadable-error.png" align="middle" alt="Download error" /></div></div></div><br class="figure-break" /><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">Retry</code> - retry the download
+</li><li class="listitem">
+<code class="literal">Ignore</code> - do not attempt to download the current component and proceed without installing it
+</li><li class="listitem">
+<code class="literal">Abort</code> - abort installation
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_handling_errors"></a>Handling errors</h4></div></div></div><p>In the event of download errors, the user is able to ignore the fact that a component could not be downloaded and proceed with the installation. It is possible to define actions that should be run when a component failed to download and the user chose to ignore it. For example:</p><p><a id="snip8669871"></a></p><pre class="programlisting">&lt;project&gt;
+  &lt;shortName&gt;downloadabledemo&lt;/shortName&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+  &lt;componentsUrl&gt;http://example.com/installer/components/&lt;/componentsUrl&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;php&lt;/name&gt;
+      &lt;downloadable&gt;1&lt;/downloadable&gt;
+      &lt;description&gt;PHP module for Apache&lt;/description&gt;
+      &lt;onDownloadErrorActionList&gt;
+        &lt;throwError&gt;
+          &lt;text&gt;PHP module is required for phpMyAdmin. Aborting installation&lt;/text&gt;
+          &lt;ruleList&gt;
+            &lt;isTrue&gt;
+              &lt;value&gt;${project.component(phpmyadmin).selected}&lt;/value&gt;
+            &lt;/isTrue&gt;
+          &lt;/ruleList&gt;
+        &lt;/throwError&gt;
+      &lt;/onDownloadErrorActionList&gt;
+    &lt;/component&gt;
+
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre><p>In this case, if the PHP module is not downloaded and another component depends on it, the installation will abort.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_text_mode_and_unattended_installers"></a>Text mode and unattended installers</h4></div></div></div><p>Text mode installers provide the same support for downloadable components as GUI installers. After all parameters have been specified and at least one component needs to be downloaded, the user is prompted with a proxy configuration question. The user may choose to skip proxy configuration or specify it.</p><p>Next, downloading begins and the overall progress of installation is shown (this is the same feedback provided in the form of a progress meter for GUI installations).</p><p>Unattended installers also provide support for downloadable components. Components are downloaded and installation occurs automatically.</p><p>If <code class="literal">unattendedmodeui</code> is specified as <code class="literal">minimalWithDialogs</code>, progress for downloads is shown only as the overall download progress.</p><div class="figure"><a id="idm140427933813792"></a><p class="title"><strong>Figure 30. Download in unattended mode UI</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/downloadable-unattended.png" align="middle" alt="Download in unattended mode UI" /></div></div></div><br class="figure-break" /><p>Similar to GUI installers, when all components are downloaded, the installation proceeds.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="adding_and_removing_components_section"></a>5.9. Adding or removing components to existing installations</h3></div></div></div><p>InstallBuilder offers the ability to install and uninstall individual components without reinstalling or uninstalling the entire application.</p><p>This functionality is disabled by default. In order to enable it, enable <a class="link" href="apd.html#allowAddRemoveComponents"><code class="literal">&lt;allowAddRemoveComponents&gt;</code></a>.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_storing_installation_information"></a>Storing installation information</h4></div></div></div><p>InstallBuilder stores the location of all applications inside of the application directory.
+When performing an installation, the user specifies the directory where the application should be installed.
+If <a class="link" href="apd.html#allowAddRemoveComponents"><code class="literal">&lt;allowAddRemoveComponents&gt;</code></a> is enabled, a check is made to see if a previous installation
+exists in specified directory before the component selection page is shown.</p><p>If it contains information about a previous installation, it is used by the installer.
+This information will consist of currently installed components and optionally for storing
+previous values for parameters that allow it.</p><p>It also contains information about the currently installed version. If the versions do not match,
+information about the currently selected components and values for parameters that allow it is used.
+However, all components are reinstalled in such a case.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_installing_additional_components"></a>Installing additional components</h4></div></div></div><p>If <a class="link" href="apd.html#allowAddRemoveComponents"><code class="literal">&lt;allowAddRemoveComponents&gt;</code></a> is enabled, the installer will automatically detect whenever a valid installation of the application is present in the installation directory.</p><p>Components previously installed will always be selected and the user will not be able to uninstall components using the installer. The user may choose to install additional components.</p><p>Whenever any change is made, all actions for newly selected components are run. However, actions for components previously installed are not run. This prevents actions that set up default values from overriding settings that user has already modified.</p><p>After a successful installation, the uninstaller and all related information will be updated to reflect that the user has installed additional components.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_uninstalling_components"></a>Uninstalling components</h4></div></div></div><p>If <a class="link" href="apd.html#allowAddRemoveComponents"><code class="literal">&lt;allowAddRemoveComponents&gt;</code></a> is enabled, running the uninstaller will show an additional choice page with the following options:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Entire application</strong></span> - removes the entire application and all files installed by the application
+</li><li class="listitem">
+<span class="strong"><strong>Individual components</strong></span> - removes individual components while leaving the rest of the application intact.
+</li></ul></div><p>When a user selects the <span class="strong"><strong>Entire application</strong></span> option, the behavior is the same as when <a class="link" href="apd.html#allowAddRemoveComponents"><code class="literal">&lt;allowAddRemoveComponents&gt;</code></a> is disabled.</p><p>When a user selects <span class="strong"><strong>Individual components</strong></span>, a component selection page will be shown. All components not currently installed will not be shown in the component selection tree.
+Components that have their <code class="literal">&lt;canBeEdited&gt;</code> disabled will not be editable.</p><p>When a user selects a component group, the component and all of its sub-components will be removed.
+For example if a user selects <code class="literal">application1</code>, this causes <code class="literal">feature1</code>, <code class="literal">feature2</code>, <code class="literal">feature3</code> and <code class="literal">feature4</code> to be uninstalled:</p><div class="figure"><a id="idm140427933784624"></a><p class="title"><strong>Figure 31. Selecting components to uninstall</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/modifiable-uninstall-componentselection.png" align="middle" alt="Selecting components to uninstall" /></div></div></div><br class="figure-break" /><p>Selecting a component group to be uninstalled also causes all of its child components to be uninstalled. Those components are shown as selected and cannot be edited. For example the following shows that the component <code class="literal">application1</code> will be uninstalled, which will also cause all of its child components to be uninstalled:</p><div class="figure"><a id="idm140427933780368"></a><p class="title"><strong>Figure 32. Selecting components to uninstall</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/modifiable-uninstall-componentselection-noediting.png" align="middle" alt="Selecting components to uninstall" /></div></div></div><br class="figure-break" /><p>If a parent is deselected, the selection of its children is reverted - if a child component was previously explicitly selected before selecting the parent, it will remain selected.
+Otherwise the child component will be deselected.</p><p>When a user selects all of the components, the installer will behave as if the <span class="strong"><strong>Entire application</strong></span> option was chosen.
+Otherwise, selected components will be removed and pre- and post- uninstallation actions for these components will be run.
+Remaining components will remain installed and no actions for these components will be run.</p><p>After successful uninstallation, the uninstaller and all related information will be updated to reflect that the user has uninstalled some of the components.</p><p>When the <span class="strong"><strong>Entire application</strong></span> option is chosen or the user selects all components in the component tree, the entire application is uninstalled along with uninstaller itself. This also triggers pre- and post- uninstallation actions for the project to be run.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s04.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s06.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">4. Variables </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 6. Working with Files and Folders</td></tr></table></div></body></html>

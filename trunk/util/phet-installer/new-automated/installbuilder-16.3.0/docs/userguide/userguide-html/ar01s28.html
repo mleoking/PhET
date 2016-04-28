@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>28. Encryption and password protection</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s27.html" title="27. OS X" /><link rel="next" href="apa.html" title="A. Actions" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">28. Encryption and password protection</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s27.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="apa.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_encryption_and_password_protection"></a>28. Encryption and password protection</h2></div></div></div><p>This section specifies how InstallBuilder can be used to create an installer that requires specifying a valid password and its payload is encrypted.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_encrypting_payload_of_the_installer"></a>28.1. Encrypting payload of the installer</h3></div></div></div><p>InstallBuilder provides support for encrypting contents of the installer so that a valid password must be specified in order to be able to install or unpack files from the installer.</p><p>Enabling the encryption requires specifying <code class="literal">&lt;enableEncryption&gt;</code> and <code class="literal">&lt;encryptionPassword&gt;</code> in the project.</p><p><a id="snip2704039"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;enableEncryption&gt;1&lt;/enableEncryption&gt;
+    &lt;encryptionPassword&gt;RandomGeneratedPassword&lt;/encryptionPassword&gt;
+&lt;/project&gt;</pre><p>This will cause the installer to be encrypted. As password is only used at build time, it has to be specified at runtime by the user.</p><p>InstallBuilder will require user to specify password before doing any operations. A dialog window will be shown requesting the user to specify a valid password.</p><div class="figure"><a id="idm140427925935584"></a><p class="title"><strong>Figure 95. Prompt for providing password</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/encryption-password-prompt.png" align="middle" alt="Prompt for providing password" /></div></div></div><br class="figure-break" /><p>The user cannot continue until a correct password is entered. Specifying an empty password or closing the window causes the installer to exit immediately.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_support_for_platforms_and_build_types"></a>28.2. Support for platforms and build types</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_supported_platforms_2"></a>Supported platforms</h4></div></div></div><p>Encryption is supported on the following platforms:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Linux x86 and x64
+</li><li class="listitem">
+Microsoft Windows
+</li><li class="listitem">
+Mac OS X
+</li></ul></div><p>When building an installer for other platforms, encryption is not enabled and the <a class="link" href="apa.html#setEncryptionPassword"><code class="literal">&lt;setEncryptionPassword&gt;</code></a> action must not be invoked.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Support for older operating systems"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Support for older operating systems</th></tr><tr><td align="left" valign="top"><p>Encryption is not supported on Mac OS X 10.2 and Linux x86 when legacy mode is enabled. On those platforms, if encryption is enabled, InstallBuilder will not allow be able to decrypt its contents and <a class="link" href="apa.html#setEncryptionPassword"><code class="literal">&lt;setEncryptionPassword&gt;</code></a> action will report appropriate error.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_rpm_and_deb_packages"></a>RPM and DEB packages</h4></div></div></div><p>Encryption is not supported for creation of RPM and DEB packages creation. In those modes, files are copied and installed by native package system and not InstallBuilder.</p><p>Enabling encryption in these targets is ignored and built same as when encryption is disabled.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_downloadable_components"></a>Downloadable components</h4></div></div></div><p>When encryption is enabled, all downloadable components are also encrypted using the same key as files embedded in the installer.</p><p>An installer with downloadable components will work the same both when its contents is encrypted and when encryption is disabled.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_multiplatform_cd_rom_mode"></a>Multiplatform CD-ROM mode</h4></div></div></div><p>Creating a CD-ROM mode installer with encrypted contents requires enabling both <code class="literal">&lt;enableEncryption&gt;</code> and <code class="literal">&lt;compressPackedFiles&gt;</code>.</p><p><a id="snip6798473"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;enableEncryption&gt;1&lt;/enableEncryption&gt;
+    &lt;encryptionPassword&gt;RandomGeneratedPassword&lt;/encryptionPassword&gt;
+    &lt;compressPackedFiles&gt;1&lt;/compressPackedFiles&gt;
+    ...
+&lt;/project&gt;</pre><p>When encryption is enabled and building CD-ROM installer, contents of all files is encrypted and installers only for supported platforms will be able to properly perform the installation. Installers for platforms without support for encryption will not be able to access the data due to it being encrypted.</p><p>Therefore it is recommended to specify platforms to build for CD-ROM mode using <a class="link" href="apd.html#cdromPlatforms"><code class="literal">&lt;cdromPlatforms</code></a>,project.cdromPlatforms) tag.</p><p><a id="snip1942581"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;enableEncryption&gt;1&lt;/enableEncryption&gt;
+    &lt;encryptionPassword&gt;RandomGeneratedPassword&lt;/encryptionPassword&gt;
+    &lt;compressPackedFiles&gt;1&lt;/compressPackedFiles&gt;
+    &lt;cdromPlatforms&gt;osx windows linux linux-x64&lt;/cdromPlatforms&gt;
+    ...
+&lt;/project&gt;</pre><p>This will not create installers for platforms that will be able to access encrypted files.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_manually_specifying_password"></a>28.3. Manually specifying password</h3></div></div></div><p>It is also possible to disable the default dialog that prompts the user for password and use <a class="link" href="apa.html#setEncryptionPassword"><code class="literal">&lt;setEncryptionPassword&gt;</code></a> action to specify the password. This can be done by specifying 0 for <code class="literal">&lt;requirePasswordOnStartup&gt;</code>.</p><p><a id="snip8975611"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;enableEncryption&gt;1&lt;/enableEncryption&gt;
+    &lt;encryptionPassword&gt;RandomGeneratedPassword&lt;/encryptionPassword&gt;
+    &lt;requirePasswordOnStartup&gt;0&lt;/requirePasswordOnStartup&gt;
+&lt;/project&gt;</pre><p>With the password prompt disabled, the installer will show the frontend, however, any file operations will fail until <a class="link" href="apa.html#setEncryptionPassword"><code class="literal">&lt;setEncryptionPassword&gt;</code></a> action is run with correct password. It can be put in a parameter’s <code class="literal">&lt;validationActionList&gt;</code> to disallow continuing until a valid password is specified.</p><p>The following parameter will ask the user for payload password and run the <a class="link" href="apa.html#setEncryptionPassword"><code class="literal">&lt;setEncryptionPassword&gt;</code></a> action to verify and set the password.</p><p><a id="snip3106330"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;enableEncryption&gt;1&lt;/enableEncryption&gt;
+    &lt;encryptionPassword&gt;RandomGeneratedPassword&lt;/encryptionPassword&gt;
+    ...
+    &lt;parameterList&gt;
+        ...
+        &lt;stringParameter&gt;
+            &lt;name&gt;password&lt;/name&gt;
+            ...
+            &lt;validationActionList&gt;
+                &lt;setEncryptionPassword&gt;
+                    &lt;password&gt;${password}&lt;/password&gt;
+                &lt;/setEncryptionPassword&gt;
+            &lt;/validationActionList&gt;
+        &lt;/stringParameter&gt;
+    &lt;/parameterList&gt;
+&lt;/project&gt;</pre><p>The action <a class="link" href="apa.html#setEncryptionPassword"><code class="literal">&lt;setEncryptionPassword&gt;</code></a> throws an error whenever password is incorrect and user will not be able to proceed until a valid password is specified. The action may take up to 1 second as the number of computations to verify the password is very large.</p><p>After the action is run without errors, the installation may proceed.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Accessing files and folders using actions"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Accessing files and folders using actions</th></tr><tr><td align="left" valign="top"><p>Since payload is encrypted, it is not possible to use actions such as <a class="link" href="apa.html#unpackFile"><code class="literal">&lt;unpackFile&gt;</code></a> and <a class="link" href="apa.html#unpackDirectory"><code class="literal">&lt;unpackDirectory&gt;</code></a> before user specifies the password and <a class="link" href="apa.html#setEncryptionPassword"><code class="literal">&lt;setEncryptionPassword&gt;</code></a> action is run if <code class="literal">&lt;requirePasswordOnStartup&gt;</code> is set to 0. After the action is invoked, the actions to unpack contents of installer may be invoked freely and will work normally.</p></td></tr></table></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_retrieving_password_over_the_internet"></a>Retrieving password over the Internet</h4></div></div></div><p>Often it is more feasible not to provide end users with password to extract the payload but to allow users to specify their individual key or login and password. This, combined with HTTPS protocol, can be used to request a password based on other information.</p><p><a id="snip8096471"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;enableEncryption&gt;1&lt;/enableEncryption&gt;
+    &lt;encryptionPassword&gt;RandomGeneratedPassword&lt;/encryptionPassword&gt;
+    &lt;requirePasswordOnStartup&gt;0&lt;/requirePasswordOnStartup&gt;
+    ...
+    &lt;parameterList&gt;
+        &lt;parameterGroup&gt;
+            &lt;name&gt;retrievepassword&lt;/name&gt;
+            &lt;title&gt;Activate application&lt;/title&gt;
+            &lt;explanation&gt;Please specify example.com username and password&lt;/explanation&gt;
+            &lt;parameterList&gt;
+                &lt;stringParameter&gt;
+                    &lt;name&gt;username&lt;/name&gt;
+                    &lt;description&gt;Username&lt;/description&gt;
+                    &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+                &lt;/stringParameter&gt;
+                &lt;passwordParameter&gt;
+                    &lt;name&gt;password&lt;/name&gt;
+                    &lt;description&gt;Password&lt;/description&gt;
+                    &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+                    &lt;askForConfirmation&gt;0&lt;/askForConfirmation&gt;
+                &lt;/passwordParameter&gt;
+            &lt;/parameterList&gt;
+            &lt;validationActionList&gt;
+                &lt;httpPost&gt;
+                    &lt;customErrorMessage&gt;Unable to contact activation server&lt;/customErrorMessage&gt;
+                    &lt;filename&gt;${system_temp_directory}/encryptionpassword&lt;/filename&gt;
+                    &lt;url&gt;https://example.com/api/installer/getpasswordkey&lt;/url&gt;
+                    &lt;queryParameterList&gt;
+                        &lt;queryParameter&gt;
+                            &lt;name&gt;username&lt;/name&gt;
+                            &lt;value&gt;${username}&lt;/value&gt;
+                        &lt;/queryParameter&gt;
+                        &lt;queryParameter&gt;
+                            &lt;name&gt;password&lt;/name&gt;
+                            &lt;value&gt;${password}&lt;/value&gt;
+                        &lt;/queryParameter&gt;
+                    &lt;/queryParameterList&gt;
+                &lt;/httpPost&gt;
+                &lt;readFile&gt;
+                    &lt;name&gt;encryptionpassword&lt;/name&gt;
+                    &lt;path&gt;${system_temp_directory}/encryptionpassword&lt;/path&gt;
+                &lt;/readFile&gt;
+                &lt;deleteFile&gt;
+                    &lt;path&gt;${system_temp_directory}/encryptionpassword&lt;/path&gt;
+                &lt;/deleteFile&gt;
+                &lt;setEncryptionPassword&gt;
+                    &lt;customErrorMessage&gt;Activation failed&lt;/customErrorMessage&gt;
+                    &lt;password&gt;${encryptionpassword}&lt;/password&gt;
+                &lt;/setEncryptionPassword&gt;
+            &lt;/validationActionList&gt;
+        &lt;/parameterGroup&gt;
+    &lt;/parameterList&gt;
+&lt;/project&gt;</pre><p>Example above shows how to ask for username and password so that remote server will either accept and provide a password valid for this product version or reject the request and provide an empty result.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s27.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="apa.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">27. OS X </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> A. Actions</td></tr></table></div></body></html>

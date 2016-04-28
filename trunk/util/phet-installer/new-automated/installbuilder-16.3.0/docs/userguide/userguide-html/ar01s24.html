@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>24. Native Packages</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s23.html" title="23. AutoUpdate Tool" /><link rel="next" href="ar01s25.html" title="25. Builder" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">24. Native Packages</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s23.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s25.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_native_packages"></a>24. Native Packages</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_generation_of_native_packages"></a>24.1. Generation of Native Packages</h3></div></div></div><p>The Professional and Enterprise versions of InstallBuilder support generation of native packages. To generate the packages, the appropriate command line tools must be present in the Linux system used at build-time, such as rpm or dpkg. The target platform needs to be specified as rpm or deb in the command line environment or can be selected in the build screen using the GUI builder.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_integration_with_native_package_systems"></a>24.2. Integration with Native Package Systems</h3></div></div></div><p>BitRock InstallBuilder allows you to register the software being installed with the RPM or DEB package databases.</p><p>To enable RPM and DEB registration support add <code class="literal">&lt;registerWithPackageDatabase&gt;1&lt;/registerWithPackageDatabase&gt;</code> to your installer project file. This will register your installation with the RPM and DEB database. From this point on, users will be able to query data about your application and its installed files using your distribution’s rpm-based tools as with any other existing rpm package. You will also be able to uninstall the application using your distribution’s rpm-based tools.</p><p>RPM database integration requires installation as root in an RPM-based distribution. Otherwise, the setting will be ignored. Also, if the RPM generation is performed on a 64bit machine, then 64bit RPM packages will be generated instead of 32bit ones.</p><p>To generate the packages, the appropriate command line tools need to be present in the Linux system used at build-time, such as <code class="literal">rpm</code> or <code class="literal">dpkg</code>. The target platform will be specified as <code class="literal">rpm</code> and <code class="literal">deb</code> in the command line environment or can be selected in the build screen using the GUI builder.</p><p>Additionally, to successfully register an RPM, the following tags must be also present in the XML project file:</p><p><strong>RPM information tags. </strong><a id="snip3686023"></a></p><pre class="programlisting">  &lt;project&gt;
+    ...
+    &lt;vendor&gt;Your Company Name&lt;/vendor&gt;
+    &lt;summary&gt;Detailed description of your software&lt;/summary&gt;
+    &lt;release&gt;0&lt;/release&gt;
+    &lt;description&gt;A one-line description of your software&lt;/description&gt;
+    ...
+  &lt;/project&gt;</pre><p>The name of the RPM package registered will be <code class="literal">${project.shortName}-${project.version}-${project.release}</code></p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_creating_custom_spec_files_for_rpm_installers"></a>Creating custom spec files for RPM installers</h4></div></div></div><p>RPM packages use a spec file to describe a package. When creating an RPM package, InstallBuilder creates it using built-in templates by default.</p><p>InstallBuilder allows creating RPM packages that use a custom spec file. This is useful when an RPM package has to specify dependencies or other fields in the spec file.</p><p>If you need to create your own spec file, simply enable the <a class="link" href="apd.html#rpmSpecFileTemplate"><code class="literal">&lt;rpmSpecFileTemplate&gt;</code></a> option in your project:</p><p><a id="snip999009"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;rpmSpecFileTemplate&gt;path/to/package.spec&lt;/rpmSpecFileTemplate&gt;
+    ...
+&lt;/project&gt;</pre><p>Where <code class="literal">path/to/package.spec</code> should point to a spec file.</p><p>A template for a default spec file is as follows:</p><pre class="screen">%define _unpackaged_files_terminate_build 0
+%define installdir /
+%define _topdir ${bitrock_rpm_topdir}
+%define _rpmdir %{_topdir}
+BuildRoot: ${bitrock_rpm_buildroot}
+Name: ${bitrock_rpm_name}
+Version: ${bitrock_rpm_version}
+Release: ${bitrock_rpm_release}
+Group: ${bitrock_rpm_group}
+Vendor: ${bitrock_rpm_vendor}
+Summary: ${bitrock_rpm_summary}
+License: ${bitrock_rpm_copyright}
+Provides: ${bitrock_rpm_name}
+%description
+${bitrock_rpm_description}
+%post
+${bitrock_rpm_post}
+%preun
+${bitrock_rpm_preun}
+%postun
+${bitrock_rpm_postun}
+%files
+%defattr(-,root,root)
+${bitrock_rpm_files}</pre><p>The <code class="literal">${bitrock_*}</code> variables are substituted when building the installer.</p><p>More information regarding creating and contents of the spec file can be found on RPM.org:</p><p><a class="ulink" href="http://www.rpm.org/max-rpm/s1-rpm-build-creating-spec-file.html" target="_top">http://www.rpm.org/max-rpm/s1-rpm-build-creating-spec-file.html</a></p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s23.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s25.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">23. AutoUpdate Tool </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 25. Builder</td></tr></table></div></body></html>

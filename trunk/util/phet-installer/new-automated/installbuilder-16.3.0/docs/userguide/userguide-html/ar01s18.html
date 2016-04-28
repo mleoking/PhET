@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>18. Java</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s17.html" title="17. File associations" /><link rel="next" href="ar01s19.html" title="19. Regular expressions" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">18. Java</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s17.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s19.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_java"></a>18. Java</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="java_autodetection"></a>18.1. Java Specific Actions</h3></div></div></div><p><strong>Java (tm) Autodetection. </strong>The <a class="link" href="apa.html#autodetectJava"><code class="literal">&lt;autodetectJava&gt;</code></a> action attempts to automatically locate an existing Java (tm) installation in the system. If found, it creates a set of installer variables that contain the location and version of the executable.</p><p>The action is usually placed in the <a class="link" href="apd.html#preInstallationActionList"><code class="literal">&lt;preInstallationActionList&gt;</code></a> and if no valid JRE is found, the installer will abort with an error listing the supported JREs.</p><p>The <a class="link" href="apa.html#autodetectJava"><code class="literal">&lt;autodetectJava&gt;</code></a> properties are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#autodetectJava.promptUser"><code class="literal">&lt;promptUser&gt;</code></a>: Prompt user to choose appropriate version
+</li><li class="listitem">
+<a class="link" href="apa.html#autodetectJava.selectionOrder"><code class="literal">&lt;selectionOrder&gt;</code></a>: Order of the Java versions detected
+</li><li class="listitem">
+<a class="link" href="apg.html#validVersionList"><code class="literal">&lt;validVersionList&gt;</code></a>: List of supported Java versions
+</li></ul></div><p>The allowed Java versions are defined using the <a class="link" href="apg.html#validVersion"><code class="literal">&lt;validVersion&gt;</code></a> element, which are included in the <a class="link" href="apa.html#autodetectJava.validVersionList"><code class="literal">&lt;validVersionList&gt;</code></a>. Each of these versions contain the following fields:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apg.html#validVersion.vendor"><code class="literal">&lt;vendor&gt;</code></a>: Java VM vendor to allow. The allowed values are: <code class="literal">sun</code> (to allow only Sun Microsystems JREs), <code class="literal">ibm</code> (for IBM JREs), <code class="literal">kaffe</code> (for Kaffe.org JREs), <code class="literal">openjdk</code> (for OpenJDK releases) and empty (for any vendor).
+</li><li class="listitem">
+<a class="link" href="apg.html#validVersion.minVersion"><code class="literal">&lt;minVersion&gt;</code></a>: Minimum supported version of the JRE. Leave empty to not require a minimum version
+</li><li class="listitem">
+<a class="link" href="apg.html#validVersion.maxVersion"><code class="literal">&lt;maxVersion&gt;</code></a>: Maximum supported version of the JRE. Leave empty to not require a maximum version. If specified only with major and minor version numbers then it will match any number in the series. For example, 1.4 will match any 1.4.x version (1.4.1, 1.4.2, …) but not a 1.5 series JRE.
+</li><li class="listitem">
+<a class="link" href="apg.html#validVersion.bitness"><code class="literal">&lt;bitness&gt;</code></a>: Bitness of Java application. Leave empty to not require a specific bitness of Java. If specified, only Java compiled for specified number of bits will be matched.
+</li><li class="listitem">
+<a class="link" href="apg.html#validVersion.requireJDK"><code class="literal">&lt;requireJDK&gt;</code></a>: Whether the Java version is a JDK.
+</li></ul></div><p>The following example will select any Sun Microsystems JRE 1.3 32bit or newer (for example, 1.3, 1.4, 1.5) or any IBM JRE regardless of bitness with version number equal or greater than 1.4.2 but inside the 1.4 series (1.5 will not work).</p><p><a id="snip9389893"></a></p><pre class="programlisting">   &lt;autodetectJava&gt;
+      &lt;validVersionList&gt;
+         &lt;validVersion&gt;
+            &lt;vendor&gt;sun&lt;/vendor&gt;
+            &lt;minVersion&gt;1.4.2&lt;/minVersion&gt;
+            &lt;maxVersion&gt;1.4&lt;/maxVersion&gt;
+            &lt;bitness&gt;&lt;/bitness&gt;
+         &lt;/validVersion&gt;
+         &lt;validVersion&gt;
+            &lt;vendor&gt;ibm&lt;/vendor&gt;
+            &lt;minVersion&gt;1.3&lt;/minVersion&gt;
+            &lt;maxVersion&gt;&lt;/maxVersion&gt;
+            &lt;bitness&gt;32&lt;/bitness&gt;
+         &lt;/validVersion&gt;
+      &lt;/validVersionList&gt;
+   &lt;/autodetectJava&gt;</pre><p>Upon successful autodetection, the following installer variables will be created:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>java_executable</strong></span>: Path to the java command line binary (java.exe in Windows). For example <code class="literal">/usr/bin/java</code>, <code class="literal">C:\Program Files\Java\j2re1.4.2_03\java.exe</code>.
+</li><li class="listitem">
+<span class="strong"><strong>javaw_executable</strong></span>: Path to javaw.exe binary, if found. Otherwise defaults to the value of <code class="literal">java_executable</code>.
+</li><li class="listitem">
+<span class="strong"><strong>java_version</strong></span>: For example, 1.4.2_03
+</li><li class="listitem">
+<span class="strong"><strong>java_version_major</strong></span>: For example, 1.4
+</li><li class="listitem">
+<span class="strong"><strong>java_vendor</strong></span>:  sun or ibm.
+</li><li class="listitem">
+<span class="strong"><strong>java_autodetected</strong></span>: Set to 1
+</li><li class="listitem">
+<span class="strong"><strong>java_bitness</strong></span>: 32 or 64.
+</li></ul></div><p>It the autodetection is not successful, the variable <code class="literal">${java_autodetected}</code> will be set to 0 and the action will throw an error, which can be masked by setting <code class="literal">abortOnError="0"</code> and <code class="literal">showMessageOnError="0"</code> int he action.</p><p>The installer will look for valid JREs in the following places and select the first one that meets all of the requirements:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Standard installation paths.
+</li><li class="listitem">
+Windows Registry, default environment <code class="literal">PATH</code>.
+</li><li class="listitem">
+Using <code class="literal">JAVA_HOME</code>, <code class="literal">JAVAHOME</code> or <code class="literal">JDK_HOME</code> environment variables, if present.
+</li></ul></div><p>The default behavior of the <a class="link" href="apa.html#autodetectJava"><code class="literal">&lt;autodetectJava&gt;</code></a> action is to automatically pick one of the detected versions. However, it is possible to display a choice dialog to allow the user select which one he would like to use by setting <a class="link" href="apa.html#autodetectJava.promptUser"><code class="literal">&lt;promptUser&gt;</code></a> to <code class="literal">1</code>. You can specify the order in which the versions detected will be displayed using the <a class="link" href="apa.html#autodetectJava.selectionOrder"><code class="literal">&lt;selectionOrder&gt;</code></a> tag. It allows <code class="literal">first</code>, to display the versions in the same order they were detected, <code class="literal">newest</code>, to list newer versions first and <code class="literal">oldest</code>, to display older versions first. The value defined in the <a class="link" href="apa.html#autodetectJava.selectionOrder"><code class="literal">&lt;selectionOrder&gt;</code></a> will also determine which version will be returned by default when <a class="link" href="apa.html#autodetectJava.promptUser"><code class="literal">&lt;promptUser&gt;</code></a> is set to 0.</p><p>For example, the below code will pick the newest Java version in the machine automatically and won’t report an error if none is available:</p><p><a id="snip5936858"></a></p><pre class="programlisting">   &lt;autodetectJava&gt;
+      &lt;abortOnError&gt;0&lt;/abortOnError&gt;
+      &lt;showMessageOnError&gt;0&lt;/showMessageOnError&gt;
+      &lt;promptUser&gt;0&lt;/promptUser&gt;
+      &lt;selectionOrder&gt;newest&lt;/selectionOrder&gt;
+      &lt;validVersionList&gt;
+         &lt;validVersion&gt;
+            &lt;vendor&gt;&lt;/vendor&gt;
+            &lt;minVersion&gt;&lt;/minVersion&gt;
+            &lt;maxVersion&gt;&lt;/maxVersion&gt;
+         &lt;/validVersion&gt;
+      &lt;/validVersionList&gt;
+   &lt;/autodetectJava&gt;</pre><p>When you do not have any requirement for the Java version, instead of providing a <a class="link" href="apg.html#validVersion"><code class="literal">&lt;validVersion&gt;</code></a> with all of its fields set to empty, you can just omit the <a class="link" href="apg.html#validVersionList"><code class="literal">&lt;validVersionList&gt;</code></a>. The above code is then equivalent to the following:</p><p><a id="snip786262"></a></p><pre class="programlisting">   &lt;autodetectJava selectionOrder="newest" promptUser="0"/&gt;</pre><p>You can also combine the autodetection with a <a class="link" href="apa.html#httpGet"><code class="literal">&lt;httpGet&gt;</code></a> action and download the runtime if it is not available in the system:</p><p><a id="snip4707255"></a></p><pre class="programlisting"> &lt;!-- Set abortOnError="0" and showMessageOnError="0" so the action does not report any error
+ if Java is not detected --&gt;
+ &lt;autodetectJava selectionOrder="newest" promptUser="0" abortOnError="0" showMessageOnError="0"/&gt;
+ &lt;actionGroup&gt;
+    &lt;actionList&gt;
+      &lt;actionGroup&gt;
+         &lt;actionList&gt;
+            &lt;showProgressDialog&gt;
+              &lt;title&gt;Downloading files&lt;/title&gt;
+              &lt;actionList&gt;
+                &lt;httpGet&gt;
+                  &lt;filename&gt;${installdir}/java.tar.gz&lt;/filename&gt;
+                  &lt;url&gt;http://www.example.com/downloads/java/1.6/jre1.6.0_24-linux.tar.gz&lt;/url&gt;
+                &lt;/httpGet&gt;
+              &lt;/actionList&gt;
+            &lt;/showProgressDialog&gt;
+            &lt;runProgram&gt;
+              &lt;program&gt;tar&lt;/program&gt;
+              &lt;programArguments&gt;xzf ${installdir}/java.tar.gz -C ${installdir}&lt;/programArguments&gt;
+            &lt;/runProgram&gt;
+         &lt;/actionList&gt;
+         &lt;ruleList&gt;
+            &lt;platformTest type="linux"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/actionGroup&gt;
+      &lt;actionGroup&gt;
+         &lt;actionList&gt;
+            &lt;showProgressDialog&gt;
+              &lt;title&gt;Downloading files&lt;/title&gt;
+              &lt;actionList&gt;
+                &lt;httpGet&gt;
+                  &lt;filename&gt;${installdir}/java.exe&lt;/filename&gt;
+                  &lt;url&gt;http://www.example.com/downloads/java/1.6/jre1.6.0_24-windows.exe&lt;/url&gt;
+                &lt;/httpGet&gt;
+              &lt;/actionList&gt;
+            &lt;/showProgressDialog&gt;
+            &lt;runProgram&gt;
+              &lt;program&gt;${installdir}/java.exe&lt;/program&gt;
+              &lt;programArguments&gt;/s INSTALLDIR="${installdir.dos}\JRE" REBOOT=Suppress&lt;/programArguments&gt;
+            &lt;/runProgram&gt;
+         &lt;/actionList&gt;
+         &lt;ruleList&gt;
+            &lt;platformTest type="windows"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/actionGroup&gt;
+    &lt;/actionList&gt;
+    &lt;ruleList&gt;
+       &lt;isFalse value="${java_autodetected}"/&gt;
+    &lt;/ruleList&gt;
+ &lt;/actionGroup&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_bundling_a_jre"></a>18.2. Bundling a JRE</h3></div></div></div><p>BitRock InstallBuilder can be used to package Java-based applications that provide their own Java Runtime Environment (JRE).
+You can download ready to use components containing a JRE and InstallBuilder component from the following location:</p><p><a class="ulink" href="http://installbuilder.bitrock.com/java/" target="_top">http://installbuilder.bitrock.com/java/</a></p><p>These components provide the following features:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Deployment of JRE or JDK
+</li><li class="listitem">
+Creating a Java launcher binary that runs a specified JAR file
+</li><li class="listitem">
+For Microsoft Windows, automatically creating a Start Menu entry for the launcher
+</li></ul></div><p>Java Runtime Environments are provided as a ZIP archive. Each archive contains JRE binaries as well as a Java component XML file that contains the packing and installation logic for the application.</p><p>Each archive contains a directory structure similar to:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">jre1.6.0_18-windows</code> - base directory; this name depends on JRE version and platform
+</li><li class="listitem">
+<code class="literal">jre1.6.0_18-windows/java.xml</code> - Java component definition
+</li><li class="listitem">
+<code class="literal">jre1.6.0_18-windows/java-windows</code> - JRE binaries for Microsoft Windows
+</li></ul></div><p>You will need to unpack the zip file and use an <code class="literal">&lt;include&gt;</code> tag to reference the Java component XML file. By default, the names of the launcher and the start menu entry are the project <code class="literal">&lt;shortName&gt;</code> and <code class="literal">&lt;fullName&gt;</code>. You will need to provide a path to your application JAR using the <code class="literal">java_launcher_jar</code> variable.</p><p>The example below shows a project packaging a Java module for an application <code class="literal">Sampleapp.jar</code>.</p><pre class="programlisting">&lt;project&gt;
+  &lt;shortName&gt;samplejavaapp&lt;/shortName&gt;
+  &lt;fullName&gt;Sample Java Application&lt;/fullName&gt;
+  &lt;componentList&gt;
+    &lt;!-- application's component(s) - i.e. "default" created by installbuilder GUI --&gt;
+    &lt;component&gt;
+      &lt;name&gt;default&lt;/name&gt;
+      &lt;description&gt;Default Component&lt;/description&gt;
+      &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+      &lt;selected&gt;1&lt;/selected&gt;
+      &lt;show&gt;1&lt;/show&gt;
+      ...
+    &lt;/component&gt;
+
+    &lt;!-- include Java component XML definition --&gt;
+    &lt;include file="/path/to/jre_package/java.xml"/&gt;
+  &lt;/componentList&gt;
+
+  &lt;!-- set up variables for Java component --&gt;
+  &lt;initializationActionList&gt;
+    &lt;setInstallerVariable&gt;
+      &lt;name&gt;java_launcher_jar&lt;/name&gt;
+      &lt;value&gt;Sampleapp.jar&lt;/value&gt;
+    &lt;/setInstallerVariable&gt;
+  &lt;/initializationActionList&gt;
+&lt;/project&gt;</pre><p>All of the logic for deploying the JRE, creating the Java launchers and adding shortcuts in start menu is handled by the Java component definition in <code class="literal">java.xml</code>.</p><p>Each JRE contains Java binaries for a single platform. It is possible to create a single project that ships binaries for multiple platforms by copying binaries for needed platforms into a single directory. Its structure needs to be as follows:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">jre1.6.0_18</code> - base directory; can be any name, but it is recommended to name it using versions of the JRE
+</li><li class="listitem">
+<code class="literal">jre1.6.0_18/java.xml</code> - Java component definition
+</li><li class="listitem">
+<code class="literal">jre1.6.0_18-windows/java-windows</code> - JRE binaries for Microsoft Windows (32bit or 64bit)
+</li><li class="listitem">
+<code class="literal">jre1.6.0_18-windows/java-linux</code> - JRE binaries for Linux (32bit)
+</li><li class="listitem">
+<code class="literal">jre1.6.0_18-windows/java-linux-x64</code> - JRE binaries for Linux (64bit)
+</li></ul></div><p>Java component deployment can be customized to fit an application’s needs. The following variables are used by <code class="literal">java.xml</code>:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>java_launcher_destination</strong></span> - defines the destination where Java launcher should be created; defaults to <code class="literal">${installdir}</code>
+</li><li class="listitem">
+<span class="strong"><strong>java_launcher_binary_name</strong></span> - name of the launcher binary; defaults to <code class="literal">${project.shortName}-launcher.${platform_exec_suffix}</code>
+</li><li class="listitem">
+<span class="strong"><strong>java_launcher_arguments</strong></span> - command line arguments to pass to the launcher; defaults to empty string
+</li><li class="listitem">
+<span class="strong"><strong>java_launcher_vm_parameters</strong></span> - additional parameters to pass to the Java VM; defaults to empty string
+</li><li class="listitem">
+<span class="strong"><strong>java_launcher_jar</strong></span> - JAR file to use; defaults to empty string
+</li><li class="listitem">
+<span class="strong"><strong>java_launcher_mainClass</strong></span> - JAR file to use; defaults to empty string
+</li><li class="listitem">
+<span class="strong"><strong>java_launcher_classpath</strong></span> - classpath to pass to Java, comma separated regardless of target platform; defaults to empty string
+</li><li class="listitem">
+<span class="strong"><strong>java_launcher_startmenu_shortcut_name</strong></span> - name for the start menu shortcut on Microsoft Windows; defaults to <code class="literal">Launch ${project.fullName}</code>
+</li><li class="listitem">
+<span class="strong"><strong>java_launcher_add_to_win_startmenu</strong></span> - whether the start menu item should be created on Microsoft Windows; defaults to 1
+</li><li class="listitem">
+<span class="strong"><strong>java_install_jre</strong></span> - whether the JRE should be installed and used by default by the launcher binary; defaults to 1
+</li></ul></div><p>The <code class="literal">java_launcher_jar</code>, <code class="literal">java_launcher_mainClass</code> and <code class="literal">java_launcher_classpath</code> variables specify how the launcher should run the application. If a <code class="literal">java_launcher_jar</code> is specified, the <code class="literal">java -jar</code> command is used to run the application. Otherwise <code class="literal">java</code> is run by specifying the class path and main class to run.</p><p>These variables map to the <code class="literal">&lt;jarFile&gt;</code>, <code class="literal">&lt;classpath&gt;</code> and <code class="literal">&lt;mainClass&gt;</code> attributes for <code class="literal">&lt;createLaunchers&gt;</code> action. This action is described in more detail in the next section.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="java_launchers_section"></a>18.3. Launchers</h3></div></div></div><p>Java (tm) launchers are binaries that allow running Java-based applications as if they were native. They work by locating an installed JRE in the target machine or using one provided to launch a Java application with the right options.</p><p>Java Launchers are created using the <a class="link" href="apa.html#createJavaLaunchers"><code class="literal">&lt;createJavaLaunchers&gt;</code></a> action. It allows creating multiple launchers in the specified destination, configurable through the <a class="link" href="ape.html#destination"><code class="literal">&lt;destination&gt;</code></a> tag. These launchers are added in its &lt;javaLauncherList&gt;. A launcher is specified using the <a class="link" href="apg.html#javaLauncher"><code class="literal">&lt;javaLauncher&gt;</code></a> tag.</p><p>The target file name for the launched application is specified in <a class="link" href="apg.html#binaryName"><code class="literal">&lt;binaryName&gt;</code></a>. The extension .exe is automatically appended on the Windows operating systems.</p><p>The details of how to run the Java application are provided using the tags <a class="link" href="apg.html#classpath"><code class="literal">&lt;classpath&gt;</code></a>, <a class="link" href="apg.html#mainClass"><code class="literal">&lt;mainClass&gt;</code></a> and <a class="link" href="apg.html#jarFile"><code class="literal">&lt;jarFile&gt;</code></a> where <a class="link" href="apg.html#jarFile"><code class="literal">&lt;jarFile&gt;</code></a> takes precedence if it is specified. If a <a class="link" href="apg.html#jarFile"><code class="literal">&lt;jarFile&gt;</code></a> is provided, the JRE is called with the <code class="literal">-jar</code> option to execute it and <a class="link" href="apg.html#classpath"><code class="literal">&lt;classpath&gt;</code></a> and <a class="link" href="apg.html#mainClass"><code class="literal">&lt;mainClass&gt;</code></a> are ignored. If <a class="link" href="apg.html#jarFile"><code class="literal">&lt;jarFile&gt;</code></a> is empty, the <a class="link" href="apg.html#classpath"><code class="literal">&lt;classpath&gt;</code></a> is configured with the <code class="literal">-cp</code> flag and the <a class="link" href="apg.html#mainClass"><code class="literal">&lt;mainClass&gt;</code></a> is passed as name of the class to run. Regardless of the operating system, paths in <a class="link" href="apg.html#classpath"><code class="literal">&lt;classpath&gt;</code></a> are semi-colon separated.</p><p>The <a class="link" href="apg.html#arguments"><code class="literal">&lt;arguments&gt;</code></a> tag specifies the arguments to pass to the Java application. Additional arguments can be passed to the launcher (that will in turn pass them to the Java application) through the command line if the <a class="link" href="apg.html#allowCommandLineArguments"><code class="literal">&lt;allowCommandLineArguments&gt;</code></a> tag enables it. These additional arguments will be appended after the predefined <a class="link" href="apg.html#arguments"><code class="literal">&lt;arguments&gt;</code></a>.</p><p>The example below shows how to create two launchers at the end of the installation:</p><p><a id="snip4843669"></a></p><pre class="programlisting">&lt;postInstallationActionList&gt;
+  &lt;createJavaLaunchers&gt;
+    &lt;destination&gt;${installdir}/javalaunchers&lt;/destination&gt;
+    &lt;javaLauncherList&gt;
+      &lt;!-- A launcher to call the com.bitrock.testapplication.MainClass
+      class, looking for it in the testapplication.jar;additional.jar files --&gt;
+      &lt;javaLauncher&gt;
+        &lt;arguments&gt;&lt;/arguments&gt;
+        &lt;binaryName&gt;launcher1&lt;/binaryName&gt;
+        &lt;classpath&gt;testapplication.jar;additional.jar&lt;/classpath&gt;
+        &lt;mainClass&gt;com.bitrock.testapplication.MainClass&lt;/mainClass&gt;
+        &lt;allowCommandLineArguments&gt;1&lt;/allowCommandLineArguments&gt;
+        &lt;preferredJavaBinary&gt;&lt;/preferredJavaBinary&gt;
+        &lt;runInConsole&gt;1&lt;/runInConsole&gt;
+        &lt;workingDirectory&gt;${installdir}/javalaunchers&lt;/workingDirectory&gt;
+      &lt;/javaLauncher&gt;
+      &lt;!-- A launcher to call the testapplication.jar file --&gt;
+      &lt;javaLauncher&gt;
+        &lt;binaryName&gt;launcher2&lt;/binaryName&gt;
+        &lt;jarFile&gt;testapplication.jar&lt;/jarFile&gt;
+        &lt;mainClass&gt;&lt;/mainClass&gt;
+        &lt;allowCommandLineArguments&gt;1&lt;/allowCommandLineArguments&gt;
+        &lt;preferredJavaBinary&gt;&lt;/preferredJavaBinary&gt;
+        &lt;runInConsole&gt;1&lt;/runInConsole&gt;
+        &lt;vmParameters&gt;&lt;/vmParameters&gt;
+      &lt;/javaLauncher&gt;
+    &lt;/javaLauncherList&gt;
+  &lt;/createJavaLaunchers&gt;
+&lt;/postInstallationActionList&gt;</pre><p>This will create two test launchers. The first one, <code class="literal">testlauncher1</code> (or <code class="literal">testlauncher1.exe</code> on Windows) will run Java using <code class="literal">-cp</code> flags and specifying a main class name. The binary <code class="literal">testlauncher2</code> will run Java using the <code class="literal">-jar</code> option and Java will read the main class from the JAR file’s <span class="strong"><strong>MANIFEST.MF</strong></span> file.</p><p>The file names of the generated launchers are also automatically added to the uninstaller. They will be deleted when the uninstaller is run.</p><p>By default, Java launchers will use the default Java available on the system. It is also possible to set specific Java versions that it will accept. The <a class="link" href="apa.html#autodetectJava.validVersionList"><code class="literal">&lt;validVersionList&gt;</code></a> can be used to specify these accepted versions. It works as explained in the <a class="link" href="ar01s18.html#java_autodetection" title="18.1. Java Specific Actions">Java autodetection</a> section.</p><p>The following example defines a launcher that will use any Sun Microsystems JRE 1.3 or newer (for example, 1.3, 1.4, 1.5) or any IBM JRE with version number equal or greater than 1.4.2 but inside the 1.4 series (for example, 1.5 will not be accepted as valid):</p><p><a id="snip7558587"></a></p><pre class="programlisting">      &lt;javaLauncher&gt;
+        &lt;arguments&gt;&lt;/arguments&gt;
+        &lt;binaryName&gt;launcher2&lt;/binaryName&gt;
+        &lt;classpath&gt;&lt;/classpath&gt;
+        &lt;jarFile&gt;testapplication.jar&lt;/jarFile&gt;
+        &lt;validVersionList&gt;
+          &lt;validVersion&gt;
+            &lt;minVersion&gt;1.4.2&lt;/minVersion&gt;
+            &lt;maxVersion&gt;1.4&lt;/maxVersion&gt;
+          &lt;/validVersion&gt;
+          &lt;validVersion&gt;
+            &lt;vendor&gt;ibm&lt;/vendor&gt;
+            &lt;minVersion&gt;1.3&lt;/minVersion&gt;
+            &lt;maxVersion&gt;&lt;/maxVersion&gt;
+          &lt;/validVersion&gt;
+        &lt;/validVersionList&gt;
+      &lt;/javaLauncher&gt;</pre><p>On Windows systems the launcher executable resource information can be configured:</p><p><a id="snip7173767"></a></p><pre class="programlisting">  &lt;createJavaLaunchers&gt;
+    &lt;destination&gt;${installdir}/javalaunchers&lt;/destination&gt;
+    &lt;javaLauncherList&gt;
+      &lt;javaLauncher&gt;
+        &lt;binaryName&gt;launcher1&lt;/binaryName&gt;
+        &lt;classpath&gt;testapplication.jar;additional.jar&lt;/classpath&gt;
+        &lt;mainClass&gt;com.bitrock.testapplication.MainClass&lt;/mainClass&gt;
+        ...
+        &lt;windowsResourceFileVersion&gt;1.0.0.0&lt;/windowsResourceFileVersion&gt;
+        &lt;windowsResourceLegalCopyright&gt;Test Launcher 1&lt;/windowsResourceLegalCopyright&gt;
+        &lt;windowsResourceLegalTrademarks&gt;(c) 2010 Bitrock S.L.&lt;/windowsResourceLegalTrademarks&gt;
+        &lt;windowsResourceOriginalFilename&gt;launcher1.exe&lt;/windowsResourceOriginalFilename&gt;
+        &lt;windowsResourceProductName&gt;Test launcher 1&lt;/windowsResourceProductName&gt;
+        &lt;windowsResourceProductVersion&gt;1.0&lt;/windowsResourceProductVersion&gt;
+        &lt;workingDirectory&gt;${installdir}/javalaunchers&lt;/workingDirectory&gt;
+      &lt;/javaLauncher&gt;
+   &lt;/javaLauncherList&gt;
+  &lt;/createJavaLaunchers&gt;</pre><p>In addition, it is possible to specify an icon file to use. It must point to an existing file in the target machine at the time the <a class="link" href="apa.html#createJavaLaunchers"><code class="literal">&lt;createJavaLaunchers&gt;</code></a> action is executed. If not specified,
+the default icon for the launchers will be the same as the icon for the installer.</p><p>Windows launchers can also request running with administrative privileges using the <a class="link" href="apd.html#requestedExecutionLevel"><code class="literal">&lt;requestedExecutionLevel&gt;</code></a> tag. This is necessary for Windows Vista and Windows 7 operating systems where UAC may prevent some operations if the Java process is not elevated. It accepts the following values:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>requireAdministrator</strong></span> - Require administrator
+</li><li class="listitem">
+<span class="strong"><strong>asInvoker</strong></span> - As invoker
+</li><li class="listitem">
+<span class="strong"><strong>highestAvailable</strong></span> - Highest available
+</li></ul></div><p>The example below covers using the <code class="literal">launcher.ico</code> file as the binary icon, which is located in the installation directory, and requires being administrator on UAC-enabled systems:</p><p><a id="snip9517231"></a></p><pre class="programlisting">      &lt;javaLauncher&gt;
+        &lt;arguments&gt;&lt;/arguments&gt;
+        &lt;binaryName&gt;launcher2&lt;/binaryName&gt;
+        &lt;classpath&gt;&lt;/classpath&gt;
+        &lt;jarFile&gt;testapplication.jar&lt;/jarFile&gt;
+        &lt;windowsExecutableIcon&gt;${installdir}/launcher.ico&lt;/windowsExecutableIcon&gt;
+        &lt;requestedExecutionLevel&gt;requireAdministrator&lt;/requestedExecutionLevel&gt;
+      &lt;/javaLauncher&gt;</pre><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p>Regardless of the operating system, paths in <code class="literal">&lt;classpath&gt;</code> are semi-colon separated.</p></td></tr></table></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s17.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s19.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">17. File associations </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 19. Regular expressions</td></tr></table></div></body></html>

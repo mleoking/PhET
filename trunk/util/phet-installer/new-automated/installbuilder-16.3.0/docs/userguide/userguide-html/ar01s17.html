@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>17. File associations</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s16.html" title="16. Code Signing" /><link rel="next" href="ar01s18.html" title="18. Java" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">17. File associations</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s16.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s18.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_file_associations"></a>17. File associations</h2></div></div></div><p>In some scenarios is necessary to register a new file extension to be opened with the installed application or to modify an existing one. This section explains how to achieve this in the most common platforms.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_windows_file_associations"></a>17.1. Windows file associations</h3></div></div></div><p>On Windows, InstallBuilder includes a built-in action to register new file extensions, <a class="link" href="apa.html#associateWindowsFileExtension"><code class="literal">&lt;associateWindowsFileExtension&gt;</code></a>.</p><p>The code below creates a new extension named <code class="literal">.myextension</code> and associates it to the yourprogram.exe application:</p><p><a id="snip841765"></a></p><pre class="programlisting">&lt;associateWindowsFileExtension&gt;
+    &lt;extensions&gt;.myextension&lt;/extensions&gt;
+    &lt;progID&gt;mycompany.package.4&lt;/progID&gt;
+    &lt;icon&gt;${installdir}\images\myicon.ico&lt;/icon&gt;
+    &lt;mimeType&gt;example/mycompany-package-myextension&lt;/mimeType&gt;
+    &lt;commandList&gt;
+        &lt;!-- Defining the 'Open' command --&gt;
+        &lt;command&gt;
+            &lt;verb&gt;Open&lt;/verb&gt;
+            &lt;runProgram&gt;${installdir}\yourprogram.exe&lt;/runProgram&gt;
+            &lt;runProgramArguments&gt;"%1"&lt;/runProgramArguments&gt;
+        &lt;/command&gt;
+    &lt;/commandList&gt;
+&lt;/associateWindowsFileExtension&gt;</pre><p>Where its tags are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#associateWindowsFileExtension.icon"><code class="literal">&lt;icon&gt;</code></a>: Path to the icon file that contains the icon to display.
+</li><li class="listitem">
+<a class="link" href="apa.html#associateWindowsFileExtension.friendlyName"><code class="literal">&lt;friendlyName&gt;</code></a>: Friendly Name for the progID.
+</li><li class="listitem">
+<a class="link" href="apa.html#associateWindowsFileExtension.commandList"><code class="literal">&lt;commandList&gt;</code></a>: List of commands that can be invoked on each given file type.
+</li><li class="listitem">
+<a class="link" href="apa.html#associateWindowsFileExtension.extensions"><code class="literal">&lt;extensions&gt;</code></a>: Space-separated list of extensions for which the given commands will be available.
+</li><li class="listitem">
+<a class="link" href="apa.html#associateWindowsFileExtension.progID"><code class="literal">&lt;progID&gt;</code></a>: Programmatic Identifier to which the extensions are attached, contains the available commands to be invoked on each file type. The proper format of a <code class="literal">&lt;progID&gt;</code> key name is <code class="literal">[Vendor or Application].[Component].[Version]</code>, separated by periods and with no spaces, as in <code class="literal">Word.Document.6</code>. The Version portion is optional but strongly recommended.
+</li><li class="listitem">
+<a class="link" href="apa.html#associateWindowsFileExtension.mimeType"><code class="literal">&lt;mimeType&gt;</code></a>: MIME type associated to all the file extensions.
+</li></ul></div><p>For each list of extensions defined, you can add multiple commands to execute. The example creates a new command with verb "Open" (it will be displayed in the right-click contextual menu) that will call the <code class="literal">${installdir}\yourprogram.exe</code> passing the file to open as an argument.</p><p>The <code class="literal">&lt;runProgramArguments&gt;</code> tag allow some specifiers, like the <code class="literal">%1</code> in the example:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>%1</strong></span> : is replaced by the short name of the file being executed
+</li><li class="listitem">
+<span class="strong"><strong>%L</strong></span> : is replaced by the long name
+</li><li class="listitem">
+<span class="strong"><strong>%</strong></span>* : is replaced by the name of any arguments to the file
+</li></ul></div><p>InstallBuilder also includes an action to remove the association in the uninstaller:</p><p><a id="snip7559130"></a></p><pre class="programlisting">&lt;removeWindowsFileAssociation&gt;
+  &lt;extensions&gt;.myextension&lt;/extensions&gt;
+  &lt;progID&gt;mycompany.package.4&lt;/progID&gt;
+  &lt;mimeType&gt;example/mycompany-package-myextension&lt;/mimeType&gt;
+&lt;/removeWindowsFileAssociation&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_linux_file_associations"></a>17.2. Linux file associations</h3></div></div></div><p>Linux systems use the XDG standard. This way you can abstract from the Desktop environment your customer is running if it supports the standard.</p><p>The process to create a new file association is more verbose than the Windows process but it is still pretty straight forward.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Create a new mime-type: This is only necessary if you are creating a new extension. If you are assigning an existing extension, you can skip this part. The first step is to create an XML file describing the new mime type:
+</li></ul></div><pre class="screen">&lt;!-- bitock-x-my-mime.xml file --&gt;
+&lt;?xml version="1.0"?&gt;
+&lt;mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'&gt;
+  &lt;mime-type type="application/x-my-mime"&gt;
+    &lt;comment&gt;My new file type&lt;/comment&gt;
+    &lt;glob pattern="*.mymime"/&gt;
+  &lt;/mime-type&gt;
+&lt;/mime-info&gt;</pre><p>The above file describes your new mime type, <code class="literal">application/x-my-mime</code>, associated with the extension <code class="literal">.mymime</code>.</p><p>Once you have the file ready, it must be registered using the <code class="literal">XDG</code> tools:</p><pre class="programlisting">$&gt; xdg-mime install /path/to/bitock-x-my-mime.xml</pre><p>The filename must start with the vendor, followed by a dash. This information is used to prevent conflicts. It could also be skipped adding the <code class="literal">--novendor</code> flag.</p><p>The process can be also automated with InstallBuilder:</p><p><a id="snip6302445"></a></p><pre class="programlisting">   &lt;actionGroup&gt;
+     &lt;actionList&gt;
+        &lt;writeFile&gt;
+           &lt;path&gt;${installdir}/${project.vendor}-x-my-mime.xml&lt;/path&gt;
+           &lt;!-- The CDATA notation allow escaping a
+            block of XML characters --&gt;
+           &lt;text&gt;&lt;![CDATA[
+&lt;!-- bitock-x-my-mime.xml file --&gt;
+&lt;?xml version="1.0"?&gt;
+&lt;mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'&gt;
+  &lt;mime-type type="application/x-my-mime"&gt;
+    &lt;comment&gt;My new file type&lt;/comment&gt;
+    &lt;glob pattern="*.mymime"/&gt;
+  &lt;/mime-type&gt;
+&lt;/mime-info&gt;
+           ]]&gt;&lt;/text&gt;
+        &lt;/writeFile&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;xdg-mime&lt;/program&gt;
+            &lt;programArguments&gt;install ${installdir}/${project.vendor}-x-my-mime.xml&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+     &lt;/actionList&gt;
+   &lt;/actionGroup&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Create a <code class="literal">.desktop</code> file for your application: The file can be created under <code class="literal">~/.local/share/applications/</code> (for one user) or <code class="literal">/usr/share/applications</code> (for all users):
+</li></ul></div><p><a id="snip5193321"></a></p><pre class="programlisting">  &lt;writeFile&gt;
+    &lt;path&gt;~/.local/share/applications/yourApplication.desktop&lt;/path&gt;
+    &lt;encoding&gt;utf-8&lt;/encoding&gt;
+    &lt;text&gt;
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Your App
+GenericName=Your App
+Comment=Your Registered Application
+Exec=${installdir}/yourApplication.bin
+Terminal=false
+Type=Application
+Categories=Application;Utility;TextEditor;
+MimeType=application/x-my-mime
+    &lt;/text&gt;
+  &lt;/writeFile&gt;</pre><p>The new application must specify support for your mime type in the <code class="literal">MimeType</code> key.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Make the new registered application the default for your extension:
+</li></ul></div><p><a id="snip4154177"></a></p><pre class="programlisting"> &lt;runProgram&gt;
+   &lt;program&gt;xdg-mime&lt;/program&gt;
+   &lt;programArguments&gt;default yourApplication.desktop application/x-my-mime&lt;/programArguments&gt;
+ &lt;/runProgram&gt;</pre><p>To reverse the new register association in the uninstaller, add the code below to your project:</p><p><a id="snip9263684"></a></p><pre class="programlisting">&lt;preUninstallationActionList&gt;
+  &lt;runProgram&gt;
+   &lt;program&gt;xdg-mime&lt;/program&gt;
+   &lt;programArguments&gt;uninstall ${installdir}/${project.vendor}-x-my-mime.xml&lt;/programArguments&gt;
+ &lt;/runProgram&gt;
+ &lt;deleteFile path="~/.local/share/applications/yourApplication.desktop"/&gt;
+&lt;/preUninstallationActionList&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_os_x_file_associations"></a>17.3. OS X file associations</h3></div></div></div><p>On OS X, associating an extension with an installed application is as easy as executing:</p><pre class="programlisting">$&gt; defaults write com.apple.LaunchServices LSHandlers -array-add "&lt;dict&gt;&lt;key&gt;LSHandlerContentTag&lt;/key&gt;
+&lt;string&gt;myextension&lt;/string&gt;&lt;key&gt;LSHandlerContentTagClass&lt;/key&gt;
+&lt;string&gt;public.filename-extension&lt;/string&gt;&lt;key&gt;LSHandlerRoleAll&lt;/key&gt;
+&lt;string&gt;com.yourVendor.yourApplication&lt;/string&gt;&lt;/dict&gt;"
+
+$&gt; /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -domain local -domain system -domain user</pre><p>Where the extension (<code class="literal">myextension</code>) must be provided without any leading dot and com.yourVendor.yourApplication is the <code class="literal">CFBundleIdentifier</code> key of your application (configured in its Info.plist file).</p><p>The below code performs the same process using InstallBuilder:</p><p><a id="snip4744415"></a></p><pre class="programlisting">   &lt;actionGroup&gt;
+     &lt;actionList&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;defaults&lt;/program&gt;
+           &lt;!-- The CDATA notation allow escaping a
+            block of XML characters --&gt;
+           &lt;programArguments&gt;write com.apple.LaunchServices LSHandlers -array-add &lt;![CDATA["&lt;dict&gt;&lt;key&gt;LSHandlerContentTag&lt;/key&gt;
+&lt;string&gt;myextension&lt;/string&gt;&lt;key&gt;LSHandlerContentTagClass&lt;/key&gt;
+&lt;string&gt;public.filename-extension&lt;/string&gt;&lt;key&gt;LSHandlerRoleAll&lt;/key&gt;
+&lt;string&gt;com.yourVendor.yourApplication&lt;/string&gt;&lt;/dict&gt;"
+           ]]&gt;&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+        &lt;!-- Restart the launch services to reload the configuration --&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister&lt;/program&gt;
+            &lt;programArguments&gt;-kill -domain local -domain system -domain user&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+     &lt;/actionList&gt;
+   &lt;/actionGroup&gt;</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s16.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s18.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">16. Code Signing </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 18. Java</td></tr></table></div></body></html>

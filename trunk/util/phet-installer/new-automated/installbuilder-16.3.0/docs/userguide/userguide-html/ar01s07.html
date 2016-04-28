@@ -1,0 +1,859 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>7. User Input</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s06.html" title="6. Working with Files and Folders" /><link rel="next" href="ar01s08.html" title="8. Actions" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7. User Input</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s06.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s08.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="userinput"></a>7. User Input</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="parameters"></a>7.1. Parameters</h3></div></div></div><p>In most cases, you will need to request some information from your end users, such as the installation directory or username and password. For this purpose, InstallBuilder allows the creation of custom pages, which make it easy to request and validate user input. In addition, the provided information will automatically be stored in installer variables so it can be used later in the installation process, for example to pass it as arguments to a script in the post-installation. You can define such pages by adding parameters to the <a class="link" href="apd.html#parameterList"><code class="literal">&lt;parameterList&gt;</code></a> section in the XML project file.</p><p>There are different types of parameters: strings, booleans, option selection, and so on. Each one of them will be displayed to the user appropriately through the GUI and text interfaces. For example, a file parameter will be displayed with a graphical file selection button next to it and an option selection parameter will be displayed as a combobox. The parameters will also be available as command line options and as installer variables.</p><p><strong>Parameter example. </strong><a id="snip629527"></a></p><pre class="programlisting"> &lt;fileParameter&gt;
+     &lt;name&gt;apacheconfig&lt;/name&gt;
+     &lt;cliOptionName&gt;apacheconfig&lt;/cliOptionName&gt;
+     &lt;ask&gt;yes&lt;/ask&gt;
+     &lt;default&gt;/etc/httpd/conf/httpd.conf&lt;/default&gt;
+     &lt;title&gt;Configuring Apache&lt;/title&gt;
+     &lt;explanation&gt;Please specify the location of the Apache configuration file&lt;/explanation&gt;
+     &lt;description&gt;Apache Configuration File&lt;/description&gt;
+     &lt;mustBeWritable&gt;yes&lt;/mustBeWritable&gt;
+     &lt;mustExist&gt;1&lt;/mustExist&gt;
+     &lt;value&gt;&lt;/value&gt;
+ &lt;/fileParameter&gt;</pre><p>This will create the appropriate GUI screens for the graphical installers and make the parameter available as the command line option <code class="literal">--apacheconfig</code> and as the installer variable <code class="literal">${apacheconfig}</code>. It is also possible to have a different name for the command line flag and the internal variable name using the <a class="link" href="apc.html#parameter.cliOptionName"><code class="literal">&lt;cliOptionName&gt;</code></a> tag. For example, the <code class="literal">installdir</code> parameter (accessible using <code class="literal">${installdir}</code>) is usually mapped to the <code class="literal">--prefix</code> command line flag:</p><p><a id="snip465471"></a></p><pre class="programlisting"> &lt;directoryParameter&gt;
+   &lt;name&gt;installdir&lt;/name&gt;
+   ...
+   &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+   ...
+ &lt;/directoryParameter&gt;</pre><p>A number of fields are common across all parameters:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apc.html#parameter.name"><code class="literal">&lt;name&gt;</code></a>: Name of the parameter. This will be used to create the corresponding installer variable and command line option.
+Because of that, it may only contain alphanumeric characters.
+</li><li class="listitem">
+<a class="link" href="apc.html#parameter.value"><code class="literal">&lt;value&gt;</code></a>: Value for the parameter.
+</li><li class="listitem">
+<a class="link" href="apc.html#parameter.default"><code class="literal">&lt;default&gt;</code></a>: Default value, in case one is not specified by the user.
+</li><li class="listitem">
+<a class="link" href="apc.html#parameter.explanation"><code class="literal">&lt;explanation&gt;</code></a>: Long description for the parameter.
+</li><li class="listitem">
+<a class="link" href="apc.html#parameter.description"><code class="literal">&lt;description&gt;</code></a>: Short description for the parameter.
+</li><li class="listitem">
+<a class="link" href="apc.html#parameter.title"><code class="literal">&lt;title&gt;</code></a>: Title that will be displayed for the corresponding installer page. If none is specified, the <a class="link" href="apc.html#parameter.description"><code class="literal">&lt;description&gt;</code></a> field will be used instead.
+</li><li class="listitem">
+<a class="link" href="apc.html#parameter.cliOptionName"><code class="literal">&lt;cliOptionName&gt;</code></a>: Command line option associated with the parameter. If none is provided, it will default to the value of the <a class="link" href="apc.html#parameter.name"><code class="literal">&lt;name&gt;</code></a> field.
+</li><li class="listitem">
+<a class="link" href="apc.html#parameter.ask"><code class="literal">&lt;ask&gt;</code></a>: Whether or not to show the page to the end user (it can still be set through the command line interface). If it is set to <code class="literal">0</code>, the page not only won’t be displayed but also the associated command line option won’t appear in the help menu.
+</li><li class="listitem">
+<a class="link" href="apc.html#parameter.leftImage"><code class="literal">&lt;leftImage&gt;</code></a>: When using <code class="literal">&lt;style&gt;custom&lt;/style&gt;</code> inside the <a class="link" href="apd.html" title="D. Project Properties and Lists"><code class="literal">&lt;project&gt;</code></a> tag in your project file, it displays a custom PNG or GIF image at the left side of the installer page associated with this parameter. Its purpose is the same as the <a class="link" href="apd.html#leftImage"><code class="literal">&lt;leftImage&gt;</code></a> property inside the <a class="link" href="apd.html" title="D. Project Properties and Lists"><code class="literal">&lt;project&gt;</code></a> tag, but allows you set a different image for each parameter page.
+</li></ul></div><p>Each one of the fields can reference installer variables (<code class="literal">${project.fullName}</code>, <code class="literal">${installdir}</code>, and so on) that will be substituted at runtime.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Difference between the &lt;default&gt; and &lt;value&gt; tags"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Difference between the <code class="literal">&lt;default&gt;</code> and <code class="literal">&lt;value&gt;</code> tags</th></tr><tr><td align="left" valign="top"><p>The <a class="link" href="apc.html#parameter.default"><code class="literal">&lt;default&gt;</code></a> tag of a parameter is used when its <a class="link" href="apc.html#parameter.value"><code class="literal">&lt;value&gt;</code></a> is empty, either because it was configured that way or because the user set it. For example, for the parameter below:</p><p><a id="snip3175631"></a></p><pre class="programlisting">  &lt;directoryParameter&gt;
+     &lt;name&gt;installdir&lt;/name&gt;
+     &lt;value&gt;&lt;/value&gt;
+     &lt;description&gt;Installation Directory&lt;/description&gt;
+     &lt;explanation&gt;Please specify the directory where ${project.fullName} will be installed&lt;/explanation&gt;
+     &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+     &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+     &lt;ask&gt;yes&lt;/ask&gt;
+    &lt;mustBeWritable&gt;yes&lt;/mustBeWritable&gt;
+  &lt;/directoryParameter&gt;</pre><p>As <a class="link" href="apc.html#parameter.value"><code class="literal">&lt;value&gt;</code></a> is empty, the value displayed in the page will be configured in the <a class="link" href="apc.html#parameter.default"><code class="literal">&lt;default&gt;</code></a> field: <code class="literal">${platform_install_prefix}/${project.shortName}-${project.version}</code>. If the user manually set that value to empty, the installer will automatically restore it to its <a class="link" href="apc.html#parameter.default"><code class="literal">&lt;default&gt;</code></a> value when clicking next.</p><p>If you want to allow your users to provide an empty value but still display an initial value in the page, you should set <a class="link" href="apc.html#parameter.default"><code class="literal">&lt;default&gt;</code></a> to empty and use <a class="link" href="apc.html#parameter.value"><code class="literal">&lt;value&gt;</code></a> instead:</p><p><a id="snip2833336"></a></p><pre class="programlisting">  &lt;stringParameter&gt;
+     &lt;name&gt;customWelcome&lt;/name&gt;
+     &lt;value&gt;Welcome!!&lt;/value&gt;
+     &lt;description&gt;Introduce here the desired welcome message&lt;/description&gt;
+     &lt;default&gt;&lt;/default&gt;
+  &lt;/stringParameter&gt;</pre><p>This way, the user can provide an empty welcome message.</p></td></tr></table></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_configuring_parameters_at_runtime"></a>Configuring Parameters At Runtime</h4></div></div></div><p>Parameters can be configured at runtime by modifying their properties using the <a class="link" href="apa.html#setInstallerVariable"><code class="literal">&lt;setInstallerVariable&gt;</code></a> action as explained in the <a class="link" href="">Variables</a> section. Although any action list can be used, the recommended approach is to use their <a class="link" href="apc.html#parameter.preShowPageActionList"><code class="literal">&lt;preShowPageActionList&gt;</code></a> and <code class="literal">&lt;posShowPageActionList&gt;</code> action lists, when possible:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apc.html#parameter.preShowPageActionList"><code class="literal">&lt;preShowPageActionList&gt;</code></a>: This Action List is executed right before displaying the page containing the parameter. It is really useful to modify the information displayed. For example, if you are working to implement a summary page using a <a class="link" href="apc.html#labelParameter"><code class="literal">&lt;labelParameter&gt;</code></a>, you should construct the information in its <code class="literal">&lt;preShowPageActionList&gt;</code>:
+</li></ul></div><p><a id="snip9887258"></a></p><pre class="programlisting">  &lt;labelParameter&gt;
+     &lt;name&gt;summary&lt;/name&gt;
+     &lt;title&gt;Summary&lt;/title&gt;
+     &lt;explanation&gt;&lt;/explanation&gt;
+     &lt;preShowPageActionList&gt;
+        &lt;setInstallerVariable&gt;
+           &lt;name&gt;text&lt;/name&gt;
+           &lt;value&gt;You are about to install ${project.fullName}.
+
+Please review the below information:
+
+Installation Directory: ${installdir}
+
+Username: ${username}
+
+License File: ${license_file}
+
+Installed Components:
+&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;foreach&gt;
+           &lt;variables&gt;component&lt;/variables&gt;
+           &lt;values&gt;component1 component2 component3&lt;/values&gt;
+           &lt;actionList&gt;
+              &lt;!-- Just include selected Components --&gt;
+              &lt;continue&gt;
+                &lt;ruleList&gt;
+                   &lt;isFalse&gt;
+                     &lt;value&gt;${component(${component}).selected}&lt;/value&gt;
+                   &lt;/isFalse&gt;
+                &lt;/ruleList&gt;
+              &lt;/continue&gt;
+              &lt;setInstallerVariable&gt;
+                &lt;name&gt;text&lt;/name&gt;
+                &lt;value&gt;${text}
+
+${component(${component}).description}&lt;/value&gt;
+              &lt;/setInstallerVariable&gt;
+           &lt;/actionList&gt;
+        &lt;/foreach&gt;
+     &lt;/preShowPageActionList&gt;
+  &lt;/labelParameter&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apc.html#parameter.postShowPageActionList"><code class="literal">&lt;postShowPageActionList&gt;</code></a>: This Action List is executed after clicking Next in the page containing the parameter and after successfully executing the <a class="link" href="apc.html#parameter.validationActionList"><code class="literal">&lt;validationActionList&gt;</code></a>. One example of how this is useful is configuring installation settings based on the user input:
+</li></ul></div><p><a id="snip5150616"></a></p><pre class="programlisting">  &lt;choiceParameter&gt;
+     &lt;name&gt;installMode&lt;/name&gt;
+     &lt;description&gt;Select the installation mode&lt;/description&gt;
+     &lt;explanation&gt;&lt;/explanation&gt;
+     &lt;displayType&gt;combobox&lt;/displayType&gt;
+     &lt;width&gt;30&lt;/width&gt;
+     &lt;optionList&gt;
+       &lt;option&gt;
+         &lt;description&gt;Upgrade&lt;/description&gt;
+         &lt;text&gt;Upgrade&lt;/text&gt;
+         &lt;value&gt;upgrade&lt;/value&gt;
+       &lt;/option&gt;
+       &lt;option&gt;
+         &lt;description&gt;Uninstall&lt;/description&gt;
+         &lt;text&gt;Uninstall&lt;/text&gt;
+         &lt;value&gt;uninstall&lt;/value&gt;
+       &lt;/option&gt;
+     &lt;/optionList&gt;
+     &lt;postShowPageActionList&gt;
+        &lt;!-- Set upgrade mode in the project --&gt;
+        &lt;setInstallerVariable&gt;
+          &lt;name&gt;project.installationType&lt;/name&gt;
+          &lt;value&gt;upgrade&lt;/value&gt;
+          &lt;ruleList&gt;
+             &lt;compareText text="${installMode}" logic="equals" value="upgrade"/&gt;
+          &lt;/ruleList&gt;
+        &lt;/setInstallerVariable&gt;
+     &lt;/postShowPageActionList&gt;
+  &lt;/choiceParameter&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_validating_user_input"></a>Validating User Input</h4></div></div></div><p>Parameters can also include checks to validate the data introduced through their <a class="link" href="apc.html#parameter.validationActionList"><code class="literal">&lt;validationActionList&gt;</code></a>. The actions included in this <code class="literal">&lt;actionList&gt;</code> will be executed right after clicking Next. If an error occurs, it will be displayed and, instead of aborting the installation, the page will be redrawn. For example, you can use the snippet below to check if a provided password is strong enough:</p><p><a id="snip6413270"></a></p><pre class="programlisting">&lt;passwordParameter&gt;
+   &lt;name&gt;password&lt;/name&gt;
+   &lt;description&gt;Password&lt;/description&gt;
+   &lt;explanation&gt;Administrator account password. It must include at least 2 uppers, 2 lowers, 2 digits and 2 special characters and be at least 10 characters long.&lt;/explanation&gt;
+   &lt;value&gt;&lt;/value&gt;
+   &lt;default&gt;&lt;/default&gt;
+   &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+   &lt;descriptionRetype&gt;&lt;/descriptionRetype&gt;
+   &lt;width&gt;20&lt;/width&gt;
+   &lt;validationActionList&gt;
+     &lt;throwError text="The password provided is not strong enough"&gt;
+       &lt;ruleList&gt;
+          &lt;regExMatch&gt;
+             &lt;logic&gt;does_not_match&lt;/logic&gt;
+             &lt;pattern&gt;^(?=(?:\D*\d){2})(?=(?:[^a-z]*[a-z]){2})(?=(?:[^A-Z]*[A-Z]){2})(?=(?:[^!@#$%^&amp;amp;*+=]*[!@#$%^&amp;amp;*+=]){2}).{10,}$&lt;/pattern&gt;
+             &lt;text&gt;${password}&lt;/text&gt;
+          &lt;/regExMatch&gt;
+       &lt;/ruleList&gt;
+     &lt;/throwError&gt;
+   &lt;/validationActionList&gt;
+&lt;/passwordParameter&gt;</pre><p>Or validate if the user has enough free disk space install your application:</p><p><a id="snip7842517"></a></p><pre class="programlisting">  &lt;directoryParameter&gt;
+     &lt;name&gt;installdir&lt;/name&gt;
+     &lt;value&gt;&lt;/value&gt;
+     &lt;description&gt;Installation Directory&lt;/description&gt;
+     &lt;explanation&gt;Please specify the directory where ${project.fullName} will be installed&lt;/explanation&gt;
+     &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+     &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+     &lt;ask&gt;yes&lt;/ask&gt;
+     &lt;mustBeWritable&gt;yes&lt;/mustBeWritable&gt;
+     &lt;validationActionList&gt;
+        &lt;throwError&gt;
+            &lt;text&gt;You don't have enough disk space to install the application,
+            please select another installation directory&lt;/text&gt;
+            &lt;ruleList&gt;
+               &lt;checkFreeDiskSpace&gt;
+                  &lt;logic&gt;less&lt;/logic&gt;
+                  &lt;path&gt;${installdir}&lt;/path&gt;
+                  &lt;!-- ${required_diskspace} is automatically calculated by
+                  InstallBuilder with all the files packed --&gt;
+                  &lt;size&gt;${required_diskspace}&lt;/size&gt;
+               &lt;/checkFreeDiskSpace&gt;
+            &lt;/ruleList&gt;
+        &lt;/throwError&gt;
+     &lt;/validationActionList&gt;
+  &lt;/directoryParameter&gt;</pre><p>You must to take into account that these validations won’t be executed in unattended mode (as explained <a class="link" href="ar01s08.html#unattended_mode_action_lists" title="Unattended mode, RPM and DEB packages">here</a>). If you want to validate the information provided through command line when running in unattended mode, you can include the validations in the <a class="link" href="apd.html#preInstallationActionList"><code class="literal">&lt;preInstallationActionList&gt;</code></a>, executed after the command line options are processed:</p><p><a id="snip9188393"></a></p><pre class="programlisting">&lt;preInstallationActionList&gt;
+  &lt;actionGroup&gt;
+     &lt;actionList&gt;
+        &lt;!-- Validate the password is not empty --&gt;
+        &lt;throwError text="You must provide a non-empty password using --masterpassword command line flag"&gt;
+           &lt;ruleList&gt;
+              &lt;compareText text="${masterpassword}" logic="equals" value=""/&gt;
+           &lt;/ruleList&gt;
+        &lt;/throwError&gt;
+
+        &lt;!-- Validate the installation directory has enough disk space --&gt;
+        &lt;throwError&gt;
+           &lt;text&gt;You don't have enough disk space to install the application,
+           please select another installation directory&lt;/text&gt;
+           &lt;ruleList&gt;
+             &lt;checkFreeDiskSpace&gt;
+                &lt;logic&gt;less&lt;/logic&gt;
+                &lt;path&gt;${installdir}&lt;/path&gt;
+                &lt;!-- ${required_diskspace} is automatically calculated by
+                InstallBuilder with all the files packed --&gt;
+                &lt;size&gt;${required_diskspace}&lt;/size&gt;
+             &lt;/checkFreeDiskSpace&gt;
+           &lt;/ruleList&gt;
+        &lt;/throwError&gt;
+        ...
+     &lt;/actionList&gt;
+     &lt;ruleList&gt;
+       &lt;compareText&gt;
+         &lt;text&gt;${installer_interactivity}&lt;/text&gt;
+         &lt;logic&gt;does_not_equal&lt;/logic&gt;
+         &lt;value&gt;normal&lt;/value&gt;
+       &lt;/compareText&gt;
+     &lt;/ruleList&gt;
+  &lt;/actionGroup&gt;
+&lt;/preInstallationActionList&gt;
+...
+&lt;parameterList&gt;
+  &lt;passwordParameter&gt;
+     &lt;ask&gt;yes&lt;/ask&gt;
+     &lt;name&gt;masterpassword&lt;/name&gt;
+     &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+     &lt;description&gt;Password&lt;/description&gt;
+     ...
+  &lt;/passwordParameter&gt;
+  &lt;directoryParameter&gt;
+     &lt;name&gt;installdir&lt;/name&gt;
+     &lt;value&gt;&lt;/value&gt;
+     &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+     ...
+  &lt;/directoryParameter&gt;
+  ...
+&lt;/parameterList&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="available_parameters_section"></a>Available Parameters</h4></div></div></div><p>This section provides an exhaustive list of all of the available parameters.</p><p><a id="string_parameter_section"></a><strong>String Parameter. </strong>The <a class="link" href="apc.html#stringParameter"><code class="literal">&lt;stringParameter&gt;</code></a> allows you to request a text string from the user. It accepts all of the common options.</p><p><a id="snip9331953"></a></p><pre class="programlisting">    &lt;stringParameter&gt;
+      &lt;name&gt;hostname&lt;/name&gt;
+      &lt;default&gt;localhost&lt;/default&gt;
+      &lt;value&gt;&lt;/value&gt;
+      &lt;ask&gt;1&lt;/ask&gt;
+      &lt;description&gt;Hostname&lt;/description&gt;
+      &lt;explanation&gt;Please enter the hostname for your application server.&lt;/explanation&gt;
+    &lt;/stringParameter&gt;</pre><div class="figure"><a id="idm140427933303712"></a><p class="title"><strong>Figure 34. String Parameter</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/stringparameter-page.png" align="middle" alt="String Parameter" /></div></div></div><br class="figure-break" /><p><a id="label_parameter_section"></a><strong>Label Parameter. </strong>The <a class="link" href="apc.html#labelParameter"><code class="literal">&lt;labelParameter&gt;</code></a> allows you to display a string of read-only text inside an installer page. Optionally, you can include an image to the left side of the text.
+<a id="snip2145246"></a></p><pre class="programlisting">    &lt;labelParameter&gt;
+        &lt;name&gt;label&lt;/name&gt;
+        &lt;title&gt;labelParameter test&lt;/title&gt;
+        &lt;description&gt;This is a warning message inside an installer page.&lt;/description&gt;
+        &lt;image&gt;/path/to/icons/warning.png&lt;/image&gt;
+    &lt;/labelParameter&gt;</pre><p>It is also useful to display a read-only version of the installation directory:</p><p><a id="snip5157710"></a></p><pre class="programlisting">  &lt;!-- The installation directory won't be selectable by the end user so we
+  hide it setting ask=0 --&gt;
+  &lt;directoryParameter&gt;
+     &lt;name&gt;installdir&lt;/name&gt;
+     ...
+     &lt;description&gt;Installation Directory&lt;/description&gt;
+     &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+     &lt;ask&gt;0&lt;/ask&gt;
+     ...
+  &lt;/directoryParameter&gt;
+  &lt;!-- We display the read-only version of the installation directory --&gt;
+  &lt;labelParameter&gt;
+     &lt;name&gt;readOnlyInstalldir&lt;/name&gt;
+     &lt;title&gt;Installation Directory&lt;/title&gt;
+     &lt;explanation&gt;Directory where ${project.fullName} will be installed&lt;/explanation&gt;
+     &lt;description&gt;Installation Directory: ${installdir}&lt;/description&gt;
+  &lt;/labelParameter&gt;</pre><div class="figure"><a id="idm140427933291296"></a><p class="title"><strong>Figure 35. Label Parameter</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/labelparameter-page.png" align="middle" alt="Label Parameter" /></div></div></div><br class="figure-break" /><p><a id="link_parameter_section"></a><strong>Link Parameter. </strong>The <a class="link" href="apc.html#linkParameter"><code class="literal">&lt;linkParameter&gt;</code></a> displays a hyperlink-like label or a button, which executes its <a class="link" href="apc.html#linkParameter.clickedActionList"><code class="literal">&lt;clickedActionList&gt;</code></a> when clicked, usually launching a browser. The link parameter is intended to be displayed in GUI mode. In text mode, the user will be asked whether or not to run the associated actions, similarly to how a <a class="link" href="apc.html#booleanParameter"><code class="literal">&lt;booleanParameter&gt;</code></a> will behave.</p><p><a id="snip5632118"></a></p><pre class="programlisting">  &lt;linkParameter&gt;
+     &lt;name&gt;visitwebsite&lt;/name&gt;
+     &lt;description&gt;More information.&lt;/description&gt;
+     &lt;clickedActionList&gt;
+        &lt;launchBrowser url="http://example.com/more_information.html" /&gt;
+     &lt;/clickedActionList&gt;
+  &lt;/linkParameter&gt;</pre><div class="figure"><a id="idm140427933280000"></a><p class="title"><strong>Figure 36. Link Parameter</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/linkparameter-page.png" align="middle" alt="Link Parameter" /></div></div></div><br class="figure-break" /><p><a id="file_parameter_section"></a><strong>File Parameter. </strong>The <a class="link" href="apc.html#fileParameter"><code class="literal">&lt;fileParameter&gt;</code></a> asks the user to enter a file. They also support additional fields:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apc.html#fileParameter.mustExist"><code class="literal">&lt;mustExist&gt;</code></a>: Whether or not to require that the file must already exist.
+</li><li class="listitem">
+<a class="link" href="apc.html#fileParameter.mustBeWritable"><code class="literal">&lt;mustBeWritable&gt;</code></a>: Whether or not to require that the file must be writable.
+</li><li class="listitem">
+<a class="link" href="apc.html#fileParameter.osxBundlesAreFiles"><code class="literal">&lt;osxBundlesAreFiles&gt;</code></a>: Whether or not OS X bundles (*.app and *.bundle) will be considered files. The setting will just have effect on OS X, in other platforms they will be always considered directories.
+</li></ul></div><p><a id="snip9023168"></a></p><pre class="programlisting">  &lt;fileParameter&gt;
+     &lt;name&gt;licenseFile&lt;/name&gt;
+     &lt;value&gt;&lt;/value&gt;
+     &lt;description&gt;License File&lt;/description&gt;
+     &lt;explanation&gt;Please specify the downloaded license file&lt;/explanation&gt;
+     &lt;ask&gt;yes&lt;/ask&gt;
+     &lt;mustBeWritable&gt;yes&lt;/mustBeWritable&gt;
+  &lt;/fileParameter&gt;</pre><p>Usually, on OS X, some bundles are considered as files although they really are special directories. Using the <a class="link" href="apc.html#fileParameter.osxBundlesAreFiles"><code class="literal">&lt;osxBundlesAreFiles&gt;</code></a> tag, you can configure whether you want the parameter to validate them as files or to complain when trying to select them. Note that <code class="literal">*.bundle</code> and <code class="literal">*.app</code> bundles will be considered as <code class="literal">*.framework</code> bundles and are not treated as files by the OS.</p><p><a id="snip2393230"></a></p><pre class="programlisting">  &lt;fileParameter&gt;
+     &lt;name&gt;previousProductPath&lt;/name&gt;
+     &lt;value&gt;&lt;/value&gt;
+     &lt;description&gt;Previous Installation Path&lt;/description&gt;
+     &lt;explanation&gt;The installer cannot find "${project.shortName}-${oldVersion}.app" bundle under /Applications. Please manually select it&lt;/explanation&gt;
+     &lt;osxBundlesAreFiles&gt;1&lt;/osxBundlesAreFiles&gt;
+     &lt;ruleList&gt;
+        &lt;fileExists path="/Applications/${project.shortName}-${oldVersion}.app" negate="1"/&gt;
+     &lt;/ruleList&gt;
+  &lt;/fileParameter&gt;</pre><div class="figure"><a id="idm140427933257024"></a><p class="title"><strong>Figure 37. File Parameter</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/fileparameter-page.png" align="middle" alt="File Parameter" /></div></div></div><br class="figure-break" /><p><a id="directory_parameter_section"></a><strong>Directory Parameter. </strong>The <a class="link" href="apc.html#directoryParameter"><code class="literal">&lt;directoryParameter&gt;</code></a> asks the user to enter a directory. They also support additional fields:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apc.html#directoryParameter.mustExist"><code class="literal">&lt;mustExist&gt;</code></a>: Whether or not to require that the directory must already exist.
+</li><li class="listitem">
+<a class="link" href="apc.html#directoryParameter.mustBeWritable"><code class="literal">&lt;mustBeWritable&gt;</code></a>: Whether or not to require that the directory must be writable.
+</li><li class="listitem">
+<a class="link" href="apc.html#directoryParameter.osxBundlesAreFiles"><code class="literal">&lt;osxBundlesAreFiles&gt;</code></a>: Whether or not OS X bundles (*.app and *.bundle) will be considered files. The setting will just have effect on OS X, in other platforms they will be always considered directories
+</li></ul></div><p><a id="snip3032039"></a></p><pre class="programlisting">  &lt;directoryParameter&gt;
+     &lt;name&gt;installdir&lt;/name&gt;
+     &lt;value&gt;&lt;/value&gt;
+     &lt;description&gt;Installation Directory&lt;/description&gt;
+     &lt;explanation&gt;Please specify the directory where ${project.fullName}  will be installed&lt;/explanation&gt;
+     &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+     &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+     &lt;ask&gt;yes&lt;/ask&gt;
+    &lt;mustBeWritable&gt;yes&lt;/mustBeWritable&gt;
+  &lt;/directoryParameter&gt;</pre><div class="figure"><a id="idm140427933240960"></a><p class="title"><strong>Figure 38. Directory Parameter</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/directoryparameter-page.png" align="middle" alt="Directory Parameter" /></div></div></div><br class="figure-break" /><p><a id="boolean_parameter_section"></a><strong>Boolean Parameter. </strong>The <a class="link" href="apc.html#booleanParameter"><code class="literal">&lt;booleanParameter&gt;</code></a> is identical to the <a class="link" href="apc.html#stringParameter"><code class="literal">&lt;stringParameter&gt;</code></a>, except it accepts either a <code class="literal">1</code> or a <code class="literal">0</code> as a value. You can control how the boolean parameter is displayed in GUI mode using the <a class="link" href="apc.html#booleanParameter.displayStyle"><code class="literal">&lt;displayStyle&gt;</code></a> tag with the values of <code class="literal">combobox</code>, <code class="literal">checkbutton-left</code> and <code class="literal">checkbutton-right</code>.</p><p><a id="snip9489728"></a></p><pre class="programlisting">    &lt;booleanParameter&gt;
+      &lt;name&gt;createdb&lt;/name&gt;
+      &lt;ask&gt;yes&lt;/ask&gt;
+      &lt;default&gt;1&lt;/default&gt;
+      &lt;title&gt;Database Install&lt;/title&gt;
+      &lt;explanation&gt;Should initial database structure and data be created?&lt;/explanation&gt;
+      &lt;value&gt;1&lt;/value&gt;
+    &lt;/booleanParameter&gt;</pre><div class="figure"><a id="idm140427933226576"></a><p class="title"><strong>Figure 39. Boolean Parameter</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/booleanparameter-page.png" align="middle" alt="Boolean Parameter" /></div></div></div><br class="figure-break" /><p><a id="info_parameter_section"></a><strong>Text Display Parameter. </strong>The <a class="link" href="apc.html#infoParameter"><code class="literal">&lt;infoParameter&gt;</code></a> will display a read-only text information page. It does not support the <a class="link" href="apc.html#parameter.cliOptionName"><code class="literal">&lt;cliOptionName&gt;</code></a> field as it is a read-only parameter.</p><p><a id="snip3874270"></a></p><pre class="programlisting">    &lt;infoParameter&gt;
+      &lt;name&gt;serverinfo&lt;/name&gt;
+      &lt;title&gt;Web Server&lt;/title&gt;
+      &lt;explanation&gt;Web Server Settings&lt;/explanation&gt;
+      &lt;value&gt;Important Information! In the following screen you will be asked to provide (...)&lt;/value&gt;
+    &lt;/infoParameter&gt;</pre><div class="figure"><a id="idm140427933216896"></a><p class="title"><strong>Figure 40. Info Parameter</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/infoparameter-page.png" align="middle" alt="Info Parameter" /></div></div></div><br class="figure-break" /><p>In InstallBuilder for Qt, the <a class="link" href="apc.html#infoParameter"><code class="literal">&lt;infoParameter&gt;</code></a> is also capable of displaying HTML text:</p><p><a id="snip4859575"></a></p><pre class="programlisting">    &lt;infoParameter&gt;
+      &lt;name&gt;serverinfo&lt;/name&gt;
+      &lt;title&gt;Web Server&lt;/title&gt;
+      &lt;explanation&gt;Web Server Settings&lt;/explanation&gt;
+      &lt;value&gt;Important Information! In the following screen you will be asked to provide (...)&lt;/value&gt;
+      &lt;!-- CDATA is just used to avoid the need of escaping the HTML tags --&gt;
+      &lt;htmlValue&gt;&lt;![CDATA[
+&lt;H1&gt;&lt;font color="red"&gt;Important Information! &lt;/font&gt;&lt;/H1&gt;&lt;br/&gt;
+In the following screen you will be asked to provide (...)
+]]&gt;&lt;/htmlValue&gt;
+    &lt;/infoParameter&gt;</pre><p>Please note you still have to provide a plain text version in the <code class="literal">&lt;value&gt;</code> to be displayed in non-qt modes (text, gtk, win32, osx).</p><p><a id="choice_parameter_section"></a><strong>Choice Parameter. </strong>A <a class="link" href="apc.html#choiceParameter"><code class="literal">&lt;choiceParameter&gt;</code></a> allows the user to select a value from a predefined list. In GUI mode, it will be represented by a combobox or a group of radio buttons (depending on the configured <a class="link" href="apc.html#choiceParameter.displayType"><code class="literal">&lt;displayType&gt;</code></a>). It takes an extra field, <a class="link" href="apc.html#choiceParameter.optionList"><code class="literal">&lt;optionList&gt;</code></a>, which contains a list of value/text pairs. The <code class="literal">&lt;text&gt;</code> will be the description presented to the user for that option and the <a class="link" href="apg.html#option.value"><code class="literal">&lt;value&gt;</code></a> will be the value of the associated installer variable if the user selects that option. You can control how the choice parameter is displayed in GUI modes using the <a class="link" href="apc.html#choiceParameter.displayType"><code class="literal">&lt;displayType&gt;</code></a> tag with the values of <code class="literal">combobox</code> and <code class="literal">radiobuttons</code>.</p><p><a id="snip4889282"></a></p><pre class="programlisting"> &lt;choiceParameter&gt;
+      &lt;ask&gt;1&lt;/ask&gt;
+      &lt;default&gt;http&lt;/default&gt;
+      &lt;description&gt;Which protocol?&lt;/description&gt;
+      &lt;explanation&gt;Default protocol to access the login page.&lt;/explanation&gt;
+      &lt;title&gt;Protocol Selection&lt;/title&gt;
+      &lt;name&gt;protocol&lt;/name&gt;
+      &lt;optionList&gt;
+        &lt;option&gt;
+          &lt;value&gt;http&lt;/value&gt;
+          &lt;text&gt;HTTP (insecure)&lt;/text&gt;
+          &lt;description&gt;Hypertext Transfer Protocol&lt;/description&gt;
+          &lt;image&gt;http.png&lt;/image&gt;
+        &lt;/option&gt;
+        &lt;option&gt;
+          &lt;value&gt;https&lt;/value&gt;
+          &lt;text&gt;HTTPS (secure)&lt;/text&gt;
+          &lt;description&gt;Hypertext Transfer Protocol Secure&lt;/description&gt;
+          &lt;image&gt;https.png&lt;/image&gt;
+        &lt;/option&gt;
+      &lt;/optionList&gt;
+ &lt;/choiceParameter&gt;</pre><p>By default, the order in which the choices are displayed in the installer page is the same in which they are listed in the XML code. This behavior can be modified through the <a class="link" href="apc.html#choiceParameter.ordering"><code class="literal">&lt;ordering&gt;</code></a> tag which accepts the below values:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">default</code>: List the choices in the same order used in the XML project.
+</li><li class="listitem">
+<code class="literal">alphabetical</code>: Sort the choices in alphabetical order.
+</li><li class="listitem">
+<code class="literal">alphabeticalreverse</code>: Sort the choices in reverse alphabetical order.
+</li></ul></div><p><a id="password_parameter_section"></a><strong>Password Parameter. </strong>A <a class="link" href="apc.html#passwordParameter"><code class="literal">&lt;passwordParameter&gt;</code></a> allows the user to input a password and confirm it. The password will not be echoed back to the user in text mode installations and will be substituted by <span class="emphasis"><em>*</em></span> characters in GUI mode installations.</p><p>They also support additional fields:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apc.html#passwordParameter.askForConfirmation"><code class="literal">&lt;askForConfirmation&gt;</code></a>: If set to 1 (the default value), a second entry field will be displayed, forcing the user to retype the password, receiving an error if both fields do not match
+</li><li class="listitem">
+<a class="link" href="apc.html#passwordParameter.descriptionRetype"><code class="literal">&lt;descriptionRetype&gt;</code></a>: Description used as the label for the password retype field displayed when enabling <a class="link" href="apc.html#passwordParameter.descriptionRetype"><code class="literal">&lt;descriptionRetype&gt;</code></a>.
+</li></ul></div><p><a id="snip4164447"></a></p><pre class="programlisting">      &lt;passwordParameter&gt;
+        &lt;ask&gt;yes&lt;/ask&gt;
+        &lt;name&gt;masterpassword&lt;/name&gt;
+        &lt;description&gt;Password&lt;/description&gt;
+        &lt;askForConfirmation&gt;1&lt;/askForConfirmation&gt;
+        &lt;descriptionRetype&gt;Retype password&lt;/descriptionRetype&gt;
+        &lt;explanation&gt;Please provide a password for the database user&lt;/explanation&gt;
+        &lt;cliOptionName&gt;password&lt;/cliOptionName&gt;
+        &lt;default/&gt;
+        &lt;value/&gt;
+      &lt;/passwordParameter&gt;</pre><div class="figure"><a id="idm140427933173952"></a><p class="title"><strong>Figure 41. Password Parameter</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/passwordparameter-page.png" align="middle" alt="Password Parameter" /></div></div></div><br class="figure-break" /><p><a id="license_parameter_section"></a><strong>License Parameter. </strong>A <a class="link" href="apc.html#licenseParameter"><code class="literal">&lt;licenseParameter&gt;</code></a> presents a license screen to the user containing the text specified in the <a class="link" href="apc.html#licenseParameter.file"><code class="literal">&lt;file&gt;</code></a> field. An optional <a class="link" href="apc.html#licenseParameter.fileEncoding"><code class="literal">&lt;fileEncoding&gt;</code></a> field allows you to specify the encoding and a <a class="link" href="apc.html#licenseParameter.wrapText"><code class="literal">&lt;wrapText&gt;</code></a> field allows you to specify whether the license text should be wrapped to fit the screen. It does not support the <a class="link" href="apc.html#parameter.cliOptionName"><code class="literal">&lt;cliOptionName&gt;</code></a> field as it is a read-only parameter.</p><p><a id="snip1875119"></a></p><pre class="programlisting">&lt;licenseParameter&gt;
+  &lt;name&gt;javalicense&lt;/name&gt;
+  &lt;fileEncoding&gt;utf-8&lt;/fileEncoding&gt;
+  &lt;file&gt;/path/to/license.txt&lt;/file&gt;
+&lt;/licenseParameter&gt;</pre><p>In InstallBuilder for Qt, you can also provide an HTML license file using the <a class="link" href="apc.html#licenseParameter.htmlFile"><code class="literal">&lt;htmlFile&gt;</code></a> tag:</p><p><a id="snip5131069"></a></p><pre class="programlisting">&lt;licenseParameter&gt;
+  &lt;name&gt;javalicense&lt;/name&gt;
+  &lt;fileEncoding&gt;utf-8&lt;/fileEncoding&gt;
+  &lt;file&gt;/path/to/license.txt&lt;/file&gt;
+  &lt;htmlFile&gt;/path/to/license.html&lt;/htmlFile&gt;
+&lt;/licenseParameter&gt;</pre><p>A plain text license is still provided to be displayed in non-qt modes (text, gtk, win32, osx). On Unix, you can easily generate a plain text version of your HTML license using the <code class="literal">lynx</code> command:</p><pre class="programlisting">$&gt; lynx -dump license.html &gt; license.txt</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_populating_choice_parameters_at_runtime"></a>Populating Choice parameters at Runtime</h4></div></div></div><p>In addition to hard-coding the options of a <a class="link" href="apc.html#choiceParameter"><code class="literal">&lt;choiceParameter&gt;</code></a> when writing your XML project, you can also modify them at runtime using the <a class="link" href="apa.html#addChoiceOptions"><code class="literal">&lt;addChoiceOptions&gt;</code></a>, <a class="link" href="apa.html#removeChoiceOptions"><code class="literal">&lt;removeChoiceOptions&gt;</code></a> and <a class="link" href="apa.html#addChoiceOptionsFromText"><code class="literal">&lt;addChoiceOptionsFromText&gt;</code></a> actions.</p><p>The snippets below explains the simplest approach, using the <a class="link" href="apa.html#addChoiceOptions"><code class="literal">&lt;addChoiceOptions&gt;</code></a> action:</p><p><a id="snip7887490"></a></p><pre class="programlisting"> &lt;addChoiceOptions&gt;
+    &lt;name&gt;language&lt;/name&gt;
+    &lt;optionList&gt;
+      &lt;option&gt;
+        &lt;value&gt;en&lt;/value&gt;
+        &lt;text&gt;English&lt;/text&gt;
+      &lt;/option&gt;
+      &lt;option&gt;
+        &lt;value&gt;es&lt;/value&gt;
+        &lt;text&gt;Spanish&lt;/text&gt;
+      &lt;/option&gt;
+    &lt;/optionList&gt;
+ &lt;/addChoiceOptions&gt;</pre><p>The action takes the <a class="link" href="apa.html#addChoiceOptions.name"><code class="literal">&lt;name&gt;</code></a> of an existing <a class="link" href="apc.html#choiceParameter"><code class="literal">&lt;choiceParameter&gt;</code></a> and adds the specified options hardcoded in the <a class="link" href="apa.html#addChoiceOptions.optionList"><code class="literal">&lt;optionList&gt;</code></a>. It is useful when you need to modify the choices of a <a class="link" href="apc.html#choiceParameter"><code class="literal">&lt;choiceParameter&gt;</code></a> depending on some other configuration but you know the set of choices for each of them.</p><p>One of the limitations of the action is that the <a class="link" href="apg.html#option.value"><code class="literal">&lt;value&gt;</code></a> must be a valid key identifier, that is, it can only contain alphanumeric characters and underscores so you cannot use variables when defining it.</p><p>A more powerful approach is to use the <a class="link" href="apa.html#addChoiceOptionsFromText"><code class="literal">&lt;addChoiceOptionsFromText&gt;</code></a> action, which allows you to provide the list of options in plain text:</p><p><a id="snip5047945"></a></p><pre class="programlisting"> &lt;addChoiceOptionsFromText&gt;
+    &lt;name&gt;language&lt;/name&gt;
+    &lt;text&gt;
+jp=Japanese
+jp.description=Language spoken in Japan
+de=German
+de.description=Language spoken in Germany
+it=Italian
+it.description=Language spoken in Italy
+pl=Polish
+pl.description=Language spoken in Poland
+ru=Russian
+ru.description=Language spoken in Russia
+&lt;/text&gt;
+ &lt;/addChoiceOptionsFromText&gt;</pre><p>The keys in the text will be used to set the <code class="literal">&lt;value&gt;</code> property of option. The key value (the righthand side) will be used to set the <code class="literal">&lt;text&gt;</code> property.
+Optionally, if a key has a <code class="literal">.description</code> suffix and matches an existing <code class="literal">&lt;value&gt;</code>, the key value will be used to set the <code class="literal">&lt;description&gt;</code> property.</p><p>Contrary to the <a class="link" href="apa.html#addChoiceOptions"><code class="literal">&lt;addChoiceOptions&gt;</code></a> action, the <a class="link" href="apa.html#addChoiceOptionsFromText"><code class="literal">&lt;addChoiceOptionsFromText&gt;</code></a> action allows using variables in its <a class="link" href="apa.html#addChoiceOptionsFromText.text"><code class="literal">&lt;text&gt;</code></a>:</p><p><a id="snip811783"></a></p><pre class="programlisting"> &lt;addChoiceOptionsFromText&gt;
+    &lt;name&gt;choice&lt;/name&gt;
+    &lt;text&gt;
+${value1}=${text1}
+${value1}.description=${description1}
+${value2}=${text2}
+${value2}.description=${description2}
+${value3}=${text3}
+${value3}.description=${description3}
+&lt;/text&gt;
+ &lt;/addChoiceOptionsFromText&gt;</pre><p>The <a class="link" href="apa.html#addChoiceOptionsFromText"><code class="literal">&lt;addChoiceOptionsFromText&gt;</code></a> action is very useful when you have a long list of options to add or if you are going to generate the choices at runtime based on the output of some external program. For example, if you want to generate a language list based on the contents of your lang directory, you could use the below:</p><p><a id="snip3647232"></a></p><pre class="programlisting"> &lt;!-- Get list of files --&gt;
+ &lt;setInstallerVariableFromScriptOutput&gt;
+   &lt;name&gt;languages&lt;/name&gt;
+   &lt;exec&gt;find&lt;/exec&gt;
+   &lt;execArgs&gt;*.lng&lt;/execArgs&gt;
+   &lt;workingDirectory&gt;${installdir}/lang&lt;/workingDirectory&gt;
+ &lt;/setInstallerVariableFromScriptOutput&gt;
+
+ &lt;!-- Iterate over the files and create the choice text file --&gt;
+ &lt;setInstallerVariable name="choiceText" value=""/&gt;
+ &lt;foreach variables="file" values="${languages}"&gt;
+    &lt;actionList&gt;
+        &lt;!-- Strip the extension to create the key --&gt;
+        &lt;setInstallerVariableFromRegEx name="key" pattern="([^\.])*" substitution="\1" text="${file}"/&gt;
+        &lt;!-- Add a new choice option to the text &amp;#xA; is the escaped sequence for \n--&gt;
+        &lt;setInstallerVariable name="choiceText" value="${choiceText}&amp;#xA;lang_${key}=${file}"/&gt;
+    &lt;/actionList&gt;
+ &lt;/foreach&gt;
+
+ &lt;addChoiceOptionsFromText&gt;
+    &lt;name&gt;language&lt;/name&gt;
+    &lt;text&gt;${choiceText}&lt;/text&gt;
+ &lt;/addChoiceOptionsFromText&gt;</pre><p>It also allows using variables in the <code class="literal">&lt;text&gt;</code> of the choices</p><p>When creating the options at runtime, especially in the <a class="link" href="apc.html#parameter.preShowPageActionList"><code class="literal">&lt;preShowPageActionList&gt;</code></a> of the parameter, you may end up with duplicate options if the user displays the page more than once (each time the page is displayed, the <a class="link" href="apc.html#parameter.preShowPageActionList"><code class="literal">&lt;preShowPageActionList&gt;</code></a> will add the options again). In those scenarios you can use a <a class="link" href="apa.html#removeChoiceOptions"><code class="literal">&lt;removeChoiceOptions&gt;</code></a> action:</p><p><a id="snip9029188"></a></p><pre class="programlisting"> &lt;removeChoiceOptions&gt;
+    &lt;name&gt;language&lt;/name&gt;
+    &lt;options&gt;en,es,jp&lt;/options&gt;
+ &lt;/removeChoiceOptions&gt;</pre><p>The format of the <a class="link" href="apa.html#removeChoiceOptions.options"><code class="literal">&lt;options&gt;</code></a> tag is different from similar actions, since you are not interested in the <code class="literal">&lt;text&gt;</code> of the option to remove. It is defined as a comma separated list of options, each of them matching the <code class="literal">&lt;value&gt;</code> of an existing choice option. However, if you do not know which options were added, as in the <a class="link" href="apa.html#addChoiceOptionsFromText"><code class="literal">&lt;addChoiceOptionsFromText&gt;</code></a>, you can still delete all of the options of the parameter if you provide an empty value to the <a class="link" href="apa.html#removeChoiceOptions.options"><code class="literal">&lt;options&gt;</code></a> tag:</p><p><a id="snip3564236"></a></p><pre class="programlisting"> &lt;removeChoiceOptions name="language"/&gt;</pre><p>In a real world example:</p><p><a id="snip4127099"></a></p><pre class="programlisting">  &lt;choiceParameter&gt;
+      &lt;ask&gt;1&lt;/ask&gt;
+      &lt;default&gt;&lt;/default&gt;
+      &lt;description&gt;&lt;/description&gt;
+      &lt;explanation&gt;Installation Language of the installer application.&lt;/explanation&gt;
+      &lt;title&gt;Installation Language&lt;/title&gt;
+      &lt;name&gt;language&lt;/name&gt;
+      &lt;preShowPageActionList&gt;
+          &lt;removeChoiceOptions name="language"/&gt;
+          &lt;!-- Get the list of languages and create the choice options --&gt;
+          &lt;setInstallerVariableFromScriptOutput ... /&gt;
+          ...
+          &lt;setInstallerVariable name="choiceText" value=""/&gt;
+          &lt;foreach variables="file" values="${languages}"&gt;
+              &lt;actionList&gt;
+              ...
+              &lt;/actionList&gt;
+          &lt;/foreach&gt;
+          &lt;addChoiceOptionsFromText name="language" text="${choiceText}"/&gt;
+      &lt;/preShowPageActionList&gt;
+   &lt;/choiceParameter&gt;</pre><p>For all of the above actions, if the specified parameter to be modified does not exist, the action will be skipped.</p><p><a id="registryFind_example"></a>Another useful example would be displaying the list of your installed applications and letting the user select one to uninstall:</p><p><a id="snip4153424"></a></p><pre class="programlisting">&lt;choiceParameter&gt;
+  &lt;name&gt;applicationToDelete&lt;/name&gt;
+  &lt;description&gt;Select the Application to uninstall&lt;/description&gt;
+  &lt;displayType&gt;combobox&lt;/displayType&gt;
+  &lt;ordering&gt;default&lt;/ordering&gt;
+  &lt;width&gt;40&lt;/width&gt;
+  &lt;postShowPageActionList&gt;
+    &lt;foreach&gt;
+      &lt;values&gt;${installedApplications}&lt;/values&gt;
+      &lt;variables&gt;key name value&lt;/variables&gt;
+      &lt;actionList&gt;
+        &lt;md5 text="${key}" variable="md5"/&gt;
+        &lt;actionGroup&gt;
+          &lt;actionList&gt;
+            &lt;registryGet&gt;
+              &lt;key&gt;${key}&lt;/key&gt;
+              &lt;name&gt;UninstallString&lt;/name&gt;
+              &lt;variable&gt;uninstallCmd&lt;/variable&gt;
+            &lt;/registryGet&gt;
+            &lt;showProgressDialog&gt;
+              &lt;title&gt;Uninstalling ${value}&lt;/title&gt;
+              &lt;actionList&gt;
+                &lt;runProgram&gt;
+                  &lt;program&gt;${uninstallCmd}&lt;/program&gt;
+                  &lt;programArguments&gt;--mode unattended&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+              &lt;/actionList&gt;
+            &lt;/showProgressDialog&gt;
+            &lt;break/&gt;
+          &lt;/actionList&gt;
+          &lt;ruleList&gt;
+            &lt;compareText&gt;
+              &lt;text&gt;${md5}&lt;/text&gt;
+              &lt;logic&gt;equals&lt;/logic&gt;
+              &lt;value&gt;${applicationToDelete}&lt;/value&gt;
+            &lt;/compareText&gt;
+          &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+      &lt;/actionList&gt;
+    &lt;/foreach&gt;
+  &lt;/postShowPageActionList&gt;
+  &lt;preShowPageActionList&gt;
+    &lt;removeChoiceOptions&gt;
+      &lt;name&gt;applicationToDelete&lt;/name&gt;
+      &lt;options&gt;&lt;/options&gt;
+    &lt;/removeChoiceOptions&gt;
+    &lt;registryFind&gt;
+      &lt;findAll&gt;1&lt;/findAll&gt;
+      &lt;keyPattern&gt;*&lt;/keyPattern&gt;
+      &lt;namePattern&gt;DisplayName&lt;/namePattern&gt;
+      &lt;rootKey&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&lt;/rootKey&gt;
+      &lt;searchDepth&gt;1&lt;/searchDepth&gt;
+      &lt;variable&gt;installedApplications&lt;/variable&gt;
+    &lt;/registryFind&gt;
+    &lt;setInstallerVariable&gt;
+      &lt;name&gt;text&lt;/name&gt;
+      &lt;value&gt;&lt;/value&gt;
+    &lt;/setInstallerVariable&gt;
+    &lt;foreach&gt;
+      &lt;values&gt;${installedApplications}&lt;/values&gt;
+      &lt;variables&gt;key name value&lt;/variables&gt;
+      &lt;actionList&gt;
+        &lt;registryGet&gt;
+          &lt;key&gt;${key}&lt;/key&gt;
+          &lt;name&gt;Publisher&lt;/name&gt;
+          &lt;variable&gt;publisher&lt;/variable&gt;
+        &lt;/registryGet&gt;
+        &lt;actionGroup&gt;
+          &lt;actionList&gt;
+            &lt;md5 text="${key}" variable="md5"/&gt;
+            &lt;setInstallerVariable&gt;
+              &lt;name&gt;text&lt;/name&gt;
+              &lt;value&gt;${text}
+${md5}=${value}&lt;/value&gt;
+            &lt;/setInstallerVariable&gt;
+          &lt;/actionList&gt;
+          &lt;ruleList&gt;
+            &lt;compareText&gt;
+              &lt;logic&gt;equals&lt;/logic&gt;
+              &lt;text&gt;${publisher}&lt;/text&gt;
+              &lt;value&gt;${project.vendor}&lt;/value&gt;
+            &lt;/compareText&gt;
+          &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+      &lt;/actionList&gt;
+    &lt;/foreach&gt;
+    &lt;addChoiceOptionsFromText&gt;
+      &lt;name&gt;applicationToDelete&lt;/name&gt;
+      &lt;text&gt;${text}&lt;/text&gt;
+    &lt;/addChoiceOptionsFromText&gt;
+  &lt;/preShowPageActionList&gt;
+&lt;/choiceParameter&gt;</pre><p>Another example might be showing a list of drives for the user to pre-select on Microsoft Windows. The following actions will create and execute a Visual Basic script, whose output will be used to populate the choices of the parameter:</p><p><a id="snip6610636"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;initializationActionList&gt;
+    &lt;writeFile&gt;
+      &lt;encoding&gt;utf-8&lt;/encoding&gt;
+      &lt;path&gt;${system_temp_directory}/drives.vbs&lt;/path&gt;
+      &lt;text&gt;Set objFSO = CreateObject("Scripting.FileSystemObject")
+Set colDrives = objFSO.Drives
+For Each objDrive in colDrives
+  If objDrive.DriveType = 2 Then
+    Wscript.Echo objDrive.DriveLetter
+  End If
+Next
+  &lt;/text&gt;
+    &lt;/writeFile&gt;
+    &lt;setInstallerVariableFromScriptOutput&gt;
+      &lt;exec&gt;cscript.exe&lt;/exec&gt;
+      &lt;execArgs&gt;//NOLOGO "${system_temp_directory}/drives.vbs"&lt;/execArgs&gt;
+      &lt;name&gt;drives&lt;/name&gt;
+    &lt;/setInstallerVariableFromScriptOutput&gt;
+    &lt;foreach&gt;
+      &lt;values&gt;${drives}&lt;/values&gt;
+      &lt;variables&gt;drive&lt;/variables&gt;
+      &lt;actionList&gt;
+        &lt;addChoiceOptions&gt;
+          &lt;name&gt;targetdrive&lt;/name&gt;
+          &lt;optionList&gt;
+            &lt;option&gt;
+              &lt;value&gt;${drive}&lt;/value&gt;
+              &lt;text&gt;Drive ${drive}&lt;/text&gt;
+           &lt;/option&gt;
+          &lt;/optionList&gt;
+        &lt;/addChoiceOptions&gt;
+      &lt;/actionList&gt;
+    &lt;/foreach&gt;
+  &lt;/initializationActionList&gt;
+  ...
+  &lt;parameterList&gt;
+    &lt;choiceParameter&gt;
+      &lt;name&gt;targetdrive&lt;/name&gt;
+      &lt;description&gt;Which drive?&lt;/description&gt;
+      &lt;explanation&gt;Disk drive to install application to&lt;/explanation&gt;
+      &lt;value&gt;&lt;/value&gt;
+      &lt;default&gt;&lt;/default&gt;
+      &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+      &lt;displayType&gt;radiobuttons&lt;/displayType&gt;
+      &lt;ordering&gt;default&lt;/ordering&gt;
+      &lt;width&gt;40&lt;/width&gt;
+      &lt;postShowPageActionList&gt;
+        &lt;setInstallerVariable&gt;
+          &lt;name&gt;installdir&lt;/name&gt;
+          &lt;value&gt;${targetdrive}:/${project.shortName}&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+      &lt;/postShowPageActionList&gt;
+      &lt;validationActionList&gt;
+        &lt;!-- Do not allow selecting a drive without write access --&gt;
+        &lt;throwError&gt;
+          &lt;text&gt;Selected drive cannot be written to&lt;/text&gt;
+          &lt;ruleList&gt;
+             &lt;fileTest&gt;
+               &lt;condition&gt;not_writable&lt;/condition&gt;
+               &lt;path&gt;${targetdrive}:/&lt;/path&gt;
+             &lt;/fileTest&gt;
+          &lt;/ruleList&gt;
+        &lt;/throwError&gt;
+      &lt;/validationActionList&gt;
+    &lt;/choiceParameter&gt;
+    ...
+    &lt;directoryParameter&gt;
+      &lt;name&gt;installdir&lt;/name&gt;
+      &lt;value&gt;&lt;/value&gt;
+      &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+      &lt;ask&gt;0&lt;/ask&gt;
+    &lt;/directoryParameter&gt;
+  &lt;/parameterList&gt;
+&lt;/project&gt;</pre><p>Please note that the above code is hiding the regular <code class="literal">installdir</code> page and configuring it in the choice <a class="link" href="apc.html#parameter.postShowPageActionList"><code class="literal">&lt;postShowPageActionList&gt;</code></a> to the chosen disk drive.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_parameter_groups"></a>Parameter Groups</h4></div></div></div><p><strong>Group Parameter. </strong>A group parameter allows you to logically group other parameters. They will be presented in the same screen in GUI and text installers. You need to place the grouped parameters in a parameterList section, as shown in the example below. Please note that parameter groups also need to contain a <code class="literal">&lt;name&gt;</code> tag.</p><p><a id="snip4971568"></a></p><pre class="programlisting">   &lt;parameterGroup&gt;
+     &lt;name&gt;userandpass&lt;/name&gt;
+     &lt;explanation&gt;Please enter the username and password for your database.&lt;/explanation&gt;
+     &lt;parameterList&gt;
+       &lt;stringParameter&gt;
+         &lt;name&gt;username&lt;/name&gt;
+         &lt;default&gt;admin&lt;/default&gt;
+         &lt;description&gt;Username&lt;/description&gt;
+       &lt;/stringParameter&gt;
+       &lt;passwordParameter&gt;
+         &lt;ask&gt;yes&lt;/ask&gt;
+         &lt;name&gt;masterpass&lt;/name&gt;
+         &lt;description&gt;Password&lt;/description&gt;
+         &lt;descriptionRetype&gt;Retype password&lt;/descriptionRetype&gt;
+         &lt;explanation&gt;Please provide a password for the database user&lt;/explanation&gt;
+         &lt;cliOptionName&gt;password&lt;/cliOptionName&gt;
+       &lt;/passwordParameter&gt;
+     &lt;/parameterList&gt;
+   &lt;/parameterGroup&gt;</pre><p>You can also implement more complex layouts, for example, a page to request a serial key:</p><p><a id="snip7153394"></a></p><pre class="programlisting"> &lt;parameterGroup&gt;
+    &lt;name&gt;licensekey&lt;/name&gt;
+    &lt;title&gt;License Key&lt;/title&gt;
+    &lt;explanation&gt;Please enter your registration key&lt;/explanation&gt;
+    &lt;value&gt;&lt;/value&gt;
+    &lt;default&gt;&lt;/default&gt;
+    &lt;orientation&gt;horizontal&lt;/orientation&gt;
+    &lt;parameterList&gt;
+       &lt;!-- A stringParameter for each field. We include a "-" as description to simulate the license-type format --&gt;
+       &lt;stringParameter name="code1" description="" allowEmptyValue="0" width="4"/&gt;
+       &lt;stringParameter name="code2" description="-" allowEmptyValue="0" width="4"/&gt;
+       &lt;stringParameter name="code3" description="-" allowEmptyValue="0" width="4"/&gt;
+       &lt;stringParameter name="code4" description="-" allowEmptyValue="0" width="4"/&gt;
+    &lt;/parameterList&gt;
+    &lt;validationActionList&gt;
+       &lt;foreach variables="field"&gt;
+          &lt;values&gt;"${code1}" "${code2}" "${code3}" "${code4}"&lt;/values&gt;
+          &lt;actionList&gt;
+             &lt;throwError&gt;
+                &lt;text&gt;${field}: Field should be four digits length&lt;/text&gt;
+                &lt;ruleList&gt;
+                    &lt;compareTextLength text="${field}" logic="equals" length="4" negate="1"/&gt;
+                &lt;/ruleList&gt;
+             &lt;/throwError&gt;
+             &lt;throwError&gt;
+                &lt;text&gt;${field}: Should be a pure digit string&lt;/text&gt;
+                &lt;ruleList&gt;
+                    &lt;stringTest text="${field}" type="digit" negate="1"/&gt;
+                &lt;/ruleList&gt;
+             &lt;/throwError&gt;
+          &lt;/actionList&gt;
+       &lt;/foreach&gt;
+    &lt;/validationActionList&gt;
+    &lt;postShowPageActionList&gt;
+       &lt;setInstallerVariable name="normalizedkey" value="${code1}${code2}${code3}${code4}"/&gt;
+    &lt;/postShowPageActionList&gt;
+    &lt;ruleList&gt;
+        &lt;compareText text="${installer_ui}" logic="equals" value="gui"/&gt;
+    &lt;/ruleList&gt;
+ &lt;/parameterGroup&gt;</pre><p>Please note this layout won’t be properly displayed in text mode so the example hides the page if the <code class="literal">${installer_ui}</code> built-in variable is not <code class="literal">gui</code> (see <a class="link" href="ar01s10.html#installation_modes_built_in_variables" title="Table 3. Installation Modes">Installation Modes</a> for additional details). If you plan to support text mode, you should then create an additional simplified page to be displayed instead:</p><p><a id="snip7095575"></a></p><pre class="programlisting"> &lt;stringParameter&gt;
+    &lt;name&gt;licensekeytext&lt;/name&gt;
+    &lt;title&gt;License Key&lt;/title&gt;
+    &lt;description&gt;Please introduce your registration key:&lt;/description&gt;
+    &lt;ruleList&gt;
+       &lt;compareText text="${installer_ui}" logic="equals" value="text"/&gt;
+    &lt;/ruleList&gt;
+ &lt;/stringParameter&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_dynamic_parameter_groups"></a>Dynamic Parameter Groups</h4></div></div></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="boolean_parameter_group"></a>Boolean Parameter Group</h5></div></div></div><p>This parameter is a special <code class="literal">&lt;parameterGroup&gt;</code> that allows toggling its state through clicking a checkbox. In addition to grouping the contained parameters, the <a class="link" href="apc.html#booleanParameterGroup"><code class="literal">&lt;booleanParameterGroup&gt;</code></a> also contains a <code class="literal">&lt;value&gt;</code>, like the <a class="link" href="apc.html#booleanParameter"><code class="literal">&lt;booleanParameter&gt;</code></a> does, that can be accessed like any other parameters. A basic example snippet would be:</p><p><a id="snip5338193"></a></p><pre class="programlisting">&lt;booleanParameterGroup&gt;
+   &lt;name&gt;advanced&lt;/name&gt;
+   &lt;description&gt;Advanced Mode&lt;/description&gt;
+   &lt;validationType&gt;always&lt;/validationType&gt;
+   &lt;value&gt;0&lt;/value&gt;
+   &lt;parameterList&gt;
+      &lt;choiceParameter&gt;
+         &lt;name&gt;emailNotifications&lt;/name&gt;
+         &lt;value&gt;always&lt;/value&gt;
+         &lt;description&gt;Email notifications&lt;/description&gt;
+         &lt;optionList&gt;
+            &lt;option description="Always send notifications" text="Always" value="always"/&gt;
+            &lt;option description="Never send notifications" text="Never" value="never"/&gt;
+         &lt;/optionList&gt;
+      &lt;/choiceParameter&gt;
+      &lt;stringParameter name="subject" description="Notifications Subject" value="[NOTIFICATION] #"/&gt;
+      &lt;directoryParameter description="Cache Dir" name="cacheDir" value="${system_temp_directory}/cache"/&gt;
+   &lt;/parameterList&gt;
+&lt;/booleanParameterGroup&gt;</pre><p>The parameters in the <a class="link" href="apc.html#booleanParameterGroup.parameterList"><code class="literal">&lt;parameterList&gt;</code></a> will be surrounded by a frame, selectable by a checkbox. If the checkbox is deselected, the child parameters will be displayed as read only (or won’t be displayed in <code class="literal">text</code> mode):</p><div class="figure"><a id="idm140427933044560"></a><p class="title"><strong>Figure 42. Boolean Parameter Group Deselected</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/booleaParameterGroup-deselected.png" align="middle" alt="Boolean Parameter Group Deselected" /></div></div></div><br class="figure-break" /><p>Enabling the checkbox will then make the child parameters editable:</p><div class="figure"><a id="idm140427933041024"></a><p class="title"><strong>Figure 43. Boolean Parameter Group Selected</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/booleaParameterGroup-selected.png" align="middle" alt="Boolean Parameter Group Selected" /></div></div></div><br class="figure-break" /><p>The <a class="link" href="apc.html#booleanParameterGroup"><code class="literal">&lt;booleanParameterGroup&gt;</code></a> also allows specifying under which conditions their grouped parameters will execute their <code class="literal">&lt;postShowPageActionList&gt;</code> and <code class="literal">&lt;validationActionList&gt;</code> actions through the <a class="link" href="apc.html#booleanParameterGroup.validationType"><code class="literal">&lt;validationType&gt;</code></a> setting. Its default value is <code class="literal">always</code>, which makes all of the visible child components to execute their <code class="literal">&lt;postShowPageActionList&gt;</code> and <code class="literal">&lt;validationActionList&gt;</code> actions like a regular parameter group would. This is the recommended setting when you just need the <code class="literal">&lt;booleanParameterGroup&gt;</code> to group a set of settings and allow them to be disabled so end users does not focus their attention on secondary configuration fields. For example, the example above showed a group containing some secondary settings, disabled by default. This way users will know that they do not require much attention or that they do not need to worry if they does not understand them.</p><p>In other circumstances, you won’t need the <code class="literal">&lt;booleanParameterGroup&gt;</code> only for grouping, but also to perform some actions on the provided information only if the checkbox is selected. For example, you could ask your users if they want to register the installation. In the case of the user not checking the <code class="literal">&lt;booleanParameterGroup&gt;</code> checkbox, you won’t be interested in the information contained in the child parameters or in reporting errors on its validation actions. In these cases you can set the <a class="link" href="apc.html#booleanParameterGroup.validationType"><code class="literal">&lt;validationType&gt;</code></a> to <code class="literal">ifSelected</code>.</p><p>Take into account that, regardless of the state of the <code class="literal">&lt;booleanParameterGroup&gt;</code> or the setting configured in its <code class="literal">&lt;validationType&gt;</code>, its child will unconditionally execute its <code class="literal">&lt;preShowPageActionList&gt;</code>. The reason is that the <code class="literal">&lt;preShowPageActionList&gt;</code> is intended to be used to customize the values of the page prior to displaying it, not to perform operations on the values, which have not yet been introduced or acknowledged by the end user.</p><p>In addition, the <code class="literal">&lt;booleanParameterGroup&gt;</code> action lists are also not affected. As any other parameter, it will execute all of its actions.</p><p>The below snippet illustrates the behavior:</p><p><a id="snip9011535"></a></p><pre class="programlisting">&lt;booleanParameterGroup&gt;
+   &lt;name&gt;register&lt;/name&gt;
+   &lt;description&gt;Register Installation&lt;/description&gt;
+   &lt;validationType&gt;ifSelected&lt;/validationType&gt;
+   &lt;value&gt;0&lt;/value&gt;
+   &lt;parameterList&gt;
+      &lt;stringParameter name="username" description="User Name" allowEmptyValue="0" value=""/&gt;
+      &lt;stringParameter name="email" description="Email" allowEmptyValue="0" value=""&gt;
+         &lt;validationActionList&gt;
+            &lt;throwError text="The provided value does not seem an email address"&gt;
+               &lt;ruleList&gt;
+                 &lt;regExMatch&gt;
+                   &lt;logic&gt;does_not_match&lt;/logic&gt;
+                   &lt;pattern&gt;[a-zA-Z0-9\._-]+@[a-zA-Z0-9\._-]+&lt;/pattern&gt;
+                   &lt;text&gt;${email}&lt;/text&gt;
+                 &lt;/regExMatch&gt;
+               &lt;/ruleList&gt;
+            &lt;/throwError&gt;
+         &lt;/validationActionList&gt;
+      &lt;/stringParameter&gt;
+      &lt;stringParameter description="License Key" name="key" value="" allowEmptyValue="0"/&gt;
+   &lt;/parameterList&gt;
+   &lt;validationActionList&gt;
+      &lt;httpPost&gt;
+        &lt;url&gt;http://example.com/register.php&lt;/url&gt;
+        &lt;filename&gt;${installdir}/result&lt;/filename&gt;
+        &lt;queryParameterList&gt;
+          &lt;queryParameter name="name" value="${username}"/&gt;
+          &lt;queryParameter name="email" value="${email}"/&gt;
+          &lt;queryParameter name="license" value="${key}"/&gt;
+        &lt;/queryParameterList&gt;
+        &lt;ruleList&gt;
+           &lt;isTrue value="${register}"/&gt;
+        &lt;/ruleList&gt;
+      &lt;/httpPost&gt;
+      ...
+   &lt;/validationActionList&gt;
+&lt;/booleanParameterGroup&gt;</pre><p>If the user checks the checkbox, the parameters will execute their validations. Please note that the code adds the registration actions to the <code class="literal">&lt;validationActionList&gt;</code> of the <code class="literal">&lt;booleanParameterGroup&gt;</code>, which are always executed. That is why it includes a rule checking its state.</p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="choice_parameter_group"></a>Choice Parameter Group</h5></div></div></div><p>This parameter is a special <code class="literal">&lt;parameterGroup&gt;</code> that allows selecting a subset of widgets. In addition to grouping the contained parameters, the <a class="link" href="apc.html#choiceParameterGroup"><code class="literal">&lt;choiceParameterGroup&gt;</code></a> also contains a <code class="literal">&lt;value&gt;</code>, like the <code class="literal">&lt;choiceParameter&gt;</code> does, that can be accessed like any other parameters. The value stored will represent the name of the selected child parameter. A basic example snippet would be:</p><p><a id="snip6871743"></a></p><pre class="programlisting">&lt;choiceParameterGroup&gt;
+   &lt;name&gt;usbLocation&lt;/name&gt;
+   &lt;description&gt;Select an USB Drive&lt;/description&gt;
+   &lt;value&gt;usbDetectedList&lt;/value&gt;
+   &lt;parameterList&gt;
+      &lt;choiceParameter&gt;
+         &lt;name&gt;usbDetectedList&lt;/name&gt;
+         &lt;value&gt;&lt;/value&gt;
+         &lt;description&gt;Autodetected List&lt;/description&gt;
+         &lt;optionList&gt;
+         &lt;/optionList&gt;
+         &lt;preShowPageActionList&gt;
+             &lt;addChoiceOptionsFromText&gt;
+               &lt;name&gt;usbDetectedList&lt;/name&gt;
+               &lt;text&gt;${driveInfo}&lt;/text&gt;
+             &lt;/addChoiceOptionsFromText&gt;
+         &lt;/preShowPageActionList&gt;
+      &lt;/choiceParameter&gt;
+      &lt;directoryParameter name="customDir" description="Custom Location" value=""/&gt;
+   &lt;/parameterList&gt;
+&lt;/choiceParameterGroup&gt;</pre><p>The parameters in the <code class="literal">&lt;parameterList&gt;</code> will be surrounded by a frame. The <code class="literal">&lt;choiceParameterGroup&gt;</code> will present a radiobutton for each of its first-level child parameters, labeled with the description of the child parameter:</p><div class="figure"><a id="idm140427933002128"></a><p class="title"><strong>Figure 44. Choice Parameter Group</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/choiceParameterGroup.png" align="middle" alt="Choice Parameter Group" /></div></div></div><br class="figure-break" /><p>The <code class="literal">&lt;choiceParameterGroup&gt;</code> will execute all of its child parameters <code class="literal">&lt;preShowpageActionList&gt;</code> (to allow them to auto-reconfigure) but will only execute the <code class="literal">&lt;validationActionList&gt;</code> and <code class="literal">&lt;postShowPageActionList&gt;</code> of the selected parameter.</p><p>Similarly to the <a class="link" href="apc.html#booleanParameterGroup"><code class="literal">&lt;booleanParameterGroup&gt;</code></a>, the <a class="link" href="apc.html#choiceParameterGroup"><code class="literal">&lt;choiceParameterGroup&gt;</code></a> will always execute its action lists regardless of the selected child.</p><p>The default look and feel of the parameter is to show as disabled all the deselected parameters, preventing the user from editing their information until the corresponding radiobutton is selected. If you want to overwrite this behavior and make all the parameters editable regardless of the selected option, you  just have to use the <code class="literal">&lt;unselectedOptionsBehavior&gt;</code> tag:</p><p><a id="snip3393531"></a></p><pre class="programlisting">&lt;choiceParameterGroup&gt;
+   &lt;name&gt;usbLocation&lt;/name&gt;
+   &lt;description&gt;Select an USB Drive&lt;/description&gt;
+   &lt;unselectedOptionsBehavior&gt;none&lt;/unselectedOptionsBehavior&gt;
+   &lt;value&gt;usbDetectedList&lt;/value&gt;
+   &lt;parameterList&gt;
+      ...
+   &lt;/parameterList&gt;
+&lt;/choiceParameterGroup&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="_nesting"></a>Nesting</h5></div></div></div><p>The <a class="link" href="apc.html#booleanParameterGroup"><code class="literal">&lt;booleanParameterGroup&gt;</code></a> and <a class="link" href="apc.html#choiceParameterGroup"><code class="literal">&lt;choiceParameterGroup&gt;</code></a> parameters, like any other parameter, can be grouped, either using a regular <a class="link" href="apc.html#parameterGroup"><code class="literal">&lt;parameterGroup&gt;</code></a> or another <a class="link" href="apc.html#booleanParameterGroup"><code class="literal">&lt;booleanParameterGroup&gt;</code></a> or <a class="link" href="apc.html#choiceParameterGroup"><code class="literal">&lt;choiceParameterGroup&gt;</code></a>.</p><p>Their only limitation is that they cannot configure their orientation as regular parameterGroups do.</p><p>An example of a complex layout using nesting could be the produced using the below code:</p><p><a id="snip5088523"></a></p><pre class="programlisting"> &lt;booleanParameterGroup&gt;
+   &lt;name&gt;register&lt;/name&gt;
+   &lt;description&gt;Register Installation&lt;/description&gt;
+   &lt;explanation&gt;&lt;/explanation&gt;
+   &lt;value&gt;1&lt;/value&gt;
+   &lt;default&gt;&lt;/default&gt;
+   &lt;validationType&gt;ifSelected&lt;/validationType&gt;
+   &lt;parameterList&gt;
+     &lt;stringParameter&gt;
+       &lt;name&gt;username&lt;/name&gt;
+       &lt;description&gt;Username&lt;/description&gt;
+       &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+       &lt;width&gt;40&lt;/width&gt;
+     &lt;/stringParameter&gt;
+     &lt;passwordParameter&gt;
+       &lt;name&gt;password&lt;/name&gt;
+       &lt;description&gt;Enter password&lt;/description&gt;
+       &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+       &lt;descriptionRetype&gt;&lt;/descriptionRetype&gt;
+       &lt;width&gt;20&lt;/width&gt;
+     &lt;/passwordParameter&gt;
+     &lt;stringParameter&gt;
+       &lt;name&gt;phone&lt;/name&gt;
+       &lt;description&gt;Phone&lt;/description&gt;
+       &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+       &lt;width&gt;40&lt;/width&gt;
+       &lt;validationActionList&gt;
+         &lt;throwError&gt;
+           &lt;text&gt;The provided phone '${phone}' does not seem a valid one&lt;/text&gt;
+           &lt;ruleList&gt;
+             &lt;regExMatch&gt;
+               &lt;logic&gt;does_not_match&lt;/logic&gt;
+               &lt;pattern&gt;^[\d+-]*$&lt;/pattern&gt;
+               &lt;text&gt;${phone}&lt;/text&gt;
+             &lt;/regExMatch&gt;
+           &lt;/ruleList&gt;
+         &lt;/throwError&gt;
+       &lt;/validationActionList&gt;
+     &lt;/stringParameter&gt;
+     &lt;choiceParameterGroup&gt;
+       &lt;name&gt;keyChoice&lt;/name&gt;
+       &lt;description&gt;Select how to provide your license key&lt;/description&gt;
+       &lt;explanation&gt;&lt;/explanation&gt;
+       &lt;value&gt;&lt;/value&gt;
+       &lt;default&gt;&lt;/default&gt;
+       &lt;parameterList&gt;
+         &lt;fileParameter&gt;
+           &lt;name&gt;keyFile&lt;/name&gt;
+           &lt;description&gt;Load from file&lt;/description&gt;
+           &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+           &lt;mustBeWritable&gt;0&lt;/mustBeWritable&gt;
+           &lt;mustExist&gt;0&lt;/mustExist&gt;
+           &lt;width&gt;40&lt;/width&gt;
+         &lt;/fileParameter&gt;
+         &lt;stringParameter&gt;
+           &lt;name&gt;licenseText&lt;/name&gt;
+           &lt;description&gt;Enter license key&lt;/description&gt;
+           &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+           &lt;width&gt;40&lt;/width&gt;
+         &lt;/stringParameter&gt;
+       &lt;/parameterList&gt;
+     &lt;/choiceParameterGroup&gt;
+   &lt;/parameterList&gt;
+ &lt;/booleanParameterGroup&gt;</pre><div class="figure"><a id="idm140427932972928"></a><p class="title"><strong>Figure 45. Complex Parameter Group Layout</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/complexGroupLayout.png" align="middle" alt="Complex Parameter Group Layout" /></div></div></div><br class="figure-break" /></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_command_line_parameters"></a>Command Line Parameters</h4></div></div></div><p>All of the parameters in a project are mapped to command line flags and, depending on the visibility of the parameter (configured by the <a class="link" href="apc.html#parameter.ask"><code class="literal">&lt;ask&gt;</code></a> property,) they will be displayed in the help menu.</p><p>The name of the command line flag will default to the parameter name but, if needed, it can be configured setting by a value for its <a class="link" href="apc.html#parameter.cliOptionName"><code class="literal">&lt;cliOptionName&gt;</code></a> property:</p><p><a id="snip2818505"></a></p><pre class="programlisting">    &lt;parameterList&gt;
+       &lt;directoryParameter&gt;
+          &lt;name&gt;installdir&lt;/name&gt;
+          &lt;description&gt;This is the description&lt;/description&gt;
+          &lt;explanation&gt;And here goes the explanation&lt;/explanation&gt;
+          &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+          &lt;ask&gt;yes&lt;/ask&gt;
+          &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+       &lt;/directoryParameter&gt;
+       &lt;!-- Will Not be displayed in help menu --&gt;
+       &lt;stringParameter name="secretFlg" value="" ask="0"/&gt;
+    &lt;/parameterList&gt;</pre><p>Even if a parameter is configured as hidden by setting its <code class="literal">&lt;ask&gt;</code> property to <code class="literal">0</code>, it will be accessible by the command line interface; it will just not be visible to the end user. Hidden parameters are very useful because they can be used as permanent variables that can be reconfigured when launching the installer. A good example would be to disable license validation when testing:</p><p><a id="snip627649"></a></p><pre class="programlisting">    &lt;parameterList&gt;
+       &lt;stringParameter&gt;
+          &lt;name&gt;license&lt;/name&gt;
+          &lt;description&gt;License Registration Page&lt;/description&gt;
+          &lt;explanation&gt;Please introduce you license number&lt;/explanation&gt;
+          &lt;ask&gt;yes&lt;/ask&gt;
+          &lt;ruleList&gt;
+              &lt;isTrue value="${validateLicense}"/&gt;
+          &lt;/ruleList&gt;
+       &lt;/stringParameter&gt;
+       &lt;!-- Will Not be displayed in help menu --&gt;
+       &lt;booleanParameter name="validateLicense" value="1" ask="0"/&gt;
+    &lt;/parameterList&gt;</pre><p>To avoid having to introduce the license number each time you launch the installer, you just have to disable the page when launching the installer:</p><pre class="programlisting">$&gt; myInstaller.run --validateLicense 0</pre><p>Although the <code class="literal">&lt;ask&gt;</code> property allows us to configure whether or not a page is displayed through the installation process and in the help menu, there are some scenarios in which it is desirable to show the associated command line flag while permanently hiding the page at runtime. This can be achieved by attaching a rule to the page:</p><p><a id="snip8912759"></a></p><pre class="programlisting">    &lt;parameterList&gt;
+       &lt;stringParameter&gt;
+          &lt;name&gt;create_shortcuts&lt;/name&gt;
+          &lt;description&gt;Create shortcuts&lt;/description&gt;
+          &lt;explanation&gt;Whether to create or not shortcuts to the application&lt;/explanation&gt;
+          &lt;ask&gt;yes&lt;/ask&gt;
+          &lt;ruleList&gt;
+              &lt;isTrue value="0"/&gt;
+          &lt;/ruleList&gt;
+       &lt;/stringParameter&gt;
+    &lt;/parameterList&gt;</pre><p>As you have set <code class="literal">ask="1"</code>, the command line flag is visible through the help menu but at runtime, when the rule attached is evaluated, it will not be displayed.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: If a page is not displayed, its associated actions are not executed"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">If a page is not displayed, its associated actions are not executed</th></tr><tr><td align="left" valign="top"><p>Independently of whether the page is hidden through a rule or by setting <code class="literal">ask="0"</code>, the action lists associated with the page will not be executed. The same will happen in unattended mode, as the pages are never displayed.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_option_files"></a>Option Files</h4></div></div></div><p>As explained in the previous section, the values of the installer parameters can be configured by passing command line options. However, when a large number of parameters must be configured, there is a more convenient way to do so using an option file.</p><p>An option file is just a <code class="literal">.properties</code> file containing all of the parameters to configure:</p><pre class="screen">prefix=/tmp
+validateLicense=0
+installDocumentation=1
+...</pre><p>This file can be passed to the installer using the <code class="literal">--optionfile</code> command line flag:</p><pre class="programlisting">$&gt; myInstaller.run --optionfile path/to/configuration.options</pre><p>Another way of providing the option file is to create a file in the same directory as the installer with the same name plus the <code class="literal">.options</code> suffix:</p><pre class="programlisting">$&gt; ls some/output/directory
+$&gt; myInstaller.run
+$&gt; myInstaller.run.options</pre><p>In both cases, the installer will parse the file and will map all the entries to internal parameters. Lines starting with a first non-blank <span class="emphasis"><em>#</em></span> character will be treated as comments.</p></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s06.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s08.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">6. Working with Files and Folders </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 8. Actions</td></tr></table></div></body></html>
