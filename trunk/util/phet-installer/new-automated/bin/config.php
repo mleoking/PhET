@@ -18,7 +18,7 @@
     define("TEMP_DIR",                        file_cleanup_local_filename(ROOT_DIR."temp/"));
     define("OUTPUT_DIR",                      file_cleanup_local_filename(TEMP_DIR."installer-output/"));
     define("INSTALLERS_WITH_ACTIVITIES_DIR",  file_cleanup_local_filename(OUTPUT_DIR."installers-with-activities/"));
-    define("DEPLOY_DIR",                      "/data/web/htdocs/phetsims/installer/");
+    define("DEPLOY_DIR",                      "/data/web/static/phetsims/installer/");
     define("TRANSLATED_JAR_TEMP_DIR",         file_cleanup_local_filename(TEMP_DIR."translated-jar-tmp/"));
     define("HTML5_SIMS_TEMP_DIR",             file_cleanup_local_filename(TEMP_DIR."html5-sims-tmp/"));
 
@@ -47,8 +47,7 @@
     // PhET Website Configuration
 
     define("PHET_VERSION",                      "1.0");
-    define("PHET_HOSTNAME",                     "phet.colorado.edu");
-    define("PHET_DOWNLOADS_HOSTNAME",           "phet-downloads.colorado.edu");
+    define("PHET_HOSTNAME",                     "phet-new.colorado.edu");
     define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
     define("PHET_SPONSOR_LIST_URL",             "http://".PHET_HOSTNAME."/en/sponsor-list");
     define("PHET_ENGLISH_WEBSITE_URL",          PHET_ROOT_URL.ENGLISH_LOCALE_STRING."/");
@@ -79,7 +78,7 @@
     define("RIPPER_EXE_Mac",     "httrack");
 
     // The location of the httrack executable.
-    define("RIPPER_DIR",  file_cleanup_local_filename("/usr/local/httrack/bin/"));
+    define("RIPPER_DIR",  file_cleanup_local_filename("/usr/bin/"));
     define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE"));
 
     // User agent to use when ripping.  These are used to make the web site
@@ -114,7 +113,6 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, '*mipmap!*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, '*all*.jar'));
     define("PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES",
-        CREATE_FILTER_ITEM('+', PHET_DOWNLOADS_HOSTNAME, '*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/video/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/zip/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
@@ -303,7 +301,7 @@
 
     define("BITROCK_VERSION_ARGS",  "--version");
 
-    define("BITROCK_DIR",               file_cleanup_local_filename(ROOT_DIR."installbuilder-8.5.0/"));
+    define("BITROCK_DIR",               file_cleanup_local_filename(ROOT_DIR."installbuilder-16.3.0/"));
     define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_DIR."projects/"));
 
     // Project files for building the "web mirror installer", meaning the
@@ -360,7 +358,7 @@
     // *****************************************************************************
     // Information for the creation of backups of previous installers.
 
-    define("INSTALLER_BACKUP_ROOT_DIR", "/data2/website-backup/installers/backups/");
+    define("INSTALLER_BACKUP_ROOT_DIR", "/data/share/phet/backups/installers/");
 
     // *****************************************************************************
     // JAR file signing config information.
