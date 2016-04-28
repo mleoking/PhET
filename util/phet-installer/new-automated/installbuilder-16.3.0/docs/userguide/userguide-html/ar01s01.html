@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>1. Introduction to InstallBuilder</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="next" href="ar01s02.html" title="2. Installation and Getting Started" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1. Introduction to InstallBuilder</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="index.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s02.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_introduction_to_installbuilder"></a>1. Introduction to InstallBuilder</h2></div></div></div><p>InstallBuilder is a modern, fully-featured, cross-platform installation tool. It is designed to simplify the deployment
+of both desktop and server software, helping you reduce support costs related to installation and provide a positive
+end-user experience.</p><p>This document provides an overview of InstallBuilder capabilities and architecture, as well as in-depth coverage of common
+installation topics. A companion appendix provides detailed information on each one of the XML configuration options.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_what_sets_installbuilder_apart"></a>1.1. What Sets InstallBuilder Apart</h3></div></div></div><p>To fully understand the architecture and capabilities of InstallBuilder, it is useful to consider the previous generation of
+cross-platform installers. These were built using the Java programming language. Java is a fine choice for multiple
+scenarios and indeed over half of your users use InstallBuilder to package Java-based applications. However, it has a set of
+major drawbacks when the goal is to create setup programs. For example, it requires a Java runtime environment to be present in the
+machine, which increases the chances of something going wrong if one is not present or the one present is not a suitable version.
+Alternatively, if the user decides to bundle a JRE with the installer in order to avoid these potential problems, it will increase
+significantly the footprint of the installation.  Java-based installers also require a self-extraction step, in which the
+files are first unpacked to disk before installation can begin. For large installers, this can be a time-consuming step and
+another source of installation-related issues if the end-user runs out of disk space during this process. Finally, and
+although alternative toolkits like SWT finally emerged, Java GUI development has traditionally suffered from poor
+performance and lack of a truly native look-and-feel. End-users react much more favorably to setup applications that are responsive
+and provide a familiar <span class="emphasis"><em>native</em></span> interface, even if the functionality is identical.</p><p>The above is not intended as a rant against Java-based installers, rather as an illustration of the challenges that a cross
+platform installation tool faces. So, how does InstallBuilder address these issues? Installers generated with
+InstallBuilder are native applications that do not require any runtime to be present in the system to run. This means that the overhead the
+installer introduces is very small, typically around 2 to 3 Mb, versus the 15 Mb to 20 Mb that a bundled JRE requires. In
+addition to this, the installers do not perform a self-extraction step, meaning that they start up instantaneously, whereas
+some Java-based installers can take up to minutes to initialize for large installers. Installers created with InstallBuilder use the
+underlying system libraries for displaying their GUI interfaces, so users get a native look and feel for
+each platform the installers run on, such as Windows and Mac OS X. On Linux and other Unix platforms, there is not a single
+<span class="emphasis"><em>standard</em></span> look and feel. In those cases, InstallBuilder provides a choice between the most common toolkits, Qt and GTK, as
+well as a built-in fallback mode.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_what_8217_s_new_in_installbuilder_15"></a>1.2. What’s New In InstallBuilder 15</h3></div></div></div><p>InstallBuilder 15 provides a host of new features, including:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Multi-core installer creation</strong></span>: InstallBuilder can take advantage of multiple cores/threads in LZMA and LZMA Ultra compression
+</li><li class="listitem">
+<span class="strong"><strong>Multi-core decompression</strong></span>: Significantly faster file unpacking by using up to 8 cores/threads for LZMA and LZMA Ultra compressions
+</li><li class="listitem">
+<span class="strong"><strong>Installation time performance improvements</strong></span>: Multiple changes in file management provide up to 20% speed increase for large installers
+</li><li class="listitem">
+<span class="strong"><strong>Support for cross-platform installer signing</strong></span>: Signing installers for both Windows and Mac OS X can now be done from any platform
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_features"></a>1.3. Features</h3></div></div></div><p>InstallBuilder is a fully-featured tool capable of addressing multiple installation scenarios, from desktop games to
+engineering simulation tools to enterprise-level server software.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Multiplatform Support</strong></span>: BitRock installers are native binaries that can run on Windows, OS X and Linux and most other
+flavors of Unix, including FreeBSD, OpenBSD, AIX, OS/400, HP-UX and IRIX.
+</li><li class="listitem">
+<span class="strong"><strong>Desktop Integration</strong></span>: BitRock installers provide native look and feel and
+desktop integration for Windows, OS X and Linux (KDE and Gnome).
+</li><li class="listitem">
+<span class="strong"><strong>Optimized</strong></span>: BitRock installers are optimized in size and speed and do not require a
+self-extraction step, reducing download, startup and installation time.
+Built-in LZMA support provides great compression ratios.
+</li><li class="listitem">
+<span class="strong"><strong>No External Dependencies</strong></span>: BitRock installers are single-file, self-contained native executables with no
+external dependencies and minimal overhead. Unlike competing products, all BitRock installers are
+truly native code and do not require bundling a Java Runtime Environment.
+</li><li class="listitem">
+<span class="strong"><strong>Ease of Use</strong></span>: BitRock installers provide an intuitive and easy to use interface
+on all platforms, even for end users without previous Linux experience.
+</li><li class="listitem">
+<span class="strong"><strong>Ease of Development</strong></span>: InstallBuilder includes an easy to learn, easy to use GUI environment.
+Design, build and test installers with the click of a button.
+</li><li class="listitem">
+<span class="strong"><strong>Time Saving Functionality</strong></span>: For advanced users, a friendly XML project format supports source control integration,
+collaborative development and customizing projects both by hand and using external scripts.
+A command line interface allows you to automate and integrate the building process.
+QuickBuild functionality allows you to update installers in a few seconds,
+without having to repack the entire application.
+</li><li class="listitem">
+<span class="strong"><strong>Built-in Actions</strong></span>: InstallBuilder provides convenient built-in actions for commonly required
+installation functionality such as auto-detecting a Java(tm) Runtime, changing file permissions and ownership,
+substituting text in a file, adding environment variables, adding directories to the path, creating symbolic links,
+changing the Windows registry, launching external scripts and so on.
+</li><li class="listitem">
+<span class="strong"><strong>Crossplatform Build Support</strong></span>: The installer builder tool can run
+on Windows, Mac OS X, Linux and all other supported Unix platforms and generate installers for
+all target platforms from a single project file. Create all your installers from a single build environment!
+</li><li class="listitem">
+<span class="strong"><strong>Customization</strong></span>: BitRock installers can be customized in a variety of ways, both graphically and
+in functionality. It is possible to ask for multiple parameters, like username and passwords, in the same
+installer screen. This functionality helps to simplify the installation process for end-users.
+</li><li class="listitem">
+<span class="strong"><strong>Multiple Installation Modes</strong></span>: BitRock installers provide: several
+GUI modes with native look-and-feel, for installation in a variety of desktop environments,
+a text-based installation mode, for console-based and remote installations,
+and a silent/unattended install mode which can be used for integration in shell scripts for automated deployment.
+</li><li class="listitem">
+<span class="strong"><strong>Support for Qt® GUI Frontend</strong></span>: The InstallBuilder for Qt
+family of products provides a GUI installation mode using the Qt
+crossplatform toolkit, enhancing the end-user experience
+</li><li class="listitem">
+<span class="strong"><strong>Rollback Functionality</strong></span>: BitRock installers by default perform a backup of all the files overwritten during
+installation, so if there is an error, the system can be recovered to its previous state.
+</li><li class="listitem">
+<span class="strong"><strong>Native Package Integration</strong></span>: BitRock installers can register your
+software with the RPM and DEB package databases, combining the ease of use
+of an installer wizard with the underlying native package management system.
+</li><li class="listitem">
+<span class="strong"><strong>RPM and DEB generation</strong></span>: In addition to creating native executables
+that can register with the RPM subsystem, BitRock InstallBuilder can generate
+self-contained RPM and Debian packages that can be installed using the native package management tools.
+</li><li class="listitem">
+<span class="strong"><strong>Uninstall Functionality</strong></span>: An uninstall program is created as part of every installation, allowing users to easily
+uninstall the software. Like the installers, it can be run in a variety of modes.
+On Windows, uninstall functionality can also be accessed from the Add/Remove Programs entry in the Control Panel.
+</li><li class="listitem">
+<span class="strong"><strong>Startup Failure Detection</strong></span>: BitRock installers will automatically and gracefully detect the best installation mode available.
+Users also have the option to manually select a mode.
+</li><li class="listitem">
+<span class="strong"><strong>Language and Platform Independent</strong></span>: BitRock installers can install applications written in any language, including:
+Java, PHP, Perl, Python, Ruby, C/C++ and .NET/Mono.
+</li><li class="listitem">
+<span class="strong"><strong>Multiple Language Support</strong></span>: BitRock installers support a variety of installation languages, including English, German,
+Japanese, Spanish, Italian, French, Portuguese, Traditional Chinese, Dutch, Polish, Valencian, Catalan,
+Estonian, Slovenian, Romanian, Hungarian, Russian and Welsh. Installers in Qt mode support
+right to left languages such as Arabic. The full list can be found in the <a class="link" href="ar01s12.html#available_languages">Languages</a> section. You can specify a default language or let the user decide. Please contact us if you
+require additional language support.
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_supported_platforms"></a>1.4. Supported Platforms</h3></div></div></div><p>InstallBuilder provides support for all common (and not so common!) operating systems out there. If you want to know if
+InstallBuilder supports a particular platform, please contact us - chances are that it does. InstallBuilder-generated installers will run on:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Windows XP, 2003, 2008, Vista, Windows 7, Windows 8, Windows 8.1
+</li><li class="listitem">
+Mac OS X (PPC &amp; Intel) 10.2 and later
+</li><li class="listitem">
+Linux (Intel x86/x64, Itanium, s390 and PPC)  All distributions and version including Ubuntu, RHEL, SLES and Meego.
+</li><li class="listitem">
+Solaris (Intel and Sparc) 8, 9, 10, 11
+</li><li class="listitem">
+HP-UX (PA-RISC, Itanium)
+</li><li class="listitem">
+FreeBSD 4.x and later
+</li><li class="listitem">
+OpenBSD 3.x and later
+</li><li class="listitem">
+AIX 4.3 and later
+</li><li class="listitem">
+OS/400
+</li><li class="listitem">
+IRIX 6.5
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_requirements"></a>1.5. Requirements</h3></div></div></div><p>The command line builder tool will run on any of the supported platforms, allowing you to generate installers for any of the other supported platforms for
+the InstallBuilder edition you are using. For example, if you are running InstallBuilder Professional on Linux, you will be able to generate installers for Windows, Linux and OS X. This is particularly useful for situations in which you need to build the installers as part of a continuous integration/daily build scenario.</p><p>The GUI installer design tool helps you to visually create installation projects. The GUI design tool runs on Linux x86/x64, OS X and Windows with a minimum of 800x600 screen resolution. Note that you can always edit XML projects directly or even alternate between using the GUI and editing the XML project file as needed.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_editions"></a>1.6. Editions</h3></div></div></div><p>InstallBuilder is distributed in multiple editions, with the primary differentiation being the supported platforms that you can create installers for. The link below provides a detailed comparison of the available editions:</p><p><a class="ulink" href="http://installbuilder.bitrock.com/compare-installbuilder-editions.html" target="_top">http://installbuilder.bitrock.com/compare-installbuilder-editions.html</a></p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_the_gui"></a>1.7. The GUI</h3></div></div></div><p>InstallBuilder allows projects to be created and edited with an easy to use graphical editor tool. Adding new actions to the installation logic or files to pack is as easy as double-clicking the appropriate element and navigating through the organized dialogs. The GUI is only available on Linux x86/x64, Windows and OS X.</p><p>Once the GUI is launched, you will be welcomed with the screen displayed in Figure 1. From this main screen you can use the top menu entries to create a new project or open an existing one, launch the build process, check for an updated version of InstallBuilder, register your copy of the tool and open the documentation.</p><div class="figure"><a id="idm140427935419616"></a><p class="title"><strong>Figure 1. GUI welcome screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/gui-noproject.png" align="middle" alt="GUI welcome screen" /></div></div></div><br class="figure-break" /><p>Alternatively, you can use the shortcut buttons to perform the most common actions:</p><div class="figure"><a id="idm140427935416336"></a><p class="title"><strong>Figure 2. GUI Toolbar</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/toolbar.png" align="middle" alt="GUI Toolbar" /></div></div></div><br class="figure-break" /><p>Some of the toolbar buttons will be disabled depending on whether a project is loaded or not. Figure 2 also shows the notification you
+will see when a new version is available. If the builder has access to the Internet and is configured to check for updates, it will automatically report
+these notifications for each new version released. The process can also be manually triggered using the <code class="literal">Update</code> menu. Clicking on the blue arrow will open
+the downloads page in a web browser.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Disabling checking for new versions of InstallBuilder"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Disabling checking for new versions of InstallBuilder</th></tr><tr><td align="left" valign="top"><p>If you do not want the installer to check for updates on startup, you can edit the <code class="literal">update.dat</code> file located in the same directory as the builder and set <code class="literal">check_for_updates=0</code></p></td></tr></table></div><p>After loading or creating a new project, a new UI will appear, divided in different sections:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Product Details</strong></span>: This section presents a quick overview of the basic configuration settings for the project (Figure 3).
+</li></ul></div><div class="figure"><a id="idm140427935406800"></a><p class="title"><strong>Figure 3. New project</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/gui-newproject.png" align="middle" alt="New project" /></div></div></div><br class="figure-break" /><p>The main project settings <code class="literal">Vendor name</code>, <code class="literal">Product Name</code>, <code class="literal">Product Filename</code> and <code class="literal">Version Number</code> are defined once and used multiple times when displaying information during the installation process; in the Add/Remove Program menu, the installer filename and so on. It is always possible to override these default values when necessary.</p><p>Enabling <code class="literal">Save Relative Paths</code> will convert all of the absolute paths related to the build process (files to pack, images, readme…) to relative paths, using the location of the project file as the reference. This setting will be applied automatically and transparently when saving and loading the project so it will not be noticeable while working in the GUI. This particular setting is especially useful when sharing a project between developers or operating systems, as the location of the resources is not hardcoded, as explained in the<a class="link" href="ar01s02.html#when_to_use_save_relative_paths" title="When is it necessary to use the Save Relative Paths option?">When is it necessary to use the Save Relative Paths option?</a> note. If the paths were already manually configured as relative, they will be preserved and resolved when building, also using the location of the project to absolutize them.</p><p>The <code class="literal">License File</code> setting specifies a license file that will be displayed during installation. The end user will need to accept this license text before continuing with the installation process. If you do not provide a license file, the license acceptance screen will not be displayed to the end user.</p><p>You can also provide an alternate <code class="literal">HTML License File</code>. This HTML-formatted license will be used if the front-end supports it (currently only the case for the Qt front-end). Otherwise the default license text specified in the <code class="literal">License File</code> setting will be displayed.</p><p>You can also display multiple licenses in different languages or display them conditionally, as described in the <a class="link" href="ar01s12.html#displaying_a_localized_license_and_readme" title="Displaying a Localized License and Readme">Displaying a localized license and readme</a> section.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Files</strong></span>: This section allows managing all of the resources included in the project such as files to pack, and shortcuts to create. These resources are organized in components, designed to group common functionalities, and files, which are divided into folders (Figure 4).
+</li></ul></div><div class="figure"><a id="idm140427935391104"></a><p class="title"><strong>Figure 4. Files screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/gui-files.png" align="middle" alt="Files screen" /></div></div></div><br class="figure-break" /><p>Shortcuts may also be added in this section.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Advanced</strong></span>: The same way the <span class="strong"><strong>Files</strong></span> section specifies the resources that will be packaged, the <span class="strong"><strong>Advanced</strong></span> section deals with the configuration of the actions and rules associated with them (Figure 5). It also allows you to describe the inputs that the installer will accept and the pages to display at runtime to interact with the end user. The nodes in the tree can also be reordered, moved (you can drag and drop them) and copied (press shift while performing a drag and drop operation). In addition, the root node, representing the project, allows configuring the global project properties.
+</li></ul></div><div class="figure"><a id="idm140427935383808"></a><p class="title"><strong>Figure 5. Advanced screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/gui-advanced.png" align="middle" alt="Advanced screen" /></div></div></div><br class="figure-break" /><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Customization</strong></span>: The <span class="strong"><strong>Customization</strong></span> section (Figure 6) provides a convenient way to configure the most common project properties.
+It is a subset of the properties available in the <span class="strong"><strong>Advanced</strong></span> tab.
+</li></ul></div><div class="figure"><a id="idm140427935377584"></a><p class="title"><strong>Figure 6. Customization screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/gui-customization.png" align="middle" alt="Customization screen" /></div></div></div><br class="figure-break" /><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Packaging</strong></span>: This section allows you to specify the target platform for which you want to build the installer. It provides a log of the build process, including a progress bar and displaying build-errors in red when they occur (Figure 7).
+</li></ul></div><div class="figure"><a id="idm140427935372432"></a><p class="title"><strong>Figure 7. Packaging screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/gui-packaging.png" align="middle" alt="Packaging screen" /></div></div></div><br class="figure-break" /><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p>The GUI is only available on Linux, Linux x64, Windows and OS X. The command line builder is available on all platforms.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_the_xml"></a>1.8. The XML</h3></div></div></div><p>InstallBuilder project files are stored in XML format. This enables and simplifies source control integration, collaborative development and customizing projects both by hand and using external scripts.</p><p>Our XML is <span class="emphasis"><em>human friendly</em></span>, and although the project can be fully managed through the GUI, advanced users can also directly edit the XML project using the built-in XML editor or their preferred text editor or IDE. The following is a complete example of what an InstallBuilder project looks like. This particular project does not package any files.</p><p><a id="snip52828"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;shortName&gt;sample&lt;/shortName&gt;
+    &lt;fullName&gt;Sample Project&lt;/fullName&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;enableRollback&gt;1&lt;/enableRollback&gt;
+    &lt;enableTimestamp&gt;1&lt;/enableTimestamp&gt;
+    &lt;componentList&gt;
+        &lt;component&gt;
+            &lt;name&gt;default&lt;/name&gt;
+            &lt;description&gt;Default Component&lt;/description&gt;
+            &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+            &lt;selected&gt;1&lt;/selected&gt;
+            &lt;show&gt;1&lt;/show&gt;
+            &lt;folderList&gt;
+                &lt;folder&gt;
+                    &lt;description&gt;Program Files&lt;/description&gt;
+                    &lt;destination&gt;${installdir}&lt;/destination&gt;
+                    &lt;name&gt;programfiles&lt;/name&gt;
+                    &lt;platforms&gt;all&lt;/platforms&gt;
+                    &lt;shortcutList&gt;
+                        &lt;shortcut&gt;
+                            &lt;comment&gt;Uninstall&lt;/comment&gt;
+                            &lt;exec&gt;${installdir}/${project.uninstallerName}&lt;/exec&gt;
+                            &lt;icon&gt;&lt;/icon&gt;
+                            &lt;name&gt;Uninstall ${project.fullName}&lt;/name&gt;
+                            &lt;path&gt;${installdir}&lt;/path&gt;
+                            &lt;platforms&gt;all&lt;/platforms&gt;
+                            &lt;runAsAdmin&gt;0&lt;/runAsAdmin&gt;
+                            &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+                            &lt;windowsExec&gt;${installdir}/${project.uninstallerName}.exe&lt;/windowsExec&gt;
+                            &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+                            &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+                            &lt;windowsPath&gt;${installdir}&lt;/windowsPath&gt;
+                        &lt;/shortcut&gt;
+                    &lt;/shortcutList&gt;
+                &lt;/folder&gt;
+            &lt;/folderList&gt;
+            &lt;startMenuShortcutList&gt;
+                &lt;startMenuShortcut&gt;
+                    &lt;comment&gt;Uninstall ${project.fullName}&lt;/comment&gt;
+                    &lt;name&gt;Uninstall ${project.fullName}&lt;/name&gt;
+                    &lt;runAsAdmin&gt;0&lt;/runAsAdmin&gt;
+                    &lt;runInTerminal&gt;0&lt;/runInTerminal&gt;
+                    &lt;windowsExec&gt;${installdir}/${project.uninstallerName}.exe&lt;/windowsExec&gt;
+                    &lt;windowsExecArgs&gt;&lt;/windowsExecArgs&gt;
+                    &lt;windowsIcon&gt;&lt;/windowsIcon&gt;
+                    &lt;windowsPath&gt;${installdir}/&lt;/windowsPath&gt;
+                &lt;/startMenuShortcut&gt;
+            &lt;/startMenuShortcutList&gt;
+        &lt;/component&gt;
+    &lt;/componentList&gt;
+    &lt;parameterList&gt;
+        &lt;directoryParameter&gt;
+            &lt;name&gt;installdir&lt;/name&gt;
+            &lt;description&gt;Installer.Parameter.installdir.description&lt;/description&gt;
+            &lt;explanation&gt;Installer.Parameter.installdir.explanation&lt;/explanation&gt;
+            &lt;value&gt;&lt;/value&gt;
+            &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+            &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+            &lt;ask&gt;yes&lt;/ask&gt;
+            &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+            &lt;mustBeWritable&gt;yes&lt;/mustBeWritable&gt;
+            &lt;mustExist&gt;0&lt;/mustExist&gt;
+            &lt;width&gt;30&lt;/width&gt;
+        &lt;/directoryParameter&gt;
+    &lt;/parameterList&gt;
+&lt;/project&gt;</pre><p>If your XML editor supports it, you can use a RELAX NG schema for validation. It is included as <code class="literal">InstallBuilder.rng</code>, inside the <code class="literal">docs</code> directory of your installation.</p><p>Most of the examples presented in this guide are provided as XML snippets, but you can achieve identical functionality using the GUI</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p>The XML specification requires that specific characters are escaped. This is done automatically if entering the values through the GUI but if you are directly editing the XML code you must take it into account. The table below summarizes the most common characters and their escape sequence:</p><div class="table"><a id="idm140427935355840"></a><p class="title"><strong>Table 1. Common XML escape sequences</strong></p><div class="table-contents"><table summary="Common XML escape sequences" cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="30%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"> Character      </th><th style="border-bottom: 1px solid #527bbd; " align="center" valign="top"> XML escaped sequence</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>&amp;</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">&amp;amp;</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>&lt;</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">&amp;lt;</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>&gt;</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">&amp;gt;</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>'</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">&amp;apos;</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>"</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">&amp;quot;</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>\n</p></td><td style="" align="left" valign="top"><p><code class="literal">&amp;#xA;</code></p></td></tr></tbody></table></div></div><br class="table-break" /><p>Some of the values only need to be escaped if provided as part of an attribute value, not an element.</p><p>The snippet below adds some lines to an existing file, separating them using escaped line breaks (<span class="emphasis"><em>\n</em></span>):</p><p><a id="snip7886722"></a></p><pre class="programlisting"> &lt;addTextToFile&gt;
+    &lt;file&gt;${installdir}/foo.txt&lt;/file&gt;
+    &lt;text&gt;line1&amp;#xA;line2&amp;#xA;line3&lt;/text&gt;
+ &lt;/addTextToFile&gt;</pre><p>It is also possible to escape a full block of code using the <code class="literal">&lt;![CDATA[ .. ]]&gt;</code> notation</p><p><a id="snip2143044"></a></p><pre class="programlisting">  &lt;writeFile&gt;
+    &lt;path&gt;${installdir}/${project.vendor}-x-my-mime.xml&lt;/path&gt;
+    &lt;text&gt;&lt;![CDATA[
+&lt;?xml version="1.0"?&gt;
+&lt;mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'&gt;
+  &lt;mime-type type="application/x-my-mime"&gt;
+    &lt;comment&gt;My new file type&lt;/comment&gt;
+    &lt;glob pattern="*.mymime"/&gt;
+  &lt;/mime-type&gt;
+&lt;/mime-info&gt;
+ ]]&gt;&lt;/text&gt;
+  &lt;/writeFile&gt;</pre><p>The text inside the <code class="literal">&lt;![CDATA[ .. ]]&gt;</code> block will be interpreted literally, so you do not need to escape any character.</p></td></tr></table></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s02.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">BitRock InstallBuilder User Guide 15 </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 2. Installation and Getting Started</td></tr></table></div></body></html>

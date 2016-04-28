@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>27. OS X</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s26.html" title="26. Windows" /><link rel="next" href="ar01s28.html" title="28. Encryption and password protection" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">27. OS X</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s26.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s28.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_os_x_2"></a>27. OS X</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_packaging_installers_as_zip_files"></a>27.1. Packaging installers as ZIP files</h3></div></div></div><p>OS X application bundles are merely directories with some metadata specified through the Info.plist file. Because of that, to deliver your application you must pack it somehow. InstallBuilder enables packaging the Mac OS X installer as a zip archive.</p><p>In order to use this functionality, simply enable the <a class="link" href="apd.html#createOsxBundleZip"><code class="literal">&lt;createOsxBundleZip&gt;</code></a> setting in your project - such as:</p><p><a id="snip4216072"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;createOsxBundleZip&gt;1&lt;/createOsxBundleZip&gt;
+    ...
+&lt;/project&gt;</pre><p>This will cause the installer to build the output app bundle, followed by packaging the app bundle in a zip file, which is stored in the same location and with the <code class="literal">.zip</code> prefix.</p><p>For example if your application is created as <code class="literal">~/Documents/InstallBuilder/output/sample-1.0-osx-installer.app</code>, the archive will be created as <code class="literal">~/Documents/InstallBuilder/output/sample-1.0-osx-installer.app.zip</code>.</p><p>The output ZIP archive will also have proper permissions set for all of the files inside the archive, so it is possible to create Mac OS X installers from any platform - including Windows.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_using_dmgs_to_bundle_your_installers"></a>27.2. Using DMGs to bundle your installers</h3></div></div></div><p>The most common way used to deliver applications on OS X is using DMG files. A DMG is simply a disk image, which is mounted as separate volumen when opened.</p><p>InstallBuilder allows automatically bundling your installer on Windows, OS X and Linux. However, it currently only allows basic customizations (setting the background image). If you need to further customize the DMGs and are building on OS X, you could follow the manual DMG creation section instead.</p><p>To enable this functionality, you just need to enable the <a class="link" href="apd.html#createOsxBundleDmg"><code class="literal">&lt;createOsxBundleDmg&gt;</code></a> setting:</p><p><a id="snip9530598"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;createOsxBundleDmg&gt;1&lt;/createOsxBundleDmg&gt;
+    ...
+&lt;/project&gt;</pre><div class="figure"><a id="idm140427926029184"></a><p class="title"><strong>Figure 88. Builder Creating a DMG</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="60%"><tr><td align="center"><img src="images/build-dmg-1.png" align="middle" width="100%" alt="Builder Creating a DMG file" /></td></tr></table></div></div></div><br class="figure-break" /><p>You can see the result in Figure 75</p><div class="figure"><a id="idm140427926025200"></a><p class="title"><strong>Figure 89. Simple DMG</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="30%"><tr><td align="center"><img src="images/simple-dmg.png" align="middle" width="100%" alt="Simple DMG" /></td></tr></table></div></div></div><br class="figure-break" /><p>As previously mentioned, it is also possible to provide a background image using the <a class="link" href="apd.html#osxDmgBackgroundImage"><code class="literal">&lt;osxDmgBackgroundImage&gt;</code></a> tag. The OS X bundle will be centered based on the image dimensions:</p><p><a id="snip776386"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;createOsxBundleDmg&gt;1&lt;/createOsxBundleDmg&gt;
+    &lt;osxDmgBackgroundImage&gt;${build_project_directory}/images/bitnami-clouds.png&lt;/osxDmgBackgroundImage&gt;
+    ...
+&lt;/project&gt;</pre><div class="figure"><a id="idm140427926017072"></a><p class="title"><strong>Figure 90. DMG with Custom Background</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="30%"><tr><td align="center"><img src="images/simple-dmg-background.png" align="middle" width="100%" alt="DMG with Custom Background" /></td></tr></table></div></div></div><br class="figure-break" /><p>The DMG title can be configured through the <a class="link" href="apd.html#osxDmgTitle"><code class="literal">&lt;osxDmgTitle&gt;</code></a> tag:</p><p><a id="snip8726477"></a></p><pre class="programlisting">&lt;project&gt;
+    ...
+    &lt;osxDmgTitle&gt;New DMG title&lt;/osxDmgTitle&gt;
+    ...
+&lt;/project&gt;</pre><p>If no value is provided, it will default to the project full name.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_manual_dmg_creation"></a>Manual DMG creation</h4></div></div></div><p>Although InstallBuilder built-in DMG creation is really easy to use, sometimes you will require to further customize the generated DMGs. In those case, if you are creating your installers on OS X, you could use the below code to automatically create your DMG file in the <a class="link" href="apd.html#postBuildActionList"><code class="literal">&lt;postBuildActionList&gt;</code></a>:</p><p><a id="snip5901886"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;postBuildActionList&gt;
+         &lt;createTimeStamp&gt;
+            &lt;format&gt;%Y%m%d%H%M%S&lt;/format&gt;
+            &lt;variable&gt;timestamp&lt;/variable&gt;
+        &lt;/createTimeStamp&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;tempDir&lt;/name&gt;
+            &lt;value&gt;/tmp/.tmpDir${timestamp}&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;dmgName&lt;/name&gt;
+            &lt;value&gt;${installbuilder_install_root}/output/${project.installerFilename}.dmg&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;tempDmgFile&lt;/name&gt;
+            &lt;value&gt;${tempDir}/tmp.dmg&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${installbuilder_install_root}/output/${project.installerFilename}.dmg&lt;/path&gt;
+        &lt;/deleteFile&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${tempDir}&lt;/path&gt;
+        &lt;/deleteFile&gt;
+        &lt;createDirectory&gt;
+            &lt;path&gt;${tempDir}/output&lt;/path&gt;
+        &lt;/createDirectory&gt;
+        &lt;copyFile&gt;
+            &lt;destination&gt;${tempDir}/output&lt;/destination&gt;
+            &lt;origin&gt;${installbuilder_install_root}/output/${project.installerFilename}&lt;/origin&gt;
+        &lt;/copyFile&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;hdiutil&lt;/program&gt;
+            &lt;programArguments&gt;create -srcfolder "${tempDir}/output" -volname "${project.fullName}" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW "${tempDmgFile}"&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;hdiutil&lt;/program&gt;
+            &lt;programArguments&gt;convert "${tempDmgFile}" -format UDZO -imagekey zlib-level=9 -o "${dmgName}"&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${tempDir}&lt;/path&gt;
+        &lt;/deleteFile&gt;
+   &lt;/postBuildActionList&gt;
+   ...
+&lt;/project&gt;</pre><p>Now you can test the generated DMG file by doubleclicking on it under the output directory:</p><div class="figure"><a id="idm140427926000848"></a><p class="title"><strong>Figure 91. Installer bundled in a DMG</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/dmg.png" align="middle" alt="Installer bundled in a DMG" /></div></div></div><br class="figure-break" /><p>A new volume will appear in your desktop:</p><div class="figure"><a id="idm140427925997312"></a><p class="title"><strong>Figure 92. DMG Volume</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/dmg-volume.png" align="middle" alt="DMG Volume" /></div></div></div><br class="figure-break" /><p>The new volume uses the default icon. If you have seen other commercial sofware DMGs, they usually display a customized volume icon, that is also possible with InstallBuilder. You will just need to create the appropriate icns file (<code class="literal">dmg-icon.png</code> in our example, placed in the folder <code class="literal">images</code> in ur project directory) and use the updated version of the code:</p><p><a id="snip3002060"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;postBuildActionList&gt;
+        &lt;createTimeStamp&gt;
+            &lt;format&gt;%Y%m%d%H%M%S&lt;/format&gt;
+            &lt;variable&gt;timestamp&lt;/variable&gt;
+        &lt;/createTimeStamp&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;tempDir&lt;/name&gt;
+            &lt;value&gt;/tmp/.tmpDir${timestamp}&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;dmgName&lt;/name&gt;
+            &lt;value&gt;${installbuilder_install_root}/output/${project.installerFilename}.dmg&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;tempDmgFile&lt;/name&gt;
+            &lt;value&gt;${tempDir}/tmp.dmg&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${installbuilder_install_root}/output/${project.installerFilename}.dmg&lt;/path&gt;
+        &lt;/deleteFile&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${tempDir}&lt;/path&gt;
+        &lt;/deleteFile&gt;
+        &lt;createDirectory&gt;
+            &lt;path&gt;${tempDir}/output&lt;/path&gt;
+        &lt;/createDirectory&gt;
+        &lt;createDirectory&gt;
+            &lt;path&gt;${tempDir}/mnt&lt;/path&gt;
+        &lt;/createDirectory&gt;
+        &lt;copyFile&gt;
+            &lt;destination&gt;${tempDir}/output&lt;/destination&gt;
+            &lt;origin&gt;${installbuilder_install_root}/output/${project.installerFilename}&lt;/origin&gt;
+        &lt;/copyFile&gt;
+        &lt;actionGroup&gt;
+            &lt;actionList&gt;
+              &lt;copyFile&gt;
+                 &lt;destination&gt;${tempDir}/output/.VolumeIcon.icns&lt;/destination&gt;
+                 &lt;origin&gt;${build_project_directory}/images/dmg-icon.png&lt;/origin&gt;
+              &lt;/copyFile&gt;
+              &lt;runProgram&gt;
+                 &lt;program&gt;SetFile&lt;/program&gt;
+                 &lt;programArguments&gt;-c icnC "${tempDir}/output/.VolumeIcon.icns"&lt;/programArguments&gt;
+              &lt;/runProgram&gt;
+            &lt;/actionList&gt;
+            &lt;ruleList&gt;
+                 &lt;fileExists path="${build_project_directory}/images/dmg-icon.png"/&gt;
+            &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;hdiutil&lt;/program&gt;
+            &lt;programArguments&gt;create -srcfolder "${tempDir}/output" -volname "${project.fullName}" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW "${tempDmgFile}"&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+        &lt;actionGroup&gt;
+            &lt;actionList&gt;
+              &lt;runProgram&gt;
+                 &lt;program&gt;hdiutil&lt;/program&gt;
+                 &lt;programArguments&gt;attach "${tempDmgFile}" -mountpoint "${tempDir}/mnt"&lt;/programArguments&gt;
+              &lt;/runProgram&gt;
+              &lt;runProgram&gt;
+                 &lt;program&gt;SetFile&lt;/program&gt;
+                 &lt;programArguments&gt;-a C "${tempDir}/mnt"&lt;/programArguments&gt;
+              &lt;/runProgram&gt;
+              &lt;runProgram&gt;
+                 &lt;program&gt;hdiutil&lt;/program&gt;
+                 &lt;programArguments&gt;detach "${tempDir}/mnt"&lt;/programArguments&gt;
+              &lt;/runProgram&gt;
+            &lt;/actionList&gt;
+            &lt;ruleList&gt;
+                 &lt;fileExists path="${build_project_directory}/images/dmg-icon.png"/&gt;
+            &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;hdiutil&lt;/program&gt;
+            &lt;programArguments&gt;convert "${tempDmgFile}" -format UDZO -imagekey zlib-level=9 -o "${dmgName}"&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${tempDir}&lt;/path&gt;
+        &lt;/deleteFile&gt;
+   &lt;/postBuildActionList&gt;
+   ...
+&lt;/project&gt;</pre><p>The new volume should now display your custom icon:</p><div class="figure"><a id="idm140427925985072"></a><p class="title"><strong>Figure 93. DMG Volume With Custom Icon</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/dmg-volume-custom.png" align="middle" alt="DMG Volume with Custom Icon" /></div></div></div><br class="figure-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_creating_fancy_dmg"></a>Creating fancy DMG</h4></div></div></div><p>The DMG created in the previous section just included a custom volumen icon but it can be customized much further, like changing the background, the position of the icons and the size of the window. To do that, you must use AppleScript so you must have enabled the "Enable access for assistive devices" setting. You must also have access to the window server (command line builds using non-logged in users will fail). The below code uses some command-line configurable settings to create a customized DMG with a custom background (<code class="literal">dmg-background.png</code> in the <code class="literal">images</code> directory):</p><p><a id="snip5627449"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;shortName&gt;sample&lt;/shortName&gt;
+    &lt;fullName&gt;Sample Project&lt;/fullName&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    ...
+    &lt;postBuildActionList&gt;
+        &lt;createTimeStamp&gt;
+            &lt;format&gt;%Y%m%d%H%M%S&lt;/format&gt;
+            &lt;variable&gt;timestamp&lt;/variable&gt;
+        &lt;/createTimeStamp&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;tempDir&lt;/name&gt;
+            &lt;value&gt;/tmp/.tmpDir${timestamp}&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;dmgName&lt;/name&gt;
+            &lt;value&gt;${installbuilder_install_root}/output/${project.installerFilename}.dmg&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;setInstallerVariable&gt;
+            &lt;name&gt;tempDmgFile&lt;/name&gt;
+            &lt;value&gt;${tempDir}/tmp.dmg&lt;/value&gt;
+        &lt;/setInstallerVariable&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${installbuilder_install_root}/output/${project.installerFilename}.dmg&lt;/path&gt;
+        &lt;/deleteFile&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${tempDir}&lt;/path&gt;
+        &lt;/deleteFile&gt;
+        &lt;createDirectory&gt;
+            &lt;path&gt;${tempDir}/output&lt;/path&gt;
+        &lt;/createDirectory&gt;
+        &lt;createDirectory&gt;
+            &lt;path&gt;${tempDir}/mnt&lt;/path&gt;
+        &lt;/createDirectory&gt;
+        &lt;copyFile&gt;
+            &lt;destination&gt;${tempDir}/output&lt;/destination&gt;
+            &lt;origin&gt;${installbuilder_install_root}/output/${project.installerFilename}&lt;/origin&gt;
+        &lt;/copyFile&gt;
+        &lt;actionGroup&gt;
+            &lt;actionList&gt;
+                &lt;copyFile&gt;
+                    &lt;destination&gt;${tempDir}/output/.VolumeIcon.icns&lt;/destination&gt;
+                    &lt;origin&gt;${build_project_directory}/images/dmg-icon.icns&lt;/origin&gt;
+                &lt;/copyFile&gt;
+                &lt;runProgram&gt;
+                    &lt;program&gt;SetFile&lt;/program&gt;
+                    &lt;programArguments&gt;-c icnC "${tempDir}/output/.VolumeIcon.icns"&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+            &lt;/actionList&gt;
+            &lt;ruleList&gt;
+                &lt;fileExists path="${build_project_directory}/images/dmg-icon.icns"/&gt;
+            &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+        &lt;actionGroup&gt;
+            &lt;actionList&gt;
+                &lt;createDirectory&gt;
+                    &lt;path&gt;${tempDir}/output/.background&lt;/path&gt;
+                &lt;/createDirectory&gt;
+                &lt;copyFile&gt;
+                    &lt;destination&gt;${tempDir}/output/.background/background.png&lt;/destination&gt;
+                    &lt;origin&gt;${build_project_directory}/images/dmg-background.png&lt;/origin&gt;
+                &lt;/copyFile&gt;
+            &lt;/actionList&gt;
+            &lt;ruleList&gt;
+                &lt;fileExists path="${build_project_directory}/images/dmg-background.png"/&gt;
+            &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;hdiutil&lt;/program&gt;
+            &lt;programArguments&gt;create -srcfolder "${tempDir}/output" -volname "${project.fullName}" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW "${tempDmgFile}"&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+        &lt;actionGroup&gt;
+            &lt;actionList&gt;
+                &lt;runProgram&gt;
+                    &lt;program&gt;hdiutil&lt;/program&gt;
+                    &lt;programArguments&gt;attach "${tempDmgFile}" -mountpoint "${tempDir}/mnt"&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+                &lt;runProgram&gt;
+                    &lt;program&gt;SetFile&lt;/program&gt;
+                    &lt;programArguments&gt;-a C "${tempDir}/mnt"&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+                &lt;runProgram&gt;
+                    &lt;program&gt;hdiutil&lt;/program&gt;
+                    &lt;programArguments&gt;detach "${tempDir}/mnt"&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+            &lt;/actionList&gt;
+            &lt;ruleList&gt;
+                &lt;fileExists path="${build_project_directory}/images/dmg-icon.icns"/&gt;
+            &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+        &lt;actionGroup&gt;
+            &lt;actionList&gt;
+                &lt;runProgram&gt;
+                    &lt;abortOnError&gt;0&lt;/abortOnError&gt;
+                    &lt;program&gt;hdiutil&lt;/program&gt;
+                    &lt;programArguments&gt;detach "/Volumes/${project.fullName}"&lt;/programArguments&gt;
+                    &lt;showMessageOnError&gt;0&lt;/showMessageOnError&gt;
+                &lt;/runProgram&gt;
+                &lt;runProgram&gt;
+                    &lt;program&gt;hdiutil&lt;/program&gt;
+                    &lt;programArguments&gt;attach -readwrite -noverify -noautoopen "${tempDmgFile}"&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+                &lt;runProgram&gt;
+                    &lt;program&gt;osascript&lt;/program&gt;
+                    &lt;programArguments&gt;-e 'tell application "Finder"
+tell disk "${project.fullName}"
+open
+set current view of container window to icon view
+set toolbar visible of container window to false
+set statusbar visible of container window to false
+set the bounds of container window to {${dmg_window_bounds}}
+set theViewOptions to the icon view options of container window
+set arrangement of theViewOptions to not arranged
+set icon size of theViewOptions to ${dmg_icon_size}
+set background picture of theViewOptions to file ".background:background.png"
+delay 5
+update without registering applications
+set position of item "${project.installerFilename}" of container window to {${dmg_icon_position}}
+update without registering applications
+delay 5
+end tell
+end tell'
+          &lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+                &lt;runProgram&gt;
+                    &lt;program&gt;hdiutil&lt;/program&gt;
+                    &lt;programArguments&gt;detach "/Volumes/${project.fullName}"&lt;/programArguments&gt;
+                &lt;/runProgram&gt;
+            &lt;/actionList&gt;
+            &lt;ruleList&gt;
+                &lt;fileExists path="${build_project_directory}/images/dmg-background.png"/&gt;
+            &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;hdiutil&lt;/program&gt;
+            &lt;programArguments&gt;convert "${tempDmgFile}" -format UDZO -imagekey zlib-level=9 -o "${dmgName}"&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+        &lt;deleteFile&gt;
+            &lt;path&gt;${tempDir}&lt;/path&gt;
+        &lt;/deleteFile&gt;
+    &lt;/postBuildActionList&gt;
+    ...
+    &lt;parameterList&gt;
+       &lt;stringParameter name="dmg_icon_position" value="300, 100" ask="0"/&gt;
+       &lt;stringParameter name="dmg_window_bounds" value="400, 100, 885, 430" ask="0"/&gt;
+       &lt;stringParameter name="dmg_icon_size" value="72" ask="0"/&gt;
+    &lt;/parameterList&gt;
+&lt;/project&gt;</pre><p>Figure 77 shows an example with a customized background, the application centered and an increased icon size</p><div class="figure"><a id="idm140427925965696"></a><p class="title"><strong>Figure 94. Custom DMG</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/custom-dmg.png" align="middle" alt="Custom DMG" /></div></div></div><br class="figure-break" /></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_adding_support_for_legacy_os_x_versions"></a>27.3. Adding support for legacy OS X versions</h3></div></div></div><p>Versions previous to InstallBuilder included by default support for PowerPC versions of Mac OS X.</p><p>For InstallBuilder versions 9 and later you need to explicitly enable support for those platforms by setting <a class="link" href="apd.html#osxPlatforms"><code class="literal">&lt;osxPlatforms&gt;</code></a> to include the required platforms.</p><p>The value for the <a class="link" href="apd.html#osxPlatforms"><code class="literal">&lt;osxPlatforms&gt;</code></a> tag should contain one or more of the following values:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">osx-intel</code> — include support for Intel based processors
+</li><li class="listitem">
+<code class="literal">osx-ppc</code> — include support for PowerPC based processors
+</li><li class="listitem">
+<code class="literal">osx-10.2</code> — include support that supports Mac OS X 10.2 for PowerPC based processors
+</li></ul></div><p>To revert to behavior in previous versions of InstallBuilder and include support for all of the platforms, the project should have the following setting:</p><p><a id="snip550590"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;osxPlatforms&gt;osx-intel osx-ppc osx-10.2&lt;/osxPlatforms&gt;
+    ...
+&lt;/project&gt;</pre><p>In order to provide Intel and PowerPC support, but without the Mac OS X 10.2 compatibility, the setting should include both <code class="literal">osx-intel</code> and <code class="literal">osx-ppc</code> - such as:</p><p><a id="snip3768233"></a></p><pre class="programlisting">&lt;project&gt;
+    &lt;osxPlatforms&gt;osx-intel osx-ppc&lt;/osxPlatforms&gt;
+    ...
+&lt;/project&gt;</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s26.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s28.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">26. Windows </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 28. Encryption and password protection</td></tr></table></div></body></html>

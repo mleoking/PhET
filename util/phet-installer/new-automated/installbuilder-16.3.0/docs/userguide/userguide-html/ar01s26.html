@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>26. Windows</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s25.html" title="25. Builder" /><link rel="next" href="ar01s27.html" title="27. OS X" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">26. Windows</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s25.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s27.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_windows"></a>26. Windows</h2></div></div></div><p>This section summarizes all of the Windows-specific features that InstallBuilder provides as well as describes solutions for commonly-found scenarios when creating Windows installers.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_windows_registry"></a>26.1. Windows Registry</h3></div></div></div><p>The Windows Registry is a central hierarchical database in which Windows stores configuration information about the system and information about the installed applications and devices.</p><p>It can be manually edited using the command line through the <code class="literal">reg.exe</code> command of executing the graphical registry editor, <code class="literal">regedit.exe</code>. It is organized in keys, which can contain other keys (subkeys) and values, which can have different formats. The root keys on Windows, which contain all of the other subkeys and values are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">HKEY_LOCAL_MACHINE (HKLM)</code>: This key contains information about the configuration of the system that is common for all users. One of its subkeys, <code class="literal">HKLM\SOFTWARE</code>, contains information about the software in the machine organized by vendor (including Microsoft, for Windows itself). This subkey is especially useful to store per-application information such as the version installed and the installation directory. This makes the detection of existing installations of your product a trivial task using InstallBuilder registry actions.
+</li><li class="listitem">
+<code class="literal">HKEY_USERS (HKU)</code>: Contains all the user profiles configuration in the system.
+</li><li class="listitem">
+<code class="literal">HKEY_CURRENT_USER (HKCU)</code>: This key contains information about the current logged-in user. It is not a real key but a link to the appropriate subkey inside <code class="literal">HKEY_USERS</code>. The same information is stored in both keys and writing in one of them automatically updates the other.
+</li><li class="listitem">
+<code class="literal">HKEY_CLASSES_ROOT (HKCR)</code>: Contains information about registered applications such as file associations. From Windows 2000, this key is a mix of the values in <code class="literal">HKCU\Software\Classes</code> and <code class="literal">HKLM\Software\Classes</code>. If a value is defined in both, the one in <code class="literal">HKCU\Software\Classes</code> is used so per-user configuration always takes precedence.
+</li><li class="listitem">
+<code class="literal">HKEY_CURRENT_CONFIG</code>: Contains information about the hardware profile used by the computer at boot time.
+</li></ul></div><p>These main keys contain many other subkeys, which allow hierarchically organizing the registry. Inside those keys, the data is stored in values, which allow the following types:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">REG_NONE</code>: Data without type defined, treated as binary information.
+</li><li class="listitem">
+<code class="literal">REG_SZ</code>: Used for string values, for example paths.
+</li><li class="listitem">
+<code class="literal">REG_EXPAND_SZ</code>: This value is also intended to hold string values but in addition allows them to contain environment variables, which will be expanded when reading the data. For example if the data stored is <code class="literal">%TEMP%\myFolder</code>, it will be automatically expanded to <code class="literal">C:\Users\bitrock\AppData\Local\Temp\myFolder</code> when accessed while a regular <code class="literal">REG_SZ</code> value would have been resolved to just <code class="literal">%TEMP%\myFolder</code>. The <code class="literal">Path</code> environment variable defined in <code class="literal">HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment</code> is a good example of a <code class="literal">REG_EXPAND_SZ</code> value.
+</li><li class="listitem">
+<code class="literal">REG_BINARY</code>: Binary data.
+</li><li class="listitem">
+<code class="literal">REG_DWORD</code>: A 32bit unsigned integer (little-endian)
+</li><li class="listitem">
+<code class="literal">REG_DWORD_BIG_ENDIAN</code>: A 32bit unsigned integer (big-endian)
+</li><li class="listitem">
+<code class="literal">REG_LINK</code>: This is used to create symbolic links to other keys, specifying the root key and the path to the target key.
+</li><li class="listitem">
+<code class="literal">REG_MULTI_SZ</code>: Stores a list of non-empty list of elements, separated by the null character. An example of this key is the value <code class="literal">PendingFileRenameOperations</code> under the key <code class="literal">HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager</code>, used to specify files to rename the next time the machine is restarted.
+</li><li class="listitem">
+<code class="literal">REG_RESOURCE_LIST</code>: A resource list. Used to store nested arrays by hardware devices
+</li></ul></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_managing_the_windows_registry_from_installbuilder"></a>Managing the Windows Registry From InstallBuilder</h4></div></div></div><p>Although the registry can be managed using the <code class="literal">reg.exe</code> command line tool using a <a class="link" href="apa.html#runProgram"><code class="literal">&lt;runProgram&gt;</code></a> action, InstallBuilder includes a set of built-in actions that allow it to easily read, write and even find data in the registry:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#registryGet"><code class="literal">&lt;registryGet&gt;</code></a>: Store the value of a registry key in an installer variable. If the key or name does not exist, then the variable will be created empty.
+</li></ul></div><p><a id="snip3623679"></a></p><pre class="programlisting">&lt;registryGet&gt;
+  &lt;!-- By default, InstallBuilder stores the installation
+  directory in this key --&gt;
+  &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}&lt;/key&gt;
+  &lt;name&gt;Location&lt;/name&gt;
+  &lt;variable&gt;previousInstallDir&lt;/variable&gt;
+ &lt;/registryGet&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#registrySet"><code class="literal">&lt;registrySet&gt;</code></a>: Create a new registry key or modify the value of an existing registry key.
+</li></ul></div><p><a id="snip3185753"></a></p><pre class="programlisting">&lt;registrySet&gt;
+   &lt;!-- Update the installed version --&gt;
+   &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}&lt;/key&gt;
+   &lt;name&gt;Version&lt;/name&gt;
+   &lt;type&gt;REG_SZ&lt;/type&gt;
+   &lt;value&gt;${project.version}&lt;/value&gt;
+&lt;/registrySet&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#registryDelete"><code class="literal">&lt;registryDelete&gt;</code></a>: Delete a registry entry. If the entry to delete is only a registry key and it does not exist, the action will be ignored. Deleting a registry value (key + name combination) that does not exist will trigger a regular error.
+</li></ul></div><p><a id="snip2954107"></a></p><pre class="programlisting">&lt;!-- Clean installed keys --&gt;
+&lt;registryDelete&gt;
+   &lt;abortOnError&gt;0&lt;/abortOnError&gt;
+   &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}&lt;/key&gt;
+   &lt;name&gt;&lt;/name&gt;
+&lt;/registryDelete&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#registryGetKey"><code class="literal">&lt;registryGetKey&gt;</code></a>: Store in <span class="emphasis"><em>variable</em></span> the first registry key that matches the given pattern, or set the variable to empty otherwise. The search is case-sensitive for the whole key provided.
+</li></ul></div><p><a id="snip9688213"></a></p><pre class="programlisting">&lt;!-- Gets the first key referencing one of the applications
+under ${project.vendor} --&gt;
+&lt;registryGetKey&gt;
+  &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\*&lt;/key&gt;
+  &lt;variable&gt;application&lt;/variable&gt;
+&lt;/registryGetKey&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#registryGetMatch"><code class="literal">&lt;registryGetMatch&gt;</code></a>: Store the value of the first match of a registry key matching a certain expression in an installer variable. If the key or name does not exist, then the variable will be created empty. The name can contain a wildcard expression (using *)
+</li></ul></div><p><a id="snip9810478"></a></p><pre class="programlisting">&lt;!-- Gets the data of the first value in our
+application key --&gt;
+&lt;registryGetMatch&gt;
+  &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}&lt;/key&gt;
+  &lt;name&gt;Loc*&lt;/name&gt;
+  &lt;variable&gt;location&lt;/variable&gt;
+&lt;/registryGetMatch&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#registryFind"><code class="literal">&lt;registryFind&gt;</code></a>: Retrieve the first registry hive and content matching a certain expression and store it as a list in an installer variable. If no match is found the variable will be created empty. This is an extension of the <a class="link" href="apa.html#registryGetMatch"><code class="literal">&lt;registryGetMatch&gt;</code></a> and <a class="link" href="apa.html#registryGetKey"><code class="literal">&lt;registryGetKey&gt;</code></a> actions, and much more powerful. If the <a class="link" href="apa.html#registryFind.findAll"><code class="literal">&lt;findAll&gt;</code></a> tag is set to <code class="literal">1</code>, it will return a space-separated list of all of the matches. The result of this action is intended to be interpreted using a foreach action:
+</li></ul></div><p><a id="snip4706373"></a></p><pre class="programlisting">&lt;registryFind&gt;
+  &lt;dataPattern&gt;*Program Files*&lt;/dataPattern&gt;
+  &lt;findAll&gt;0&lt;/findAll&gt;
+  &lt;keyPattern&gt;*${project.fullName}*&lt;/keyPattern&gt;
+  &lt;namePattern&gt;*&lt;/namePattern&gt;
+  &lt;rootKey&gt;HKEY_LOCAL_MACHINE\SOFTWARE&lt;/rootKey&gt;
+  &lt;searchDepth&gt;2&lt;/searchDepth&gt;
+  &lt;variable&gt;result&lt;/variable&gt;
+&lt;/registryFind&gt;
+&lt;foreach&gt;
+  &lt;variables&gt;key name value&lt;/variables&gt;
+  &lt;values&gt;${result}&lt;/values&gt;
+  &lt;actionList&gt;
+     &lt;showInfo&gt;
+      &lt;text&gt;Key="${key}"
+name="${name}"
+value="${value}"&lt;/text&gt;
+     &lt;/showInfo&gt;
+  &lt;/actionList&gt;
+&lt;/foreach&gt;</pre><p>A much more complex application of the <code class="literal">&lt;registryFind&gt;</code> action is explained <a class="link" href="ar01s07.html#registryFind_example">here</a>.</p><p>InstallBuilder also provides a <a class="link" href="apb.html#registryTest"><code class="literal">&lt;registryTest&gt;</code></a> rule:</p><p><a id="snip22404"></a></p><pre class="programlisting">&lt;!-- Set update mode if we detect that a well-known
+key exists --&gt;
+&lt;setInstallerVariable&gt;
+   &lt;name&gt;project.installationType&lt;/name&gt;
+   &lt;value&gt;upgrade&lt;/value&gt;
+   &lt;ruleList&gt;
+     &lt;registryTest&gt;
+        &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}\&lt;/key&gt;
+        &lt;logic&gt;exists&lt;/logic&gt;
+        &lt;name&gt;Location&lt;/name&gt;
+     &lt;/registryTest&gt;
+   &lt;/ruleList&gt;
+&lt;/setInstallerVariable&gt;</pre><p><a id="snip6556913"></a></p><pre class="programlisting">&lt;!-- Throw an error if a required product is not installed --&gt;
+&lt;initializationActionList&gt;
+   &lt;throwError&gt;
+      &lt;text&gt;You need to install "Some Other Product" to install ${project.fullName}&lt;/text&gt;
+      &lt;ruleList&gt;
+        &lt;registryTest&gt;
+          &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Some Vendor\Some Other Product&lt;/key&gt;
+          &lt;logic&gt;exists&lt;/logic&gt;
+          &lt;name&gt;&lt;/name&gt;
+        &lt;/registryTest&gt;
+      &lt;/ruleList&gt;
+   &lt;/throwError&gt;
+&lt;/initializationActionList&gt;</pre><p>It is even possible to check the type of key:</p><p><a id="snip2038807"></a></p><pre class="programlisting">&lt;throwError&gt;
+   &lt;text&gt;The registry key was corrupted. It exists but it is not a `REG_EXPAND_SZ` name&lt;/text&gt;
+   &lt;ruleList&gt;
+     &lt;registryTest&gt;
+        &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}\&lt;/key&gt;
+        &lt;logic&gt;exists&lt;/logic&gt;
+        &lt;name&gt;myPath&lt;/name&gt;
+     &lt;/registryTest&gt;
+     &lt;registryTest&gt;
+        &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}&lt;/key&gt;
+        &lt;logic&gt;is_not_type&lt;/logic&gt;
+        &lt;name&gt;myPath&lt;/name&gt;
+        &lt;type&gt;REG_EXPAND_SZ&lt;/type&gt;
+     &lt;/registryTest&gt;
+   &lt;/ruleList&gt;
+&lt;/throwError&gt;</pre><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Keys representing a &quot;path&quot; in the registry must be separated by backslashes"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Keys representing a "path" in the registry must be separated by backslashes</th></tr><tr><td align="left" valign="top"><p>When referring to a key of the registry you have to provide a "path" with all of the parent keys as you would do with a real directory. Although InstallBuilder accepts using forward slashes instead of backslashes in Windows paths, backlashes are mandatory when working with the registry.</p><p>An example of a correct reference to the key <code class="literal">InstallBuilder</code>:</p><p><code class="literal">HKEY_LOCAL_MACHINE\SOFTWARE\BitRock\InstallBuilder</code></p><p>But if you use:</p><p><code class="literal">HKEY_LOCAL_MACHINE\SOFTWARE\BitRock/InstallBuilder</code></p><p>What the installer is going to look for is a key named <code class="literal">BitRock/InstallBuilder</code>, which is a perfectly valid key name but not the one you expected.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="windows_64_bit_registry"></a>Windows Registry in 64bit Systems</h4></div></div></div><p>When accessing the registry, 32bit applications running on 64bit Windows are presented with a different view of some of the keys. This process allows the isolation of 32 and 64bit applications. If you take a look to how the registry looks in Windows 64bit with <code class="literal">regedit</code> you will see that some keys include a subkey named <code class="literal">Wow6432Node</code>. This key contains the registry keys corresponding to the 32bit view. For example, if a 32bit application tries to access <code class="literal">HKEY_LOCAL_MACHINE\SOFTWARE\BitRock</code> it will be transparently redirected to <code class="literal">HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\BitRock</code>. This process is known as "registry redirection". The special key <code class="literal">HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node</code> is not visible from the 32bit view, but although it is discouraged by Microsoft guidelines, in some Windows versions it can be accessed from the 64bit view.</p><p>As InstallBuilder generates 32bit applications, it will by default follow the same registry redirection when using any of its registry actions. This may be convenient if you are bundling a 32bit application or if you are trying to read keys written by other 32bit applications but there are scenarios in which it is desirable to access the 64bit view of the registry (for example if you are bundling a 64bit application).</p><p>For these scenarios, InstallBuilder includes two ways of configuring which view of the registry should be used:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">Project-level configuration</code>: The easiest way to make your application access the 64bit view of the registry by default is by using the project property <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a>. As explained in <a class="link" href="ar01s26.html#windows_64_bit" title="26.2. Windows 64bit">the next section</a>, this setting enables much more than just making the 64bit view of the registry visible. Although the registry redirection is just enabled in 64bit OS, this setting can be just always enabled, as it will be ignored in 32bit Windows. This way there is no need to maintain two different projects for the 32 and 64bit versions of your installer or to configure this setting at build-time. This setting is applied at the very beginning of the installation process so it cannot be configured at runtime, it must be set at build-time or hardcoded in the XML project.
+</li></ul></div><p><a id="snip6243399"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;!-- This will be ignored in 32bit
+  systems without consequences --&gt;
+  &lt;windows64bitMode&gt;1&lt;/windows64bitMode&gt;
+  ...
+&lt;/project&gt;</pre><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Is safe to always enable &lt;windows64bitMode&gt;"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Is safe to always enable <code class="literal">&lt;windows64bitMode&gt;</code></th></tr><tr><td align="left" valign="top"><p>Even if you are building a 32bit installer, you can keep <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> enabled in you project. On 32bit systems it will just be ignored.</p></td></tr></table></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">Per-action configuration</code>: All of the registry actions explained in the previous section accept an extra tag, <a class="link" href="apa.html#registryGet.wowMode"><code class="literal">&lt;wowMode&gt;</code></a>, which allows configuring the registry view that will be accessed. Its default value is <code class="literal">none</code>, which allows the action use the default view. Setting <code class="literal">none</code> when using <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> will make the actions use the 64bit view on Windows x64. The tag also accepts <code class="literal">64</code> (which selects the 64bit view) and <code class="literal">32</code> as values (selecting the 32bit view) as values. The same way the <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> tag is ignored in 32bit systems, setting 64 will also be ignored on them.
+</li></ul></div><p>The <a class="link" href="apa.html#registryGet.wowMode"><code class="literal">&lt;wowMode&gt;</code></a> tag takes precedence over the <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> so it is easy to configure the installer to use the 64bit view by default and just use the 32bit view when needed.</p><p>The example below tries to get the installed version of <code class="literal">Microsoft SQL Server</code> in the system, checking in both registry views if the platform is 64bit:</p><p><a id="snip2822847"></a></p><pre class="programlisting">   &lt;initializationActionList&gt;
+      &lt;registryGet&gt;
+        &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSSQLServer\MSSQLServer\CurrentVersion&lt;/key&gt;
+        &lt;name&gt;CurrentVersion&lt;/name&gt;
+        &lt;variable&gt;currentVersion&lt;/variable&gt;
+      &lt;/registryGet&gt;
+      &lt;!-- The 64bit version takes precedence so we check it in second place --&gt;
+      &lt;registryGet&gt;
+        &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSSQLServer\MSSQLServer\CurrentVersion&lt;/key&gt;
+        &lt;name&gt;CurrentVersion&lt;/name&gt;
+        &lt;variable&gt;currentVersion&lt;/variable&gt;
+        &lt;wowMode&gt;64&lt;/wowMode&gt;
+        &lt;ruleList&gt;
+           &lt;platformTest type="windows-x64"/&gt;
+        &lt;/ruleList&gt;
+      &lt;/registryGet&gt;
+   &lt;/initializationActionList&gt;</pre><p>Or, if you are using <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a>, force checking in the 32bit version:</p><p><a id="snip3601108"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;windows64bitMode&gt;1&lt;/windows64bitMode&gt;
+   ...
+   &lt;initializationActionList&gt;
+      &lt;registryGet&gt;
+        &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSSQLServer\MSSQLServer\CurrentVersion&lt;/key&gt;
+        &lt;name&gt;CurrentVersion&lt;/name&gt;
+        &lt;variable&gt;currentVersion&lt;/variable&gt;
+      &lt;/registryGet&gt;
+      &lt;!-- If we are using &lt;windows64bitMode&gt; and we couldn't detect
+      a 64bit version , check the 32bit key --&gt;
+      &lt;registryGet&gt;
+        &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSSQLServer\MSSQLServer\CurrentVersion&lt;/key&gt;
+        &lt;name&gt;CurrentVersion&lt;/name&gt;
+        &lt;variable&gt;currentVersion&lt;/variable&gt;
+        &lt;wowMode&gt;32&lt;/wowMode&gt;
+        &lt;ruleList&gt;
+           &lt;platformTest type="windows-x64"/&gt;
+           &lt;isTrue value="${project.windows64bitMode}"/&gt;
+           &lt;compareText text="${currentVersion}" logic="equals" value=""/&gt;
+        &lt;/ruleList&gt;
+      &lt;/registryGet&gt;
+   &lt;/initializationActionList&gt;
+   ...
+&lt;/project&gt;</pre><p>In some versions of Windows, a 32bit key on Windows x64 can be accessed in two ways:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Using the <code class="literal">&lt;wowMode&gt;32&lt;/wowMode&gt;</code> setting (selecting the 32bit view):
+</li></ul></div><p><a id="snip3826295"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;windows64bitMode&gt;1&lt;/windows64bitMode&gt;
+  ...
+  &lt;initializationActionList&gt;
+    &lt;registryGet&gt;
+       &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\BitRock\BitRock InstallBuilder Enterprise&lt;/key&gt;
+       &lt;name&gt;Version&lt;/name&gt;
+       &lt;variable&gt;ibVersion&lt;/variable&gt;
+       &lt;wowMode&gt;32&lt;/wowMode&gt;
+       &lt;ruleList&gt;
+          &lt;platformTest type="windows-x64"/&gt;
+       &lt;/ruleList&gt;
+    &lt;/registryGet&gt;
+  &lt;/initializationActionList&gt;
+  ...
+&lt;/project&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Accessing the redirected key in the 64bit registry:
+</li></ul></div><p><a id="snip8548743"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;windows64bitMode&gt;1&lt;/windows64bitMode&gt;
+  ...
+  &lt;initializationActionList&gt;
+    &lt;!-- This should be avoided --&gt;
+    &lt;registryGet&gt;
+       &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\BitRock\BitRock InstallBuilder Enterprise&lt;/key&gt;
+       &lt;name&gt;Version&lt;/name&gt;
+       &lt;variable&gt;ibVersion&lt;/variable&gt;
+       &lt;ruleList&gt;
+          &lt;platformTest type="windows-x64"/&gt;
+       &lt;/ruleList&gt;
+    &lt;/registryGet&gt;
+  &lt;/initializationActionList&gt;
+  ...
+&lt;/project&gt;</pre><p>The latter way of accessing the 32bit key is discouraged by Microsoft guidelines and does not work in some Windows versions. The reason is that <code class="literal">Wow6432Node</code> is a special key and is not intended to be accessed directly.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Never access 32bit keys using the 64bit registry view through the Wow6432Node key"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Never access 32bit keys using the 64bit registry view through the <code class="literal">Wow6432Node</code> key</th></tr><tr><td align="left" valign="top"><p>Microsoft guidelines discourage accessing key under <code class="literal">Wow6432Node</code> directly from the 64bit view of the registry. It is known to fail in some Windows versions. The correct way of accessing a 32bit key from the 64bit view (enabled using <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a>) is setting <code class="literal">wowMode="32"</code>.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="built_in_registry_keys"></a>InstallBuilder built-in registry keys</h4></div></div></div><p>By default, all InstallBuilder-generated installers write some values in the registry. These values can be organized in two keys:</p><p><strong>Software Key. </strong>InstallBuilder writes some basic information about the installed version of the product under the key:</p><pre class="literallayout">HKEY_LOCAL_MACHINE\SOFTWARE\${project.windowsSoftwareRegistryPrefix}</pre><p>Where <code class="literal">${project.windowsSoftwareRegistryPrefix}</code> resolves to the value of <a class="link" href="apd.html#windowsSoftwareRegistryPrefix"><code class="literal">&lt;windowsSoftwareRegistryPrefix&gt;</code></a> (<code class="literal">${project.vendor}\${product_fullname}</code> by default).</p><p>The values written are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">Version</code>: Configured through the <a class="link" href="apd.html#version"><code class="literal">&lt;version&gt;</code></a> project property.
+</li><li class="listitem">
+<code class="literal">Location</code>: The installation directory (<code class="literal">${installdir}</code>).
+</li><li class="listitem">
+<code class="literal">Language</code>: The installation language (<code class="literal">${installation_language_code}</code>).
+</li></ul></div><p>To prevent this key from being created you just have to set <a class="link" href="apd.html#windowsSoftwareRegistryPrefix"><code class="literal">&lt;windowsSoftwareRegistryPrefix&gt;</code></a> to empty.</p><p>Another case in which the key won’t be created is when <a class="link" href="apd.html#installationType"><code class="literal">&lt;installationType&gt;</code></a> is set to <code class="literal">normal</code> and  <a class="link" href="apd.html#createUninstaller"><code class="literal">&lt;createUninstaller&gt;</code></a> is set to <code class="literal">0</code>. This will also result in no uninstaller being created.</p><p>If <a class="link" href="apd.html#installationType"><code class="literal">&lt;installationType&gt;</code></a> is set to <code class="literal">upgrade</code>, the installer will automatically update the <code class="literal">Language</code> and <code class="literal">Version</code> values if they exist (written in a previous installation being upgraded), regardless of the value of <a class="link" href="apd.html#windowsSoftwareRegistryPrefix"><code class="literal">&lt;windowsSoftwareRegistryPrefix&gt;</code></a> or <a class="link" href="apd.html#createUninstaller"><code class="literal">&lt;createUninstaller&gt;</code></a>. In addition, when working in <code class="literal">upgrade</code> mode, if the <code class="literal">Language</code> value exists, its value will be used as the default installation language.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: How to prevent the creation of the Software keys"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">How to prevent the creation of the Software keys</th></tr><tr><td align="left" valign="top"><p>To prevent the installer from writing the values under the <code class="literal">HKEY_LOCAL_MACHINE\SOFTWARE</code> key, just set the <a class="link" href="apd.html#windowsSoftwareRegistryPrefix"><code class="literal">&lt;windowsSoftwareRegistryPrefix&gt;</code></a> to empty.</p></td></tr></table></div><p><strong>Add/Remove Program Menu Key. </strong>The information stored in this key is used to populate the Add/Remove Program Menu. The information is organized in a set of values under the key:</p><pre class="literallayout">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${project.windowsARPRegistryPrefix}</pre><p>Where <code class="literal">${project.windowsARPRegistryPrefix}</code> resolves to the value of <a class="link" href="apd.html#windowsARPRegistryPrefix"><code class="literal">&lt;windowsARPRegistryPrefix&gt;</code></a> (<code class="literal">${project.fullName} ${project.version}</code> by default). The values written by InstallBuilder are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">DisplayName</code>: Configured through the <a class="link" href="apd.html#productDisplayName"><code class="literal">&lt;productDisplayName&gt;</code></a> project property.
+</li><li class="listitem">
+<code class="literal">DisplayVersion</code>: Configured through the <a class="link" href="apd.html#version"><code class="literal">&lt;version&gt;</code></a> project property.
+</li><li class="listitem">
+<code class="literal">Publisher</code>: Configured through the <a class="link" href="apd.html#vendor"><code class="literal">&lt;vendor&gt;</code></a> project property.
+</li><li class="listitem">
+<code class="literal">DisplayIcon</code>: Configured through the <a class="link" href="apd.html#productDisplayIcon"><code class="literal">&lt;productDisplayIcon&gt;</code></a> project property.
+</li><li class="listitem">
+<code class="literal">UrlInfoAbout</code>: Configured through the <a class="link" href="apd.html#productUrlInfoAbout"><code class="literal">&lt;productUrlInfoAbout&gt;</code></a>  project property.
+</li><li class="listitem">
+<code class="literal">Comments</code>: Configured through the <a class="link" href="apd.html#productComments"><code class="literal">&lt;productComments&gt;</code></a> project property.
+</li><li class="listitem">
+<code class="literal">Contact</code>: Configured through the <a class="link" href="apd.html#productContact"><code class="literal">&lt;productContact&gt;</code></a> project property.
+</li><li class="listitem">
+<code class="literal">HelpLink</code>: Configured through the <a class="link" href="apd.html#productUrlHelpLink"><code class="literal">&lt;productUrlHelpLink&gt;</code></a> project property.
+</li><li class="listitem">
+<code class="literal">UninstallString</code>: Contains the path to the uninstaller.
+</li><li class="listitem">
+<code class="literal">InstallLocation</code>: The installation directory (<code class="literal">${installdir}</code>)
+</li><li class="listitem">
+<code class="literal">NoModify</code>: If set to <code class="literal">1</code>, disables the <code class="literal">Modify</code> button in the ARP Menu.
+</li><li class="listitem">
+<code class="literal">NoRepair</code>: If set to <code class="literal">1</code>, disables the <code class="literal">Repair</code> button in the ARP Menu.
+</li><li class="listitem">
+<code class="literal">EstimatedSize</code>: The size of the installed application. This value is calculated at runtime based on the installed files.
+</li><li class="listitem">
+<code class="literal">InstallDate</code>: The installation date.
+</li></ul></div><p>This key is also just created when <a class="link" href="apd.html#installationType"><code class="literal">&lt;installationType&gt;</code></a> is set to <code class="literal">normal</code> and <a class="link" href="apd.html#createUninstaller"><code class="literal">&lt;createUninstaller&gt;</code></a> is set to <code class="literal">1</code>.</p><p>If <a class="link" href="apd.html#installationType"><code class="literal">&lt;installationType&gt;</code></a> is set to <code class="literal">upgrade</code>, the installer will update the <code class="literal">DisplayVersion</code> and <code class="literal">DisplayName</code> values if they exist (written in a previous installation being upgraded).</p><p>Setting <a class="link" href="apd.html#installationType"><code class="literal">&lt;installationType&gt;</code></a> to <code class="literal">normal</code> and <a class="link" href="apd.html#createUninstaller"><code class="literal">&lt;createUninstaller&gt;</code></a> to <code class="literal">0</code> will avoid creating or updating any key.</p><p>These keys are automatically deleted when uninstalling the product so you don’t have to add any additional logic to the uninstaller for that.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="windows_64_bit"></a>26.2. Windows 64bit</h3></div></div></div><p>InstallBuilder allows you to build installers that are 32bit applications, but can be used to properly deploy applications and drivers to 64bit operating systems.</p><p>Although 32bit installers are fully compatible with 64bit systems, they are treated differently than native 64bit applications. They most important differences are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+When accessing the registry, they are automatically redirected to keys in the 32bit view of the registry. This can be configured using the <a class="link" href="apa.html#registryGet.wowMode"><code class="literal">&lt;wowMode&gt;</code></a> tag in the registry actions or through the <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> project property. The registry redirection process is explained in detail in the <a class="link" href="ar01s26.html#windows_64_bit_registry" title="Windows Registry in 64bit Systems">Windows 64bit registry</a> section.
+</li><li class="listitem"><p class="simpara">
+When executing Windows commands (such as <code class="literal">cmd.exe</code>) the filesystem redirection provides a 32bit binary version of them. Specifically the below directories are redirected (%windir% usually resolves to <code class="literal">c:\Windows</code>):
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+Access to <code class="literal">%windir%\System32</code> is redirected to <code class="literal">%windir%\SysWOW64</code>
+</li><li class="listitem">
+Access to <code class="literal">%windir%\lastgood\system32</code> is redirected to <code class="literal">%windir%\lastgood\SysWOW64</code>
+</li><li class="listitem"><p class="simpara">
+Access to <code class="literal">%windir%\regedit.exe</code> is redirected to <code class="literal">%windir%\SysWOW64\regedit.exe</code>.
+</p><p class="simpara">With some exceptions, which are not redirected:</p></li><li class="listitem">
+<code class="literal">%windir%\system32\catroot</code>
+</li><li class="listitem">
+<code class="literal">%windir%\system32\catroot2</code>
+</li><li class="listitem">
+<code class="literal">%windir%\system32\drivers\etc</code>
+</li><li class="listitem">
+<code class="literal">%windir%\system32\logfiles</code>
+</li><li class="listitem">
+<code class="literal">%windir%\system32\spool</code>
+</li></ul></div></li></ul></div><p>This can be solved by manually disabling the redirection using the <a class="link" href="apa.html#wow64FsRedirection"><code class="literal">&lt;wow64FsRedirection&gt;</code></a> action. This action can be used at any point during the installation and allows disabling and enabling the filesystem redirection. For example, you could use it to disable the redirection, copy a binary to <code class="literal">%windir%\system32</code> and enable it again:</p><p><a id="snip8734989"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;postInstallationActionList&gt;
+      &lt;wow64FsRedirection&gt;
+         &lt;action&gt;disable&lt;/action&gt;
+      &lt;/wow64FsRedirection&gt;
+      &lt;copyFile&gt;
+         &lt;origin&gt;${installdir}/myApp.exe&lt;/origin&gt;
+         &lt;!-- ${windows_folder_system} is a
+         Built-in variable resolved to %windir% --&gt;
+         &lt;destination&gt;${windows_folder_system}&lt;/destination&gt;
+      &lt;/copyFile&gt;
+      &lt;wow64FsRedirection&gt;
+         &lt;action&gt;enable&lt;/action&gt;
+      &lt;/wow64FsRedirection&gt;
+  &lt;/postInstallationActionList&gt;
+  ...
+&lt;/project&gt;</pre><p>Using <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> will also disable the filesystem redirection on 64bit Windows.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+The environment variables presented to the 32bit application are modified. These modifications affect, for example, to the default installation directory, which is configured to be under <code class="literal">C:\Program Files (x86)</code> instead of <code class="literal">C:\Program Files</code>. The only way to safely reverse this is to use <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a>.
+</li></ul></div><p>If you are installing a 32bit application, Microsoft guidelines recommend that you respect the above behavior, as it is used to provide the 32bit application with the appropriate environment. However, if the application bundled is a native 64bit binary, the best way of properly configuring the installer is by enabling the <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> project property. As explained in the <a class="link" href="ar01s26.html#windows_64_bit_registry" title="Windows Registry in 64bit Systems">Windows 64bit registry</a> section, the setting is ignored in 32bit systems so it can be safely enabled in a project shared by 32 and 64bit applications.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Enable &lt;windows64bitMode&gt; when packing native 64bit applications for Windows"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Enable <code class="literal">&lt;windows64bitMode&gt;</code> when packing native 64bit applications for Windows</th></tr><tr><td align="left" valign="top"><p>The <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> project property makes an installer behave as a 64bit application by modifying its access to the environment:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Disables the filesystem redirection
+</li><li class="listitem">
+Disables the registry redirection
+</li><li class="listitem">
+Gives access to the 64bit environment variables
+</li></ul></div><p>In addition, it can always be enabled as it will be ignored on 32bit Windows (or non-Windows systems such as Linux and OS X).</p></td></tr></table></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_creating_specific_windows_64bit_installers"></a>Creating specific Windows 64bit installers</h4></div></div></div><p>Although InstallBuilder does not support a <code class="literal">windows-x64</code> platform, if you want to distribute both 32 and 64bit versions of your installer, the project can still be configured for this purpose. The example below explains how to construct an XML project that will allow building a 32 or 64bit Windows installer on demand. It also includes some validations at runtime to prevent the user from trying to install the wrong binary on each platform.</p><p>The first step is to include your files with some "should pack rules" attached. You can find a detailed explanation of the process in the <a class="link" href="ar01s25.html#custom_build_targets" title="25.4. Creating Custom Builds">"Custom Build Targets"</a> section:</p><p><a id="snip8961889"></a></p><pre class="programlisting">   &lt;project&gt;
+      &lt;shortName&gt;myProject&lt;/shortName&gt;
+      &lt;version&gt;1.4&lt;/version&gt;
+      ...
+      &lt;windows64bitMode&gt;1&lt;/windows64bitMode&gt;
+      ...
+      &lt;parameterList&gt;
+         ...
+         &lt;stringParameter name="windowsArchitecture" value="x86" ask="0"/&gt;
+         ...
+      &lt;/parameterList&gt;
+      &lt;componentList&gt;
+          &lt;component&gt;
+             &lt;name&gt;windowsx86&lt;/name&gt;
+             ...
+             &lt;folderList&gt;
+                &lt;folder&gt;
+                   &lt;name&gt;windowsx86&lt;/name&gt;
+                   &lt;destination&gt;${installdir}&lt;/destination&gt;
+                   &lt;distributionFileList&gt;
+                      &lt;distributionDirectory&gt;
+                          &lt;origin&gt;path/to/32bit/windows-app&lt;/origin&gt;
+                      &lt;/distributionDirectory&gt;
+                   &lt;/distributionFileList&gt;
+                &lt;/folder&gt;
+             &lt;/folderList&gt;
+             ...
+             &lt;shouldPackRuleList&gt;
+                 &lt;compareText text="${windowsArchitecture}" logic="equals" value="x86"/&gt;
+             &lt;/shouldPackRuleList&gt;
+          &lt;/component&gt;
+          &lt;component&gt;
+             &lt;name&gt;windowsx64&lt;/name&gt;
+             ...
+             &lt;folderList&gt;
+                &lt;folder&gt;
+                   &lt;name&gt;windowsx64&lt;/name&gt;
+                   &lt;destination&gt;${installdir}&lt;/destination&gt;
+                   &lt;distributionFileList&gt;
+                      &lt;distributionDirectory&gt;
+                          &lt;origin&gt;path/to/64bit/windows-app&lt;/origin&gt;
+                      &lt;/distributionDirectory&gt;
+                   &lt;/distributionFileList&gt;
+                &lt;/folder&gt;
+             &lt;/folderList&gt;
+             ...
+             &lt;shouldPackRuleList&gt;
+                 &lt;compareText text="${windowsArchitecture}" logic="equals" value="x64"/&gt;
+             &lt;/shouldPackRuleList&gt;
+          &lt;/component&gt;
+      &lt;/componentList&gt;
+   &lt;/project&gt;</pre><p>Please note that the above also enables the <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> to make your installer behave as a native 64bit application on Windows x64.</p><p>At this point, you can select whether to build a 32 or a 64bit application by passing the appropriate value when using the command line:</p><pre class="programlisting">$&gt; builder build project.xml --setvars windowsArchitecture=x64</pre><p>The next step is to include the validation. You can include it in the components so the code will only be executed when the platform in which the installer is running does not match its bundled files:</p><p><a id="snip2485220"></a></p><pre class="programlisting">   &lt;project&gt;
+      &lt;shortName&gt;myProject&lt;/shortName&gt;
+      &lt;version&gt;1.4&lt;/version&gt;
+      ...
+      &lt;windows64bitMode&gt;1&lt;/windows64bitMode&gt;
+      ...
+      &lt;parameterList&gt;
+         ...
+         &lt;stringParameter name="windowsArchitecture" value="x86" ask="0"/&gt;
+         ...
+      &lt;/parameterList&gt;
+      &lt;componentList&gt;
+          &lt;component&gt;
+             &lt;name&gt;windowsx86&lt;/name&gt;
+             ...
+             &lt;initializationActionList&gt;
+                 &lt;throwError&gt;
+                    &lt;text&gt;You are trying to install a 32bit application in a
+64bit system. Please download the correct binary from our website&lt;/text&gt;
+                    &lt;ruleList&gt;
+                       &lt;platformTest type="windows-x64"/&gt;
+                    &lt;/ruleList&gt;
+                 &lt;/throwError&gt;
+             &lt;/initializationActionList&gt;
+             &lt;shouldPackRuleList&gt;
+                 &lt;compareText text="${windowsArchitecture}" logic="equals" value="x86"/&gt;
+             &lt;/shouldPackRuleList&gt;
+          &lt;/component&gt;
+          &lt;component&gt;
+             &lt;name&gt;windowsx64&lt;/name&gt;
+             ...
+             &lt;initializationActionList&gt;
+                 &lt;throwError&gt;
+                    &lt;text&gt;You are trying to install a 64bit application in a
+32bit system. Please download the correct binary from our website&lt;/text&gt;
+                    &lt;ruleList&gt;
+                       &lt;platformTest type="windows-x86"/&gt;
+                    &lt;/ruleList&gt;
+                 &lt;/throwError&gt;
+             &lt;/initializationActionList&gt;
+             ...
+             &lt;shouldPackRuleList&gt;
+                 &lt;compareText text="${windowsArchitecture}" logic="equals" value="x64"/&gt;
+             &lt;/shouldPackRuleList&gt;
+          &lt;/component&gt;
+      &lt;/componentList&gt;
+   &lt;/project&gt;</pre><p>This code will prevent the wrong binary from being installed even if the platform supports running the installer.</p><p>If you want to relax the validation in the 32bit component running on Windows 64bits because the OS will accept it and just give the the end user the opportunity to continue or abort, you could use the below code instead:</p><p><a id="snip9101077"></a></p><pre class="programlisting">&lt;project&gt;
+  &lt;version&gt;1.4&lt;/version&gt;
+  ...
+  &lt;windows64bitMode&gt;1&lt;/windows64bitMode&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      &lt;name&gt;windowsx86&lt;/name&gt;
+      ...
+      &lt;initializationActionList&gt;
+        &lt;actionGroup&gt;
+          &lt;actionList&gt;
+            &lt;showQuestion&gt;
+              &lt;default&gt;yes&lt;/default&gt;
+              &lt;text&gt;You are trying to install a 32bit application in a
+64bit system. A 64bit installer can be downloaded from our website. Do you
+want to continue anyway?&lt;/text&gt;
+              &lt;variable&gt;shouldinstall&lt;/variable&gt;
+            &lt;/showQuestion&gt;
+            &lt;exit&gt;
+              &lt;exitCode&gt;1&lt;/exitCode&gt;
+              &lt;ruleList&gt;
+                &lt;isFalse&gt;
+                  &lt;value&gt;${shouldinstall}&lt;/value&gt;
+                &lt;/isFalse&gt;
+              &lt;/ruleList&gt;
+            &lt;/exit&gt;
+          &lt;/actionList&gt;
+          &lt;ruleList&gt;
+            &lt;platformTest&gt;
+               &lt;type&gt;windows-x64&lt;/type&gt;
+            &lt;/platformTest&gt;
+          &lt;/ruleList&gt;
+        &lt;/actionGroup&gt;
+      &lt;/initializationActionList&gt;
+      ...
+      &lt;shouldPackRuleList&gt;
+        &lt;compareText text="${windowsArchitecture}" logic="equals" value="x64"/&gt;
+      &lt;/shouldPackRuleList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+&lt;/project&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_installing_applications_in_32bit_and_64bit_folders"></a>Installing applications in 32bit and 64bit folders</h4></div></div></div><p>It is also possible to install 32bit and 64bit components into different directories. This example sets up a 32bit application installer that will install additional components - such as 64bit libraries - when executed on Windows 64bit.</p><p>To do so, you could create a <a class="link" href="apc.html#parameterGroup"><code class="literal">&lt;parameterGroup&gt;</code></a> with two instances of <a class="link" href="apc.html#directoryParameter"><code class="literal">&lt;directoryParameter&gt;</code></a> - one for 32bit parts and one for 64bit parts. Next, initialize a default value for them in <a class="link" href="apd.html#initializationActionList"><code class="literal">&lt;initializationActionList&gt;</code></a> and pass this value to <a class="link" href="apc.html#parameter.default"><code class="literal">&lt;default&gt;</code></a> tag.</p><p><a id="snip1801549"></a></p><pre class="programlisting">&lt;project&gt;
+  &lt;windows64bitMode&gt;0&lt;/windows64bitMode&gt;
+  ...
+  &lt;initializationActionList&gt;
+     &lt;setInstallerVariable&gt;
+       &lt;name&gt;installationroot32&lt;/name&gt;
+       &lt;value&gt;${platform_install_prefix}&lt;/value&gt;
+     &lt;/setInstallerVariable&gt;
+     &lt;setInstallerVariable&gt;
+       &lt;name&gt;installationroot64&lt;/name&gt;
+       &lt;value&gt;${platform_install_prefix}&lt;/value&gt;
+     &lt;/setInstallerVariable&gt;
+     &lt;setInstallerVariable&gt;
+       &lt;name&gt;installationroot64&lt;/name&gt;
+       &lt;value&gt;${env(ProgramW6432)}&lt;/value&gt;
+       &lt;ruleList&gt;
+         &lt;platformTest&gt;
+           &lt;type&gt;windows-x64&lt;/type&gt;
+         &lt;/platformTest&gt;
+       &lt;/ruleList&gt;
+     &lt;/setInstallerVariable&gt;
+  &lt;/initializationActionList&gt;
+  ...
+  &lt;componentList&gt;
+    &lt;component&gt;
+      ...
+      &lt;folderList&gt;
+        &lt;folder&gt;
+           &lt;description&gt;Program Files (32bit)&lt;/description&gt;
+           &lt;destination&gt;${installdir}&lt;/destination&gt;
+           &lt;name&gt;programfileswindows&lt;/name&gt;
+           &lt;platforms&gt;windows&lt;/platforms&gt;
+           &lt;ruleList&gt;
+             &lt;platformTest type="windows" /&gt;
+           &lt;/ruleList&gt;
+           (...)
+        &lt;/folder&gt;
+        ...
+        &lt;folder&gt;
+           &lt;description&gt;Program Files (64bit)&lt;/description&gt;
+           &lt;destination&gt;${installdirx64}&lt;/destination&gt;
+           &lt;name&gt;programfileswindowsx64&lt;/name&gt;
+           &lt;platforms&gt;windows&lt;/platforms&gt;
+           &lt;ruleList&gt;
+             &lt;platformTest type="windows-x64" /&gt;
+           &lt;/ruleList&gt;
+           ...
+        &lt;/folder&gt;
+      &lt;/folderList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+  &lt;parameterList&gt;
+    &lt;parameterGroup&gt;
+       &lt;name&gt;installdirs&lt;/name&gt;
+       &lt;explanation&gt;&lt;/explanation&gt;
+       &lt;value&gt;&lt;/value&gt;
+       &lt;default&gt;&lt;/default&gt;
+       &lt;parameterList&gt;
+         &lt;directoryParameter&gt;
+           &lt;name&gt;installdir&lt;/name&gt;
+           &lt;description&gt;Installer.Parameter.installdir.description&lt;/description&gt;
+           &lt;explanation&gt;Installer.Parameter.installdir.explanation&lt;/explanation&gt;
+           &lt;value&gt;&lt;/value&gt;
+           &lt;default&gt;${installationroot32}/${project.shortName}-${project.version}&lt;/default&gt;
+           &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+           &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+           &lt;mustBeWritable&gt;1&lt;/mustBeWritable&gt;
+           &lt;mustExist&gt;0&lt;/mustExist&gt;
+           &lt;width&gt;40&lt;/width&gt;
+         &lt;/directoryParameter&gt;
+
+         &lt;!-- folder for 64-bit specific files --&gt;
+         &lt;directoryParameter&gt;
+           &lt;name&gt;installdirx64&lt;/name&gt;
+           &lt;description&gt;Installer.Parameter.installdirx64.description&lt;/description&gt;
+           &lt;explanation&gt;Installer.Parameter.installdirx64.explanation&lt;/explanation&gt;
+           &lt;value&gt;&lt;/value&gt;
+           &lt;default&gt;${installationroot64}/${project.shortName}-${project.version}&lt;/default&gt;
+           &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+           &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+           &lt;mustBeWritable&gt;1&lt;/mustBeWritable&gt;
+           &lt;mustExist&gt;0&lt;/mustExist&gt;
+           &lt;width&gt;40&lt;/width&gt;
+           &lt;ruleList&gt;
+             &lt;platformTest&gt;
+               &lt;type&gt;windows-x64&lt;/type&gt;
+             &lt;/platformTest&gt;
+           &lt;/ruleList&gt;
+         &lt;/directoryParameter&gt;
+       &lt;/parameterList&gt;
+    &lt;/parameterGroup&gt;
+  &lt;/parameterList&gt;
+&lt;/project&gt;</pre><p>On 32bit Microsoft Windows operating systems, the user will only be asked about one installation directory. The installer will deploy the 32bit files to that directory while 64bit files will be skipped.</p><p>On 64bit systems, the user will have the option of choosing directories for both 32bit and 64bit files. The installer will deploy the 32bit and 64bit files to the appropriate directories. As the installer is running as a 32bit application, certain target directories will point to their 32bit counterparts - such as the <code class="literal">system</code> directory for installing drivers. You must use <a class="link" href="apa.html#wow64FsRedirection"><code class="literal">&lt;wow64FsRedirection&gt;</code></a> action to enable/disable this redirection when deploying drivers and/or other files to the <code class="literal">WINDOWS</code> directory.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: The installer must be running in 32bit mode"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">The installer must be running in 32bit mode</th></tr><tr><td align="left" valign="top"><p>The <a class="link" href="apd.html#windows64bitMode"><code class="literal">&lt;windows64bitMode&gt;</code></a> project setting must be set to <code class="literal">0</code> (the default value) to make the installer run in 32bit mode. If installer were running in 64bit mode, the default installdir would be <code class="literal">C:\Program Files</code>, not <code class="literal">C:\Program Files (x86)</code>.</p></td></tr></table></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="access_control_lists"></a>26.3. Managing Access Control Lists</h3></div></div></div><p>Access Control Lists (ACLs) allow defining which users or groups can perform certain operations on one or more files. This allows preventing or granting access to reading or writing to files to certain users.</p><p>The <a class="link" href="apa.html#setWindowsACL"><code class="literal">&lt;setWindowsACL&gt;</code></a> action allows configuring the ACLs of the desired files for the specified set of users. For example, to grant all permissions to all users you could use the following code:</p><p><a id="snip8637355"></a></p><pre class="programlisting">&lt;setWindowsACL&gt;
+  &lt;action&gt;allow&lt;/action&gt;
+  &lt;files&gt;${installdir}/admin;${installdir}/admin/*&lt;/files&gt;
+  &lt;permissions&gt;generic_all&lt;/permissions&gt;
+  &lt;users&gt;S-1-1-0&lt;/users&gt;
+&lt;/setWindowsACL&gt;</pre><p>The <a class="link" href="apa.html#setWindowsACL"><code class="literal">&lt;setWindowsACL&gt;</code></a> action supports the following tags:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.users"><code class="literal">&lt;users&gt;</code></a>: Comma separated list of users to set permissions for.
+</li><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.action"><code class="literal">&lt;action&gt;</code></a>: Whether to allow (<code class="literal">allow</code> action) or deny (<code class="literal">deny</code> action).
+</li><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.permissions"><code class="literal">&lt;permissions&gt;</code></a>: Space-separated list of permissions to set
+</li><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.files"><code class="literal">&lt;files&gt;</code></a>: List of files or file patterns to match; separated by semi-colon or newlines.
+</li><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.excludeFiles"><code class="literal">&lt;excludeFiles&gt;</code></a>: List of files or file patterns to exclude from the defined <a class="link" href="apa.html#setWindowsACL.files"><code class="literal">&lt;files&gt;</code></a>.
+</li><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.self"><code class="literal">&lt;self&gt;</code></a>: Determines if the objects specified in the <a class="link" href="apa.html#setWindowsACL.files"><code class="literal">&lt;files&gt;</code></a> tag will be modified or just their children, if the recursion tags are enabled.
+</li><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.recurseOneLevelOnly"><code class="literal">&lt;recurseOneLevelOnly&gt;</code></a>: If enabled, the action will only affect the first level of hierarchy if one of the below is enabled.
+</li><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.recurseObjects"><code class="literal">&lt;recurseObjects&gt;</code></a>: The action will affect to child objects (files)
+</li><li class="listitem">
+<a class="link" href="apa.html#setWindowsACL.recurseContainers"><code class="literal">&lt;recurseContainers&gt;</code></a>: The action will affect to child to containers (folders)
+</li></ul></div><p>The <a class="link" href="apa.html#clearWindowsACL"><code class="literal">&lt;clearWindowsACL&gt;</code></a> action allows removing all of the ACLs for the specified files or directories.</p><p>For example, in order to make sure just the Administrators group can access some files, you should first remove all of the current ACLs (that may be inherited from a parent directory) and then the permissions appropriately:</p><p><a id="snip8031543"></a></p><pre class="programlisting">&lt;clearWindowsACL&gt;
+  &lt;files&gt;${installdir}/admin;${installdir}/admin/*&lt;/files&gt;
+&lt;/clearWindowsACL&gt;
+&lt;setWindowsACL&gt;
+  &lt;action&gt;allow&lt;/action&gt;
+  &lt;files&gt;${installdir}/admin;${installdir}/admin/*&lt;/files&gt;
+  &lt;permissions&gt;file_all_access&lt;/permissions&gt;
+  &lt;users&gt;S-1-5-32-544&lt;/users&gt;
+&lt;/setWindowsACL&gt;</pre><p>The <a class="link" href="apa.html#clearWindowsACL"><code class="literal">&lt;clearWindowsACL&gt;</code></a> action supports the following tags:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">&lt;files&gt;</code>: List of files or file patterns to match; separated by semi-colon or newlines
+</li><li class="listitem">
+<code class="literal">&lt;excludeFiles&gt;</code>: List of files or file patterns to exclude from the defined <a class="link" href="apa.html#setWindowsACL.files"><code class="literal">&lt;files&gt;</code></a>.
+</li></ul></div><p>It is also possible to retrieve the ACL for a given user over a certain file using the <a class="link" href="apa.html#getWindowsACL"><code class="literal">&lt;getWindowsACL&gt;</code></a> action. For example, the following will set <code class="literal">granted</code> and <code class="literal">denied</code> variables to the space-separated list of permissions for specified user:</p><p><a id="snip6158519"></a></p><pre class="programlisting">&lt;getWindowsACL&gt;
+  &lt;deniedPermissions&gt;denied&lt;/deniedPermissions&gt;
+  &lt;file&gt;${installdir}/admin&lt;/file&gt;
+  &lt;grantedPermissions&gt;granted&lt;/grantedPermissions&gt;
+  &lt;username&gt;S-1-1-0&lt;/username&gt;
+&lt;/getWindowsACL&gt;</pre><p>The <a class="link" href="apa.html#getWindowsACL"><code class="literal">&lt;getWindowsACL&gt;</code></a> action supports the below tags:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#getWindowsACL.file"><code class="literal">&lt;file&gt;</code></a>: File to retrieve the list of permissions for.
+</li><li class="listitem">
+<a class="link" href="apa.html#getWindowsACL.username"><code class="literal">&lt;username&gt;</code></a>: User or group to retrieve the list of permissions for.
+</li><li class="listitem">
+<a class="link" href="apa.html#getWindowsACL.grantedPermissions"><code class="literal">&lt;grantedPermissions&gt;</code></a>: Variable used to store the list of granted permissions.
+</li><li class="listitem">
+<a class="link" href="apa.html#getWindowsACL.deniedPermissions"><code class="literal">&lt;deniedPermissions&gt;</code></a>: Variable used to store  the list of denied permissions.
+</li></ul></div><p>When specifying a user for ACL actions, it can either be a user name, group name or a Security Identifier (<code class="literal">SID</code>). User names and group names are names of local or domain users and groups. SIDs are internal identifiers that specify unique user identification as well as several global values that are the same for all Windows based computers - such as <code class="literal">Everyone</code>, which maps to <code class="literal">S-1-1-0</code> and <code class="literal">Administrators</code> which maps to <code class="literal">S-1-5-32-544</code>. Using SIDs is the recommended approach when referring to well known groups as the name of the groups is localized depending on the OS language.</p><p>More details on universal well-known SID values can be found on MSDN:</p><p><a class="ulink" href="http://msdn.microsoft.com/en-us/library/aa379649.aspx" target="_top">http://msdn.microsoft.com/en-us/library/aa379649.aspx</a></p><p>The <a class="link" href="apa.html#setWindowsACL.permissions"><code class="literal">&lt;permissions&gt;</code></a> tag can include any number of permissions, separated by space. The following permissions are allowed in the ACL related actions:</p><div class="table"><a id="idm140427926139616"></a><p class="title"><strong>Table 5. ACL permissions</strong></p><div class="table-contents"><table summary="ACL permissions" cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; "><colgroup><col class="col_1" /><col class="col_2" /><col class="col_3" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="3" align="left" valign="top"> ACL permissions</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>permission</strong></span></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>file permission</strong></span></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>directory permission</strong></span></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_read_data</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow reading from file</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow listing contents of directory</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_write_data</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow writing to file</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow creating files</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_append_data</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow appending data to file</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow creating subdirectory</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_read_ea</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow reading extended attributes</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow reading extended attributes</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_write_ea</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow writing extended attributes</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow writing extended attributes</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_execute</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow running a binary</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow traversing directory</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_delete_child</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>N/A</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow deleting directory and its children, even if files are read-only</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_read_attributes</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow reading attributes</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow reading attributes</p></td></tr><tr><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>file_write_attributes</p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>allow writing attributes</p></td><td style="" align="left" valign="top"><p>allow writing attributes</p></td></tr></tbody></table></div></div><br class="table-break" /><p>For setting access, the following generic permissions can also be used:</p><div class="table"><a id="idm140427926095200"></a><p class="title"><strong>Table 6. Generic ACL permissions</strong></p><div class="table-contents"><table summary="Generic ACL permissions" cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; "><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="left" valign="top"> Generic ACL permissions</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>permission</strong></span></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>description</strong></span></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_all_access</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow all available permissions</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_generic_read</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow common read permissions for file, directory and its attributes</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>file_generic_write</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>allow common write permissions for file, directory and its attributes</p></td></tr><tr><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>file_generic_execute</p></td><td style="" align="left" valign="top"><p>allow common execution permissions for file, directory and its attributes</p></td></tr></tbody></table></div></div><br class="table-break" /><p>More details on permissions related to files can be found on MSDN:</p><p><a class="ulink" href="http://msdn.microsoft.com/en-us/library/aa394063.aspx#properties" target="_top">http://msdn.microsoft.com/en-us/library/aa394063.aspx#properties</a></p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: ACLs are only supported on NTFS file systems."><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">ACLs are only supported on NTFS file systems.</th></tr><tr><td align="left" valign="top"><p>If the action is used in a non-supported file system, it will silently fail.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_changing_file_attributes"></a>26.4. Changing file attributes</h3></div></div></div><p>File and folder attributes are set using the <a class="link" href="apa.html#changeWindowsAttributes"><code class="literal">&lt;changeWindowsAttributes&gt;</code></a> action.</p><p>For example, the following action can be used to set <code class="literal">read-only</code> and <code class="literal">system</code> attributes for <code class="literal">admin</code> subdirectory and all its child files:</p><p><a id="snip6241102"></a></p><pre class="programlisting">&lt;changeWindowsAttributes&gt;
+  &lt;files&gt;${installdir}/admin;${installdir}/admin/*&lt;/files&gt;
+  &lt;readOnly&gt;1&lt;/readOnly&gt;
+  &lt;system&gt;1&lt;/system&gt;
+&lt;/changeWindowsAttributes&gt;</pre><p>It accepts the following tags:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#changeWindowsAttributes.files"><code class="literal">&lt;files&gt;</code></a>: List of files or file patterns to match; separated by semi-colon or newlines
+</li><li class="listitem">
+<a class="link" href="apa.html#changeWindowsAttributes.excludeFiles"><code class="literal">&lt;excludeFiles&gt;</code></a>: List of files or file patterns to exclude from the defined <a class="link" href="apa.html#changeWindowsAttributes.files"><code class="literal">&lt;files&gt;</code></a>.
+</li><li class="listitem">
+<a class="link" href="apa.html#changeWindowsAttributes.hidden"><code class="literal">&lt;hidden&gt;</code></a>: Whether or not the specified files should not be visible in applications such as Windows Explorer.
+</li><li class="listitem">
+<a class="link" href="apa.html#changeWindowsAttributes.readOnly"><code class="literal">&lt;readOnly&gt;</code></a>: Whether or not the specified files should allow write access.
+</li><li class="listitem">
+<a class="link" href="apa.html#changeWindowsAttributes.system"><code class="literal">&lt;system&gt;</code></a>: Whether or not the specified files must be marked as system files.
+</li><li class="listitem">
+<a class="link" href="apa.html#changeWindowsAttributes.archive"><code class="literal">&lt;archive&gt;</code></a>: Whether or not the specified files must be marked to be archived. Some applications use this attribute to know which files should be backed up.
+</li></ul></div><p>Please note that only setting these attributes does not prevent users from modifying the files, as the user can still unset each of these attributes manually. In order to prevent users (such as non-administrators) from modifying or accessing certain files, Access Control Lists should be used instead.</p><p>Read-only and system attributes can only be set for files. They are ignored by the operating system if applied to a folder. It is documented in more detail by Microsoft:</p><p><a class="ulink" href="http://support.microsoft.com/kb/326549" target="_top">http://support.microsoft.com/kb/326549</a></p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s25.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s27.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">25. Builder </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 27. OS X</td></tr></table></div></body></html>

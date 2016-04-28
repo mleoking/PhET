@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>23. AutoUpdate Tool</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s22.html" title="22. Updates" /><link rel="next" href="ar01s24.html" title="24. Native Packages" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">23. AutoUpdate Tool</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s22.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s24.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_autoupdate_tool"></a>23. AutoUpdate Tool</h2></div></div></div><p>InstallBuilder bundles an automatic update tool that can be used to download and install packages over the Internet, AutoUpdate. It can be found in the <code class="literal">autoupdate/</code> directory under the main installation directory.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_how_to_use_autoupdate_in_installbuilder"></a>23.1. How to Use AutoUpdate in InstallBuilder</h3></div></div></div><p>The AutoUpdate tool allows you to provide your users with an easy and automatable way to check for, download and apply updates to your software.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_how_does_it_work"></a>How Does it Work?</h4></div></div></div><p>When executed, the AutoUpdate wizard will poll your server to get information about the available software versions for the platform in which it is running. The detailed process is:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Read the INI file that contains information about where to contact the server and which version is currently installed. This INI file must be delivered together with the binary and placed in the same directory.
+</li><li class="listitem">
+Get the XML file from the server, which contains available versions for each platform.
+</li><li class="listitem">
+If there’s a newer version available for the target platform (checking that the version ID received is higher than the current one stored in INI file), download and install it or notify the user depending on the execution mode.
+</li></ul></div><p>The AutoUpdate wizard is defined in an XML project, similar to a regular InstallBuilder project, but much simpler. The project XML file must have the main tag <a class="link" href="aph.html#autoUpdateProject"><code class="literal">&lt;autoUpdateProject&gt;</code></a> containing the list of customizations to apply to the wizard:</p><p><a id="snip2746932"></a></p><pre class="programlisting">&lt;autoUpdateProject&gt;
+  &lt;fullName&gt;Example Project&lt;/fullName&gt;
+  &lt;shortName&gt;example&lt;/shortName&gt;
+  &lt;vendor&gt;Acme Inc.&lt;/vendor&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+  &lt;windowsExecutableIcon&gt;images/updater.ico&lt;/windowsExecutableIcon&gt;
+  &lt;leftImage&gt;images/left-image.png&lt;/leftImage&gt;
+  &lt;logoImage&gt;images/logo-image.png&lt;/logoImage&gt;
+  ...
+&lt;/autoUpdateProject&gt;</pre><p>The currently supported settings are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>General settings</strong></span>:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.fullName"><code class="literal">&lt;fullName&gt;</code></a>: The full product name, as it will be displayed in the autoupdater
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.shortName"><code class="literal">&lt;shortName&gt;</code></a>: The short version of product name. It can only contain alphanumeric characters
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.vendor"><code class="literal">&lt;vendor&gt;</code></a>: Vendor name
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.version"><code class="literal">&lt;version&gt;</code></a>: Product version number.
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.rebootRequired"><code class="literal">&lt;rebootRequired&gt;</code></a>: Determines whether or not to ask the user to reboot after the AutoUpdate process is completed (Windows-specific option).
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.requireInstallationByRootUser"><code class="literal">&lt;requireInstallationByRootUser&gt;</code></a>: Whether or not running the autoupdater will require super user privileges (root on Linux, Administrator user on Windows and OS X). This setting will prevent the autoupdate from running if the user is not root or Administrator on all operating systems except for OS X. In OS X, the regular authentication dialog window will be shown, asking the user for the administrator password so the autoupdate wizard can be run with root privileges
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.singleInstanceCheck"><code class="literal">&lt;singleInstanceCheck&gt;</code></a>: Check that only one autoupdater instance is running
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.requestedExecutionLevel"><code class="literal">&lt;requestedExecutionLevel&gt;</code></a>: UAC execution level of the AutoUpdate on Windows
+</li></ul></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>Look And Feel</strong></span>:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.height"><code class="literal">&lt;height&gt;</code></a>: Autoupdate wizard window height
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.width"><code class="literal">&lt;width&gt;</code></a>: Autoupdate wizard window width
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.leftImage"><code class="literal">&lt;leftImage&gt;</code></a>: 163x314 GIF or PNG image that will be placed at the left side of the autoupdate wizard in the Welcome and Update Finished pages. If no image is specified, the default image will be used
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.logoImage"><code class="literal">&lt;logoImage&gt;</code></a>: 48x48 GIF or PNG logo image that will be placed at the top right corner of the autoupdate wizard. If no image is specified, the default image will be used
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.splashImage"><code class="literal">&lt;splashImage&gt;</code></a>: The GIF or PNG image that will appear when launching the autoupdate wizard.
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.splashScreenDelay"><code class="literal">&lt;splashScreenDelay&gt;</code></a>: Extra display time of the splash screen in milliseconds
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.disableSplashScreen"><code class="literal">&lt;disableSplashScreen&gt;</code></a>: Disable the initial splash screen.
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.overrideGtkButtonText"><code class="literal">&lt;overrideGtkButtonText&gt;</code></a>: Translate buttons to the selected language instead of using system-built values for Unix GTK mode
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.wmImage"><code class="literal">&lt;wmImage&gt;</code></a>: 48x48 GIF or PNG logo image that will be shown in the window manager task bar on Unix systems. If no image is specified, the default logo image will be used
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsExecutableIcon"><code class="literal">&lt;windowsExecutableIcon&gt;</code></a>: ICO file with an specific format to set the icon for the autoupdate executable file on Windows systems. The allowed ICO formats are detailed in the <a class="link" href="ar01s12.html#allowed_windows_icons" title="Windows Icons">Windows Icons</a> section.
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.osxApplicationBundleIcon"><code class="literal">&lt;osxApplicationBundleIcon&gt;</code></a>: ICNS file to include in the AutoUpdate Application Bundle
+</li></ul></div></li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>Windows Resources</strong></span>:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceComments"><code class="literal">&lt;windowsResourceComments&gt;</code></a>: Comments for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceCompanyName"><code class="literal">&lt;windowsResourceCompanyName&gt;</code></a>: Company Name for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceFileDescription"><code class="literal">&lt;windowsResourceFileDescription&gt;</code></a>: File Description for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceFileVersion"><code class="literal">&lt;windowsResourceFileVersion&gt;</code></a>: File version for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceInternalName"><code class="literal">&lt;windowsResourceInternalName&gt;</code></a>: Internal Name for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceLegalCopyright"><code class="literal">&lt;windowsResourceLegalCopyright&gt;</code></a>: Legal Copyright for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceLegalTrademarks"><code class="literal">&lt;windowsResourceLegalTrademarks&gt;</code></a>: Legal Trademarks for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceOriginalFilename"><code class="literal">&lt;windowsResourceOriginalFilename&gt;</code></a>: Original Filename for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceProductName"><code class="literal">&lt;windowsResourceProductName&gt;</code></a>: Product Name for resources embedded in Windows executable
+</li><li class="listitem">
+<a class="link" href="aph.html#autoUpdateProject.windowsResourceProductVersion"><code class="literal">&lt;windowsResourceProductVersion&gt;</code></a>: Product Version for resources embedded in Windows executable
+</li></ul></div></li></ul></div><p>Once your <a class="link" href="aph.html#autoUpdateProject"><code class="literal">&lt;autoUpdateProject&gt;</code></a> is configured, you can build it using the <code class="literal">customize</code> tool, located in the <code class="literal">bin</code> folder, under the AutoUpdate directory. Depending on the OS, you will be able to build AutoUpdate binaries for <code class="literal">windows</code>, <code class="literal">osx</code>, <code class="literal">linux</code> or <code class="literal">linux-x64</code>, reusing the same AutoUpdate XML project.</p><p>The syntax to use the tool is:</p><pre class="programlisting">$&gt; installbuilder-16.3.0/autoupdate/bin/customize build /path/to/autoUpdateProject.xml windows
+
+ Autoupdater successfully created. You can find it at
+
+ installbuilder-16.3.0/autoupdate/output/autoupdate-windows.exe</pre><p>You can also check it invoking the tool without arguments:</p><pre class="programlisting">$&gt; installbuilder-16.3.0/autoupdate/bin/customize
+
+Wrong syntax. Correct syntax is
+
+customize build /path/to/project.xml [windows|linux|linux-x64|osx]</pre><p>As previously mentioned, the AutoUpdate wizard must be distributed along with an INI file. The basic information required, organized in the <code class="literal">Update</code> section of the INI file, is:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong><code class="literal">url</code></strong></span>: Points to the remote location of the update data. Currently only HTTP is supported.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">version_id</code></strong></span>: The local version identifier, which is compared to the remote version identifier to trigger the update process. Its value must be a positive integer.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">update_download_location</code></strong></span>: The path to the folder where the downloaded files will be saved. Downloading a file that already exists in the download location path will result in the new file being renamed in an incremental way, by appending a number at the end of the file name. If the download folder does not exist, the automatic update process will attempt to create it. If not specified, it defaults to <code class="literal">~/.bitrock/updates</code>.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">check_for_updates</code></strong></span>: It is possible to enable and disable the AutoUpdate on demand by setting this boolean value.
+</li></ul></div><p><strong>Basic <code class="literal">update.ini</code> file. </strong>
+</p><pre class="screen">[Update]
+
+url = http://example.com:8080/update.xml
+version_id = 0100
+check_for_updates = 1
+update_download_location = ${installer_directory}/tmp</pre><p>
+</p><p>Apart from these basic keys, it is also possible to configure other AutoUpdate settings such as the proxy configuration (<code class="literal">Proxy</code> section):</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong><code class="literal">enable</code></strong></span>: Enables (<code class="literal">1</code>) or disables (<code class="literal">0</code>) the proxy. If the rest of keys are not provided, the proxy configuration from the system will be autodetected and used (if any).
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">server</code></strong></span>: The proxy server.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">port</code></strong></span>: The port in the proxy server.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">username</code></strong></span>: Username in the proxy server (if required)
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">password</code></strong></span>: The password in the proxy server (if required)
+</li></ul></div><p><strong><code class="literal">update.ini</code> file with proxy configuration. </strong>
+</p><pre class="screen">[Update]
+
+url = http://example.com:8080/update.xml
+version_id = 0100
+check_for_updates = 1
+update_download_location = ${installer_directory}/tmp
+
+[Proxy]
+
+server=proxy.example.com
+port=8080
+username=foo
+password=bar</pre><p>
+</p><p>Some of these settings can also be passed to the AutoUpdate through the command line when calling it. The provided values will then overwrite those configured in the INI file. You can check the available command line settings using the <code class="literal">--help</code> flag:</p><pre class="programlisting">$&gt; installbuilder-16.3.0/autoupdate/runtimes/autoupdate-linux.run --help
+Your Program 1.0
+Usage:
+
+ --help                         Display the list of valid options
+
+ --unattendedmodeui &lt;unattendedmodeui&gt; Unattended Mode UI
+                                Default: none
+                                Allowed: none minimal minimalWithDialogs
+
+ --debuglevel &lt;debuglevel&gt;      Debug information level of verbosity
+                                Default: 2
+                                Allowed: 0 1 2 3 4
+
+ --settings_file &lt;settings_file&gt; Path to the local settings file, containing the HTTP URL to update and the current version ID.
+                                Default: installbuilder-16.3.0/autoupdate/runtimes/update.ini
+
+ --url &lt;url&gt;                    HTTP URL that points to the xml file containing the update data.
+                                Default:
+
+ --version_id &lt;version_id&gt;      Version ID of the local installation.
+                                Default:
+
+ --update_download_location &lt;update_download_location&gt; Path where the downloaded files will be stored.
+                                Default: ~/.bitrock/updates
+
+ --check_for_updates &lt;check_for_updates&gt; Boolean value to specify whether to check for updates or not.
+                                Default: 1</pre><p>Apart from the INI file, you also must define an XML file (<code class="literal">update.xml</code>) with the available versions and make it available on your server, in the URL defined in the <code class="literal">update.ini</code> file. The server XML must define the below set of properties:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong><code class="literal">&lt;version&gt;</code></strong></span>: Specifies the version of the update. This is the version that will be displayed to the end user. It is not taken into account by the update wizard when determining whether or not there is an update available. Instead, <code class="literal">&lt;versionId&gt;</code> is used for that.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">&lt;versionId&gt;</code></strong></span>: This is an integer, whose value is compared with the one located in the local update.ini file. If the value of <code class="literal">&lt;versionId&gt;</code> is bigger than the local one, it indicates that there is a new version of the software available.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">&lt;platformFileList&gt;</code></strong></span>: This section describes the available update installers for each platform. Each update binary is defined as a <code class="literal">&lt;platformFile&gt;</code>, in which you specify the <code class="literal">&lt;filename&gt;</code> that will be downloaded only if the user’s operating system matches the one defined as <code class="literal">&lt;platform&gt;</code>. At the moment, OS X installers are expected to be compressed in a .tgz file but future versions will allow users to use other formats.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">&lt;downloadLocationList&gt;</code></strong></span>: List of download locations (<code class="literal">&lt;downloadLocation&gt;</code>), each containing a URL pointing to the remote folder where the files are located, which is used to generate the list of mirrors selectable in the AutoUpdate user interface. The HTTP URL containing the update will be constructed by appending the file field to the mirror url. In the example below, it means the Linux version will be available from <a class="ulink" href="http://www.example.com/updates/download/program-4.0.1.run" target="_top">http://www.example.com/updates/download/program-4.0.1.run</a> and <a class="ulink" href="ftp://www.example.com/mirror/updates/download/program-4.0.1.run" target="_top">ftp://www.example.com/mirror/updates/download/program-4.0.1.run</a>
+</li></ul></div><p><a id="snip7693798"></a></p><pre class="programlisting">  &lt;installerInformation&gt;
+    &lt;versionId&gt;2000&lt;/versionId&gt;
+    &lt;version&gt;4.0.1&lt;/version&gt;
+    &lt;platformFileList&gt;
+        &lt;platformFile&gt;
+            &lt;filename&gt;program-4.0.1.exe&lt;/filename&gt;
+            &lt;platform&gt;windows&lt;/platform&gt;
+        &lt;/platformFile&gt;
+        &lt;platformFile&gt;
+            &lt;filename&gt;program-4.0.1.run&lt;/filename&gt;
+            &lt;platform&gt;linux&lt;/platform&gt;
+        &lt;/platformFile&gt;
+    &lt;/platformFileList&gt;
+    &lt;downloadLocationList&gt;
+        &lt;downloadLocation&gt;
+            &lt;url&gt;http://www.example.com/updates/download/&lt;/url&gt;
+        &lt;/downloadLocation&gt;
+        &lt;downloadLocation&gt;
+            &lt;url&gt;ftp://www.example.com/mirror/updates/download/&lt;/url&gt;
+        &lt;/downloadLocation&gt;
+    &lt;/downloadLocationList&gt;
+&lt;/installerInformation&gt;</pre><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p><code class="literal">&lt;versionId&gt;</code> must be an integer which takes higher values for the newest versions.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_basic_example"></a>Basic example</h4></div></div></div><p>Imagine you have an application called <code class="literal">My Application</code> and you want to include the AutoUpdate functionality in version <code class="literal">1.0.0</code>. You may also want, for example, for the update process to be run by an Administrator and prevent multiple instances of the AutoUpdate to run simultaneously. This wizard installer could be created with the simple code below:</p><p><a id="snip9669260"></a></p><pre class="programlisting">  &lt;autoUpdateProject&gt;
+     &lt;fullName&gt;My Application&lt;/fullName&gt;
+     &lt;shortName&gt;myapp&lt;/shortName&gt;
+     &lt;vendor&gt;Acme Inc.&lt;/vendor&gt;
+     &lt;version&gt;1.0.0&lt;/version&gt;
+     &lt;singleInstanceCheck&gt;1&lt;/singleInstanceCheck&gt;
+     &lt;requireInstallationByRootUser&gt;1&lt;/requireInstallationByRootUser&gt;
+  &lt;/autoUpdateProject&gt;</pre><p>You may also want to change the images and icons to have application-specific ones. To do so, you can add the options: <a class="link" href="aph.html#autoUpdateProject.leftImage"><code class="literal">&lt;leftImage&gt;</code></a>, <a class="link" href="aph.html#autoUpdateProject.logoImage"><code class="literal">&lt;logoImage&gt;</code></a>, <a class="link" href="aph.html#autoUpdateProject.splashImage"><code class="literal">&lt;splashImage&gt;</code></a>, <a class="link" href="aph.html#autoUpdateProject.wmImage"><code class="literal">&lt;wmImage&gt;</code></a>. Once all desired options are included in <code class="literal">autoUpdateProject.xml</code> file, you can build the AutoUpdate wizard using the customize command:</p><pre class="programlisting"> installbuilder-16.3.0/autoupdate/bin/customize.run build autoUpdateProject.xml linux
+ installbuilder-16.3.0/autoupdate/bin/customize.run build autoUpdateProject.xml windows
+ installbuilder-16.3.0/autoupdate/bin/customize.run build autoUpdateProject.xml osx</pre><p>After that, binary files for Linux, OS X and Windows should be found in the AutoUpdate output directory.</p><p>Apart from the AutoUpdate binary, you will need to setup a server with the new installers and update.xml file. This example assumes the server is running locally in port 8080. (you can easily setup a web server using LAMPStack (Linux), WAMPStack (Windows) or MAMPStack (OS X) from <a class="ulink" href="http://bitnami.org" target="_top">BitNami.org</a>). Just copy the latest installers and an update.xml file describing that version, the filenames and mirrors to the server:</p><p><a id="snip1256744"></a></p><pre class="programlisting">    &lt;installerInformation&gt;
+       &lt;versionId&gt;200&lt;/versionId&gt;
+       &lt;version&gt;2.0.0&lt;/version&gt;
+       &lt;platformFileList&gt;
+           &lt;platformFile&gt;
+               &lt;filename&gt;myapplication-installer-2.0.0.exe&lt;/filename&gt;
+               &lt;platform&gt;windows&lt;/platform&gt;
+           &lt;/platformFile&gt;
+           &lt;platformFile&gt;
+               &lt;filename&gt;myapplication-installer-2.0.0.run&lt;/filename&gt;
+               &lt;platform&gt;linux&lt;/platform&gt;
+           &lt;/platformFile&gt;
+
+           &lt;platformFile&gt;
+               &lt;filename&gt;myapplication-installer-2.0.0.app.tgz&lt;/filename&gt;
+               &lt;platform&gt;osx&lt;/platform&gt;
+           &lt;/platformFile&gt;
+       &lt;/platformFileList&gt;
+       &lt;downloadLocationList&gt;
+           &lt;downloadLocation&gt;
+               &lt;url&gt;http://127.0.0.1:8080/downloads/&lt;/url&gt;
+           &lt;/downloadLocation&gt;
+       &lt;/downloadLocationList&gt;
+    &lt;/installerInformation&gt;</pre><p>where <code class="literal">&lt;versionId&gt;</code> has been set to a higher integer value than previous ones and a single mirror has been configured. You can include any number of mirrors by adding multiple <code class="literal">&lt;downloadLocation&gt;</code> elements though. In the example, the installers will be available from:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">http://127.0.0.1:8080/downloads/myapplication-installer-2.0.0.run</code>
+</li><li class="listitem">
+<code class="literal">http://127.0.0.1:8080/downloads/myapplication-installer-2.0.0.exe</code>
+</li><li class="listitem">
+<code class="literal">http://127.0.0.1:8080/downloads/myapplication-installer-2.0.0.app.tgz</code>
+</li></ul></div><p>To provide AutoUpdate with the needed information to find the XML file in the server and to check the information on it, you must write an <code class="literal">update.ini</code> file:</p><pre class="screen">[Update]
+url = http://127.0.0.1:8080/update.xml
+version_id = 100
+check_for_updates = 1
+update_download_location = /tmp</pre><p>In this case, <code class="literal">update.xml</code> will be obtained from <code class="literal">localhost</code>, saving temporary installers inside the <code class="literal">/tmp</code> path. The application upgrade process will be done if the received <code class="literal">&lt;versionId&gt;</code> is greater than 100.</p><p>Once you have placed your binary files and <code class="literal">update.xml</code> on your server and the <code class="literal">update.ini</code> file is in the same directory as the AutoUpdate binary, it is ready to go. You can launch it by double-clicking on it or from a command line prompt:</p><pre class="programlisting">$&gt; autoupdater-linux.run</pre><p>When it is started, according to the settings you configured in the XML project, if the user running the updater is not an Administrator, he will be notified and the AutoUpdate process will end. If there is another instance already running, a notification will let the user know and he or she will be able to indicate whether or not the process should continue. If both requirements are met, a welcome screen will appear:</p><div class="figure"><a id="idm140427926818656"></a><p class="title"><strong>Figure 81. Welcome to the My application update</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/welcome-auto-update.png" align="middle" alt="Welcome to the My application update" /></div></div></div><br class="figure-break" /><p>After clicking <code class="literal">Next</code>, you will get a screen to configure a proxy if it is necessary.</p><div class="figure"><a id="idm140427926814368"></a><p class="title"><strong>Figure 82. Connect to the Internet</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/connect-to-internet.png" align="middle" alt="Connect to the Internet" /></div></div></div><br class="figure-break" /><p>It will contact the server and check if there are new versions available. If there is an update, the following screen will be shown:</p><div class="figure"><a id="idm140427926810768"></a><p class="title"><strong>Figure 83. Check for updates</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/check-for-updates.png" align="middle" alt="Check for updates" /></div></div></div><br class="figure-break" /><p>If you click Next, a new window with the list of mirrors will be displayed:</p><div class="figure"><a id="idm140427926807216"></a><p class="title"><strong>Figure 84. Mirror selection</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/mirror-selection.png" align="middle" alt="Mirror selection" /></div></div></div><br class="figure-break" /><p>If you just provided a single download location for the binaries, the mirrors page will be skipped.</p><p>After the details of the connection have been configured, the download process starts:</p><div class="figure"><a id="idm140427926803168"></a><p class="title"><strong>Figure 85. Downloading Updates</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/downloading-updates.png" align="middle" alt="Downloading Updates" /></div></div></div><br class="figure-break" /><p>Once the download finishes, the update installer is automatically started.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_adding_the_autoupdate_to_an_existing_installbuilder_project"></a>23.2. Adding the AutoUpdate to an Existing InstallBuilder project</h3></div></div></div><p>The only steps required to include the new feature as part of the application installation is to copy the appropriate AutoUpdate wizard file for each operating system and place the configured <code class="literal">update.ini</code> file in the same folder. For instance, you can define a component in the following way:</p><p><a id="snip2099941"></a></p><pre class="programlisting">&lt;component&gt;
+   &lt;name&gt;autoupdater&lt;/name&gt;
+   &lt;description&gt;includes tool to perform updates&lt;/description&gt;
+   &lt;canBeEdited&gt;0&lt;/canBeEdited&gt;
+   &lt;selected&gt;1&lt;/selected&gt;
+   &lt;show&gt;0&lt;/show&gt;
+   &lt;folderList&gt;
+       &lt;folder&gt;
+           &lt;name&gt;autoupdaterwin&lt;/name&gt;
+           &lt;destination&gt;${installdir}&lt;/destination&gt;
+           &lt;platforms&gt;windows&lt;/platforms&gt;
+           &lt;distributionFileList&gt;
+               &lt;distributionFile origin="autoupdater-windows.exe"/&gt;
+           &lt;/distributionFileList&gt;
+       &lt;/folder&gt;
+       &lt;folder&gt;
+           &lt;name&gt;autoupdaterlinux&lt;/name&gt;
+           &lt;destination&gt;${installdir}&lt;/destination&gt;
+           &lt;platforms&gt;linux&lt;/platforms&gt;
+           &lt;distributionFileList&gt;
+               &lt;distributionFile origin="autoupdater-linux.run"/&gt;
+           &lt;/distributionFileList&gt;
+       &lt;/folder&gt;
+   &lt;/folderList&gt;
+   &lt;postInstallationActionList&gt;
+       &lt;writeFile&gt;
+           &lt;path&gt;${installdir}/update.ini&lt;/path&gt;
+           &lt;text&gt;[Update]
+url = ${update_xml_url}
+version_id = ${application_version_id}
+update_download_location = ${system_temp_directory}
+check_for_updates = 1
+&lt;/text&gt;
+       &lt;/writeFile&gt;
+   &lt;/postInstallationActionList&gt;
+&lt;/component&gt;</pre><p>Where the <code class="literal">update_xml_url</code> installer variable must be setup to the point where <code class="literal">update.xml</code> can be fetched and <code class="literal">application_version_id</code> must be modified to a higher value on each installer update. This component will automatically take the AutoUpdate binaries from the project directory and deploy the appropriate one on the target machine.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_using_autoupdate_as_a_notifier"></a>23.3. Using AutoUpdate as a notifier</h3></div></div></div><p>Another interesting feature you could add to your installations is using the AutoUpdate as a notifier which will silently check for updates. This can be achieved by calling the tool in unattended mode:</p><pre class="programlisting">$ autoupdater.run --mode unattended</pre><p>The exit code will be 0 if an update is available and <code class="literal">&gt;0</code> if not. Once a new version is detected, you could then show a popup to your users with a <code class="literal">There's a new update available</code> message. To do so, you just call the process in background and generate the message if the returned code is 0:</p><pre class="programlisting">if (system("path/to/autoupdater --mode unattended") == 0){
+ printf("Update available. Run autoupdate to apply it.");
+}</pre><p>Something similar may be added when the application starts, or as a cron task if it is a web application, so that the user detects that there’s a new update without having to run AutoUpdate manually to check it.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_how_to_execute_custom_actions_after_the_update_installer_is_downloaded"></a>23.4. How to execute custom actions after the update installer is downloaded</h3></div></div></div><p>The default behavior of AutoUpdate is to launch the downloaded installer but sometimes it is necessary to perform some validation over the downloaded files, for example to check the integrity of the downloaded data. These kind of custom actions can be defined using the <a class="link" href="aph.html#postUpdateDownloadActionList"><code class="literal">&lt;postUpdateDownloadActionList&gt;</code></a>:</p><p><a id="snip3723122"></a></p><pre class="programlisting">  &lt;postUpdateDownloadActionList&gt;
+     &lt;!-- Execute some validations here --&gt;
+     ...
+     &lt;!-- The path to the downloaded update will be stored in
+     the ${downloadedFilePath} built-in variable. We calculate the MD5 --&gt;
+     &lt;runProgram&gt;
+       &lt;program&gt;md5sum&lt;/program&gt;
+       &lt;programArguments&gt;${downloadedFilePath}&lt;/programArguments&gt;
+     &lt;/runProgram&gt;
+     &lt;!-- You can use any action like using httpGet to retrieve a valid
+     value for the md5sum or directly send the md5 to the server to validate it it --&gt;
+     &lt;throwError&gt;
+        &lt;text&gt;It seems the downloaded installer was corrupted&lt;/text&gt;
+        &lt;ruleList&gt;
+          &lt;compareText&gt;
+            &lt;text&gt;${program_stdout}&lt;/text&gt;
+            &lt;logic&gt;does_not_equal&lt;/logic&gt;
+            &lt;value&gt;${someExpectedValue}&lt;/value&gt;
+          &lt;/compareText&gt;
+        &lt;/ruleList&gt;
+     &lt;/throwError&gt;
+     ...
+     &lt;!-- Launch the installer --&gt;
+     &lt;runProgram&gt;
+         &lt;program&gt;${downloadedFilePath}&lt;/program&gt;
+         &lt;programArguments&gt;--prefix /tmp/someDir --enable_component_a 1 --is_update 1 &amp;amp;&lt;/programArguments&gt;
+     &lt;/runProgram&gt;
+ &lt;/postUpdateDownloadActionList&gt;</pre><p>Please note the usage of the built-in <code class="literal">${downloadedFilePath}</code> variable to get the path of the update installer. This is necessary because although you define the <code class="literal">update_download_location</code> key in the update.ini file, if an older file with the same name is found there, a suffix will automatically be appended to the file name: <code class="literal">sample-1.0-windows-installer.exe.1</code>, <code class="literal">sample-1.0-windows-installer.exe.2</code> …</p><p>In addition, you will have to manually launch the downloaded file because the default behavior was overridden.</p><p>This is especially useful to launch the updates in unattended mode or to pass some command line argument as in the example.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_autoupdate_installers_in_unattended_mode"></a>23.5. AutoUpdate installers in unattended mode</h3></div></div></div><p>The AutoUpdate installer can be executed in unattended mode just as with regular InstallBuilder installers:</p><pre class="programlisting">autoupdate-linux.run --mode unattended</pre><p>As mentioned in the previous section, when launched in unattended mode, AutoUpdate will simply check if an update is available and then will finish its execution. However, this behavior is configurable.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_regular_unattended_mode"></a>Regular unattended mode</h4></div></div></div><pre class="programlisting">autoupdate-linux.run --mode unattended</pre><p>In this mode, AutoUpdate is executed as a checker. It will return a <span class="emphasis"><em>0</em></span> exit code if it finds a new update and a positive integer otherwise. The snippet below shows how to use it from an InstallBuilder installer which bundled AutoUpdate:</p><p><a id="snip4524283"></a></p><pre class="programlisting">    &lt;project&gt;
+        ...
+        &lt;initializationActionList&gt;
+           &lt;showQuestion default="yes" text="Would you like to check for updates?" variable="shouldCheckForUpdates" /&gt;
+           &lt;actionGroup&gt;
+              &lt;actionList&gt;
+                 &lt;!-- Once you have unpacked the bundled autoupdate and update.ini to some folder, like /tmp/autoupdate --&gt;
+                 &lt;runProgram&gt;
+                    &lt;program&gt;/tmp/autoupdate/autoupdate-linux.run&lt;/program&gt;
+                    &lt;programArguments&gt;--mode unattended&lt;/programArguments&gt;
+                 &lt;/runProgram&gt;
+                 &lt;showInfo text="An update is available!"&gt;
+                   &lt;ruleList&gt;
+                       &lt;isFalse value="${program_exit_code}" /&gt;
+                   &lt;/ruleList&gt;
+                 &lt;/showInfo&gt;
+                 &lt;showInfo text="Sorry, no update is available..."&gt;
+                   &lt;ruleList&gt;
+                       &lt;compareText text="${program_exit_code}" value="0" logic="does_not_equal" /&gt;
+                   &lt;/ruleList&gt;
+                 &lt;/showInfo&gt;
+              &lt;/actionList&gt;
+              &lt;ruleList&gt;
+                 &lt;compareText text="${shouldCheckForUpdates}" value="yes" logic="equals" /&gt;
+              &lt;/ruleList&gt;
+           &lt;/actionGroup&gt;
+        &lt;/initializationActionList&gt;
+        ...
+    &lt;/project&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_download_unattended_mode"></a>Download unattended mode</h4></div></div></div><pre class="programlisting">autoupdate-linux.run --mode unattended --unattendedmodebehavior download</pre><p>The default value for <code class="literal">unattendedmodebehavior</code> is <code class="literal">check</code>, which causes AutoUpdate tool to only check for updates.
+If instead of only checking for updates, you want to download and install the update, the unattendedmodebehavior has to be set to <code class="literal">download</code>.</p><p>As mentioned, a <span class="emphasis"><em>0</em></span> return code means "An update is available" and a non-zero return code means "No update available" but in some scenarios you need more information. To provide this information, AutoUpdate uses the return codes summarized below:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">0</code>: Successfully downloaded and executed the installer.
+</li><li class="listitem">
+<code class="literal">1</code>: No updates available
+</li><li class="listitem">
+<code class="literal">2</code>: Error connecting to remote server or invalid XML file
+</li><li class="listitem">
+<code class="literal">3</code>: An error occurred downloading the file
+</li><li class="listitem">
+<code class="literal">4</code>: An error occurred executing the downloaded update or evaluating its <a class="link" href="aph.html#postUpdateDownloadActionList"><code class="literal">&lt;postUpdateDownloadActionList&gt;</code></a>
+</li><li class="listitem">
+<code class="literal">5</code>: Update check disabled through <code class="literal">check_for_updates</code> setting
+</li></ul></div><p>Return codes 0, 1, 2 and 5 are common for both modes while 3-4 are exclusive to <span class="emphasis"><em>download</em></span> mode.</p><p>When launching AutoUpdate from a Windows cmd, as it is compiled as a GUI application, it will launch it in background, reporting 0 as the exit code if the file can be executed. To force the cmd to wait for the process to finalize and retrieve the correct code returned by AutoUpdate it should be launched as:</p><pre class="programlisting">cmd /W /C autoupdate-windows.exe --mode unattended</pre><p>This is not necessary if the AutoUpdate is launched from a BitRock installer using an action.</p><p>If no errors occur in the process, this will download and install the update. However, if the update is a big file you may want to provide some feedback to the user. To achieve it you can add --unattendedmodeui minimal or --unattendedmodeui minimalWithDialogs to the command line options. This will display a download progress bar as displayed in the image:</p><pre class="programlisting">autoupdate-linux.run --mode unattended --unattendedmodebehavior download --unattendedmodeui minimalWithDialogs</pre><div class="figure"><a id="idm140427926736128"></a><p class="title"><strong>Figure 86. Unattended Update Download</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="60%"><tr><td align="center"><img src="images/autoupdate-update.png" align="middle" width="100%" alt="Update" /></td></tr></table></div></div></div><br class="figure-break" /></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_sequential_updates"></a>23.6. Sequential updates</h3></div></div></div><p>The easiest way to create update installers is to include some additional code in your latest installer to handle outdated installations. However, using this update method implies that the user has to download a full installer even if the update is minimal, like updated documentation. In these cases, it may be desirable to deliver small delta installers instead, including just the new files and logic to install and configure them.</p><p>Currently, the AutoUpdate tool just allows defining one update - the latest one released for a product instead of allowing multiple delta updates and dependencies between them. However, this does not mean you cannot use AutoUpdate to develop these kind of updates. This section details how to achieve it with a step-by-step example.</p><p>To implement the multiupdate feature, you just need a regular InstallBuilder installer that will make use of a bundled AutoUpdate. The workflow at runtime would be:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Unpack the AutoUpdate and write an update.ini file, with an url containing the <code class="literal">&lt;versionId&gt;</code> of the current version, for example: <a class="ulink" href="http://192.168.1.182:8080/updates.php?versionId=101" target="_top">http://192.168.1.182:8080/updates.php?versionId=101</a>
+</li><li class="listitem">
+Call the AutoUpdate in unattended mode to check and download the update if any
+</li><li class="listitem">
+Update the update.ini with the updated version id from the update
+</li><li class="listitem">
+Repeat step 2 with the updated information
+</li><li class="listitem">
+…
+</li></ul></div><p>Using a PHP script as the update URL, you allow the server to decide which update.xml file to deliver. For example, if you store your update.xml files in a directory <code class="literal">versions</code> in your server, you could use the below code:</p><pre class="programlisting">&lt;?php
+
+/* Define the higher version released*/
+$maxVersion=12;
+
+/* Get the current version sent by the autoupdate */
+$version=$_GET['versionId'];
+
+/* Check if the requested version is correct */
+if (!isset($_GET["versionId"]) || $_GET["versionId"] &gt; $maxVersion) {
+  echo "Incorrect version";
+  exit();
+} else {
+  /* Depending on the current version, we decide which update to deliver */
+
+  /* We provide an update pack for versions in the range 1-3 */
+  if ($version &lt; 4 ) {
+     $file="update-pack-1.xml";
+
+  /* We provide an update pack for versions in the range 4-7 */
+  } elseif ($version &lt; 8 ) {
+     $file="update-pack-2.xml";
+
+  /* For versions below the max, we deliver the next one */
+  } elseif ($version &lt; $maxVersion) {
+     $file="update".($version+1).".xml";
+
+  /* For the latest version, we resend it, it will be discarded by the AutoUpdate */
+  } else {
+     $file="update".$maxVersion.".xml";
+  }
+
+  $data=file_get_contents('./versions/'.$file);
+  echo $data;
+  exit();
+}
+?&gt;</pre><p>The PHP script will return update packs for the older versions and individual updates for the latest ones. This allows controlling the granularity of the updates.</p><p>The next step is to include the update code in the XML project:</p><p><a id="snip9625970"></a></p><pre class="programlisting">&lt;project&gt;
+   &lt;!-- bundled version --&gt;
+   &lt;versionId&gt;100&lt;/versionId&gt;
+   ...
+   &lt;componentList&gt;
+      &lt;component&gt;
+         &lt;name&gt;autoupdate&lt;/name&gt;
+         &lt;folderList&gt;
+           &lt;folder&gt;
+             &lt;name&gt;autoupdate&lt;/name&gt;
+             &lt;destination&gt;${installdir}/autoupdate&lt;/destination&gt;
+               &lt;distributionFileList&gt;
+                 &lt;distributionFile&gt;
+                   &lt;origin&gt;path/to/autoupdate.run&lt;/origin&gt;
+                 &lt;/distributionFile&gt;
+               &lt;/distributionFileList&gt;
+           &lt;/folder&gt;
+         &lt;/folderList&gt;
+      &lt;/component&gt;
+   &lt;/componentList&gt;
+   ...
+   &lt;parameterList&gt;
+      &lt;!-- This parameter will be used to enable/disable checking for updates --&gt;
+      &lt;booleanParameter name="enableUpdates" ask="0" value="1"/&gt;
+   &lt;/parameterList&gt;
+
+   &lt;!-- After installing the bundled version, we query our servers for updates --&gt;
+   &lt;postInstallationActionList&gt;
+     &lt;!-- Write the initial update.ini file --&gt;
+     &lt;writeFile&gt;
+       &lt;path&gt;${installdir}/autoupdate/update.ini&lt;/path&gt;
+       &lt;text&gt;[Update]
+url = http://www.example.com/versions.php?versionId=${project.versionId}
+version_id = ${project.versionId}
+update_download_location = ${installdir}/autoupdate/updateInstallers
+check_for_updates = 1
+&lt;/text&gt;
+     &lt;/writeFile&gt;
+
+     &lt;!-- Keep asking for updates while available --&gt;
+     &lt;while&gt;
+       &lt;actionList&gt;
+         &lt;showProgressDialog&gt;
+            &lt;actionList&gt;
+              &lt;runProgram progressText="Checking for updates..."&gt;
+                 &lt;abortOnError&gt;0&lt;/abortOnError&gt;
+                 &lt;showMessageOnError&gt;0&lt;/showMessageOnError&gt;
+                 &lt;program&gt;${installdir}/autoupdate/autoupdate.run&lt;/program&gt;
+                 &lt;programArguments&gt;--mode unattended&lt;/programArguments&gt;
+              &lt;/runProgram&gt;
+            &lt;/actionList&gt;
+         &lt;/showProgressDialog&gt;
+         &lt;!-- Break the loop if there is no update available (exit code &gt; 0) --&gt;
+         &lt;break progressText="No Update Available"&gt;
+           &lt;ruleList&gt;
+             &lt;compareValues&gt;
+               &lt;value1&gt;${program_exit_code}&lt;/value1&gt;
+               &lt;logic&gt;greater&lt;/logic&gt;
+               &lt;value2&gt;0&lt;/value2&gt;
+             &lt;/compareValues&gt;
+           &lt;/ruleList&gt;
+         &lt;/break&gt;
+         &lt;showProgressDialog&gt;
+           &lt;actionList&gt;
+             &lt;runProgram progressText="Downloading the update..."&gt;
+               &lt;program&gt;${installdir}/autoupdate/autoupdate.run&lt;/program&gt;
+               &lt;programArguments&gt;--mode unattended --unattendedmodebehavior download&lt;/programArguments&gt;
+               &lt;/runProgram&gt;
+             &lt;/actionList&gt;
+         &lt;/showProgressDialog&gt;
+       &lt;/actionList&gt;
+       &lt;conditionRuleList&gt;
+         &lt;isTrue value="${parameter(enableUpdates).value}"/&gt;
+       &lt;/conditionRuleList&gt;
+     &lt;/while&gt;
+   &lt;/postInstallationActionList&gt;
+&lt;/project&gt;</pre><p>At this point you have a project that unpacks AutoUpdate and uses it to check for updates while displaying a progress dialog. If your updates follow the same structure, the next installed version will update the <code class="literal">update.ini</code> file and, if <code class="literal">${parameter(enableUpdates).value}</code> is enabled, it will check for updates again. As this is not the desired behavior, the AutoUpdate project will be configured to disable it:</p><p><a id="snip3686778"></a></p><pre class="programlisting">&lt;autoUpdateProject&gt;
+   ...
+   &lt;postUpdateDownloadActionList&gt;
+     &lt;!-- Launch the update specifying the ${installdir} and disabling checking for updates --&gt;
+     &lt;runProgram&gt;
+         &lt;program&gt;${downloadedFilePath}&lt;/program&gt;
+         &lt;programArguments&gt;--prefix "${installer_directory}/../" --enableUpdates 0 --mode unattended --unattendedmodeui minimalWithDialogs&lt;/programArguments&gt;
+     &lt;/runProgram&gt;
+   &lt;/postUpdateDownloadActionList&gt;
+&lt;/autoUpdateProject&gt;</pre><p>The above code installs the download update in the same installation directory using the <code class="literal">${installer_directory}</code> built-in variable, containing the AutoUpdate parent directory.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s22.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s24.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">22. Updates </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 24. Native Packages</td></tr></table></div></body></html>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>25. Builder</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s24.html" title="24. Native Packages" /><link rel="next" href="ar01s26.html" title="26. Windows" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">25. Builder</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s24.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s26.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_builder"></a>25. Builder</h2></div></div></div><p>InstallBuilder supports two build modes, "build" and "quickbuild", which are explained in the following sections.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_build"></a>25.1. Build</h3></div></div></div><p>This is the slower but safer build process. For each build process, if a file already exists with the name of the installer to build, it will be first deleted. The list of steps performed for a full build are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Load and validate the XML project. If the GUI builder is being used, the project has already been loaded and validated.
+</li><li class="listitem">
+Check if the destination filename is locked, for example if it is currently running
+</li><li class="listitem">
+Execute the <a class="link" href="apd.html#preBuildActionList"><code class="literal">&lt;preBuildActionList&gt;</code></a>
+</li><li class="listitem">
+Replace the current file in the output directory
+</li><li class="listitem">
+Modify Windows resources and icons if the target is Windows
+</li><li class="listitem">
+Add language files, licenses, readmes and images to the installer
+</li><li class="listitem">
+Pack all the files defined in the XML project
+</li><li class="listitem">
+Execute the <a class="link" href="apd.html#postBuildActionList"><code class="literal">&lt;postBuildActionList&gt;</code></a>
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="quickbuild_section"></a>25.2. Quickbuild</h3></div></div></div><p>A regular build always creates a new installer and repacks all of the files. On the contrary, using Quick Build makes it possible to do incremental builds in which only new files or files that have changed will be repackaged. If you are packaging hundreds of megabytes, this should result in significantly quicker builds, but the resulting installers may increase in size with each new incremental build. It is recommended that you use quickbuild during the development process and do a full builds before the official release.</p><pre class="literallayout">bin/builder quickbuild /path/to/project.xml</pre><p>It is also possible to only update project files like logos, splash screen, readme a license files and project XML without repackaging any files at all. You can do so with the following option:</p><pre class="literallayout">bin/builder quickbuild /path/to/project.xml --onlyprojectfiles</pre><p>This build process is slightly different:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Load and validate the XML project. If the GUI builder is being used, the project has already been loaded and validated.
+</li><li class="listitem">
+If the file does not exist, abort quickbuild and perform a regular full build
+</li><li class="listitem">
+Check if the destination filename is locked, for example if it is currently running
+</li><li class="listitem">
+Execute the <a class="link" href="apd.html#preBuildActionList"><code class="literal">&lt;preBuildActionList&gt;</code></a>
+</li><li class="listitem">
+Modify Windows resources and icons if the target is Windows. The <a class="link" href="apd.html#requestedExecutionLevel"><code class="literal">&lt;requestedExecutionLevel&gt;</code></a> property is ignored in quickbuilds
+</li><li class="listitem">
+Add language files, licenses, readmes and images to the installer
+</li><li class="listitem">
+Pack just new or modified files
+</li><li class="listitem">
+Execute the <a class="link" href="apd.html#postBuildActionList"><code class="literal">&lt;postBuildActionList&gt;</code></a>
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="build_command_line"></a>25.3. Using the Command Line Interface</h3></div></div></div><p>One of the most useful features of InstallBuilder is the ability to automate the build process. Installers can be built from a shell script or the command line by issuing the following command:</p><pre class="programlisting"> $&gt; bin/builder build /path/to/project.xml</pre><p>By default, it will build an installer for the current platform. However, you can pass an optional argument to the command line to indicate the target platform to build for. For example:</p><pre class="programlisting"> $&gt; bin/builder build /path/to/project.xml windows</pre><p>On Windows, there are separate executables for the Graphical Builder Interface (<code class="literal">builder.exe</code>) and the Command Line Interface (<code class="literal">builder-cli.exe</code>). This is because Windows imposes a compilation-time switch to distinguish between command line applications and graphical applications, the latter lacking the ability to write to the console.</p><p>You can build an installer from the command line on Windows by issuing the following command:</p><pre class="literallayout">C:\Program Files\Bitrock InstallBuilder\bin/builder-cli.exe build /path/to/project.xml linux</pre><p>It is also possible to set different project settings and variables from the command line by passing the option <code class="literal">--setvars</code> and its arguments as in the following example:</p><pre class="programlisting">  bin/builder build /path/to/project.xml --setvars project.fullName="New Project Name"
+project.version=0.1beta some_variable_name=some_value</pre><p>where <code class="literal">some_variable_name</code> is a variable that will be available in the installer <code class="literal">&lt;preBuildActionList&gt;</code>.</p><p>In addition, the builder application allows some options for both the console and the GUI build process:</p><pre class="screen"> --help                                      Display the list of valid options
+
+ --version                                   Display product information
+
+ --verbose                                   Write files being packed on command line builds
+
+ --license &lt;license&gt;                         Provide an alternative license to the builder
+                                             Default:
+
+ --setvars &lt;setvars&gt;                         Modify project variables before the build process: --setvars installdir=/tmp project.version=1.5
+                                             Default:
+
+ --downloadable-components                   Build downloadable components as separate files
+
+ --onlyprojectfiles                          On quickbuild mode, just update project files without considering new packed files
+
+ --project &lt;project&gt;                         Open specified project for editing
+                                             Default:
+
+ --disable-parallel-compression              Disable performing LZMA / LZMA Ultra compression using multiple cores
+
+ --disable-parallel-compression-throttling   Disable performing parallel compression for LZMA / LZMA Ultra at lower priority
+
+ --parallel-compression-cores &lt;cores&gt;        Number of cores to use for LZMA / LZMA Ultra parallel compression
+                                             Default: auto</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="custom_build_targets"></a>25.4. Creating Custom Builds</h3></div></div></div><p>The preceding sections introduced the basic command line build process, specifying the project to build and the target platform. They also presented the <code class="literal">--setvars</code> flag, which allows some project elements to be modified. However, the build process allows much more significant customizations.</p><p>This example assumes that you plan to build two different installers. A complete project, including documentation and some optional applications and a lightweight installer, that will only bundle the main project files. The obvious solution would be to have two projects: one that bundles all of the components and the other with the primary project files. This can be achieved by organizing the files and logic into components and using the <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directive, which will allow you to separate them into multiple <code class="literal">.xml</code> files.</p><p>The drawback of this approach is that you will be forced to duplicate some logic, such as the project properties. A more efficient approach would be to have a single XML project file and decide whether or not to pack the components based on the build target. For example, you could use:</p><pre class="programlisting">$&gt; builder build project.xml --setvars buildFlavor=full</pre><p>To build the complete installer and</p><pre class="programlisting">$&gt; builder build project.xml --setvars buildFlavor=minimal</pre><p>to only pack the main application.</p><p>For this approach, you simply have to create a hidden parameter to make the <code class="literal">buildFlavor</code> type persistent at runtime and use the <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a>:</p><p><a id="snip352162"></a></p><pre class="programlisting">   &lt;project&gt;
+      &lt;shortName&gt;myProject&lt;/shortName&gt;
+      &lt;version&gt;1.4&lt;/version&gt;
+      ...
+      &lt;parameterList&gt;
+         ...
+         &lt;stringParameter name="buildFlavor" value="minimal" ask="0"/&gt;
+         ...
+      &lt;/parameterList&gt;
+      &lt;componentList&gt;
+          &lt;component&gt;
+             &lt;name&gt;main&lt;/name&gt;
+             ...
+          &lt;/component&gt;
+          &lt;component&gt;
+             &lt;name&gt;optionalComponent&lt;/name&gt;
+             ...
+             &lt;shouldPackRuleList&gt;
+                 &lt;compareText text="${buildFlavor}" logic="equals" value="full"/&gt;
+             &lt;/shouldPackRuleList&gt;
+          &lt;/component&gt;
+      &lt;/componentList&gt;
+   &lt;/project&gt;</pre><p>You could also combine it with the <a class="link" href="apd.html#preBuildActionList"><code class="literal">&lt;preBuildActionList&gt;</code></a> and customize the particular aspects of the project as in:</p><p><a id="snip8788564"></a></p><pre class="programlisting">   &lt;preBuildActionList&gt;
+      &lt;actionGroup&gt;
+         &lt;actionList&gt;
+             &lt;setInstallerVariable name="project.fullName"
+              value="Basic Product Installation"/&gt;
+             &lt;setInstallerVariable name="project.windowsExecutableIcon"
+             value="/path/to/minimal.ico"/&gt;
+             &lt;setInstallerVariable name="project.installerFilename"
+             value="minimal-installation.exe"/&gt;
+         &lt;/actionList&gt;
+         &lt;ruleList&gt;
+            &lt;compareText text="${buildFlavor}" logic="equals" value="minimal"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/actionGroup&gt;
+      &lt;actionGroup&gt;
+         &lt;actionList&gt;
+             &lt;setInstallerVariable name="project.fullName"
+              value="Full Product Installation"/&gt;
+             &lt;setInstallerVariable name="project.windowsExecutableIcon"
+             value="/path/to/full.ico"/&gt;
+             &lt;setInstallerVariable name="project.installerFilename"
+             value="full-installation.exe"/&gt;
+         &lt;/actionList&gt;
+         &lt;ruleList&gt;
+            &lt;compareText text="${buildFlavor}" logic="equals" value="full"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/actionGroup&gt;
+   &lt;/preBuildActionList&gt;</pre><p>All the above functionality would work if you defined <code class="literal">buildFlavor</code> as a regular variable instead of creating a hidden parameter, but you would not be able to access it at runtime in that case.</p><p>You can use that functionality, for example, to show a link to a download page at the end of installation if the user wants to download optional applications:</p><p><a id="snip9405708"></a></p><pre class="programlisting">   &lt;finalPageActionList&gt;
+       &lt;launchBrowser url="www.downloads.com/optional" progressText="Would you
+       like to visit our website to download additional modules?"&gt;
+          &lt;ruleList&gt;
+              &lt;compareText text="${buildFlavor}" logic="equals" value="minimal"/&gt;
+          &lt;/ruleList&gt;
+       &lt;/launchBrowser&gt;
+   &lt;/finalPageActionList&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_compression_algorithms"></a>25.5. Compression algorithms</h3></div></div></div><p>InstallBuilder provides three compression types that can be set in the project properties.</p><p>The available algorithms are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>ZIP</strong></span>: Provides fast installer build time and decompression, but compression ratio is low
+</li><li class="listitem">
+<span class="strong"><strong>LZMA Ultra</strong></span>: Very slow installer build time, but provides reasonable decompression speed, often on par with ZIP algorithm; provides the best compression ratio
+</li><li class="listitem">
+<span class="strong"><strong>LZMA</strong></span>: Installer is built faster compared to LZMA Ultra, but slower than ZIP ; installation time is often slower than other algorithms; the compression ratio is better than ZIP but worse than LZMA Ultra
+</li></ul></div><p>Different algorithm may be used depending on requirements. The ZIP compression is recommended for installers that deliver small installers or consists of files that cannot be effectively compressed - such as consisting mainly of media files.</p><p>LZMA Ultra is recommended for installers that deliver payload that can be compressed - such as binary files or other file formats that are not compressed.</p><p>In terms of memory usage, ZIP requires the least memory when building the installers as well as at runtime.</p><p>LZMA algorithm has slightly higher memory requirements when installing and larger memory requirements when building.</p><p>LZMA Ultra compression requires more memory than either ZIP or LZMA algorithms - both when building the installers and when installer is unpacking the files.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_lzma_ultra_block_size"></a>LZMA Ultra Block Size</h4></div></div></div><p>Memory that is used by LZMA Ultra can be configured by setting the <a class="link" href="apd.html#lzmaUltraBlockSize"><code class="literal">&lt;lzmaUltraBlockSize&gt;</code></a> option. This option specifies the maximum size of a block in megabytes that will be used to compress files.</p><p>The value affects memory requirements both for build time as well as installation time. The default value is <span class="strong"><strong>80</strong></span>, which means a block up to 80MB will be used. The recommended value range is between 40 and 100.</p><p>Setting this value to a lower value will decrease the memory requirements, but at the same time make the installer slightly larger. Setting this value to a higher value will increase memory requirements, but may decrease installer size.</p><p>Below is an example to decrease the block size to 40MB:</p><p><a id="snip1747829"></a></p><pre class="programlisting">&lt;project&gt;
+  &lt;compressionAlgorithm&gt;lzma-ultra&lt;/compressionAlgorithm&gt;
+  &lt;lzmaUltraBlockSize&gt;40&lt;/lzmaUltraBlockSize&gt;
+  ...
+&lt;/project&gt;</pre><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Setting this value too high may cause builder to run out of memory"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Setting this value too high may cause builder to run out of memory</th></tr><tr><td align="left" valign="top"><p>Setting <a class="link" href="apd.html#lzmaUltraBlockSize"><code class="literal">&lt;lzmaUltraBlockSize&gt;</code></a> to high values such as 120 may cause the 32-bit versions of the builder to run out of memory.</p><p>If the project has to be built with <a class="link" href="apd.html#lzmaUltraBlockSize"><code class="literal">&lt;lzmaUltraBlockSize&gt;</code></a> set to a high value, it is recommended to use the InstallBuilder on Linux 64-bit platform as it can use more than 4GB of process memory.</p></td></tr></table></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_parallel_compression"></a>25.6. Parallel compression</h3></div></div></div><p>InstallBuilder supports using multiple cores and/or threads for building installers.</p><p>This is supported for projects that use LZMA and LZMA Ultra compression algorithms and when the payload encryption is disabled.</p><p>This functionality is enabled by default and uses all of the logical CPUs that the machine has. For example a machine with 4 cores that have 2 threads each will try to use all 8 logical processors.</p><p>When using the command line tool the compression can be customized using options described in more details below. The settings are applied to current build only.</p><p>When using the GUI building tool, the settings for parallel compression can be found by opening the Preferences window. The settings from the preferences window are stored in user settings and used by all builds made from the GUI.</p><div class="figure"><a id="idm140427926577472"></a><p class="title"><strong>Figure 87. InstallBuilder Preferences Window</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="30%"><tr><td align="center"><img src="images/builder-preferences.png" align="middle" width="100%" alt="InstallBuilder Preferences Window" /></td></tr></table></div></div></div><br class="figure-break" /><p>The <span class="strong"><strong>LZMA Parallel Compression</strong></span> option allows disabling this functionality entirely. When the option is disabled, InstallBuilder will only use single core when performing the compression.</p><p>The command line equivalent is <code class="literal">--disable-parallel-compression</code>, which will disable the parallel compression for the current build. Example usage:</p><pre class="programlisting">$&gt; bin/builder build project.xml --disable-parallel-compression</pre><p>The <span class="strong"><strong>Number of Cores for Parallel Compression</strong></span> option allows specifying number of logical processors that will be used for the build process.</p><p>The value <span class="strong"><strong>Auto</strong></span> indicates using all available logical processors and is the default value. Setting it to any other value will cause InstallBuilder to use that amount of logical processors for the compression, regardless of machine’s current processor count.</p><p>The command line equivalent is <code class="literal">--parallel-compression-cores</code>. Example usage:</p><pre class="programlisting">$&gt; bin/builder build project.xml --parallel-compression-cores 4</pre><p>It is also possible to specify <code class="literal">auto</code> or <code class="literal">auto-N</code>, where N is the number of cores to not use. For example the below build will use all but 2 cores (such as using up 6 out of 8 cores):</p><pre class="programlisting">$&gt; bin/builder build project.xml --parallel-compression-cores auto-2</pre><p>The <span class="strong"><strong>Parallel Compression Throttling</strong></span> option enabled or disabled running the compression processes at lower priority.</p><p>When enabled, this option prevents InstallBuilder from using all of machine’s resources which may degrade performance of other applications or processes running on the machine.</p><p>It is recommended to leave this option enabled.</p><p>The command line equivalent is --disable-parallel-compression-throttling`, which will disable the using the lower priority for the current build. Example usage:</p><pre class="programlisting">$&gt; bin/builder build project.xml --disable-parallel-compression-throttling</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_parallel_decompression"></a>25.7. Parallel decompression</h3></div></div></div><p>InstallBuilder supports using multiple cores and/or threads when installing files on the target machine.</p><p>This is supported for installers that are built using the LZMA and LZMA Ultra compression algorithms and when the payload encryption is disabled.</p><p>This functionality is enabled by default and by default InstallBuilder uses all of the logical processors that the machine has.</p><p>The limit for maximum number of cores to use is 8. This is because using more cores will not decrease the installation time, but the process will use more memory.</p><p>It is possible to customize it using the <a class="link" href="apd.html#parallelDecompressionCores"><code class="literal">&lt;parallelDecompressionCores&gt;</code></a> project property, which will specify the maximum number of cores to use during uncompression.</p><p><a id="snip5769240"></a></p><pre class="programlisting">&lt;project&gt;
+  &lt;parallelDecompressionCores&gt;4&lt;/parallelDecompressionCores&gt;
+  ...
+&lt;/project&gt;</pre><p>This option is mainly useful when installer will often be run on machines with large number of processors, but very little memory being available and it is not recommended to change the default value.</p><p>Regardless of the value for <a class="link" href="apd.html#parallelDecompressionCores"><code class="literal">&lt;parallelDecompressionCores&gt;</code></a>, the installer will use either the number of logical processors available on the target machine if it is lower than <a class="link" href="apd.html#parallelDecompressionCores"><code class="literal">&lt;parallelDecompressionCores&gt;</code></a>.</p><p>It is also possible to customize the number of logical processors to use when running the installer from the command line by using the <code class="literal">--parallel-decompression-cores</code> option. Such as:</p><pre class="programlisting">$&gt; output/installer.run --parallel-decompression-cores 2</pre><p>Setting the value to <code class="literal">1</code> will completely disable the parallel decompression functionality.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s24.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s26.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">24. Native Packages </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 26. Windows</td></tr></table></div></body></html>

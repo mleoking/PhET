@@ -1,0 +1,942 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>9. Rules</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s08.html" title="8. Actions" /><link rel="next" href="ar01s10.html" title="10. User Interface" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9. Rules</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s08.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s10.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_rules"></a>9. Rules</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_what_is_a_rule"></a>9.1. What is a Rule?</h3></div></div></div><p>BitRock InstallBuilder allows you to control whether or not certain actions take place, pages are shown or files are installed. You just have to attach rules to the <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> section of the desired element (an action, parameter, component, folder or shortcut).</p><p>Examples of rules include checking if ports are in use, if a file exists, if a process is running or comparing texts.</p><p><a id="snip9004361"></a></p><pre class="programlisting">&lt;ruleList&gt;
+  &lt;windowsServiceTest service="myservice" condition="not_exists"/&gt;
+&lt;/ruleList&gt;</pre><p><a id="snip6299168"></a></p><pre class="programlisting">&lt;ruleList&gt;
+  &lt;processTest&gt;
+    &lt;logic&gt;is_running&lt;/logic&gt;
+    &lt;name&gt;${project.shortName}.exe&lt;/name&gt;
+  &lt;/processTest&gt;
+&lt;/ruleList&gt;</pre><p>A complete list of supported rules can be found in the <a class="link" href="apb.html" title="B. Rules">rules</a> appendix.</p><p>All rules can be also negated using the <a class="link" href="apb.html#rule.negate"><code class="literal">&lt;negate&gt;</code></a> tag. For example, the following rule will resolve to <code class="literal">"true"</code>:</p><p><a id="snip121665"></a></p><pre class="programlisting">   &lt;ruleList&gt;
+     &lt;isTrue value="1"/&gt;
+   &lt;/ruleList&gt;</pre><p>While this will resolve to <code class="literal">"false"</code>:</p><p><a id="snip4831106"></a></p><pre class="programlisting">   &lt;ruleList&gt;
+     &lt;isTrue value="1" negate="1" /&gt;
+   &lt;/ruleList&gt;</pre><p>This is very convenient when you want to execute an action in all supported platforms but one:</p><p><a id="snip6405101"></a></p><pre class="programlisting">&lt;!-- It will resolve to true in all platforms supported but Windows 7 --&gt;
+&lt;ruleList&gt;
+  &lt;platformTest type="windows-7" negate="1" /&gt;
+&lt;/ruleList&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_rule_list"></a>9.2. Rule List</h3></div></div></div><p>The <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> is the most common way of attaching rules. It is supported by actions, folders, parameters and shortcuts and is evaluated at runtime.</p><p>When the set of rules contained in the rule list is evaluated, depending on the result and the element it is attached to, the following will occur:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Action: The action is executed, otherwise it is ignored.
+</li></ul></div><p><a id="snip534112"></a></p><pre class="programlisting">&lt;!-- The error is just thrown if the rule evaluates to
+     true (it is running in Windows XP) --&gt;
+&lt;throwError text="This installer is not supported in Windows XP"&gt;
+  &lt;ruleList&gt;
+    &lt;platformTest type="windows-xp"/&gt;
+  &lt;/ruleList&gt;
+&lt;/throwError&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Parameter: The associated page is displayed, otherwise it is hidden.
+</li></ul></div><p><a id="snip6825739"></a></p><pre class="programlisting">&lt;booleanParameter&gt;
+  &lt;name&gt;enableAdvanced&lt;/name&gt;
+  &lt;description&gt;Do you want to enable the advanced configuration?&lt;/description&gt;
+&lt;/booleanParameter&gt;
+
+&lt;!-- The page will be displayed only if the user selected 'Yes'
+     in the 'enableAdvanced' page --&gt;
+&lt;parameterGroup&gt;
+   &lt;name&gt;configuration&lt;/name&gt;
+   &lt;title&gt;Configuration&lt;/title&gt;
+   &lt;explanation&gt;&lt;/explanation&gt;
+   &lt;parameterList&gt;
+      &lt;stringParameter name="username" description="Username"/&gt;
+      &lt;passwordParameter name="password" description="Password"/&gt;
+   &lt;/parameterList&gt;
+   &lt;ruleList&gt;
+      &lt;isTrue value="${enableAdvanced}"/&gt;
+   &lt;/ruleList&gt;
+&lt;/parameterGroup&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Folder: If true, files belonging to that folder (files, directories and shortcuts) are installed and the associated <code class="literal">&lt;actionList&gt;</code> is executed.
+</li></ul></div><p><a id="snip209607"></a></p><pre class="programlisting">&lt;folder&gt;
+  &lt;name&gt;fileswindowsx64&lt;/name&gt;
+  &lt;platforms&gt;windows&lt;/platforms&gt;
+  &lt;destination&gt;${installdir}&lt;/destination&gt;
+  &lt;distributionFileList&gt;
+    &lt;distributionDirectory origin="windows-x64/bin"/&gt;
+  &lt;/distributionFileList&gt;
+  &lt;shortcutList&gt;
+    &lt;shortcut&gt;
+      &lt;comment&gt;Uninstall&lt;/comment&gt;
+      &lt;exec&gt;${installdir}/${project.uninstallerName}&lt;/exec&gt;
+      ...
+    &lt;/shortcut&gt;
+  &lt;/shortcutList&gt;
+  &lt;actionList&gt;
+    &lt;setWindowsACL&gt;
+      &lt;action&gt;allow&lt;/action&gt;
+      &lt;files&gt;${installdir}/admin;${installdir}/admin/*&lt;/files&gt;
+      &lt;permissions&gt;generic_all&lt;/permissions&gt;
+      &lt;users&gt;S-1-1-0&lt;/users&gt;
+    &lt;/setWindowsACL&gt;
+  &lt;/actionList&gt;
+  &lt;ruleList&gt;
+    &lt;platformTest type="windows-x64"/&gt;
+  &lt;/ruleList&gt;
+&lt;/folder&gt;</pre><p>The rules will decide if the folder is unpacked at runtime but the installer will always bundle it (they are not considered when building the installer).</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Shortcut: If true, the shortcut will be created.
+</li></ul></div><p><a id="snip2876237"></a></p><pre class="programlisting">&lt;folder&gt;
+  &lt;name&gt;files&lt;/name&gt;
+  ...
+  &lt;shortcutList&gt;
+    ...
+    &lt;shortcut&gt;
+      &lt;comment&gt;Uninstall&lt;/comment&gt;
+      &lt;exec&gt;${installdir}/${project.uninstallerName}&lt;/exec&gt;
+      ...
+      &lt;ruleList&gt;
+         &lt;!-- This can be configured through a boolean
+              parameter page --&gt;
+         &lt;isTrue value="${createShortcuts}"/&gt;
+      &lt;/ruleList&gt;
+    &lt;/shortcut&gt;
+    ...
+  &lt;/shortcutList&gt;
+  ...
+&lt;/folder&gt;</pre><p>In addition to the <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> tag, the mentioned elements can also configure the logic used to evaluate the rules through the <a class="link" href="ape.html#ruleEvaluationLogic"><code class="literal">&lt;ruleEvaluationLogic&gt;</code></a> setting. Its allowed values are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">and</code>: The set of rules will evaluate to true only if all of the rules are true. This is the default value if the <a class="link" href="ape.html#ruleEvaluationLogic"><code class="literal">&lt;ruleEvaluationLogic&gt;</code></a> is not provided.
+</li></ul></div><p><a id="snip931362"></a></p><pre class="programlisting">&lt;!-- The backup will be just executed if the folder exists and
+     is not empty --&gt;
+&lt;createBackupFile&gt;
+  &lt;path&gt;${installdir}/data&lt;/path&gt;
+  &lt;destination&gt;${installdir}/backup&lt;/destination&gt;
+  &lt;ruleEvaluationLogic&gt;and&lt;/ruleEvaluationLogic&gt;
+  &lt;ruleList&gt;
+     &lt;fileTest path="${installdir}/data" condition="exists"/&gt;
+     &lt;fileTest path="${installdir}/data" condition="is_not_empty"/&gt;
+  &lt;/ruleList&gt;
+&lt;/createBackupFile&gt;</pre><p>When sequentially executing the rules using <code class="literal">and</code> evaluation logic, if any of the rules is not true, the rest are skipped and the full set evaluates to false.</p><p>You can apply this, for example, when checking whether a directory exists. You can first check if the target exists, and if so, check if it is a directory:</p><p><a id="snip3410647"></a></p><pre class="programlisting"> &lt;deleteFile path="some/directory" ruleEvaluationLogic="and"&gt;
+   &lt;ruleList&gt;
+     &lt;fileExists path="some/directory"/&gt;
+     &lt;!-- If the file does not exists, InstallBuilder will not check
+     if it is a directory --&gt;
+     &lt;fileTest path="some/directory" condition="is_directory"/&gt;
+   &lt;/ruleList&gt;
+ &lt;/deleteFile&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">or</code>: The set of rules will evaluate to true if any of the rules is true.
+</li></ul></div><p><a id="snip2751578"></a></p><pre class="programlisting">&lt;!-- Just create the link if the platform is OS X or Linux --&gt;
+&lt;createSymLink&gt;
+  &lt;target&gt;${installdir}/bin/checker&lt;/target&gt;
+  &lt;linkName&gt;/usr/bin&lt;/linkName&gt;
+  &lt;ruleEvaluationLogic&gt;or&lt;/ruleEvaluationLogic&gt;
+  &lt;ruleList&gt;
+    &lt;platformTest type="osx"/&gt;
+    &lt;platformTest type="linux"/&gt;
+  &lt;/ruleList&gt;
+&lt;/createSymLink&gt;</pre><p>When sequentially executing the rules using <code class="literal">or</code> evaluation logic, if any of the rules is true, the rest are skipped and the full set evaluates to true.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_should_pack_rule_list"></a>9.3. Should Pack Rule List</h3></div></div></div><p>The <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a> is a special kind of <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> only supported by <a class="link" href="ape.html" title="E. Component and Folder Properties and Lists"><code class="literal">components</code></a> and <a class="link" href="ape.html#folder"><code class="literal">folders</code></a>.</p><p>It supports the same rules but instead of being executed at runtime, the rules are evaluated when building the installer. If they do not match, the element containing them won’t be packed at all in the installer:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Component: The component, including all the contained folders, shortcuts, pages and actions won’t be included in the installer, as if the project were not defining them.
+</li><li class="listitem">
+Folder: The folder won’t be packed.
+</li></ul></div><p><a id="snip5775136"></a></p><pre class="programlisting">&lt;!-- The component will be packed only if the BUILD_TYPE environment
+     variable defined at build-time is not set to 'demo' --&gt;
+&lt;component&gt;
+  &lt;name&gt;files&lt;/name&gt;
+  &lt;canBeEdited&gt;1&lt;/canBeEdited&gt;
+  &lt;selected&gt;1&lt;/selected&gt;
+  &lt;show&gt;1&lt;/show&gt;
+  ...
+  &lt;shouldPackRuleEvaluationLogic&gt;and&lt;/shouldPackRuleEvaluationLogic&gt;
+  &lt;shouldPackRuleList&gt;
+    &lt;compareText&gt;
+      &lt;text&gt;${env(BUILD_TYPE)}&lt;/text&gt;
+      &lt;logic&gt;does_not_equal&lt;/logic&gt;
+      &lt;value&gt;demo&lt;/value&gt;
+    &lt;/compareText&gt;
+  &lt;/shouldPackRuleList&gt;
+&lt;/component&gt;</pre><p>You can find a more complex example in the <a class="link" href="ar01s25.html#custom_build_targets" title="25.4. Creating Custom Builds">Custom Build Targets</a> section.</p><p>The evaluation logic of the rules in the <code class="literal">&lt;shouldPackRuleList&gt;</code> is configured through the <a class="link" href="ape.html#shouldPackRuleEvaluationLogic"><code class="literal">&lt;shouldPackRuleEvaluationLogic&gt;</code></a>, which behaves as the <a class="link" href="ape.html#ruleEvaluationLogic"><code class="literal">&lt;ruleEvaluationLogic&gt;</code></a> setting explained in the previous section.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_rule_groups"></a>9.4. Rule Groups</h3></div></div></div><p>A <a class="link" href="apb.html#ruleGroup"><code class="literal">&lt;ruleGroup&gt;</code></a> is a special type of rule that can contain other rules and therefore perform more complex tests. For example, if you want to execute an action
+only on Windows 64bit and only if it is neither XP nor Vista:</p><p><a id="snip2720228"></a></p><pre class="programlisting"> &lt;runProgram program="myExec.exe" programArguments="--mode unattended"&gt;
+   &lt;ruleList&gt;
+      &lt;platformTest type="windows-x64"/&gt;
+      &lt;ruleGroup ruleEvaluationLogic="or" negate="1"&gt;
+        &lt;ruleList&gt;
+          &lt;platformTest type="windows-xp"/&gt;
+          &lt;platformTest type="windows-vista"/&gt;
+        &lt;/ruleList&gt;
+      &lt;/ruleGroup&gt;
+   &lt;/ruleList&gt;
+ &lt;/runProgram&gt;</pre><p>In the above example, you have created a new rule "Windows 64 bit that is neither XP nor Windows Vista". Please note the <a class="link" href="apb.html#ruleGroup"><code class="literal">&lt;ruleGroup&gt;</code></a> also accepts the <a class="link" href="ape.html#ruleEvaluationLogic"><code class="literal">&lt;ruleEvaluationLogic&gt;</code></a> and <a class="link" href="apb.html#rule.negate"><code class="literal">&lt;negate&gt;</code></a> tags.</p><p>Using it, you can perform any kind of logic test like <code class="literal">if (A and !(B or ((C or !D) and !E)))</code></p><p><a id="snip8874687"></a></p><pre class="programlisting">&lt;ruleList&gt;
+  &lt;isTrue value="${A}"/&gt;
+  &lt;ruleGroup negate="1" ruleEvaluationLogic="or"&gt;
+    &lt;ruleList&gt;
+      &lt;isTrue value="${B}"/&gt;
+      &lt;ruleGroup&gt;
+        &lt;ruleList&gt;
+          &lt;isTrue value="${E}" negate="1"/&gt;
+          &lt;ruleGroup ruleEvaluationLogic="or"&gt;
+            &lt;ruleList&gt;
+              &lt;isTrue value="${C}"/&gt;
+              &lt;isTrue value="${D}" negate="1"/&gt;
+            &lt;/ruleList&gt;
+          &lt;/ruleGroup&gt;
+        &lt;/ruleList&gt;
+      &lt;/ruleGroup&gt;
+    &lt;/ruleList&gt;
+  &lt;/ruleGroup&gt;
+&lt;/ruleList&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_creating_custom_rules"></a>9.5. Creating Custom Rules</h3></div></div></div><p>In addition to the built-in rules, InstallBuilder allows you to create new custom rules using a mix of base actions and rules. New rules are defined using the <a class="link" href="apd.html#functionDefinitionList"><code class="literal">&lt;functionDefinitionList&gt;</code></a>.</p><p>For example, let’s suppose you to decide whether certain component is enabled or not based on the contents of a file on Unix platforms and a registry key on Windows. To solve this you could simply create a couple of <code class="literal">&lt;actionGroup&gt;s</code> for the different platforms with the appropriate actions, which will in turn define a variable:</p><p><a id="snip6871102"></a></p><pre class="programlisting">&lt;postInstallationActionList&gt;
+    &lt;setInstallerVariable name="component_foo_exists" value="0"/&gt;
+    &lt;actionGroup&gt;
+        &lt;actionList&gt;
+            &lt;foreach&gt;
+                &lt;variables&gt;key&lt;/variables&gt;
+                &lt;values&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.windowsSoftwareRegistryPrefix}\components HKEY_LOCAL_MACHINE\SOFTWARE\${project.windowsSoftwareRegistryPrefix}\installed_components&lt;/values&gt;
+                &lt;actionList&gt;
+                    &lt;continue&gt;
+                        &lt;ruleList&gt;
+                            &lt;registryTest&gt;
+                                &lt;key&gt;${key}&lt;/key&gt;
+                                &lt;logic&gt;exists&lt;/logic&gt;
+                                &lt;name&gt;foo&lt;/name&gt;
+                            &lt;/registryTest&gt;
+                        &lt;/ruleList&gt;
+                    &lt;/continue&gt;
+                    &lt;registryGet&gt;
+                        &lt;key&gt;${key}&lt;/key&gt;
+                        &lt;name&gt;foo&lt;/name&gt;
+                        &lt;variable&gt;foo_text&lt;/variable&gt;
+                    &lt;/registryGet&gt;
+                    &lt;setInstallerVariable name="component_foo_exists" value="1"&gt;
+                        &lt;ruleList&gt;
+                            &lt;compareText&gt;
+                                &lt;logic&gt;contains&lt;/logic&gt;
+                                &lt;text&gt;${foo_text}&lt;/text&gt;
+                                &lt;value&gt;installed=1&lt;/value&gt;
+                            &lt;/compareText&gt;
+                        &lt;/ruleList&gt;
+                    &lt;/setInstallerVariable&gt;
+                &lt;/actionList&gt;
+            &lt;/foreach&gt;
+        &lt;/actionList&gt;
+        &lt;ruleList&gt;
+            &lt;platformTest type="windows"/&gt;
+        &lt;/ruleList&gt;
+    &lt;/actionGroup&gt;
+    &lt;actionGroup&gt;
+        &lt;actionList&gt;
+            &lt;foreach&gt;
+                &lt;variables&gt;file&lt;/variables&gt;
+                &lt;values&gt;${installdir}/components.txt ~/.components&lt;/values&gt;
+                &lt;actionList&gt;
+                    &lt;continue&gt;
+                        &lt;ruleList&gt;
+                            &lt;fileTest&gt;
+                                &lt;condition&gt;not_exists&lt;/condition&gt;
+                                &lt;path&gt;${file}&lt;/path&gt;
+                            &lt;/fileTest&gt;
+                        &lt;/ruleList&gt;
+                    &lt;/continue&gt;
+                    &lt;setInstallerVariable name="component_foo_exists" value="1"&gt;
+                        &lt;ruleList&gt;
+                            &lt;fileContentTest&gt;
+                                &lt;path&gt;${file}&lt;/path&gt;
+                                &lt;logic&gt;contains&lt;/logic&gt;
+                                &lt;text&gt;foo_component&lt;/text&gt;
+                            &lt;/fileContentTest&gt;
+                        &lt;/ruleList&gt;
+                    &lt;/setInstallerVariable&gt;
+                &lt;/actionList&gt;
+            &lt;/foreach&gt;
+        &lt;/actionList&gt;
+        &lt;ruleList&gt;
+            &lt;platformTest type="unix"/&gt;
+        &lt;/ruleList&gt;
+    &lt;/actionGroup&gt;
+    &lt;showInfo text="foo components is installed!"&gt;
+       &lt;ruleList&gt;
+          &lt;isTrue value="${component_foo_exists}"/&gt;
+       &lt;/ruleList&gt;
+    &lt;/showInfo&gt;
+&lt;/postInstallationActionList&gt;</pre><p>Although the above code works properly works, it is messy, hard to read and to reuse. It would be a much better approach to move all that verbose code to a different place, to avoid distracting from the real point of the code, which is notifying the user a certain component was installed. Using custom rules, that can be rewritten into a new rule definition:</p><p><a id="snip2620612"></a></p><pre class="programlisting">&lt;functionDefinitionList&gt;
+    &lt;ruleDefinition name="customComponentIsInstalled"&gt;
+        &lt;parameterList&gt;
+            &lt;stringParameter name="name" default="" /&gt;
+        &lt;/parameterList&gt;
+        &lt;actionList&gt;
+            &lt;setInstallerVariable name="component_exists" value="0"/&gt;
+            &lt;actionGroup&gt;
+                &lt;actionList&gt;
+                    &lt;foreach&gt;
+                        &lt;variables&gt;key&lt;/variables&gt;
+                        &lt;values&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.windowsSoftwareRegistryPrefix}\components HKEY_LOCAL_MACHINE\SOFTWARE\${project.windowsSoftwareRegistryPrefix}\installed_components&lt;/values&gt;
+                        &lt;actionList&gt;
+                            &lt;continue&gt;
+                                &lt;ruleList&gt;
+                                    &lt;registryTest&gt;
+                                        &lt;key&gt;${key}&lt;/key&gt;
+                                        &lt;logic&gt;exists&lt;/logic&gt;
+                                        &lt;name&gt;${name}&lt;/name&gt;
+                                    &lt;/registryTest&gt;
+                                &lt;/ruleList&gt;
+                            &lt;/continue&gt;
+                            &lt;registryGet&gt;
+                                &lt;key&gt;${key}&lt;/key&gt;
+                                &lt;name&gt;${name}&lt;/name&gt;
+                                &lt;variable&gt;text&lt;/variable&gt;
+                            &lt;/registryGet&gt;
+                            &lt;setInstallerVariable name="component_exists" value="1"&gt;
+                                &lt;ruleList&gt;
+                                    &lt;compareText&gt;
+                                        &lt;logic&gt;contains&lt;/logic&gt;
+                                        &lt;text&gt;${text}&lt;/text&gt;
+                                        &lt;value&gt;installed=1&lt;/value&gt;
+                                    &lt;/compareText&gt;
+                                &lt;/ruleList&gt;
+                            &lt;/setInstallerVariable&gt;
+                        &lt;/actionList&gt;
+                    &lt;/foreach&gt;
+                &lt;/actionList&gt;
+                &lt;ruleList&gt;
+                    &lt;platformTest type="windows"/&gt;
+                &lt;/ruleList&gt;
+            &lt;/actionGroup&gt;
+            &lt;actionGroup&gt;
+                &lt;actionList&gt;
+                    &lt;foreach&gt;
+                        &lt;variables&gt;file&lt;/variables&gt;
+                        &lt;values&gt;${installdir}/components.txt ~/.components&lt;/values&gt;
+                        &lt;actionList&gt;
+                            &lt;continue&gt;
+                                &lt;ruleList&gt;
+                                    &lt;fileTest&gt;
+                                        &lt;condition&gt;not_exists&lt;/condition&gt;
+                                        &lt;path&gt;${file}&lt;/path&gt;
+                                    &lt;/fileTest&gt;
+                                &lt;/ruleList&gt;
+                            &lt;/continue&gt;
+                            &lt;setInstallerVariable name="component_exists" value="1"&gt;
+                                &lt;ruleList&gt;
+                                    &lt;fileContentTest&gt;
+                                        &lt;path&gt;${file}&lt;/path&gt;
+                                        &lt;logic&gt;contains&lt;/logic&gt;
+                                        &lt;text&gt;${name}_component&lt;/text&gt;
+                                    &lt;/fileContentTest&gt;
+                                &lt;/ruleList&gt;
+                            &lt;/setInstallerVariable&gt;
+                        &lt;/actionList&gt;
+                    &lt;/foreach&gt;
+                &lt;/actionList&gt;
+                &lt;ruleList&gt;
+                    &lt;platformTest type="unix"/&gt;
+                &lt;/ruleList&gt;
+            &lt;/actionGroup&gt;
+        &lt;/actionList&gt;
+        &lt;ruleList&gt;
+            &lt;isTrue value="${component_exists}"/&gt;
+        &lt;/ruleList&gt;
+    &lt;/ruleDefinition&gt;
+&lt;/functionDefinitionList&gt;</pre><p>And its application:</p><pre class="programlisting">&lt;postInstallationActionList&gt;
+    &lt;showInfo text="foo components is installed!"&gt;
+       &lt;ruleList&gt;
+          &lt;customComponentIsInstalled name="foo"/&gt;
+       &lt;/ruleList&gt;
+    &lt;/showInfo&gt;
+    &lt;showInfo text="bar components is installed!"&gt;
+       &lt;ruleList&gt;
+          &lt;customComponentIsInstalled name="bar"/&gt;
+       &lt;/ruleList&gt;
+    &lt;/showInfo&gt;
+&lt;/postInstallationActionList&gt;</pre><p>The basics of how to define a new custom rule are as follow:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong><code class="literal">&lt;name&gt;</code></strong></span>: The new custom rule will be available in other parts of the XML by its name. No other custom rule can be defined with the same <code class="literal">&lt;name&gt;</code>.
+</li><li class="listitem">
+<span class="strong"><strong><code class="literal">&lt;actionList&gt;</code></strong></span>: This <code class="literal">&lt;actionList&gt;</code> defines the set of actions to wrap needed to obtain the results to be evaluated. In the simplest cases, you could omit this and simply use the ``&lt;ruleList&gt;`` of the custom rule. In these cases, you will be simply creating a named alias to a set of rules (a named <code class="literal">&lt;ruleGroup&gt;</code>). For example, if you want to create a rule that verifies if it is OS X or Windows, you could omit the <code class="literal">&lt;actionList&gt;</code> and create the above-mentioned named <code class="literal">&lt;ruleGroup&gt;</code>:
+</li></ul></div><p><a id="snip4638522"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;functionDefinitionList&gt;
+    &lt;ruleDefinition&gt;
+      &lt;name&gt;isOsxOrWindows&lt;/name&gt;
+      &lt;ruleEvaluationLogic&gt;or&lt;/ruleEvaluationLogic&gt;
+      &lt;ruleList&gt;
+        &lt;platformTest type="windows"/&gt;
+        &lt;platformTest type="osx"/&gt;
+      &lt;/ruleList&gt;
+    &lt;/ruleDefinition&gt;
+  &lt;/functionDefinitionList&gt;
+  ...
+&lt;/project&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong><code class="literal">&lt;parameterList&gt;</code></strong></span>: This <code class="literal">&lt;parameterList&gt;</code> defines the parameters of the new rule. They are used to interface with the inner actions in the <code class="literal">&lt;ruleList&gt;</code> and the inner ``&lt;ruleList&gt;``. The new custom rule will also support all the common action properties such as <a class="link" href="apb.html#rule.negate"><code class="literal">&lt;negate&gt;</code></a>.
+</li></ul></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_additional_rule_lists"></a>9.6. Additional Rule Lists</h3></div></div></div><p>In addition to the previously mentioned <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> and <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a>, there are flow-control actions, such as <code class="literal">&lt;while&gt;</code> and <code class="literal">&lt;if&gt;</code> that allow specifying a <code class="literal">&lt;conditionRuleList&gt;</code> that controls the condition of the flow-control construct. They will behave like the regular <a class="link" href="ape.html#ruleList"><code class="literal">&lt;ruleList&gt;</code></a> but its evaluation logic is controlled by the <a class="link" href="apa.html#while.conditionRuleEvaluationLogic"><code class="literal">&lt;conditionRuleEvaluationLogic&gt;</code></a> setting.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_list_of_available_rules"></a>9.7. List of Available Rules</h3></div></div></div><h5><a id="_component_test"></a>Component Test</h5><p>Perform check on a given component.
+The allowed properties in the <a class="link" href="apb.html#componentTest"><code class="literal">&lt;componentTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#componentTest.logic"><code class="literal">&lt;logic&gt;</code></a>: Comparison type
+</li><li class="listitem">
+<a class="link" href="apb.html#componentTest.name"><code class="literal">&lt;name&gt;</code></a>: Name of the component
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Deselect a component if it depends on another one that was deselected. </strong>
+</p><pre class="programlisting">&lt;componentSelection&gt;
+  &lt;deselect&gt;subComponentA1&lt;/deselect&gt;
+  &lt;ruleList&gt;
+    &lt;componentTest&gt;
+      &lt;logic&gt;not_selected&lt;/logic&gt;
+      &lt;name&gt;componentA&lt;/name&gt;
+    &lt;/componentTest&gt;
+  &lt;/ruleList&gt;
+&lt;/componentSelection&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s05.html#snip7580459">Example 1</a></p><h5><a id="_windows_firewall_test"></a>Windows Firewall Test</h5><p>Check whether or not a firewall is set up and running. Only available on Windows platform
+The allowed properties in the <a class="link" href="apb.html#firewallTest"><code class="literal">&lt;firewallTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#firewallTest.type"><code class="literal">&lt;type&gt;</code></a>: Type of test
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Warn your users that a running firewall may interfere in the installation. </strong>
+</p><pre class="programlisting">&lt;showWarning&gt;
+  &lt;text&gt;An Antivirus Software is running. You could get errors during the installation process. Please disable it before continuing.&lt;/text&gt;
+  &lt;ruleList&gt;
+    &lt;firewallTest type="enabled" /&gt;
+  &lt;/ruleList&gt;
+&lt;/showWarning&gt;</pre><p>
+</p><h5><a id="_compare_text_length"></a>Compare Text Length</h5><p>Compare the length of a text.
+The allowed properties in the <a class="link" href="apb.html#compareTextLength"><code class="literal">&lt;compareTextLength&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#compareTextLength.length"><code class="literal">&lt;length&gt;</code></a>: Length to compare with
+</li><li class="listitem">
+<a class="link" href="apb.html#compareTextLength.logic"><code class="literal">&lt;logic&gt;</code></a>: Comparison type
+</li><li class="listitem">
+<a class="link" href="apb.html#compareTextLength.text"><code class="literal">&lt;text&gt;</code></a>: Text to compare the length of
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check the length of a provided password. </strong>
+</p><pre class="programlisting">&lt;passwordParameter&gt;
+   &lt;name&gt;password&lt;/name&gt;
+   &lt;description&gt;Password&lt;/description&gt;
+   &lt;validationActionList&gt;
+      &lt;throwError text="The password provided is too short.
+        A minimum length of 8 characters is required"&gt;
+        &lt;ruleList&gt;
+          &lt;compareTextLength&gt;
+             &lt;text&gt;${password}&lt;/text&gt;
+             &lt;logic&gt;less&lt;/logic&gt;
+             &lt;length&gt;8&lt;/length&gt;
+          &lt;/compareTextLength&gt;
+        &lt;/ruleList&gt;
+      &lt;/throwError&gt;
+   &lt;/validationActionList&gt;
+&lt;/passwordParameter&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s02.html#snip8152914">Example 1</a>, <a class="link" href="ar01s07.html#snip7153394">Example 2</a>, <a class="link" href="ar01s04.html#snip8417805">Example 3</a></p><h5><a id="_string_test"></a>String Test</h5><p>Check the string type
+The allowed properties in the <a class="link" href="apb.html#stringTest"><code class="literal">&lt;stringTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#stringTest.text"><code class="literal">&lt;text&gt;</code></a>: Text
+</li><li class="listitem">
+<a class="link" href="apb.html#stringTest.type"><code class="literal">&lt;type&gt;</code></a>: Type of string
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if a given username is alphanumeric only. </strong>
+</p><pre class="programlisting">&lt;throwError text="The username can only contain alphanumeric characters!"&gt;
+  &lt;ruleList&gt;
+    &lt;stringTest&gt;
+      &lt;text&gt;${username}&lt;/text&gt;
+      &lt;type&gt;not_alphanumeric&lt;/type&gt;
+    &lt;/stringTest&gt;
+  &lt;/ruleList&gt;
+&lt;/throwError&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s02.html#snip8152914">Example 1</a>, <a class="link" href="ar01s07.html#snip7153394">Example 2</a></p><h5><a id="_windows_account_test"></a>Windows Account Test</h5><p>Check whether or not a specified account has proper rights
+The allowed properties in the <a class="link" href="apb.html#windowsAccountTest"><code class="literal">&lt;windowsAccountTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#windowsAccountTest.account"><code class="literal">&lt;account&gt;</code></a>: User or group name to check; if account does not exist, rule always returns false
+</li><li class="listitem">
+<a class="link" href="apb.html#windowsAccountTest.rights"><code class="literal">&lt;rights&gt;</code></a>: Account rights to test for, separated by spaces; Example value: SeServiceLogonRight. A complete list can be obtained from <a class="ulink" href="http://msdn.microsoft.com/en-us/library/aa375728(v=VS.85).aspx" target="_top">http://msdn.microsoft.com/en-us/library/aa375728(v=VS.85).aspx</a>
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Throw error if user cannot be used for running Windows services. </strong>
+</p><pre class="programlisting">&lt;throwError&gt;
+    &lt;text&gt;Account ${service_account} cannot be used as a Windows service&lt;/text&gt;
+    &lt;ruleList&gt;
+        &lt;windowsAccountTest&gt;
+            &lt;account&gt;${service_account}&lt;/account&gt;
+            &lt;rights&gt;SeServiceLogonPrivilege&lt;/rights&gt;
+            &lt;negate&gt;1&lt;/negate&gt;
+        &lt;/windowsAccountTest&gt;
+    &lt;/ruleList&gt;
+&lt;/throwError&gt;</pre><p>
+</p><h5><a id="_host_validation"></a>Host Validation</h5><p>Validates whether or not a given hostname or IP address meets the given condition
+The allowed properties in the <a class="link" href="apb.html#hostValidation"><code class="literal">&lt;hostValidation&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#hostValidation.condition"><code class="literal">&lt;condition&gt;</code></a>: A valid host is one that can be resolved to an IP address and a valid IP is one that is syntactically correct
+</li><li class="listitem">
+<a class="link" href="apb.html#hostValidation.host"><code class="literal">&lt;host&gt;</code></a>: Hostname or IP address to be checked
+</li><li class="listitem">
+<a class="link" href="apb.html#hostValidation.type"><code class="literal">&lt;type&gt;</code></a>: Type of host specification
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if a provided IP is valid. </strong>
+</p><pre class="programlisting">&lt;stringParameter&gt;
+  &lt;name&gt;machineIP&lt;/name&gt;
+  &lt;description&gt;Server IP&lt;/description&gt;
+  &lt;validationActionList&gt;
+     &lt;throwError text="The provided IP is malformed" &gt;
+       &lt;ruleList&gt;
+         &lt;hostValidation&gt;
+           &lt;host&gt;${machineIP}&lt;/host&gt;
+           &lt;type&gt;ip&lt;/type&gt;
+           &lt;condition&gt;is_not_valid&lt;/condition&gt;
+         &lt;/hostValidation&gt;
+       &lt;/ruleList&gt;
+     &lt;/throwError&gt;
+  &lt;/validationActionList&gt;
+&lt;/stringParameter&gt;</pre><p>
+</p><h5><a id="_regular_expression_match"></a>Regular Expression Match</h5><p>Compare a text with a regular expression.
+The allowed properties in the <a class="link" href="apb.html#regExMatch"><code class="literal">&lt;regExMatch&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#regExMatch.logic"><code class="literal">&lt;logic&gt;</code></a>: Whether or not the rule will apply if the regular expression matches.
+</li><li class="listitem">
+<a class="link" href="apb.html#regExMatch.pattern"><code class="literal">&lt;pattern&gt;</code></a>: Regular expression
+</li><li class="listitem">
+<a class="link" href="apb.html#regExMatch.text"><code class="literal">&lt;text&gt;</code></a>: Text
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Get installation dir based on other path if it in form of (prefix)/common/…. </strong>
+</p><pre class="programlisting">&lt;setInstallerVariableFromRegEx&gt;
+    &lt;name&gt;installdir&lt;/name&gt;
+    &lt;pattern&gt;^(.*)/common/(.*?)$&lt;/pattern&gt;
+    &lt;substitution&gt;$1&lt;/substitution&gt;
+    &lt;text&gt;${path_retrieved_from_registry.unix}&lt;/text&gt;
+    &lt;ruleList&gt;
+        &lt;regExMatch&gt;
+            &lt;logic&gt;matches&lt;/logic&gt;
+            &lt;pattern&gt;^(.*)/common/(.*?)$&lt;/pattern&gt;
+            &lt;text&gt;${path_retrieved_from_registry.unix}&lt;/text&gt;
+        &lt;/regExMatch&gt;
+    &lt;/ruleList&gt;
+&lt;/setInstallerVariableFromRegEx&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s19.html#snip2980506">Example 1</a>, <a class="link" href="ar01s19.html#snip5038697">Example 2</a>, <a class="link" href="ar01s19.html#snip6106369">Example 3</a></p><h5><a id="_compare_text"></a>Compare Text</h5><p>Compare a text with a value.
+The allowed properties in the <a class="link" href="apb.html#compareText"><code class="literal">&lt;compareText&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#compareText.logic"><code class="literal">&lt;logic&gt;</code></a>: Comparison type
+</li><li class="listitem">
+<a class="link" href="apb.html#compareText.nocase"><code class="literal">&lt;nocase&gt;</code></a>: Case insensitive comparison
+</li><li class="listitem">
+<a class="link" href="apb.html#compareText.text"><code class="literal">&lt;text&gt;</code></a>: Text
+</li><li class="listitem">
+<a class="link" href="apb.html#compareText.value"><code class="literal">&lt;value&gt;</code></a>: Value
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if a given text contains a substring. </strong>
+</p><pre class="programlisting">&lt;compareText&gt;
+    &lt;logic&gt;contains&lt;/logic&gt;
+    &lt;text&gt;${serverResponse}&lt;/text&gt;
+    &lt;value&gt;OK&lt;/value&gt;
+&lt;/compareText&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s25.html#snip8788564">Example 1</a>, <a class="link" href="ar01s07.html#snip7095575">Example 2</a>, <a class="link" href="ar01s02.html#snip3666467">Example 3</a></p><h5><a id="_port_test"></a>Port Test</h5><p>Allows you to test whether a port is free in the local machine.
+The allowed properties in the <a class="link" href="apb.html#portTest"><code class="literal">&lt;portTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#portTest.condition"><code class="literal">&lt;condition&gt;</code></a>: Condition to test for
+</li><li class="listitem">
+<a class="link" href="apb.html#portTest.port"><code class="literal">&lt;port&gt;</code></a>: A port number
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Do not allow proceeding if specified port cannot be bound to. </strong>
+</p><pre class="programlisting">&lt;stringParameter&gt;
+    &lt;name&gt;portNumber&lt;/name&gt;
+    &lt;default&gt;8080&lt;/default&gt;
+    &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+    &lt;width&gt;40&lt;/width&gt;
+    &lt;validationActionList&gt;
+        &lt;throwError&gt;
+            &lt;text&gt;Port already taken&lt;/text&gt;
+            &lt;ruleList&gt;
+                &lt;portTest&gt;
+                    &lt;condition&gt;cannot_bind&lt;/condition&gt;
+                    &lt;port&gt;${portNumber}&lt;/port&gt;
+                &lt;/portTest&gt;
+            &lt;/ruleList&gt;
+        &lt;/throwError&gt;
+    &lt;/validationActionList&gt;
+&lt;/stringParameter&gt;</pre><p>
+</p><h5><a id="_single_instance_check"></a>Single Instance Check</h5><p>Check if there is another instance of the installer being executed.
+The allowed properties in the <a class="link" href="apb.html#singleInstanceCheck"><code class="literal">&lt;singleInstanceCheck&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#singleInstanceCheck.logic"><code class="literal">&lt;logic&gt;</code></a>: Condition to check.
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if any other instance of the installer is running. </strong>
+</p><pre class="programlisting">  &lt;throwError&gt;
+     &lt;text&gt;Another instance is running. This instance will abort&lt;/text&gt;
+     &lt;ruleList&gt;
+         &lt;singleInstanceCheck logic="is_running" /&gt;
+     &lt;/ruleList&gt;
+  &lt;/throwError&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s23.html#snip9669260">Example 1</a>, <a class="link" href="ar01s13.html#snip6860396">Example 2</a>, <a class="link" href="ar01s13.html#snip873258">Example 3</a></p><h5><a id="_file_is_locked"></a>File Is Locked</h5><p>Check if file is locked.
+The allowed properties in the <a class="link" href="apb.html#fileIsLocked"><code class="literal">&lt;fileIsLocked&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#fileIsLocked.path"><code class="literal">&lt;path&gt;</code></a>: File or directory path to check
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if your application is running before trying to uninstall. </strong>
+</p><pre class="programlisting">&lt;preUninstallationActionList&gt;
+  &lt;actionGroup&gt;
+    &lt;actionList&gt;
+       &lt;showWarning&gt;
+          &lt;text&gt;It seems the application is in use, please close
+          it and relaunch the uninstaller.&lt;/text&gt;
+       &lt;/showWarning&gt;
+       &lt;exit/&gt;
+    &lt;/actionList&gt;
+    &lt;ruleList&gt;
+      &lt;fileIsLocked&gt;
+        &lt;path&gt;${installdir}/bin/yourApp.exe&lt;/path&gt;
+      &lt;/fileIsLocked&gt;
+    &lt;/ruleList&gt;
+  &lt;/actionGroup&gt;
+&lt;/preUninstallationActionList&gt;</pre><p>
+</p><h5><a id="_program_test"></a>Program Test</h5><p>Check whether or not a program can be found in the system path.
+The allowed properties in the <a class="link" href="apb.html#programTest"><code class="literal">&lt;programTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#programTest.condition"><code class="literal">&lt;condition&gt;</code></a>: Condition to test for
+</li><li class="listitem">
+<a class="link" href="apb.html#programTest.name"><code class="literal">&lt;name&gt;</code></a>: Program name
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if package is installed using rpm or dpkg, depending if dpkg command is available. </strong>
+</p><pre class="programlisting">&lt;if&gt;
+    &lt;actionList&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;dpkg&lt;/program&gt;
+            &lt;programArguments&gt;-W ${native_packagename}&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+    &lt;/actionList&gt;
+    &lt;conditionRuleList&gt;
+        &lt;programTest&gt;
+            &lt;condition&gt;is_in_path&lt;/condition&gt;
+            &lt;name&gt;dpkg&lt;/name&gt;
+        &lt;/programTest&gt;
+    &lt;/conditionRuleList&gt;
+    &lt;elseActionList&gt;
+        &lt;runProgram&gt;
+            &lt;program&gt;rpm&lt;/program&gt;
+            &lt;programArguments&gt;-q ${native_packagename}&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+    &lt;/elseActionList&gt;
+&lt;/if&gt;
+&lt;showWarning&gt;
+    &lt;text&gt;Package ${native_packagename} not found&lt;/text&gt;
+    &lt;ruleList&gt;
+        &lt;compareValues&gt;
+            &lt;logic&gt;does_not_equal&lt;/logic&gt;
+            &lt;value1&gt;${program_exit_code}&lt;/value1&gt;
+            &lt;value2&gt;0&lt;/value2&gt;
+        &lt;/compareValues&gt;
+    &lt;/ruleList&gt;
+&lt;/showWarning&gt;</pre><p>
+</p><h5><a id="_platform_test"></a>Platform Test</h5><p>Compare the system platform with a given platform name.
+The allowed properties in the <a class="link" href="apb.html#platformTest"><code class="literal">&lt;platformTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#platformTest.type"><code class="literal">&lt;type&gt;</code></a>: Type of platform to test for
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Set executable permissions to your application on Unix. </strong>
+</p><pre class="programlisting">&lt;changePermissions&gt;
+  &lt;permissions&gt;0755&lt;/permissions&gt;
+  &lt;files&gt;${installdir}/executables/*&lt;/files&gt;
+  &lt;ruleList&gt;
+    &lt;platformTest&gt;
+      &lt;type&gt;unix&lt;/type&gt;
+    &lt;/platformTest&gt;
+  &lt;/ruleList&gt;
+&lt;/changePermissions&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s18.html#snip4707255">Example 1</a>, <a class="link" href="ar01s08.html#snip415022">Example 2</a>, <a class="link" href="ar01s22.html#snip2282278">Example 3</a></p><h5><a id="_is_true"></a>Is True</h5><p>The rule returns true if <span class="emphasis"><em>value</em></span> is one of 1, yes or true. Otherwise it evaluates to false.
+The allowed properties in the <a class="link" href="apb.html#isTrue"><code class="literal">&lt;isTrue&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#isTrue.value"><code class="literal">&lt;value&gt;</code></a>: String to test if it is true
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Create a shortcut if based on a parameter value. </strong>
+</p><pre class="programlisting">&lt;createShortcuts&gt;
+  &lt;destination&gt;${windows_folder_startmenu}/${project.fullName}&lt;/destination&gt;
+  &lt;shortcutList&gt;
+    &lt;shortcut&gt;
+      &lt;comment&gt;Launches ${project.fullName}&lt;/comment&gt;
+      &lt;name&gt;Launch ${project.fullName}&lt;/name&gt;
+      &lt;windowsIcon&gt;%SystemRoot%\system32\cmd.exe&lt;/windowsIcon&gt;
+      &lt;windowsExec&gt;${installdir}/script/wrapped-shell.bat&lt;/windowsExec&gt;
+    &lt;/shortcut&gt;
+  &lt;/shortcutList&gt;
+  &lt;ruleList&gt;
+    &lt;isTrue&gt;
+      &lt;value&gt;${createShortcuts}&lt;/value&gt;
+    &lt;/isTrue&gt;
+  &lt;/ruleList&gt;
+&lt;/createShortcuts&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s23.html#snip9625970">Example 1</a>, <a class="link" href="ar01s16.html#snip7413627">Example 2</a>, <a class="link" href="ar01s04.html#snip1250628">Example 3</a></p><h5><a id="_compare_values"></a>Compare Values</h5><p>Compare two values with each other.
+The allowed properties in the <a class="link" href="apb.html#compareValues"><code class="literal">&lt;compareValues&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#compareValues.logic"><code class="literal">&lt;logic&gt;</code></a>: Comparison type
+</li><li class="listitem">
+<a class="link" href="apb.html#compareValues.value1"><code class="literal">&lt;value1&gt;</code></a>: First comparison operand
+</li><li class="listitem">
+<a class="link" href="apb.html#compareValues.value2"><code class="literal">&lt;value2&gt;</code></a>: Second comparison operand
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if a given port is in the valid range. </strong>
+</p><pre class="programlisting">&lt;stringParameter&gt;
+  &lt;name&gt;port&lt;/name&gt;
+  &lt;description&gt;Port:&lt;/description&gt;
+  &lt;validationActionList&gt;
+    &lt;throwError text="The provided port is out of range (1 to 65535)"&gt;
+      &lt;ruleEvaluationLogic&gt;and&lt;/ruleEvaluationLogic&gt;
+      &lt;ruleList&gt;
+         &lt;compareValues value1="${port}" logic="less" value2="1"/&gt;
+         &lt;compareValues value1="${port}" logic="greater" value2="65535"/&gt;
+      &lt;/ruleList&gt;
+    &lt;/throwError&gt;
+  &lt;/validationActionList&gt;
+&lt;/stringParameter&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s23.html#snip9625970">Example 1</a>, <a class="link" href="ar01s02.html#snip2439733">Example 2</a>, <a class="link" href="ar01s02.html#snip826659">Example 3</a></p><h5><a id="_file_test"></a>File Test</h5><p>Perform test on a given directory or file.
+The allowed properties in the <a class="link" href="apb.html#fileTest"><code class="literal">&lt;fileTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#fileTest.condition"><code class="literal">&lt;condition&gt;</code></a>: Specifies the requirement to test over the given file
+</li><li class="listitem">
+<a class="link" href="apb.html#fileTest.path"><code class="literal">&lt;path&gt;</code></a>: File or directory path for the test
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if a directory is empty before trying to delete. </strong>
+</p><pre class="programlisting">&lt;postUninstallationActionList&gt;
+  &lt;deleteFile path="${installdir}"&gt;
+    &lt;ruleList&gt;
+      &lt;fileTest&gt;
+        &lt;path&gt;${installdir}&lt;/path&gt;
+        &lt;condition&gt;is_empty&lt;/condition&gt;
+      &lt;/fileTest&gt;
+    &lt;/ruleList&gt;
+  &lt;/deleteFile&gt;
+&lt;/postUninstallationActionList&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s22.html#snip4499894">Example 1</a>, <a class="link" href="ar01s09.html#snip2620612">Example 2</a>, <a class="link" href="ar01s09.html#snip931362">Example 3</a></p><h5><a id="_file_content_test"></a>File Content Test</h5><p>Check whether a file contains or does not contain a text.
+The allowed properties in the <a class="link" href="apb.html#fileContentTest"><code class="literal">&lt;fileContentTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#fileContentTest.encoding"><code class="literal">&lt;encoding&gt;</code></a>: Encoding of the text file
+</li><li class="listitem">
+<a class="link" href="apb.html#fileContentTest.logic"><code class="literal">&lt;logic&gt;</code></a>: Test type
+</li><li class="listitem">
+<a class="link" href="apb.html#fileContentTest.path"><code class="literal">&lt;path&gt;</code></a>: Path to file that contains text for comparison
+</li><li class="listitem">
+<a class="link" href="apb.html#fileContentTest.text"><code class="literal">&lt;text&gt;</code></a>: Text to compare with
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Add some text to a file if it does not already contain it. </strong>
+</p><pre class="programlisting">&lt;addTextToFile&gt;
+  &lt;file&gt;${installdir}/report.txt&lt;/file&gt;
+  &lt;text&gt;${summaryText}&lt;/text&gt;
+  &lt;ruleList&gt;
+    &lt;fileContentTest&gt;
+      &lt;path&gt;${installdir}/report.txt&lt;/path&gt;
+      &lt;logic&gt;does_not_contain&lt;/logic&gt;
+      &lt;text&gt;${summaryText}&lt;/text&gt;
+    &lt;/fileContentTest&gt;
+  &lt;/ruleList&gt;
+&lt;/addTextToFile&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s09.html#snip2620612">Example 1</a>, <a class="link" href="ar01s09.html#snip6871102">Example 2</a></p><h5><a id="_rule_group"></a>Rule Group</h5><p>Group a set of rules.
+The allowed properties in the <a class="link" href="apb.html#ruleGroup"><code class="literal">&lt;ruleGroup&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#ruleGroup.ruleEvaluationLogic"><code class="literal">&lt;ruleEvaluationLogic&gt;</code></a>: Rule evaluation logic
+</li><li class="listitem">
+<a class="link" href="apb.html#ruleGroup.ruleList"><code class="literal">&lt;ruleList&gt;</code></a>: List of rules to be grouped
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Show warning if operating system is Windows Server 2003 or Windows Server 2008, but not Windows Server 2008 R2. </strong>
+</p><pre class="programlisting">&lt;showWarning&gt;
+    &lt;text&gt;Windows Server 2008 (not R2) and Windows Server 2003 is not supported&lt;/text&gt;
+    &lt;ruleEvaluationLogic&gt;or&lt;/ruleEvaluationLogic&gt;
+    &lt;ruleList&gt;
+        &lt;ruleGroup&gt;
+            &lt;ruleEvaluationLogic&gt;and&lt;/ruleEvaluationLogic&gt;
+            &lt;ruleList&gt;
+                &lt;platformTest&gt;
+                    &lt;negate&gt;1&lt;/negate&gt;
+                    &lt;type&gt;windows-2008-r2&lt;/type&gt;
+                &lt;/platformTest&gt;
+                &lt;platformTest&gt;
+                    &lt;type&gt;windows-2008&lt;/type&gt;
+                &lt;/platformTest&gt;
+            &lt;/ruleList&gt;
+        &lt;/ruleGroup&gt;
+        &lt;platformTest&gt;
+            &lt;type&gt;windows-2003&lt;/type&gt;
+        &lt;/platformTest&gt;
+    &lt;/ruleList&gt;
+&lt;/showWarning&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s09.html#snip2720228">Example 1</a>, <a class="link" href="ar01s09.html#snip8874687">Example 2</a></p><h5><a id="_compare_versions"></a>Compare Versions</h5><p>Compare two versions.
+The allowed properties in the <a class="link" href="apb.html#compareVersions"><code class="literal">&lt;compareVersions&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#compareVersions.logic"><code class="literal">&lt;logic&gt;</code></a>: Test type
+</li><li class="listitem">
+<a class="link" href="apb.html#compareVersions.version1"><code class="literal">&lt;version1&gt;</code></a>: First comparison operand
+</li><li class="listitem">
+<a class="link" href="apb.html#compareVersions.version2"><code class="literal">&lt;version2&gt;</code></a>: Second comparison operand
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if the current application is newer than the installed in the machine. </strong>
+</p><pre class="programlisting">  &lt;registryGet&gt;
+   &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.windowsSoftwareRegistryPrefix}&lt;/key&gt;
+   &lt;name&gt;Version&lt;/name&gt;
+   &lt;variable&gt;oldVersion&lt;/variable&gt;
+  &lt;/registryGet&gt;
+
+  &lt;throwError text="The installed version is the same or newer than
+the current. Aborting"&gt;
+    &lt;ruleList&gt;
+      &lt;compareVersions&gt;
+        &lt;version1&gt;${oldVersion}&lt;/version1&gt;
+        &lt;logic&gt;greater_or_equal&lt;/logic&gt;
+        &lt;version2&gt;${project.version}&lt;/version2&gt;
+      &lt;/compareVersions&gt;
+    &lt;/ruleList&gt;
+  &lt;/throwError&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s22.html#snip2282278">Example 1</a>, <a class="link" href="ar01s04.html#snip8609473">Example 2</a></p><h5><a id="_user_test"></a>User Test</h5><p>Check if a particular user exists in the system or has a valid password.
+The allowed properties in the <a class="link" href="apb.html#userTest"><code class="literal">&lt;userTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#userTest.logic"><code class="literal">&lt;logic&gt;</code></a>: Specifies the requirement to test over the given username.
+</li><li class="listitem">
+<a class="link" href="apb.html#userTest.password"><code class="literal">&lt;password&gt;</code></a>: If test logic is set to verify the password, the password to be checked. Currently only available on the Windows platform
+</li><li class="listitem">
+<a class="link" href="apb.html#userTest.username"><code class="literal">&lt;username&gt;</code></a>: User name that will be checked. In the case of using Windows domains, it needs to be specified in the form <a class="ulink" href="mailto:username@DOMAIN" target="_top">username@DOMAIN</a>
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if a given user and password pair is valid. </strong>
+</p><pre class="programlisting">&lt;parameterGroup&gt;
+  &lt;name&gt;userandpass&lt;/name&gt;
+  &lt;explanation&gt;Please enter the username and password of your account&lt;/explanation&gt;
+  &lt;parameterList&gt;
+    &lt;stringParameter&gt;
+      &lt;name&gt;username&lt;/name&gt;
+      &lt;description&gt;Username&lt;/description&gt;
+    &lt;/stringParameter&gt;
+    &lt;passwordParameter&gt;
+      &lt;ask&gt;yes&lt;/ask&gt;
+      &lt;name&gt;password&lt;/name&gt;
+      &lt;description&gt;Password&lt;/description&gt;
+    &lt;/passwordParameter&gt;
+  &lt;/parameterList&gt;
+  &lt;validationActionList&gt;
+    &lt;throwError text="The provided credentials are not valid"&gt;
+      &lt;ruleList&gt;
+        &lt;userTest&gt;
+          &lt;logic&gt;is_windows_admin_account&lt;/logic&gt;
+          &lt;username&gt;${username}&lt;/username&gt;
+          &lt;password&gt;${password}&lt;/password&gt;
+        &lt;/userTest&gt;
+      &lt;/ruleList&gt;
+    &lt;/throwError&gt;
+  &lt;/validationActionList&gt;
+&lt;/parameterGroup&gt;</pre><p>
+</p><h5><a id="_is_false"></a>Is False</h5><p>The rule returns false if <span class="emphasis"><em>value</em></span> is one of 1, yes or true. Otherwise it evaluates to true.
+The allowed properties in the <a class="link" href="apb.html#isFalse"><code class="literal">&lt;isFalse&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#isFalse.value"><code class="literal">&lt;value&gt;</code></a>: String to test if it is false
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Require to install Java if it is not installed. </strong>
+</p><pre class="programlisting">&lt;autodetectJava&gt;
+  &lt;abortOnError&gt;0&lt;/abortOnError&gt;
+  &lt;promptUser&gt;0&lt;/promptUser&gt;
+  &lt;showMessageOnError&gt;0&lt;/showMessageOnError&gt;
+&lt;/autodetectJava&gt;
+&lt;throwError text="Java is required but was not found.
+  Please install it an relaunch this installer"&gt;
+  &lt;ruleList&gt;
+    &lt;isFalse&gt;
+      &lt;value&gt;${java_autodetected}&lt;/value&gt;
+    &lt;/isFalse&gt;
+  &lt;/ruleList&gt;
+&lt;/throwError&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s18.html#snip4707255">Example 1</a>, <a class="link" href="ar01s07.html#snip9887258">Example 2</a>, <a class="link" href="ar01s05.html#snip2719709">Example 3</a></p><h5><a id="_mac_os_x_service_test"></a>Mac OS X Service Test</h5><p>Check whether or not a service exists and whether or not it is running. Checking if service exists requires Mac OS X version 10.4 or later. Checking if service is running requires Mac OS X 10.5 or later.
+The allowed properties in the <a class="link" href="apb.html#osxServiceTest"><code class="literal">&lt;osxServiceTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#osxServiceTest.condition"><code class="literal">&lt;condition&gt;</code></a>: Condition to test for
+</li><li class="listitem">
+<a class="link" href="apb.html#osxServiceTest.service"><code class="literal">&lt;service&gt;</code></a>: Name of service
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Stop OSX service yourservice if it is currently running. </strong>
+</p><pre class="programlisting">&lt;stopOSXService&gt;
+    &lt;serviceName&gt;yourservice&lt;/serviceName&gt;
+    &lt;ruleList&gt;
+        &lt;osxServiceTest&gt;
+            &lt;condition&gt;is_running&lt;/condition&gt;
+            &lt;service&gt;yourservice&lt;/service&gt;
+        &lt;/osxServiceTest&gt;
+    &lt;/ruleList&gt;
+&lt;/stopOSXService&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s15.html#snip3643072">Example 1</a></p><h5><a id="_windows_antivirus_test"></a>Windows Antivirus Test</h5><p>Check whether or not antivirus is set up and running. Only available on Windows platform
+The allowed properties in the <a class="link" href="apb.html#antivirusTest"><code class="literal">&lt;antivirusTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#antivirusTest.product"><code class="literal">&lt;product&gt;</code></a>: Product to test, or any product
+</li><li class="listitem">
+<a class="link" href="apb.html#antivirusTest.type"><code class="literal">&lt;type&gt;</code></a>: Type of test
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Warn your users that a running antivirus may interfere in the installation. </strong>
+</p><pre class="programlisting">&lt;showWarning&gt;
+  &lt;text&gt;An Antivirus Software is running. You could get errors during the installation process. Please disable it before continuing.&lt;/text&gt;
+  &lt;ruleList&gt;
+    &lt;antivirusTest type="enabled" /&gt;
+  &lt;/ruleList&gt;
+&lt;/showWarning&gt;</pre><p>
+</p><h5><a id="_resource_limit_test"></a>Resource Limit Test</h5><p>Check if resource limit matches requirements.
+The allowed properties in the <a class="link" href="apb.html#resourceLimitTest"><code class="literal">&lt;resourceLimitTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#resourceLimitTest.limitType"><code class="literal">&lt;limitType&gt;</code></a>: Limit type
+</li><li class="listitem">
+<a class="link" href="apb.html#resourceLimitTest.logic"><code class="literal">&lt;logic&gt;</code></a>: Comparison type
+</li><li class="listitem">
+<a class="link" href="apb.html#resourceLimitTest.type"><code class="literal">&lt;type&gt;</code></a>: Resource Type To Check
+</li><li class="listitem">
+<a class="link" href="apb.html#resourceLimitTest.value"><code class="literal">&lt;value&gt;</code></a>: Value
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Throw an error if less than 1024 open files can be opened at once. </strong>
+</p><pre class="programlisting">&lt;throwError&gt;
+    &lt;text&gt;Port already taken&lt;/text&gt;
+    &lt;ruleList&gt;
+        &lt;resourceLimitTest&gt;
+            &lt;type&gt;open_files&lt;/type&gt;
+            &lt;logic&gt;less&lt;/logic&gt;
+            &lt;value&gt;1024&lt;/value&gt;
+        &lt;/resourceLimitTest&gt;
+    &lt;/ruleList&gt;
+&lt;/throwError&gt;</pre><p>
+</p><h5><a id="_file_exists"></a>File Exists</h5><p>Check for the existence of a given directory or file.
+The allowed properties in the <a class="link" href="apb.html#fileExists"><code class="literal">&lt;fileExists&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#fileExists.path"><code class="literal">&lt;path&gt;</code></a>: File or directory path for the test, accepts wildcards.
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if the selected directory already contains an installation. </strong>
+</p><pre class="programlisting">&lt;throwError text="It seems the selected installation directory
+  contains an old installation. Please, choose another one."&gt;
+  &lt;ruleList&gt;
+    &lt;fileExists&gt;
+     &lt;path&gt;${installdir}/uninstall&lt;/path&gt;
+    &lt;/fileExists&gt;
+  &lt;/ruleList&gt;
+&lt;/throwError&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s07.html#snip2393230">Example 1</a>, <a class="link" href="ar01s05.html#snip8662628">Example 2</a>, <a class="link" href="ar01s27.html#snip3002060">Example 3</a></p><h5><a id="_check_free_disk_space"></a>Check Free Disk Space</h5><p>Check whether or not enough free disk space is available
+The allowed properties in the <a class="link" href="apb.html#checkFreeDiskSpace"><code class="literal">&lt;checkFreeDiskSpace&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#checkFreeDiskSpace.logic"><code class="literal">&lt;logic&gt;</code></a>: Comparison type
+</li><li class="listitem">
+<a class="link" href="apb.html#checkFreeDiskSpace.path"><code class="literal">&lt;path&gt;</code></a>: Path to the folder or disk
+</li><li class="listitem">
+<a class="link" href="apb.html#checkFreeDiskSpace.size"><code class="literal">&lt;size&gt;</code></a>: Size of free disk space to check for
+</li><li class="listitem">
+<a class="link" href="apb.html#checkFreeDiskSpace.units"><code class="literal">&lt;units&gt;</code></a>: Size units for the checked value.
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Check if the selected installation directory has enough disk space. </strong>
+</p><pre class="programlisting">&lt;directoryParameter&gt;
+  &lt;name&gt;installdir&lt;/name&gt;
+  ...
+  &lt;validationActionList&gt;
+    &lt;throwError&gt;
+      &lt;text&gt;You don't have enough disk space to install the application,
+      please select another installation directory&lt;/text&gt;
+      &lt;ruleList&gt;
+        &lt;checkFreeDiskSpace&gt;
+          &lt;logic&gt;less&lt;/logic&gt;
+          &lt;path&gt;${installdir}&lt;/path&gt;
+          &lt;size&gt;${required_diskspace}&lt;/size&gt;
+        &lt;/checkFreeDiskSpace&gt;
+      &lt;/ruleList&gt;
+    &lt;/throwError&gt;
+  &lt;/validationActionList&gt;
+&lt;/directoryParameter&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s07.html#snip7842517">Example 1</a>, <a class="link" href="ar01s07.html#snip9188393">Example 2</a></p><h5><a id="_process_test"></a>Process Test</h5><p>Check if a particular process exists in the system. Currently only supported in Windows, Linux, OS X.
+The allowed properties in the <a class="link" href="apb.html#processTest"><code class="literal">&lt;processTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#processTest.logic"><code class="literal">&lt;logic&gt;</code></a>: Check whether or not the process is running.
+</li><li class="listitem">
+<a class="link" href="apb.html#processTest.name"><code class="literal">&lt;name&gt;</code></a>: Exact process name that will be checked.
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Wait for myapp.exe program to exit before continuing. </strong>
+</p><pre class="programlisting">&lt;showProgressDialog&gt;
+    &lt;title&gt;Waiting for myapp.exe to exit&lt;/title&gt;
+    &lt;actionList&gt;
+        &lt;while&gt;
+            &lt;actionList&gt;
+                &lt;wait&gt;
+                    &lt;ms&gt;1000&lt;/ms&gt;
+                &lt;/wait&gt;
+            &lt;/actionList&gt;
+            &lt;conditionRuleList&gt;
+                &lt;processTest&gt;
+                    &lt;logic&gt;is_running&lt;/logic&gt;
+                    &lt;name&gt;myapp.exe&lt;/name&gt;
+                &lt;/processTest&gt;
+            &lt;/conditionRuleList&gt;
+        &lt;/while&gt;
+    &lt;/actionList&gt;
+&lt;/showProgressDialog&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s14.html#snip1901226">Example 1</a>, <a class="link" href="ar01s09.html#snip6299168">Example 2</a>, <a class="link" href="ar01s08.html#snip3612900">Example 3</a></p><h5><a id="_registry_test"></a>Registry Test</h5><p>Perform tests over a registry entry. You can provide either a key or a key and a name
+The allowed properties in the <a class="link" href="apb.html#registryTest"><code class="literal">&lt;registryTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#registryTest.key"><code class="literal">&lt;key&gt;</code></a>: Registry key
+</li><li class="listitem">
+<a class="link" href="apb.html#registryTest.logic"><code class="literal">&lt;logic&gt;</code></a>: Comparison type
+</li><li class="listitem">
+<a class="link" href="apb.html#registryTest.name"><code class="literal">&lt;name&gt;</code></a>: Entry name to test for existence
+</li><li class="listitem">
+<a class="link" href="apb.html#registryTest.type"><code class="literal">&lt;type&gt;</code></a>: Type of the key to check with the is_type or is_not_type logic
+</li><li class="listitem">
+<a class="link" href="apb.html#registryTest.wowMode"><code class="literal">&lt;wowMode&gt;</code></a>: Determines whether we want to access a 32-bit or 64-bit view of the Registry
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Read previous installation location from registry if it was already installed. </strong>
+</p><pre class="programlisting">&lt;registryGet&gt;
+    &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.windowsSoftwareRegistryPrefix}&lt;/key&gt;
+    &lt;name&gt;Location&lt;/name&gt;
+    &lt;variable&gt;installdir&lt;/variable&gt;
+    &lt;ruleList&gt;
+        &lt;registryTest&gt;
+            &lt;key&gt;HKEY_LOCAL_MACHINE\SOFTWARE\${project.windowsSoftwareRegistryPrefix}&lt;/key&gt;
+            &lt;logic&gt;exists&lt;/logic&gt;
+            &lt;name&gt;Location&lt;/name&gt;
+        &lt;/registryTest&gt;
+    &lt;/ruleList&gt;
+&lt;/registryGet&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s26.html#snip6556913">Example 1</a>, <a class="link" href="ar01s09.html#snip2620612">Example 2</a>, <a class="link" href="ar01s26.html#snip2038807">Example 3</a></p><h5><a id="_windows_service_test"></a>Windows Service Test</h5><p>Check whether a service exists and whether is running
+The allowed properties in the <a class="link" href="apb.html#windowsServiceTest"><code class="literal">&lt;windowsServiceTest&gt;</code></a> rule are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apb.html#windowsServiceTest.condition"><code class="literal">&lt;condition&gt;</code></a>: Condition to test for
+</li><li class="listitem">
+<a class="link" href="apb.html#windowsServiceTest.service"><code class="literal">&lt;service&gt;</code></a>: Name of service
+</li></ul></div><p><span class="strong"><strong>Examples:</strong></span></p><p><strong>Stop your service if it is running. </strong>
+</p><pre class="programlisting">&lt;stopWindowsService&gt;
+  &lt;serviceName&gt;yourservice&lt;/serviceName&gt;
+  &lt;displayName&gt;Your Service&lt;/displayName&gt;
+  &lt;delay&gt;15000&lt;/delay&gt;
+  &lt;ruleList&gt;
+     &lt;windowsServiceTest&gt;
+       &lt;condition&gt;is_running&lt;/condition&gt;
+       &lt;service&gt;yourservice&lt;/service&gt;
+     &lt;/windowsServiceTest&gt;
+  &lt;/ruleList&gt;
+&lt;/stopWindowsService&gt;</pre><p>
+</p><p><code class="literal">Additional Examples:</code>
+<a class="link" href="ar01s15.html#snip7577513">Example 1</a>, <a class="link" href="ar01s09.html#snip9004361">Example 2</a></p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s08.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s10.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">8. Actions </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 10. User Interface</td></tr></table></div></body></html>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>10. User Interface</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s09.html" title="9. Rules" /><link rel="next" href="ar01s11.html" title="11. Menus and Shortcuts" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">10. User Interface</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s09.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s11.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_user_interface"></a>10. User Interface</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_installation_modes"></a>10.1. Installation Modes</h3></div></div></div><p>This sections covers the different installation modes that a BitRock Installer can run in and how they can be selected both at runtime and build time.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="gui_modes"></a>Full Graphic Modes</h4></div></div></div><p>These modes allow full interactivity through a point-and-click GUI interface. Depending on the version of InstallBuilder and the platform of execution, the allowed modes can be:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Gtk mode (<code class="literal">gtk</code>): Regular IB default execution mode on Linux, and Linux x64. The installer presents a Gtk look and feel. It requires the Gtk libraries to be present in the system.
+</li><li class="listitem">
+X-Window mode (<code class="literal">xwindow</code>): Lightweight graphic execution mode on Linux / Unix systems.
+</li><li class="listitem">
+OS X mode (<code class="literal">osx</code>): Regular IB default execution mode on OS X systems. Provides the native OS X application look and feel.
+</li><li class="listitem">
+Windows mode (<code class="literal">win32</code>): Regular IB execution mode on Windows. Provides native Windows application look and feel
+</li><li class="listitem">
+Qt mode (<code class="literal">qt</code>): InstallBuilder for Qt bundles an additional <code class="literal">qt</code> mode which uses a common graphic library for all platforms. The look and feel on Linux is Qt and it has a native look and feel on OS X and Windows. This mode allow extended text formatting among other tweaks in the installers.
+</li></ul></div><p>All modes are functionally equivalent and which one to use is mostly a matter of personal preference. For example, a Qt application developer may want to distribute their application with the InstallBuilder for Qt version.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_text_mode"></a>Text Mode:</h4></div></div></div><p>This mode provides full interactivity with users in the command line. It is equivalent to any GUI mode but the pages are displayed in text mode in a console. This installation mode is not available on Windows because GUI applications are not attached to a console and the text would not be visible.</p><p>This mode is especially convenient when no X-Window server is detected. In these cases, this mode is automatically selected by default if no other valid mode is forced (such as unattended).</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_unattended_mode"></a>Unattended mode:</h4></div></div></div><p>This execution mode is especially useful for automating the installation processes. It can be configured to present different levels of user interaction through the
+<code class="literal">--unattendedmodeui</code> command line flag or the <a class="link" href="apd.html#unattendedModeUI"><code class="literal">&lt;unattendedModeUI&gt;</code></a> project property. The allowed values are:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">none</code>: No user interaction is required and no output shown. This is the default if no unattended mode UI option is provided.
+</li><li class="listitem">
+<code class="literal">minimal</code>: No user interaction is required and a progress pop-up is displayed showing the installation progress.
+</li></ul></div><pre class="programlisting">$&gt; .\installbuilder-professional-16.3.0-windows-installer.exe --mode unattended --unattendedmodeui minimal</pre><div class="figure"><a id="idm140427929227328"></a><p class="title"><strong>Figure 54. Minimal Unattended Mode</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/minimal-unattended-mode.png" align="middle" alt="Minimal Unattended Mode" /></div></div></div><br class="figure-break" /><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">minimalWithDialogs</code>: In addition to the installation progress shown in the minimal mode, pop-ups are also displayed. This mode may require some user interaction, depending on the specific installer logic.
+</li></ul></div><pre class="programlisting">$&gt; .\sample-1.0-windows-installer.exe --mode unattended --unattendedmodeui minimalWithDialogs</pre><div class="figure"><a id="idm140427929220624"></a><p class="title"><strong>Figure 55. Minimal With Dialogs Unattended Mode</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/minimalwithdialogs-unattended-mode.png" align="middle" alt="Minimal With Dialogs Unattended Mode" /></div></div></div><br class="figure-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_selecting_the_execution_mode"></a>Selecting the Execution Mode</h4></div></div></div><p>The execution mode can be configured using command line flags or setting it in the XML project. Using the command line is as easy as typing in a console:</p><pre class="programlisting">$&gt; ./nameOfInstaller --mode executionMode</pre><p>where executionMode has to be replaced with the appropriate one: <code class="literal">text</code>, <code class="literal">unattended</code>, <code class="literal">gtk</code>, <code class="literal">qt</code>…</p><p>Be sure to take into account that not all of the installation modes are available on all platforms. The table below describes the possibilities:</p><div class="table"><a id="idm140427929210624"></a><p class="title"><strong>Table 2. Installation Modes</strong></p><div class="table-contents"><table summary="Installation Modes" cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /><col class="col_3" /><col class="col_4" /><col class="col_5" /><col class="col_6" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="6" align="left" valign="top"> Allowed installation modes by platform and flavor</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>InstallBuilder Flavor</strong></span></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>windows</strong></span></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>Linux</strong></span></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>OS X</strong></span></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>Other Unix</strong></span></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>Text mode only systems</strong></span></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>Regular</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">unattended</code>, <code class="literal">win32</code></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">unattended</code>, <code class="literal">xwindow</code>, <code class="literal">gtk</code>, <code class="literal">text</code></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">unattended</code>, <code class="literal">osx</code>, <code class="literal">text</code></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">unattended</code>, <code class="literal">xwindow</code>, <code class="literal">text</code></p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">text</code>, <code class="literal">unattended</code></p></td></tr><tr><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>Qt</p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">unattended</code>, <code class="literal">win32</code>, <code class="literal">qt</code></p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">unattended</code>, <code class="literal">xwindow</code>, <code class="literal">gtk</code>, <code class="literal">text</code>, <code class="literal">qt</code></p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">unattended</code>, <code class="literal">osx</code>, <code class="literal">text</code>, <code class="literal">qt</code></p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p><code class="literal">unattended</code>, <code class="literal">xwindow</code>, <code class="literal">text</code></p></td><td style="" align="left" valign="top"><p><code class="literal">text</code>, <code class="literal">unattended</code></p></td></tr></tbody></table></div></div><br class="table-break" /><p>You may have noticed from the above table that <code class="literal">text</code> mode is not allowed on Windows. This is due to the fact that Windows BitRock installers are compiled as GUI applications and thus, when executed, will not provide output in the console. This is a limitation of Windows itself, since an application cannot
+be compiled at the same time as a console and GUI application.</p><p>Using <code class="literal">--mode</code> in the command line to select the installation mode is usually not required, as installers have a default installation mode. If for whatever reason the default mode cannot be initialized, then the installer will automatically and gracefully keep trying different UI modes. For example, if
+a Desktop environment is not available, it will default to text mode (useful for remote Unix installations).</p><p>The default mode can also be configured inside the XML project using:
+<a id="snip9648557"></a></p><pre class="programlisting">   &lt;project&gt;
+      ...
+      &lt;defaultInstallationMode&gt;xwindow&lt;/defaultInstallationMode&gt;
+      &lt;unattendedModeUI&gt;minimal&lt;/unattendedModeUI&gt;
+      ...
+   &lt;/project&gt;</pre><p>This will set xwindow as the default. As not all of the modes are allowed in all platforms, you can configure the <a class="link" href="apd.html#defaultInstallationMode"><code class="literal">&lt;defaultInstallationMode&gt;</code></a> tag using the <a class="link" href="apd.html#platformOptionsList"><code class="literal">&lt;platformOptionsList&gt;</code></a>:</p><p><a id="snip3307558"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;platformOptionsList&gt;
+     &lt;platformOptions&gt;
+        &lt;platform&gt;linux&lt;/platform&gt;
+        &lt;defaultInstallationMode&gt;text&lt;/defaultInstallationMode&gt;
+     &lt;/platformOptions&gt;
+     &lt;platformOptions&gt;
+        &lt;platform&gt;osx&lt;/platform&gt;
+        &lt;defaultInstallationMode&gt;qt&lt;/defaultInstallationMode&gt;
+     &lt;/platformOptions&gt;
+     &lt;platformOptions&gt;
+        &lt;platform&gt;win32&lt;/platform&gt;
+        &lt;defaultInstallationMode&gt;windows&lt;/defaultInstallationMode&gt;
+     &lt;/platformOptions&gt;
+   &lt;/platformOptionsList&gt;
+   ...
+&lt;/project&gt;</pre><p>Or reconfiguring the setting in the preBuildActionList based on the platform you are building:</p><p><a id="snip138133"></a></p><pre class="programlisting">   &lt;preBuildActionList&gt;
+       &lt;setInstallerVariable&gt;
+           &lt;name&gt;project.defaultInstallationMode&lt;/name&gt;
+           &lt;value&gt;text&lt;/value&gt;
+           &lt;ruleList&gt;
+               &lt;compareText text="${platform_name}" logic="equals" value="linux"/&gt;
+           &lt;/ruleList&gt;
+       &lt;/setInstallerVariable&gt;
+   &lt;/preBuildActionList&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_detecting_the_execution_mode"></a>Detecting the Execution Mode</h4></div></div></div><p>Sometimes it is useful to know which mode the installer is running under, for example to skip certain checks or actions if the installer is running in unattended mode.
+This information can be obtained through built-in variables:</p><div class="table"><a id="installation_modes_built_in_variables"></a><p class="title"><strong>Table 3. Installation Modes</strong></p><div class="table-contents"><table summary="Installation Modes" cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /><col class="col_3" /><col class="col_4" /><col class="col_5" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="5" align="left" valign="top"> Installation Modes</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>mode</strong></span></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>unattendedModeUI</strong></span></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>installer_ui</strong></span></p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>installer_ui_detail</strong></span></p></td><td style="border-bottom: 1px solid #527bbd; " align="center" valign="top"><p><span class="strong"><strong>installer_interactivity</strong></span></p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>unattended</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>none</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>unattended</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>unattended</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>none</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>unattended</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>minimal</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>unattended</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>unattended</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>minimal</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>unattended</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>minimalWithDialogs</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>gui</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>xwindow, win32, osx…</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>minimalWithDialogs</p></td></tr><tr><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>text</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>N/A</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>text</p></td><td style="border-right: 1px solid #527bbd; border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>text</p></td><td style="border-bottom: 1px solid #527bbd; " align="left" valign="top"><p>normal</p></td></tr><tr><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>qt, gtk…</p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>N/A</p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>gui</p></td><td style="border-right: 1px solid #527bbd; " align="left" valign="top"><p>qt, gtk…</p></td><td style="" align="left" valign="top"><p>normal</p></td></tr></tbody></table></div></div><br class="table-break" /></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="pages"></a>10.2. Pages</h3></div></div></div><p>Pages are the most common way of interacting with the end user. Some of the pages are built-in, but it is also possible to create parameters, which will
+be displayed as custom installer pages at runtime.  Pages are only configurable in the installer. Currently, neither the uninstaller nor the AutoUpdate
+can contain custom pages. However, it is possible to have dialogs as part of the uninstallation process.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_custom_pages"></a>Custom Pages</h4></div></div></div><p>Projects and components can contain a <code class="literal">&lt;parameterList&gt;</code>. For each first level parameter contained, a corresponding page will be displayed at runtime. You can control which of these pages will be displayed attaching rules or configuring the <a class="link" href="apc.html#parameter.ask"><code class="literal">&lt;ask&gt;</code></a> property of the parameter.</p><p>Depending on the type of the parameter defined, it will be rendered differently. For example, in graphical mode:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apc.html#booleanParameter"><code class="literal">&lt;booleanParameter&gt;</code></a>: A checkbox or a pair of radiobuttons depending on its <a class="link" href="apc.html#booleanParameter.displayStyle"><code class="literal">&lt;displayStyle&gt;</code></a>.
+</li><li class="listitem">
+<a class="link" href="apc.html#stringParameter"><code class="literal">&lt;stringParameter&gt;</code></a>: A text entry.
+</li><li class="listitem">
+<a class="link" href="apc.html#directoryParameter"><code class="literal">&lt;directoryParameter&gt;</code></a> and <a class="link" href="apc.html#fileParameter"><code class="literal">&lt;fileParameter&gt;</code></a>: A text entry with an associated browse button.
+</li><li class="listitem">
+<a class="link" href="apc.html#linkParameter"><code class="literal">&lt;linkParameter&gt;</code></a>: An hyperlink-type text.
+</li><li class="listitem">
+<a class="link" href="apc.html#passwordParameter"><code class="literal">&lt;passwordParameter&gt;</code></a>: A text entry which will display characters entered as <span class="emphasis"><em>*</em></span>
+</li><li class="listitem">
+<a class="link" href="apc.html#labelParameter"><code class="literal">&lt;labelParameter&gt;</code></a>: A simple text label.
+</li><li class="listitem">
+<a class="link" href="apc.html#choiceParameter"><code class="literal">&lt;choiceParameter&gt;</code></a>: A combobox or a set of radiobuttons, depending on its <code class="literal">&lt;displayStyle&gt;</code>
+</li><li class="listitem">
+<a class="link" href="apc.html#licenseParameter"><code class="literal">&lt;licenseParameter&gt;</code></a>: A license page with Yes/No buttons
+</li></ul></div><p>You can find a detailed explanation of all the available parameters as well as how they are represented in the <a class="link" href="ar01s07.html#available_parameters_section" title="Available Parameters">Available Parameters</a> section.</p><p>To create complex page layouts you can use the special parameter <a class="link" href="apc.html#parameterGroup"><code class="literal">&lt;parameterGroup&gt;</code></a> which allows grouping multiple parameters, including other <a class="link" href="apc.html#parameterGroup"><code class="literal">&lt;parameterGroup&gt;</code></a> elements:</p><p><a id="snip1613942"></a></p><pre class="programlisting">&lt;parameterGroup&gt;
+   &lt;name&gt;configuration&lt;/name&gt;
+   &lt;title&gt;Configuration&lt;/title&gt;
+   &lt;explanation&gt;&lt;/explanation&gt;
+   &lt;parameterList&gt;
+      &lt;stringParameter name="username" description="Username"/&gt;
+      &lt;passwordParameter name="password" description="Password"/&gt;
+   &lt;/parameterList&gt;
+&lt;/parameterGroup&gt;</pre><p>The sample code above will group two simple parameters to create a user-password form. By default the alignment is vertical but it can be modified using the <a class="link" href="apc.html#parameterGroup.orientation"><code class="literal">&lt;orientation&gt;</code></a> tag:</p><p><a id="snip5528655"></a></p><pre class="programlisting">&lt;parameterGroup&gt;
+   &lt;name&gt;configuration&lt;/name&gt;
+   &lt;title&gt;Configuration&lt;/title&gt;
+   &lt;explanation&gt;&lt;/explanation&gt;
+    &lt;orientation&gt;horizontal&lt;/orientation&gt;
+   &lt;parameterList&gt;
+      &lt;stringParameter name="username" description="Username"/&gt;
+      &lt;passwordParameter name="password" description="Password"/&gt;
+   &lt;/parameterList&gt;
+&lt;/parameterGroup&gt;</pre><p>The below code will generate a complex page layout using multiple parameter combinations. You can view the result in Figure 51:</p><p><a id="snip107774"></a></p><pre class="programlisting">&lt;parameterGroup&gt;
+   &lt;name&gt;configuration&lt;/name&gt;
+   &lt;title&gt;Configuration&lt;/title&gt;
+   &lt;explanation&gt;&lt;/explanation&gt;
+   &lt;parameterList&gt;
+       &lt;parameterGroup&gt;
+          &lt;name&gt;adminaccount&lt;/name&gt;
+          &lt;title&gt;&lt;/title&gt;
+          &lt;explanation&gt;Admin Account&lt;/explanation&gt;
+          &lt;orientation&gt;horizontal&lt;/orientation&gt;
+          &lt;parameterList&gt;
+             &lt;stringParameter&gt;
+                &lt;name&gt;username&lt;/name&gt;
+                &lt;description&gt;Username&lt;/description&gt;
+                &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+                &lt;width&gt;20&lt;/width&gt;
+             &lt;/stringParameter&gt;
+             &lt;passwordParameter&gt;
+                &lt;name&gt;password&lt;/name&gt;
+                &lt;description&gt;Password&lt;/description&gt;
+                &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+                &lt;width&gt;20&lt;/width&gt;
+             &lt;/passwordParameter&gt;
+          &lt;/parameterList&gt;
+       &lt;/parameterGroup&gt;
+       &lt;parameterGroup&gt;
+          &lt;name&gt;serveraddres&lt;/name&gt;
+          &lt;explanation&gt;Server Address&lt;/explanation&gt;
+          &lt;orientation&gt;horizontal&lt;/orientation&gt;
+          &lt;parameterList&gt;
+             &lt;stringParameter&gt;
+                &lt;name&gt;ipaddress&lt;/name&gt;
+                &lt;description&gt;IP and Port&lt;/description&gt;
+                &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+                &lt;width&gt;30&lt;/width&gt;
+             &lt;/stringParameter&gt;
+             &lt;stringParameter&gt;
+                &lt;name&gt;port&lt;/name&gt;
+                &lt;description&gt;:&lt;/description&gt;
+                &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+                &lt;width&gt;5&lt;/width&gt;
+             &lt;/stringParameter&gt;
+          &lt;/parameterList&gt;
+       &lt;/parameterGroup&gt;
+       &lt;booleanParameter&gt;
+          &lt;name&gt;advancedconfig&lt;/name&gt;
+          &lt;description&gt;Enable advance&lt;/description&gt;
+          &lt;explanation&gt;Would you like to perform an advanced installation?&lt;/explanation&gt;
+          &lt;displayStyle&gt;checkbox-left&lt;/displayStyle&gt;
+       &lt;/booleanParameter&gt;
+       &lt;choiceParameter&gt;
+          &lt;name&gt;dbmsserver&lt;/name&gt;
+          &lt;description&gt;DBMS&lt;/description&gt;
+          &lt;explanation&gt;Database server&lt;/explanation&gt;
+          &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+          &lt;displayType&gt;combobox&lt;/displayType&gt;
+          &lt;width&gt;30&lt;/width&gt;
+          &lt;optionList&gt;
+             &lt;option&gt;
+                &lt;description&gt;MySQL server&lt;/description&gt;
+                &lt;text&gt;MySQL&lt;/text&gt;
+                &lt;value&gt;mysql&lt;/value&gt;
+             &lt;/option&gt;
+             &lt;option&gt;
+                &lt;description&gt;PostgreSQL server&lt;/description&gt;
+                &lt;text&gt;PostgreSQL&lt;/text&gt;
+                &lt;value&gt;postgres&lt;/value&gt;
+             &lt;/option&gt;
+          &lt;/optionList&gt;
+       &lt;/choiceParameter&gt;
+   &lt;/parameterList&gt;
+&lt;/parameterGroup&gt;</pre><div class="figure"><a id="idm140427929049328"></a><p class="title"><strong>Figure 56. Custom Parameter Group Page</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/complex-custom-page.png" align="middle" alt="Custom Parameter Group Page" /></div></div></div><br class="figure-break" /><p>The example above will be displayed as follows in text mode:</p><pre class="programlisting">Admin Account
+
+Username []: user
+
+Password :
+ :
+Server Address
+
+IP and Port []: 127.0.0.1
+
+: []: 80
+
+Would you like to perform an advanced installation?
+
+Enable advance [y/N]: y
+
+
+Database server
+
+DBMS
+
+[1] MySQL: MySQL server
+[2] PostgreSQL: PostgreSQL server
+Please choose an option [1] : 1</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_built_in_pages"></a>Built-in Pages</h4></div></div></div><p>In addition to the user pages registered for each parameter, a set of built-in pages is also added to the installer. These pages, along with their
+appearance order, are detailed below:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>Welcome page</strong></span> (<code class="literal">welcome</code>): This is the first page displayed. It displays a welcome message to the installation wizard. The text in this page can be configured by modifying the following strings (please refer to the <a class="link" href="ar01s12.html" title="12. Installer Customization">customization</a> section for a detailed explanation of the process):
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+<code class="literal">Installer.Welcome.Title=Setup - %1$s</code>
+</li><li class="listitem">
+<code class="literal">Installer.Welcome.Text=Welcome to the %1$s Setup Wizard.</code>
+</li></ul></div></li></ul></div><p>The field specifier <code class="literal">%1$s</code> will be internally replaced by the project full name.</p><p>In addition to the above text, if the installer was created with an unregistered version of InstallBuilder, the text <code class="literal">"Created with an evaluation version of BitRock InstallBuilder"</code> will be appended.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Component Selection page</strong></span> (<code class="literal">components</code>): This page will be displayed only if the setting <a class="link" href="apd.html#allowComponentSelection"><code class="literal">&lt;allowComponentSelection&gt;</code></a> is enabled. By default, it will be displayed right after the <code class="literal">installdir</code> page or after the <code class="literal">welcome</code> page if the <code class="literal">installdir</code> page is hidden.
+</li><li class="listitem"><p class="simpara">
+<span class="strong"><strong>Ready To Install page</strong></span> (<code class="literal">readytoinstall</code>): This page is displayed after all of the custom pages and before starting the unpacking stage of the installer. It displays the following configurable messages:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+<code class="literal">Installer.Ready.Title=Ready to Install</code>
+</li><li class="listitem">
+<code class="literal">Installer.Ready.Text1=Setup is now ready to begin installing %1$s on your computer.</code>
+</li></ul></div></li><li class="listitem">
+<span class="strong"><strong>Installation page</strong></span> (<code class="literal">installation</code>): After the <code class="literal">readytoinstall</code> page is acknowledged, the unpacking process begins. The process takes place on the <code class="literal">installation</code> page while displaying a progress bar. The progress bar also shows a progress text with the path of the files being unpacked but this can be disabled through the project property <a class="link" href="apd.html#showFileUnpackingProgress"><code class="literal">&lt;showFileUnpackingProgress&gt;</code></a>:
+</li></ul></div><p><a id="snip1374268"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;showFileUnpackingProgress&gt;0&lt;/showFileUnpackingProgress&gt;
+   ...
+&lt;/project&gt;</pre><p>While displaying the <code class="literal">installation</code> page, the back and next buttons are disabled although the installation can still be aborted by closing the installer window or pressing cancel.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+<span class="strong"><strong>Installation Finished page</strong></span> (<code class="literal">installationFinished</code>): This is the last page displayed in the installer. The back button is disabled so the user cannot go back. This page displays the below built-in messages:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+<code class="literal">Installer.Installation.Finished.Title=Completing the %1$s Setup Wizard</code>
+</li><li class="listitem">
+<code class="literal">Installer.Installation.Finished.Text=Setup has finished installing %1$s on your computer.</code>
+</li></ul></div></li></ul></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="_final_page_options"></a>Final Page options</h5></div></div></div><p>If a <a class="link" href="apd.html#readmeFile"><code class="literal">&lt;readmeFile&gt;</code></a> is defined in the project, a checkbox will be added to the final page with the following text:</p><pre class="literallayout">`Installer.ReadmeFile.View=View Readme File`</pre><p>If the checkbox is checked, then the contents of the readme file will be displayed.</p><p>If a <a class="link" href="apd.html#finalPageActionList"><code class="literal">&lt;finalPageActionList&gt;</code></a> has been defined in the XML project, a checkbox and a description will be displayed for all of the first level actions (an <a class="link" href="apa.html#actionGroup"><code class="literal">&lt;actionGroup&gt;</code></a> will display just one checkbox even if it contains multiple actions in its <code class="literal">&lt;actionList&gt;</code>). The behavior and appearance of the page depends on the properties of the actions:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+The state of the checkbox when pressing <code class="literal">Finish</code> will decide if the action will be executed or not. The default value of the checkbox is the <a class="link" href="apa.html#action.run"><code class="literal">&lt;run&gt;</code></a> property of the action.
+</li><li class="listitem">
+The action <a class="link" href="apa.html#action.progressText"><code class="literal">&lt;progressText&gt;</code></a> property provides the default text description.
+</li><li class="listitem">
+If the <a class="link" href="apa.html#action.show"><code class="literal">&lt;show&gt;</code></a> property of the action is set to <code class="literal">'0'</code>, the action will be hidden but still executed if its <code class="literal">&lt;run&gt;</code> property is enabled.
+</li><li class="listitem">
+An additional explanation text is displayed if the action includes a configured <a class="link" href="apa.html#action.explanation"><code class="literal">&lt;explanation&gt;</code></a>.
+</li></ul></div><p>If any of the actions in the final page include rules and they do not evaluate to true, the action is not displayed and won’t be executed.</p><p>The following is an example <a class="link" href="apd.html#finalPageActionList"><code class="literal">&lt;finalPageActionList&gt;</code></a> showcasing the options outlined above.</p><p><a id="snip7322928"></a></p><pre class="programlisting">   &lt;finalPageActionList&gt;
+       &lt;!-- This will launch the application in background --&gt;
+       &lt;runProgram progressText="Launch ${project.fullName}" &gt;
+           &lt;program&gt;${installdir}/bin/app.exe&lt;/program&gt;
+           &lt;programArguments&gt;&amp;amp;&lt;/programArguments&gt;
+       &lt;/runProgram&gt;
+
+       &lt;!-- This is disabled by default --&gt;
+       &lt;showText progressText="View log" run="0" text="${myLog}"/&gt;
+
+       &lt;!-- This will be displayed as single checkbox --&gt;
+       &lt;actionGroup progressText="Register the installation"&gt;
+           &lt;explanation&gt;Registering the installation will grant you access to extended features and support.&lt;/explanation&gt;
+           &lt;actionList&gt;
+               &lt;readFile path="${installdir}/installationid.txt" name="id"/&gt;
+               &lt;httpPost url="http://www.example.com/register.php" filename="${installdir}/activationUrl"&gt;
+                   &lt;queryParameterList&gt;
+                        &lt;queryParameter name="userid" value="${id}"/&gt;
+                        &lt;queryParameter name="username" value="${username}"/&gt;
+                        &lt;queryParameter name="pass" value="${password}"/&gt;
+                   &lt;/queryParameterList&gt;
+               &lt;/httpPost&gt;
+               &lt;readFile path="${installdir}/activationUrl" name="url"/&gt;
+               &lt;launchBrowser url="${url}"/&gt;
+           &lt;/actionList&gt;
+       &lt;/actionGroup&gt;
+
+       &lt;!-- This will be always executed but will not be displayed --&gt;
+       &lt;launchBrowser url="http://www.example.com/welcome" run="1" show="0"/&gt;
+   &lt;/finalPageActionList&gt;</pre><p>Another common scenario is asking the end user if he or she wants to start the installed application:</p><p><a id="snip6463589"></a></p><pre class="programlisting">   &lt;finalPageActionList&gt;
+     &lt;runProgram&gt;
+       &lt;progressText&gt;Do you want to launch ${project.fullName} now?&lt;/progressText&gt;
+       &lt;program&gt;${installdir}/bin/myprogram&lt;/program&gt;
+       &lt;!-- Append &amp;amp; to the arguments so the program is executed in the
+       background and the parent process, the installer, can successfully
+       end. If you do not launch it in background, the installer will remain
+       running until the launched application is closed --&gt;
+       &lt;programArguments&gt;&amp;amp;&lt;/programArguments&gt;
+     &lt;/runProgram&gt;
+   &lt;/finalPageActionList&gt;</pre><div class="figure"><a id="idm140427928975120"></a><p class="title"><strong>Figure 57. Launch your application in the final page</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/finalpage.png" align="middle" alt="Launch your application in the final page" /></div></div></div><br class="figure-break" /></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_controlling_the_flow_of_the_pages"></a>Controlling the Flow of the Pages</h4></div></div></div><p>The default flow of the pages is determined by the position in which they appear in the XML project but this flow can also be controlled through the <a class="link" href="apc.html#parameter.insertAfter"><code class="literal">&lt;insertAfter&gt;</code></a> and <a class="link" href="apc.html#parameter.insertBefore"><code class="literal">&lt;insertBefore&gt;</code></a> tags:</p><p><a id="snip3542526"></a></p><pre class="programlisting">    &lt;parameterList&gt;
+        &lt;directoryParameter&gt;
+            &lt;name&gt;installdir&lt;/name&gt;
+            &lt;description&gt;Installer.Parameter.installdir.description&lt;/description&gt;
+            &lt;explanation&gt;Installer.Parameter.installdir.explanation&lt;/explanation&gt;
+            &lt;value&gt;&lt;/value&gt;
+            &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+            ...
+        &lt;/directoryParameter&gt;
+        &lt;licenseParameter&gt;
+            &lt;name&gt;myLicense&lt;/name&gt;
+            &lt;title&gt;License Agreement&lt;/title&gt;
+            &lt;insertBefore&gt;installdir&lt;/insertBefore&gt;
+            &lt;description&gt;Please read the following License Agreement. You must accept the terms of this agreement before continuing with the installation.&lt;/description&gt;
+            &lt;explanation&gt;&lt;/explanation&gt;
+            ...
+        &lt;/licenseParameter&gt;
+    &lt;/parameterList&gt;</pre><p>In the example above, even if the <a class="link" href="apc.html#licenseParameter"><code class="literal">&lt;licenseParameter&gt;</code></a> is placed after the <a class="link" href="apc.html#directoryParameter"><code class="literal">&lt;directoryParameter&gt;</code></a>, it will be displayed before because you have explicitly declared it with <code class="literal">&lt;insertBefore&gt;installdir&lt;/insertBefore&gt;</code>.</p><p>This can also be used to refer to built-in pages. The list below summarizes the key names for all of the built-in pages:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">welcome</code> : The welcome page
+</li><li class="listitem">
+<code class="literal">components</code> : The component selection page
+</li><li class="listitem">
+<code class="literal">readytoinstall</code> : The ready to install page
+</li><li class="listitem">
+<code class="literal">installation</code> : Main installation page
+</li><li class="listitem">
+<code class="literal">installationFinished</code> : The final page
+</li></ul></div><p>However, sometimes you need to control this flow dynamically at runtime base on certain conditions. For this purpose, InstallBuilder defines two built-in variables: <code class="literal">next_page</code> and <code class="literal">back_page</code>. Modifying their values changes the pages displayed when pressing the <code class="literal">Next</code> and <code class="literal">Back</code> buttons.</p><p>For example:</p><p><a id="snip9245876"></a></p><pre class="programlisting">  &lt;setInstallerVariable name="next_page" value="installdir" /&gt;</pre><p>Would make the installer show the installdir page after pressing <code class="literal">Next</code> regardless of how they were ordered.</p><p>Another useful application of this method is to replace the <code class="literal">readytoinstall</code> page with your own custom page:</p><p><a id="snip5448480"></a></p><pre class="programlisting">&lt;parameterList&gt;
+  ...
+  &lt;!-- Our last parameter --&gt;
+  &lt;labelParameter&gt;
+     &lt;name&gt;summary&lt;/name&gt;
+     &lt;title&gt;Summary&lt;/title&gt;
+     &lt;explanation&gt;You are about to install ${project.fullName}.
+
+Please review the below information:
+
+Installation Directory: ${installdir}
+
+Username: ${username}
+
+License File: ${license_file}
+
+Apache Port: ${apache_port}
+
+MySQL Port: ${mysql_port}
+
+Click next if the information is correct
+&lt;/explanation&gt;
+     &lt;postShowPageActionList&gt;
+        &lt;!-- This will skip the readytoinstall page --&gt;
+        &lt;setInstallerVariable name="next_page" value="installation" /&gt;
+     &lt;/postShowPageActionList&gt;
+  &lt;/labelParameter&gt;
+&lt;/parameterList&gt;</pre><p>In addition to custom page names and built-in pages, a new value is included for convenience: <code class="literal">same</code>. When setting <code class="literal">next_page</code> or <code class="literal">back_page</code> to <code class="literal">same</code>, the installer will remain on the current page, no matter its name.</p><p>One typical place to set the <code class="literal">next_page</code> variable is in the <a class="link" href="apc.html#parameter.postShowPageActionList"><code class="literal">&lt;postShowPageActionList&gt;</code></a> and <a class="link" href="apc.html#parameter.validationActionList"><code class="literal">&lt;validationActionList&gt;</code></a></p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="dialogs"></a>10.3. Dialogs</h3></div></div></div><p>Another useful way of interacting with the end user is using pop-ups. Pop-ups are especially convenient in the <a class="link" href="apd.html#preUninstallationActionList"><code class="literal">&lt;preUninstallationActionList&gt;</code></a> and <a class="link" href="apd.html#postUninstallationActionList"><code class="literal">&lt;postUninstallationActionList&gt;</code></a> because the uninstaller does not allow custom pages.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#showInfo"><code class="literal">&lt;showInfo&gt;</code></a>: Prompt an info dialog to the user.
+</li><li class="listitem">
+<a class="link" href="apa.html#showWarning"><code class="literal">&lt;showWarning&gt;</code></a>: Shows a warning dialog with the given text.
+</li><li class="listitem">
+<a class="link" href="apa.html#throwError"><code class="literal">&lt;throwError&gt;</code></a>: Generate an error inside the installer so the installer will exit. The only exception to this is when abortOnError equals zero or the action is inside a validationActionList, in which case it will prompt an error dialog to the user, but will not exit the installer.
+</li><li class="listitem">
+<a class="link" href="apa.html#showText"><code class="literal">&lt;showText&gt;</code></a>: Display a read-only text dialog to the user.
+</li><li class="listitem">
+<a class="link" href="apa.html#showQuestion"><code class="literal">&lt;showQuestion&gt;</code></a>: Prompt a question to the user. The result is stored as <span class="emphasis"><em>yes</em></span> or <span class="emphasis"><em>no</em></span> in the given variable name.
+</li><li class="listitem">
+<a class="link" href="apa.html#showPasswordQuestion"><code class="literal">&lt;showPasswordQuestion&gt;</code></a>: Ask the user to enter a password.
+</li><li class="listitem">
+<a class="link" href="apa.html#showChoiceQuestion"><code class="literal">&lt;showChoiceQuestion&gt;</code></a>: Prompt a choice question dialog to the user.
+</li><li class="listitem">
+<a class="link" href="apa.html#showInfo"><code class="literal">&lt;showInfo&gt;</code></a>: Prompt an info dialog to the user.
+</li><li class="listitem">
+<a class="link" href="apa.html#showProgressDialog"><code class="literal">&lt;showProgressDialog&gt;</code></a>: Display an indeterminate progressmeter in a popup window to execute a list of actions.
+</li><li class="listitem">
+<a class="link" href="apa.html#showStringQuestion"><code class="literal">&lt;showStringQuestion&gt;</code></a>: Ask the user a question.
+</li></ul></div><p>You can find a detailed explanation and examples of usage of all of these dialogs in the <a class="link" href="ar01s08.html#messages_actions_group" title="Dialog Actions">Dialog Actions</a> section.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s09.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s11.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">9. Rules </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 11. Menus and Shortcuts</td></tr></table></div></body></html>

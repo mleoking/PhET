@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <shortName>actionlistsexample</shortName>
+    <fullName>BitRock ActionLists Example Installer</fullName>
+    <version>1.0</version>
+    <installerFilename>${project.shortName}-${project.version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
+    <allowComponentSelection>1</allowComponentSelection>
+
+    <initializationActionList>
+        <showInfo>
+	    <text>This example installer will show you how and where to use some of the actionLists available on InstallBuilder.
+
+This message is itself being shown inside an actionList to be executed before the installer begins - initializationActionList. This action list is the first one being executed by the installer.</text>
+	</showInfo>
+    </initializationActionList>
+
+    <preBuildActionList>
+        <showWarning>
+	    <text>There is also a preBuildActionList from which this message is being shown.
+
+The preBuildActionList is run before installer is built..</text>
+	</showWarning>
+    </preBuildActionList>
+
+    <postBuildActionList>
+        <showWarning>
+	    <text>There is also a postBuildActionList from which this message is being shown.
+
+The postBuildActionList is run after installer is built..</text>
+	</showWarning>
+    </postBuildActionList>
+
+    <preInstallationActionList>
+        <showWarning>
+	    <text>There is also a preInstallationActionList from which this message is being shown.
+
+The preInstallationActionList comes after the language file selection dialog (if any) is shown.</text>
+	</showWarning>
+    </preInstallationActionList>
+
+    <readyToInstallActionList>
+        <showWarning>
+	    <text>This warning is being called in the action list when the installer is about to start the installation itself - readyToInstallActionList.</text>
+	</showWarning>
+    </readyToInstallActionList>
+
+    <componentList>
+        <component>
+            <name>componentTest</name>
+            <description>Useful Tools</description>
+            <detailedDescription>General use tools.</detailedDescription>
+            <canBeEdited>1</canBeEdited>
+            <folderList></folderList>
+	    <componentSelectionValidationActionList>
+	        <showWarning>
+		    <text>Thank you for choosing to install also Useful Tools.</text>
+		</showWarning>
+	    </componentSelectionValidationActionList>
+	</component>
+    </componentList>
+
+    <parameterList>
+
+	<directoryParameter>
+            <name>installdir</name>
+            <description>Installation directory</description>
+            <explanation>Please specify the directory where ${project.fullName} will be installed</explanation>
+            <value>${platform_install_prefix}/${project.shortName}-${project.version}</value>
+            <default>${platform_install_prefix}/${project.shortName}-${project.version}</default>
+            <allowEmptyValue>0</allowEmptyValue>
+            <cliOptionName>prefix</cliOptionName>
+            <mustBeWritable>yes</mustBeWritable>
+            <mustExist>0</mustExist>
+            <width>30</width>
+	</directoryParameter>
+
+	<stringParameter>
+	    <name>url_to_open</name>
+	    <title>Insert URL</title>
+	    <description>URL</description>
+	    <explanation>Please insert an URL.</explanation>
+	    <allowEmptyValue>0</allowEmptyValue>
+
+	    <preShowPageActionList>
+	        <showWarning>
+	            <text>In the page you're about to see, you will be presented with an infoParameter.
+
+This action is being executed before showing a page - preShowPageActionList.</text>
+		</showWarning>
+	    </preShowPageActionList>
+
+	    <validationActionList>
+		<showWarning>
+		    <text>Thanks for inserting a valid URL.
+
+This warning is being shown in a validationActionList</text>
+		    <ruleList>
+		        <hostValidation>
+		            <type>any</type>
+			    <host>${url_to_open}</host>
+			    <condition>is_valid</condition>
+			</hostValidation>
+			<compareText>
+			    <text>${url_to_open}</text>
+			    <value></value>
+			    <logic>does_not_equal</logic>
+			</compareText>
+		    </ruleList>
+		</showWarning>
+
+		<throwError>
+		    <text>Your URL is empty or seems to be invalid.
+
+This error is being shown in a validationActionList</text>
+		    <ruleList>
+		        <hostValidation>
+		            <type>any</type>
+			    <host>${url_to_open}</host>
+			    <condition>is_not_valid</condition>
+			</hostValidation>
+			<compareText>
+			    <text>${url_to_open}</text>
+			    <value></value>
+			    <logic>equals</logic>
+			</compareText>
+		    </ruleList>
+		</throwError>
+	    </validationActionList>
+
+	    <postShowPageActionList>
+	        <showInfo>
+		    <text>In the next page you will see a link to the URL you just inserted.
+
+This info is being displayed after the page was shown - postShowPageActionList.</text>
+		</showInfo>
+	    </postShowPageActionList>
+	</stringParameter>
+
+	<linkParameter>
+	    <name>open_browser</name>
+	    <title>Open Browser</title>
+	    <explanation>Click the button below to open the URL you have entered before.</explanation>
+	    <description>${url_to_open}</description>
+
+	    <clickedActionList>
+	        <showInfo>
+		    <text>Your web browser will open the URL you inserted before after you press OK.
+
+This info is being shown after the user clicks the link - clickedActionList.</text>
+		</showInfo>
+	        <launchBrowser>
+		    <url>${url_to_open}</url>
+		</launchBrowser>
+	    </clickedActionList>
+	</linkParameter>
+	
+	<infoParameter>
+  	    <name>final_info</name>
+	    <title>Thank you for the evaluation</title>
+	    <insertAfter>installation</insertAfter>
+	    <value>This was a simple demo of what InstallBuilder allows you to do with action lists.
+Please consult our user guide for a more detailed information about the powerfull capabilities of InstallBuilder action lists.
+
+Thanks for trying InstallBuilder's Examples.</value>
+	</infoParameter>
+
+    </parameterList>
+
+    <postInstallationActionList>
+        <showWarning>
+	    <text>It is also possible to execute actions, like showing this warning, after the installation is finished - postInstallationActionList.</text>
+	</showWarning>
+    </postInstallationActionList>
+
+    <postUninstallerCreationActionList>
+        <showWarning>
+	    <text>The postUninstallerCreationActionList actions are run at the end of installation, after uninstaller is created</text>
+	</showWarning>
+    </postUninstallerCreationActionList>
+
+    <finalPageActionList>
+        <launchBrowser>
+	    <progressText>Open BitRock Website</progressText>
+	    <url>http://www.bitrock.com</url>
+	</launchBrowser>
+    </finalPageActionList>
+
+    <preUninstallationActionList>
+        <showInfo>
+	    <text>It is also possible to perform actions just before the Uninstaller starts - preUninstallationActionList.</text>
+	</showInfo>
+    </preUninstallationActionList>
+
+    <postUninstallationActionList>
+        <showWarning>
+	    <text>After the uninstallation you can also execute actions - postUninstallationActionList.
+
+Thank you for trying this actionLists example.</text>
+	</showWarning>
+    </postUninstallationActionList>
+
+    <installationAbortedActionList>
+        <showWarning>
+	    <text>The installation has been aborted.
+
+At this point the actions in installationAbortedActionList are run.</text>
+	</showWarning>
+    </installationAbortedActionList>
+
+    <preShowHelpActionList>
+        <showWarning>
+	    <text>When user invokes --help, the preShowHelpActionList actions are run</text>
+	</showWarning>
+    </preShowHelpActionList>
+
+</project>

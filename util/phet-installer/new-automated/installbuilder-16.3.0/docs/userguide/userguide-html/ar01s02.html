@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2. Installation and Getting Started</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s01.html" title="1. Introduction to InstallBuilder" /><link rel="next" href="ar01s03.html" title="3. Architecture" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2. Installation and Getting Started</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s01.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s03.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_installation_and_getting_started"></a>2. Installation and Getting Started</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="installation"></a>2.1. Installation</h3></div></div></div><p>This section describes how to get up and running with InstallBuilder on a variety of platforms</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_installing_on_windows"></a>Installing on Windows</h4></div></div></div><p>You can download BitRock InstallBuilder from the BitRock website: <a class="ulink" href="http://installbuilder.bitrock.com" target="_top">installbuilder.bitrock.com</a>. To start the installation
+process, double-click on the downloaded file.</p><p>You will be greeted by the Welcome screen shown in Figure 8:</p><div class="figure"><a id="idm140427935318736"></a><p class="title"><strong>Figure 8. Windows Welcome Screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/1-win32.png" align="middle" alt="Windows Welcome Screen" /></div></div></div><br class="figure-break" /><p>Pressing Next will take you to the License Agreement page, shown in Figure 9. You need to accept the agreement to continue with the installation. The next step is to select the installation directory  Figure 10. The default value is <code class="literal">C:\Program Files\BitRock InstallBuilder\</code></p><div class="figure"><a id="idm140427935314704"></a><p class="title"><strong>Figure 9. Windows License Agreement</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/2-win32.png" align="middle" alt="Windows License Agreement" /></div></div></div><br class="figure-break" /><div class="figure"><a id="idm140427935311808"></a><p class="title"><strong>Figure 10. Windows Select Installation Directory</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/3-win32.png" align="middle" alt="Windows Select Installation Directory" /></div></div></div><br class="figure-break" /><p>The rest of this guide assumes you installed BitRock InstallBuilder in <code class="literal">C:\Program Files\BitRock InstallBuilder\</code></p><p>You are now ready to start the installation process itself (Figure 11), which will take place once you press Next (Figure 12). When the installation completes, you will see the Installation Completed page shown in Figure 13. You may choose to view the README file at this point.</p><div class="figure"><a id="idm140427935307360"></a><p class="title"><strong>Figure 11. Windows Ready To Install</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/4-win32.png" align="middle" alt="Windows Ready To Install" /></div></div></div><br class="figure-break" /><div class="figure"><a id="idm140427935304464"></a><p class="title"><strong>Figure 12. Windows Installation Under Way</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/5-win32.png" align="middle" alt="Windows Installation Under Way" /></div></div></div><br class="figure-break" /><div class="figure"><a id="idm140427935301568"></a><p class="title"><strong>Figure 13. Windows Installation Completed</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/6-win32.png" align="middle" alt="Windows Installation Completed" /></div></div></div><br class="figure-break" /><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p>If you found a problem and could not complete the installation, please refer to the <a class="link" href="ar01s21.html" title="21. Troubleshooting">Troubleshooting</a> section or contact us at <a class="ulink" href="mailto:support@bitrock.com" target="_top">support@bitrock.com</a>. Please refer to the Support section for details on which information you should include with your request.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_installing_on_unix"></a>Installing on Unix</h4></div></div></div><p>The process for installing on Linux and other Unix platforms is similar. The rest of this section assumes you are running Linux. You can download the BitRock InstallBuilder binary from the BitRock website. It should have a name similar to <code class="literal">installbuilder-professional-16.3.0-linux-installer.run</code>. Make sure it has read and executable permissions by right clicking on the file, selecting "Properties" and then setting the appropriate permissions. Alternatively you can issue the following shell command:</p><pre class="programlisting">  $&gt; chmod +x installbuilder-professional-16.3.0-linux-installer.run</pre><p>You can now start the installation by double-clicking on the file from your Desktop environment or by invoking
+it directly from the command line with:</p><pre class="programlisting">  $&gt; ./installbuilder-professional-16.3.0-linux-installer.run</pre><p>You will be greeted by a Welcome screen if you are running in a Desktop environment or a text message (if no GUI mode is available).</p><p>The default value for installation will be a folder in your home directory if you are running the installer as a regular user (recommended) or <code class="literal">/opt/installbuilder-16.3.0/</code> if you are running the installation as superuser (root).</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_installing_on_mac_os_x"></a>Installing on Mac OS X</h4></div></div></div><p>The Mac OS X version of InstallBuilder is distributed as a zip file containing a .app that will be uncompressed automatically at download time by the browser. Alternatively you can uncompress it with:</p><pre class="programlisting">  $&gt; unzip installbuilder-professional-16.3.0-osx-installer.app.zip</pre><p>You can launch the application by double-clicking on it in Finder or from the command line with the following instruction</p><pre class="programlisting">  $&gt; open installbuilder-professional-16.3.0-osx-installer.app</pre></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_registering_your_copy_of_installbuilder"></a>2.2. Registering your Copy of InstallBuilder</h3></div></div></div><p>The InstallBuilder version you can download from <a class="ulink" href="http://installbuilder.bitrock.com" target="_top">installbuilder.bitrock.com</a> is a fully functional evaluation version. It can only be used for a period of 30 days, and is intended for evaluation purposes only. It will add a reminder message to each installer ("Created with an evaluation version of BitRock InstallBuilder") which will disappear once you purchase and register a license.</p><p>There are two ways of registering your license with the product:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Using the GUI interface: From the main application menu select "License", then "Register License", and a window will appear where you can enter the location of your license file.
+</li><li class="listitem">
+Manually: The product can be manually registered by copying the <code class="literal">license.xml</code> file to the directory where InstallBuilder was installed.
+</li></ul></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_specifying_a_license_in_the_command_line"></a>Specifying a License in the Command Line</h4></div></div></div><p>Sometimes you may need to specify a license at build time, instead of registering your copy of InstallBuilder. For example, this is necessary when you do
+not have write permissions for the InstallBuilder installation directory.</p><p>To do so, you can use the <code class="literal">--license</code> flag both with the GUI and command line builder.</p><pre class="programlisting">$&gt; builder build ~/project.xml --license ~/licenses/license.xml</pre><pre class="programlisting">$&gt; builder --license ~/licenses/license.xml</pre><p>The code above will launch the command line or GUI builder and all generated installers will be registered with the license <code class="literal">~/licenses/license.xml</code>. If the GUI builder is closed and then reopened without specifying the <code class="literal">--license</code> flag, the generated installers will use a previously registered license. If no license is registered or an incorrect one is provided, the message <code class="literal">Built with an evaluation version of InstallBuilder</code> will be displayed while building. A similar message will also be displayed in the <code class="literal">Welcome</code> page of the generated installers.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_windows_specific_license_registration_details"></a>Windows-specific License Registration Details</h4></div></div></div><p>On certain Windows versions, especially those that are UAC-enabled such as Vista and Windows 7, regular users cannot write to the default installation directory of InstallBuilder under <code class="literal">c:\Program Files</code>. When registering a new license, the builder will try first to write it to the main installation directory. If it is not writable, it will be placed in the user’s personal folder.</p><p>When the builder is launched, it will try to load the license from the user’s personal folder and if none is found, it will look for it in the installation directory.</p><p>This process allows multiple users to share the same installation of Installbuilder without interference, even if they do not have administrative rights. It also allow using different licenses for each user. The output directory follows a similar approach as explained in the <a class="link" href="ar01s02.html#directory_structure" title="2.3. Directory Structure">"Directory structure"</a> section.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="directory_structure"></a>2.3. Directory Structure</h3></div></div></div><p>The installation process will create several directories:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<code class="literal">bin</code>: BitRock InstallBuilder application binaries.
+</li><li class="listitem">
+<code class="literal">paks</code>: Support files necessary for creating installers.
+</li><li class="listitem">
+<code class="literal">autoupdate</code>: Support and binary files for the bundled automatic update tool.
+</li><li class="listitem">
+<code class="literal">projects</code>: Project files for your installers. See note below for Windows Vista.
+</li><li class="listitem">
+<code class="literal">docs</code>: Product documentation.
+</li><li class="listitem">
+<code class="literal">demo</code>: Files for the sample demo project.
+</li><li class="listitem">
+<code class="literal">output</code>: Generated installers. See note below for Windows Vista and Windows 7.
+</li></ul></div><p>On Windows Vista and Windows 7, in line with the Application Development Requirements for User Account Control (UAC), the <code class="literal">projects</code> and <code class="literal">output</code> directories are installed under the user <code class="literal">Documents</code> folder, so usually they can be found at <code class="literal">C:\Users\user\Documents\InstallBuilder\projects</code> and <code class="literal">C:\Users\user\Documents\InstallBuilder\output</code>, respectively.</p><p>You are ready now to start the application and create your first installer, as described in the next section "Building your First Installer".</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_building_your_first_installer"></a>2.4. Building Your First Installer</h3></div></div></div><p>This section explains how to create your first installer in a few simple steps.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_startup_and_basic_information"></a>Startup and Basic Information</h4></div></div></div><p>If you are running Gnome or KDE and performed the installation as a regular user, a shortcut was created on your Desktop. You can either start BitRock InstallBuilder by double-clicking on it or by invoking the binary from the command line:</p><pre class="programlisting"> $&gt; /home/user/installbuilder-16.3.0/bin/builder</pre><p>If you are running Windows, the installer created the appropriate Start Menu entries. Additionally, a shortcut was placed on your Desktop. Please refer to
+the <a class="link" href="ar01s25.html#build_command_line" title="25.3. Using the Command Line Interface">Using the Command Line Interface</a> section later in the document for more information on building installers from the command line.</p><p>The initial screen will appear (Figure 14). Press the <code class="literal">"New Project"</code> button or select that option from the <code class="literal">File</code> menu on the top left corner. A pop-up Window will appear, asking you for four pieces of information:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Product Name</strong></span>: The full product name, as it will be displayed in the installer
+</li><li class="listitem">
+<span class="strong"><strong>Product Filename</strong></span>: The short version of product name, which will be used for naming certain directories and files. It can only contain alphanumeric characters
+</li><li class="listitem">
+<span class="strong"><strong>Version Number</strong></span>: Product version number, which will be used for naming certain directories and files.
+</li><li class="listitem">
+<span class="strong"><strong>Vendor name</strong></span>: Vendor name that will be used to generate native packages, register the application with the package database or the Windows Add/Remove/Program menu
+</li></ul></div><p>The rest of this tutorial assumes you kept the default values: <code class="literal">"Sample Project"</code>, <code class="literal">"sample"</code>, <code class="literal">"1.0"</code> and <code class="literal">"Name of your Company"</code>.</p><div class="figure"><a id="idm140427935231360"></a><p class="title"><strong>Figure 14. Main Screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/mainscreen.png" align="middle" alt="Main Screen" /></div></div></div><br class="figure-break" /><p>Once you enter the information, the <code class="literal">"Basic settings screen"</code> (Figure 15) will be shown. Here you can specify additional settings:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>License File</strong></span>: Path to the license file that the user must accept in order to install the software
+</li><li class="listitem">
+<span class="strong"><strong>Readme File</strong></span>: Path to the README file that can be shown to the user after installation is completed
+</li><li class="listitem">
+<span class="strong"><strong>Save Relative Paths</strong></span>: Determines whether or not to convert absolute paths to relative when saving project files. This is important if the same project file is used by multiple developers. The path will be relative to the location of the project file.
+</li></ul></div><p>If you do not want to display a license agreement or a README file during installation, you can leave those fields blank.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: When is it necessary to use the Save Relative Paths option?"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"><a id="when_to_use_save_relative_paths"></a>When is it necessary to use the Save Relative Paths option?</th></tr><tr><td align="left" valign="top"><p>It is necessary when the same project file is shared by multiple developers on different machines or when using the same project file on Windows and Unix. This is due to the differences in how paths are specified on each platform. For example, a Windows path includes a drive identifier, such as <code class="literal">c:\myproject\images\logo.png</code> This is fine if only one developer is building the project in the same machine, but will cause problems if the project needs to be rebuilt on a Unix machine. With the <span class="emphasis"><em>save relative paths</em></span> setting enabled, it is possible to specify the location of the file as <code class="literal">..\images\logo.png</code> which will be appropriately translated as <code class="literal">../images/logo.png</code> on Unix systems.</p></td></tr></table></div><div class="figure"><a id="idm140427935217088"></a><p class="title"><strong>Figure 15. Basic Settings</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/basicsettings.png" align="middle" alt="Basic Settings" /></div></div></div><br class="figure-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_select_the_files"></a>Select the Files</h4></div></div></div><p>The next step is to click on the <code class="literal">"Files"</code> icon, which will lead to the screen shown in Figure 16.</p><p>The <code class="literal">"Program Files"</code> folder represents the target installation directory. You can add files and directories to this folder by selecting the <code class="literal">"Program Files"</code> folder and using the <code class="literal">"Add File"</code> and <code class="literal">"Add Directory Tree"</code> buttons. You can add multiple files by pressing down the Control key and clicking on them in the File selection dialog. Multiple selection is not available for directories at this time. The selected files and directories will be copied to the destination the user chooses during installation. If a folder only supports a particular target platform, such as Linux, it will only be included in installers for that particular platform.</p><p>Most applications only install files under the main installation directory ("Program Files" folder in the Files screen). It is possible, however, to add additional folders to copy files and directories to, such as <code class="literal">/usr/bin</code> or <code class="literal">/etc/</code> by pressing the "Add Destination Folder" button in the Files screen. If you need special permissions to write to the destination folders, you may need to require installation by root (see "Customization of the installer" below).</p><div class="figure"><a id="idm140427935206528"></a><p class="title"><strong>Figure 16. Files Screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/files.png" align="middle" alt="Files Screen" /></div></div></div><br class="figure-break" /><p>Shortcuts can also be added to folders or the component. Depending on where it is added, it will be created in different places. For example, if a shortcut is added to a folder, it will be created in the destination of that folder. If the shortcuts are added to the <code class="literal">Desktop</code> or the <code class="literal">Start Menu</code> sections of the component they will be created in those locations (if applicable, <code class="literal">Start Menu</code> shortcuts are just created on Windows).</p><p>Please refer to the <a class="link" href="ar01s11.html" title="11. Menus and Shortcuts">"Menus and Shortcuts"</a> section to find additional information.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_add_logic_to_the_installer"></a>Add Logic to the Installer</h4></div></div></div><p>You can add logic to the installer, such as asking for information from the end user, creating users or writing some information to the registry. The <span class="strong"><strong>Advanced</strong></span> section allows managing both custom pages and actions.</p><p>In most cases, a <a class="link" href="apd.html#initializationActionList"><code class="literal">&lt;initializationActionList&gt;</code></a> or <a class="link" href="apd.html#preInstallationActionList"><code class="literal">&lt;preInstallationActionList&gt;</code></a> element is used to perform a first validation of the system, such as checking for previous installations or enough disk space and the <a class="link" href="apd.html#postInstallationActionList"><code class="literal">&lt;postInstallationActionList&gt;</code></a>, executed after the unpack process, is used to perform actions with the installed files. For example, tasks such as changing permissions or starting a bundled Apache server would be performed after your software is installed. You can get a comprehensive list of available actions in the <a class="link" href="apa.html" title="A. Actions">Actions</a> appendix. A listing of all available points during the installation process in which these actions will be executed can be found in the <a class="link" href="ar01s08.html#actionlist" title="8.2. Action Lists">Action Lists</a> section.</p><p>With regards to getting information from the end user such as the installation directory, ports or passwords, the <a class="link" href="ar01s07.html" title="7. User Input">User Input</a> and <a class="link" href="ar01s10.html#pages" title="10.2. Pages">Pages</a> sections include countless examples of how to retrieve all of the information required and how to properly create complex layouts.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_add_a_license_key_page"></a>Add a license key page</h4></div></div></div><p>In some cases it is desirable to prevent your users from installing your software without providing a previously purchased license key. The example below explains how to create a custom license key page and how to validate its input:</p><p><a id="snip8152914"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;!-- Component bundling the validator --&gt;
+  &lt;componentList&gt;
+    &lt;component&gt;
+    &lt;name&gt;tools&lt;/name&gt;
+       &lt;folderList&gt;
+          &lt;folder&gt;
+             &lt;name&gt;license&lt;/name&gt;
+             &lt;destination&gt;${installdir}&lt;/destination&gt;
+             &lt;distributionFileList&gt;
+                &lt;distributionFile origin="/path/to/validator.exe"/&gt;
+             &lt;/distributionFileList&gt;
+          &lt;/folder&gt;
+       &lt;/folderList&gt;
+    &lt;/component&gt;
+  &lt;/componentList&gt;
+  ...
+  &lt;parameterList&gt;
+    ...
+    &lt;!-- License key page --&gt;
+    &lt;parameterGroup&gt;
+       &lt;name&gt;licensekey&lt;/name&gt;
+       &lt;title&gt;License Key&lt;/title&gt;
+       &lt;explanation&gt;Please enter your registration key&lt;/explanation&gt;
+       &lt;value&gt;&lt;/value&gt;
+       &lt;default&gt;&lt;/default&gt;
+       &lt;orientation&gt;horizontal&lt;/orientation&gt;
+       &lt;parameterList&gt;
+          &lt;!-- A stringParameter for each field. We include a "-" as description to simulate the license-type format --&gt;
+          &lt;stringParameter name="field1" description="" allowEmptyValue="0" width="4"/&gt;
+          &lt;stringParameter name="field2" description="-" allowEmptyValue="0" width="4"/&gt;
+          &lt;stringParameter name="field3" description="-" allowEmptyValue="0" width="4"/&gt;
+          &lt;stringParameter name="field4" description="-" allowEmptyValue="0" width="4"/&gt;
+       &lt;/parameterList&gt;
+       &lt;validationActionList&gt;
+          &lt;!-- Check all the fields have the appropriate length --&gt;
+          &lt;foreach variables="field"&gt;
+             &lt;values&gt;"${field1}" "${field2}" "${field3}" "${field4}"&lt;/values&gt;
+             &lt;actionList&gt;
+                &lt;throwError&gt;
+                   &lt;text&gt;${field}: Field should be four digits length&lt;/text&gt;
+                   &lt;ruleList&gt;
+                       &lt;compareTextLength text="${field}" logic="equals" length="4" negate="1"/&gt;
+                   &lt;/ruleList&gt;
+                &lt;/throwError&gt;
+                &lt;throwError&gt;
+                   &lt;text&gt;${field}: Should be a pure digit string&lt;/text&gt;
+                   &lt;ruleList&gt;
+                       &lt;stringTest text="${field}" type="digit" negate="1"/&gt;
+                   &lt;/ruleList&gt;
+                &lt;/throwError&gt;
+             &lt;/actionList&gt;
+          &lt;/foreach&gt;
+          &lt;!-- Join all the fields to create the license number --&gt;
+          &lt;setInstallerVariable name="normalizedkey" value="${field1}${field2}${field3}${field4}"/&gt;
+          &lt;!-- Unpack a bundled validator program and check if the license is correct --&gt;
+          &lt;unpackFile&gt;
+            &lt;destination&gt;${system_temp_directory}&lt;/destination&gt;
+            &lt;component&gt;tools&lt;/component&gt;
+            &lt;folder&gt;license&lt;/folder&gt;
+            &lt;origin&gt;validator.exe&lt;/origin&gt;
+          &lt;/unpackFile&gt;
+          &lt;runProgram&gt;
+            &lt;program&gt;${system_temp_directory}/validator.exe&lt;/program&gt;
+            &lt;programArguments&gt;${normalizedkey}&lt;/programArguments&gt;
+          &lt;/runProgram&gt;
+          &lt;throwError text="Wrong license key, please enter a valid one"&gt;
+            &lt;ruleList&gt;
+              &lt;compareText text="${program_stdout}" logic="equals" value="1"/&gt;
+            &lt;/ruleList&gt;
+          &lt;/throwError&gt;
+       &lt;/validationActionList&gt;
+       &lt;ruleList&gt;
+          &lt;compareText text="${installer_ui}" logic="equals" value="gui"/&gt;
+       &lt;/ruleList&gt;
+    &lt;/parameterGroup&gt;
+    ...
+  &lt;/parameterList&gt;
+  ...
+&lt;/project&gt;</pre><p>Please note that this layout won’t be properly displayed in text mode so the example hides the page if the <code class="literal">${installer_ui}</code> is not <code class="literal">gui</code> (see <a class="link" href="ar01s10.html#installation_modes_built_in_variables" title="Table 3. Installation Modes">Installation Modes</a> for additional details). If you plan to support it, you should create an additional simplified page to be displayed in text mode:</p><p><a id="snip6031464"></a></p><pre class="programlisting"> &lt;stringParameter&gt;
+    &lt;name&gt;licensekeytext&lt;/name&gt;
+    &lt;title&gt;License Key&lt;/title&gt;
+    &lt;description&gt;Please introduce your registration key:&lt;/description&gt;
+    &lt;validationActionList&gt;
+       ...
+    &lt;/validationActionList&gt;
+    &lt;ruleList&gt;
+       &lt;compareText text="${installer_ui}" logic="equals" value="text"/&gt;
+    &lt;/ruleList&gt;
+ &lt;/stringParameter&gt;</pre><p>In the example, the validation code makes use of an external tool to validate the license. If you do not have any tool, you could implement an algorithm in your XML code to validate it. A very simple validation would be to check that:</p><pre class="literallayout">${field1}+${field3}==${field2}+${field4}</pre><p><a id="snip826659"></a></p><pre class="programlisting">&lt;validationActionList&gt;
+    &lt;mathExpression&gt;
+        &lt;text&gt;${field1}+${field3}&lt;/text&gt;
+        &lt;variable&gt;sum1&lt;/variable&gt;
+    &lt;/mathExpression&gt;
+    &lt;setInstallerVariableFromRegEx&gt;
+        &lt;name&gt;trimmedSum1&lt;/name&gt;
+        &lt;pattern&gt;.*(\d{4})$&lt;/pattern&gt;
+        &lt;substitution&gt;\1&lt;/substitution&gt;
+        &lt;text&gt;${sum1}&lt;/text&gt;
+    &lt;/setInstallerVariableFromRegEx&gt;
+    &lt;mathExpression&gt;
+        &lt;text&gt;${field2}+${field4}&lt;/text&gt;
+        &lt;variable&gt;sum2&lt;/variable&gt;
+    &lt;/mathExpression&gt;
+    &lt;setInstallerVariableFromRegEx&gt;
+        &lt;name&gt;trimmedSum2&lt;/name&gt;
+        &lt;pattern&gt;.*(\d{4})$&lt;/pattern&gt;
+        &lt;substitution&gt;\1&lt;/substitution&gt;
+        &lt;text&gt;${sum2}&lt;/text&gt;
+    &lt;/setInstallerVariableFromRegEx&gt;
+    &lt;throwError&gt;
+        &lt;text&gt;Invalid License or License Count Exceeded&lt;/text&gt;
+        &lt;ruleList&gt;
+            &lt;compareValues&gt;
+                &lt;logic&gt;does_not_equal&lt;/logic&gt;
+                &lt;value1&gt;${trimmedSum2}&lt;/value1&gt;
+                &lt;value2&gt;${trimmedSum1}&lt;/value2&gt;
+            &lt;/compareValues&gt;
+        &lt;/ruleList&gt;
+    &lt;/throwError&gt;
+ &lt;/validationActionList&gt;</pre><p>Please note this is a very simple algorithm. If you plan to use this in your installer you can create more complex checks using <a class="link" href="apa.html#setInstallerVariableFromRegEx"><code class="literal">&lt;setInstallerVariableFromRegEx&gt;</code></a> and <a class="link" href="apa.html#md5"><code class="literal">&lt;md5&gt;</code></a> actions.</p><p>Another option is to send the provided license key to your server to validate:</p><p><a id="snip3666467"></a></p><pre class="programlisting">&lt;validationActionList&gt;
+    &lt;httpPost&gt;
+        &lt;filename&gt;${system_temp_directory}/post_result&lt;/filename&gt;
+        &lt;url&gt;http://www.example.com/validate.php&lt;/url&gt;
+        &lt;queryParameterList&gt;
+            &lt;queryParameter name="key" value="${normalizedkey}"/&gt;
+        &lt;/queryParameterList&gt;
+    &lt;/httpPost&gt;
+    &lt;md5&gt;
+      &lt;text&gt;${normalizedkey}+secretKey&lt;/text&gt;
+      &lt;variable&gt;expected&lt;/variable&gt;
+    &lt;/md5&gt;
+
+    &lt;readFile name="result" path="${system_temp_directory}/post_result"/&gt;
+    &lt;throwError text="Invalid License or License Count Exceeded"&gt;
+        &lt;ruleList&gt;
+            &lt;compareText&gt;
+                &lt;logic&gt;does_not_contain&lt;/logic&gt;
+                &lt;text&gt;${result}&lt;/text&gt;
+                &lt;value&gt;${expected}&lt;/value&gt;
+            &lt;/compareText&gt;
+        &lt;/ruleList&gt;
+    &lt;/throwError&gt;
+    &lt;deleteFile path="${system_temp_directory}/post_result"/&gt;
+ &lt;/validationActionList&gt;</pre><p>You can also send additional information, such as a required username and password so you can track which user is providing the license key. The drawback of using this approach is that it requires an Internet connection.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_customize_the_installer"></a>Customize the Installer</h4></div></div></div><p>On the Customization (Figure 17) and the Packaging screens, you can change the default installation settings to match your needs:</p><p><span class="strong"><strong>User Interface Settings</strong></span></p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Logo Image</strong></span>: 48x48 GIF or PNG logo image that will be placed at the top right corner of the installer. If no image is specified, the default image will be used
+</li><li class="listitem">
+<span class="strong"><strong>Left Side Image</strong></span>: 163x314 GIF or PNG image that will be placed at the left side of the installer in the Welcome and Installation Finished pages. If no image is specified, the default image will be used
+</li><li class="listitem">
+<span class="strong"><strong>Windows Executable Icon</strong></span>: ICO file with an specific format -see below- to set the icon for the installer executable file on Windows systems.
+</li><li class="listitem">
+<span class="strong"><strong>Default Installation Language</strong></span>: Default language for the installer
+</li><li class="listitem">
+<span class="strong"><strong>Allow Language Selection</strong></span>: Allow language selection. If this setting is enabled, the user will be required to specify the language for the installation
+</li><li class="listitem">
+<span class="strong"><strong>Wrap License File Text</strong></span>: Wrap license file text displayed to the user
+</li><li class="listitem">
+<span class="strong"><strong>Splash screen delay</strong></span>: Extra display time of the splash screen
+</li></ul></div><p><span class="strong"><strong>Installer Settings</strong></span></p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Require Install by Administrator</strong></span>: Whether or not installation will require super user privileges (root on Linux, Administrator user on Windows and OS X). This setting will prevent the installer from running if the user is not root or Administrator on all operating systems except for OS X. In OS X, the regular authentication dialog window will be shown, asking the user for the administrator password so the installer can be run with root privileges
+</li><li class="listitem">
+<span class="strong"><strong>Installer Name</strong></span>: Name of the installer created by the build process.
+</li><li class="listitem">
+<span class="strong"><strong>CDROM Files Directory</strong></span>: Name of the directory that will contain the CDROM files created by the build process
+</li><li class="listitem">
+<span class="strong"><strong>Uninstaller Directory</strong></span>: Directory where the uninstaller will be created
+</li><li class="listitem">
+<span class="strong"><strong>Compression Algorithm</strong></span>: Compression algorithm that will be used to pack the files inside the installer. LZMA compression is available only on Linux, Windows and OS X platforms
+</li><li class="listitem">
+<span class="strong"><strong>Backup Directory</strong></span>: Path to a directory where existing files will be stored if enableRollback property is enabled
+</li><li class="listitem">
+<span class="strong"><strong>Installation Scope</strong></span>: Whether or not to install Start Menu and Desktop links for All Users or for the current user. If set to auto, it will be installed for All Users if the current user is an administrator or for the current user otherwise.
+</li></ul></div><p>It is recommended that instead of using the above settings, you use the equivalent action lists, such as <a class="link" href="apd.html#postInstallationActionList"><code class="literal">&lt;postInstallationActionList&gt;</code></a> and <a class="link" href="apd.html#preUninstallationActionList"><code class="literal">&lt;preUninstallationActionList&gt;</code></a>.</p><p><span class="strong"><strong>Permissions</strong></span></p><p>Please note that these options only take effect when creating installers for Unix platforms from Windows.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>Default Unix File Permissions</strong></span>: Default Unix file permissions in octal form
+</li><li class="listitem">
+<span class="strong"><strong>Default Unix Directory Permissions</strong></span>: Default Unix directory permissions in octal form
+</li></ul></div><div class="figure"><a id="idm140427935128992"></a><p class="title"><strong>Figure 17. Customization screen</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/customization.png" align="middle" alt="Customization screen" /></div></div></div><br class="figure-break" /><p>Check the <a class="link" href="ar01s12.html" title="12. Installer Customization">Customization</a> section for an in-depth customization guide.</p><p>All of these project-level configuration settings can be customized based on the platform using the <a class="link" href="apd.html#platformOptionsList"><code class="literal">&lt;platformOptionsList&gt;</code></a> tag:</p><p><a id="snip2324762"></a></p><pre class="programlisting">&lt;platformOptionsList&gt;
+   &lt;platformOptions&gt;
+      &lt;platform&gt;linux&lt;/platform&gt;
+      &lt;leftImage&gt;images/abc_linux_left.png&lt;/leftImage&gt;
+      &lt;height&gt;400&lt;/height&gt;
+   &lt;/platformOptions&gt;
+   &lt;platformOptions&gt;
+      &lt;postInstallationScript&gt;${installdir}/linux-x64-script.sh&lt;/postInstallationScript&gt;
+      &lt;platform&gt;linux-x64&lt;/platform&gt;
+   &lt;/platformOptions&gt;
+   &lt;platformOptions&gt;
+       &lt;platform&gt;solaris-sparc&lt;/platform&gt;
+       &lt;leftImage&gt;images/abc_solaris_sparc_left.png&lt;/leftImage&gt;
+   &lt;/platformOptions&gt;
+   &lt;platformOptions&gt;
+       &lt;platform&gt;solaris-intel&lt;/platform&gt;
+       &lt;leftImage&gt;images/abc_solaris_intel_left.png&lt;/leftImage&gt;
+   &lt;/platformOptions&gt;
+   &lt;platformOptions&gt;
+       &lt;platform&gt;windows&lt;/platform&gt;
+       &lt;leftImage&gt;images/abc_left.png&lt;/leftImage&gt;
+   &lt;/platformOptions&gt;
+   &lt;platformOptions&gt;
+       &lt;platform&gt;osx&lt;/platform&gt;
+       &lt;leftImage&gt;images/abc_osx_left.png&lt;/leftImage&gt;
+       &lt;height&gt;500&lt;/height&gt;
+   &lt;/platformOptions&gt;
+&lt;/platformOptionsList&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_packaging_the_installer"></a>Packaging the Installer</h4></div></div></div><p>You can now build the installer by pressing the <code class="literal">"Build"</code> button. This will take you to the Packaging screen and start the installer building process, as shown in Figure 18. If the build process succeeds, an installer named <code class="literal">sample-1.0-linux-installer.run</code> will be placed at the <code class="literal">output</code> directory (<code class="literal">C:\Users\user\Documents\InstallBuilder\projects</code> under Windows Vista and Windows 7, as explained earlier). If you are building a Windows installer, the file will be named <code class="literal">sample-1.0-windows-installer.exe</code>. If you are building a Mac OS X installer, its name will be <code class="literal">sample-1.0-osx-installer.app</code>. The Mac OS X installer binary will need to be packaged inside an archive file or disk image. If any problem is found, such as a file not being readable, a message will be displayed in red and the build will stop.</p><div class="figure"><a id="idm140427935114160"></a><p class="title"><strong>Figure 18. Building the installer</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/building.png" align="middle" alt="Building the installer" /></div></div></div><br class="figure-break" /><p>You can test the generated installer by pressing the <code class="literal">"Test Run"</code> button, as seen in Figure 19.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: What is the difference between Full Build and Quick build?"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">What is the difference between Full Build and Quick build?</th></tr><tr><td align="left" valign="top"><p>Creating an installer can take a long time if your product is hundreds of megabytes in size. You can use the Quick Build button to avoid rebuilding an installer from scratch if you are just making changes to installer-specific settings, such as license and readme files, the default installation path or logo image. It will also do incremental packaging of files that have been added or removed. This incremental package will increase the size of the installer, so it is recommended that you do a full build after development of the installer has completed and before release.</p></td></tr></table></div><p>You can customize additional installer functionality as explained in the <span class="emphasis"><em>Advanced Functionality</em></span> section.</p><div class="figure"><a id="idm140427935107568"></a><p class="title"><strong>Figure 19. Testing the installer</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/test.png" align="middle" alt="Testing the installer" /></div></div></div><br class="figure-break" /></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_cdrom_installers"></a>CDROM Installers</h4></div></div></div><p>It is possible to select a CDROM build target. In this case, a directory including a folder with common installer files and a setup file for each one of the supported architectures is created. This allows you to provide a single CDROM for all platforms, avoiding duplication of data.</p><p>This method is also the recommended approach for installers above 1GB, especially on Windows, where the UAC mechanism tries to copy the full installer to the <code class="literal">%TEMP%</code> folder before launching it, which results in very high delays when starting the installer. Another known issue on Windows is that executables above 1GB do not show their icons.</p><p>Using the cdrom-type build will create a set of lightweight installers for the configured platforms and the packed files separately.</p><p>To build a CDROM installer you just have to select <code class="literal">Multiplatform CDROM</code> as <code class="literal">Build Platform</code> in the <code class="literal">Packaging</code> screen when using the GUI mode or just provide <code class="literal">cdrom</code> as the target in the command line interface:</p><pre class="programlisting">$&gt; bin/builder build project.xml cdrom</pre><p>InstallBuilder will then generate a set of folders, each of them containing the files to be burned in the CDROM disk. For example, for a 4 disk installer you will get:</p><pre class="programlisting">$&gt; ls output/
+
+sample-1.0-cdrom
+sample-1.0-cdrom.1
+sample-1.0-cdrom.2
+sample-1.0-cdrom.3</pre><p>Where the name of the folders is defined through the <a class="link" href="apd.html#cdromDirectory"><code class="literal">&lt;cdromDirectory&gt;</code></a> project property. The first disk is contained in the folder named <code class="literal">sample-1.0-cdrom</code> and, apart from the packed files, it will contain the installers for the different platforms. The other folders will just contain the rest of the files to install. When installing the generated multidisk installer, InstallBuilder will automatically ask for the next disk when needed.</p><p>A CDROM build is configured through the below project properties:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apd.html#cdromFirstDiskSize"><code class="literal">&lt;cdromFirstDiskSize&gt;</code></a>: The size (in bytes) of the first CDROM (default value: 650000000). This tag will allow you to reserve some space in the first disk to include presentations, images or video tutorials without affecting the size of the rest of the disks. If you don’t need this extra space in the first disk you can just set it to the same value as the <a class="link" href="apd.html#cdromDiskSize"><code class="literal">&lt;cdromDiskSize&gt;</code></a> property.
+</li><li class="listitem">
+<a class="link" href="apd.html#cdromDiskSize"><code class="literal">&lt;cdromDiskSize&gt;</code></a>: The size (in bytes) of the remaining CDROMS (default value: 700000000)
+</li><li class="listitem">
+<a class="link" href="apd.html#cdromPlatforms"><code class="literal">&lt;cdromPlatforms&gt;</code></a>: Space-separated list of platforms that the CDROM installer will support. A launcher binary will be added in the first disk for each of these platforms.
+</li><li class="listitem">
+<a class="link" href="apd.html#cdromDirectory"><code class="literal">&lt;cdromDirectory&gt;</code></a>: Name of the directory that will contain the CDROM files created by the build process (defaults to <code class="literal">${project.shortName}-${project.version}-cdrom</code>)
+</li><li class="listitem">
+<a class="link" href="apd.html#compressPackedFiles"><code class="literal">&lt;compressPackedFiles&gt;</code></a>: Compress files as if they were being packed into the installer file (defaults to <span class="emphasis"><em>0</em></span>). Setting this option to <code class="literal">true</code> results in the creation of a <code class="literal">dist</code> file that has packed all the files inside it. It usually achieves better compression rates.
+</li></ul></div><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Creating DVD disks"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Creating DVD disks</th></tr><tr><td align="left" valign="top"><p>In case of DVD disks, the appropriate values for the <code class="literal">&lt;cdromFirstDiskSize&gt;</code> and <code class="literal">&lt;cdromDiskSize&gt;</code> tags are:</p><p><a id="snip2285748"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;cdromFirstDiskSize&gt;4650000000&lt;/cdromFirstDiskSize&gt;
+  &lt;cdromDiskSize&gt;4700000000&lt;/cdromDiskSize&gt;
+  ...
+&lt;/project&gt;</pre></td></tr></table></div><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Distributing big installers in other media formats"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Distributing big installers in other media formats</th></tr><tr><td align="left" valign="top"><p>If your product is distributed in other media formats such as a USB drive or SD card you can still use the CDROM-type build.</p><p>You just need to set a <code class="literal">&lt;cdromFirstDiskSize&gt;</code> above your required disk space so InstallBuilder does not split the data into multiple disks. As internally calculating the required disk space for each disk does not currently take into account the compression gain, a safe value to set would be twice the size of your files.</p><p>In the case of a USB bundling your 10GB of files:</p><p><a id="snip6578992"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;cdromFirstDiskSize&gt;20000000000&lt;/cdromFirstDiskSize&gt;
+  ...
+&lt;/project&gt;</pre></td></tr></table></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a id="_how_are_disks_on_multidisk_installers_detected"></a>How are disks on multidisk installers detected</h5></div></div></div><p>A common error while testing the multidisk installers is not being able to detect the next disk when the installer requests it. To understand why this happens, it is important to understand how InstallBuilder detects that the inserted disk is valid:</p><p>1) When the unpack process starts, InstallBuilder looks for the <code class="literal">dist</code> file (or folder depending on the value of the <a class="link" href="apd.html#compressPackedFiles"><code class="literal">&lt;compressPackedFiles&gt;</code></a> property) in its parent directory and starts unpacking the files</p><p>2) When InstallBuilder finds a file that requires a new disk during the unpack process, a dialog prompts for it.</p><p>3) After the new disk is inserted and the user accepts the dialog, InstallBuilder looks for a <code class="literal">dist</code> file in the same location of the previous one. If InstallBuilder cannot find it, it will report that the disk is incorrect and will ask again for the disk.</p><p>The most common mistake in this step is to rename the <code class="literal">dist</code> or to move it to another directory in the new disk.</p><p>4) If the <code class="literal">dist</code> file is correctly placed and InstallBuilder finds it, it will then look for the next file to unpack. If the <code class="literal">dist</code> file does not contain the requested file, InstallBuilder will report that it cannot find the disk as in the previous step.</p><p>This error may occur because the wrong disk number was inserted. If this is not the case and you are not using <code class="literal">&lt;compressPackedFiles&gt;1&lt;/compressPackedFiles&gt;</code>, the filenames inside the <code class="literal">dist</code> folder may have been shortened by the burning software. For example, a Joilet file system will only allow you to write up to 64 characters filenames. Using <code class="literal">&lt;compressPackedFiles&gt;1&lt;/compressPackedFiles&gt;</code> or properly burning the disk to allow long filenames will solve the problem.</p><p>5) Once the new file is found, the installation process continues, requesting a new disk if necessary.</p></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_sample_installers_bundled_with_installbuilder"></a>2.5. Sample installers bundled with InstallBuilder</h3></div></div></div><p>InstallBuilder provides several sample projects to help you get started with building your installer.</p><p>The welcome screen in the InstallBuilder GUI shows a list of the available projects. These projects will be automatically loaded when clicked:</p><div class="figure"><a id="idm140427935054544"></a><p class="title"><strong>Figure 20. List of example projects in GUI</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/gui-noproject.png" align="middle" alt="List of example projects" /></div></div></div><br class="figure-break" /><p>Each of these projects can be opened, built and tested without applying any changes. You can also try modifying them to see how the solutions shown in the examples can be reworked to suit your product’s needs.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_basic_demo_project"></a>Basic demo project</h4></div></div></div><p>This project provides a simple, ready to use installer that will:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Prompt the user to accept a license agreement.
+</li><li class="listitem">
+Display a page to select the installation directory.
+</li><li class="listitem">
+Install the packed files.
+</li><li class="listitem">
+Show an optional README file with information about the installation, selectable through a checkbox in the final page.
+</li></ul></div><div class="figure"><a id="idm140427935045552"></a><p class="title"><strong>Figure 21. Demo project's sample license</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/examples-demo-1.png" align="middle" alt="Demo project's sample license" /></div></div></div><br class="figure-break" /><p>The demo project includes files for multiple platforms. Depending on the platform built, it will pack different sets of files.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_components_component_groups_and_downloadable_components"></a>Components, component groups and downloadable components</h4></div></div></div><p>This project demonstrates how components and component groups can be used to package a complex application. It demonstrates how component groups can be used to organize common files and functionality. Deselecting or selecting the parent parameter group will also affect the installation of its child components.</p><div class="figure"><a id="idm140427935040176"></a><p class="title"><strong>Figure 22. Component selection for structured components</strong></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="images/examples-componentgroups-1.png" align="middle" alt="Component selection for structured components" /></div></div></div><br class="figure-break" /><p>The project will help you to understand how parent and child components interact. Selecting the <span class="strong"><strong>Text Editor</strong></span> component will cause some of its child components (<span class="strong"><strong>Printing support</strong></span> by default) to be installed while <span class="strong"><strong>Slides and Presentations</strong></span> will enable <span class="strong"><strong>Printing support</strong></span> and <span class="strong"><strong>Projector support</strong></span> by default.</p><p>Deselecting <span class="strong"><strong>Import / Export filters</strong></span> causes all of its children to automatically be deselected. Selecting <span class="strong"><strong>Import / Export filters</strong></span> again will cause the selection status of <span class="strong"><strong>XML / XSLT filters</strong></span> and <span class="strong"><strong>Other filters</strong></span> to be restored.</p><p>Additional details regarding components and child components can be found in the <a class="link" href="ar01s05.html#component_groups" title="5.7. Component Groups">component groups</a> section of the documentation.</p><p>This example project also shows how downloadable components work and how to implement more advanced functionality such as mirror selection for downloads. Several components are marked as <code class="literal">component.downloadable</code>, which means that they will be created as separate files when built with the downloadable components flag enabled.</p><p>More information about creating installers with downloadable components can be found in <a class="link" href="ar01s05.html#downloadable_components" title="5.8. Downloadable components">downloadable components</a> section of the manual.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: Downloadable components and being able to run the installer"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">Downloadable components and being able to run the installer</th></tr><tr><td align="left" valign="top"><p>When building the project with the downloadable components option enabled during build, the installer will try to download the created components from <code class="literal">mirror1.example.com</code> or <code class="literal">mirror2.example.com</code> and will fail.</p><p>In order to test that the downloadable components functionality is working, copy the generated packages from <code class="literal">components/componentgroupsexample-1.0</code> under the output directory to a web server (you can easily setup a web server using LAMPStack (Linux), WAMPStack (Windows) or MAMPStack (OS X) from <a class="ulink" href="http://bitnami.org" target="_top">BitNami.org</a>) and modify the link in the <code class="literal">&lt;componentsUrl&gt;</code> in demo project:</p><p><code class="literal">&lt;componentsUrl&gt;http://localhost:8080/components/componentgroupsexample-1.0/&lt;/componentsUrl&gt;</code></p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_showcase_of_available_parameters"></a>Showcase of available parameters</h4></div></div></div><p>This project shows what types of parameters are available and how you can use them to retrieve information from the user.</p><p>It explains how to combine them using parameter groups to create more complex GUIs.</p><p>The rest of the section provides examples of the available parameters, including their XML code and how they look in the GUI:</p><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Additional license dialog</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-1.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-1-preview.png" align="middle" alt="images/examples-parameters-1-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip3127984"></a></p>
+<pre class="programlisting">&lt;licenseParameter&gt;
+    &lt;title&gt;Second License Agreement&lt;/title&gt;
+    &lt;name&gt;other_license&lt;/name&gt;
+    &lt;file&gt;docs/otherLicense.txt&lt;/file&gt;
+    &lt;wrapText&gt;1&lt;/wrapText&gt;
+&lt;/licenseParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Show a text and image with a &lt;labelParameter&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-2.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-2-preview.png" align="middle" alt="images/examples-parameters-2-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip2037277"></a></p>
+<pre class="programlisting">&lt;labelParameter&gt;
+  &lt;name&gt;non_linux_user&lt;/name&gt;
+  &lt;title&gt;Introduction&lt;/title&gt;
+  &lt;description&gt;Dear ${platform_name} user, you'll now try an example installer that
+will display to you examples of the InstallBuilder parameters functionality.&lt;/description&gt;
+  &lt;image&gt;img/icon.png&lt;/image&gt;
+&lt;/labelParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Installation directory selection with a &lt;directoryParameter&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-3.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-3-preview.png" align="middle" alt="images/examples-parameters-3-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip520002"></a></p>
+<pre class="programlisting">&lt;directoryParameter&gt;
+  &lt;name&gt;installdir&lt;/name&gt;
+  &lt;description&gt;Installation directory&lt;/description&gt;
+  &lt;explanation&gt;Please specify the directory where
+${project.fullName} will be installed&lt;/explanation&gt;
+  &lt;insertAfter&gt;welcome_label&lt;/insertAfter&gt;
+  &lt;default&gt;${platform_install_prefix}/${project.shortName}-${project.version}&lt;/default&gt;
+  &lt;cliOptionName&gt;prefix&lt;/cliOptionName&gt;
+  &lt;mustBeWritable&gt;yes&lt;/mustBeWritable&gt;
+  &lt;mustExist&gt;0&lt;/mustExist&gt;
+&lt;/directoryParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Group multiple fields using a &lt;parameterGroup&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-4.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-4-preview.png" align="middle" alt="images/examples-parameters-4-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip9682290"></a></p>
+<pre class="programlisting">&lt;parameterGroup&gt;
+  &lt;name&gt;user_data&lt;/name&gt;
+  &lt;title&gt;User data&lt;/title&gt;
+  &lt;explanation&gt;Please insert the desired username and password&lt;/explanation&gt;
+  &lt;parameterList&gt;
+    &lt;stringParameter&gt;
+      &lt;name&gt;username&lt;/name&gt;
+      &lt;description&gt;User Name&lt;/description&gt;
+      &lt;value&gt;admin&lt;/value&gt;
+      &lt;allowEmptyValue&gt;0&lt;/allowEmptyValue&gt;
+    &lt;/stringParameter&gt;
+    &lt;passwordParameter&gt;
+      &lt;name&gt;userpasswd&lt;/name&gt;
+      &lt;title&gt;User Password&lt;/title&gt;
+      &lt;description&gt;Password&lt;/description&gt;
+      &lt;descriptionRetype&gt;Re-enter&lt;/descriptionRetype&gt;
+      &lt;!-- throw an error if password is empty --&gt;
+      &lt;validationActionList&gt;
+        &lt;throwError&gt;
+          &lt;text&gt;You need to provide a non-empty password&lt;/text&gt;
+          &lt;ruleList&gt;
+            &lt;compareText text="${userpasswd}"
+              logic="equals" value="" /&gt;
+          &lt;/ruleList&gt;
+        &lt;/throwError&gt;
+      &lt;/validationActionList&gt;
+    &lt;/passwordParameter&gt;
+  &lt;/parameterList&gt;
+&lt;/parameterGroup&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Ask if a database should be installed with a &lt;booleanParameter&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-5.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-5-preview.png" align="middle" alt="images/examples-parameters-5-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip252330"></a></p>
+<pre class="programlisting">&lt;booleanParameter&gt;
+  &lt;name&gt;install_db&lt;/name&gt;
+  &lt;title&gt;Install a database&lt;/title&gt;
+  &lt;description&gt;Do you want to install a database?&lt;/description&gt;
+  &lt;default&gt;1&lt;/default&gt;
+&lt;/booleanParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Select the preferred database using radiobuttons</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-6.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-6-preview.png" align="middle" alt="images/examples-parameters-6-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip918694"></a></p>
+<pre class="programlisting">&lt;choiceParameter&gt;
+  &lt;name&gt;preferred_database&lt;/name&gt;
+  &lt;title&gt;Choose a database&lt;/title&gt;
+  &lt;explanation&gt;Choose a database to be installed
+and configured&lt;/explanation&gt;
+  &lt;default&gt;mysql&lt;/default&gt;
+  &lt;cliOptionName&gt;${project.shortName}_database&lt;/cliOptionName&gt;
+  &lt;displayType&gt;radiobuttons&lt;/displayType&gt;
+  &lt;optionList&gt;
+    &lt;option&gt;
+      &lt;text&gt;MySQL&lt;/text&gt;
+      &lt;image&gt;img/mysql.png&lt;/image&gt;
+      &lt;value&gt;mysql&lt;/value&gt;
+      &lt;description&gt;The project will be configured
+to use MySQL database.&lt;/description&gt;
+    &lt;/option&gt;
+    &lt;option&gt;
+      &lt;text&gt;PostgreSQL&lt;/text&gt;
+      &lt;image&gt;img/postgres.png&lt;/image&gt;
+      &lt;value&gt;postgres&lt;/value&gt;
+      &lt;description&gt;The project will be configured
+to use PostgreSQL database.&lt;/description&gt;
+    &lt;/option&gt;
+    &lt;option&gt;
+      &lt;text&gt;SQLite&lt;/text&gt;
+      &lt;image&gt;img/sqlite.png&lt;/image&gt;
+      &lt;value&gt;sqlite&lt;/value&gt;
+      &lt;description&gt;The project will be configured
+to use SQLite database.&lt;/description&gt;
+    &lt;/option&gt;
+  &lt;/optionList&gt;
+&lt;/choiceParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Multiple &lt;booleanParameter&gt; parameters in a &lt;parameterGroup&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-7.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-7-preview.png" align="middle" alt="images/examples-parameters-7-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip503506"></a></p>
+<pre class="programlisting">&lt;parameterGroup&gt;
+  &lt;name&gt;apps_and_server&lt;/name&gt;
+  &lt;title&gt;Web framework and server&lt;/title&gt;
+  &lt;explanation&gt;Is there anything else you wish to install?&lt;/explanation&gt;
+  &lt;parameterList&gt;
+    &lt;booleanParameter&gt;
+      &lt;name&gt;install_webframework&lt;/name&gt;
+      &lt;value&gt;1&lt;/value&gt;
+      &lt;description&gt;Install a web framework&lt;/description&gt;
+      &lt;displayStyle&gt;checkbox-left&lt;/displayStyle&gt;
+    &lt;/booleanParameter&gt;
+    &lt;booleanParameter&gt;
+      &lt;name&gt;install_server&lt;/name&gt;
+      &lt;value&gt;1&lt;/value&gt;
+      &lt;description&gt;Install a web server (this is an example of a
+right aligned checkbox)&lt;/description&gt;
+      &lt;displayStyle&gt;checkbox-right&lt;/displayStyle&gt;
+    &lt;/booleanParameter&gt;
+  &lt;/parameterList&gt;
+&lt;/parameterGroup&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Choose the preferred framework using radiobuttons</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-8.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-8-preview.png" align="middle" alt="images/examples-parameters-8-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip2439733"></a></p>
+<pre class="programlisting">&lt;choiceParameter&gt;
+  &lt;name&gt;preferred_apps&lt;/name&gt;
+  &lt;title&gt;Web Frameworks&lt;/title&gt;
+  &lt;explanation&gt;Choose the web frameworks you want to install&lt;/explanation&gt;
+  &lt;default&gt;django&lt;/default&gt;
+  &lt;cliOptionName&gt;${project.shortName}_apps&lt;/cliOptionName&gt;
+  &lt;displayType&gt;radiobuttons&lt;/displayType&gt;
+  &lt;optionList&gt;
+    &lt;option&gt;
+      &lt;text&gt;Django&lt;/text&gt;
+      &lt;value&gt;django&lt;/value&gt;
+      &lt;description&gt;A web framework for Python.&lt;/description&gt;
+    &lt;/option&gt;
+    &lt;option&gt;
+      &lt;text&gt;Ruby on Rails&lt;/text&gt;
+      &lt;value&gt;ror&lt;/value&gt;
+      &lt;description&gt;The famous web framework for Ruby.&lt;/description&gt;
+    &lt;/option&gt;
+    &lt;option&gt;
+      &lt;text&gt;Cake&lt;/text&gt;
+      &lt;value&gt;cake&lt;/value&gt;
+      &lt;description&gt;A web framework
+for PHP.&lt;/description&gt;
+    &lt;/option&gt;
+  &lt;/optionList&gt;
+  &lt;ruleList&gt;
+    &lt;compareValues&gt;
+      &lt;value1&gt;${install_webframework}&lt;/value1&gt;
+      &lt;logic&gt;equals&lt;/logic&gt;
+      &lt;value2&gt;1&lt;/value2&gt;
+    &lt;/compareValues&gt;
+  &lt;/ruleList&gt;
+&lt;/choiceParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Choose between multiple web server using a combobox</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-9.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-9-preview.png" align="middle" alt="images/examples-parameters-9-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip4599100"></a></p>
+<pre class="programlisting">&lt;choiceParameter&gt;
+  &lt;name&gt;preferred_server&lt;/name&gt;
+  &lt;title&gt;Web Servers&lt;/title&gt;
+  &lt;explanation&gt;Choose the web server you want to install &lt;/explanation&gt;
+  &lt;default&gt;apache&lt;/default&gt;
+  &lt;cliOptionName&gt;${project.shortName}_server&lt;/cliOptionName&gt;
+  &lt;displayType&gt;combobox&lt;/displayType&gt;
+  &lt;optionList&gt;
+    &lt;option&gt;
+      &lt;text&gt;Apache&lt;/text&gt;
+      &lt;value&gt;apache&lt;/value&gt;
+    &lt;/option&gt;
+    &lt;option&gt;
+      &lt;text&gt;Lighttpd&lt;/text&gt;
+      &lt;value&gt;light&lt;/value&gt;
+    &lt;/option&gt;
+  &lt;/optionList&gt;
+&lt;/choiceParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Choose a file using a &lt;fileParameter&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-10.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-10-preview.png" align="middle" alt="images/examples-parameters-10-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip7088406"></a></p>
+<pre class="programlisting">&lt;fileParameter&gt;
+  &lt;name&gt;chooseAFile&lt;/name&gt;
+  &lt;title&gt;Configuration File&lt;/title&gt;
+  &lt;explanation&gt;Please include a file&lt;/explanation&gt;
+  &lt;mustExist&gt;1&lt;/mustExist&gt;
+&lt;/fileParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Using a &lt;booleanParameterGroup&gt; to show optional configuration options</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-11.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-11-preview.png" align="middle" alt="images/examples-parameters-11-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip4846229"></a></p>
+<pre class="programlisting">&lt;booleanParameterGroup&gt;
+  &lt;name&gt;advanced&lt;/name&gt;
+  &lt;description&gt;Advanced Mode&lt;/description&gt;
+  &lt;parameterList&gt;
+    &lt;choiceParameter&gt;
+      &lt;name&gt;emailNotifications&lt;/name&gt;
+      &lt;description&gt;Email notifications&lt;/description&gt;
+      &lt;value&gt;always&lt;/value&gt;
+      &lt;allowEmptyValue&gt;1&lt;/allowEmptyValue&gt;
+      &lt;displayType&gt;combobox&lt;/displayType&gt;
+      &lt;ordering&gt;default&lt;/ordering&gt;
+      &lt;width&gt;40&lt;/width&gt;
+      &lt;optionList&gt;
+        &lt;option description="Always send notifications"
+          text="Always" value="always" /&gt;
+        &lt;option description="Never send notifications"
+          text="Never" value="never" /&gt;
+      &lt;/optionList&gt;
+    &lt;/choiceParameter&gt;
+    &lt;stringParameter name="subject"
+      description="Notifications Subject"
+      value="[NOTIFICATION] #" /&gt;
+    &lt;directoryParameter name="cacheDir"
+      description="Cache Dir"
+      value="${system_temp_directory}/cache" /&gt;
+  &lt;/parameterList&gt;
+&lt;/booleanParameterGroup&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Using a &lt;choiceParameterGroup&gt; to show multiple options for registration</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-12.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-12-preview.png" align="middle" alt="images/examples-parameters-12-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip578886"></a></p>
+<pre class="programlisting">&lt;choiceParameterGroup&gt;
+  &lt;name&gt;keyChoice&lt;/name&gt;
+  &lt;description&gt;Select how to provide your license key &lt;/description&gt;
+  &lt;parameterList&gt;
+    &lt;fileParameter
+      name="keyFile"
+      description="Load from file"/&gt;
+    &lt;stringParameter
+      name="licenseText"
+      description="Enter license key"/&gt;
+  &lt;/parameterList&gt;
+&lt;/choiceParameterGroup&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">&lt;booleanParameterGroup&gt; page with embedded &lt;choiceParameterGroup&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-13.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-13-preview.png" align="middle" alt="images/examples-parameters-13-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip9349144"></a></p>
+<pre class="programlisting">&lt;booleanParameterGroup&gt;
+  &lt;name&gt;registerNested&lt;/name&gt;
+  &lt;description&gt;Register Installation&lt;/description&gt;
+  &lt;value&gt;1&lt;/value&gt;
+  &lt;validationType&gt;ifSelected&lt;/validationType&gt;
+  &lt;parameterList&gt;
+    &lt;stringParameter&gt;
+      &lt;name&gt;registerUser&lt;/name&gt;
+      &lt;description&gt;Username&lt;/description&gt;
+    &lt;/stringParameter&gt;
+    &lt;choiceParameterGroup&gt;
+      &lt;name&gt;registerKeyChoice&lt;/name&gt;
+      &lt;description&gt;Select how to provide your license key&lt;/description&gt;
+      &lt;parameterList&gt;
+        &lt;fileParameter
+          name="registerKeyFile"
+          description="Load from file"/&gt;
+        &lt;stringParameter
+          name="registerLicenseText"
+          description="Enter license key"/&gt;
+      &lt;/parameterList&gt;
+    &lt;/choiceParameterGroup&gt;
+  &lt;/parameterList&gt;
+&lt;/booleanParameterGroup&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Show multiple lines of text with an &lt;infoParameter&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-14.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-14-preview.png" align="middle" alt="images/examples-parameters-14-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip1076485"></a></p>
+<pre class="programlisting">&lt;infoParameter&gt;
+  &lt;name&gt;final_review&lt;/name&gt;
+  &lt;title&gt;Almost done&lt;/title&gt;
+  &lt;value&gt;These were some examples of what parameters in InstallBuilder
+allow you to do in a simple and intuitive way.
+
+After the installation there will be more examples of parameters.&lt;/value&gt;
+&lt;/infoParameter&gt;</pre></td></tr></tbody></table></div><div class="informaltable"><table cellpadding="4px" style="border-collapse: collapse;border-top: 3px solid #527bbd; border-bottom: 3px solid #527bbd; border-left: 3px solid #527bbd; border-right: 3px solid #527bbd; " width="100%"><colgroup><col class="col_1" /><col class="col_2" /></colgroup><thead><tr><th style="border-bottom: 1px solid #527bbd; " colspan="2" align="center" valign="top">Show a clickable link using a &lt;linkParameter&gt;</th></tr></thead><tbody><tr><td style="border-right: 1px solid #527bbd; " align="center" valign="top"><p><a class="ulink" href="images/examples-parameters-14.png" target="_top">Click to enlarge</a></p>
+<div class="informalfigure"><div class="mediaobject" align="center"><img src="images/examples-parameters-14-preview.png" align="middle" alt="images/examples-parameters-14-preview.png" /></div></div></td><td style="" align="left" valign="top"><p><a id="snip2497531"></a></p>
+<pre class="programlisting">&lt;linkParameter&gt;
+  &lt;name&gt;open_browser&lt;/name&gt;
+  &lt;title&gt;Open Browser&lt;/title&gt;
+  &lt;explanation&gt;You can also add parameters to be shown after the installation is complete.
+
+Here's a link parameter:&lt;/explanation&gt;
+  &lt;insertAfter&gt;installation&lt;/insertAfter&gt;
+  &lt;clickedActionList&gt;
+    &lt;launchBrowser&gt;
+      &lt;url&gt;http://www.bitrock.com&lt;/url&gt;
+    &lt;/launchBrowser&gt;
+  &lt;/clickedActionList&gt;
+  &lt;description&gt;Open BitRock Website&lt;/description&gt;
+&lt;/linkParameter&gt;</pre></td></tr></tbody></table></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_actions_and_when_they_are_executed"></a>Actions and when they are executed</h4></div></div></div><p>This project shows when actions are run during build, before, during and after the installation, uninstallation and actions related to parameters.</p><p>Actions run during various stages of installation and uninstallation and can be set for both project and its individual components.</p><p>More information about when certain actions are run and their execution order can be found in the <a class="link" href="ar01s08.html#actionlist" title="8.2. Action Lists">action list</a> section.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_creating_multiple_components"></a>Creating multiple components</h4></div></div></div><p>This is a basic project with multiple components and shows how components can be put in separate files.</p><p>It shows how the <code class="literal">&lt;include&gt;</code> tag can be used to extract components into external files, which can be reused in multiple projects. You can use this approach to create reusable features such as <code class="literal">Apache</code>, <code class="literal">MySQL</code> or <code class="literal">Tomcat</code> and use them as construction blocks in your projects.</p><p>You can find more information about the <code class="literal">&lt;include&gt;</code> directive in the <a class="link" href="ar01s05.html#adding_components_from_external_files" title="5.5. Adding components from external files">adding components from external files</a> section.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_additional_support_resources"></a>2.6. Additional Support Resources</h3></div></div></div><p>In addition to the current document, you can find additional information regarding developing with InstallBuilder in the following resources:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+A Community Support Forum found at <a class="ulink" href="http://answers.bitrock.com" target="_top">answers.bitrock.com</a>
+</li><li class="listitem">
+A Relax-NG schema (<code class="literal">InstallBuilder.rng</code>) is bundled in the <code class="literal">docs</code> directory. It can be used with code editors to validate the code being written.
+</li><li class="listitem">
+We aim to provide useful and timely support services. If you have any questions or suggestions, please do not hesitate to contact us online at <code class="literal">http://installbuilder.bitrock.com/contact-support.html</code> or email us at <code class="literal">support@bitrock.com</code>
+</li></ul></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s01.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s03.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">1. Introduction to InstallBuilder </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 3. Architecture</td></tr></table></div></body></html>

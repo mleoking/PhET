@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>15. Services</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 15" /><link rel="prev" href="ar01s14.html" title="14. Uninstaller" /><link rel="next" href="ar01s16.html" title="16. Code Signing" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">15. Services</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s14.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s16.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="app_files"></a>15. Services</h2></div></div></div><p>Services are long-running applications designed to run in the background without user intervention and that are started automatically when the OS boots.
+InstallBuilder includes some actions to manage Windows and Linux services.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_linux_services"></a>15.1. Linux Services</h3></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#addUnixService"><code class="literal">&lt;addUnixService&gt;</code></a>: This action allow users to add services to the system:
+</li></ul></div><p><a id="snip2095347"></a></p><pre class="programlisting">&lt;addUnixService&gt;
+  &lt;program&gt;/path/to/script&lt;/program&gt;
+  &lt;name&gt;myservice&lt;/name&gt;
+&lt;/addUnixService&gt;</pre><p>The provided <a class="link" href="apa.html#addUnixService.program"><code class="literal">&lt;program&gt;</code></a> must be a valid init script. As a basic example of code you could use is:</p><pre class="programlisting">#!/sbin/sh
+
+start () {
+    # Put here the command to start your application
+}
+
+stop () {
+    # Put here the command to stop your application
+}
+
+case "$1" in
+start)
+        start
+        ;;
+stop)
+        stop
+        ;;
+restart)
+        stop
+        sleep 1
+        start
+        ;;
+*)
+        echo "Usage: $0 { start | stop | restart }"
+        exit 1
+        ;;
+esac
+
+exit 0</pre><p>You can find other examples under <code class="literal">/etc/init.d/</code> in a Linux installation.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#removeUnixService"><code class="literal">&lt;removeUnixService&gt;</code></a>: This action allows you remove an existing service:
+</li></ul></div><p><a id="snip6509728"></a></p><pre class="programlisting">&lt;removeUnixService&gt;
+  &lt;name&gt;myservice&lt;/name&gt;
+&lt;/removeUnixService&gt;</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_windows_services"></a>15.2. Windows Services</h3></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#createWindowsService"><code class="literal">&lt;createWindowsService&gt;</code></a>: This action allows users to add services to the system:
+</li></ul></div><p><a id="snip9014020"></a></p><pre class="programlisting">&lt;createWindowsService&gt;
+  &lt;program&gt;${installdir}/myapp.exe&lt;/program&gt;
+  &lt;programArguments&gt;&lt;/programArguments&gt;
+  &lt;serviceName&gt;myservice&lt;/serviceName&gt;
+  &lt;displayName&gt;My Service&lt;/displayName&gt;
+  &lt;startType&gt;auto&lt;/startType&gt;
+  &lt;description&gt;My Sample Service&lt;/description&gt;
+  &lt;dependencies&gt;&lt;/dependencies&gt;
+  &lt;account&gt;&lt;/account&gt;
+  &lt;password&gt;&lt;/password&gt;
+&lt;/createWindowsService&gt;</pre><p>This will cause a service identified by <code class="literal">&lt;serviceName&gt;</code> and with display name <code class="literal">&lt;displayName&gt;</code> to be created.
+When starting, <code class="literal">myapp.exe</code> will be run from the application installation directory.</p><p><code class="literal">&lt;startType&gt;</code> specifies that the service should be started along with operating system. It takes one of the following values:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="strong"><strong>auto</strong></span>  - automatically start the service when the operating system is restarted.
+</li><li class="listitem">
+<span class="strong"><strong>manual</strong></span> - service does not start with the operating system, but can be manually started from the control panel and using the API
+</li><li class="listitem">
+<span class="strong"><strong>disabled</strong></span> - service does not start with the operating system and it cannot be manually started from the control panel or using the API.
+</li></ul></div><p>By default, the service will be run as the <code class="literal">system</code> user. In order to run the service under a specific account, the <code class="literal">&lt;account&gt;</code> and <code class="literal">&lt;password&gt;</code> fields need to contain a valid user and password.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#deleteWindowsService"><code class="literal">&lt;deleteWindowsService&gt;</code></a>: This action removes an existing service.
+</li></ul></div><p><a id="snip8638258"></a></p><pre class="programlisting">&lt;deleteWindowsService&gt;
+  &lt;serviceName&gt;myservice&lt;/serviceName&gt;
+  &lt;displayName&gt;My Service&lt;/displayName&gt;
+&lt;/deleteWindowsService&gt;</pre><p>Deletes the service identified by <code class="literal">&lt;serviceName&gt;</code> and with the display name <code class="literal">&lt;displayName&gt;</code>. Both fields are used for identification of services on Microsoft Windows.</p><p>A service is stopped before deletion if it is currently running.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#startWindowsService"><code class="literal">&lt;startWindowsService&gt;</code></a>: This action allows starting an existing service.
+</li></ul></div><p><a id="snip3215248"></a></p><pre class="programlisting">&lt;startWindowsService&gt;
+  &lt;serviceName&gt;myservice&lt;/serviceName&gt;
+  &lt;displayName&gt;My Service&lt;/displayName&gt;
+  &lt;delay&gt;15000&lt;/delay&gt;
+&lt;/startWindowsService&gt;</pre><p>Starts the service identified by <code class="literal">&lt;serviceName&gt;</code> and with the display name <code class="literal">&lt;displayName&gt;</code>. Both fields are used for identification of services on Microsoft Windows.</p><p><code class="literal">&lt;delay&gt;</code> specifies the number of milliseconds to wait for the service to start.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#stopWindowsService"><code class="literal">&lt;stopWindowsService&gt;</code></a>: This action allows stopping an existing service:
+</li></ul></div><p><a id="snip8675162"></a></p><pre class="programlisting">&lt;stopWindowsService&gt;
+  &lt;serviceName&gt;myservice&lt;/serviceName&gt;
+  &lt;displayName&gt;My Service&lt;/displayName&gt;
+  &lt;delay&gt;15000&lt;/delay&gt;
+&lt;/stopWindowsService&gt;</pre><p><code class="literal">&lt;delay&gt;</code> specifies amount of milliseconds to wait for the service to stop.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#restartWindowsService"><code class="literal">&lt;restartWindowsService&gt;</code></a>: This action allows restarting an existing service:
+</li></ul></div><p><a id="snip3458533"></a></p><pre class="programlisting">&lt;restartWindowsService&gt;
+  &lt;serviceName&gt;myservice&lt;/serviceName&gt;
+  &lt;displayName&gt;My Service&lt;/displayName&gt;
+  &lt;delay&gt;15000&lt;/delay&gt;
+&lt;/restartWindowsService&gt;</pre><p>Stops service identified by <code class="literal">&lt;serviceName&gt;</code> and with display name <code class="literal">&lt;displayName&gt;</code>. Both fields are used for identification of services on Microsoft Windows.</p><p><code class="literal">&lt;delay&gt;</code> specifies amount of milliseconds to wait for the service to stop and start.</p><p>InstallBuilder also provides a rule to check the status/existence of Windows services, <code class="literal">&lt;windowsServiceTest&gt;</code>. This can be used for example to create a service, but only if it does not already exist:</p><p><a id="snip7577513"></a></p><pre class="programlisting">&lt;createWindowsService&gt;
+  &lt;program&gt;${installdir}/myService.exe&lt;/program&gt;
+  &lt;programArguments&gt;&lt;/programArguments&gt;
+  &lt;serviceName&gt;myservice&lt;/serviceName&gt;
+  &lt;displayName&gt;My Service&lt;/displayName&gt;
+  &lt;startType&gt;auto&lt;/startType&gt;
+  &lt;description&gt;My Service&lt;/description&gt;
+  &lt;dependencies&gt;&lt;/dependencies&gt;
+  &lt;account&gt;bitrock&lt;/account&gt;
+  &lt;password&gt;mySecRetPassword!!&lt;/password&gt;
+  &lt;ruleList&gt;
+    &lt;windowsServiceTest service="myservice" condition="not_exists"/&gt;
+  &lt;/ruleList&gt;
+&lt;/createWindowsService&gt;</pre><p>InstallBuilder also provides an automatic way of generating unique Windows service names following a specified pattern. This is useful for situations in which you need to install multiple services.</p><p><a id="snip5264885"></a></p><pre class="programlisting">&lt;getUniqueWindowsServiceName&gt;
+  &lt;serviceName&gt;foo&lt;/serviceName&gt;
+  &lt;displayName&gt;My Foo service&lt;/displayName&gt;
+  &lt;selectedDisplayNameVariable&gt;newDisplayName&lt;/selectedDisplayNameVariable&gt;
+  &lt;selectedServiceNameVariable&gt;newServiceName&lt;/selectedServiceNameVariable&gt;
+&lt;/getUniqueWindowsServiceName&gt;
+
+&lt;createWindowsService&gt;
+   &lt;program&gt;${installdir}/myService.exe&lt;/program&gt;
+   &lt;programArguments&gt;&lt;/programArguments&gt;
+   &lt;serviceName&gt;${newServiceName}&lt;/serviceName&gt;
+   &lt;displayName&gt;${newDisplayName}&lt;/displayName&gt;
+   &lt;startType&gt;auto&lt;/startType&gt;
+   &lt;description&gt;My Service&lt;/description&gt;
+   &lt;dependencies&gt;&lt;/dependencies&gt;
+   &lt;account&gt;bitrock&lt;/account&gt;
+   &lt;password&gt;mySecRetPassword!!&lt;/password&gt;
+&lt;/createWindowsService&gt;</pre><p>If the service <code class="literal">foo</code> already exists, InstallBuilder will pick a new service name, <code class="literal">foo-1</code>, if that is taken as well, <code class="literal">foo-2</code>, <code class="literal">foo-3</code> and so on… until a valid unique name is found, storing the new
+names in the provided <a class="link" href="apa.html#getUniqueWindowsServiceName.selectedDisplayNameVariable"><code class="literal">&lt;selectedDisplayNameVariable&gt;</code></a> and <a class="link" href="apa.html#getUniqueWindowsServiceName.selectedServiceNameVariable"><code class="literal">&lt;selectedServiceNameVariable&gt;</code></a>.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_using_regular_binaries_as_windows_services"></a>Using regular binaries as Windows services</h4></div></div></div><p>Services in Microsoft Windows require binaries created especially for running as a service and need to properly support being stopped, started, paused and resumed.</p><p>In some cases it is necessary to run binaries that were not created for running as a service. It is possible to use third party tools to run applications as services. This way any application or script can be used as a Windows service. There are multiple solutions for running any application as a script. Microsoft provides <code class="literal">srvany.exe</code> tool that can be used for creating services from any application. It is described on Microsoft’s website: <a class="ulink" href="http://support.microsoft.com/kb/137890" target="_top">http://support.microsoft.com/kb/137890</a>. The binary simply runs itself as a service and starts application as child process. However, <code class="literal">srvany</code> cannot be easily redistributed due to licensing issues.</p><p>Another tool is <code class="literal">ServiceEx.exe</code>. It is a single file application that can be redistributed with your installer. The binary can be downloaded from <a class="ulink" href="http://serviceex.com/" target="_top">http://serviceex.com/</a>.</p><p>The first step is to add <code class="literal">ServiceEx.exe</code> to the installer’s payload. It can be done as part of existing component or as new component:</p><p><a id="snip6925005"></a></p><pre class="programlisting">&lt;component&gt;
+  &lt;name&gt;serviceex&lt;/name&gt;
+  &lt;description&gt;ServiceEx&lt;/description&gt;
+  &lt;canBeEdited&gt;0&lt;/canBeEdited&gt;
+  &lt;selected&gt;1&lt;/selected&gt;
+  &lt;show&gt;0&lt;/show&gt;
+  &lt;folderList&gt;
+    &lt;folder&gt;
+      &lt;description&gt;ServiceEx&lt;/description&gt;
+      &lt;destination&gt;${installdir}&lt;/destination&gt;
+      &lt;name&gt;serviceex&lt;/name&gt;
+      &lt;platforms&gt;windows&lt;/platforms&gt;
+      &lt;distributionFileList&gt;
+        &lt;distributionFile&gt;
+          &lt;origin&gt;/path/to/ServiceEx.exe&lt;/origin&gt;
+        &lt;/distributionFile&gt;
+      &lt;/distributionFileList&gt;
+    &lt;/folder&gt;
+  &lt;/folderList&gt;
+&lt;/component&gt;</pre><p>The next step is to add actions to the post-installation step that creates a service. The service name is set to the servicename variable. The <code class="literal">${servicename}.ini</code> file is written to as well. It defines how a service should be run. Finally, the  <code class="literal">ServiceEx.exe install ${servicename}</code> command creates and runs the service. The <code class="literal">${servicename}.ini</code> file is also added for uninstallation.</p><p><a id="snip8575056"></a></p><pre class="programlisting">&lt;postInstallationActionList&gt;
+  &lt;setInstallerVariable&gt;
+    &lt;name&gt;servicename&lt;/name&gt;
+    &lt;persist&gt;1&lt;/persist&gt;
+    &lt;value&gt;IBSampleService&lt;/value&gt;
+  &lt;/setInstallerVariable&gt;
+  &lt;writeFile&gt;
+    &lt;encoding&gt;iso8859-1&lt;/encoding&gt;
+    &lt;path&gt;${installdir}/${servicename}.ini&lt;/path&gt;
+    &lt;text&gt;[ServiceEx]
+ServiceExeFullPath = "${installdir}\myapp.exe"
+options = "--silent"
+desktop = false
+Start=Auto
+StartNow=true&lt;/text&gt;
+  &lt;/writeFile&gt;
+  &lt;runProgram&gt;
+    &lt;program&gt;${installdir}/ServiceEx.exe&lt;/program&gt;
+    &lt;programArguments&gt;install "${servicename}"&lt;/programArguments&gt;
+    &lt;workingDirectory&gt;${installdir}&lt;/workingDirectory&gt;
+  &lt;/runProgram&gt;
+  &lt;addFilesToUninstaller&gt;
+    &lt;files&gt;${installdir}/${servicename}.ini&lt;/files&gt;
+  &lt;/addFilesToUninstaller&gt;
+&lt;/postInstallationActionList&gt;</pre><p>When the application is uninstalled, <a class="link" href="apa.html#deleteWindowsService"><code class="literal">&lt;deleteWindowsService&gt;</code></a> needs to be called to delete the service.</p><p><a id="snip973140"></a></p><pre class="programlisting">&lt;preUninstallationActionList&gt;
+  &lt;deleteWindowsService&gt;
+    &lt;abortOnError&gt;0&lt;/abortOnError&gt;
+    &lt;displayName&gt;&lt;/displayName&gt;
+    &lt;serviceName&gt;${servicename}&lt;/serviceName&gt;
+  &lt;/deleteWindowsService&gt;
+&lt;/preUninstallationActionList&gt;</pre></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_os_x_services"></a>15.3. OS X Services</h3></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#createOSXService"><code class="literal">&lt;createOSXService&gt;</code></a>: This action allows users to add services to the system:
+</li></ul></div><p><a id="snip5580131"></a></p><pre class="programlisting"> &lt;createOSXService&gt;
+   &lt;groupname&gt;wheel&lt;/groupname&gt;
+   &lt;username&gt;daemon&lt;/username&gt;
+   &lt;program&gt;${installdir}/myService.run&lt;/program&gt;
+   &lt;programArguments&gt;&lt;/programArguments&gt;
+   &lt;scope&gt;user&lt;/scope&gt;
+   &lt;serviceName&gt;myService&lt;/serviceName&gt;
+ &lt;/createOSXService&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#deleteOSXService"><code class="literal">&lt;deleteOSXService&gt;</code></a>: This action allows removing an existing service:
+</li></ul></div><p><a id="snip5274077"></a></p><pre class="programlisting"> &lt;deleteOSXService&gt;
+   &lt;serviceName&gt;myService&lt;/serviceName&gt;
+ &lt;/deleteOSXService&gt;</pre><p>Deletes a service on Mac OS X identified by &lt;serviceName&gt;, which contains the
+unique identifier of services for Mac OS X. The service is stopped before deletion if it is currently running.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#stopOSXService"><code class="literal">&lt;stopOSXService&gt;</code></a>: This action allows stopping an existing service:
+</li></ul></div><p><a id="snip1426065"></a></p><pre class="programlisting"> &lt;stopOSXService&gt;
+   &lt;serviceName&gt;myService&lt;/serviceName&gt;
+ &lt;/stopOSXService&gt;</pre><p>This stops service on Mac OS X identified as serviceName. It is the unique
+identifier of services for Mac OS X.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<a class="link" href="apa.html#startOSXService"><code class="literal">&lt;startOSXService&gt;</code></a>: This action allows starting an existing service:
+</li></ul></div><p><a id="snip7889191"></a></p><pre class="programlisting"> &lt;startOSXService&gt;
+   &lt;serviceName&gt;myService&lt;/serviceName&gt;
+ &lt;/startOSXService&gt;</pre><p>This starts service on Mac OS X identified as serviceName. It is the unique
+identifier of services for Mac OS X.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p>OS X service management actions are only supported from OS X 10.4 and newer</p></td></tr></table></div><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p>As a prerequisite, the program to be registered as a service must be compiled to run as a daemon</p></td></tr></table></div><p>InstallBuilder also provides a rule to check the status of OS X services, &lt;osxServiceTest&gt;:</p><p><a id="snip3643072"></a></p><pre class="programlisting"> &lt;stopOSXService&gt;
+   &lt;serviceName&gt;myService&lt;/serviceName&gt;
+   &lt;ruleList&gt;
+      &lt;osxServiceTest service="myService" condition="is_running"/&gt;
+   &lt;/ruleList&gt;
+ &lt;/stopOSXService&gt;</pre><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="_adding_an_application_to_the_system_startup"></a>Adding an Application to the System Startup</h4></div></div></div><p>There are multiple ways of launching an application at startup on OS X, and it can vary from version to version of the operating system. This section describes the most general/compatible ones:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Changing the user Preferences files: This is the approach followed when manually adding an application to the Startup items. To do this, add a new entry to the <code class="literal">~/Library/Preferences/loginwindow.plist</code> file with the below format:
+</li></ul></div><pre class="screen">&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;nameOfTheEntry&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+      &lt;string&gt;/some/path/to/the/program.run&lt;/string&gt;
+      &lt;string&gt;/Applications/BitRock InstallBuilder for Qt 7.2.5/autoupdate/runtimes/autoupdate-osx.a\
+pp&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;KeepAlive&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;Hide&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true/&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Creating a <code class="literal">launchd</code> daemon: This approach is the preferred one when you do not have to support OS X versions below 10.4. Using this method you still need to create a .plist file in the same format as the one described in the previous method. Once you have it created, you just have to move it to <code class="literal">/Library/LaunchDaemons/</code>:
+</li></ul></div><pre class="programlisting"> $&gt; sudo cp startup.plist /Library/LaunchDaemons/com.yourCompany.yourProgram.plist</pre><p>Following the same naming in the target file is important to avoid conflicts in the future.</p><p>After restarting the machine, the new process should be running.</p><p>The code to automate this method in InstallBuilder would be:</p><p><a id="snip9112944"></a></p><pre class="programlisting">  &lt;writeFile&gt;
+    &lt;path&gt;${system_temp_directory}/your.plist&lt;/path&gt;
+    &lt;encoding&gt;utf-8&lt;/encoding&gt;
+    &lt;text&gt;&lt;![CDATA[
+&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;nameOfTheEntry&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+      &lt;string&gt;/some/path/to/the/program.run&lt;/string&gt;
+      &lt;string&gt;/Applications/BitRock InstallBuilder for Qt 7.2.5/autoupdate/runtimes/autoupdate-osx.app&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;KeepAlive&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;Hide&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true/&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;
+]]&gt;&lt;/text&gt;
+  &lt;/writeFile&gt;
+  &lt;copyFile&gt;
+    &lt;origin&gt;${system_temp_directory}/your.plist&lt;/origin&gt;
+    &lt;destination&gt;/Library/LaunchDaemons/com.yourCompany.yourProgram.plist&lt;/destination&gt;
+  &lt;/copyFile&gt;</pre><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Creating a Startup Item: If your application requires compatibility with OS X 10.3 and earlier, this is the only available approach. The steps to follow are:
+</li></ul></div><p>Create a directory under <code class="literal">/Library/StartupItems</code> with the name of the startup item:</p><pre class="programlisting"> $&gt; sudo mkdir /Library/StartupItems/yourItem</pre><p>Create an executable with the same name of the directory. This executable can be just a bash script wrapping the your binary:</p><pre class="programlisting"> $&gt; sudo touch /Library/StartupItems/yourItem/yourItem</pre><p>The <code class="literal">yourItem</code> script should implement the below functions (you can leave the body blank if they are not applicable to your startup item):</p><pre class="programlisting">#!/bin/sh
+. /etc/rc.common
+
+StartService ()
+{
+    /Applications/yourApplication-1.0/ctl.sh start
+}
+
+StopService ()
+{
+    /Applications/yourApplication-1.0/ctl.sh stop
+}
+
+RestartService ()
+{
+    /Applications/yourApplication-1.0/ctl.sh graceful
+}
+
+RunService "$1"</pre><p>Create a .plist file named <code class="literal">StartupParameters.plist</code> with some information about your item:</p><pre class="screen">&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+     &lt;key&gt;Description&lt;/key&gt;
+     &lt;string&gt;My Application v1.0&lt;/string&gt;
+     &lt;key&gt;OrderPreference&lt;/key&gt;
+     &lt;string&gt;None&lt;/string&gt;
+     &lt;key&gt;Provides&lt;/key&gt;
+     &lt;array&gt;
+        &lt;string&gt;yourItem&lt;/string&gt;
+     &lt;/array&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;</pre><p>It can be tested by executing:</p><pre class="programlisting"> $&gt; sudo /sbin/SystemStarter start "yourItem"</pre></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s14.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s16.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">14. Uninstaller </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 16. Code Signing</td></tr></table></div></body></html>

@@ -1,0 +1,337 @@
+<project>
+    <shortName>componentgroupsexample</shortName>
+    <fullName>BitRock Component Groups Example Installer</fullName>
+    <version>1.0</version>
+    <componentList>
+        <component>
+            <name>core</name>
+            <description>Core Features</description>
+            <canBeEdited>0</canBeEdited>
+            <detailedDescription>Essential features of the application.
+(as it is essential, it is not editable and always installed)</detailedDescription>
+            <selected>1</selected>
+            <show>0</show>
+            <folderList>
+                <folder>
+                    <description>Core Features</description>
+                    <destination>${installdir}</destination>
+                    <name>core</name>
+                    <platforms>all</platforms>
+                    <distributionFileList>
+                        <distributionFile>
+                            <allowWildcards>1</allowWildcards>
+                            <origin>/home/jblanco/installbuilder-16.3.0/demo/bin/*</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                </folder>
+            </folderList>
+        </component>
+        <componentGroup>
+            <name>texteditor</name>
+            <description>Text Editor</description>
+            <canBeEdited>1</canBeEdited>
+            <detailedDescription>Text editing application.
+
+This component contains the text editor application and all essential files - such as configuration, data files and libraries.
+</detailedDescription>
+            <selected>1</selected>
+            <show>1</show>
+            <componentList>
+                <componentGroup>
+                    <name>texteditorfilters</name>
+                    <description>Import / Export filters</description>
+                    <canBeEdited>1</canBeEdited>
+                    <detailedDescription>Filters to import and export to other formats.
+
+This component does not contain any files on its own, but can be used to enable/disable installation of all filters.
+</detailedDescription>
+                    <downloadable>1</downloadable>
+                    <selected>0</selected>
+                    <show>1</show>
+                    <componentList>
+                        <component>
+                            <name>texteditorfilterxml</name>
+                            <description>XML / XSLT filters</description>
+                            <canBeEdited>1</canBeEdited>
+                            <detailedDescription>XML and XSLT based filters.
+
+(optional, downloadable feature that the user can choose to install or not; only installed if if both Text Editor and Import / Export filters) are selected.
+</detailedDescription>
+                            <downloadable>1</downloadable>
+                            <selected>1</selected>
+                            <show>1</show>
+                            <folderList>
+                                <folder>
+                                    <description>Filters</description>
+                                    <destination>${installdir}/texteditor/filters</destination>
+                                    <name>texteditorfilters</name>
+                                    <platforms>all</platforms>
+                                    <distributionFileList>
+                                        <distributionFile>
+                                            <allowWildcards>1</allowWildcards>
+                                            <origin>/home/jblanco/installbuilder-16.3.0/demo/lib/*</origin>
+                                        </distributionFile>
+                                    </distributionFileList>
+                                </folder>
+                            </folderList>
+                        </component>
+                        <component>
+                            <name>texteditorfilterother</name>
+                            <description>Other filters</description>
+                            <canBeEdited>1</canBeEdited>
+                            <detailedDescription>Additional filters
+
+(optional, downloadable feature that the user can choose to install or not; only installed if if both Text Editor and Import / Export filters) are selected.
+</detailedDescription>
+                            <downloadable>1</downloadable>
+                            <selected>0</selected>
+                            <show>1</show>
+                        </component>
+                    </componentList>
+                </componentGroup>
+                <component>
+                    <name>texteditorscripting</name>
+                    <description>Scripting support</description>
+                    <canBeEdited>1</canBeEdited>
+                    <detailedDescription>Support for writing scripts to automate certain processes.
+
+(optional, downloadable feature that the user can choose to install if Text Editor is to be installed)
+</detailedDescription>
+                    <downloadable>1</downloadable>
+                    <selected>0</selected>
+                    <show>1</show>
+                    <folderList>
+                        <folder>
+                            <description>Scripting support</description>
+                            <destination>${installdir}/texteditor/scripting</destination>
+                            <name>texteditorscripting</name>
+                            <platforms>all</platforms>
+                            <distributionFileList>
+                                <distributionFile>
+                                    <allowWildcards>1</allowWildcards>
+                                    <origin>/home/jblanco/installbuilder-16.3.0/demo/bin/*</origin>
+                                </distributionFile>
+                            </distributionFileList>
+                        </folder>
+                    </folderList>
+                </component>
+                <component>
+                    <name>texteditorprinting</name>
+                    <description>Printing support</description>
+                    <canBeEdited>1</canBeEdited>
+                    <detailedDescription>Support for printing.
+
+(downloadable feature that is installed by default if Text Editor is selected; the user can choose to deselect it)
+</detailedDescription>
+                    <selected>1</selected>
+                    <show>1</show>
+                    <folderList>
+                        <folder>
+                            <description>Printing support</description>
+                            <destination>${installdir}/texteditor/printing</destination>
+                            <name>texteditorprinting</name>
+                            <platforms>all</platforms>
+                            <distributionFileList>
+                                <distributionFile>
+                                    <allowWildcards>1</allowWildcards>
+                                    <origin>/home/jblanco/installbuilder-16.3.0/demo/bin/*</origin>
+                                </distributionFile>
+                            </distributionFileList>
+                        </folder>
+                    </folderList>
+                </component>
+            </componentList>
+            <folderList>
+                <folder>
+                    <description>Text Editor</description>
+                    <destination>${installdir}/texteditor</destination>
+                    <name>texteditor</name>
+                    <platforms>all</platforms>
+                    <distributionFileList>
+                        <distributionFile>
+                            <allowWildcards>1</allowWildcards>
+                            <origin>/home/jblanco/installbuilder-16.3.0/demo/bin/*</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                </folder>
+            </folderList>
+        </componentGroup>
+        <componentGroup>
+            <name>slides</name>
+            <description>Slides and Presentations</description>
+            <canBeEdited>1</canBeEdited>
+            <detailedDescription>Slides Editing and Printing TOols
+</detailedDescription>
+            <selected>1</selected>
+            <show>1</show>
+            <componentList>
+                <component>
+                    <name>slidesscripting</name>
+                    <description>Scripting support</description>
+                    <canBeEdited>1</canBeEdited>
+                    <detailedDescription>Support for writing scripts to automate certain processes.
+
+(optional, downloadable feature that the user can choose to install if Slides and Presentations component is to be installed)
+</detailedDescription>
+                    <downloadable>1</downloadable>
+                    <selected>0</selected>
+                    <show>1</show>
+                    <folderList>
+                        <folder>
+                            <description>Scripting support</description>
+                            <destination>${installdir}/slides/scripting</destination>
+                            <name>slidesscripting</name>
+                            <platforms>all</platforms>
+                            <distributionFileList>
+                                <distributionFile>
+                                    <allowWildcards>1</allowWildcards>
+                                    <origin>/home/jblanco/installbuilder-16.3.0/demo/bin/*</origin>
+                                </distributionFile>
+                            </distributionFileList>
+                        </folder>
+                    </folderList>
+                </component>
+                <component>
+                    <name>slidesprinting</name>
+                    <description>Printing support</description>
+                    <canBeEdited>1</canBeEdited>
+                    <detailedDescription>Support for printing.
+
+(downloadable feature that is installed by default if Slides and Presentations component is selected; the user can choose to deselect it)
+</detailedDescription>
+                    <selected>1</selected>
+                    <show>1</show>
+                    <folderList>
+                        <folder>
+                            <description>Printing support</description>
+                            <destination>${installdir}/slides/printing</destination>
+                            <name>slidesprinting</name>
+                            <platforms>all</platforms>
+                            <distributionFileList>
+                                <distributionFile>
+                                    <allowWildcards>1</allowWildcards>
+                                    <origin>/home/jblanco/installbuilder-16.3.0/demo/bin/*</origin>
+                                </distributionFile>
+                            </distributionFileList>
+                        </folder>
+                    </folderList>
+                </component>
+                <component>
+                    <name>slidesprojector</name>
+                    <description>Projector support</description>
+                    <canBeEdited>1</canBeEdited>
+                    <detailedDescription>Support for additional display and projector devices.
+
+(downloadable feature that is installed by default if Slides and Presentations component is selected; the user can choose to deselect it)
+</detailedDescription>
+                    <selected>1</selected>
+                    <show>1</show>
+                    <folderList>
+                        <folder>
+                            <description>Projector support</description>
+                            <destination>${installdir}/slides/projector</destination>
+                            <name>slidesprojector</name>
+                            <platforms>all</platforms>
+                            <distributionFileList>
+                                <distributionFile>
+                                    <allowWildcards>1</allowWildcards>
+                                    <origin>/home/jblanco/installbuilder-16.3.0/demo/bin/*</origin>
+                                </distributionFile>
+                            </distributionFileList>
+                        </folder>
+                    </folderList>
+                </component>
+            </componentList>
+            <folderList>
+                <folder>
+                    <description>Slides and Presentations</description>
+                    <destination>${installdir}/slides</destination>
+                    <name>slides</name>
+                    <platforms>all</platforms>
+                    <distributionFileList>
+                        <distributionFile>
+                            <allowWildcards>1</allowWildcards>
+                            <origin>/home/jblanco/installbuilder-16.3.0/demo/bin/*</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                </folder>
+            </folderList>
+        </componentGroup>
+    </componentList>
+    <allowComponentSelection>1</allowComponentSelection>
+    <componentsDirectory>components/${project.shortName}-${project.version}</componentsDirectory>
+    <componentsDownloadDirectory>${components_download_directory}</componentsDownloadDirectory>
+    <componentsUrl>${components_download_url}</componentsUrl>
+    <enableRollback>1</enableRollback>
+    <enableTimestamp>1</enableTimestamp>
+    <parameterList>
+        <parameterGroup>
+            <name>downloaddetails</name>
+            <title>Component download configuration</title>
+            <explanation>Please configure the temporary directory and local mirror for downloads.</explanation>
+            <value></value>
+            <default></default>
+            <ruleEvaluationLogic>or</ruleEvaluationLogic>
+            <parameterList>
+                <choiceParameter>
+                    <name>components_download_mirror</name>
+                    <description>Mirror selection</description>
+                    <explanation>Please choose the closest available mirror.</explanation>
+                    <value></value>
+                    <default>mirror1</default>
+                    <allowEmptyValue>1</allowEmptyValue>
+                    <cliOptionName>mirror</cliOptionName>
+                    <displayType>combobox</displayType>
+                    <ordering>default</ordering>
+                    <width>30</width>
+                    <optionList>
+                        <option>
+                            <description></description>
+                            <image></image>
+                            <text>Mirror 1 - USA</text>
+                            <value>mirror1</value>
+                        </option>
+                        <option>
+                            <description></description>
+                            <image></image>
+                            <text>Mirror 2 - Europe</text>
+                            <value>mirror2</value>
+                        </option>
+                    </optionList>
+                    <postShowPageActionList>
+                        <setInstallerVariable>
+                            <name>components_download_url</name>
+                            <value>http://${components_download_mirror}.example.com/download/components/${project.shortName}-${project.version}/</value>
+                        </setInstallerVariable>
+                    </postShowPageActionList>
+                </choiceParameter>
+                <directoryParameter>
+                    <name>components_download_directory</name>
+                    <description>Downloads directory</description>
+                    <explanation>Temporary used for downloading additional components. These will be removed after installation is finished.</explanation>
+                    <value></value>
+                    <default>${system_temp_directory}</default>
+                    <allowEmptyValue>0</allowEmptyValue>
+                    <cliOptionName>componentsdownloaddirectory</cliOptionName>
+                    <mustBeWritable>1</mustBeWritable>
+                    <mustExist>1</mustExist>
+                    <width>30</width>
+                </directoryParameter>
+            </parameterList>
+        </parameterGroup>
+        <directoryParameter>
+            <name>installdir</name>
+            <description>Installer.Parameter.installdir.description</description>
+            <explanation>Installer.Parameter.installdir.explanation</explanation>
+            <value></value>
+            <default>${platform_install_prefix}/${product_shortname}-${product_version}</default>
+            <allowEmptyValue>0</allowEmptyValue>
+            <ask>yes</ask>
+            <cliOptionName>prefix</cliOptionName>
+            <mustBeWritable>yes</mustBeWritable>
+            <mustExist>0</mustExist>
+            <width>40</width>
+        </directoryParameter>
+    </parameterList>
+</project>
+
