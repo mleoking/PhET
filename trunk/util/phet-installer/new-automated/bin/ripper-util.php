@@ -538,10 +538,10 @@
     function ripper_replace_installer_links() {
         $installerLinkFileName = RIPPED_WEBSITE_ROOT.ENGLISH_LOCALE_STRING."/get-phet/full-install.html";
         if (file_exists($installerLinkFileName)){
-            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_windows\.exe', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_windows.exe');
-            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_osx\.zip', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_osx.zip');
-            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_linux\.bin', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_linux.bin');
-            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_cdrom\.zip', 'http://phet.colorado.edu/phet-dist/installers/PhET-Installer_cdrom.zip');
+            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_windows\.exe', 'https://phet.colorado.edu/phet-dist/installers/PhET-Installer_windows.exe');
+            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_osx\.zip', 'https://phet.colorado.edu/phet-dist/installers/PhET-Installer_osx.zip');
+            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_linux\.bin', 'https://phet.colorado.edu/phet-dist/installers/PhET-Installer_linux.bin');
+            file_replace_string_in_file($installerLinkFileName, '\.\.\/\.\.\/installer\/PhET-Installer_cdrom\.zip', 'https://phet.colorado.edu/phet-dist/installers/PhET-Installer_cdrom.zip');
         }
         else{
             print "Error: Unable to locate installer link file, skipping replacement operation.\n";

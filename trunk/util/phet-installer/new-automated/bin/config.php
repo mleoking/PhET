@@ -48,8 +48,8 @@
 
     define("PHET_VERSION",                      "1.0");
     define("PHET_HOSTNAME",                     "phet-new.colorado.edu");
-    define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
-    define("PHET_SPONSOR_LIST_URL",             "http://".PHET_HOSTNAME."/en/sponsor-list");
+    define("PHET_ROOT_URL",                     "https://".PHET_HOSTNAME."/");
+    define("PHET_SPONSOR_LIST_URL",             "https://".PHET_HOSTNAME."/en/sponsor-list");
     define("PHET_ENGLISH_WEBSITE_URL",          PHET_ROOT_URL.ENGLISH_LOCALE_STRING."/");
     define("PHET_ARABIC_WEBSITE_URL",           PHET_ROOT_URL.ARABIC_LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");

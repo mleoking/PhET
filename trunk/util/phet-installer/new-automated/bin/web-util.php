@@ -1,7 +1,7 @@
 <?php
 
 	function web_is_absolute_url($url) {
-	    return preg_match('/http:\/\/.+/',$url);
+	    return preg_match('/https:\/\/.+/',$url);
 	}
 
 	function web_extract_attributes($element, $desired_attr_name) {
