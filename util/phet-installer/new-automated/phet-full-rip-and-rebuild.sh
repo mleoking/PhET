@@ -51,9 +51,9 @@ fi
 
 # Execute the main build script, passing in the appropriate options.
 if [ "$1" = "--deploy" -o "$2" = "--deploy" ]; then
-   /usr/local/php/bin/php ./bin/phet-full-rip-and-rebuild.php --deploy | tee --append $LOG
+   /usr/bin/php ./bin/phet-full-rip-and-rebuild.php --deploy | tee --append $LOG
 else
-   /usr/local/php/bin/php ./bin/phet-full-rip-and-rebuild.php | tee --append $LOG
+   /usr/bin/php ./bin/phet-full-rip-and-rebuild.php | tee --append $LOG
 fi
 
 # Send out email notification if specified on the command line.
