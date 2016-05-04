@@ -282,7 +282,7 @@
     // *****************************************************************************
     // Information needed for overwriting ripped JAR files with files that contain
     // a request for all permissions, see Unfuddle #3596.
-    define("ROOT_DIR_FOR_MODDED_JARS", "/data/web/htdocs/phet/sims/");
+    define("ROOT_DIR_FOR_MODDED_JARS", "/data/web/static/phetsims/sims/");
 
     // *****************************************************************************
     // BitRock Configuration
